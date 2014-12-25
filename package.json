@@ -1,0 +1,63 @@
+{
+  "name": "rc-menu",
+  "version": "1.0.0",
+  "description": "menu ui component for react",
+  "keywords": [
+    "react",
+    "react-menu"
+  ],
+  "homepage": "http://github.com/react-component/menu",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:react-component/menu.git"
+  },
+  "bugs": {
+    "url": "http://github.com/react-component/menu/issues"
+  },
+  "licenses": "MIT",
+  "spm": {},
+  "config":{
+    "port":8000
+  },
+  "scripts": {
+    "less": "rc-tools run less",
+    "start": "node --harmony node_modules/.bin/rc-server",
+    "publish": "spm publish && rc-tools run tag",
+    "lint": "rc-tools run lint",
+    "test": "",
+    "saucelabs": "DEBUG=saucelabs-runner rc-tools run saucelabs",
+    "browser-test": "mocha-phantomjs http://localhost:$npm_package_config_port/tests/runner.html",
+    "browser-test-cover": "mocha-phantomjs -R node_modules/rc-server/node_modules/node-jscover/lib/reporters/mocha/console http://localhost:$npm_package_config_port/tests/runner.html?coverage"
+  },
+  "devDependencies": {
+    "precommit-hook": "^1.0.7",
+    "rc-server": "^1.0.0",
+    "rc-tools": "^1.0.1",
+    "expect.js": "~0.3.1",
+    "modulex": "^1.7.4",
+    "react": "~0.12.1"
+  },
+  "precommit": [
+    "lint",
+    "less"
+  ],
+  "browserify-shim": {
+    "react": "global:React",
+    "jquery": "global:jQuery"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "browserify-jsx"
+      ],
+      [
+        "browserify-shim"
+      ]
+    ]
+  },
+  "dependencies": {
+    "browserify-shim": "^3.8.0",
+    "browserify-jsx": "^0.1.0"
+  }
+}

@@ -1,0 +1,23 @@
+/**
+ *  pure css menu
+ */
+
+@import "./dpl/dropdown-submenu";
+
+// hover显示子菜单
+.dropdown, .dropdown-submenu{
+  &:hover{
+    >.dropdown-menu,
+    >.dropdown-submenu {
+      display: block;
+    }
+  }
+}
+
+// hover改变背景色
+.navbar-default, .navbar-inverse{
+    .navbar-nav > li > a:hover, .navbar-nav > li > a:focus{
+        background-color: #eee;
+    }
+}
+
