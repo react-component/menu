@@ -49,9 +49,6 @@ if(window.seajs){
 
 
 
-<script>
-require('./index')
-</script>
 
 
 --------
@@ -59,8 +56,41 @@ require('./index')
 
 ````js
 /** @jsx React.DOM */
-require(['../','../lib/Dropdown','../lib/MenuItem', 'react'],
-function(Menu,Dropdown, MenuItem ,React){
 
-});
+
+var React = require('react');
+var Menu = require('../');
+var SubMenu = require('../lib/SubMenu');
+var MenuItem = require('../lib/MenuItem');
+
+
+function handleSelect(selectedKey) {
+  alert('selected ' + selectedKey);
+}
+
+var titleDown = <span>sub menu <i className="fa fa-caret-down"></i></span>;
+var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
+
+var topMenu = (
+  <Menu className="navbar-nav" activeKey="1">
+    <MenuItem eventKey="1" href="###" title="xx" onSelect={handleSelect} >xxx</MenuItem>
+    <MenuItem eventKey="2">Another action</MenuItem>
+
+    <SubMenu eventKey="11" title={titleDown}>
+
+      <MenuItem eventKey="11">Action</MenuItem>
+      <MenuItem divider />
+      <MenuItem eventKey="2">Another action</MenuItem>
+
+      <SubMenu posRight title={titleRight}>
+        <MenuItem eventKey="2">Another action</MenuItem>
+        <MenuItem eventKey="3">Something else here</MenuItem>
+      </SubMenu>
+
+    </SubMenu>
+  </Menu>
+);
+React.render(topMenu, document.querySelector('#topMenu'));
+
+
 ````
