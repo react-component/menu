@@ -72,21 +72,32 @@ var titleDown = <span>sub menu <i className="fa fa-caret-down"></i></span>;
 var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
 
 var topMenu = (
-  <Menu className="navbar-nav" activeKey="1">
-    <MenuItem eventKey="1" href="###" title="xx" onSelect={handleSelect} >xxx</MenuItem>
-    <MenuItem eventKey="2">Another action</MenuItem>
+  <Menu className="nav navbar-nav" activeKey="1">
+    <MenuItem eventKey="1" href="##" title="xx" onSelect={handleSelect} >outer</MenuItem>
 
-    <SubMenu eventKey="11" title={titleDown}>
+    <SubMenu
+      title={titleDown}
+      className="dropdown dropup"
+      buttonClass="dropdown-toggle"
+      data-toggle="dropdown"
+      role="button"
+      aria-expanded="false"
+      >
 
-      <MenuItem eventKey="11">Action</MenuItem>
-      <MenuItem divider />
-      <MenuItem eventKey="2">Another action</MenuItem>
+      <Menu className="dropdown-menu dropdown-menu-right" activeKey="11">
 
-      <SubMenu posRight title={titleRight}>
-        <MenuItem eventKey="2">Another action</MenuItem>
-        <MenuItem eventKey="3">Something else here</MenuItem>
-      </SubMenu>
+        <MenuItem ref="mItem0" eventKey="11">inner</MenuItem>
+        <MenuItem divider />
 
+        <SubMenu className="dropdown-submenu" title={titleRight}>
+
+          <Menu className="dropdown-menu">
+            <MenuItem eventKey="2">inner inner</MenuItem>
+            <MenuItem eventKey="2">inner inner2</MenuItem>
+
+          </Menu>
+        </SubMenu>
+      </Menu>
     </SubMenu>
   </Menu>
 );
