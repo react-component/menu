@@ -73,18 +73,21 @@ var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i>
 
 var topMenu = (
   <Menu className="nav navbar-nav" activeKey="1">
+    <MenuItem eventKey="01" href="##" title="xx" onSelect={handleSelect} >outer</MenuItem>
     <MenuItem eventKey="1" href="##" title="xx" onSelect={handleSelect} >outer</MenuItem>
+    <MenuItem eventKey="01" href="##" title="xx" onSelect={handleSelect} >outer</MenuItem>
 
     <SubMenu
+      eventKey="111"
       title={titleDown}
-      className="dropdown dropup"
+      className="dropdown"
       buttonClass="dropdown-toggle"
       data-toggle="dropdown"
       role="button"
       aria-expanded="false"
       >
 
-      <Menu className="dropdown-menu dropdown-menu-right" activeKey="11">
+      <Menu className="dropdown-menu dropdown-menu-right" activeKey="111">
 
         <MenuItem ref="mItem0" eventKey="11">inner</MenuItem>
         <MenuItem divider />
