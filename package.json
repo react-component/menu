@@ -27,8 +27,8 @@
     "lint": "rc-tools run lint",
     "test": "",
     "saucelabs": "DEBUG=saucelabs-runner rc-tools run saucelabs",
-    "browser-test": "mocha-phantomjs http://localhost:$npm_package_config_port/tests/runner.html",
-    "browser-test-cover": "mocha-phantomjs -R node_modules/rc-server/node_modules/node-jscover/lib/reporters/mocha/console http://localhost:$npm_package_config_port/tests/runner.html?coverage"
+    "browser-test": "rc-tools run browser-test",
+    "browser-test-cover": "rc-tools run browser-test-cover"
   },
   "devDependencies": {
     "precommit-hook": "^1.0.7",

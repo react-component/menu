@@ -1,29 +1,9 @@
 # rc-menu@1.0.0
 ---
-
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet" />
-<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
+````html
+<link href="/assets/vendor/bootstrap-3.1.1/css/bootstrap.css" rel="stylesheet" />
+<link href="/assets/vendor/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet" />
 <link href="/assets/index.css" rel="stylesheet" />
-<style>
-  .nav-sidebar{
-    background-color: #f7f7f7;
-  }
-  .nav-sidebar > .active > a,
-  .nav-sidebar > .active > a:hover,
-  .nav-sidebar > .active > a:focus {
-    color: #fff;
-    background-color: #428bca;
-  }
-</style>
-
-````js
-if(window.seajs){
-    window.require = seajs.use;
-}
-````
---------
-
-## demo
 
 <div class="container">
   <!-- top -->
@@ -33,22 +13,10 @@ if(window.seajs){
     </div>
     <div id="topMenu" class="collapse navbar-collapse"></div>
   </nav>
-
   <!-- left -->
   <div id="leftMenu" class="col-sm-3 col-md-2"></div>
-
-  <!-- content -->
-  <div class="col-sm-6 col-md-8">
-    <b>this is full version and contains js.</b>
-  </div>
-
-  <!-- right -->
-  <div id="rightMenu" class="col-sm-3 col-md-2"></div>
-
 </div>
-
-
-
+````
 
 
 --------
@@ -72,13 +40,26 @@ var titleDown = <span>sub menu <i className="fa fa-caret-down"></i></span>;
 var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
 
 var topMenu = (
-  <Menu className="nav navbar-nav" activeKey="1">
+  <Menu className="nav navbar-nav" activeKey="10">
     <MenuItem eventKey="01" href="##" title="xx" onSelect={handleSelect} >outer</MenuItem>
     <MenuItem eventKey="1" href="##" title="xx" onSelect={handleSelect} >outer</MenuItem>
     <MenuItem eventKey="01" href="##" title="xx" onSelect={handleSelect} >outer</MenuItem>
 
     <SubMenu
-      eventKey="111"
+      eventKey="110"
+      title={titleDown}
+      className="dropdown"
+      buttonClass="dropdown-toggle"
+      data-toggle="dropdown"
+      >
+      <Menu className="dropdown-menu">
+        <MenuItem eventKey="231">inner inner</MenuItem>
+        <MenuItem eventKey="243">inner inner2</MenuItem>
+      </Menu>
+    </SubMenu>
+    <MenuItem eventKey="2311">inner inner</MenuItem>
+    <SubMenu
+      eventKey="10"
       title={titleDown}
       className="dropdown"
       buttonClass="dropdown-toggle"
@@ -87,17 +68,16 @@ var topMenu = (
       aria-expanded="false"
       >
 
-      <Menu className="dropdown-menu dropdown-menu-right" activeKey="111">
+      <Menu className="dropdown-menu dropdown-menu-right" activeKey="112">
 
-        <MenuItem ref="mItem0" eventKey="11">inner</MenuItem>
+        <MenuItem eventKey="11">ddd</MenuItem>
         <MenuItem divider />
 
         <SubMenu className="dropdown-submenu" title={titleRight}>
 
           <Menu className="dropdown-menu">
-            <MenuItem eventKey="2">inner inner</MenuItem>
-            <MenuItem eventKey="2">inner inner2</MenuItem>
-
+            <MenuItem eventKey="23">inner inner</MenuItem>
+            <MenuItem eventKey="24">inner inner2</MenuItem>
           </Menu>
         </SubMenu>
       </Menu>
