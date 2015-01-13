@@ -25,9 +25,13 @@ describe('Menu', function (){
   });
 
   it('Should call on select when item is selected', function (done) {
+    var count = 0;
     function handleSelect(key) {
       expect(key).to.be(2);
-      done();
+      count++;
+      if (count == 2) {
+        done();
+      }
     }
     var instance = TestUtils.renderIntoDocument(
       <Menu activeKey={1} onSelect={handleSelect}>

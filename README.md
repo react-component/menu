@@ -8,6 +8,9 @@ react menu component
 [![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
+[![Sauce Test Status](https://saucelabs.com/buildstatus/rc-menu)](https://saucelabs.com/u/rc-menu)
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/rc-menu.svg)](https://saucelabs.com/u/rc-meu)
 
 [npm-image]: http://img.shields.io/npm/v/rc-menu.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-menu

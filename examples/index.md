@@ -2,7 +2,7 @@
 ---
 ````html
 <link href="https://a.alipayobjects.com/bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet" />
-<link href="../assets/bootstrap.css" rel="stylesheet" />
+<link href="./bootstrap.css" rel="stylesheet" />
 <style>
 .active > a{
   background-color: #8EC8F9 !important;
