@@ -32,8 +32,6 @@
 
 ````js
 /** @jsx React.DOM */
-
-
 var React = require('react');
 var Menu = require('../');
 var SubMenu = require('../lib/SubMenu');
