@@ -1,9 +1,8 @@
 # rc-menu@1.0.0
 ---
 ````html
-<link href="/assets/vendor/bootstrap-3.1.1/css/bootstrap.css" rel="stylesheet" />
-<link href="/assets/vendor/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet" />
-<link href="/assets/index.css" rel="stylesheet" />
+<link href="https://a.alipayobjects.com/bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet" />
+<link href="../assets/bootstrap.css" rel="stylesheet" />
 <style>
 .active > a{
   background-color: #8EC8F9 !important;
@@ -49,7 +48,7 @@ var titleDown = <span>sub menu <i className="fa fa-caret-down"></i></span>;
 var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
 
 var topMenu = (
-  <Menu className="nav navbar-nav" activeKey="10" >
+  <Menu className="nav navbar-nav" activeKey="10" canFocus={true} onSelect={handleSelect}>
     <MenuItem eventKey="31" href="http://www.alipay.com" >click to alipay</MenuItem>
     <MenuItem disabled eventKey="41" title="xx" onSelect={handleSelect} >disabled</MenuItem>
     <MenuItem eventKey="51" title="xx" onSelect={handleSelect} >outer2</MenuItem>
@@ -62,13 +61,13 @@ var topMenu = (
       buttonClass="dropdown-toggle"
       data-toggle="dropdown"
       >
-      <Menu className="dropdown-menu" canFocus={false}>
+      <Menu className="dropdown-menu">
         <MenuItem eventKey="231">inn</MenuItem>
         <MenuItem eventKey="243">inner inner2</MenuItem>
 
         <SubMenu className="dropdown-submenu" title={titleRight}>
 
-          <Menu canFocus={false} className="dropdown-menu">
+          <Menu className="dropdown-menu">
             <MenuItem eventKey="231">inner inner</MenuItem>
             <MenuItem eventKey="242">inner inner2</MenuItem>
           </Menu>
@@ -90,7 +89,6 @@ var topMenu = (
       >
 
       <Menu
-        canFocus={false}
         className="dropdown-menu dropdown-menu-right"
         activeKey="112" >
 
@@ -98,7 +96,7 @@ var topMenu = (
 
         <SubMenu className="dropdown-submenu" title={titleRight}>
 
-          <Menu canFocus={false} className="dropdown-menu">
+          <Menu className="dropdown-menu">
             <MenuItem eventKey="231">inner inner</MenuItem>
             <MenuItem eventKey="242">inner inner2</MenuItem>
           </Menu>
@@ -108,7 +106,7 @@ var topMenu = (
         <MenuItem divider />
 
         <SubMenu className="dropdown-submenu" title={titleRight}>
-          <Menu canFocus={false} className="dropdown-menu">
+          <Menu className="dropdown-menu">
             <MenuItem eventKey="23">inner inner</MenuItem>
             <MenuItem eventKey="24">inner inner2</MenuItem>
           </Menu>
@@ -124,13 +122,13 @@ React.render(topMenu, document.querySelector('#topMenu'));
 
 
 var leftMenu = (
-  <Menu className="nav nav-sidebar" activeKey="10" >
-    <MenuItem eventKey="31" href="http://www.alipay.com" >outer</MenuItem>
+  <Menu className="nav nav-sidebar" activeKey="10" canFocus={true}>
+    <MenuItem eventKey="31" href="http://www.baidu.com" >outer</MenuItem>
     <MenuItem disabled>disabled</MenuItem>
-
+    <li><a href="">not right MenuItem</a></li>
     <SubMenu className="dropdown-submenu" title={titleRight}>
 
-      <Menu canFocus={false} className="dropdown-menu">
+      <Menu className="dropdown-menu">
         <MenuItem eventKey="231">inner inner</MenuItem>
         <MenuItem eventKey="242">inner inner2</MenuItem>
 
@@ -142,13 +140,13 @@ var leftMenu = (
           buttonClass="dropdown-toggle"
           data-toggle="dropdown"
           >
-          <Menu className="dropdown-menu" canFocus={false}>
+          <Menu className="dropdown-menu">
             <MenuItem eventKey="231">inn</MenuItem>
             <MenuItem eventKey="243">inner inner2</MenuItem>
 
             <SubMenu className="dropdown-submenu" title={titleRight}>
 
-              <Menu canFocus={false} className="dropdown-menu">
+              <Menu className="dropdown-menu">
                 <MenuItem eventKey="231">inner inner</MenuItem>
                 <MenuItem eventKey="242">inner inner2</MenuItem>
               </Menu>
@@ -160,7 +158,7 @@ var leftMenu = (
     </SubMenu>
 
     <SubMenu className="dropdown-submenu" title={titleRight}>
-      <Menu canFocus={false} className="dropdown-menu">
+      <Menu className="dropdown-menu">
         <MenuItem eventKey="23">inner inner</MenuItem>
         <MenuItem eventKey="24">inner inner2</MenuItem>
       </Menu>
