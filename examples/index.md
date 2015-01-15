@@ -36,7 +36,7 @@ var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i>
 var leftMenu = (
   <Menu activeKey="10" onSelect={handleSelect}>
     <MenuItem key="10" onSelect={handleSelect}>onSelect</MenuItem>
-    <MenuItem key="31" href="http://www.baidu.com" >outer</MenuItem>
+    <MenuItem key="31" href="http://www.baidu.com" onSelect={handleSelect}>outer</MenuItem>
     <SubMenu title={titleRight}>
       <Menu>
         <MenuItem key="31">inner inner</MenuItem>

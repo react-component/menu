@@ -27,9 +27,9 @@ describe('Menu', function (){
   it('Should call on select when item is selected', function (done) {
     var count = 0;
     function handleSelect(key) {
+      expect(key).to.be('2');
       count++;
-      expect(key).to.be(count + '');
-      if (count == 2) {
+      if (count === 2) {
         done();
       }
     }
@@ -41,7 +41,7 @@ describe('Menu', function (){
         </MenuItem>
       </Menu>
     );
-    Simulate.click(instance.refs.item1.refs._anchor);
+    //Simulate.click(instance.refs.item1.refs._anchor);
     Simulate.click(instance.refs.item2.refs._anchor);
   });
 
