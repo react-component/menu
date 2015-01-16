@@ -5,9 +5,9 @@ var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var Simulate = TestUtils.Simulate;
 
-var Menu = require('../');
-var SubMenu = require('../lib/SubMenu');
-var MenuItem = require('../lib/MenuItem');
+var Menu = require('../').Menu;
+var SubMenu = require('../').SubMenu;
+var MenuItem = require('../').MenuItem;
 
 describe('Menu', function (){
   it('Should set the correct item active', function () {

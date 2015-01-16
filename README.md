@@ -35,11 +35,8 @@ react menu component
 
 
 ## Usage
-- It uses the [bootstrap](http://getbootstrap.com/)'s css and [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
-
-```js
-see examples
-```
+- see examples
+- It uses the [bootstrap](http://getbootstrap.com/)'s css and [Font Awesome](http://fortawesome.github.io/Font-Awesome/) for demo
 
 
 ## install

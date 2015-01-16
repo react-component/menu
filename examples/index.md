@@ -22,10 +22,10 @@
 ````
 
 ````js
-var React = require('react');
-var Menu = require('../');
-var SubMenu = require('../lib/SubMenu');
-var MenuItem = require('../lib/MenuItem');
+var React = require('react'); 
+var Menu = require('../').Menu;
+var SubMenu = require('../').SubMenu;
+var MenuItem = require('../').MenuItem;
 
 function handleSelect(selectedKey) {
   alert('selected ' + selectedKey);
@@ -94,16 +94,16 @@ React.render(leftMenu, document.querySelector('#leftMenu'));
 ````js
 /** @jsx React.DOM */
 var React = require('react');
-var Menu = require('../');
-var SubMenu = require('../lib/SubMenu');
-var MenuItem = require('../lib/MenuItem');
+var Menu = require('../').Menu;
+var SubMenu = require('../').SubMenu;
+var MenuItem = require('../').MenuItem;
 
 var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
 
 var topMenu = (
   <Menu className="nav navbar-nav override" activeKey="10">
     <MenuItem key="51" title="xx">outer2</MenuItem>
-    <SubMenu key="110" className="dropdown" 
+    <SubMenu key="110" className="dropdown" openWhenHover={false}
       title={<span>click to show <i className="fa fa-caret-down"></i></span>}>
       
       <Menu className="dropdown-menu">

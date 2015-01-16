@@ -5,8 +5,7 @@ var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var Simulate = TestUtils.Simulate;
 
-var Menu = require('../');
-var MenuItem = require('../lib/MenuItem');
+var MenuItem = require('../').MenuItem;
 
 describe('MenuItem', function (){
 
