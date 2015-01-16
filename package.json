@@ -18,6 +18,7 @@
   },
   "licenses": "MIT",
   "spm": {
+    "buildArgs": "--global react:window.React",
     "dependencies": {
       "react": "~0.12.1"
     },
@@ -51,8 +52,7 @@
     "less"
   ],
   "browserify-shim": {
-    "react": "global:React",
-    "jquery": "global:jQuery"
+    "react": "global:React"
   },
   "browserify": {
     "transform": [
