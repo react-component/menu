@@ -2,7 +2,30 @@
  *  pure css menu
  */
 
-@import "./bootstrap/dropdown-submenu";
+.dropdown-submenu {
+  position: relative;
+
+  >.dropdown-menu {
+    top: 0;
+    left: 100%;
+  }
+
+  &.pull-left{
+    float: none !important;
+    >.dropdown-menu {
+      left: -100%;
+    }
+  }
+}
+
+//override
+.dropdown-submenu .fa{
+  line-height: 20px;
+}
+.dropdown-menu > li > a{
+  white-space: normal;
+}
+
 
 // hover显示子菜单
 .dropdown, .dropdown-submenu{

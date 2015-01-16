@@ -30,8 +30,4 @@ describe('MenuItem', function (){
     Simulate.click(TestUtils.findRenderedDOMComponentWithTag(instance, 'span'));
   });
 
-
-  it('Should fire `onMouseLeave` event', function () {
-
-  });
 });

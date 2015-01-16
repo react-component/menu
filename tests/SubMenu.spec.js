@@ -19,8 +19,8 @@ describe('SubMenu', function (){
     var instance = TestUtils.renderIntoDocument(
       <SubMenu className="dropdown-submenu" title="title">
         <Menu className="dropdown-menu">
-          <MenuItem eventKey="231">inner inner</MenuItem>
-          <MenuItem eventKey="242">inner inner2</MenuItem>
+          <MenuItem key="231">inner inner</MenuItem>
+          <MenuItem key="242">inner inner2</MenuItem>
         </Menu>
       </SubMenu>
     );
