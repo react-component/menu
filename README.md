@@ -1,7 +1,8 @@
 # rc-menu
-
-react menu component
 ---
+
+react menu component. port from https://github.com/kissyteam/menu
+
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -27,21 +28,137 @@ react menu component
 [download-url]: https://npmjs.org/package/rc-menu
 
 
-## examples
-- [full](./examples/index.md)
-- [pure css menu](./examples/pure-css.html)
+## Screenshot
 
 ![alt](https://tfsimg.alipay.com/images/T19vReXg0oXXXXXXXX.png)
 
 
 ## Usage
-- see examples
-- It uses the [bootstrap](http://getbootstrap.com/)'s css and [Font Awesome](http://fortawesome.github.io/Font-Awesome/) for demo
 
+```js
+var Menu = require('rc-menu');
+var SubMenu = Menu.SubMenu;
+var MenuItem = Menu.Item;
+React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuItem></SubMenu></Menu>, container);
+```
 
 ## install
 
 [![rc-menu](https://nodei.co/npm/rc-menu.png)](https://npmjs.org/package/rc-menu)
+
+## API
+
+### menu props
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th style="width: 50px;">default</th>
+        <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>className</td>
+          <td>String</td>
+          <td></td>
+          <td>additional css class of root dom node</td>
+        </tr>
+        <tr>
+            <td>activeKey</td>
+            <td>Object</td>
+            <th>first active item's key</th>
+            <td>same with active tabPanel's key</td>
+        </tr>
+        <tr>
+            <td>onSelect</td>
+            <td>Function(key:String)</td>
+            <th></th>
+            <td>function called with selected menu item's key as param</td>
+        </tr>
+    </tbody>
+</table>
+
+### menu item props
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th style="width: 50px;">default</th>
+        <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>className</td>
+          <td>String</td>
+          <td></td>
+          <td>additional css class of root dom node</td>
+        </tr>
+        <tr>
+            <td>disabled</td>
+            <td>Boolean</td>
+            <th>false</th>
+            <td>no effect for click or keydown for this item</td>
+        </tr>
+        <tr>
+            <td>key</td>
+            <td>Object</td>
+            <th></th>
+            <td>corresponding to activeKey</td>
+        </tr>
+    </tbody>
+</table>
+
+
+### sub menu props
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th style="width: 50px;">default</th>
+        <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>className</td>
+          <td>String</td>
+          <td></td>
+          <td>additional css class of root dom node</td>
+        </tr>
+        <tr>
+          <td>title</td>
+          <td>String/ReactElement</td>
+          <td></td>
+          <td>sub menu's content</td>
+        </tr>
+        <tr>
+            <td>key</td>
+            <td>Object</td>
+            <th></th>
+            <td>corresponding to activeKey</td>
+        </tr>
+        <tr>
+            <td>disabled</td>
+            <td>Boolean</td>
+            <th>false</th>
+            <td>no effect for click or keydown for this item</td>
+        </tr>
+        <tr>
+            <td>openOnHover</td>
+            <td>Boolean</td>
+            <th>true</th>
+            <td>whether show second sub menu on hover</td>
+        </tr>
+    </tbody>
+</table>
 
 ## Development
 
@@ -49,6 +166,13 @@ react menu component
 npm install
 npm start
 ```
+
+## Example
+
+http://localhost:8001/examples/index.md
+
+online example: http://spmjs.io/docs/rc-menu/examples/
+
 
 ## Test Case
 

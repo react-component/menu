@@ -1,6 +1,4 @@
-var Menu = {
-  Menu: require('./lib/Menu'),
-  SubMenu: require('./lib/SubMenu'),
-  MenuItem: require('./lib/MenuItem')
-};
+var Menu = require('./lib/Menu');
+Menu.SubMenu = require('./lib/SubMenu');
+Menu.Item = require('./lib/MenuItem');
 module.exports = Menu;

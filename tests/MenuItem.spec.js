@@ -5,28 +5,49 @@ var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var Simulate = TestUtils.Simulate;
 
-var MenuItem = require('../').MenuItem;
+var Menu = require('../');
+var SubMenu = require('../').SubMenu;
+var MenuItem = require('../').Item;
 
-describe('MenuItem', function (){
+describe('MenuItem', function () {
+  var div = document.createElement('div');
+  div.style.width = '200px';
+  document.body.appendChild(div);
 
-  it('Should add disabled class', function () {
-    var instance = TestUtils.renderIntoDocument(
-      <MenuItem disabled={true}>Pill 2 content</MenuItem>
-    );
-    expect(TestUtils.findRenderedDOMComponentWithClass(instance, 'disabled')).to.be.ok();
-    Simulate.click(instance.refs._anchor);
+  afterEach(function () {
+    React.unmountComponentAtNode(div);
   });
 
-  it('Should not call `onSelect` when item disabled and is selected', function () {
-    function handleSelect() {
-      throw new Error('onSelect should not be called');
-    }
-    var instance = TestUtils.renderIntoDocument(
-      <MenuItem disabled={true} onSelect={handleSelect}>
-        <span>Item content</span>
-      </MenuItem>
+  it('Should add disabled class', function () {
+    var instance = React.render(
+      <Menu>
+        <MenuItem disabled={true}>Pill 2 content</MenuItem>
+      </Menu>, div
     );
-    Simulate.click(TestUtils.findRenderedDOMComponentWithTag(instance, 'span'));
+    expect(TestUtils.findRenderedDOMComponentWithClass(instance, 'rc-menu-item-disabled')).to.be.ok();
+  });
+
+  it('Should not call `onSelect` when item disabled and is selected', function (done) {
+    var called = 0;
+
+    function handleSelect() {
+      called = 1;
+    }
+
+    var instance = TestUtils.renderIntoDocument(
+      <Menu>
+        <MenuItem disabled={true} onSelect={handleSelect}>
+          <span className='xx'>Item content</span>
+        </MenuItem>
+      </Menu>
+    );
+
+    Simulate.click(TestUtils.findRenderedDOMComponentWithClass(instance, 'xx'));
+
+    setTimeout(function () {
+      expect(called).to.be(0);
+      done();
+    }, 100);
   });
 
 });
