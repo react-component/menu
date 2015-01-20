@@ -39,7 +39,7 @@ var leftMenu = (
         <MenuItem key="31">inner inner</MenuItem>
         <MenuItem disabled className="rc-menu-item-divider" />
         <SubMenu
-          openWhenHover={false}
+          openOnHover={false}
           key="110"
           title={titleRight}
           >
