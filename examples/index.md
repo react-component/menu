@@ -32,7 +32,7 @@ function handleSelect(selectedKey) {
 var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
 
 var leftMenu = (
-  <Menu activeKey="10" onSelect={handleSelect}>
+  <Menu activeKey="11110" onSelect={handleSelect}>
     <MenuItem key="10">1</MenuItem>
     <MenuItem key="31">outer</MenuItem>
     <SubMenu title={titleRight}>
