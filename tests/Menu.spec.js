@@ -80,13 +80,12 @@ describe('Menu', function () {
   });
 
   it('Should fire `keyDown` event', function (done) {
-
     var instance = React.render(
-      <Menu activeKey={12}>
-        <MenuItem key={12} ref="item1">Pill 1 content</MenuItem>
+      <Menu activeKey="12">
+        <MenuItem key="12" ref="item1">Pill 1 content</MenuItem>
         <MenuItem disabled />
-        <MenuItem key={2} ref="item2">Pill 2 content</MenuItem>
-        <SubMenu key={1} ref="item3" className="dropdown-submenu" title="right">
+        <MenuItem key="2" ref="item2">Pill 2 content</MenuItem>
+        <SubMenu key="1" ref="item3" className="dropdown-submenu" title="right">
           <Menu className="dropdown-menu" ref="_menu">
             <MenuItem key="231">inner inner</MenuItem>
             <MenuItem key="242">inner inner2</MenuItem>
@@ -98,6 +97,6 @@ describe('Menu', function () {
     setTimeout(function () {
       expect(instance.refs.item2.getDOMNode().className.indexOf('rc-menu-item-active') !== -1).to.be(true);
       done();
-    }, 100);
+    }, 10);
   });
 });
