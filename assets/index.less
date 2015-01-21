@@ -1,5 +1,5 @@
-.rc-menu{
-  outline:none;
+.rc-menu {
+  outline: none;
   margin-bottom: 0;
   padding-left: 0; // Override default ul/ol
   list-style: none;
@@ -7,8 +7,16 @@
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 3px;
 
-  .rc-menu-item-active,.rc-menu-submenu-active {
+  .rc-menu-item-active, .rc-menu-submenu-active {
     background-color: #8EC8F9 !important;
+  }
+
+  .rc-menu-submenu-title {
+    padding: 15px 20px;
+  }
+
+  > li.rc-menu-submenu {
+    padding: 0;
   }
 
   > li {
@@ -18,7 +26,7 @@
     white-space: nowrap;
 
     // Disabled state sets text to gray and nukes hover/tab effects
-    &.rc-menu-item-disabled,&.rc-menu-submenu-disabled  {
+    &.rc-menu-item-disabled, &.rc-menu-submenu-disabled {
       color: #777;
     }
   }
@@ -34,7 +42,7 @@
 .rc-menu-submenu {
   position: relative;
 
-  >.rc-menu {
+  > .rc-menu {
     display: none;
     position: absolute;
     top: 0;
@@ -45,7 +53,7 @@
 }
 
 .rc-menu-submenu-open {
-  > .rc-menu{
+  > .rc-menu {
     display: block;
   }
 }

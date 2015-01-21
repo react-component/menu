@@ -29,23 +29,25 @@ function handleSelect(selectedKey) {
   console.log('selected ' + selectedKey);
 }
 
-var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
+var titleRight1 = <span>sub menu 1 <i className="fa fa-caret-right pull-right"></i></span>;
+var titleRight2 = <span>sub menu 2 <i className="fa fa-caret-right pull-right"></i></span>;
+var titleRight3 = <span>sub menu 3 <i className="fa fa-caret-right pull-right"></i></span>;
 
 var leftMenu = (
   <Menu activeKey="11110" onSelect={handleSelect}>
     <MenuItem key="10">1</MenuItem>
     <MenuItem key="31">outer</MenuItem>
-    <SubMenu title={titleRight}>
+    <SubMenu title={titleRight1}>
         <MenuItem key="31">inner inner</MenuItem>
         <MenuItem disabled className="rc-menu-item-divider" />
         <SubMenu
           openOnHover={false}
           key="110"
-          title={titleRight}
+          title={titleRight2}
           >
           <Menu>
             <MenuItem key="231">inn</MenuItem>
-            <SubMenu title={titleRight}>
+            <SubMenu title={titleRight3}>
               <Menu>
                 <MenuItem key="231">inner inner</MenuItem>
                 <MenuItem key="242">inner inner2</MenuItem>
