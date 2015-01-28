@@ -73,6 +73,30 @@ React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuI
             <td>same with active tabPanel's key</td>
         </tr>
         <tr>
+            <td>multiple</td>
+            <td>Boolean</td>
+            <th>false</th>
+            <td>whether allow multiple select</td>
+        </tr>
+        <tr>
+            <td>selectedKeys</td>
+            <td>String[]</td>
+            <th>[]</th>
+            <td>selected keys of items</td>
+        </tr>
+        <tr>
+            <td>onSelect</td>
+            <td>function(key:String,child:ReactComponent)</td>
+            <th></th>
+            <td>called when select a menu item</td>
+        </tr>
+        <tr>
+            <td>onDeselect</td>
+            <td>function(key:String,child:ReactComponent)</td>
+            <th></th>
+            <td>called when deselect a menu item</td>
+        </tr>
+        <tr>
             <td>onSelect</td>
             <td>Function(key:String)</td>
             <th></th>
