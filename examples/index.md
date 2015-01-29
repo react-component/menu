@@ -10,6 +10,11 @@
 .menu-container{
   margin: 20px 40px;
 }
+#long .rc-menu {
+  height: 200px;
+  width:200px;
+  overflow:auto;
+}
 </style>
 
 
@@ -24,6 +29,13 @@ single select
 multiple select
 <div id='multiple' style='width:200px'>
 </div>
+</div>
+</div>
+</div>
+
+<div>
+scrollable menu <input value='for focus'/>
+<div id='long'>
 </div>
 </div>
 
@@ -51,6 +63,14 @@ var single = document.getElementById('single');
 
 render(false,single);
 render(true,multiple);
+
+
+var children = [];
+for(var i=0;i<20;i++){
+  children.push(<MenuItem>{i}</MenuItem>);
+}
+React.render(<Menu>{children}</Menu>,document.getElementById('long'));
+
 
 function render(multiple,container){
   var leftMenu = (
