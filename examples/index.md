@@ -15,7 +15,7 @@
 
 
 <div id="container" class="menu-container" style='overflow:hidden'>
-<div style='float:left;width:400px'>
+<div style='float:left;width:400px;height:400px'>
 single select
 <div id='single' style='width:200px'>
 </div>
@@ -54,7 +54,7 @@ render(true,multiple);
 
 function render(multiple,container){
   var leftMenu = (
-    <Menu activeKey="11110" multiple={multiple} onSelect={handleSelect} onDeselect={handleDeselect}>
+    <Menu multiple={multiple} onSelect={handleSelect} onDeselect={handleDeselect}>
       <SubMenu title={titleRight}>
           <MenuItem>0-1</MenuItem>
           <MenuItem>0-2</MenuItem>

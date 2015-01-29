@@ -73,6 +73,12 @@ React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuI
             <td>same with active tabPanel's key</td>
         </tr>
         <tr>
+            <td>activeFirst</td>
+            <td>Boolean</td>
+            <th>false</th>
+            <td>whether active first menu item when show if activeKey is not set</td>
+        </tr>
+        <tr>
             <td>multiple</td>
             <td>Boolean</td>
             <th>false</th>
