@@ -23,10 +23,10 @@ describe('Menu', function () {
 
   it('Should set the correct item active', function () {
     var instance = TestUtils.renderIntoDocument(
-      <Menu activeKey="1">
-        <MenuItem key="1" ref="item1">Pill 1 content</MenuItem>
+      <Menu activeKey="item1">
+        <MenuItem key="item1">Pill 1 content</MenuItem>
         <MenuItem divider />
-        <MenuItem key="2" ref="item2">Pill 2 content</MenuItem>
+        <MenuItem key="item2">Pill 2 content</MenuItem>
       </Menu>
     );
     expect(instance.refs.item1.props.active).to.be.ok();
@@ -37,7 +37,7 @@ describe('Menu', function () {
     var count = 0;
 
     function handleSelect(key) {
-      expect(key).to.be('2');
+      expect(key).to.be('item2');
       count++;
       if (count === 2) {
         done();
@@ -45,9 +45,9 @@ describe('Menu', function () {
     }
 
     var instance = TestUtils.renderIntoDocument(
-      <Menu activeKey="1" onSelect={handleSelect}>
-        <MenuItem key="1" ref="item1" href="http://www.baidu.com">Tab 1 content</MenuItem>
-        <MenuItem key="2" ref="item2" onSelect={handleSelect}>
+      <Menu activeKey="item1" onSelect={handleSelect}>
+        <MenuItem key="item1" href="http://www.baidu.com">Tab 1 content</MenuItem>
+        <MenuItem key="item2" onSelect={handleSelect}>
           Tab 2 content
         </MenuItem>
       </Menu>
@@ -58,9 +58,9 @@ describe('Menu', function () {
   it('Should fire `mouseEnter` event', function (done) {
     var instance = React.render(
       <Menu>
-        <MenuItem ref="item1">item</MenuItem>
+        <MenuItem key="item1">item</MenuItem>
         <MenuItem disabled >disabled</MenuItem>
-        <MenuItem ref="item2">item2</MenuItem>
+        <MenuItem key="item2">item2</MenuItem>
       </Menu>, div);
     var itemNode = instance.refs.item2.getDOMNode();
     // see this issue:  https://github.com/facebook/react/issues/1297
@@ -81,11 +81,11 @@ describe('Menu', function () {
 
   it('Should fire `keyDown` event', function (done) {
     var instance = React.render(
-      <Menu activeKey="12">
-        <MenuItem key="12" ref="item1">Pill 1 content</MenuItem>
+      <Menu activeKey="item1">
+        <MenuItem key="item1">Pill 1 content</MenuItem>
         <MenuItem disabled />
-        <MenuItem key="2" ref="item2">Pill 2 content</MenuItem>
-        <SubMenu key="1" ref="item3" className="dropdown-submenu" title="right">
+        <MenuItem key="item2">Pill 2 content</MenuItem>
+        <SubMenu key="item3" className="dropdown-submenu" title="right">
           <Menu className="dropdown-menu" ref="_menu">
             <MenuItem key="231">inner inner</MenuItem>
             <MenuItem key="242">inner inner2</MenuItem>
