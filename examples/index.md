@@ -41,6 +41,7 @@ scrollable menu <input value='for focus'/>
 
 
 ````js
+/** @jsx React.DOM */
 var React = require('react');
 var Menu = require('../');
 var SubMenu = Menu.SubMenu;
