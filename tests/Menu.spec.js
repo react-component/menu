@@ -4,11 +4,10 @@ var expect = require('expect.js');
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var Simulate = TestUtils.Simulate;
-var KeyCode = require('../lib/utils/util').KeyCode;
+var KeyCode = require('rc-util').KeyCode;
 var Menu = require('../');
 var SubMenu = require('../').SubMenu;
 var MenuItem = require('../').Item;
-var simulateEvent = require('simulate-dom-event');
 
 describe('Menu', function () {
   this.timeout(9999999);

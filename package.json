@@ -60,8 +60,7 @@
     "precommit-hook": "^1.0.7",
     "rc-server": "^1.0.0",
     "rc-tools": "^1.0.1",
-    "react": "~0.12.1",
-    "simulate-dom-event": "~1.0.3"
+    "react": "~0.12.1"
   },
   "precommit": [
     "lint",
