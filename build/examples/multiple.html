@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            color: #333;
+            background: #f8f8f8;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-comment,
+        .diff .hljs-header,
+        .hljs-javadoc {
+            color: #998;
+            font-style: italic;
+        }
+
+        .hljs-keyword,
+        .css .rule .hljs-keyword,
+        .hljs-winutils,
+        .nginx .hljs-title,
+        .hljs-subst,
+        .hljs-request,
+        .hljs-status {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .hljs-number,
+        .hljs-hexcolor,
+        .ruby .hljs-constant {
+            color: #008080;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-phpdoc,
+        .hljs-dartdoc,
+        .tex .hljs-formula {
+            color: #d14;
+        }
+
+        .hljs-title,
+        .hljs-id,
+        .scss .hljs-preprocessor {
+            color: #900;
+            font-weight: bold;
+        }
+
+        .hljs-list .hljs-keyword,
+        .hljs-subst {
+            font-weight: normal;
+        }
+
+        .hljs-class .hljs-title,
+        .hljs-type,
+        .vhdl .hljs-literal,
+        .tex .hljs-command {
+            color: #458;
+            font-weight: bold;
+        }
+
+        .hljs-tag,
+        .hljs-tag .hljs-title,
+        .hljs-rules .hljs-property,
+        .django .hljs-tag .hljs-keyword {
+            color: #000080;
+            font-weight: normal;
+        }
+
+        .hljs-attribute,
+        .hljs-variable,
+        .lisp .hljs-body {
+            color: #008080;
+        }
+
+        .hljs-regexp {
+            color: #009926;
+        }
+
+        .hljs-symbol,
+        .ruby .hljs-symbol .hljs-string,
+        .lisp .hljs-keyword,
+        .clojure .hljs-keyword,
+        .scheme .hljs-keyword,
+        .tex .hljs-special,
+        .hljs-prompt {
+            color: #990073;
+        }
+
+        .hljs-built_in {
+            color: #0086b3;
+        }
+
+        .hljs-preprocessor,
+        .hljs-pragma,
+        .hljs-pi,
+        .hljs-doctype,
+        .hljs-shebang,
+        .hljs-cdata {
+            color: #999;
+            font-weight: bold;
+        }
+
+        .hljs-deletion {
+            background: #fdd;
+        }
+
+        .hljs-addition {
+            background: #dfd;
+        }
+
+        .diff .hljs-change {
+            background: #0086b3;
+        }
+
+        .hljs-chunk {
+            color: #aaa;
+        }
+        .highlight {
+            background-color: transparent;
+            padding-top: 1px;
+            position: relative;
+        }
+
+        .highlight pre {
+            font-family: Consolas, "Liberation Mono", Courier, monospace;
+            margin: 6px 0;
+            border: 1px solid #eee;
+            padding: 6px 10px;
+            overflow: auto;
+            border-radius: 2px;
+            background-color: #f8f8f9;
+            line-height: 19px;
+            font-size: 13px;
+            white-space: pre;
+        }
+
+        .highlight pre code {
+            color: #5D6A6A;
+            background-color: transparent;
+            margin: auto;
+            padding: 0;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script>
+    // Console-polyfill. MIT license.
+    // https://github.com/paulmillr/console-polyfill
+    // Make it safe to do console.log() always.
+    (function(global) {
+      'use strict';
+      global.console = global.console || {};
+      var con = global.console;
+      var prop, method;
+      var empty = {};
+      var dummy = function() {};
+      var properties = 'memory'.split(',');
+      var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' +
+         'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' +
+         'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
+      while (prop = properties.pop()) con[prop] = con[prop] || empty;
+      while (method = methods.pop()) con[method] = con[method] || dummy;
+    })(typeof window === 'undefined' ? this : window);
+    // Using `this` for web workers while maintaining compatibility with browser
+    // targeted script loaders such as Browserify or Webpack where the only way to
+    // get to the global object is via `window`.
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.0/es5-shim.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.0/es5-sham.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="__react-content"></div>
+<script src="common.js?nowrap"></script>
+<script src="multiple.js?nowrap"></script>
+<div class="highlight">
+<pre>
+<span class="xml">/** @jsx React.DOM */
+var React = require('react');
+var Menu = require('rc-menu');
+var SubMenu = Menu.SubMenu;
+var MenuItem = Menu.Item;
+
+require('rc-menu/assets/index.css');
+require('font-awesome/css/font-awesome.css');
+
+function handleSelect(selectedKey) {
+  console.log('selected ' + selectedKey);
+}
+
+function handleDeselect(selectedKey) {
+  console.log('deselect ' + selectedKey);
+}
+
+var titleRight = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
+var titleRight1 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 1 <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
+var titleRight2 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 2 <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
+var titleRight3 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 3 <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
+var container = document.getElementById('__react-content');
+
+render(container);
+
+function render(container){
+  var leftMenu = (
+    <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>  <span class="hljs-attribute">multiple</span>=<span class="hljs-value">{true}</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span> <span class="hljs-attribute">onDeselect</span>=<span class="hljs-value">{handleDeselect}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"10"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"31"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight1}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"31"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"rc-menu-item-divider"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span>
+          <span class="hljs-attribute">openOnHover</span>=<span class="hljs-value">{false}</span>
+          <span class="hljs-attribute">key</span>=<span class="hljs-value">"110"</span>
+          <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight2}</span>
+        &gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"231"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight3}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"231"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"242"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2311"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
+  );
+  React.render(<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>multiple selectable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">width</span>:400}}</span><span class="xml"><span class="hljs-tag">&gt;</span>{leftMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, container);
+}
+</span>
+</pre>
+</div>
+</body>
+</html>
