@@ -67,8 +67,6 @@
     "webpack": "~1.5.3"
   },
   "dependencies": {
-    "browserify-jsx": "^0.1.0",
-    "browserify-shim": "^3.8.0",
     "dom-scroll-into-view": "^1.0.1",
     "object-assign": "^2.0.0",
     "rc-util": "^1.0.0"
@@ -76,18 +74,5 @@
   "precommit": [
     "lint",
     "less"
-  ],
-  "browserify-shim": {
-    "react": "global:React"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "browserify-jsx"
-      ],
-      [
-        "browserify-shim"
-      ]
-    ]
-  }
+  ]
 }
