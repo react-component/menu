@@ -9,7 +9,7 @@ require('font-awesome/css/font-awesome.css');
 
 var children = [];
 for (var i = 0; i < 20; i++) {
-  children.push(<MenuItem>{i}</MenuItem>);
+  children.push(<MenuItem key={i + ""}>{i}</MenuItem>);
 }
 var style = '.rc-menu {\
 height: 200px;\
