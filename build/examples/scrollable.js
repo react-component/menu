@@ -1,34 +1,27 @@
 webpackJsonp([1],[
 /* 0 */
-/*!************************!*\
-  !*** multi scrollable ***!
-  \************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(/*! ./examples/scrollable.js */3);
+	module.exports = __webpack_require__(2);
 
 
 /***/ },
 /* 1 */,
-/* 2 */,
-/* 3 */
-/*!********************************!*\
-  !*** ./examples/scrollable.js ***!
-  \********************************/
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */
-	var React = __webpack_require__(/*! react */ 4);
-	var Menu = __webpack_require__(/*! rc-menu */ 5);
+	var React = __webpack_require__(4);
+	var Menu = __webpack_require__(5);
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
-	
-	__webpack_require__(/*! rc-menu/assets/index.css */ 6);
-	__webpack_require__(/*! font-awesome/css/font-awesome.css */ 8);
-	
+
+	__webpack_require__(9);
+	__webpack_require__(11);
+
 	var children = [];
 	for (var i = 0; i < 20; i++) {
-	  children.push(React.createElement(MenuItem, null, i));
+	  children.push(React.createElement(MenuItem, {key: i + ""}, i));
 	}
 	var style = '.rc-menu {\
 	height: 200px;\
@@ -44,4 +37,3 @@ webpackJsonp([1],[
 
 /***/ }
 ]);
-//# sourceMappingURL=scrollable.js.map

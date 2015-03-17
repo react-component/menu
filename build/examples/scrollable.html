@@ -174,7 +174,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.0/es5-sham.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.0/react.min.js"></script>
 </head>
 <body>
 <div id="__react-content"></div>
@@ -193,7 +193,7 @@
 
 <span class="hljs-keyword">var</span> children = [];
 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) {
-  children.push(&lt;MenuItem&gt;{i}&lt;/MenuItem&gt;);
+  children.push(&lt;MenuItem key={i + <span class="hljs-string">""</span>}&gt;{i}&lt;/MenuItem&gt;);
 }
 <span class="hljs-keyword">var</span> style = <span class="hljs-string">'.rc-menu {\
 height: 200px;\
