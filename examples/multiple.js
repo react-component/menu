@@ -7,12 +7,12 @@ var MenuItem = Menu.Item;
 require('rc-menu/assets/index.css');
 require('font-awesome/css/font-awesome.css');
 
-function handleSelect(selectedKey) {
-  console.log('selected ' + selectedKey);
+function handleSelect(selectedKey, item, e) {
+  console.log('selected ' + selectedKey, item, e);
 }
 
-function handleDeselect(selectedKey) {
-  console.log('deselect ' + selectedKey);
+function handleDeselect(selectedKey, item, e) {
+  console.log('deselect ' + selectedKey, item, e);
 }
 
 var titleRight = <span>sub menu
