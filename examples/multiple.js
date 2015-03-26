@@ -38,12 +38,12 @@ function save(c) {
 
 function render(container) {
   var leftMenu = (
-    <Menu  multiple={true} onSelect={handleSelect} onDeselect={handleDeselect}>
+    <Menu  multiple={true} onSelect={handleSelect} onDeselect={handleDeselect} selectedKeys={['2']}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
       </SubMenu>
-      <MenuItem key="2">1</MenuItem>
+      <MenuItem key="2" disabled>1</MenuItem>
       <MenuItem key="3">outer</MenuItem>
       <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>

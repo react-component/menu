@@ -1,6 +1,10 @@
 # History
 ----
 
+## 3.1.0 / 2015-03-26
+
+`improved` [#5](https://github.com/react-component/menu/issues/5) support selected and disabled for menuitem simultaneously
+
 ## 3.0.0 / 2015-03-17
 
 support react 0.13 and es6
