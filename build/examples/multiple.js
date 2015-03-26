@@ -18,12 +18,12 @@ webpackJsonp([2],[
 	__webpack_require__(9);
 	__webpack_require__(11);
 
-	function handleSelect(selectedKey) {
-	  console.log('selected ' + selectedKey);
+	function handleSelect(selectedKey, item, e) {
+	  console.log('selected ' + selectedKey, item, e);
 	}
 
-	function handleDeselect(selectedKey) {
-	  console.log('deselect ' + selectedKey);
+	function handleDeselect(selectedKey, item, e) {
+	  console.log('deselect ' + selectedKey, item, e);
 	}
 
 	var titleRight = React.createElement("span", null, "sub menu", 
@@ -49,12 +49,12 @@ webpackJsonp([2],[
 
 	function render(container) {
 	  var leftMenu = (
-	    React.createElement(Menu, {multiple: true, onSelect: handleSelect, onDeselect: handleDeselect}, 
+	    React.createElement(Menu, {multiple: true, onSelect: handleSelect, onDeselect: handleDeselect, selectedKeys: ['2']}, 
 	      React.createElement(SubMenu, {title: titleRight, key: "1"}, 
 	        React.createElement(MenuItem, {key: "1-1"}, "0-1"), 
 	        React.createElement(MenuItem, {key: "1-2"}, "0-2")
 	      ), 
-	      React.createElement(MenuItem, {key: "2"}, "1"), 
+	      React.createElement(MenuItem, {key: "2", disabled: true}, "1"), 
 	      React.createElement(MenuItem, {key: "3"}, "outer"), 
 	      React.createElement(SubMenu, {title: titleRight1, key: "4"}, 
 	        React.createElement(MenuItem, {key: "4-1"}, "inner inner"), 
