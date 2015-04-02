@@ -7,19 +7,38 @@ var MenuItem = Menu.Item;
 require('rc-menu/assets/index.css');
 require('font-awesome/css/font-awesome.css');
 
-function handleSelect(selectedKey, item, e) {
-  console.log('selected ' + selectedKey, item, e);
+function handleSelect(selectedKey) {
+  console.log('selected ' + selectedKey);
 }
 
-function handleDeselect(selectedKey, item, e) {
-  console.log('deselect ' + selectedKey, item, e);
+function handleDeselect(selectedKey) {
+  console.log('deselect ' + selectedKey);
 }
+
+var style = `
+.rc-top-menu {
+  zoom:1;
+}
+.rc-top-menu:after {
+  content:"\20";
+  display:block;
+  height:0;
+  clear:both;
+}
+.rc-menu-submenu-pull-down > .rc-menu {
+  top:100%;
+  left:0;
+}
+.rc-top-menu > .rc-menu-submenu,.rc-top-menu > .rc-menu-item {
+  float:left
+}
+`;
 
 var titleRight = <span>sub menu
-  <i className="fa fa-caret-right pull-right"></i>
+  <i className="fa fa-caret-down pull-right"></i>
 </span>;
 var titleRight1 = <span>sub menu 1
-  <i className="fa fa-caret-right pull-right"></i>
+  <i className="fa fa-caret-down pull-right"></i>
 </span>;
 var titleRight2 = <span>sub menu 2
   <i className="fa fa-caret-right pull-right"></i>
@@ -31,23 +50,18 @@ var container = document.getElementById('__react-content');
 
 render(container);
 
-function save(c) {
-  console.log('getRef')
-  console.log(React.findDOMNode(c));
-}
-
 function render(container) {
   var leftMenu = (
-    <Menu  multiple={true} onSelect={handleSelect} onDeselect={handleDeselect} selectedKeys={['2']}>
-      <SubMenu title={titleRight} key="1">
+    <Menu onSelect={handleSelect} onDeselect={handleDeselect} className="rc-top-menu">
+      <SubMenu title={titleRight} key="1" className="rc-menu-submenu-pull-down">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
       </SubMenu>
-      <MenuItem key="2" disabled>can not deselect me,i'm disabled</MenuItem>
+      <MenuItem key="2">1</MenuItem>
       <MenuItem key="3">outer</MenuItem>
-      <SubMenu title={titleRight1} key="4">
+      <SubMenu title={titleRight1} key="4" className="rc-menu-submenu-pull-down">
         <MenuItem key="4-1">inner inner</MenuItem>
-        <MenuItem disabled className="rc-menu-item-divider" key="divider" />
+        <MenuItem disabled className="rc-menu-item-divider" />
         <SubMenu
           openOnHover={false}
           key="4-2"
@@ -62,12 +76,13 @@ function render(container) {
           </SubMenu>
         </SubMenu>
       </SubMenu>
-      <MenuItem disabled key="disabled">disabled</MenuItem>
+      <MenuItem disabled>disabled</MenuItem>
       <MenuItem key="4-3">outer3</MenuItem>
     </Menu>
   );
   React.render(<div>
-    <h1>multiple selectable menu</h1>
-    <div style={{width: 400}}>{leftMenu}</div>
+    <style dangerouslySetInnerHTML={{__html: style}}></style>
+    <h1>single selectable menu</h1>
+    <div style={{width: 800}}>{leftMenu}</div>
   </div>, container);
 }

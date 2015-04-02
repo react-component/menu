@@ -11,19 +11,29 @@ function handleSelect(selectedKey) {
   console.log('selected ' + selectedKey);
 }
 
-function handleDeselect(selectedKey) {
-  console.log('deselect ' + selectedKey);
-}
+var handleDeselect = function (selectedKey) {
+  console.log(this.x + ' deselect ' + selectedKey);
+}.bind({
+    x: 1
+  });
 
-var titleRight = <span>sub menu <i className="fa fa-caret-right pull-right"></i></span>;
-var titleRight1 = <span>sub menu 1 <i className="fa fa-caret-right pull-right"></i></span>;
-var titleRight2 = <span>sub menu 2 <i className="fa fa-caret-right pull-right"></i></span>;
-var titleRight3 = <span>sub menu 3 <i className="fa fa-caret-right pull-right"></i></span>;
+var titleRight = <span>sub menu
+  <i className="fa fa-caret-right pull-right"></i>
+</span>;
+var titleRight1 = <span>sub menu 1
+  <i className="fa fa-caret-right pull-right"></i>
+</span>;
+var titleRight2 = <span>sub menu 2
+  <i className="fa fa-caret-right pull-right"></i>
+</span>;
+var titleRight3 = <span>sub menu 3
+  <i className="fa fa-caret-right pull-right"></i>
+</span>;
 var container = document.getElementById('__react-content');
 
 render(container);
 
-function render(container){
+function render(container) {
   var leftMenu = (
     <Menu onSelect={handleSelect} onDeselect={handleDeselect}>
       <SubMenu title={titleRight} key="1">
@@ -53,5 +63,8 @@ function render(container){
       <MenuItem key="4-3">outer3</MenuItem>
     </Menu>
   );
-  React.render(<div><h1>single selectable menu</h1><div style={{width:400}}>{leftMenu}</div></div>, container);
+  React.render(<div>
+    <h1>single selectable menu</h1>
+    <div style={{width: 400}}>{leftMenu}</div>
+  </div>, container);
 }
