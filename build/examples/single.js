@@ -1,4 +1,4 @@
-webpackJsonp([0],[
+webpackJsonp([1],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -12,31 +12,41 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */
-	var React = __webpack_require__(4);
-	var Menu = __webpack_require__(5);
+	var React = __webpack_require__(5);
+	var Menu = __webpack_require__(6);
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
 
-	__webpack_require__(9);
-	__webpack_require__(11);
+	__webpack_require__(10);
+	__webpack_require__(12);
 
 	function handleSelect(selectedKey) {
 	  console.log('selected ' + selectedKey);
 	}
 
-	function handleDeselect(selectedKey) {
-	  console.log('deselect ' + selectedKey);
-	}
+	var handleDeselect = function (selectedKey) {
+	  console.log(this.x + ' deselect ' + selectedKey);
+	}.bind({
+	    x: 1
+	  });
 
-	var titleRight = React.createElement("span", null, "sub menu ", React.createElement("i", {className: "fa fa-caret-right pull-right"}));
-	var titleRight1 = React.createElement("span", null, "sub menu 1 ", React.createElement("i", {className: "fa fa-caret-right pull-right"}));
-	var titleRight2 = React.createElement("span", null, "sub menu 2 ", React.createElement("i", {className: "fa fa-caret-right pull-right"}));
-	var titleRight3 = React.createElement("span", null, "sub menu 3 ", React.createElement("i", {className: "fa fa-caret-right pull-right"}));
+	var titleRight = React.createElement("span", null, "sub menu", 
+	  React.createElement("i", {className: "fa fa-caret-right pull-right"})
+	);
+	var titleRight1 = React.createElement("span", null, "sub menu 1", 
+	  React.createElement("i", {className: "fa fa-caret-right pull-right"})
+	);
+	var titleRight2 = React.createElement("span", null, "sub menu 2", 
+	  React.createElement("i", {className: "fa fa-caret-right pull-right"})
+	);
+	var titleRight3 = React.createElement("span", null, "sub menu 3", 
+	  React.createElement("i", {className: "fa fa-caret-right pull-right"})
+	);
 	var container = document.getElementById('__react-content');
 
 	render(container);
 
-	function render(container){
+	function render(container) {
 	  var leftMenu = (
 	    React.createElement(Menu, {onSelect: handleSelect, onDeselect: handleDeselect}, 
 	      React.createElement(SubMenu, {title: titleRight, key: "1"}, 
@@ -66,7 +76,10 @@ webpackJsonp([0],[
 	      React.createElement(MenuItem, {key: "4-3"}, "outer3")
 	    )
 	  );
-	  React.render(React.createElement("div", null, React.createElement("h1", null, "single selectable menu"), React.createElement("div", {style: {width:400}}, leftMenu)), container);
+	  React.render(React.createElement("div", null, 
+	    React.createElement("h1", null, "single selectable menu"), 
+	    React.createElement("div", {style: {width: 400}}, leftMenu)
+	  ), container);
 	}
 
 
