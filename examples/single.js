@@ -11,11 +11,13 @@ function handleSelect(selectedKey) {
   console.log('selected ' + selectedKey);
 }
 
-var handleDeselect = function (selectedKey) {
-  console.log(this.x + ' deselect ' + selectedKey);
-}.bind({
-    x: 1
-  });
+function handleClick(selectedKey) {
+  console.log('click ' + selectedKey);
+}
+
+function handleDeselect(selectedKey) {
+  console.log(' deselect ' + selectedKey);
+}
 
 var titleRight = <span>sub menu
   <i className="fa fa-caret-right pull-right"></i>
@@ -35,7 +37,9 @@ render(container);
 
 function render(container) {
   var leftMenu = (
-    <Menu onSelect={handleSelect} onDeselect={handleDeselect}>
+    <Menu onSelect={handleSelect}
+      onClick={handleClick}
+      onDeselect={handleDeselect}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
