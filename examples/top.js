@@ -1,4 +1,5 @@
-/** @jsx React.DOM */
+'use strict';
+
 var React = require('react');
 var Menu = require('rc-menu');
 var SubMenu = Menu.SubMenu;
@@ -20,7 +21,7 @@ var style = `
   zoom:1;
 }
 .rc-top-menu:after {
-  content:"\20";
+  content:"\\20";
   display:block;
   height:0;
   clear:both;

@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var rcUtil = require('rc-util');
 var joinClasses = rcUtil.joinClasses;
@@ -81,7 +83,7 @@ var SubMenu = React.createClass({
       if (this.state.open) {
         handled = menu.handleKeyDown(e);
       } else {
-        return;
+        return undefined;
       }
       if (!handled) {
         this.setOpenState(false);

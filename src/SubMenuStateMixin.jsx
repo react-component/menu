@@ -1,3 +1,5 @@
+'use strict';
+
 var rcUtil = require('rc-util');
 var KeyCode = rcUtil.KeyCode;
 var React = require('react');

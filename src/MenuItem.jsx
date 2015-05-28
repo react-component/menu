@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var rcUtil = require('rc-util');
 var joinClasses = rcUtil.joinClasses;
@@ -55,11 +57,10 @@ class MenuItem extends React.Component {
       } else {
         props.onSelect(eventKey, this, e);
       }
-    } else {
-      if (!props.selected) {
-        props.onSelect(eventKey, this, e);
-      }
+    } else if (!props.selected) {
+      props.onSelect(eventKey, this, e);
     }
+
   }
 
   componentWillUnmount() {
@@ -79,9 +80,9 @@ class MenuItem extends React.Component {
     var attrs = {
       title: props.title,
       className: joinClasses(props.className, classSet(classes)),
-      role: "menuitem",
-      "aria-selected": props.selected,
-      "aria-disabled": props.disabled
+      role: 'menuitem',
+      'aria-selected': props.selected,
+      'aria-disabled': props.disabled
     };
     var mouseEvent = {};
     if (!props.disabled) {

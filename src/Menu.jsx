@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var rcUtil = require('rc-util');
 var joinClasses = rcUtil.joinClasses;
@@ -93,6 +95,7 @@ class Menu extends React.Component {
       case KeyCode.DOWN: //down
         activeKey = this.step(1);
         break;
+      default:
     }
     if (activeKey) {
       e.preventDefault();
@@ -116,16 +119,16 @@ class Menu extends React.Component {
     }
     // find current activeIndex
     var activeIndex = -1;
-    children.every((c, i)=> {
+    children.every((c, ci)=> {
       if (c.key === activeKey) {
-        activeIndex = i;
+        activeIndex = ci;
         return false;
       }
       return true;
     });
     var start = (activeIndex + 1) % len;
     var i = start;
-    while (1) {
+    for (;;) {
       var child = children[i];
       var key = child.key;
       if (child.props.disabled) {
@@ -239,8 +242,8 @@ class Menu extends React.Component {
     classes[props.prefixCls] = true;
     var domProps = {
       className: joinClasses(props.className, classSet(classes)),
-      role: "menu",
-      "aria-activedescendant": ""
+      role: 'menu',
+      'aria-activedescendant': ''
     };
     if (props.id) {
       domProps.id = props.id;

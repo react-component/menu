@@ -1,4 +1,5 @@
-/** @jsx React.DOM */
+'use strict';
+
 var React = require('react');
 var Menu = require('rc-menu');
 var SubMenu = Menu.SubMenu;

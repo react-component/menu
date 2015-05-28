@@ -1,6 +1,6 @@
 {
   "name": "rc-menu",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "menu ui component for react",
   "keywords": [
     "react",
@@ -22,23 +22,17 @@
     "url": "http://github.com/react-component/menu/issues"
   },
   "licenses": "MIT",
-  "spm": {
-    "dependencies": {
-      "react": "*",
-      "rc-util": "2.x",
-      "dom-scroll-into-view": "^1.0.1"
-    }
-  },
   "config": {
     "port": 8000
   },
   "scripts": {
     "build": "rc-tools run build",
+    "precommit": "rc-tools run precommit",
     "less": "rc-tools run less",
     "gh-pages": "rc-tools run gh-pages",
     "history": "rc-tools run history",
     "start": "node --harmony node_modules/.bin/rc-server",
-    "publish": "rc-tools run tag && spm publish",
+    "publish": "rc-tools run tag",
     "lint": "rc-tools run lint",
     "saucelabs": "node --harmony node_modules/.bin/rc-tools run saucelabs",
     "browser-test": "node --harmony node_modules/.bin/rc-tools run browser-test",
@@ -51,8 +45,8 @@
     "gregorian-calendar-format": "^2.1.1",
     "precommit-hook": "^1.0.7",
     "rc-calendar": "^1.5.8",
-    "rc-server": "^2.0.0",
-    "rc-tools": "2.x",
+    "rc-server": "3.x",
+    "rc-tools": "3.x",
     "react": "~0.13.0"
   },
   "dependencies": {
@@ -60,7 +54,6 @@
     "rc-util": "2.x"
   },
   "precommit": [
-    "lint",
-    "less"
+    "precommit"
   ]
 }
