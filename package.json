@@ -1,6 +1,6 @@
 {
   "name": "rc-menu",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "menu ui component for react",
   "keywords": [
     "react",
@@ -9,6 +9,7 @@
     "ui",
     "react-menu"
   ],
+  "main": "./lib/index",
   "homepage": "http://github.com/react-component/menu",
   "maintainers": [
     "yiminghe@gmail.com",
