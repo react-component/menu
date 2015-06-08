@@ -49,7 +49,7 @@ function render(container) {
       <MenuItem key="3">outer</MenuItem>
       <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>
-        <MenuItem disabled className="rc-menu-item-divider" />
+        <Menu.Divider />
         <SubMenu
           openOnHover={false}
           key="4-2"

@@ -1,4 +1,6 @@
-.rc-menu {
+@menuPrefixCls: rc-menu;
+
+.@{menuPrefixCls} {
   outline: none;
   margin-bottom: 0;
   padding-left: 0; // Override default ul/ol
@@ -7,19 +9,19 @@
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 3px;
 
-  .rc-menu-item-active, .rc-menu-submenu-active {
+  &-item-active, &-submenu-active {
     background-color: #8EC8F9 !important;
   }
 
-  .rc-menu-item-selected {
+  &-item-selected {
     background-color: #e7e7e7;
   }
 
-  .rc-menu-submenu-title {
+  &-submenu-title {
     padding: 15px 20px;
   }
 
-  > li.rc-menu-submenu {
+  &> li&-submenu {
     padding: 0;
   }
 
@@ -30,34 +32,35 @@
     white-space: nowrap;
 
     // Disabled state sets text to gray and nukes hover/tab effects
-    &.rc-menu-item-disabled, &.rc-menu-submenu-disabled {
+    &.@{menuPrefixCls}-item-disabled, &.@{menuPrefixCls}-submenu-disabled {
       color: #777;
     }
   }
-  .rc-menu-item-divider {
-    padding: 0;
+  & > &-item-divider {
     height: 1px;
-    margin: 9px 0;
+    margin: 1px 0;
     overflow: hidden;
+    padding: 0;
+    line-height: 0;
     background-color: #e5e5e5;
   }
-}
 
-.rc-menu-submenu {
-  position: relative;
+  &-submenu {
+    position: relative;
 
-  > .rc-menu {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    min-width: 160px;
-    background-color: #fff;
-  }
-}
+    > .@{menuPrefixCls} {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      min-width: 160px;
+      background-color: #fff;
+    }
 
-.rc-menu-submenu-open {
-  > .rc-menu {
-    display: block;
+    &-open {
+      > .@{menuPrefixCls} {
+        display: block;
+      }
+    }
   }
 }

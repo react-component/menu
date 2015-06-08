@@ -128,7 +128,7 @@ class Menu extends React.Component {
     });
     var start = (activeIndex + 1) % len;
     var i = start;
-    for (;;) {
+    for (; ;) {
       var child = children[i];
       var key = child.key;
       if (child.props.disabled) {
@@ -256,6 +256,7 @@ class Menu extends React.Component {
     this.newChildren = rcUtil.Children.toArray(props.children).map(this.renderMenuItem, this);
     return (
       <ul
+        style={this.props.style}
         {...domProps}>
       {this.newChildren}
       </ul>
@@ -267,6 +268,7 @@ Menu.propTypes = {
   focusable: React.PropTypes.bool,
   multiple: React.PropTypes.bool,
   onSelect: React.PropTypes.func,
+  style: React.PropTypes.object,
   onDeselect: React.PropTypes.func,
   activeFirst: React.PropTypes.bool,
   activeKey: React.PropTypes.string,
@@ -276,6 +278,7 @@ Menu.propTypes = {
 Menu.defaultProps = {
   prefixCls: 'rc-menu',
   focusable: true,
+  style: {},
   onSelect: noop,
   onClick: noop,
   onDeselect: noop

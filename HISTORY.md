@@ -1,6 +1,10 @@
 # History
 ----
 
+## 3.3.0 / 2015-06-08
+
+`new` add Menu.Divider Component
+
 ## 3.1.0 / 2015-03-26
 
 `improved` [#5](https://github.com/react-component/menu/issues/5) support selected and disabled for menuitem simultaneously

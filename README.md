@@ -48,7 +48,7 @@ React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuI
 
 ## API
 
-### menu props
+### Menu props
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -111,7 +111,7 @@ React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuI
     </tbody>
 </table>
 
-### menu item props
+### Menu.Item props
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -145,7 +145,7 @@ React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuI
 </table>
 
 
-### sub menu props
+### Menu.SubMenu props
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -189,6 +189,10 @@ React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuI
         </tr>
     </tbody>
 </table>
+
+### Menu.Divider props
+
+none
 
 ## Development
 

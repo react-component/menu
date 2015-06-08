@@ -35,7 +35,7 @@ describe('Menu', function () {
     TestUtils.renderIntoDocument(
       <Menu activeKey="item1">
         <MenuItem key="item1" ref={saveRef('item1')}>Pill 1 content</MenuItem>
-        <MenuItem divider disabled/>
+        <Menu.Divider/>
         <MenuItem key="item2" ref={saveRef('item2')}>Pill 2 content</MenuItem>
       </Menu>
     );
