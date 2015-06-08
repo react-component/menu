@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" type="text/css" rel="stylesheet"/>
     <style>
         .hljs {
             display: block;
@@ -182,7 +183,8 @@
 <script src="single.js?nowrap"></script>
 <div class="highlight">
 <pre>
-<span class="xml">/** @jsx React.DOM */
+<span class="xml">'use strict';
+
 var React = require('react');
 var Menu = require('rc-menu');
 var SubMenu = Menu.SubMenu;
@@ -195,11 +197,13 @@ function handleSelect(selectedKey) {
   console.log('selected ' + selectedKey);
 }
 
-var handleDeselect = function (selectedKey) {
-  console.log(this.x + ' deselect ' + selectedKey);
-}.bind({
-    x: 1
-  });
+function handleClick(selectedKey) {
+  console.log('click ' + selectedKey);
+}
+
+function handleDeselect(selectedKey) {
+  console.log(' deselect ' + selectedKey);
+}
 
 var titleRight = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu
   <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
@@ -219,7 +223,9 @@ render(container);
 
 function render(container) {
   var leftMenu = (
-    <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span> <span class="hljs-attribute">onDeselect</span>=<span class="hljs-value">{handleDeselect}</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span>
+      <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{handleClick}</span>
+      <span class="hljs-attribute">onDeselect</span>=<span class="hljs-value">{handleDeselect}</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
@@ -228,7 +234,7 @@ function render(container) {
       <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight1}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"rc-menu-item-divider"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span> /&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span>
           <span class="hljs-attribute">openOnHover</span>=<span class="hljs-value">{false}</span>
           <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
