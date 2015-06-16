@@ -13,25 +13,24 @@ class MenuItemGroup extends React.Component {
 
     // menuItem 在 disabled 时，是可以选中的
     // group title 是不能被选中的，不用menuItem
-    console.log(props);
-    var newProps = assign({}, this.props);
-    delete newProps.children;
-    this.newProps = newProps;
+    //console.log(props);
 
+    this.newChildren = rcUtil.Children.toArray(props.children).map(this.renderMenuItem, this);
+    this.props.parent.newChildren = this.props.parent.newChildren.concat(this.newChildren);
     return <li className={className}>
       <span>{props.title}</span>
       <ul>
-        {rcUtil.Children.toArray(props.children).map(this.renderMenuItem, this)}
+        {this.newChildren}
       </ul>
     </li>;
   }
   renderMenuItem(child) {
-    return React.cloneElement(child, this.newProps);
+    return this.props.parent.renderMenuItem(child);
   }
 }
 
 MenuItemGroup.defaultProps = {
-  //disabled: true,
+  disabled: true,
   title: ''
 };
 

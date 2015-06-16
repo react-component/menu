@@ -11,7 +11,7 @@ require('font-awesome/css/font-awesome.css');
 
 React.render(<div>
   <h1>menu item group</h1>
-  <Menu>
+  <Menu style={{margin:20, width:300}}>
     <MenuItem key="1">1</MenuItem>
     <MenuItemGroup title="group 1" key="2">
       <MenuItem key="21">2</MenuItem>
