@@ -9,6 +9,18 @@
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 3px;
 
+  &-item-group-list {
+    margin: 0;
+    padding: 0;
+  }
+
+  &-item-group-title {
+    color: #999;
+    line-height: 1.5;
+    padding: 8px 10px;
+    border-bottom: 1px solid #dedede;
+  }
+
   &-item-active, &-submenu-active {
     background-color: #8EC8F9 !important;
   }
@@ -21,11 +33,12 @@
     padding: 15px 20px;
   }
 
-  &> li&-submenu {
+  & > li&-submenu {
     padding: 0;
   }
 
-   li {
+  &-item {
+    margin: 0;
     position: relative;
     display: block;
     padding: 15px 20px;
