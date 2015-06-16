@@ -112,6 +112,7 @@ class Menu extends React.Component {
 
   step(direction) {
     var children = this.newChildren;
+    //var children = this.instances;
     var activeKey = this.state.activeKey;
     var len = children.length;
     if (direction < 0) {
@@ -222,6 +223,7 @@ class Menu extends React.Component {
     var props = this.props;
     var childProps = child.props;
     return React.cloneElement(child, {
+      parent: this,
       rootPrefixCls: props.prefixCls,
       ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
       eventKey: key,
