@@ -3,3 +3,4 @@
 require('/assets/index.css');
 require('./Menu.spec');
 require('./MenuItem.spec');
+require('./MenuItemGroup.spec');

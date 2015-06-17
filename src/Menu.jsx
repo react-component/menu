@@ -11,26 +11,37 @@ var scrollIntoView = require('dom-scroll-into-view');
 function noop() {
 }
 
+var now = Date.now();
+
+function getChildIndexInChildren(child, children) {
+  var index = -1;
+  React.Children.forEach(children, function (c, i) {
+    if (c === child) {
+      index = i;
+    }
+  });
+  return index;
+}
+
+function getKeyFromChildren(child, children) {
+  return child.key || 'rcMenuItem_' + now + '_' + getChildIndexInChildren(child, children);
+}
+
 function getActiveKey(props) {
   var activeKey = props.activeKey;
   var children = props.children;
-  React.Children.forEach(children, (c) => {
-    if (!c.key && !c.props.disabled) {
-      throw new Error('MenuItem must have key!');
-    }
-  });
   if (activeKey) {
     return activeKey;
   }
   React.Children.forEach(children, (c)=> {
     if (c.props.active) {
-      activeKey = c.key;
+      activeKey = getKeyFromChildren(c, children);
     }
   });
   if (!activeKey && props.activeFirst) {
     React.Children.forEach(children, (c)=> {
       if (!activeKey && !c.props.disabled) {
-        activeKey = c.key;
+        activeKey = getKeyFromChildren(c, children);
       }
     });
     return activeKey;
@@ -210,9 +221,9 @@ class Menu extends React.Component {
   }
 
   renderMenuItem(child) {
-    var key = child.key;
     var state = this.state;
     var props = this.props;
+    var key = getKeyFromChildren(child, props.children);
     var childProps = child.props;
     return React.cloneElement(child, {
       renderMenuItem: this.renderMenuItem,
@@ -220,7 +231,7 @@ class Menu extends React.Component {
       ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
       eventKey: key,
       onHover: this.handleItemHover,
-      active: key === state.activeKey,
+      active: !childProps.disabled && key === state.activeKey,
       multiple: props.multiple,
       selected: state.selectedKeys.indexOf(key) !== -1,
       onClick: props.onClick,

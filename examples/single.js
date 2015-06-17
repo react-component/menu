@@ -45,7 +45,7 @@ function render(container) {
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
       </SubMenu>
-      <MenuItem key="2">1</MenuItem>
+      <MenuItem><a href="http://taobao.com" target="_blank">i do not need key</a></MenuItem>
       <MenuItem key="3">outer</MenuItem>
       <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>

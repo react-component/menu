@@ -1,6 +1,12 @@
 # History
 ----
 
+## 3.4.0 / 2015-06-17
+
+`improved` [#9](https://github.com/react-component/menu/issues/9) allow not set key for menuitem
+
+`new`
+
 ## 3.3.0 / 2015-06-08
 
 `new` add Menu.Divider Component
