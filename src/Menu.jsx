@@ -39,8 +39,9 @@ function getActiveKey(props) {
 }
 
 function saveRef(name, c) {
-  this.instances = this.instances || {};
-  this.instances[name] = c;
+  if (c) {
+    this.instanceArray.push(c);
+  }
 }
 
 class Menu extends React.Component {
@@ -51,9 +52,11 @@ class Menu extends React.Component {
       selectedKeys: props.selectedKeys || []
     };
 
-    ['handleItemHover', 'handleDeselect', 'handleSelect', 'handleKeyDown', 'handleDestroy'].forEach((m)=> {
-      this[m] = this[m].bind(this);
-    });
+    ['handleItemHover', 'handleDeselect',
+      'handleSelect', 'handleKeyDown',
+      'handleDestroy', 'renderMenuItem'].forEach((m)=> {
+        this[m] = this[m].bind(this);
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,53 +69,43 @@ class Menu extends React.Component {
     this.setState(props);
   }
 
-  getChildrenComponents() {
-    var ret = [];
-    this.newChildren.forEach((c)=> {
-      ret.push(this.instances[c.key]);
-    });
-    return ret;
-  }
-
   // all keyboard events callbacks run from here at first
   handleKeyDown(e) {
     var keyCode = e.keyCode;
     var handled;
-    this.newChildren.forEach((c)=> {
-      var obj = this.instances[c.key];
-      if (c.props.active) {
+    this.instanceArray.forEach((obj)=> {
+      if (obj.props.active) {
         handled = obj.handleKeyDown(e);
       }
     });
     if (handled) {
-      return true;
+      return 1;
     }
-    var activeKey;
+    var activeItem;
     switch (keyCode) {
       case KeyCode.UP: //up
-        activeKey = this.step(-1);
+        activeItem = this.step(-1);
         break;
       case KeyCode.DOWN: //down
-        activeKey = this.step(1);
+        activeItem = this.step(1);
         break;
       default:
     }
-    if (activeKey) {
+    if (activeItem) {
       e.preventDefault();
       this.setState({
-        activeKey: activeKey
+        activeKey: activeItem.props.eventKey
       }, ()=> {
-        scrollIntoView(React.findDOMNode(this.instances[activeKey]), React.findDOMNode(this), {
+        scrollIntoView(React.findDOMNode(activeItem), React.findDOMNode(this), {
           onlyScrollIfNeeded: true
         });
       });
-      return true;
+      return 1;
     }
   }
 
   step(direction) {
-    var children = this.newChildren;
-    //var children = this.instances;
+    var children = this.instanceArray;
     var activeKey = this.state.activeKey;
     var len = children.length;
     if (direction < 0) {
@@ -121,7 +114,7 @@ class Menu extends React.Component {
     // find current activeIndex
     var activeIndex = -1;
     children.every((c, ci)=> {
-      if (c.key === activeKey) {
+      if (c.props.eventKey === activeKey) {
         activeIndex = ci;
         return false;
       }
@@ -131,7 +124,6 @@ class Menu extends React.Component {
     var i = start;
     for (; ;) {
       var child = children[i];
-      var key = child.key;
       if (child.props.disabled) {
         i = (i + 1 + len) % len;
         // complete a loop
@@ -139,7 +131,7 @@ class Menu extends React.Component {
           return null;
         }
       } else {
-        return key;
+        return child;
       }
     }
   }
@@ -169,7 +161,7 @@ class Menu extends React.Component {
     }
     var state = this.state;
     // my child
-    if (this.getChildrenComponents().indexOf(child) !== -1) {
+    if (this.instanceArray.indexOf(child) !== -1) {
       var selectedKeys;
       if (props.multiple) {
         selectedKeys = state.selectedKeys.concat([key]);
@@ -188,7 +180,7 @@ class Menu extends React.Component {
 
   handleDeselect(key, child, e, __childToBeSelected/*internal*/) {
     var state = this.state;
-    var children = this.getChildrenComponents();
+    var children = this.instanceArray;
     // my children
     if (children.indexOf(child) !== -1 && children.indexOf(__childToBeSelected) === -1) {
       var selectedKeys = state.selectedKeys;
@@ -223,7 +215,7 @@ class Menu extends React.Component {
     var props = this.props;
     var childProps = child.props;
     return React.cloneElement(child, {
-      parent: this,
+      renderMenuItem: this.renderMenuItem,
       rootPrefixCls: props.prefixCls,
       ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
       eventKey: key,
@@ -231,7 +223,7 @@ class Menu extends React.Component {
       active: key === state.activeKey,
       multiple: props.multiple,
       selected: state.selectedKeys.indexOf(key) !== -1,
-      onClick: this.props.onClick,
+      onClick: props.onClick,
       onDeselect: createChainedFunction(childProps.onDeselect, this.handleDeselect),
       onDestroy: this.handleDestroy,
       onSelect: createChainedFunction(childProps.onSelect, this.handleSelect)
@@ -240,6 +232,7 @@ class Menu extends React.Component {
 
   render() {
     var props = this.props;
+    this.instanceArray = [];
     var classes = {};
     classes[props.prefixCls] = true;
     var domProps = {
@@ -254,13 +247,11 @@ class Menu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.handleKeyDown;
     }
-
-    this.newChildren = rcUtil.Children.toArray(props.children).map(this.renderMenuItem, this);
     return (
       <ul
         style={this.props.style}
         {...domProps}>
-      {this.newChildren}
+      {React.Children.map(props.children, this.renderMenuItem)}
       </ul>
     );
   }
