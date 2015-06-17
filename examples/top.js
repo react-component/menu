@@ -4,6 +4,7 @@ var React = require('react');
 var Menu = require('rc-menu');
 var SubMenu = Menu.SubMenu;
 var MenuItem = Menu.Item;
+var pkg = require('../package.json');
 
 require('rc-menu/assets/index.css');
 require('font-awesome/css/font-awesome.css');
@@ -82,8 +83,9 @@ function render(container) {
     </Menu>
   );
   React.render(<div>
+    <h1>{pkg.name}@{pkg.version}</h1>
     <style dangerouslySetInnerHTML={{__html: style}}></style>
-    <h1>single selectable menu</h1>
+    <h2>single selectable menu</h2>
     <div style={{width: 800}}>{leftMenu}</div>
   </div>, container);
 }

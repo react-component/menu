@@ -5,12 +5,14 @@ var Menu = require('rc-menu');
 var SubMenu = Menu.SubMenu;
 var MenuItem = Menu.Item;
 var MenuItemGroup = Menu.ItemGroup;
+var pkg = require('../package.json');
 
 require('rc-menu/assets/index.css');
 require('font-awesome/css/font-awesome.css');
 
 React.render(<div>
-  <h1>menu item group</h1>
+  <h1>{pkg.name}@{pkg.version}</h1>
+  <h2>menu item group</h2>
   <Menu style={{margin: 20, width: 300}}>
     <MenuItemGroup title="group 1" key="2">
       <MenuItem key="21">2</MenuItem>
