@@ -205,7 +205,7 @@ npm start
 
 http://localhost:8001/examples/index.md
 
-online example: http://react-component.github.io/menu/build/examples/
+online example: http://react-component.github.io/menu/examples/
 
 
 ## Test Case
