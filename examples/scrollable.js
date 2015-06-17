@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(36);
+	module.exports = __webpack_require__(38);
 
 
 /***/ },
 
-/***/ 36:
+/***/ 38:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,9 +17,10 @@ webpackJsonp([2],{
 	var Menu = __webpack_require__(3);
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
+	var pkg = __webpack_require__(25);
 	
-	__webpack_require__(24);
-	__webpack_require__(28);
+	__webpack_require__(26);
+	__webpack_require__(30);
 	
 	var children = [];
 	for (var i = 0; i < 20; i++) {
@@ -35,6 +36,13 @@ webpackJsonp([2],{
 	  null,
 	  React.createElement(
 	    'h1',
+	    null,
+	    pkg.name,
+	    '@',
+	    pkg.version
+	  ),
+	  React.createElement(
+	    'h2',
 	    null,
 	    'keyboard scrollable menu'
 	  ),

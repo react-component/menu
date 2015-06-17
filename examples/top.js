@@ -1,12 +1,14 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([4],{
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(40);
 
 
 /***/ },
-/* 1 */
+
+/***/ 40:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15,33 +17,32 @@ webpackJsonp([0],[
 	var Menu = __webpack_require__(3);
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
+	var pkg = __webpack_require__(25);
 	
-	__webpack_require__(24);
-	__webpack_require__(28);
+	__webpack_require__(26);
+	__webpack_require__(30);
 	
 	function handleSelect(selectedKey) {
 	  console.log('selected ' + selectedKey);
 	}
 	
-	function handleClick(selectedKey) {
-	  console.log('click ' + selectedKey);
+	function handleDeselect(selectedKey) {
+	  console.log('deselect ' + selectedKey);
 	}
 	
-	function handleDeselect(selectedKey) {
-	  console.log(' deselect ' + selectedKey);
-	}
+	var style = '\n.rc-top-menu {\n  zoom:1;\n}\n.rc-top-menu:after {\n  content:"\\20";\n  display:block;\n  height:0;\n  clear:both;\n}\n.rc-menu-submenu-pull-down > .rc-menu {\n  top:100%;\n  left:0;\n}\n.rc-top-menu > .rc-menu-submenu,.rc-top-menu > .rc-menu-item {\n  float:left\n}\n';
 	
 	var titleRight = React.createElement(
 	  'span',
 	  null,
 	  'sub menu',
-	  React.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  React.createElement('i', { className: 'fa fa-caret-down pull-right' })
 	);
 	var titleRight1 = React.createElement(
 	  'span',
 	  null,
 	  'sub menu 1',
-	  React.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  React.createElement('i', { className: 'fa fa-caret-down pull-right' })
 	);
 	var titleRight2 = React.createElement(
 	  'span',
@@ -62,12 +63,10 @@ webpackJsonp([0],[
 	function render(container) {
 	  var leftMenu = React.createElement(
 	    Menu,
-	    { onSelect: handleSelect,
-	      onClick: handleClick,
-	      onDeselect: handleDeselect },
+	    { onSelect: handleSelect, onDeselect: handleDeselect, className: 'rc-top-menu' },
 	    React.createElement(
 	      SubMenu,
-	      { title: titleRight, key: '1' },
+	      { title: titleRight, key: '1', className: 'rc-menu-submenu-pull-down' },
 	      React.createElement(
 	        MenuItem,
 	        { key: '1-1' },
@@ -91,7 +90,7 @@ webpackJsonp([0],[
 	    ),
 	    React.createElement(
 	      SubMenu,
-	      { title: titleRight1, key: '4' },
+	      { title: titleRight1, key: '4', className: 'rc-menu-submenu-pull-down' },
 	      React.createElement(
 	        MenuItem,
 	        { key: '4-1' },
@@ -147,16 +146,25 @@ webpackJsonp([0],[
 	    React.createElement(
 	      'h1',
 	      null,
+	      pkg.name,
+	      '@',
+	      pkg.version
+	    ),
+	    React.createElement('style', { dangerouslySetInnerHTML: { __html: style } }),
+	    React.createElement(
+	      'h2',
+	      null,
 	      'single selectable menu'
 	    ),
 	    React.createElement(
 	      'div',
-	      { style: { width: 400 } },
+	      { style: { width: 800 } },
 	      leftMenu
 	    )
 	  ), container);
 	}
 
 /***/ }
-]);
-//# sourceMappingURL=single.js.map
+
+});
+//# sourceMappingURL=top.js.map

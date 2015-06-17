@@ -1,4 +1,4 @@
-webpackJsonp([3],{
+webpackJsonp([1],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
@@ -17,9 +17,10 @@ webpackJsonp([3],{
 	var Menu = __webpack_require__(3);
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
+	var pkg = __webpack_require__(25);
 	
-	__webpack_require__(24);
-	__webpack_require__(28);
+	__webpack_require__(26);
+	__webpack_require__(30);
 	
 	function handleSelect(selectedKey, item, e) {
 	  console.log('selected ' + selectedKey, item, e);
@@ -147,6 +148,13 @@ webpackJsonp([3],{
 	    null,
 	    React.createElement(
 	      'h1',
+	      null,
+	      pkg.name,
+	      '@',
+	      pkg.version
+	    ),
+	    React.createElement(
+	      'h2',
 	      null,
 	      'multiple selectable menu'
 	    ),
