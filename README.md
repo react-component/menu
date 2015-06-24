@@ -39,7 +39,12 @@ react menu component. port from https://github.com/kissyteam/menu
 var Menu = require('rc-menu');
 var SubMenu = Menu.SubMenu;
 var MenuItem = Menu.Item;
-React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuItem></SubMenu></Menu>, container);
+React.render(<Menu>
+  <MenuItem>1</MenuItem>
+  <SubMenu title="2">
+  <MenuItem>2-1</MenuItem>
+  </SubMenu>
+</Menu>, container);
 ```
 
 ## install
@@ -193,6 +198,33 @@ React.render(<Menu><MenuItem>1</MenuItem><SubMenu title="2"><MenuItem>2-1</MenuI
 ### Menu.Divider props
 
 none
+
+### Menu.ItemGroup props
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th style="width: 50px;">default</th>
+        <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>title</td>
+            <td>String|React.Element</td>
+            <th></th>
+            <td>title of item group</td>
+        </tr>
+        <tr>
+            <td>children</td>
+            <td>React.Element[]</td>
+            <th></th>
+            <td>MenuItems belonged to this group</td>
+        </tr>
+    </tbody>
+</table>
 
 ## Development
 

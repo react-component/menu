@@ -5,7 +5,7 @@
 
 `improved` [#9](https://github.com/react-component/menu/issues/9) allow not set key for menuitem
 
-`new`
+`new` [#10](https://github.com/react-component/menu/issues/10) support MenuItemGroup
 
 ## 3.3.0 / 2015-06-08
 
