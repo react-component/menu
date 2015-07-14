@@ -46,7 +46,9 @@ function render(container) {
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
       </SubMenu>
-      <MenuItem><a href="http://taobao.com" target="_blank">i do not need key</a></MenuItem>
+      <MenuItem>
+        <a href="http://taobao.com" target="_blank">i do not need key</a>
+      </MenuItem>
       <MenuItem key="3">outer</MenuItem>
       <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>
@@ -72,6 +74,14 @@ function render(container) {
   React.render(<div>
     <h1>{pkg.name}@{pkg.version}</h1>
     <h2>single selectable menu</h2>
+    <p>
+      <button onClick={destroy}>destroy</button>
+    </p>
     <div style={{width: 400}}>{leftMenu}</div>
   </div>, container);
+
+
+  function destroy() {
+    React.unmountComponentAtNode(container);
+  }
 }

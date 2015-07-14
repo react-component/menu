@@ -208,6 +208,9 @@ class Menu extends React.Component {
   }
 
   handleDestroy(key) {
+    if (this.menuDestroyed) {
+      return;
+    }
     var state = this.state;
     var selectedKeys = state.selectedKeys;
     var index = selectedKeys.indexOf(key);
@@ -239,6 +242,10 @@ class Menu extends React.Component {
       onDestroy: this.handleDestroy,
       onSelect: createChainedFunction(childProps.onSelect, this.handleSelect)
     });
+  }
+
+  componentWillUnmount() {
+    this.menuDestroyed = true;
   }
 
   render() {
