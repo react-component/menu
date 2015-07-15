@@ -208,18 +208,17 @@ class Menu extends React.Component {
   }
 
   handleDestroy(key) {
-    if (this.menuDestroyed) {
-      return;
-    }
     var state = this.state;
     var selectedKeys = state.selectedKeys;
     var index = selectedKeys.indexOf(key);
     if (index !== -1) {
-      selectedKeys = selectedKeys.concat([]);
+      //selectedKeys = selectedKeys.concat([]);
       selectedKeys.splice(index, 1);
-      this.setState({
-        selectedKeys: selectedKeys
-      });
+      // can not call setState in unmount, will cause render and update unmounted children
+      // https://github.com/facebook/react/pull/3795
+      //this.setState({
+      //  selectedKeys: selectedKeys
+      //});
     }
   }
 
@@ -242,10 +241,6 @@ class Menu extends React.Component {
       onDestroy: this.handleDestroy,
       onSelect: createChainedFunction(childProps.onSelect, this.handleSelect)
     });
-  }
-
-  componentWillUnmount() {
-    this.menuDestroyed = true;
   }
 
   render() {

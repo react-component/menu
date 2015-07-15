@@ -40,7 +40,7 @@ function save(c) {
 
 function render(container) {
   var leftMenu = (
-    <Menu  multiple={true} onSelect={handleSelect} onDeselect={handleDeselect} selectedKeys={['2']}>
+    <Menu  multiple={true} onSelect={handleSelect} onDeselect={handleDeselect} selectedKeys={['2','4-3']}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
@@ -71,6 +71,13 @@ function render(container) {
   React.render(<div>
     <h1>{pkg.name}@{pkg.version}</h1>
     <h2>multiple selectable menu</h2>
+    <p>
+      <button onClick={destroy}>destroy</button>
+    </p>
     <div style={{width: 400}}>{leftMenu}</div>
   </div>, container);
+
+  function destroy() {
+    React.unmountComponentAtNode(container);
+  }
 }
