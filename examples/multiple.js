@@ -66,7 +66,7 @@ webpackJsonp([1],{
 	function render(container) {
 	  var leftMenu = React.createElement(
 	    Menu,
-	    { multiple: true, onSelect: handleSelect, onDeselect: handleDeselect, selectedKeys: ['2'] },
+	    { multiple: true, onSelect: handleSelect, onDeselect: handleDeselect, selectedKeys: ['2', '4-3'] },
 	    React.createElement(
 	      SubMenu,
 	      { title: titleRight, key: '1' },
@@ -159,11 +159,24 @@ webpackJsonp([1],{
 	      'multiple selectable menu'
 	    ),
 	    React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'button',
+	        { onClick: destroy },
+	        'destroy'
+	      )
+	    ),
+	    React.createElement(
 	      'div',
 	      { style: { width: 400 } },
 	      leftMenu
 	    )
 	  ), container);
+	
+	  function destroy() {
+	    React.unmountComponentAtNode(container);
+	  }
 	}
 
 /***/ }

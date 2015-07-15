@@ -164,11 +164,24 @@ webpackJsonp([3],{
 	      'single selectable menu'
 	    ),
 	    React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'button',
+	        { onClick: destroy },
+	        'destroy'
+	      )
+	    ),
+	    React.createElement(
 	      'div',
 	      { style: { width: 400 } },
 	      leftMenu
 	    )
 	  ), container);
+	
+	  function destroy() {
+	    React.unmountComponentAtNode(container);
+	  }
 	}
 
 /***/ }

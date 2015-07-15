@@ -398,11 +398,13 @@
 	      var selectedKeys = state.selectedKeys;
 	      var index = selectedKeys.indexOf(key);
 	      if (index !== -1) {
-	        selectedKeys = selectedKeys.concat([]);
+	        //selectedKeys = selectedKeys.concat([]);
 	        selectedKeys.splice(index, 1);
-	        this.setState({
-	          selectedKeys: selectedKeys
-	        });
+	        // can not call setState in unmount, will cause render and update unmounted children
+	        // https://github.com/facebook/react/pull/3795
+	        //this.setState({
+	        //  selectedKeys: selectedKeys
+	        //});
 	      }
 	    }
 	  }, {
@@ -2515,7 +2517,7 @@
 
 	module.exports = {
 		"name": "rc-menu",
-		"version": "3.4.0",
+		"version": "3.4.2",
 		"description": "menu ui component for react",
 		"keywords": [
 			"react",
