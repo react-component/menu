@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(38);
+	module.exports = __webpack_require__(39);
 
 
 /***/ },
 
-/***/ 38:
+/***/ 39:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,20 +17,24 @@ webpackJsonp([2],{
 	var Menu = __webpack_require__(3);
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
-	var pkg = __webpack_require__(25);
+	var pkg = __webpack_require__(26);
 	
-	__webpack_require__(26);
-	__webpack_require__(30);
+	__webpack_require__(27);
+	__webpack_require__(31);
 	
 	var children = [];
 	for (var i = 0; i < 20; i++) {
 	  children.push(React.createElement(
 	    MenuItem,
-	    { key: i + '' },
+	    { key: i + "" },
 	    i
 	  ));
 	}
-	var style = '.rc-menu {height: 200px;width:200px;overflow:auto;}';
+	var style = '.rc-menu {\
+	height: 200px;\
+	width:200px;\
+	overflow:auto;\
+	}';
 	React.render(React.createElement(
 	  'div',
 	  null,

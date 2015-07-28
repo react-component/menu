@@ -16,10 +16,10 @@ webpackJsonp([0],[
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
 	var MenuItemGroup = Menu.ItemGroup;
-	var pkg = __webpack_require__(25);
+	var pkg = __webpack_require__(26);
 	
-	__webpack_require__(26);
-	__webpack_require__(30);
+	__webpack_require__(27);
+	__webpack_require__(31);
 	
 	React.render(React.createElement(
 	  'div',
@@ -41,29 +41,29 @@ webpackJsonp([0],[
 	    { style: { margin: 20, width: 300 } },
 	    React.createElement(
 	      MenuItemGroup,
-	      { title: 'group 1', key: '2' },
+	      { title: "group 1", key: "2" },
 	      React.createElement(
 	        MenuItem,
-	        { key: '21' },
+	        { key: "21" },
 	        '2'
 	      ),
 	      React.createElement(
 	        MenuItem,
-	        { key: '22' },
+	        { key: "22" },
 	        '3'
 	      )
 	    ),
 	    React.createElement(
 	      MenuItemGroup,
-	      { title: 'group 2', key: '3' },
+	      { title: "group 2", key: "3" },
 	      React.createElement(
 	        MenuItem,
-	        { key: '31' },
+	        { key: "31" },
 	        '4'
 	      ),
 	      React.createElement(
 	        MenuItem,
-	        { key: '32' },
+	        { key: "32" },
 	        '5'
 	      )
 	    )

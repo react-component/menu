@@ -3,12 +3,12 @@ webpackJsonp([3],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(39);
+	module.exports = __webpack_require__(40);
 
 
 /***/ },
 
-/***/ 39:
+/***/ 40:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,10 +17,10 @@ webpackJsonp([3],{
 	var Menu = __webpack_require__(3);
 	var SubMenu = Menu.SubMenu;
 	var MenuItem = Menu.Item;
-	var pkg = __webpack_require__(25);
+	var pkg = __webpack_require__(26);
 	
-	__webpack_require__(26);
-	__webpack_require__(30);
+	__webpack_require__(27);
+	__webpack_require__(31);
 	
 	function handleSelect(selectedKey) {
 	  console.log('selected ' + selectedKey);
@@ -38,25 +38,25 @@ webpackJsonp([3],{
 	  'span',
 	  null,
 	  'sub menu',
-	  React.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  React.createElement('i', { className: "fa fa-caret-right pull-right" })
 	);
 	var titleRight1 = React.createElement(
 	  'span',
 	  null,
 	  'sub menu 1',
-	  React.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  React.createElement('i', { className: "fa fa-caret-right pull-right" })
 	);
 	var titleRight2 = React.createElement(
 	  'span',
 	  null,
 	  'sub menu 2',
-	  React.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  React.createElement('i', { className: "fa fa-caret-right pull-right" })
 	);
 	var titleRight3 = React.createElement(
 	  'span',
 	  null,
 	  'sub menu 3',
-	  React.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  React.createElement('i', { className: "fa fa-caret-right pull-right" })
 	);
 	var container = document.getElementById('__react-content');
 	
@@ -70,15 +70,15 @@ webpackJsonp([3],{
 	      onDeselect: handleDeselect },
 	    React.createElement(
 	      SubMenu,
-	      { title: titleRight, key: '1' },
+	      { title: titleRight, key: "1" },
 	      React.createElement(
 	        MenuItem,
-	        { key: '1-1' },
+	        { key: "1-1" },
 	        '0-1'
 	      ),
 	      React.createElement(
 	        MenuItem,
-	        { key: '1-2' },
+	        { key: "1-2" },
 	        '0-2'
 	      )
 	    ),
@@ -87,21 +87,21 @@ webpackJsonp([3],{
 	      null,
 	      React.createElement(
 	        'a',
-	        { href: 'http://taobao.com', target: '_blank' },
+	        { href: "http://taobao.com", target: "_blank" },
 	        'i do not need key'
 	      )
 	    ),
 	    React.createElement(
 	      MenuItem,
-	      { key: '3' },
+	      { key: "3" },
 	      'outer'
 	    ),
 	    React.createElement(
 	      SubMenu,
-	      { title: titleRight1, key: '4' },
+	      { title: titleRight1, key: "4" },
 	      React.createElement(
 	        MenuItem,
-	        { key: '4-1' },
+	        { key: "4-1" },
 	        'inner inner'
 	      ),
 	      React.createElement(Menu.Divider, null),
@@ -109,28 +109,28 @@ webpackJsonp([3],{
 	        SubMenu,
 	        {
 	          openOnHover: false,
-	          key: '4-2',
+	          key: "4-2",
 	          title: titleRight2
 	        },
 	        React.createElement(
 	          MenuItem,
-	          { key: '4-2-1' },
+	          { key: "4-2-1" },
 	          'inn'
 	        ),
 	        React.createElement(
 	          SubMenu,
-	          { title: titleRight3, key: '4-2-2' },
+	          { title: titleRight3, key: "4-2-2" },
 	          React.createElement(
 	            Menu,
 	            null,
 	            React.createElement(
 	              MenuItem,
-	              { key: '4-2-2-1' },
+	              { key: "4-2-2-1" },
 	              'inner inner'
 	            ),
 	            React.createElement(
 	              MenuItem,
-	              { key: '4-2-2-2' },
+	              { key: "4-2-2-2" },
 	              'inner inner2'
 	            )
 	          )
@@ -144,7 +144,7 @@ webpackJsonp([3],{
 	    ),
 	    React.createElement(
 	      MenuItem,
-	      { key: '4-3' },
+	      { key: "4-3" },
 	      'outer3'
 	    )
 	  );
