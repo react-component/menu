@@ -1,55 +1,43 @@
-'use strict';
 
-var React = require('react');
-var rcUtil = require('rc-util');
-var joinClasses = rcUtil.joinClasses;
-var classSet = rcUtil.classSet;
-var KeyCode = rcUtil.KeyCode;
+
+import React from 'react';
+import {joinClasses, classSet, KeyCode} from 'rc-util';
 
 class MenuItem extends React.Component {
   constructor(props) {
     super(props);
-    ['handleKeyDown', 'handleMouseLeave', 'handleMouseEnter', 'handleClick'].forEach((m)=> {
+    ['onKeyDown', 'onMouseLeave', 'onMouseEnter', 'onClick'].forEach((m)=> {
       this[m] = this[m].bind(this);
     });
   }
 
-  _getPrefixCls() {
-    return this.props.rootPrefixCls + '-item';
+  componentWillUnmount() {
+    const props = this.props;
+    if (props.onDestroy) {
+      props.onDestroy(props.eventKey);
+    }
   }
 
-  _getActiveClassName() {
-    return this._getPrefixCls() + '-active';
-  }
-
-  _getSelectedClassName() {
-    return this._getPrefixCls() + '-selected';
-  }
-
-  _getDisabledClassName() {
-    return this._getPrefixCls() + '-disabled';
-  }
-
-  handleKeyDown(e) {
-    var keyCode = e.keyCode;
+  onKeyDown(e) {
+    const keyCode = e.keyCode;
     if (keyCode === KeyCode.ENTER) {
-      this.handleClick(e);
+      this.onClick(e);
       return true;
     }
   }
 
-  handleMouseLeave() {
+  onMouseLeave() {
     this.props.onHover(null);
   }
 
-  handleMouseEnter() {
-    var props = this.props;
+  onMouseEnter() {
+    const props = this.props;
     props.onHover(props.eventKey);
   }
 
-  handleClick(e) {
-    var props = this.props;
-    var eventKey = props.eventKey;
+  onClick(e) {
+    const props = this.props;
+    const eventKey = props.eventKey;
     props.onClick(eventKey, this, e);
     if (props.multiple) {
       if (props.selected) {
@@ -60,36 +48,44 @@ class MenuItem extends React.Component {
     } else if (!props.selected) {
       props.onSelect(eventKey, this, e);
     }
-
   }
 
-  componentWillUnmount() {
-    var props = this.props;
-    if (props.onDestroy) {
-      props.onDestroy(props.eventKey);
-    }
+  getPrefixCls() {
+    return this.props.rootPrefixCls + '-item';
+  }
+
+  getActiveClassName() {
+    return this.getPrefixCls() + '-active';
+  }
+
+  getSelectedClassName() {
+    return this.getPrefixCls() + '-selected';
+  }
+
+  getDisabledClassName() {
+    return this.getPrefixCls() + '-disabled';
   }
 
   render() {
-    var props = this.props;
-    var classes = {};
-    classes[this._getActiveClassName()] = !props.disabled && props.active;
-    classes[this._getSelectedClassName()] = props.selected;
-    classes[this._getDisabledClassName()] = props.disabled;
-    classes[this._getPrefixCls()] = true;
-    var attrs = {
+    const props = this.props;
+    const classes = {};
+    classes[this.getActiveClassName()] = !props.disabled && props.active;
+    classes[this.getSelectedClassName()] = props.selected;
+    classes[this.getDisabledClassName()] = props.disabled;
+    classes[this.getPrefixCls()] = true;
+    const attrs = {
       title: props.title,
       className: joinClasses(props.className, classSet(classes)),
       role: 'menuitem',
       'aria-selected': props.selected,
-      'aria-disabled': props.disabled
+      'aria-disabled': props.disabled,
     };
-    var mouseEvent = {};
+    let mouseEvent = {};
     if (!props.disabled) {
       mouseEvent = {
-        onClick: this.handleClick,
-        onMouseLeave: this.handleMouseLeave,
-        onMouseEnter: this.handleMouseEnter
+        onClick: this.onClick,
+        onMouseLeave: this.onMouseLeave,
+        onMouseEnter: this.onMouseEnter,
       };
     }
     return (
@@ -103,6 +99,7 @@ class MenuItem extends React.Component {
 }
 
 MenuItem.propTypes = {
+  rootPrefixCls: React.PropTypes.string,
   active: React.PropTypes.bool,
   selected: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
@@ -111,13 +108,14 @@ MenuItem.propTypes = {
   onClick: React.PropTypes.func,
   onDeselect: React.PropTypes.func,
   onHover: React.PropTypes.func,
-  onDestroy: React.PropTypes.func
+  onDestroy: React.PropTypes.func,
 };
 
 MenuItem.defaultProps = {
   onSelect() {
   },
   onMouseEnter() {
-  }
+  },
 };
-module.exports = MenuItem;
+
+export default MenuItem;

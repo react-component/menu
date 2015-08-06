@@ -4,58 +4,43 @@ import React from 'react';
 import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
-import 'font-awesome/css/font-awesome.css';
 
 function handleSelect(selectedKey) {
   console.log('selected ' + selectedKey);
 }
 
-function handleClick(selectedKey) {
-  console.log('click ' + selectedKey);
-}
-
 function handleDeselect(selectedKey) {
-  console.log(' deselect ' + selectedKey);
+  console.log('deselect ' + selectedKey);
 }
 
-var titleRight = <span>sub menu
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight1 = <span>sub menu 1
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight2 = <span>sub menu 2
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight3 = <span>sub menu 3
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
+var titleRight = <span>sub menu</span>;
+var titleRight1 = <span>sub menu 1</span>;
+var titleRight2 = <span>sub menu 2</span>;
+var titleRight3 = <span>sub menu 3</span>;
 var container = document.getElementById('__react-content');
 
 render(container);
 
 function render(container) {
+  var topAlign = {
+    points: ['lt', 'lb']
+  };
   var leftMenu = (
-    <Menu onSelect={handleSelect}
-      onClick={handleClick}
-          vertical
-      onDeselect={handleDeselect}>
-      <SubMenu title={titleRight} key="1">
+    <Menu onSelect={handleSelect} onDeselect={handleDeselect} horizontal>
+      <SubMenu title={titleRight} key="1" align={topAlign}>
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
       </SubMenu>
-      <MenuItem>
-        <a href="http://taobao.com" target="_blank">i do not need key</a>
-      </MenuItem>
+      <MenuItem key="2">1</MenuItem>
       <MenuItem key="3">outer</MenuItem>
-      <SubMenu title={titleRight1} key="4">
+      <SubMenu title={titleRight1} key="4" align={topAlign}>
         <MenuItem key="4-1">inner inner</MenuItem>
-        <Menu.Divider />
+        <Menu.Divider/>
         <SubMenu
           openOnHover={false}
           key="4-2"
           title={titleRight2}
-        >
+          >
           <MenuItem key="4-2-1">inn</MenuItem>
           <SubMenu title={titleRight3} key="4-2-2">
             <Menu>
@@ -71,14 +56,6 @@ function render(container) {
   );
   React.render(<div>
     <h2>single selectable menu</h2>
-    <p>
-      <button onClick={destroy}>destroy</button>
-    </p>
-    <div style={{width: 400}}>{leftMenu}</div>
+    <div style={{width: 800, margin:20}}>{leftMenu}</div>
   </div>, container);
-
-
-  function destroy() {
-    React.unmountComponentAtNode(container);
-  }
 }

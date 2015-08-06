@@ -72,6 +72,18 @@ React.render(<Menu>
           <td>additional css class of root dom node</td>
         </tr>
         <tr>
+          <td>vertical</td>
+          <td>boolean</td>
+          <td></td>
+          <td>whether add vertical className</td>
+        </tr>
+        <tr>
+          <td>horizontal</td>
+          <td>boolean</td>
+          <td></td>
+          <td>whether add horizontal className</td>
+        </tr>
+        <tr>
             <td>activeKey</td>
             <td>Object</td>
             <th>first active item's key</th>
@@ -169,6 +181,12 @@ React.render(<Menu>
           <td>additional css class of root dom node</td>
         </tr>
         <tr>
+          <td>align</td>
+          <td>object</td>
+          <td>{points:['lt', 'rt'] }</td>
+          <td>submenu align config. Defaults to align left/top of popup menu with right/top of sub menu item.</td>
+        </tr>
+        <tr>
           <td>title</td>
           <td>String/ReactElement</td>
           <td></td>
@@ -242,11 +260,11 @@ online example: http://react-component.github.io/menu/examples/
 
 ## Test Case
 
-http://localhost:8000/tests/runner.html?coverage
+http://localhost:8010/tests/runner.html?coverage
 
 ## Coverage
 
-http://localhost:8000/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8000/tests/runner.html?coverage
+http://localhost:8010/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8010/tests/runner.html?coverage
 
 ## License
 

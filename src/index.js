@@ -1,8 +1,12 @@
-'use strict';
+import Menu from './Menu';
+import SubMenu from './SubMenu';
+import MenuItem from './MenuItem';
+import MenuItemGroup from './MenuItemGroup';
+import Divider from './Divider';
 
-var Menu = require('./Menu');
-Menu.SubMenu = require('./SubMenu');
-Menu.Item = require('./MenuItem');
-Menu.ItemGroup = require('./MenuItemGroup');
-Menu.Divider = require('./Divider');
-module.exports = Menu;
+Menu.SubMenu = SubMenu;
+Menu.Item = MenuItem;
+Menu.ItemGroup = MenuItemGroup;
+Menu.Divider = Divider;
+
+export default Menu;

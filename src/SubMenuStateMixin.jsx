@@ -1,17 +1,13 @@
-'use strict';
+import rcUtil, {KeyCode} from 'rc-util';
 
-var rcUtil = require('rc-util');
-var KeyCode = rcUtil.KeyCode;
-var React = require('react');
-
-var SubMenuStateMixin = {
+export default {
   getInitialState() {
     return {
-      open: this.props.open || false
+      open: this.props.open || false,
     };
   },
 
-  _getOpenClassName() {
+  getOpenClassName() {
     return this.props.openClassName || this.props.rootPrefixCls + '-submenu-open';
   },
 
@@ -23,7 +19,7 @@ var SubMenuStateMixin = {
     }
 
     this.setState({
-      open: newState
+      open: newState,
     }, onStateChangeComplete);
   },
 
@@ -60,7 +56,5 @@ var SubMenuStateMixin = {
 
   componentWillUnmount() {
     this.unbindRootCloseHandlers();
-  }
+  },
 };
-
-module.exports = SubMenuStateMixin;

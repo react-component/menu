@@ -1,6 +1,10 @@
 # History
 ----
 
+## 3.5.0 / 2015-08-06
+
+add props: vertical/horizontal for Menu, align for SubMenu
+
 ## 3.4.0 / 2015-06-17
 
 `improved` [#9](https://github.com/react-component/menu/issues/9) allow not set key for menuitem

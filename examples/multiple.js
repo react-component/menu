@@ -1,13 +1,10 @@
 'use strict';
 
-var React = require('react');
-var Menu = require('rc-menu');
-var SubMenu = Menu.SubMenu;
-var MenuItem = Menu.Item;
-var pkg = require('../package.json');
+import React from 'react';
+import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
 
-require('rc-menu/assets/index.css');
-require('font-awesome/css/font-awesome.css');
+import 'rc-menu/assets/index.less';
+import 'font-awesome/css/font-awesome.css';
 
 function handleSelect(selectedKey, item, e) {
   console.log('selected ' + selectedKey, item, e);
@@ -69,7 +66,6 @@ function render(container) {
     </Menu>
   );
   React.render(<div>
-    <h1>{pkg.name}@{pkg.version}</h1>
     <h2>multiple selectable menu</h2>
     <p>
       <button onClick={destroy}>destroy</button>

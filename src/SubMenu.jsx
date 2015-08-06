@@ -1,43 +1,25 @@
-'use strict';
+import Menu from './Menu';
+import React from 'react';
+import {classSet, createChainedFunction, KeyCode, guid} from 'rc-util';
 
-var React = require('react');
-var rcUtil = require('rc-util');
-var joinClasses = rcUtil.joinClasses;
-var classSet = rcUtil.classSet;
-var guid = rcUtil.guid;
-var KeyCode = rcUtil.KeyCode;
-var Menu = require('./Menu');
-var createChainedFunction = rcUtil.createChainedFunction;
-
-var SubMenu = React.createClass({
+const SubMenu = React.createClass({
   propTypes: {
     openOnHover: React.PropTypes.bool,
     title: React.PropTypes.node,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
+    rootPrefixCls: React.PropTypes.string,
+    multiple: React.PropTypes.bool,
+    onSelect: React.PropTypes.func,
+    onDeselect: React.PropTypes.func,
+    onHover: React.PropTypes.func,
   },
 
   mixins: [require('./SubMenuStateMixin')],
 
   getInitialState() {
     return {
-      activeFirst: false
+      activeFirst: false,
     };
-  },
-
-  saveMenuInstance(c) {
-    this.menuInstance = c;
-  },
-
-  _getPrefixCls() {
-    return this.props.rootPrefixCls + '-submenu';
-  },
-
-  _getActiveClassName() {
-    return this._getPrefixCls() + '-active';
-  },
-
-  _getDisabledClassName() {
-    return this._getPrefixCls() + '-disabled';
   },
 
   componentWillReceiveProps(nextProps) {
@@ -49,39 +31,42 @@ var SubMenu = React.createClass({
   getDefaultProps() {
     return {
       openOnHover: true,
+      align: {
+        points: ['lt', 'rt'],
+      },
       onMouseEnter() {
       },
-      title: ''
+      title: '',
     };
   },
 
-  handleKeyDown(e) {
-    var keyCode = e.keyCode;
-    var menu = this.menuInstance;
+  onKeyDown(e) {
+    const keyCode = e.keyCode;
+    const menu = this.menuInstance;
 
     if (keyCode === KeyCode.ENTER) {
-      this.handleClick(e);
+      this.onClick(e);
       this.setState({
-        activeFirst: true
+        activeFirst: true,
       });
       return true;
     }
 
     if (keyCode === KeyCode.RIGHT) {
       if (this.state.open) {
-        menu.handleKeyDown(e);
+        menu.onKeyDown(e);
       } else {
         this.setOpenState(true);
         this.setState({
-          activeFirst: true
+          activeFirst: true,
         });
       }
       return true;
     }
     if (keyCode === KeyCode.LEFT) {
-      var handled;
+      let handled;
       if (this.state.open) {
-        handled = menu.handleKeyDown(e);
+        handled = menu.onKeyDown(e);
       } else {
         return undefined;
       }
@@ -93,73 +78,119 @@ var SubMenu = React.createClass({
     }
 
     if (this.state.open && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
-      return menu.handleKeyDown(e);
+      return menu.onKeyDown(e);
     }
   },
 
-  handleMouseEnter() {
-    var props = this.props;
+  onMouseEnter() {
+    const props = this.props;
     props.onHover(props.eventKey);
     if (props.openOnHover) {
       this.setOpenState(true);
       this.setState({
-        activeFirst: false
+        activeFirst: false,
       });
     }
   },
 
-  handleMouseLeave() {
+  onMouseLeave() {
     if (!this.state.open) {
       this.props.onHover(null);
     }
   },
 
-  handleClick() {
+  onClick() {
     this.setOpenState(true);
     this.setState({
-      activeFirst: false
+      activeFirst: false,
     });
   },
 
-  handleSubMenuClick(key, menuItem, e) {
+  onSubMenuClick(key, menuItem, e) {
     this.props.onClick(key, menuItem, e);
   },
 
-  handleSelect(childKey, child, e) {
+  onSelect(childKey, child, e) {
     // propagate
     this.props.onSelect(childKey, child, e);
   },
 
-  handleDeselect() {
+  onDeselect() {
     this.props.onDeselect.apply(null, arguments);
   },
 
+  getPrefixCls() {
+    return this.props.rootPrefixCls + '-submenu';
+  },
+
+  getActiveClassName() {
+    return this.getPrefixCls() + '-active';
+  },
+
+  getDisabledClassName() {
+    return this.getPrefixCls() + '-disabled';
+  },
+
+  renderChildren(children) {
+    if (!this.state.open) {
+      // prevent destroy
+      return this._cacheMenu || null;
+    }
+    const childrenCount = React.Children.count(children);
+    const baseProps = {
+      sub: true,
+      focusable: false,
+      onClick: this.onSubMenuClick,
+      onSelect: this.onSelect,
+      onDeselect: this.onDeselect,
+      activeFirst: this.state.activeFirst,
+      multiple: this.props.multiple,
+      prefixCls: this.props.rootPrefixCls,
+      id: this._menuId,
+      ref: this.saveMenuInstance,
+    };
+    if (childrenCount === 1 && children.type === Menu) {
+      const menu = children;
+      baseProps.ref = createChainedFunction(menu.ref, this.saveMenuInstance);
+      baseProps.onClick = createChainedFunction(menu.props.onClick, this.onSubMenuClick);
+      this._cacheMenu = React.cloneElement(menu, baseProps);
+    } else {
+      this._cacheMenu = <Menu {...baseProps}>{children}</Menu>;
+    }
+    return this._cacheMenu;
+  },
+
   render() {
-    var props = this.props;
-    var classes = {};
-    var prefixCls = this._getPrefixCls();
-    classes[this._getOpenClassName()] = this.state.open;
-    classes[this._getActiveClassName()] = props.active;
-    classes[this._getDisabledClassName()] = props.disabled;
+    const props = this.props;
+    const classes = {
+      [props.className]: !!props.className,
+    };
+    const prefixCls = this.getPrefixCls();
+    classes[this.getOpenClassName()] = this.state.open;
+    classes[this.getActiveClassName()] = props.active;
+    classes[this.getDisabledClassName()] = props.disabled;
     this._menuId = this._menuId || guid();
     classes[prefixCls] = true;
-    var clickEvents = {};
-    var mouseEvents = {};
-    var titleMouseEvents = {};
+    if (props.align) {
+      classes[prefixCls + '-' + props.align.points.join('-')] = 1;
+    }
+    let clickEvents = {};
+    let mouseEvents = {};
+    let titleMouseEvents = {};
     if (!props.disabled) {
       clickEvents = {
-        onClick: this.handleClick
+        onClick: this.onClick,
       };
       mouseEvents = {
-        onMouseLeave: this.handleMouseLeave
+        onMouseLeave: this.onMouseLeave,
       };
       // only works in title, not outer li
       titleMouseEvents = {
-        onMouseEnter: this.handleMouseEnter
+        onMouseEnter: this.onMouseEnter,
       };
     }
     return (
-      <li className={joinClasses(props.className, classSet(classes))}  {...mouseEvents}>
+      <li className={classSet(classes)}  {...mouseEvents}>
         <div
           className={prefixCls + '-title'}
           {...titleMouseEvents}
@@ -167,40 +198,17 @@ var SubMenu = React.createClass({
           aria-expanded={props.active}
           aria-owns={this._menuId}
           aria-haspopup="true"
-        >
-        {props.title}
+          >
+          {props.title}
         </div>
-          {this.renderChildren(props.children)}
+        {this.renderChildren(props.children)}
       </li>
     );
   },
-  renderChildren(children) {
-    if (!this.state.open) {
-      // prevent destroy
-      return this._cacheMenu || null;
-    }
-    var childrenCount = React.Children.count(children);
-    var baseProps = {
-      sub: true,
-      focusable: false,
-      onClick: this.handleSubMenuClick,
-      onSelect: this.handleSelect,
-      onDeselect: this.handleDeselect,
-      activeFirst: this.state.activeFirst,
-      multiple: this.props.multiple,
-      id: this._menuId,
-      ref: this.saveMenuInstance
-    };
-    if (childrenCount === 1 && children.type === Menu) {
-      var menu = children;
-      baseProps.ref = createChainedFunction(menu.ref, this.saveMenuInstance);
-      baseProps.onClick = createChainedFunction(menu.props.onClick, this.handleSubMenuClick);
-      this._cacheMenu = React.cloneElement(menu, baseProps);
-    } else {
-      this._cacheMenu = <Menu {...baseProps}>{children}</Menu>;
-    }
-    return this._cacheMenu;
-  }
+
+  saveMenuInstance(c) {
+    this.menuInstance = c;
+  },
 });
 
-module.exports = SubMenu;
+export default SubMenu;
