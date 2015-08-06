@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@3.4.2 - menu ui component for react</title>
+  <title>rc-menu@3.5.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,13 +737,15 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@3.4.2</h1>
+  <h1>rc-menu@3.5.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
 
   <div class="examples-body">
     <ul>
+      
+      <li><a href="examples/antd.html">antd</a></li>
       
       <li><a href="examples/menuItemGroup.html">menuItemGroup</a></li>
       
@@ -752,8 +754,6 @@
       <li><a href="examples/scrollable.html">scrollable</a></li>
       
       <li><a href="examples/single.html">single</a></li>
-      
-      <li><a href="examples/top.html">top</a></li>
       
     </ul>
   </div>
@@ -797,6 +797,18 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
           <td>String</td>
           <td></td>
           <td>additional css class of root dom node</td>
+        </tr>
+        <tr>
+          <td>vertical</td>
+          <td>boolean</td>
+          <td></td>
+          <td>whether add vertical className</td>
+        </tr>
+        <tr>
+          <td>horizontal</td>
+          <td>boolean</td>
+          <td></td>
+          <td>whether add horizontal className</td>
         </tr>
         <tr>
             <td>activeKey</td>
@@ -843,7 +855,7 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
     </tbody>
 </table>
 
-<h3>Menu.Item props<a id="user-content-menu-item-props" name="menu-item-props" class="anchor" aria-hidden="true" href="#menu-item-props"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
+<h3>Menu.Item props<a id="user-content-menu.item-props" name="menu.item-props" class="anchor" aria-hidden="true" href="#menu.item-props"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
     <thead>
     <tr>
         <th style="width: 100px;">name</th>
@@ -875,7 +887,7 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
 </table>
 
 
-<h3>Menu.SubMenu props<a id="user-content-menu-submenu-props" name="menu-submenu-props" class="anchor" aria-hidden="true" href="#menu-submenu-props"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
+<h3>Menu.SubMenu props<a id="user-content-menu.submenu-props" name="menu.submenu-props" class="anchor" aria-hidden="true" href="#menu.submenu-props"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
     <thead>
     <tr>
         <th style="width: 100px;">name</th>
@@ -890,6 +902,12 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
           <td>String</td>
           <td></td>
           <td>additional css class of root dom node</td>
+        </tr>
+        <tr>
+          <td>align</td>
+          <td>object</td>
+          <td>{points:[&#39;lt&#39;, &#39;rt&#39;] }</td>
+          <td>submenu align config. Defaults to align left/top of popup menu with right/top of sub menu item.</td>
         </tr>
         <tr>
           <td>title</td>
@@ -918,8 +936,8 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
     </tbody>
 </table>
 
-<h3>Menu.Divider props<a id="user-content-menu-divider-props" name="menu-divider-props" class="anchor" aria-hidden="true" href="#menu-divider-props"><span class="octicon octicon-link"></span></a></h3><p>none</p>
-<h3>Menu.ItemGroup props<a id="user-content-menu-itemgroup-props" name="menu-itemgroup-props" class="anchor" aria-hidden="true" href="#menu-itemgroup-props"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
+<h3>Menu.Divider props<a id="user-content-menu.divider-props" name="menu.divider-props" class="anchor" aria-hidden="true" href="#menu.divider-props"><span class="octicon octicon-link"></span></a></h3><p>none</p>
+<h3>Menu.ItemGroup props<a id="user-content-menu.itemgroup-props" name="menu.itemgroup-props" class="anchor" aria-hidden="true" href="#menu.itemgroup-props"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
     <thead>
     <tr>
         <th style="width: 100px;">name</th>
@@ -947,8 +965,8 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
 <h2>Development<a id="user-content-development" name="development" class="anchor" aria-hidden="true" href="#development"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre class="hljs"><code class="undefined"><span class="hljs-built_in">npm</span> install
 <span class="hljs-built_in">npm</span> start</code></pre></div><h2>Example<a id="user-content-example" name="example" class="anchor" aria-hidden="true" href="#example"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8001/examples/index.md" title="null">http://localhost:8001/examples/index.md</a></p>
 <p>online example: <a href="http://react-component.github.io/menu/examples/" title="null">http://react-component.github.io/menu/examples/</a></p>
-<h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8000/tests/runner.html?coverage" title="null">http://localhost:8000/tests/runner.html?coverage</a></p>
-<h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8000/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8000/tests/runner.html?coverage" title="null">http://localhost:8000/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8000/tests/runner.html?coverage</a></p>
+<h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8010/tests/runner.html?coverage" title="null">http://localhost:8010/tests/runner.html?coverage</a></p>
+<h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8010/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8010/tests/runner.html?coverage" title="null">http://localhost:8010/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8010/tests/runner.html?coverage</a></p>
 <h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>rc-menu is released under the MIT license.</p>
 
   </div>

@@ -229,12 +229,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
 <![endif]-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+  
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h1>rc-menu@3.4.2</h1>
+            <h1>rc-menu@3.5.0</h1>
             <p>menu ui component for react</p>
         </div>
         <div class="example" id="__react-content"></div>
@@ -242,14 +243,11 @@
         <script src="multiple.js?nowrap"></script>
         <div class="highlight"><pre><code><span class="xml">'use strict';
 
-var React = require('react');
-var Menu = require('rc-menu');
-var SubMenu = Menu.SubMenu;
-var MenuItem = Menu.Item;
-var pkg = require('../package.json');
+import React from 'react';
+import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
 
-require('rc-menu/assets/index.css');
-require('font-awesome/css/font-awesome.css');
+import 'rc-menu/assets/index.css';
+import 'font-awesome/css/font-awesome.css';
 
 function handleSelect(selectedKey, item, e) {
   console.log('selected ' + selectedKey, item, e);
@@ -311,7 +309,6 @@ function render(container) {
     <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
   );
   React.render(<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>{pkg.name}@{pkg.version}<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>multiple selectable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{destroy}</span>&gt;</span>destroy<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>

@@ -1,69 +1,66 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([1],{
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(30);
 
 
 /***/ },
-/* 1 */
+
+/***/ 30:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var React = __webpack_require__(2);
-	var Menu = __webpack_require__(3);
-	var SubMenu = Menu.SubMenu;
-	var MenuItem = Menu.Item;
-	var MenuItemGroup = Menu.ItemGroup;
-	var pkg = __webpack_require__(26);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	__webpack_require__(27);
-	__webpack_require__(31);
+	var _react = __webpack_require__(2);
 	
-	React.render(React.createElement(
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _rcMenu = __webpack_require__(3);
+	
+	var _rcMenu2 = _interopRequireDefault(_rcMenu);
+	
+	__webpack_require__(26);
+	
+	_react2['default'].render(_react2['default'].createElement(
 	  'div',
 	  null,
-	  React.createElement(
-	    'h1',
-	    null,
-	    pkg.name,
-	    '@',
-	    pkg.version
-	  ),
-	  React.createElement(
+	  _react2['default'].createElement(
 	    'h2',
 	    null,
 	    'menu item group'
 	  ),
-	  React.createElement(
-	    Menu,
+	  _react2['default'].createElement(
+	    _rcMenu2['default'],
 	    { style: { margin: 20, width: 300 } },
-	    React.createElement(
-	      MenuItemGroup,
-	      { title: "group 1", key: "2" },
-	      React.createElement(
-	        MenuItem,
-	        { key: "21" },
+	    _react2['default'].createElement(
+	      _rcMenu.ItemGroup,
+	      { title: 'group 1', key: '2' },
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '21' },
 	        '2'
 	      ),
-	      React.createElement(
-	        MenuItem,
-	        { key: "22" },
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '22' },
 	        '3'
 	      )
 	    ),
-	    React.createElement(
-	      MenuItemGroup,
-	      { title: "group 2", key: "3" },
-	      React.createElement(
-	        MenuItem,
-	        { key: "31" },
+	    _react2['default'].createElement(
+	      _rcMenu.ItemGroup,
+	      { title: 'group 2', key: '3' },
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '31' },
 	        '4'
 	      ),
-	      React.createElement(
-	        MenuItem,
-	        { key: "32" },
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '32' },
 	        '5'
 	      )
 	    )
@@ -71,5 +68,6 @@ webpackJsonp([0],[
 	), document.getElementById('__react-content'));
 
 /***/ }
-]);
+
+});
 //# sourceMappingURL=menuItemGroup.js.map

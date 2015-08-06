@@ -229,12 +229,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
 <![endif]-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+  
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h1>rc-menu@3.4.2</h1>
+            <h1>rc-menu@3.5.0</h1>
             <p>menu ui component for react</p>
         </div>
         <div class="example" id="__react-content"></div>
@@ -242,14 +243,11 @@
         <script src="scrollable.js?nowrap"></script>
         <div class="highlight"><pre><code><span class="hljs-pi">'use strict'</span>;
 
-<span class="hljs-keyword">var</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
-<span class="hljs-keyword">var</span> Menu = <span class="hljs-built_in">require</span>(<span class="hljs-string">'rc-menu'</span>);
-<span class="hljs-keyword">var</span> SubMenu = Menu.SubMenu;
-<span class="hljs-keyword">var</span> MenuItem = Menu.Item;
-<span class="hljs-keyword">var</span> pkg = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../package.json'</span>);
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> Menu, {SubMenu, Item <span class="hljs-keyword">as</span> MenuItem, ItemGroup <span class="hljs-keyword">as</span> MenuItemGroup, Divider} <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-menu'</span>;
 
-<span class="hljs-built_in">require</span>(<span class="hljs-string">'rc-menu/assets/index.css'</span>);
-<span class="hljs-built_in">require</span>(<span class="hljs-string">'font-awesome/css/font-awesome.css'</span>);
+<span class="hljs-keyword">import</span> <span class="hljs-string">'rc-menu/assets/index.css'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
 
 <span class="hljs-keyword">var</span> children = [];
 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) {
@@ -261,7 +259,6 @@ width:200px;\
 overflow:auto;\
 }'</span>;
 React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>{pkg.name}@{pkg.version}<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>keyboard scrollable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">style</span>&gt;</span><span class="css"><span class="hljs-rules">{style}</span></span><span class="hljs-tag">&lt;/<span class="hljs-title">style</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>&gt;</span>{children}<span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>

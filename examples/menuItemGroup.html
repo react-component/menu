@@ -229,12 +229,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
 <![endif]-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+  
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h1>rc-menu@3.4.2</h1>
+            <h1>rc-menu@3.5.0</h1>
             <p>menu ui component for react</p>
         </div>
         <div class="example" id="__react-content"></div>
@@ -242,18 +243,12 @@
         <script src="menuItemGroup.js?nowrap"></script>
         <div class="highlight"><pre><code><span class="xml">'use strict';
 
-var React = require('react');
-var Menu = require('rc-menu');
-var SubMenu = Menu.SubMenu;
-var MenuItem = Menu.Item;
-var MenuItemGroup = Menu.ItemGroup;
-var pkg = require('../package.json');
+import React from 'react';
+import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
 
-require('rc-menu/assets/index.css');
-require('font-awesome/css/font-awesome.css');
+import 'rc-menu/assets/index.css';
 
 React.render(<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>{pkg.name}@{pkg.version}<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>menu item group<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">margin</span>: 20, <span class="hljs-variable">width</span>: 300}}</span><span class="xml"><span class="hljs-tag">&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItemGroup</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"group 1"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>
