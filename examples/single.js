@@ -102,10 +102,6 @@ webpackJsonp([4],{
 	  console.log('click ' + selectedKey);
 	}
 	
-	function handleDeselect(selectedKey) {
-	  console.log(' deselect ' + selectedKey);
-	}
-	
 	var titleRight = _react2['default'].createElement(
 	  'span',
 	  null,
@@ -138,9 +134,7 @@ webpackJsonp([4],{
 	  var leftMenu = _react2['default'].createElement(
 	    _rcMenu2['default'],
 	    { onSelect: handleSelect,
-	      onClick: handleClick,
-	      vertical: true,
-	      onDeselect: handleDeselect },
+	      onClick: handleClick },
 	    _react2['default'].createElement(
 	      _rcMenu.SubMenu,
 	      { title: titleRight, key: '1' },

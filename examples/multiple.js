@@ -71,7 +71,9 @@ webpackJsonp([2],{
 	function render(container) {
 	  var leftMenu = _react2['default'].createElement(
 	    _rcMenu2['default'],
-	    { multiple: true, onSelect: handleSelect, onDeselect: handleDeselect, selectedKeys: ['2', '4-3'] },
+	    { multiple: true, onSelect: handleSelect,
+	      onDeselect: handleDeselect,
+	      defaultSelectedKeys: ['2', '4-3'] },
 	    _react2['default'].createElement(
 	      _rcMenu.SubMenu,
 	      { title: titleRight, key: '1' },

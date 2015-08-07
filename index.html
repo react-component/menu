@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@3.5.0 - menu ui component for react</title>
+  <title>rc-menu@3.6.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@3.5.0</h1>
+  <h1>rc-menu@3.6.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -799,22 +799,16 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
           <td>additional css class of root dom node</td>
         </tr>
         <tr>
+          <td>mode</td>
+          <td>String</td>
           <td>vertical</td>
-          <td>boolean</td>
-          <td></td>
-          <td>whether add vertical className</td>
-        </tr>
-        <tr>
-          <td>horizontal</td>
-          <td>boolean</td>
-          <td></td>
-          <td>whether add horizontal className</td>
+          <td>one of [&quot;vertical&quot;,&quot;horizontal&quot;,&quot;inline&quot;]</td>
         </tr>
         <tr>
             <td>activeKey</td>
             <td>Object</td>
-            <th>first active item&#39;s key</th>
-            <td>same with active tabPanel&#39;s key</td>
+            <th></th>
+            <td>initial and current active menu item&#39;s key</td>
         </tr>
         <tr>
             <td>activeFirst</td>
@@ -835,22 +829,34 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
             <td>selected keys of items</td>
         </tr>
         <tr>
+            <td>defaultSelectedKeys</td>
+            <td>String[]</td>
+            <th>[]</th>
+            <td>initial selected keys of items</td>
+        </tr>
+        <tr>
             <td>onSelect</td>
             <td>function(key:String,child:ReactComponent)</td>
             <th></th>
             <td>called when select a menu item</td>
         </tr>
         <tr>
+            <td>openOnHover</td>
+            <td>boolean</td>
+            <th>true</th>
+            <td>whether to open all sub menu on hover</td>
+        </tr>
+        <tr>
+            <td>closeOnDeActive</td>
+            <td>boolean</td>
+            <th>true</th>
+            <td>whether to close all sub menu on deActive</td>
+        </tr>
+        <tr>
             <td>onDeselect</td>
             <td>function(key:String,child:ReactComponent)</td>
             <th></th>
-            <td>called when deselect a menu item</td>
-        </tr>
-        <tr>
-            <td>onSelect</td>
-            <td>Function(key:String)</td>
-            <th></th>
-            <td>function called with selected menu item&#39;s key as param</td>
+            <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>
     </tbody>
 </table>
@@ -902,12 +908,6 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
           <td>String</td>
           <td></td>
           <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-          <td>align</td>
-          <td>object</td>
-          <td>{points:[&#39;lt&#39;, &#39;rt&#39;] }</td>
-          <td>submenu align config. Defaults to align left/top of popup menu with right/top of sub menu item.</td>
         </tr>
         <tr>
           <td>title</td>
