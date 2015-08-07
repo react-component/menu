@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import {joinClasses, classSet, KeyCode} from 'rc-util';
 
@@ -88,11 +86,15 @@ class MenuItem extends React.Component {
         onMouseEnter: this.onMouseEnter,
       };
     }
+    const style = {};
+    if (props.mode === 'inline') {
+      style.paddingLeft = props.inlineIndent * props.level;
+    }
     return (
-      <li
+      <li style={style}
         {...attrs}
         {...mouseEvent}>
-      {props.children}
+        {props.children}
       </li>
     );
   }

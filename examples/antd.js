@@ -9,10 +9,6 @@ function handleSelect(selectedKey) {
   console.log('selected ' + selectedKey);
 }
 
-function handleDeselect(selectedKey) {
-  console.log('deselect ' + selectedKey);
-}
-
 var titleRight = <span>sub menu</span>;
 var titleRight1 = <span>sub menu 1</span>;
 var titleRight2 = <span>sub menu 2</span>;
@@ -22,18 +18,15 @@ var container = document.getElementById('__react-content');
 render(container);
 
 function render(container) {
-  var topAlign = {
-    points: ['lt', 'lb']
-  };
-  var leftMenu = (
-    <Menu onSelect={handleSelect} onDeselect={handleDeselect} horizontal>
-      <SubMenu title={titleRight} key="1" align={topAlign}>
+  var horizontalMenu = (
+    <Menu onSelect={handleSelect} mode="horizontal">
+      <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
       </SubMenu>
       <MenuItem key="2">1</MenuItem>
       <MenuItem key="3">outer</MenuItem>
-      <SubMenu title={titleRight1} key="4" align={topAlign}>
+      <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>
         <Menu.Divider/>
         <SubMenu
@@ -54,8 +47,75 @@ function render(container) {
       <MenuItem key="4-3">outer3</MenuItem>
     </Menu>
   );
-  React.render(<div>
-    <h2>single selectable menu</h2>
-    <div style={{width: 800, margin:20}}>{leftMenu}</div>
+
+  var verticalMenu = (
+    <Menu onSelect={handleSelect} mode="vertical">
+      <SubMenu title={titleRight} key="1">
+        <MenuItem key="1-1">0-1</MenuItem>
+        <MenuItem key="1-2">0-2</MenuItem>
+      </SubMenu>
+      <MenuItem key="2">1</MenuItem>
+      <MenuItem key="3">outer</MenuItem>
+      <SubMenu title={titleRight1} key="4">
+        <MenuItem key="4-1">inner inner</MenuItem>
+        <Menu.Divider/>
+        <SubMenu
+          openOnHover={false}
+          key="4-2"
+          title={titleRight2}
+          >
+          <MenuItem key="4-2-1">inn</MenuItem>
+          <SubMenu title={titleRight3} key="4-2-2">
+            <Menu>
+              <MenuItem key="4-2-2-1">inner inner</MenuItem>
+              <MenuItem key="4-2-2-2">inner inner2</MenuItem>
+            </Menu>
+          </SubMenu>
+        </SubMenu>
+      </SubMenu>
+      <MenuItem disabled>disabled</MenuItem>
+      <MenuItem key="4-3">outer3</MenuItem>
+    </Menu>
+  );
+
+  var inlineMenu = (
+    <Menu onSelect={handleSelect} mode="inline"
+          closeOnDeActive={false}
+          openOnHover={false}>
+      <SubMenu title={titleRight} key="1">
+        <MenuItem key="1-1">0-1</MenuItem>
+        <MenuItem key="1-2">0-2</MenuItem>
+      </SubMenu>
+      <MenuItem key="2">1</MenuItem>
+      <MenuItem key="3">outer</MenuItem>
+      <SubMenu title={titleRight1} key="4">
+        <MenuItem key="4-1">inner inner</MenuItem>
+        <SubMenu key="4-2" title={titleRight2}>
+          <MenuItem key="4-2-1">inn</MenuItem>
+          <SubMenu title={titleRight3} key="4-2-2">
+            <Menu>
+              <MenuItem key="4-2-2-1">inner inner</MenuItem>
+              <MenuItem key="4-2-2-2">inner inner2</MenuItem>
+            </Menu>
+          </SubMenu>
+        </SubMenu>
+      </SubMenu>
+      <MenuItem disabled>disabled</MenuItem>
+      <MenuItem key="4-3">outer3</MenuItem>
+    </Menu>
+  );
+
+
+  React.render(<div style={{margin:20}}>
+    <h2>antd menu</h2>
+
+    <div>
+      <h3>horizontal</h3>
+      <div style={{margin:20,width: 800,}}>{horizontalMenu}</div>
+      <h3>vertical</h3>
+      <div style={{margin:20,width: 200,}}>{verticalMenu}</div>
+      <h3>inline</h3>
+      <div style={{margin:20,width: 400,}}>{inlineMenu}</div>
+    </div>
   </div>, container);
 }

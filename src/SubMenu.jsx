@@ -4,6 +4,8 @@ import {classSet, createChainedFunction, KeyCode, guid} from 'rc-util';
 
 const SubMenu = React.createClass({
   propTypes: {
+    closeOnDeActive: React.PropTypes.bool,
+    globalCloseOnDeActive: React.PropTypes.bool,
     openOnHover: React.PropTypes.bool,
     title: React.PropTypes.node,
     onClick: React.PropTypes.func,
@@ -22,18 +24,15 @@ const SubMenu = React.createClass({
     };
   },
 
+
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.active) {
+    if (!nextProps.active && this.isCloseOnDeActive()) {
       this.setOpenState(false);
     }
   },
 
   getDefaultProps() {
     return {
-      openOnHover: true,
-      align: {
-        points: ['lt', 'rt'],
-      },
       onMouseEnter() {
       },
       title: '',
@@ -85,7 +84,14 @@ const SubMenu = React.createClass({
   onMouseEnter() {
     const props = this.props;
     props.onHover(props.eventKey);
-    if (props.openOnHover) {
+    let openOnHover = props.openOnHover;
+    if (openOnHover === undefined) {
+      openOnHover = props.globalOpenOnHover;
+    }
+    if (openOnHover === undefined) {
+      openOnHover = true;
+    }
+    if (openOnHover) {
       this.setOpenState(true);
       this.setState({
         activeFirst: false,
@@ -100,7 +106,11 @@ const SubMenu = React.createClass({
   },
 
   onClick() {
-    this.setOpenState(true);
+    if (this.isCloseOnDeActive()) {
+      this.setOpenState(true);
+    } else {
+      this.setOpenState(!this.state.open);
+    }
     this.setState({
       activeFirst: false,
     });
@@ -132,23 +142,35 @@ const SubMenu = React.createClass({
   },
 
   renderChildren(children) {
+    const props = this.props;
     if (!this.state.open) {
       // prevent destroy
       return this._cacheMenu || null;
     }
     const childrenCount = React.Children.count(children);
+    let mode = props.mode;
+    if (mode !== 'inline') {
+      mode = undefined;
+    }
     const baseProps = {
       sub: true,
+      level: props.level + 1,
+      inlineIndent: props.inlineIndent,
+      openOnHover: props.globalOpenOnHover,
+      closeOnDeActive: props.globalCloseOnDeActive,
       focusable: false,
       onClick: this.onSubMenuClick,
       onSelect: this.onSelect,
       onDeselect: this.onDeselect,
       activeFirst: this.state.activeFirst,
-      multiple: this.props.multiple,
-      prefixCls: this.props.rootPrefixCls,
+      multiple: props.multiple,
+      prefixCls: props.rootPrefixCls,
       id: this._menuId,
       ref: this.saveMenuInstance,
     };
+    if (mode) {
+      baseProps.mode = mode;
+    }
     if (childrenCount === 1 && children.type === Menu) {
       const menu = children;
       baseProps.ref = createChainedFunction(menu.ref, this.saveMenuInstance);
@@ -162,18 +184,18 @@ const SubMenu = React.createClass({
 
   render() {
     const props = this.props;
+    const prefixCls = this.getPrefixCls();
     const classes = {
       [props.className]: !!props.className,
+      [`${prefixCls}-${props.mode}`]: 1,
     };
-    const prefixCls = this.getPrefixCls();
+
     classes[this.getOpenClassName()] = this.state.open;
     classes[this.getActiveClassName()] = props.active;
     classes[this.getDisabledClassName()] = props.disabled;
     this._menuId = this._menuId || guid();
     classes[prefixCls] = true;
-    if (props.align) {
-      classes[prefixCls + '-' + props.align.points.join('-')] = 1;
-    }
+    classes[prefixCls + '-' + props.mode] = 1;
     let clickEvents = {};
     let mouseEvents = {};
     let titleMouseEvents = {};
@@ -189,9 +211,14 @@ const SubMenu = React.createClass({
         onMouseEnter: this.onMouseEnter,
       };
     }
+    const style = {};
+    if (props.mode === 'inline') {
+      style.paddingLeft = props.inlineIndent * props.level;
+    }
     return (
       <li className={classSet(classes)}  {...mouseEvents}>
         <div
+          style={style}
           className={prefixCls + '-title'}
           {...titleMouseEvents}
           {...clickEvents}
@@ -208,6 +235,17 @@ const SubMenu = React.createClass({
 
   saveMenuInstance(c) {
     this.menuInstance = c;
+  },
+
+  isCloseOnDeActive() {
+    let closeOnDeActive = this.props.closeOnDeActive;
+    if (closeOnDeActive === undefined) {
+      closeOnDeActive = this.props.globalCloseOnDeActive;
+    }
+    if (closeOnDeActive === undefined) {
+      closeOnDeActive = true;
+    }
+    return closeOnDeActive;
   },
 });
 

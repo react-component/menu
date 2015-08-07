@@ -14,10 +14,6 @@ function handleClick(selectedKey) {
   console.log('click ' + selectedKey);
 }
 
-function handleDeselect(selectedKey) {
-  console.log(' deselect ' + selectedKey);
-}
-
 var titleRight = <span>sub menu
   <i className="fa fa-caret-right pull-right"></i>
 </span>;
@@ -37,9 +33,7 @@ render(container);
 function render(container) {
   var leftMenu = (
     <Menu onSelect={handleSelect}
-      onClick={handleClick}
-          vertical
-      onDeselect={handleDeselect}>
+      onClick={handleClick}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
