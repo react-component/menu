@@ -1,6 +1,12 @@
 # History
 ----
 
+## 4.0.0 / 2015-08-10
+
+- add props: mode (horizontal, vertical, inline) for Menu
+- add defaultSelectedKeys, make selectedKeys controllable
+- change param of onSelect onDeselect
+
 ## 3.5.0 / 2015-08-06
 
 add props: vertical/horizontal for Menu, align for SubMenu

@@ -12,15 +12,17 @@ export default {
   },
 
   setOpenState(newState, onStateChangeComplete) {
-    if (newState) {
-      this.bindRootCloseHandlers();
-    } else {
-      this.unbindRootCloseHandlers();
-    }
+    if (this.state.open !== newState) {
+      if (newState) {
+        this.bindRootCloseHandlers();
+      } else {
+        this.unbindRootCloseHandlers();
+      }
 
-    this.setState({
-      open: newState,
-    }, onStateChangeComplete);
+      this.setState({
+        open: newState,
+      }, onStateChangeComplete);
+    }
   },
 
   handleDocumentKeyUp(e) {

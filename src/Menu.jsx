@@ -1,6 +1,7 @@
 import React from 'react';
 import {classSet, createChainedFunction, KeyCode} from 'rc-util';
 import scrollIntoView from 'dom-scroll-into-view';
+import assign from 'object-assign';
 
 function noop() {
 }
@@ -21,21 +22,29 @@ function getKeyFromChildren(child, children) {
   return child.key || 'rcMenuItem_' + now + '_' + getChildIndexInChildren(child, children);
 }
 
+function getKeyFromChildrenIndex(child, index) {
+  return child.key || 'rcMenuItem_' + now + '_' + index;
+}
+
 function getActiveKey(props) {
   let activeKey = props.activeKey;
   const children = props.children;
   if (activeKey) {
-    return activeKey;
-  }
-  React.Children.forEach(children, (c)=> {
-    if (c.props.active) {
-      activeKey = getKeyFromChildren(c, children);
+    let found;
+    React.Children.forEach(children, (c, i)=> {
+      if (!c.props.disabled && activeKey === getKeyFromChildrenIndex(c, i)) {
+        found = true;
+      }
+    });
+    if (found) {
+      return activeKey;
     }
-  });
-  if (!activeKey && props.activeFirst) {
-    React.Children.forEach(children, (c)=> {
+  }
+  activeKey = null;
+  if (props.defaultActiveFirst) {
+    React.Children.forEach(children, (c, i)=> {
       if (!activeKey && !c.props.disabled) {
-        activeKey = getKeyFromChildren(c, children);
+        activeKey = getKeyFromChildrenIndex(c, i);
       }
     });
     return activeKey;
@@ -52,11 +61,14 @@ function saveRef(name, c) {
 class Menu extends React.Component {
   constructor(props) {
     super(props);
+    let selectedKeys = props.defaultSelectedKeys;
+    if ('selectedKeys' in props) {
+      selectedKeys = props.selectedKeys;
+    }
     this.state = {
-      activeKey: getActiveKey.call(this, props),
-      selectedKeys: props.selectedKeys || [],
+      activeKey: getActiveKey(props),
+      selectedKeys: selectedKeys || [],
     };
-
     ['onItemHover', 'onDeselect',
       'onSelect', 'onKeyDown',
       'onDestroy', 'renderMenuItem'].forEach((m)=> {
@@ -65,25 +77,30 @@ class Menu extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const props = {
-      activeKey: getActiveKey.call(this, nextProps),
-    };
+    const props = {};
+    if ('activeKey' in nextProps) {
+      props.activeKey = getActiveKey(nextProps);
+    }
     if ('selectedKeys' in nextProps) {
       props.selectedKeys = nextProps.selectedKeys || [];
     }
     this.setState(props);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.visible || nextProps.visible;
+  }
+
   // all keyboard events callbacks run from here at first
   onKeyDown(e) {
     const keyCode = e.keyCode;
-    let ond;
+    let handled;
     this.instanceArray.forEach((obj)=> {
       if (obj.props.active) {
-        ond = obj.onKeyDown(e);
+        handled = obj.onKeyDown(e);
       }
     });
-    if (ond) {
+    if (handled) {
       return 1;
     }
     let activeItem;
@@ -115,72 +132,63 @@ class Menu extends React.Component {
     });
   }
 
-  onSelect(key, child, e) {
+  onSelect(selectInfo) {
     const props = this.props;
-    // not from submenu
-    // top menu
-    // TODO: remove sub judge
+    // root menu
     if (!props.sub) {
-      if (!props.multiple) {
-        const selectedDescendant = this.selectedDescendant;
-        if (selectedDescendant) {
-          if (selectedDescendant !== child) {
-            const selectedDescendantProps = selectedDescendant.props;
-            selectedDescendantProps.onDeselect(selectedDescendantProps.eventKey, selectedDescendant, e, child);
-          }
-        }
-        this.selectedDescendant = child;
-      }
-    }
-    const state = this.state;
-    // my child
-    if (this.instanceArray.indexOf(child) !== -1) {
-      let selectedKeys;
+      let selectedKeys = this.state.selectedKeys;
+      const selectedKey = selectInfo.key;
       if (props.multiple) {
-        selectedKeys = state.selectedKeys.concat([key]);
+        selectedKeys = selectedKeys.concat([selectedKey]);
       } else {
-        selectedKeys = [key];
+        selectedKeys = [selectedKey];
       }
-      this.setState({
-        selectedKeys: selectedKeys,
-      });
-    }
-
-    if (props.onSelect) {
-      props.onSelect(key, child, e);
-    }
-  }
-
-  onDeselect(key, child, e, __childToBeSelected) {
-    const state = this.state;
-    const children = this.instanceArray;
-    // my children
-    if (children.indexOf(child) !== -1 && children.indexOf(__childToBeSelected) === -1) {
-      let selectedKeys = state.selectedKeys;
-      const index = selectedKeys.indexOf(key);
-      if (index !== -1) {
-        selectedKeys = selectedKeys.concat([]);
-        selectedKeys.splice(index, 1);
+      if (!('selectedKeys' in props)) {
         this.setState({
           selectedKeys: selectedKeys,
         });
       }
+      props.onSelect(assign({}, selectInfo, {
+        selectedKeys: selectedKeys,
+      }));
+    } else {
+      props.onSelect(selectInfo);
     }
-    this.props.onDeselect.apply(null, arguments);
+  }
+
+  onDeselect(selectInfo) {
+    const props = this.props;
+    if (!props.sub) {
+      const selectedKeys = this.state.selectedKeys.concat();
+      const selectedKey = selectInfo.key;
+      const index = selectedKeys.indexOf(selectedKey);
+      if (index !== -1) {
+        selectedKeys.splice(index, 1);
+      }
+      if (!('selectedKeys' in props)) {
+        this.setState({
+          selectedKeys: selectedKeys,
+        });
+      }
+      props.onDeselect(assign({}, selectInfo, {
+        selectedKeys: selectedKeys,
+      }));
+    } else {
+      props.onDeselect(selectInfo);
+    }
   }
 
   onDestroy(key) {
     const state = this.state;
+    const props = this.props;
     const selectedKeys = state.selectedKeys;
     const index = selectedKeys.indexOf(key);
-    if (index !== -1) {
-      // selectedKeys = selectedKeys.concat([]);
-      selectedKeys.splice(index, 1);
-      // can not call setState in unmount, will cause render and update unmounted children
-      // https://github.com/facebook/react/pull/3795
-      // this.setState({
-      //   selectedKeys: selectedKeys
-      // });
+    if (!props.sub) {
+      if (!('selectedKeys' in props) && index !== -1) {
+        selectedKeys.splice(index, 1);
+      }
+    } else {
+      props.onDestroy(key);
     }
   }
 
@@ -189,7 +197,19 @@ class Menu extends React.Component {
     const props = this.props;
     const key = getKeyFromChildren(child, props.children);
     const childProps = child.props;
+    const mode = props.mode;
+    let openSubMenuOnHover = props.openSubMenuOnHover;
+    let closeSubMenuOnDeactive = props.closeSubMenuOnDeactive;
+    if (mode === 'inline') {
+      openSubMenuOnHover = false;
+      closeSubMenuOnDeactive = false;
+    }
     return React.cloneElement(child, {
+      mode: props.mode,
+      level: props.level,
+      inlineIndent: props.inlineIndent,
+      openSubMenuOnHover: openSubMenuOnHover,
+      closeSubMenuOnDeactive: closeSubMenuOnDeactive,
       renderMenuItem: this.renderMenuItem,
       rootPrefixCls: props.prefixCls,
       ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
@@ -197,10 +217,11 @@ class Menu extends React.Component {
       onHover: this.onItemHover,
       active: !childProps.disabled && key === state.activeKey,
       multiple: props.multiple,
+      selectedKeys: state.selectedKeys,
       selected: state.selectedKeys.indexOf(key) !== -1,
       onClick: props.onClick,
       onDeselect: createChainedFunction(childProps.onDeselect, this.onDeselect),
-      onDestroy: this.onDestroy,
+      onDestroy: 'selectedKeys' in props ? noop : this.onDestroy,
       onSelect: createChainedFunction(childProps.onSelect, this.onSelect),
     });
   }
@@ -210,8 +231,9 @@ class Menu extends React.Component {
     this.instanceArray = [];
     const classes = {
       [props.prefixCls]: 1,
-      [`${props.prefixCls}-horizontal`]: !!props.horizontal,
-      [`${props.prefixCls}-vertical`]: !!props.vertical,
+      [`${props.prefixCls}-sub`]: !!props.sub,
+      [`${props.prefixCls}-root`]: !props.sub,
+      [`${props.prefixCls}-${props.mode}`]: 1,
       [props.className]: !!props.className,
     };
     const domProps = {
@@ -227,8 +249,7 @@ class Menu extends React.Component {
       domProps.onKeyDown = this.onKeyDown;
     }
     return (
-      <ul
-        style={this.props.style}
+      <ul style={props.style}
         {...domProps}>
         {React.Children.map(props.children, this.renderMenuItem)}
       </ul>
@@ -274,14 +295,24 @@ Menu.propTypes = {
   onSelect: React.PropTypes.func,
   style: React.PropTypes.object,
   onDeselect: React.PropTypes.func,
-  activeFirst: React.PropTypes.bool,
+  defaultActiveFirst: React.PropTypes.bool,
+  visible: React.PropTypes.bool,
+  openSubMenuOnHover: React.PropTypes.bool,
+  closeSubMenuOnDeactive: React.PropTypes.bool,
   activeKey: React.PropTypes.string,
   selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+  defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
 Menu.defaultProps = {
   prefixCls: 'rc-menu',
+  mode: 'vertical',
+  level: 1,
+  inlineIndent: 24,
+  visible: true,
   focusable: true,
+  openSubMenuOnHover: true,
+  closeSubMenuOnDeactive: true,
   style: {},
   onSelect: noop,
   onClick: noop,

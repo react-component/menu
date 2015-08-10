@@ -10,13 +10,11 @@ var children = [];
 for (var i = 0; i < 20; i++) {
   children.push(<MenuItem key={i + ""}>{i}</MenuItem>);
 }
-var style = '.rc-menu {\
-height: 200px;\
-width:200px;\
-overflow:auto;\
-}';
 React.render(<div>
   <h2>keyboard scrollable menu</h2>
-  <style>{style}</style>
-  <Menu>{children}</Menu>
+  <Menu style={{
+  width:200,
+  height:200,
+  overflow:'auto'
+  }}>{children}</Menu>
 </div>, document.getElementById('__react-content'));

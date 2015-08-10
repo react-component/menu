@@ -72,28 +72,22 @@ React.render(<Menu>
           <td>additional css class of root dom node</td>
         </tr>
         <tr>
+          <td>mode</td>
+          <td>String</td>
           <td>vertical</td>
-          <td>boolean</td>
-          <td></td>
-          <td>whether add vertical className</td>
-        </tr>
-        <tr>
-          <td>horizontal</td>
-          <td>boolean</td>
-          <td></td>
-          <td>whether add horizontal className</td>
+          <td>one of ["vertical","horizontal","inline"]</td>
         </tr>
         <tr>
             <td>activeKey</td>
             <td>Object</td>
-            <th>first active item's key</th>
-            <td>same with active tabPanel's key</td>
+            <th></th>
+            <td>initial and current active menu item's key.</td>
         </tr>
         <tr>
-            <td>activeFirst</td>
+            <td>defaultActiveFirst</td>
             <td>Boolean</td>
             <th>false</th>
-            <td>whether active first menu item when show if activeKey is not set</td>
+            <td>whether active first menu item when show if activeKey is not set or invalid</td>
         </tr>
         <tr>
             <td>multiple</td>
@@ -108,22 +102,22 @@ React.render(<Menu>
             <td>selected keys of items</td>
         </tr>
         <tr>
+            <td>defaultSelectedKeys</td>
+            <td>String[]</td>
+            <th>[]</th>
+            <td>initial selected keys of items</td>
+        </tr>
+        <tr>
             <td>onSelect</td>
-            <td>function(key:String,child:ReactComponent)</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
             <td>called when select a menu item</td>
         </tr>
         <tr>
             <td>onDeselect</td>
-            <td>function(key:String,child:ReactComponent)</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
-            <td>called when deselect a menu item</td>
-        </tr>
-        <tr>
-            <td>onSelect</td>
-            <td>Function(key:String)</td>
-            <th></th>
-            <td>function called with selected menu item's key as param</td>
+            <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>
     </tbody>
 </table>
@@ -179,12 +173,6 @@ React.render(<Menu>
           <td>String</td>
           <td></td>
           <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-          <td>align</td>
-          <td>object</td>
-          <td>{points:['lt', 'rt'] }</td>
-          <td>submenu align config. Defaults to align left/top of popup menu with right/top of sub menu item.</td>
         </tr>
         <tr>
           <td>title</td>
