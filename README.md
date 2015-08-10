@@ -81,13 +81,13 @@ React.render(<Menu>
             <td>activeKey</td>
             <td>Object</td>
             <th></th>
-            <td>initial and current active menu item's key</td>
+            <td>initial and current active menu item's key.</td>
         </tr>
         <tr>
-            <td>activeFirst</td>
+            <td>defaultActiveFirst</td>
             <td>Boolean</td>
             <th>false</th>
-            <td>whether active first menu item when show if activeKey is not set</td>
+            <td>whether active first menu item when show if activeKey is not set or invalid</td>
         </tr>
         <tr>
             <td>multiple</td>
@@ -109,25 +109,25 @@ React.render(<Menu>
         </tr>
         <tr>
             <td>onSelect</td>
-            <td>function(key:String,child:ReactComponent)</td>
+            <td>function({key:String,item:ReactComponent,selectedKeys:String[]})</td>
             <th></th>
             <td>called when select a menu item</td>
         </tr>
         <tr>
-            <td>openOnHover</td>
+            <td>openSubMenuOnHover</td>
             <td>boolean</td>
             <th>true</th>
-            <td>whether to open all sub menu on hover</td>
+            <td>whether to open sub menu on hover</td>
         </tr>
         <tr>
-            <td>closeOnDeActive</td>
+            <td>closeSubMenuOnDeactive</td>
             <td>boolean</td>
             <th>true</th>
-            <td>whether to close all sub menu on deActive</td>
+            <td>whether to close sub menu on deactive</td>
         </tr>
         <tr>
             <td>onDeselect</td>
-            <td>function(key:String,child:ReactComponent)</td>
+            <td>function({key:String,item:ReactComponent,selectedKeys:String[]})</td>
             <th></th>
             <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>

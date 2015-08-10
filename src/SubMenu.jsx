@@ -4,9 +4,10 @@ import {classSet, createChainedFunction, KeyCode, guid} from 'rc-util';
 
 const SubMenu = React.createClass({
   propTypes: {
-    closeOnDeActive: React.PropTypes.bool,
-    globalCloseOnDeActive: React.PropTypes.bool,
+    closeOnDeactive: React.PropTypes.bool,
+    closeSubMenuOnDeactive: React.PropTypes.bool,
     openOnHover: React.PropTypes.bool,
+    openSubMenuOnHover: React.PropTypes.bool,
     title: React.PropTypes.node,
     onClick: React.PropTypes.func,
     rootPrefixCls: React.PropTypes.string,
@@ -20,13 +21,12 @@ const SubMenu = React.createClass({
 
   getInitialState() {
     return {
-      activeFirst: false,
+      defaultActiveFirst: false,
     };
   },
 
-
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.active && this.isCloseOnDeActive()) {
+    if (!nextProps.active && this.isCloseOnDeactive()) {
       this.setOpenState(false);
     }
   },
@@ -46,7 +46,7 @@ const SubMenu = React.createClass({
     if (keyCode === KeyCode.ENTER) {
       this.onClick(e);
       this.setState({
-        activeFirst: true,
+        defaultActiveFirst: true,
       });
       return true;
     }
@@ -57,7 +57,7 @@ const SubMenu = React.createClass({
       } else {
         this.setOpenState(true);
         this.setState({
-          activeFirst: true,
+          defaultActiveFirst: true,
         });
       }
       return true;
@@ -86,7 +86,7 @@ const SubMenu = React.createClass({
     props.onHover(props.eventKey);
     let openOnHover = props.openOnHover;
     if (openOnHover === undefined) {
-      openOnHover = props.globalOpenOnHover;
+      openOnHover = props.openSubMenuOnHover;
     }
     if (openOnHover === undefined) {
       openOnHover = true;
@@ -94,7 +94,7 @@ const SubMenu = React.createClass({
     if (openOnHover) {
       this.setOpenState(true);
       this.setState({
-        activeFirst: false,
+        defaultActiveFirst: false,
       });
     }
   },
@@ -106,27 +106,26 @@ const SubMenu = React.createClass({
   },
 
   onClick() {
-    if (this.isCloseOnDeActive()) {
+    if (this.isCloseOnDeactive()) {
       this.setOpenState(true);
     } else {
       this.setOpenState(!this.state.open);
     }
     this.setState({
-      activeFirst: false,
+      defaultActiveFirst: false,
     });
   },
 
-  onSubMenuClick(key, menuItem, e) {
-    this.props.onClick(key, menuItem, e);
+  onSubMenuClick(info) {
+    this.props.onClick(info);
   },
 
-  onSelect(childKey, child, e) {
-    // propagate
-    this.props.onSelect(childKey, child, e);
+  onSelect(info) {
+    this.props.onSelect(info);
   },
 
-  onDeselect() {
-    this.props.onDeselect.apply(null, arguments);
+  onDeselect(info) {
+    this.props.onDeselect(info);
   },
 
   getPrefixCls() {
@@ -143,10 +142,6 @@ const SubMenu = React.createClass({
 
   renderChildren(children) {
     const props = this.props;
-    if (!this.state.open) {
-      // prevent destroy
-      return this._cacheMenu || null;
-    }
     const childrenCount = React.Children.count(children);
     let mode = props.mode;
     if (mode !== 'inline') {
@@ -154,15 +149,17 @@ const SubMenu = React.createClass({
     }
     const baseProps = {
       sub: true,
+      visible: this.state.open,
       level: props.level + 1,
       inlineIndent: props.inlineIndent,
-      openOnHover: props.globalOpenOnHover,
-      closeOnDeActive: props.globalCloseOnDeActive,
+      openSubMenuOnHover: props.openSubMenuOnHover,
+      closeSubMenuOnDeactive: props.closeSubMenuOnDeactive,
       focusable: false,
       onClick: this.onSubMenuClick,
       onSelect: this.onSelect,
       onDeselect: this.onDeselect,
-      activeFirst: this.state.activeFirst,
+      selectedKeys: props.selectedKeys,
+      defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
       id: this._menuId,
@@ -175,14 +172,13 @@ const SubMenu = React.createClass({
       const menu = children;
       baseProps.ref = createChainedFunction(menu.ref, this.saveMenuInstance);
       baseProps.onClick = createChainedFunction(menu.props.onClick, this.onSubMenuClick);
-      this._cacheMenu = React.cloneElement(menu, baseProps);
-    } else {
-      this._cacheMenu = <Menu {...baseProps}>{children}</Menu>;
+      return React.cloneElement(menu, baseProps);
     }
-    return this._cacheMenu;
+    return <Menu {...baseProps}>{children}</Menu>;
   },
 
   render() {
+    this.haveOpened = this.haveOpened || this.state.opened;
     const props = this.props;
     const prefixCls = this.getPrefixCls();
     const classes = {
@@ -237,15 +233,15 @@ const SubMenu = React.createClass({
     this.menuInstance = c;
   },
 
-  isCloseOnDeActive() {
-    let closeOnDeActive = this.props.closeOnDeActive;
-    if (closeOnDeActive === undefined) {
-      closeOnDeActive = this.props.globalCloseOnDeActive;
+  isCloseOnDeactive() {
+    let closeOnDeactive = this.props.closeOnDeactive;
+    if (closeOnDeactive === undefined) {
+      closeOnDeactive = this.props.closeSubMenuOnDeactive;
     }
-    if (closeOnDeActive === undefined) {
-      closeOnDeActive = true;
+    if (closeOnDeactive === undefined) {
+      closeOnDeactive = true;
     }
-    return closeOnDeActive;
+    return closeOnDeactive;
   },
 });
 

@@ -1,9 +1,10 @@
 # History
 ----
 
-## 3.6.0 / 2015-08-08
+## 4.0.0 / 2015-08-08
 
-add props: mode (horizontal, vertical, inline) for Menu, add defaultSelectedKeys, make selectedKeys controllable
+- add props: mode (horizontal, vertical, inline) for Menu, add defaultSelectedKeys, make selectedKeys controllable
+- make selectedKeys controllable
 
 ## 3.5.0 / 2015-08-06
 

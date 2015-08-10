@@ -36,15 +36,20 @@ class MenuItem extends React.Component {
   onClick(e) {
     const props = this.props;
     const eventKey = props.eventKey;
-    props.onClick(eventKey, this, e);
+    const info = {
+      key: eventKey,
+      item: this,
+      domEvent: e,
+    };
+    props.onClick(info);
     if (props.multiple) {
       if (props.selected) {
-        props.onDeselect(eventKey, this, e);
+        props.onDeselect(info);
       } else {
-        props.onSelect(eventKey, this, e);
+        props.onSelect(info);
       }
     } else if (!props.selected) {
-      props.onSelect(eventKey, this, e);
+      props.onSelect(info);
     }
   }
 

@@ -6,12 +6,12 @@ import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} fr
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
 
-function handleSelect(selectedKey, item, e) {
-  console.log('selected ' + selectedKey, item, e);
+function handleSelect(info) {
+  console.log('selected ', info);
 }
 
-function handleDeselect(selectedKey, item, e) {
-  console.log('deselect ' + selectedKey, item, e);
+function handleDeselect(info) {
+  console.log('deselect ', info);
 }
 
 var titleRight = <span>sub menu
@@ -37,9 +37,9 @@ function save(c) {
 
 function render(container) {
   var leftMenu = (
-    <Menu  multiple={true} onSelect={handleSelect}
-           onDeselect={handleDeselect}
-           defaultSelectedKeys={['2','4-3']}>
+    <Menu multiple={true} onSelect={handleSelect}
+          onDeselect={handleDeselect}
+          defaultSelectedKeys={['2','1-1']}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
@@ -49,11 +49,8 @@ function render(container) {
       <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>
         <Menu.Divider />
-        <SubMenu
-          openOnHover={false}
-          key="4-2"
-          title={titleRight2}
-        >
+        <SubMenu  key="4-2"
+          title={titleRight2}>
           <MenuItem key="4-2-1">inn</MenuItem>
           <SubMenu title={titleRight3} key="4-2-2">
             <Menu>
@@ -69,6 +66,7 @@ function render(container) {
   );
   React.render(<div>
     <h2>multiple selectable menu</h2>
+
     <p>
       <button onClick={destroy}>destroy</button>
     </p>
