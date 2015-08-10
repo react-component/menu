@@ -46,8 +46,8 @@ describe('Menu', function () {
   it('Should call on select when item is selected', function (done) {
     var count = 0;
 
-    function handleSelect(key) {
-      expect(key).to.be('item2');
+    function handleSelect(e) {
+      expect(e.key).to.be('item2');
       count++;
       if (count === 2) {
         done();

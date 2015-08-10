@@ -76,7 +76,7 @@ function render(container) {
   );
 
   var inlineMenu = (
-    <Menu onSelect={handleSelect} mode="inline"
+    <Menu onSelect={handleSelect} mode="inline">
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
