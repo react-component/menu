@@ -70,6 +70,7 @@ class Menu extends React.Component {
       selectedKeys: selectedKeys || [],
     };
     ['onItemHover', 'onDeselect',
+      'onClick',
       'onSelect', 'onKeyDown',
       'onDestroy', 'renderMenuItem'].forEach((m)=> {
         this[m] = this[m].bind(this);
@@ -192,6 +193,17 @@ class Menu extends React.Component {
     }
   }
 
+  onClick(e) {
+    const props = this.props;
+    // no top menu
+    if (!props.multiple && this.instanceArray.indexOf(e.item) === -1) {
+      this.setState({
+        activeKey: null,
+      });
+    }
+    this.props.onClick(e);
+  }
+
   renderMenuItem(child) {
     const state = this.state;
     const props = this.props;
@@ -219,7 +231,7 @@ class Menu extends React.Component {
       multiple: props.multiple,
       selectedKeys: state.selectedKeys,
       selected: state.selectedKeys.indexOf(key) !== -1,
-      onClick: props.onClick,
+      onClick: this.onClick,
       onDeselect: createChainedFunction(childProps.onDeselect, this.onDeselect),
       onDestroy: 'selectedKeys' in props ? noop : this.onDestroy,
       onSelect: createChainedFunction(childProps.onSelect, this.onSelect),
@@ -293,6 +305,7 @@ Menu.propTypes = {
   focusable: React.PropTypes.bool,
   multiple: React.PropTypes.bool,
   onSelect: React.PropTypes.func,
+  onClick: React.PropTypes.func,
   style: React.PropTypes.object,
   onDeselect: React.PropTypes.func,
   defaultActiveFirst: React.PropTypes.bool,
