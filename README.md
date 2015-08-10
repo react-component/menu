@@ -109,25 +109,13 @@ React.render(<Menu>
         </tr>
         <tr>
             <td>onSelect</td>
-            <td>function({key:String,item:ReactComponent,selectedKeys:String[]})</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
             <td>called when select a menu item</td>
         </tr>
         <tr>
-            <td>openSubMenuOnHover</td>
-            <td>boolean</td>
-            <th>true</th>
-            <td>whether to open sub menu on hover</td>
-        </tr>
-        <tr>
-            <td>closeSubMenuOnDeactive</td>
-            <td>boolean</td>
-            <th>true</th>
-            <td>whether to close sub menu on deactive</td>
-        </tr>
-        <tr>
             <td>onDeselect</td>
-            <td>function({key:String,item:ReactComponent,selectedKeys:String[]})</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
             <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>

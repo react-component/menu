@@ -197,12 +197,19 @@ class Menu extends React.Component {
     const props = this.props;
     const key = getKeyFromChildren(child, props.children);
     const childProps = child.props;
+    const mode = props.mode;
+    let openSubMenuOnHover = props.openSubMenuOnHover;
+    let closeSubMenuOnDeactive = props.closeSubMenuOnDeactive;
+    if (mode === 'inline') {
+      openSubMenuOnHover = false;
+      closeSubMenuOnDeactive = false;
+    }
     return React.cloneElement(child, {
       mode: props.mode,
       level: props.level,
       inlineIndent: props.inlineIndent,
-      openSubMenuOnHover: props.openSubMenuOnHover,
-      closeSubMenuOnDeactive: props.closeSubMenuOnDeactive,
+      openSubMenuOnHover: openSubMenuOnHover,
+      closeSubMenuOnDeactive: closeSubMenuOnDeactive,
       renderMenuItem: this.renderMenuItem,
       rootPrefixCls: props.prefixCls,
       ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
