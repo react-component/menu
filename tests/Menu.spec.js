@@ -48,18 +48,14 @@ describe('Menu', function () {
 
     function handleSelect(e) {
       expect(e.key).to.be('item2');
-      count++;
-      if (count === 2) {
         done();
-      }
     }
 
     TestUtils.renderIntoDocument(
       <Menu activeKey="item1" onSelect={handleSelect}>
         <MenuItem key="item1" href="http://www.baidu.com">Tab 1 content</MenuItem>
         <MenuItem key="item2"
-          ref={saveRef('item2')}
-          onSelect={handleSelect}>
+          ref={saveRef('item2')}>
           Tab 2 content
         </MenuItem>
       </Menu>
@@ -100,10 +96,8 @@ describe('Menu', function () {
         <MenuItem disabled />
         <MenuItem ref={saveRef('item2')} key="item2">Pill 2 content</MenuItem>
         <SubMenu key="item3" className="dropdown-submenu" title="right">
-          <Menu className="dropdown-menu">
             <MenuItem key="231">inner inner</MenuItem>
             <MenuItem key="242">inner inner2</MenuItem>
-          </Menu>
         </SubMenu>
       </Menu>, div
     );

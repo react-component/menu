@@ -7,18 +7,25 @@ export default {
     };
   },
 
+  componentDidMount() {
+    if (this.state.open && this.props.mode !== 'inline') {
+      this.bindRootCloseHandlers();
+    }
+  },
+
   getOpenClassName() {
     return this.props.openClassName || this.props.rootPrefixCls + '-submenu-open';
   },
 
   setOpenState(newState, onStateChangeComplete) {
     if (this.state.open !== newState) {
-      if (newState) {
-        this.bindRootCloseHandlers();
-      } else {
-        this.unbindRootCloseHandlers();
+      if (this.props.mode !== 'inline') {
+        if (newState) {
+          this.bindRootCloseHandlers();
+        } else {
+          this.unbindRootCloseHandlers();
+        }
       }
-
       this.setState({
         open: newState,
       }, onStateChangeComplete);
@@ -27,7 +34,7 @@ export default {
 
   handleDocumentKeyUp(e) {
     if (e.keyCode === KeyCode.ESC) {
-      this.setOpenState(false);
+      this.props.onHover(null);
     }
   },
 
@@ -37,22 +44,25 @@ export default {
     if (rcUtil.Dom.contains(React.findDOMNode(this), e.target)) {
       return;
     }
-    // de active menu cause sub menu hide its menu
     this.props.onHover(null);
   },
 
   bindRootCloseHandlers() {
-    this._onDocumentClickListener = rcUtil.Dom.addEventListener(document, 'click', this.handleDocumentClick);
-    this._onDocumentKeyupListener = rcUtil.Dom.addEventListener(document, 'keyup', this.handleDocumentKeyUp);
+    if (!this._onDocumentClickListener) {
+      this._onDocumentClickListener = rcUtil.Dom.addEventListener(document, 'click', this.handleDocumentClick);
+      this._onDocumentKeyupListener = rcUtil.Dom.addEventListener(document, 'keyup', this.handleDocumentKeyUp);
+    }
   },
 
   unbindRootCloseHandlers() {
     if (this._onDocumentClickListener) {
       this._onDocumentClickListener.remove();
+      this._onDocumentClickListener = null;
     }
 
     if (this._onDocumentKeyupListener) {
       this._onDocumentKeyupListener.remove();
+      this._onDocumentKeyupListener = null;
     }
   },
 

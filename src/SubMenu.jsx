@@ -1,19 +1,20 @@
-import Menu from './Menu';
+import SubPopupMenu from './SubPopupMenu';
 import React from 'react';
-import {classSet, createChainedFunction, KeyCode, guid} from 'rc-util';
+import {classSet, KeyCode, guid} from 'rc-util';
 
 const SubMenu = React.createClass({
   propTypes: {
-    closeOnDeactive: React.PropTypes.bool,
     closeSubMenuOnDeactive: React.PropTypes.bool,
-    openOnHover: React.PropTypes.bool,
-    openSubMenuOnHover: React.PropTypes.bool,
+    deactiveSubMenuOnMouseLeave: React.PropTypes.bool,
+    openSubMenuOnMouseEnter: React.PropTypes.bool,
     title: React.PropTypes.node,
     onClick: React.PropTypes.func,
+    parent: React.PropTypes.object,
     rootPrefixCls: React.PropTypes.string,
     multiple: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
+    onDestroy:React.PropTypes.func,
     onHover: React.PropTypes.func,
   },
 
@@ -26,8 +27,8 @@ const SubMenu = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.active && this.isCloseOnDeactive()) {
-      this.setOpenState(false);
+    if ('open' in nextProps) {
+      this.setOpenState(nextProps.open);
     }
   },
 
@@ -37,6 +38,17 @@ const SubMenu = React.createClass({
       },
       title: '',
     };
+  },
+
+  componentWillUnmount() {
+    const props = this.props;
+    if (props.onDestroy) {
+      props.onDestroy(props.eventKey);
+    }
+  },
+
+  onDestroy(key){
+    this.props.onDestroy(key);
   },
 
   onKeyDown(e) {
@@ -81,17 +93,21 @@ const SubMenu = React.createClass({
     }
   },
 
+  onSubTreeMouseEnter() {
+    if (this.props.parent.leaveTimer) {
+      clearTimeout(this.props.parent.leaveTimer);
+      this.props.parent.leaveTimer = null;
+    }
+  },
+
   onMouseEnter() {
+    if (this.props.parent.leaveTimer) {
+      clearTimeout(this.props.parent.leaveTimer);
+      this.props.parent.leaveTimer = null;
+    }
     const props = this.props;
     props.onHover(props.eventKey);
-    let openOnHover = props.openOnHover;
-    if (openOnHover === undefined) {
-      openOnHover = props.openSubMenuOnHover;
-    }
-    if (openOnHover === undefined) {
-      openOnHover = true;
-    }
-    if (openOnHover) {
+    if (props.openSubMenuOnMouseEnter) {
       this.setOpenState(true);
       this.setState({
         defaultActiveFirst: false,
@@ -100,20 +116,21 @@ const SubMenu = React.createClass({
   },
 
   onMouseLeave() {
-    if (!this.state.open) {
-      this.props.onHover(null);
-    }
+    this.props.parent.leaveTimer = setTimeout(()=> {
+      this.props.parent.leaveTimer = null;
+      if (this.props.deactiveSubMenuOnMouseLeave) {
+        this.props.onHover(null);
+      }
+    }, 100);
   },
 
   onClick() {
-    if (this.isCloseOnDeactive()) {
-      this.setOpenState(true);
-    } else {
+    if (!this.props.openSubMenuOnMouseEnter) {
       this.setOpenState(!this.state.open);
+      this.setState({
+        defaultActiveFirst: false,
+      });
     }
-    this.setState({
-      defaultActiveFirst: false,
-    });
   },
 
   onSubMenuClick(info) {
@@ -142,22 +159,19 @@ const SubMenu = React.createClass({
 
   renderChildren(children) {
     const props = this.props;
-    const childrenCount = React.Children.count(children);
-    let mode = props.mode;
-    if (mode !== 'inline') {
-      mode = undefined;
-    }
     const baseProps = {
-      sub: true,
+      mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
       visible: this.state.open,
       level: props.level + 1,
       inlineIndent: props.inlineIndent,
-      openSubMenuOnHover: props.openSubMenuOnHover,
-      closeSubMenuOnDeactive: props.closeSubMenuOnDeactive,
       focusable: false,
       onClick: this.onSubMenuClick,
+      closeSubMenuOnDeactive: props.closeSubMenuOnDeactive,
+      deactiveSubMenuOnMouseLeave: props.deactiveSubMenuOnMouseLeave,
+      openSubMenuOnMouseEnter: props.openSubMenuOnMouseEnter,
       onSelect: this.onSelect,
       onDeselect: this.onDeselect,
+      onDestroy: this.onDestroy,
       selectedKeys: props.selectedKeys,
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
@@ -165,20 +179,11 @@ const SubMenu = React.createClass({
       id: this._menuId,
       ref: this.saveMenuInstance,
     };
-    if (mode) {
-      baseProps.mode = mode;
-    }
-    if (childrenCount === 1 && children.type === Menu) {
-      const menu = children;
-      baseProps.ref = createChainedFunction(menu.ref, this.saveMenuInstance);
-      baseProps.onClick = createChainedFunction(menu.props.onClick, this.onSubMenuClick);
-      return React.cloneElement(menu, baseProps);
-    }
-    return <Menu {...baseProps}>{children}</Menu>;
+    return <SubPopupMenu {...baseProps}>{children}</SubPopupMenu>;
   },
 
   render() {
-    this.haveOpened = this.haveOpened || this.state.opened;
+    this.haveOpened = this.haveOpened || this.state.open;
     const props = this.props;
     const prefixCls = this.getPrefixCls();
     const classes = {
@@ -201,6 +206,7 @@ const SubMenu = React.createClass({
       };
       mouseEvents = {
         onMouseLeave: this.onMouseLeave,
+        onMouseEnter: this.onSubTreeMouseEnter,
       };
       // only works in title, not outer li
       titleMouseEvents = {
@@ -231,17 +237,6 @@ const SubMenu = React.createClass({
 
   saveMenuInstance(c) {
     this.menuInstance = c;
-  },
-
-  isCloseOnDeactive() {
-    let closeOnDeactive = this.props.closeOnDeactive;
-    if (closeOnDeactive === undefined) {
-      closeOnDeactive = this.props.closeSubMenuOnDeactive;
-    }
-    if (closeOnDeactive === undefined) {
-      closeOnDeactive = true;
-    }
-    return closeOnDeactive;
   },
 });
 

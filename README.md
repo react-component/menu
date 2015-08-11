@@ -119,6 +119,12 @@ React.render(<Menu>
             <th></th>
             <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>
+        <tr>
+            <td>openSubMenuOnMouseEnter</td>
+            <td>bool</td>
+            <th>true</th>
+            <td>whether enable top items to open on mouse enter</td>
+        </tr>
     </tbody>
 </table>
 
@@ -191,12 +197,6 @@ React.render(<Menu>
             <td>Boolean</td>
             <th>false</th>
             <td>no effect for click or keydown for this item</td>
-        </tr>
-        <tr>
-            <td>openOnHover</td>
-            <td>Boolean</td>
-            <th>true</th>
-            <td>whether show second sub menu on hover</td>
         </tr>
     </tbody>
 </table>

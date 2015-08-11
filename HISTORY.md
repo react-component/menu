@@ -1,6 +1,10 @@
 # History
 ----
 
+## 4.1.0 / 2015-08-11
+- remove openOnHover for SubMenu
+- add openSubMenuOnMouseEnter prop for Menu
+
 ## 4.0.0 / 2015-08-10
 
 - add props: mode (horizontal, vertical, inline) for Menu

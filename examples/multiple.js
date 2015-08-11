@@ -49,14 +49,12 @@ function render(container) {
       <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>
         <Menu.Divider />
-        <SubMenu  key="4-2"
-          title={titleRight2}>
+        <SubMenu key="4-2"
+                 title={titleRight2}>
           <MenuItem key="4-2-1">inn</MenuItem>
           <SubMenu title={titleRight3} key="4-2-2">
-            <Menu>
-              <MenuItem key="4-2-2-1">inner inner</MenuItem>
-              <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-            </Menu>
+            <MenuItem key="4-2-2-1">inner inner</MenuItem>
+            <MenuItem key="4-2-2-2">inner inner2</MenuItem>
           </SubMenu>
         </SubMenu>
       </SubMenu>
