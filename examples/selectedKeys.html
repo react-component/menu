@@ -240,7 +240,7 @@
         </div>
         <div class="example" id="__react-content"></div>
         <script src="common.js?nowrap"></script>
-        <script src="multiple.js?nowrap"></script>
+        <script src="selectedKeys.js?nowrap"></script>
         <div class="highlight"><pre><code><span class="xml">'use strict';
 
 import React from 'react';
@@ -248,14 +248,6 @@ import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} fr
 
 import 'rc-menu/assets/index.css';
 import 'font-awesome/css/font-awesome.css';
-
-function handleSelect(info) {
-  console.log('selected ', info);
-}
-
-function handleDeselect(info) {
-  console.log('deselect ', info);
-}
 
 var titleRight = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu
   <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
@@ -269,55 +261,78 @@ var titleRight2 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span
 var titleRight3 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 3
   <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
-var container = document.getElementById('__react-content');
 
-render(container);
+var Test = React.createClass({
+  getInitialState(){
+    return {
+      destroyed: false,
+      selectedKeys: ['2', '1-1']
+    };
+  },
 
-function save(c) {
-  console.log('getRef')
-  console.log(React.findDOMNode(c));
-}
+  handleSelect(info){
+    console.log('selected ', info);
+    this.setState({
+      selectedKeys: info.selectedKeys
+    });
+  },
 
-function render(container) {
-  var leftMenu = (
-    <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">multiple</span>=<span class="hljs-value">{true}</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span>
-          <span class="hljs-attribute">onDeselect</span>=<span class="hljs-value">{handleDeselect}</span>
-          <span class="hljs-attribute">defaultSelectedKeys</span>=<span class="hljs-value">{['2','1-1']}</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span> <span class="hljs-attribute">disabled</span>&gt;</span>can not deselect me,i'm disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight1}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span> /&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
-                 <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight2}</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight3}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+  handleDeselect(info) {
+    console.log('deselect ', info);
+  },
+
+  getMenu(){
+    return (
+      <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">multiple</span>=<span class="hljs-value">{true}</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{this.handleSelect}</span>
+            <span class="hljs-attribute">onDeselect</span>=<span class="hljs-value">{this.handleDeselect}</span>
+            <span class="hljs-attribute">selectedKeys</span>=<span class="hljs-value">{this.state.selectedKeys}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span> <span class="hljs-attribute">disabled</span>&gt;</span>can not deselect me,i'm disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight1}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span> /&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
+                   <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight2}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight3}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2"</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
           <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"disabled"</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-3"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
-  );
-  React.render(<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>multiple selectable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"disabled"</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-3"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
+    );
+  },
 
-    <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{destroy}</span>&gt;</span>destroy<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">width</span>: 400}}</span><span class="xml"><span class="hljs-tag">&gt;</span>{leftMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, container);
+  render(){
+    if (this.state.destroyed) {
+      return null;
+    }
+    return <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>multiple selectable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
 
-  function destroy() {
-    React.unmountComponentAtNode(container);
+      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.destroy}</span>&gt;</span>destroy<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">width</span>: 400}}</span><span class="xml"><span class="hljs-tag">&gt;</span>{this.getMenu()}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;
+  },
+
+  destroy(){
+    this.setState({
+      destroyed: true
+    });
   }
-}
+});
+
+
+React.render(<span class="hljs-tag">&lt;<span class="hljs-title">Test</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
     </div>
     <a href="http://github.com/react-component/menu"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>

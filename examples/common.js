@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		5:0
+/******/ 		6:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"menuItemGroup","2":"multiple","3":"scrollable","4":"single"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"menuItemGroup","2":"multiple","3":"scrollable","4":"selectedKeys","5":"single"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -123,19 +123,19 @@
 	
 	var _Menu2 = _interopRequireDefault(_Menu);
 	
-	var _SubMenu = __webpack_require__(21);
+	var _SubMenu = __webpack_require__(24);
 	
 	var _SubMenu2 = _interopRequireDefault(_SubMenu);
 	
-	var _MenuItem = __webpack_require__(23);
+	var _MenuItem = __webpack_require__(27);
 	
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 	
-	var _MenuItemGroup = __webpack_require__(24);
+	var _MenuItemGroup = __webpack_require__(28);
 	
 	var _MenuItemGroup2 = _interopRequireDefault(_MenuItemGroup);
 	
-	var _Divider = __webpack_require__(25);
+	var _Divider = __webpack_require__(29);
 	
 	var _Divider2 = _interopRequireDefault(_Divider);
 	
@@ -157,51 +157,182 @@
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _rcUtil = __webpack_require__(6);
+	var _MenuMixin = __webpack_require__(6);
 	
-	var _domScrollIntoView = __webpack_require__(18);
+	var _MenuMixin2 = _interopRequireDefault(_MenuMixin);
+	
+	var _objectAssign = __webpack_require__(22);
+	
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+	
+	var _util = __webpack_require__(23);
+	
+	var Menu = _react2['default'].createClass({
+	  displayName: 'Menu',
+	
+	  propTypes: {
+	    defaultSelectedKeys: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string),
+	    onClick: _react2['default'].PropTypes.func
+	  },
+	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      defaultSelectedKeys: []
+	    };
+	  },
+	
+	  mixins: [_MenuMixin2['default']],
+	
+	  getInitialState: function getInitialState() {
+	    var props = this.props;
+	    var selectedKeys = props.defaultSelectedKeys;
+	    if ('selectedKeys' in props) {
+	      selectedKeys = props.selectedKeys;
+	    }
+	    return {
+	      selectedKeys: selectedKeys || []
+	    };
+	  },
+	
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    var props = {};
+	    if ('selectedKeys' in nextProps) {
+	      props.selectedKeys = nextProps.selectedKeys;
+	    }
+	    this.setState(props);
+	  },
+	
+	  onDestroy: function onDestroy(key) {
+	    var state = this.state;
+	    var props = this.props;
+	    var selectedKeys = state.selectedKeys;
+	    var index = selectedKeys.indexOf(key);
+	    if (!('selectedKeys' in props) && index !== -1) {
+	      selectedKeys.splice(index, 1);
+	    }
+	  },
+	
+	  onSelect: function onSelect(selectInfo) {
+	    var props = this.props;
+	    // root menu
+	    var selectedKeys = this.state.selectedKeys;
+	    var selectedKey = selectInfo.key;
+	    if (props.multiple) {
+	      selectedKeys = selectedKeys.concat([selectedKey]);
+	    } else {
+	      selectedKeys = [selectedKey];
+	    }
+	    if (!('selectedKeys' in props)) {
+	      this.setState({
+	        selectedKeys: selectedKeys
+	      });
+	    }
+	    props.onSelect((0, _objectAssign2['default'])({}, selectInfo, {
+	      selectedKeys: selectedKeys
+	    }));
+	  },
+	
+	  onClick: function onClick(e) {
+	    var props = this.props;
+	    // no top menu
+	    if (!props.multiple) {
+	      this.setState({
+	        activeKey: null
+	      });
+	    }
+	    this.props.onClick(e);
+	  },
+	
+	  onDeselect: function onDeselect(selectInfo) {
+	    var props = this.props;
+	    var selectedKeys = this.state.selectedKeys.concat();
+	    var selectedKey = selectInfo.key;
+	    var index = selectedKeys.indexOf(selectedKey);
+	    if (index !== -1) {
+	      selectedKeys.splice(index, 1);
+	    }
+	    if (!('selectedKeys' in props)) {
+	      this.setState({
+	        selectedKeys: selectedKeys
+	      });
+	    }
+	    props.onDeselect((0, _objectAssign2['default'])({}, selectInfo, {
+	      selectedKeys: selectedKeys
+	    }));
+	  },
+	
+	  renderMenuItem: function renderMenuItem(c, i) {
+	    var props = this.props;
+	    var key = (0, _util.getKeyFromChildrenIndex)(c, i);
+	    var state = this.state;
+	    var extraProps = {
+	      selectedKeys: state.selectedKeys,
+	      selected: state.selectedKeys.indexOf(key) !== -1
+	    };
+	    extraProps.openSubMenuOnMouseEnter = props.openSubMenuOnMouseEnter;
+	    extraProps.closeSubMenuOnDeactive = true;
+	    extraProps.deactiveSubMenuOnMouseLeave = props.openSubMenuOnMouseEnter;
+	    if (this.lastOpenKey) {
+	      extraProps.open = state.activeKey === key;
+	    }
+	    return this.renderCommonMenuItem(c, i, extraProps);
+	  },
+	
+	  render: function render() {
+	    var props = (0, _objectAssign2['default'])({}, this.props);
+	    var lastOpenKey = undefined;
+	    if (!props.openSubMenuOnMouseEnter) {
+	      var lastOpened = this.instanceArray.filter(function (c) {
+	        return c.state && c.state.open;
+	      });
+	      lastOpenKey = lastOpened[0] && lastOpened[0].props.eventKey;
+	    }
+	    this.lastOpenKey = lastOpenKey;
+	    props.className += ' ' + props.prefixCls + '-root';
+	    return this.renderRoot(props);
+	  }
+	});
+	
+	exports['default'] = Menu;
+	module.exports = exports['default'];
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _rcUtil = __webpack_require__(7);
+	
+	var _domScrollIntoView = __webpack_require__(19);
 	
 	var _domScrollIntoView2 = _interopRequireDefault(_domScrollIntoView);
 	
-	function noop() {}
+	var _objectAssign = __webpack_require__(22);
 	
-	var now = Date.now();
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
-	function getChildIndexInChildren(child, children) {
-	  var index = -1;
-	  _react2['default'].Children.forEach(children, function (c, i) {
-	    if (c === child) {
-	      index = i;
-	    }
-	  });
-	  return index;
-	}
-	
-	function getKeyFromChildren(child, children) {
-	  return child.key || 'rcMenuItem_' + now + '_' + getChildIndexInChildren(child, children);
-	}
-	
-	function getKeyFromChildrenIndex(child, index) {
-	  return child.key || 'rcMenuItem_' + now + '_' + index;
-	}
+	var _util = __webpack_require__(23);
 	
 	function getActiveKey(props) {
 	  var activeKey = props.activeKey;
@@ -209,7 +340,7 @@
 	  if (activeKey) {
 	    var found = undefined;
 	    _react2['default'].Children.forEach(children, function (c, i) {
-	      if (!c.props.disabled && activeKey === getKeyFromChildrenIndex(c, i)) {
+	      if (!c.props.disabled && activeKey === (0, _util.getKeyFromChildrenIndex)(c, i)) {
 	        found = true;
 	      }
 	    });
@@ -218,10 +349,10 @@
 	    }
 	  }
 	  activeKey = null;
-	  if (props.activeFirst) {
+	  if (props.defaultActiveFirst) {
 	    _react2['default'].Children.forEach(children, function (c, i) {
 	      if (!activeKey && !c.props.disabled) {
-	        activeKey = getKeyFromChildrenIndex(c, i);
+	        activeKey = (0, _util.getKeyFromChildrenIndex)(c, i);
 	      }
 	    });
 	    return activeKey;
@@ -235,312 +366,230 @@
 	  }
 	}
 	
-	var Menu = (function (_React$Component) {
-	  _inherits(Menu, _React$Component);
+	var MenuMixin = {
+	  propTypes: {
+	    focusable: _react2['default'].PropTypes.bool,
+	    multiple: _react2['default'].PropTypes.bool,
+	    onSelect: _react2['default'].PropTypes.func,
+	    onDeselect: _react2['default'].PropTypes.func,
+	    onDestroy: _react2['default'].PropTypes.func,
+	    onClick: _react2['default'].PropTypes.func,
+	    style: _react2['default'].PropTypes.object,
+	    defaultActiveFirst: _react2['default'].PropTypes.bool,
+	    visible: _react2['default'].PropTypes.bool,
+	    openSubMenuOnMouseEnter: _react2['default'].PropTypes.bool,
+	    activeKey: _react2['default'].PropTypes.string,
+	    selectedKeys: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string)
+	  },
 	
-	  function Menu(props) {
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      prefixCls: 'rc-menu',
+	      className: '',
+	      mode: 'vertical',
+	      level: 1,
+	      inlineIndent: 24,
+	      visible: true,
+	      focusable: true,
+	      closeSubMenuOnDeactive: true,
+	      deactiveSubMenuOnMouseLeave: true,
+	      openSubMenuOnMouseEnter: true,
+	      style: {},
+	      onSelect: _util.noop,
+	      onClick: _util.noop,
+	      onDeselect: _util.noop
+	    };
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    var props = this.props;
+	    return {
+	      activeKey: getActiveKey(props)
+	    };
+	  },
+	
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    var props = {};
+	    if ('activeKey' in nextProps) {
+	      props.activeKey = getActiveKey(nextProps);
+	    }
+	    this.setState(props);
+	  },
+	
+	  shouldComponentUpdate: function shouldComponentUpdate(nextProps) {
+	    return this.props.visible || nextProps.visible;
+	  },
+	
+	  componentWillMount: function componentWillMount() {
+	    this.instanceArray = [];
+	  },
+	
+	  // all keyboard events callbacks run from here at first
+	  onKeyDown: function onKeyDown(e) {
 	    var _this = this;
 	
-	    _classCallCheck(this, Menu);
-	
-	    _get(Object.getPrototypeOf(Menu.prototype), 'constructor', this).call(this, props);
-	    var selectedKeys = props.defaultSelectedKeys;
-	    if ('selectedKeys' in props) {
-	      selectedKeys = props.selectedKeys;
-	    }
-	    this.state = {
-	      activeKey: getActiveKey(props),
-	      selectedKeys: selectedKeys || []
-	    };
-	    ['onItemHover', 'onDeselect', 'onSelect', 'onKeyDown', 'onDestroy', 'renderMenuItem'].forEach(function (m) {
-	      _this[m] = _this[m].bind(_this);
+	    var keyCode = e.keyCode;
+	    var handled = undefined;
+	    this.instanceArray.forEach(function (obj) {
+	      if (obj.props.active) {
+	        handled = obj.onKeyDown(e);
+	      }
 	    });
-	  }
-	
-	  _createClass(Menu, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      var props = {};
-	      if ('activeKey' in nextProps) {
-	        props.activeKey = getActiveKey(nextProps);
-	      }
-	      if ('selectedKeys' in nextProps) {
-	        props.selectedKeys = nextProps.selectedKeys || [];
-	      }
-	      this.setState(props);
+	    if (handled) {
+	      return 1;
 	    }
-	
-	    // all keyboard events callbacks run from here at first
-	  }, {
-	    key: 'onKeyDown',
-	    value: function onKeyDown(e) {
-	      var _this2 = this;
-	
-	      var keyCode = e.keyCode;
-	      var handled = undefined;
-	      this.instanceArray.forEach(function (obj) {
-	        if (obj.props.active) {
-	          handled = obj.onKeyDown(e);
-	        }
-	      });
-	      if (handled) {
-	        return 1;
-	      }
-	      var activeItem = undefined;
-	      switch (keyCode) {
-	        case _rcUtil.KeyCode.UP:
-	          activeItem = this.step(-1);
-	          break;
-	        case _rcUtil.KeyCode.DOWN:
-	          activeItem = this.step(1);
-	          break;
-	        default:
-	      }
-	      if (activeItem) {
-	        e.preventDefault();
-	        this.setState({
-	          activeKey: activeItem.props.eventKey
-	        }, function () {
-	          (0, _domScrollIntoView2['default'])(_react2['default'].findDOMNode(activeItem), _react2['default'].findDOMNode(_this2), {
-	            onlyScrollIfNeeded: true
-	          });
-	        });
-	        return 1;
-	      }
+	    var activeItem = undefined;
+	    switch (keyCode) {
+	      case _rcUtil.KeyCode.UP:
+	        activeItem = this.step(-1);
+	        break;
+	      case _rcUtil.KeyCode.DOWN:
+	        activeItem = this.step(1);
+	        break;
+	      default:
 	    }
-	  }, {
-	    key: 'onItemHover',
-	    value: function onItemHover(key) {
+	    if (activeItem) {
+	      e.preventDefault();
 	      this.setState({
-	        activeKey: key
+	        activeKey: activeItem.props.eventKey
+	      }, function () {
+	        (0, _domScrollIntoView2['default'])(_react2['default'].findDOMNode(activeItem), _react2['default'].findDOMNode(_this), {
+	          onlyScrollIfNeeded: true
+	        });
 	      });
+	      return 1;
 	    }
-	  }, {
-	    key: 'onSelect',
-	    value: function onSelect(key, child, e) {
-	      var props = this.props;
+	  },
 	
-	      if (!('selectedKeys' in props)) {
-	        var state = this.state;
-	        // not from submenu
-	        // top menu
-	        // TODO: remove sub judge
-	        if (!props.sub) {
-	          if (!props.multiple) {
-	            var selectedDescendant = this.selectedDescendant;
-	            if (selectedDescendant) {
-	              if (selectedDescendant !== child) {
-	                var selectedDescendantProps = selectedDescendant.props;
-	                selectedDescendantProps.onDeselect(selectedDescendantProps.eventKey, selectedDescendant, e, child);
-	              }
-	            }
-	            this.selectedDescendant = child;
-	          }
-	        }
-	        // my child
-	        if (this.instanceArray.indexOf(child) !== -1) {
-	          var selectedKeys = undefined;
-	          if (props.multiple) {
-	            selectedKeys = state.selectedKeys.concat([key]);
-	          } else {
-	            selectedKeys = [key];
-	          }
-	          this.setState({
-	            selectedKeys: selectedKeys
-	          });
-	        }
-	      }
+	  onItemHover: function onItemHover(key) {
+	    this.setState({
+	      activeKey: key
+	    });
+	  },
 	
-	      if (props.onSelect) {
-	        props.onSelect(key, child, e);
+	  renderCommonMenuItem: function renderCommonMenuItem(child, i, extraProps) {
+	    var state = this.state;
+	    var props = this.props;
+	    var key = (0, _util.getKeyFromChildrenIndex)(child, i);
+	    var childProps = child.props;
+	    var newChildProps = {
+	      parent: this,
+	      mode: props.mode,
+	      level: props.level,
+	      inlineIndent: props.inlineIndent,
+	      renderMenuItem: this.renderMenuItem,
+	      rootPrefixCls: props.prefixCls,
+	      ref: (0, _rcUtil.createChainedFunction)(child.ref, saveRef.bind(this, key)),
+	      eventKey: key,
+	      onHover: this.onItemHover,
+	      active: !childProps.disabled && key === state.activeKey,
+	      multiple: props.multiple,
+	      onClick: this.onClick,
+	      onDeselect: this.onDeselect,
+	      onDestroy: this.onDestroy,
+	      onSelect: this.onSelect
+	    };
+	    newChildProps = (0, _objectAssign2['default'])({}, childProps, newChildProps, extraProps);
+	    if (props.mode === 'inline') {
+	      newChildProps.openSubMenuOnMouseEnter = newChildProps.closeSubMenuOnDeactive = false;
+	      delete newChildProps.open;
+	    } else if (!('open' in newChildProps)) {
+	      if (newChildProps.closeSubMenuOnDeactive && !newChildProps.active) {
+	        newChildProps.open = false;
+	      }
+	      if (!props.visible) {
+	        newChildProps.open = false;
 	      }
 	    }
-	  }, {
-	    key: 'onDeselect',
-	    value: function onDeselect(key, child, e, __childToBeSelected) {
-	      var props = this.props;
-	      if (!('selectedKeys' in props)) {
-	        var state = this.state;
-	        var children = this.instanceArray;
-	        // my children
-	        if (children.indexOf(child) !== -1 && children.indexOf(__childToBeSelected) === -1) {
-	          var selectedKeys = state.selectedKeys;
-	          var index = selectedKeys.indexOf(key);
-	          if (index !== -1) {
-	            selectedKeys = selectedKeys.concat([]);
-	            selectedKeys.splice(index, 1);
-	            this.setState({
-	              selectedKeys: selectedKeys
-	            });
-	          }
-	        }
-	      }
-	      props.onDeselect.apply(null, arguments);
-	    }
-	  }, {
-	    key: 'onDestroy',
-	    value: function onDestroy(key) {
-	      var state = this.state;
-	      var selectedKeys = state.selectedKeys;
-	      var index = selectedKeys.indexOf(key);
-	      if (index !== -1) {
-	        // selectedKeys = selectedKeys.concat([]);
-	        selectedKeys.splice(index, 1);
-	        // can not call setState in unmount, will cause render and update unmounted children
-	        // https://github.com/facebook/react/pull/3795
-	        // this.setState({
-	        //   selectedKeys: selectedKeys
-	        // });
-	      }
-	    }
-	  }, {
-	    key: 'renderMenuItem',
-	    value: function renderMenuItem(child) {
-	      var state = this.state;
-	      var props = this.props;
-	      var key = getKeyFromChildren(child, props.children);
-	      var childProps = child.props;
-	      return _react2['default'].cloneElement(child, {
-	        mode: props.mode,
-	        level: props.level,
-	        inlineIndent: props.inlineIndent,
-	        globalOpenOnHover: props.openOnHover,
-	        globalCloseOnDeActive: props.closeOnDeActive,
-	        renderMenuItem: this.renderMenuItem,
-	        rootPrefixCls: props.prefixCls,
-	        ref: (0, _rcUtil.createChainedFunction)(child.ref, saveRef.bind(this, key)),
-	        eventKey: key,
-	        onHover: this.onItemHover,
-	        active: !childProps.disabled && key === state.activeKey,
-	        multiple: props.multiple,
-	        selected: state.selectedKeys.indexOf(key) !== -1,
-	        onClick: props.onClick,
-	        onDeselect: (0, _rcUtil.createChainedFunction)(childProps.onDeselect, this.onDeselect),
-	        onDestroy: 'selectedKeys' in props ? noop : this.onDestroy,
-	        onSelect: (0, _rcUtil.createChainedFunction)(childProps.onSelect, this.onSelect)
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _classes;
+	    return _react2['default'].cloneElement(child, newChildProps);
+	  },
 	
-	      var props = this.props;
-	      this.instanceArray = [];
-	      var classes = (_classes = {}, _defineProperty(_classes, props.prefixCls, 1), _defineProperty(_classes, props.prefixCls + '-sub', !!props.sub), _defineProperty(_classes, props.prefixCls + '-' + props.mode, 1), _defineProperty(_classes, props.className, !!props.className), _classes);
-	      var domProps = {
-	        className: (0, _rcUtil.classSet)(classes),
-	        role: 'menu',
-	        'aria-activedescendant': ''
-	      };
-	      if (props.id) {
-	        domProps.id = props.id;
-	      }
-	      if (props.focusable) {
-	        domProps.tabIndex = '0';
-	        domProps.onKeyDown = this.onKeyDown;
-	      }
-	      return _react2['default'].createElement(
-	        'ul',
-	        _extends({ style: props.style
-	        }, domProps),
-	        _react2['default'].Children.map(props.children, this.renderMenuItem)
-	      );
-	    }
-	  }, {
-	    key: 'step',
-	    value: function step(direction) {
-	      var children = this.instanceArray;
-	      var activeKey = this.state.activeKey;
-	      var len = children.length;
-	      if (direction < 0) {
-	        children = children.concat().reverse();
-	      }
-	      // find current activeIndex
-	      var activeIndex = -1;
-	      children.every(function (c, ci) {
-	        if (c.props.eventKey === activeKey) {
-	          activeIndex = ci;
-	          return false;
-	        }
-	        return true;
-	      });
-	      var start = (activeIndex + 1) % len;
-	      var i = start;
-	      for (;;) {
-	        var child = children[i];
-	        if (child.props.disabled) {
-	          i = (i + 1 + len) % len;
-	          // complete a loop
-	          if (i === start) {
-	            return null;
-	          }
-	        } else {
-	          return child;
-	        }
-	      }
-	    }
-	  }]);
+	  renderRoot: function renderRoot(props) {
+	    var _classes;
 	
-	  return Menu;
-	})(_react2['default'].Component);
+	    this.instanceArray = [];
+	    var classes = (_classes = {}, _defineProperty(_classes, props.prefixCls, 1), _defineProperty(_classes, props.prefixCls + '-' + props.mode, 1), _defineProperty(_classes, props.className, !!props.className), _classes);
+	    var domProps = {
+	      className: (0, _rcUtil.classSet)(classes),
+	      role: 'menu',
+	      'aria-activedescendant': ''
+	    };
+	    if (props.id) {
+	      domProps.id = props.id;
+	    }
+	    if (props.focusable) {
+	      domProps.tabIndex = '0';
+	      domProps.onKeyDown = this.onKeyDown;
+	    }
+	    return _react2['default'].createElement(
+	      'ul',
+	      _extends({ style: props.style
+	      }, domProps),
+	      _react2['default'].Children.map(props.children, this.renderMenuItem)
+	    );
+	  },
 	
-	Menu.propTypes = {
-	  focusable: _react2['default'].PropTypes.bool,
-	  multiple: _react2['default'].PropTypes.bool,
-	  onSelect: _react2['default'].PropTypes.func,
-	  style: _react2['default'].PropTypes.object,
-	  onDeselect: _react2['default'].PropTypes.func,
-	  activeFirst: _react2['default'].PropTypes.bool,
-	  openOnHover: _react2['default'].PropTypes.bool,
-	  closeOnDeActive: _react2['default'].PropTypes.bool,
-	  activeKey: _react2['default'].PropTypes.string,
-	  selectedKeys: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string),
-	  defaultSelectedKeys: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string)
+	  step: function step(direction) {
+	    var children = this.instanceArray;
+	    var activeKey = this.state.activeKey;
+	    var len = children.length;
+	    if (direction < 0) {
+	      children = children.concat().reverse();
+	    }
+	    // find current activeIndex
+	    var activeIndex = -1;
+	    children.every(function (c, ci) {
+	      if (c.props.eventKey === activeKey) {
+	        activeIndex = ci;
+	        return false;
+	      }
+	      return true;
+	    });
+	    var start = (activeIndex + 1) % len;
+	    var i = start;
+	    for (;;) {
+	      var child = children[i];
+	      if (child.props.disabled) {
+	        i = (i + 1 + len) % len;
+	        // complete a loop
+	        if (i === start) {
+	          return null;
+	        }
+	      } else {
+	        return child;
+	      }
+	    }
+	  }
 	};
 	
-	Menu.defaultProps = {
-	  prefixCls: 'rc-menu',
-	  mode: 'vertical',
-	  level: 1,
-	  inlineIndent: 24,
-	  focusable: true,
-	  openOnHover: true,
-	  closeOnDeActive: true,
-	  style: {},
-	  onSelect: noop,
-	  onClick: noop,
-	  onDeselect: noop
-	};
-	
-	exports['default'] = Menu;
+	exports['default'] = MenuMixin;
 	module.exports = exports['default'];
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	  guid: __webpack_require__(7),
-	  classSet: __webpack_require__(8),
-	  joinClasses: __webpack_require__(9),
-	  KeyCode: __webpack_require__(10),
-	  PureRenderMixin: __webpack_require__(11),
-	  shallowEqual: __webpack_require__(12),
-	  createChainedFunction: __webpack_require__(13),
+	  guid: __webpack_require__(8),
+	  classSet: __webpack_require__(9),
+	  joinClasses: __webpack_require__(10),
+	  KeyCode: __webpack_require__(11),
+	  PureRenderMixin: __webpack_require__(12),
+	  shallowEqual: __webpack_require__(13),
+	  createChainedFunction: __webpack_require__(14),
 	  Dom: {
-	    addEventListener: __webpack_require__(14),
-	    contains: __webpack_require__(15)
+	    addEventListener: __webpack_require__(15),
+	    contains: __webpack_require__(16)
 	  },
 	  Children: {
-	    toArray: __webpack_require__(16),
-	    mapSelf: __webpack_require__(17)
+	    toArray: __webpack_require__(17),
+	    mapSelf: __webpack_require__(18)
 	  }
 	};
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	var seed = 0;
@@ -550,7 +599,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -595,7 +644,7 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -642,7 +691,7 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -1169,7 +1218,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1185,7 +1234,7 @@
 	
 	"use strict";
 	
-	var shallowEqual = __webpack_require__(12);
+	var shallowEqual = __webpack_require__(13);
 	
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -1222,7 +1271,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -1270,7 +1319,7 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -1297,7 +1346,7 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = function (target, eventType, callback) {
@@ -1320,7 +1369,7 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = function (root, node) {
@@ -1336,7 +1385,7 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2);
@@ -1351,7 +1400,7 @@
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2);
@@ -1367,17 +1416,17 @@
 
 
 /***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(19);
-
-
-/***/ },
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var util = __webpack_require__(20);
+	module.exports = __webpack_require__(20);
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var util = __webpack_require__(21);
 	
 	function scrollIntoView(elem, container, config) {
 	  config = config || {};
@@ -1502,7 +1551,7 @@
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	var RE_NUM = /[\-+]?(?:\d*\.|)\d+(?:[eE][\-+]?\d+|)/.source;
@@ -1939,7 +1988,71 @@
 
 
 /***/ },
-/* 21 */
+/* 22 */
+/***/ function(module, exports) {
+
+	'use strict';
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+	
+	function ToObject(val) {
+		if (val == null) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+	
+		return Object(val);
+	}
+	
+	function ownEnumerableKeys(obj) {
+		var keys = Object.getOwnPropertyNames(obj);
+	
+		if (Object.getOwnPropertySymbols) {
+			keys = keys.concat(Object.getOwnPropertySymbols(obj));
+		}
+	
+		return keys.filter(function (key) {
+			return propIsEnumerable.call(obj, key);
+		});
+	}
+	
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var keys;
+		var to = ToObject(target);
+	
+		for (var s = 1; s < arguments.length; s++) {
+			from = arguments[s];
+			keys = ownEnumerableKeys(Object(from));
+	
+			for (var i = 0; i < keys.length; i++) {
+				to[keys[i]] = from[keys[i]];
+			}
+		}
+	
+		return to;
+	};
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var now = Date.now();
+	exports['default'] = {
+	  noop: function noop() {},
+	
+	  getKeyFromChildrenIndex: function getKeyFromChildrenIndex(child, index) {
+	    return child.key || 'rcMenuItem_' + now + '_' + index;
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1954,43 +2067,45 @@
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
-	var _Menu = __webpack_require__(5);
+	var _SubPopupMenu = __webpack_require__(25);
 	
-	var _Menu2 = _interopRequireDefault(_Menu);
+	var _SubPopupMenu2 = _interopRequireDefault(_SubPopupMenu);
 	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _rcUtil = __webpack_require__(6);
+	var _rcUtil = __webpack_require__(7);
 	
 	var SubMenu = _react2['default'].createClass({
 	  displayName: 'SubMenu',
 	
 	  propTypes: {
-	    closeOnDeActive: _react2['default'].PropTypes.bool,
-	    globalCloseOnDeActive: _react2['default'].PropTypes.bool,
-	    openOnHover: _react2['default'].PropTypes.bool,
+	    closeSubMenuOnDeactive: _react2['default'].PropTypes.bool,
+	    deactiveSubMenuOnMouseLeave: _react2['default'].PropTypes.bool,
+	    openSubMenuOnMouseEnter: _react2['default'].PropTypes.bool,
 	    title: _react2['default'].PropTypes.node,
 	    onClick: _react2['default'].PropTypes.func,
+	    parent: _react2['default'].PropTypes.object,
 	    rootPrefixCls: _react2['default'].PropTypes.string,
 	    multiple: _react2['default'].PropTypes.bool,
 	    onSelect: _react2['default'].PropTypes.func,
 	    onDeselect: _react2['default'].PropTypes.func,
+	    onDestroy: _react2['default'].PropTypes.func,
 	    onHover: _react2['default'].PropTypes.func
 	  },
 	
-	  mixins: [__webpack_require__(22)],
+	  mixins: [__webpack_require__(26)],
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      activeFirst: false
+	      defaultActiveFirst: false
 	    };
 	  },
 	
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    if (!nextProps.active && this.isCloseOnDeActive()) {
-	      this.setOpenState(false);
+	    if ('open' in nextProps) {
+	      this.setOpenState(nextProps.open);
 	    }
 	  },
 	
@@ -2001,6 +2116,17 @@
 	    };
 	  },
 	
+	  componentWillUnmount: function componentWillUnmount() {
+	    var props = this.props;
+	    if (props.onDestroy) {
+	      props.onDestroy(props.eventKey);
+	    }
+	  },
+	
+	  onDestroy: function onDestroy(key) {
+	    this.props.onDestroy(key);
+	  },
+	
 	  onKeyDown: function onKeyDown(e) {
 	    var keyCode = e.keyCode;
 	    var menu = this.menuInstance;
@@ -2008,7 +2134,7 @@
 	    if (keyCode === _rcUtil.KeyCode.ENTER) {
 	      this.onClick(e);
 	      this.setState({
-	        activeFirst: true
+	        defaultActiveFirst: true
 	      });
 	      return true;
 	    }
@@ -2019,7 +2145,7 @@
 	      } else {
 	        this.setOpenState(true);
 	        this.setState({
-	          activeFirst: true
+	          defaultActiveFirst: true
 	        });
 	      }
 	      return true;
@@ -2043,52 +2169,58 @@
 	    }
 	  },
 	
+	  onSubTreeMouseEnter: function onSubTreeMouseEnter() {
+	    if (this.props.parent.leaveTimer) {
+	      clearTimeout(this.props.parent.leaveTimer);
+	      this.props.parent.leaveTimer = null;
+	    }
+	  },
+	
 	  onMouseEnter: function onMouseEnter() {
+	    if (this.props.parent.leaveTimer) {
+	      clearTimeout(this.props.parent.leaveTimer);
+	      this.props.parent.leaveTimer = null;
+	    }
 	    var props = this.props;
 	    props.onHover(props.eventKey);
-	    var openOnHover = props.openOnHover;
-	    if (openOnHover === undefined) {
-	      openOnHover = props.globalOpenOnHover;
-	    }
-	    if (openOnHover === undefined) {
-	      openOnHover = true;
-	    }
-	    if (openOnHover) {
+	    if (props.openSubMenuOnMouseEnter) {
 	      this.setOpenState(true);
 	      this.setState({
-	        activeFirst: false
+	        defaultActiveFirst: false
 	      });
 	    }
 	  },
 	
 	  onMouseLeave: function onMouseLeave() {
-	    if (!this.state.open) {
-	      this.props.onHover(null);
-	    }
+	    var _this = this;
+	
+	    this.props.parent.leaveTimer = setTimeout(function () {
+	      _this.props.parent.leaveTimer = null;
+	      if (_this.props.deactiveSubMenuOnMouseLeave) {
+	        _this.props.onHover(null);
+	      }
+	    }, 100);
 	  },
 	
 	  onClick: function onClick() {
-	    if (this.isCloseOnDeActive()) {
-	      this.setOpenState(true);
-	    } else {
+	    if (!this.props.openSubMenuOnMouseEnter) {
 	      this.setOpenState(!this.state.open);
+	      this.setState({
+	        defaultActiveFirst: false
+	      });
 	    }
-	    this.setState({
-	      activeFirst: false
-	    });
 	  },
 	
-	  onSubMenuClick: function onSubMenuClick(key, menuItem, e) {
-	    this.props.onClick(key, menuItem, e);
+	  onSubMenuClick: function onSubMenuClick(info) {
+	    this.props.onClick(info);
 	  },
 	
-	  onSelect: function onSelect(childKey, child, e) {
-	    // propagate
-	    this.props.onSelect(childKey, child, e);
+	  onSelect: function onSelect(info) {
+	    this.props.onSelect(info);
 	  },
 	
-	  onDeselect: function onDeselect() {
-	    this.props.onDeselect.apply(null, arguments);
+	  onDeselect: function onDeselect(info) {
+	    this.props.onDeselect(info);
 	  },
 	
 	  getPrefixCls: function getPrefixCls() {
@@ -2105,52 +2237,37 @@
 	
 	  renderChildren: function renderChildren(children) {
 	    var props = this.props;
-	    if (!this.state.open) {
-	      // prevent destroy
-	      return this._cacheMenu || null;
-	    }
-	    var childrenCount = _react2['default'].Children.count(children);
-	    var mode = props.mode;
-	    if (mode !== 'inline') {
-	      mode = undefined;
-	    }
 	    var baseProps = {
-	      sub: true,
+	      mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
+	      visible: this.state.open,
 	      level: props.level + 1,
 	      inlineIndent: props.inlineIndent,
-	      openOnHover: props.globalOpenOnHover,
-	      closeOnDeActive: props.globalCloseOnDeActive,
 	      focusable: false,
 	      onClick: this.onSubMenuClick,
+	      closeSubMenuOnDeactive: props.closeSubMenuOnDeactive,
+	      deactiveSubMenuOnMouseLeave: props.deactiveSubMenuOnMouseLeave,
+	      openSubMenuOnMouseEnter: props.openSubMenuOnMouseEnter,
 	      onSelect: this.onSelect,
 	      onDeselect: this.onDeselect,
-	      activeFirst: this.state.activeFirst,
+	      onDestroy: this.onDestroy,
+	      selectedKeys: props.selectedKeys,
+	      defaultActiveFirst: this.state.defaultActiveFirst,
 	      multiple: props.multiple,
 	      prefixCls: props.rootPrefixCls,
 	      id: this._menuId,
 	      ref: this.saveMenuInstance
 	    };
-	    if (mode) {
-	      baseProps.mode = mode;
-	    }
-	    if (childrenCount === 1 && children.type === _Menu2['default']) {
-	      var menu = children;
-	      baseProps.ref = (0, _rcUtil.createChainedFunction)(menu.ref, this.saveMenuInstance);
-	      baseProps.onClick = (0, _rcUtil.createChainedFunction)(menu.props.onClick, this.onSubMenuClick);
-	      this._cacheMenu = _react2['default'].cloneElement(menu, baseProps);
-	    } else {
-	      this._cacheMenu = _react2['default'].createElement(
-	        _Menu2['default'],
-	        baseProps,
-	        children
-	      );
-	    }
-	    return this._cacheMenu;
+	    return _react2['default'].createElement(
+	      _SubPopupMenu2['default'],
+	      baseProps,
+	      children
+	    );
 	  },
 	
 	  render: function render() {
 	    var _classes;
 	
+	    this.haveOpened = this.haveOpened || this.state.open;
 	    var props = this.props;
 	    var prefixCls = this.getPrefixCls();
 	    var classes = (_classes = {}, _defineProperty(_classes, props.className, !!props.className), _defineProperty(_classes, prefixCls + '-' + props.mode, 1), _classes);
@@ -2169,7 +2286,8 @@
 	        onClick: this.onClick
 	      };
 	      mouseEvents = {
-	        onMouseLeave: this.onMouseLeave
+	        onMouseLeave: this.onMouseLeave,
+	        onMouseEnter: this.onSubTreeMouseEnter
 	      };
 	      // only works in title, not outer li
 	      titleMouseEvents = {
@@ -2201,17 +2319,6 @@
 	
 	  saveMenuInstance: function saveMenuInstance(c) {
 	    this.menuInstance = c;
-	  },
-	
-	  isCloseOnDeActive: function isCloseOnDeActive() {
-	    var closeOnDeActive = this.props.closeOnDeActive;
-	    if (closeOnDeActive === undefined) {
-	      closeOnDeActive = this.props.globalCloseOnDeActive;
-	    }
-	    if (closeOnDeActive === undefined) {
-	      closeOnDeActive = true;
-	    }
-	    return closeOnDeActive;
 	  }
 	});
 	
@@ -2219,7 +2326,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2230,7 +2337,84 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _rcUtil = __webpack_require__(6);
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _MenuMixin = __webpack_require__(6);
+	
+	var _MenuMixin2 = _interopRequireDefault(_MenuMixin);
+	
+	var _objectAssign = __webpack_require__(22);
+	
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+	
+	var _util = __webpack_require__(23);
+	
+	var SubPopupMenu = _react2['default'].createClass({
+	  displayName: 'SubPopupMenu',
+	
+	  propTypes: {
+	    onSelect: _react2['default'].PropTypes.func,
+	    onClick: _react2['default'].PropTypes.func,
+	    onDeselect: _react2['default'].PropTypes.func,
+	    onDestroy: _react2['default'].PropTypes.func
+	  },
+	
+	  mixins: [_MenuMixin2['default']],
+	
+	  onDeselect: function onDeselect(selectInfo) {
+	    this.props.onDeselect(selectInfo);
+	  },
+	
+	  onSelect: function onSelect(selectInfo) {
+	    this.props.onSelect(selectInfo);
+	  },
+	
+	  onClick: function onClick(e) {
+	    this.props.onClick(e);
+	  },
+	
+	  onDestroy: function onDestroy(key) {
+	    this.props.onDestroy(key);
+	  },
+	
+	  renderMenuItem: function renderMenuItem(c, i) {
+	    var key = (0, _util.getKeyFromChildrenIndex)(c, i);
+	    var props = this.props;
+	    var extraProps = {
+	      selectedKeys: props.selectedKeys,
+	      selected: props.selectedKeys.indexOf(key) !== -1
+	    };
+	    extraProps.openSubMenuOnMouseEnter = true;
+	    extraProps.closeSubMenuOnDeactive = true;
+	    extraProps.deactiveSubMenuOnMouseLeave = props.deactiveSubMenuOnMouseLeave;
+	    return this.renderCommonMenuItem(c, i, extraProps);
+	  },
+	
+	  render: function render() {
+	    var props = (0, _objectAssign2['default'])({}, this.props);
+	    props.className += ' ' + props.prefixCls + '-sub';
+	    return this.renderRoot(props);
+	  }
+	});
+	
+	exports['default'] = SubPopupMenu;
+	module.exports = exports['default'];
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _rcUtil = __webpack_require__(7);
 	
 	var _rcUtil2 = _interopRequireDefault(_rcUtil);
 	
@@ -2241,18 +2425,25 @@
 	    };
 	  },
 	
+	  componentDidMount: function componentDidMount() {
+	    if (this.state.open && this.props.mode !== 'inline') {
+	      this.bindRootCloseHandlers();
+	    }
+	  },
+	
 	  getOpenClassName: function getOpenClassName() {
 	    return this.props.openClassName || this.props.rootPrefixCls + '-submenu-open';
 	  },
 	
 	  setOpenState: function setOpenState(newState, onStateChangeComplete) {
 	    if (this.state.open !== newState) {
-	      if (newState) {
-	        this.bindRootCloseHandlers();
-	      } else {
-	        this.unbindRootCloseHandlers();
+	      if (this.props.mode !== 'inline') {
+	        if (newState) {
+	          this.bindRootCloseHandlers();
+	        } else {
+	          this.unbindRootCloseHandlers();
+	        }
 	      }
-	
 	      this.setState({
 	        open: newState
 	      }, onStateChangeComplete);
@@ -2261,7 +2452,7 @@
 	
 	  handleDocumentKeyUp: function handleDocumentKeyUp(e) {
 	    if (e.keyCode === _rcUtil.KeyCode.ESC) {
-	      this.setOpenState(false);
+	      this.props.onHover(null);
 	    }
 	  },
 	
@@ -2271,22 +2462,25 @@
 	    if (_rcUtil2['default'].Dom.contains(React.findDOMNode(this), e.target)) {
 	      return;
 	    }
-	    // de active menu cause sub menu hide its menu
 	    this.props.onHover(null);
 	  },
 	
 	  bindRootCloseHandlers: function bindRootCloseHandlers() {
-	    this._onDocumentClickListener = _rcUtil2['default'].Dom.addEventListener(document, 'click', this.handleDocumentClick);
-	    this._onDocumentKeyupListener = _rcUtil2['default'].Dom.addEventListener(document, 'keyup', this.handleDocumentKeyUp);
+	    if (!this._onDocumentClickListener) {
+	      this._onDocumentClickListener = _rcUtil2['default'].Dom.addEventListener(document, 'click', this.handleDocumentClick);
+	      this._onDocumentKeyupListener = _rcUtil2['default'].Dom.addEventListener(document, 'keyup', this.handleDocumentKeyUp);
+	    }
 	  },
 	
 	  unbindRootCloseHandlers: function unbindRootCloseHandlers() {
 	    if (this._onDocumentClickListener) {
 	      this._onDocumentClickListener.remove();
+	      this._onDocumentClickListener = null;
 	    }
 	
 	    if (this._onDocumentKeyupListener) {
 	      this._onDocumentKeyupListener.remove();
+	      this._onDocumentKeyupListener = null;
 	    }
 	  },
 	
@@ -2297,7 +2491,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 23 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2322,7 +2516,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _rcUtil = __webpack_require__(6);
+	var _rcUtil = __webpack_require__(7);
 	
 	var MenuItem = (function (_React$Component) {
 	  _inherits(MenuItem, _React$Component);
@@ -2358,11 +2552,20 @@
 	  }, {
 	    key: 'onMouseLeave',
 	    value: function onMouseLeave() {
-	      this.props.onHover(null);
+	      var _this2 = this;
+	
+	      this.props.parent.leaveTimer = setTimeout(function () {
+	        _this2.props.parent.leaveTimer = null;
+	        _this2.props.onHover(null);
+	      }, 100);
 	    }
 	  }, {
 	    key: 'onMouseEnter',
 	    value: function onMouseEnter() {
+	      if (this.props.parent.leaveTimer) {
+	        clearTimeout(this.props.parent.leaveTimer);
+	        this.props.parent.leaveTimer = null;
+	      }
 	      var props = this.props;
 	      props.onHover(props.eventKey);
 	    }
@@ -2371,15 +2574,20 @@
 	    value: function onClick(e) {
 	      var props = this.props;
 	      var eventKey = props.eventKey;
-	      props.onClick(eventKey, this, e);
+	      var info = {
+	        key: eventKey,
+	        item: this,
+	        domEvent: e
+	      };
+	      props.onClick(info);
 	      if (props.multiple) {
 	        if (props.selected) {
-	          props.onDeselect(eventKey, this, e);
+	          props.onDeselect(info);
 	        } else {
-	          props.onSelect(eventKey, this, e);
+	          props.onSelect(info);
 	        }
 	      } else if (!props.selected) {
-	        props.onSelect(eventKey, this, e);
+	        props.onSelect(info);
 	      }
 	    }
 	  }, {
@@ -2451,6 +2659,7 @@
 	  onSelect: _react2['default'].PropTypes.func,
 	  onClick: _react2['default'].PropTypes.func,
 	  onDeselect: _react2['default'].PropTypes.func,
+	  parent: _react2['default'].PropTypes.object,
 	  onHover: _react2['default'].PropTypes.func,
 	  onDestroy: _react2['default'].PropTypes.func
 	};
@@ -2464,7 +2673,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 24 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2534,7 +2743,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 25 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2590,16 +2799,16 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 26 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(27);
+	var content = __webpack_require__(31);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(29)(content, {});
+	var update = __webpack_require__(33)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -2613,14 +2822,14 @@
 	}
 
 /***/ },
-/* 27 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(28)();
+	exports = module.exports = __webpack_require__(32)();
 	exports.push([module.id, ".rc-menu {\n  outline: none;\n  margin-bottom: 0;\n  padding-left: 0;\n  list-style: none;\n  z-index: 99999;\n  border: 1px solid #d9d9d9;\n  box-shadow: 0 0 4px #d9d9d9;\n  border-radius: 3px;\n  color: #666;\n}\n.rc-menu-item-group-list {\n  margin: 0;\n  padding: 0;\n}\n.rc-menu-item-group-title {\n  color: #999;\n  line-height: 1.5;\n  padding: 8px 10px;\n  border-bottom: 1px solid #dedede;\n}\n.rc-menu-inline > .rc-menu-item-active,\n.rc-menu-submenu-inline.rc-menu-submenu-active,\n.rc-menu-submenu-inline.rc-menu-submenu-active > .rc-menu-submenu-title:hover {\n  background-color: #fff;\n}\n.rc-menu-inline > .rc-menu-item-active:hover,\n.rc-menu-item-active,\n.rc-menu-submenu-active,\n.rc-menu-submenu-inline.rc-menu-submenu-active > .rc-menu-submenu-title:hover {\n  background-color: #eaf8fe;\n}\n.rc-menu-item-selected {\n  background-color: #eaf8fe;\n}\n.rc-menu > li.rc-menu-submenu {\n  padding: 0;\n}\n.rc-menu-submenu-horizontal > .rc-menu {\n  top: 100%;\n  left: 0;\n  position: absolute;\n  min-width: 160px;\n  margin-top: 4px;\n}\n.rc-menu-submenu-vertical > .rc-menu {\n  top: 0;\n  left: 100%;\n  position: absolute;\n  min-width: 160px;\n  margin-left: 4px;\n}\n.rc-menu-item,\n.rc-menu-submenu-title {\n  margin: 0;\n  position: relative;\n  display: block;\n  padding: 7px 7px 7px 16px;\n  white-space: nowrap;\n}\n.rc-menu-item.rc-menu-item-disabled,\n.rc-menu-submenu-title.rc-menu-item-disabled,\n.rc-menu-item.rc-menu-submenu-disabled,\n.rc-menu-submenu-title.rc-menu-submenu-disabled {\n  color: #777 !important;\n}\n.rc-menu > .rc-menu-item-divider {\n  height: 1px;\n  margin: 1px 0;\n  overflow: hidden;\n  padding: 0;\n  line-height: 0;\n  background-color: #e5e5e5;\n}\n.rc-menu-submenu {\n  position: relative;\n}\n.rc-menu-submenu > .rc-menu {\n  display: none;\n  background-color: #fff;\n}\n.rc-menu-submenu-open > .rc-menu {\n  display: block;\n}\n.rc-menu .rc-menu-submenu-title .anticon,\n.rc-menu .rc-menu-item .anticon {\n  width: 14px;\n  height: 14px;\n  margin-right: 8px;\n  top: -1px;\n}\n.rc-menu-horizontal {\n  background-color: #F3F5F7;\n  border: none;\n  border-bottom: 1px solid transparent;\n  border-bottom: 1px solid #d9d9d9;\n  box-shadow: none;\n}\n.rc-menu-horizontal > .rc-menu-item,\n.rc-menu-horizontal > .rc-menu-submenu > .rc-menu-submenu-title {\n  padding: 15px 20px;\n}\n.rc-menu-horizontal > .rc-menu-submenu,\n.rc-menu-horizontal > .rc-menu-item {\n  float: left;\n  border-bottom: 2px solid transparent;\n}\n.rc-menu-horizontal > .rc-menu-submenu-active,\n.rc-menu-horizontal > .rc-menu-item-active {\n  border-bottom: 2px solid #2db7f5;\n  background-color: #F3F5F7;\n  color: #2baee9;\n}\n.rc-menu-horizontal:after {\n  content: \"\\20\";\n  display: block;\n  height: 0;\n  clear: both;\n}\n.rc-menu-vertical,\n.rc-menu-inline {\n  padding: 12px 0;\n}\n.rc-menu-vertical > .rc-menu-item,\n.rc-menu-inline > .rc-menu-item,\n.rc-menu-vertical > .rc-menu-submenu > .rc-menu-submenu-title,\n.rc-menu-inline > .rc-menu-submenu > .rc-menu-submenu-title {\n  padding: 12px 8px 12px 24px;\n}\n.rc-menu-vertical.rc-menu-sub {\n  padding: 0;\n}\n.rc-menu-sub.rc-menu-inline {\n  padding: 0;\n  border: none;\n  border-radius: 0;\n  box-shadow: none;\n}\n.rc-menu-sub.rc-menu-inline > .rc-menu-item,\n.rc-menu-sub.rc-menu-inline > .rc-menu-submenu > .rc-menu-submenu-title {\n  padding-top: 8px;\n  padding-bottom: 8px;\n  padding-right: 0;\n}\n", "", {"version":3,"sources":["index.less"],"names":[],"mappings":"AAEA,CAAC;EACC,aAAA;EACA,gBAAA;EACA,eAAA;EACA,gBAAA;EACA,cAAA;EACA,yBAAA;EACA,2BAAA;EACA,kBAAA;EACA,WAAA;;AAEA,CAXD,OAWE;EACC,SAAA;EACA,UAAA;;AAGF,CAhBD,OAgBE;EACC,WAAA;EACA,gBAAA;EACA,iBAAA;EACA,gCAAA;;AAGF,CAvBD,OAuBE,OAAQ,IAvBV,OAuBa;AACZ,CAxBD,OAwBE,eAAe,CAxBjB,OAwBkB;AACjB,CAzBD,OAyBE,eAAe,CAzBjB,OAyBkB,eAAgB,IAzBlC,OAyBqC,cAAc;EAChD,sBAAA;;AAGF,CA7BD,OA6BE,OAAQ,IA7BV,OA6Ba,YAAY;AACxB,CA9BD,OA8BE;AACD,CA/BD,OA+BE;AACD,CAhCD,OAgCE,eAAe,CAhCjB,OAgCkB,eAAgB,IAhClC,OAgCqC,cAAc;EAChD,yBAAA;;AAGF,CApCD,OAoCE;EACC,yBAAA;;AAGF,CAxCD,OAwCG,KAAI,CAxCP,OAwCQ;EACL,UAAA;;AAGF,CA5CD,OA4CE,mBAAoB,IAAG;EACtB,SAAA;EACA,OAAA;EACA,kBAAA;EACA,gBAAA;EACA,eAAA;;AAGF,CApDD,OAoDE,iBAAkB,IAAG;EACpB,MAAA;EACA,UAAA;EACA,kBAAA;EACA,gBAAA;EACA,gBAAA;;AAGF,CA5DD,OA4DE;AAAO,CA5DT,OA4DU;EACP,SAAA;EACA,kBAAA;EACA,cAAA;EACA,yBAAA;EACA,mBAAA;;AAGA,CApEH,OA4DE,KAQE,CAAC,OAAgB;AAAlB,CApEH,OA4DU,cAQN,CAAC,OAAgB;AAAgB,CApErC,OA4DE,KAQoC,CAAC,OAAgB;AAAlB,CApErC,OA4DU,cAQ4B,CAAC,OAAgB;EAClD,sBAAA;;AAGJ,CAxED,OAwEG,IAxEH,OAwEM;EACH,WAAA;EACA,aAAA;EACA,gBAAA;EACA,UAAA;EACA,cAAA;EACA,yBAAA;;AAGF,CAjFD,OAiFE;EACC,kBAAA;;AADF,CAjFD,OAiFE,QAGC,IAAG;EACD,aAAA;EACA,sBAAA;;AAGF,CAzFH,OAiFE,QAQE,KACC,IAAG;EACD,cAAA;;AA3FR,CAAC,OAgGC,EAAC,OAAgB,cACf;AAjGJ,CAAC,OAgGkC,EAAC,OAAgB,KAChD;EACE,WAAA;EACA,YAAA;EACA,iBAAA;EACA,SAAA;;AAIJ,CAzGD,OAyGE;EACC,yBAAA;EACA,YAAA;EACA,oCAAA;EACA,gCAAA;EACA,gBAAA;;AAEA,CAhHH,OAyGE,WAOG,IAAG,OAAgB;AAAO,CAhH/B,OAyGE,WAO+B,IAAG,OAAgB,QAAS,IAAG,OAAgB;EAC3E,kBAAA;;AAGF,CApHH,OAyGE,WAWG,IAAG,OAAgB;AAAU,CApHlC,OAyGE,WAWkC,IAAG,OAAgB;EAClD,WAAA;EACA,oCAAA;;AAEA,CAxHL,OAyGE,WAWG,IAAG,OAAgB,QAIlB;AAAD,CAxHL,OAyGE,WAWkC,IAAG,OAAgB,KAIjD;EACC,gCAAA;EACA,yBAAA;EACA,cAAA;;AAIJ,CA/HH,OAyGE,WAsBE;EACC,SAAS,KAAT;EACA,cAAA;EACA,SAAA;EACA,WAAA;;AAIJ,CAvID,OAuIE;AAAW,CAvIb,OAuIc;EACX,eAAA;;AACA,CAzIH,OAuIE,SAEG,IAAG,OAAgB;AAArB,CAzIH,OAuIc,OAET,IAAG,OAAgB;AAAO,CAzI/B,OAuIE,SAE+B,IAAG,OAAgB,QAAS,IAAG,OAAgB;AAAjD,CAzI/B,OAuIc,OAEmB,IAAG,OAAgB,QAAS,IAAG,OAAgB;EAC3E,2BAAA;;AAIJ,CA9ID,OA8IE,SAAS,CA9IX,OA8IY;EACT,UAAA;;AAGF,CAlJD,OAkJE,IAAI,CAlJN,OAkJO;EACJ,UAAA;EACA,YAAA;EACA,gBAAA;EACA,gBAAA;;AAEA,CAxJH,OAkJE,IAAI,CAlJN,OAkJO,OAMF,IAAG,OAAgB;AAAO,CAxJ/B,OAkJE,IAAI,CAlJN,OAkJO,OAM0B,IAAG,OAAgB,QAAS,IAAG,OAAgB;EAC3E,gBAAA;EACA,mBAAA;EACA,gBAAA","sourcesContent":["@menuPrefixCls: rc-menu;\n\n.@{menuPrefixCls} {\n  outline: none;\n  margin-bottom: 0;\n  padding-left: 0; // Override default ul/ol\n  list-style: none;\n  z-index: 99999;\n  border: 1px solid #d9d9d9;\n  box-shadow: 0 0 4px #d9d9d9;\n  border-radius: 3px;\n  color: #666;\n\n  &-item-group-list {\n    margin: 0;\n    padding: 0;\n  }\n\n  &-item-group-title {\n    color: #999;\n    line-height: 1.5;\n    padding: 8px 10px;\n    border-bottom: 1px solid #dedede;\n  }\n\n  &-inline > &-item-active,\n  &-submenu-inline&-submenu-active,\n  &-submenu-inline&-submenu-active > &-submenu-title:hover {\n    background-color: #fff;\n  }\n\n  &-inline > &-item-active:hover,\n  &-item-active,\n  &-submenu-active,\n  &-submenu-inline&-submenu-active > &-submenu-title:hover {\n    background-color: #eaf8fe;\n  }\n\n  &-item-selected {\n    background-color: #eaf8fe;\n  }\n\n  & > li&-submenu {\n    padding: 0;\n  }\n\n  &-submenu-horizontal > .@{menuPrefixCls} {\n    top: 100%;\n    left: 0;\n    position: absolute;\n    min-width: 160px;\n    margin-top: 4px;\n  }\n\n  &-submenu-vertical > .@{menuPrefixCls} {\n    top: 0;\n    left: 100%;\n    position: absolute;\n    min-width: 160px;\n    margin-left: 4px;\n  }\n\n  &-item, &-submenu-title {\n    margin: 0;\n    position: relative;\n    display: block;\n    padding: 7px 7px 7px 16px;\n    white-space: nowrap;\n\n    // Disabled state sets text to gray and nukes hover/tab effects\n    &.@{menuPrefixCls}-item-disabled, &.@{menuPrefixCls}-submenu-disabled {\n      color: #777 !important;\n    }\n  }\n  & > &-item-divider {\n    height: 1px;\n    margin: 1px 0;\n    overflow: hidden;\n    padding: 0;\n    line-height: 0;\n    background-color: #e5e5e5;\n  }\n\n  &-submenu {\n    position: relative;\n\n    > .@{menuPrefixCls} {\n      display: none;\n      background-color: #fff;\n    }\n\n    &-open {\n      > .@{menuPrefixCls} {\n        display: block;\n      }\n    }\n  }\n\n  .@{menuPrefixCls}-submenu-title, .@{menuPrefixCls}-item {\n    .anticon {\n      width: 14px;\n      height: 14px;\n      margin-right: 8px;\n      top: -1px;\n    }\n  }\n\n  &-horizontal {\n    background-color: #F3F5F7;\n    border: none;\n    border-bottom: 1px solid transparent;\n    border-bottom: 1px solid #d9d9d9;\n    box-shadow: none;\n\n    & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {\n      padding: 15px 20px;\n    }\n\n    & > .@{menuPrefixCls}-submenu, & > .@{menuPrefixCls}-item {\n      float: left;\n      border-bottom: 2px solid transparent;\n\n      &-active {\n        border-bottom: 2px solid #2db7f5;\n        background-color: #F3F5F7;\n        color: #2baee9;\n      }\n    }\n\n    &:after {\n      content: \"\\20\";\n      display: block;\n      height: 0;\n      clear: both;\n    }\n  }\n\n  &-vertical, &-inline {\n    padding: 12px 0;\n    & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {\n      padding: 12px 8px 12px 24px;\n    }\n  }\n\n  &-vertical&-sub {\n    padding: 0;\n  }\n\n  &-sub&-inline {\n    padding: 0;\n    border: none;\n    border-radius: 0;\n    box-shadow: none;\n\n    & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {\n      padding-top:8px;\n      padding-bottom: 8px;\n      padding-right: 0;\n    }\n  }\n}\n\n"]}]);
 
 /***/ },
-/* 28 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = function() {
@@ -2641,7 +2850,7 @@
 	}
 
 /***/ },
-/* 29 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

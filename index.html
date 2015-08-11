@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@3.6.0 - menu ui component for react</title>
+  <title>rc-menu@4.1.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@3.6.0</h1>
+  <h1>rc-menu@4.1.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -752,6 +752,8 @@
       <li><a href="examples/multiple.html">multiple</a></li>
       
       <li><a href="examples/scrollable.html">scrollable</a></li>
+      
+      <li><a href="examples/selectedKeys.html">selectedKeys</a></li>
       
       <li><a href="examples/single.html">single</a></li>
       
@@ -808,13 +810,13 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
             <td>activeKey</td>
             <td>Object</td>
             <th></th>
-            <td>initial and current active menu item&#39;s key</td>
+            <td>initial and current active menu item&#39;s key.</td>
         </tr>
         <tr>
-            <td>activeFirst</td>
+            <td>defaultActiveFirst</td>
             <td>Boolean</td>
             <th>false</th>
-            <td>whether active first menu item when show if activeKey is not set</td>
+            <td>whether active first menu item when show if activeKey is not set or invalid</td>
         </tr>
         <tr>
             <td>multiple</td>
@@ -836,27 +838,21 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
         </tr>
         <tr>
             <td>onSelect</td>
-            <td>function(key:String,child:ReactComponent)</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
             <td>called when select a menu item</td>
         </tr>
         <tr>
-            <td>openOnHover</td>
-            <td>boolean</td>
-            <th>true</th>
-            <td>whether to open all sub menu on hover</td>
-        </tr>
-        <tr>
-            <td>closeOnDeActive</td>
-            <td>boolean</td>
-            <th>true</th>
-            <td>whether to close all sub menu on deActive</td>
-        </tr>
-        <tr>
             <td>onDeselect</td>
-            <td>function(key:String,child:ReactComponent)</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
             <td>called when deselect a menu item. only called when allow multiple</td>
+        </tr>
+        <tr>
+            <td>openSubMenuOnMouseEnter</td>
+            <td>bool</td>
+            <th>true</th>
+            <td>whether enable top items to open on mouse enter</td>
         </tr>
     </tbody>
 </table>
@@ -926,12 +922,6 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
             <td>Boolean</td>
             <th>false</th>
             <td>no effect for click or keydown for this item</td>
-        </tr>
-        <tr>
-            <td>openOnHover</td>
-            <td>Boolean</td>
-            <th>true</th>
-            <td>whether show second sub menu on hover</td>
         </tr>
     </tbody>
 </table>

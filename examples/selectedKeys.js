@@ -1,9 +1,9 @@
-webpackJsonp([3],{
+webpackJsonp([4],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(43);
+	module.exports = __webpack_require__(44);
 
 
 /***/ },
@@ -75,7 +75,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 43:
+/***/ 44:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -94,34 +94,168 @@ webpackJsonp([3],{
 	
 	__webpack_require__(36);
 	
-	var children = [];
-	for (var i = 0; i < 20; i++) {
-	  children.push(_react2['default'].createElement(
-	    _rcMenu.Item,
-	    { key: i + "" },
-	    i
-	  ));
-	}
-	_react2['default'].render(_react2['default'].createElement(
-	  'div',
+	var titleRight = _react2['default'].createElement(
+	  'span',
 	  null,
-	  _react2['default'].createElement(
-	    'h2',
-	    null,
-	    'keyboard scrollable menu'
-	  ),
-	  _react2['default'].createElement(
-	    _rcMenu2['default'],
-	    { style: {
-	        width: 200,
-	        height: 200,
-	        overflow: 'auto'
-	      } },
-	    children
-	  )
-	), document.getElementById('__react-content'));
+	  'sub menu',
+	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
+	);
+	var titleRight1 = _react2['default'].createElement(
+	  'span',
+	  null,
+	  'sub menu 1',
+	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
+	);
+	var titleRight2 = _react2['default'].createElement(
+	  'span',
+	  null,
+	  'sub menu 2',
+	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
+	);
+	var titleRight3 = _react2['default'].createElement(
+	  'span',
+	  null,
+	  'sub menu 3',
+	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
+	);
+	
+	var Test = _react2['default'].createClass({
+	  displayName: 'Test',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      destroyed: false,
+	      selectedKeys: ['2', '1-1']
+	    };
+	  },
+	
+	  handleSelect: function handleSelect(info) {
+	    console.log('selected ', info);
+	    this.setState({
+	      selectedKeys: info.selectedKeys
+	    });
+	  },
+	
+	  handleDeselect: function handleDeselect(info) {
+	    console.log('deselect ', info);
+	  },
+	
+	  getMenu: function getMenu() {
+	    return _react2['default'].createElement(
+	      _rcMenu2['default'],
+	      { multiple: true, onSelect: this.handleSelect,
+	        onDeselect: this.handleDeselect,
+	        selectedKeys: this.state.selectedKeys },
+	      _react2['default'].createElement(
+	        _rcMenu.SubMenu,
+	        { title: titleRight, key: '1' },
+	        _react2['default'].createElement(
+	          _rcMenu.Item,
+	          { key: '1-1' },
+	          '0-1'
+	        ),
+	        _react2['default'].createElement(
+	          _rcMenu.Item,
+	          { key: '1-2' },
+	          '0-2'
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '2', disabled: true },
+	        'can not deselect me,i\'m disabled'
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '3' },
+	        'outer'
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.SubMenu,
+	        { title: titleRight1, key: '4' },
+	        _react2['default'].createElement(
+	          _rcMenu.Item,
+	          { key: '4-1' },
+	          'inner inner'
+	        ),
+	        _react2['default'].createElement(_rcMenu2['default'].Divider, null),
+	        _react2['default'].createElement(
+	          _rcMenu.SubMenu,
+	          { key: '4-2',
+	            title: titleRight2 },
+	          _react2['default'].createElement(
+	            _rcMenu.Item,
+	            { key: '4-2-1' },
+	            'inn'
+	          ),
+	          _react2['default'].createElement(
+	            _rcMenu.SubMenu,
+	            { title: titleRight3, key: '4-2-2' },
+	            _react2['default'].createElement(
+	              _rcMenu.Item,
+	              { key: '4-2-2-1' },
+	              'inner inner'
+	            ),
+	            _react2['default'].createElement(
+	              _rcMenu.Item,
+	              { key: '4-2-2-2' },
+	              'inner inner2'
+	            )
+	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { disabled: true, key: 'disabled' },
+	        'disabled'
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '4-3' },
+	        'outer3'
+	      )
+	    );
+	  },
+	
+	  render: function render() {
+	    if (this.state.destroyed) {
+	      return null;
+	    }
+	    return _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(
+	        'h2',
+	        null,
+	        'multiple selectable menu'
+	      ),
+	      _react2['default'].createElement(
+	        'p',
+	        null,
+	        _react2['default'].createElement(
+	          'button',
+	          { onClick: this.destroy },
+	          'destroy'
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        { style: { width: 400 } },
+	        this.getMenu()
+	      )
+	    );
+	  },
+	
+	  destroy: function destroy() {
+	    this.setState({
+	      destroyed: true
+	    });
+	  }
+	});
+	
+	_react2['default'].render(_react2['default'].createElement(Test, null), document.getElementById('__react-content'));
 
 /***/ }
 
 });
-//# sourceMappingURL=scrollable.js.map
+//# sourceMappingURL=selectedKeys.js.map
