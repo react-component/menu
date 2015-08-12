@@ -55,6 +55,70 @@ webpackJsonp([0],[
 	);
 	var container = document.getElementById('__react-content');
 	
+	var nestSubMenu = _react2['default'].createElement(
+	  _rcMenu.SubMenu,
+	  { title: titleRight2, key: '4' },
+	  _react2['default'].createElement(
+	    _rcMenu.Item,
+	    { key: '4-1' },
+	    'inner inner'
+	  ),
+	  _react2['default'].createElement(_rcMenu2['default'].Divider, null),
+	  _react2['default'].createElement(
+	    _rcMenu.SubMenu,
+	    { key: '4-2',
+	      title: titleRight3
+	    },
+	    _react2['default'].createElement(
+	      _rcMenu.SubMenu,
+	      { title: 'sub 4-2-0', key: '4-2-0' },
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-0-1' },
+	        'inner inner'
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-0-2' },
+	        'inner inner2'
+	      )
+	    ),
+	    _react2['default'].createElement(
+	      _rcMenu.Item,
+	      { key: '4-2-1' },
+	      'inn'
+	    ),
+	    _react2['default'].createElement(
+	      _rcMenu.SubMenu,
+	      { title: titleRight4, key: '4-2-2' },
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-2-1' },
+	        'inner inner'
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-2-2' },
+	        'inner inner2'
+	      )
+	    ),
+	    _react2['default'].createElement(
+	      _rcMenu.SubMenu,
+	      { title: 'sub 4-2-3', key: '4-2-3' },
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-3-1' },
+	        'inner inner'
+	      ),
+	      _react2['default'].createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-3-2' },
+	        'inner inner2'
+	      )
+	    )
+	  )
+	);
+	
 	var commonMenu = _react2['default'].createElement(
 	  _rcMenu2['default'],
 	  { onSelect: handleSelect },
@@ -82,41 +146,7 @@ webpackJsonp([0],[
 	    { key: '3' },
 	    'outer'
 	  ),
-	  _react2['default'].createElement(
-	    _rcMenu.SubMenu,
-	    { title: titleRight1, key: '4' },
-	    _react2['default'].createElement(
-	      _rcMenu.Item,
-	      { key: '4-1' },
-	      'inner inner'
-	    ),
-	    _react2['default'].createElement(_rcMenu2['default'].Divider, null),
-	    _react2['default'].createElement(
-	      _rcMenu.SubMenu,
-	      { key: '4-2',
-	        title: titleRight2
-	      },
-	      _react2['default'].createElement(
-	        _rcMenu.Item,
-	        { key: '4-2-1' },
-	        'inn'
-	      ),
-	      _react2['default'].createElement(
-	        _rcMenu.SubMenu,
-	        { title: titleRight3, key: '4-2-2' },
-	        _react2['default'].createElement(
-	          _rcMenu.Item,
-	          { key: '4-2-2-1' },
-	          'inner inner'
-	        ),
-	        _react2['default'].createElement(
-	          _rcMenu.Item,
-	          { key: '4-2-2-2' },
-	          'inner inner2'
-	        )
-	      )
-	    )
-	  ),
+	  nestSubMenu,
 	  _react2['default'].createElement(
 	    _rcMenu.Item,
 	    { disabled: true },
@@ -160,41 +190,7 @@ webpackJsonp([0],[
 	      '2-2'
 	    )
 	  ),
-	  _react2['default'].createElement(
-	    _rcMenu.SubMenu,
-	    { title: titleRight2, key: '4' },
-	    _react2['default'].createElement(
-	      _rcMenu.Item,
-	      { key: '4-1' },
-	      'inner inner'
-	    ),
-	    _react2['default'].createElement(_rcMenu2['default'].Divider, null),
-	    _react2['default'].createElement(
-	      _rcMenu.SubMenu,
-	      { key: '4-2',
-	        title: titleRight3
-	      },
-	      _react2['default'].createElement(
-	        _rcMenu.Item,
-	        { key: '4-2-1' },
-	        'inn'
-	      ),
-	      _react2['default'].createElement(
-	        _rcMenu.SubMenu,
-	        { title: titleRight4, key: '4-2-2' },
-	        _react2['default'].createElement(
-	          _rcMenu.Item,
-	          { key: '4-2-2-1' },
-	          'inner inner'
-	        ),
-	        _react2['default'].createElement(
-	          _rcMenu.Item,
-	          { key: '4-2-2-2' },
-	          'inner inner2'
-	        )
-	      )
-	    )
-	  )
+	  nestSubMenu
 	);
 	
 	render(container);

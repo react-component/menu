@@ -235,7 +235,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>rc-menu@4.1.0</h1>
+            <h1>rc-menu@4.2.0</h1>
             <p>menu ui component for react</p>
         </div>
         <div class="example" id="__react-content"></div>
@@ -260,6 +260,28 @@ var titleRight3 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span
 var titleRight4 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 4<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
 var container = document.getElementById('__react-content');
 
+var nestSubMenu=<span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight2}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span>/&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
+           <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight3}</span>
+    &gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"sub 4-2-0"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight4}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"sub 4-2-3"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>;
+
 var commonMenu=<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
@@ -267,19 +289,7 @@ var commonMenu=<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <
   <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight1}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span>/&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
-             <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight2}</span>
-      &gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight3}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+  {nestSubMenu}
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-3"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>;
@@ -293,19 +303,7 @@ var subMenus=<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <sp
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2-1"</span>&gt;</span>2-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2-2"</span>&gt;</span>2-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight2}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span>/&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
-             <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight3}</span>
-      &gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight4}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+  {nestSubMenu}
 <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>;
 
 render(container);
