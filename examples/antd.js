@@ -17,6 +17,28 @@ var titleRight3 = <span>sub menu 3</span>;
 var titleRight4 = <span>sub menu 4</span>;
 var container = document.getElementById('__react-content');
 
+var nestSubMenu=<SubMenu title={titleRight2} key="4">
+  <MenuItem key="4-1">inner inner</MenuItem>
+  <Menu.Divider/>
+  <SubMenu key="4-2"
+           title={titleRight3}
+    >
+    <SubMenu title="sub 4-2-0" key="4-2-0">
+      <MenuItem key="4-2-0-1">inner inner</MenuItem>
+      <MenuItem key="4-2-0-2">inner inner2</MenuItem>
+    </SubMenu>
+    <MenuItem key="4-2-1">inn</MenuItem>
+    <SubMenu title={titleRight4} key="4-2-2">
+      <MenuItem key="4-2-2-1">inner inner</MenuItem>
+      <MenuItem key="4-2-2-2">inner inner2</MenuItem>
+    </SubMenu>
+    <SubMenu title="sub 4-2-3" key="4-2-3">
+      <MenuItem key="4-2-3-1">inner inner</MenuItem>
+      <MenuItem key="4-2-3-2">inner inner2</MenuItem>
+    </SubMenu>
+  </SubMenu>
+</SubMenu>;
+
 var commonMenu=<Menu onSelect={handleSelect}>
   <SubMenu title={titleRight} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
@@ -24,19 +46,7 @@ var commonMenu=<Menu onSelect={handleSelect}>
   </SubMenu>
   <MenuItem key="2">1</MenuItem>
   <MenuItem key="3">outer</MenuItem>
-  <SubMenu title={titleRight1} key="4">
-    <MenuItem key="4-1">inner inner</MenuItem>
-    <Menu.Divider/>
-    <SubMenu key="4-2"
-             title={titleRight2}
-      >
-      <MenuItem key="4-2-1">inn</MenuItem>
-      <SubMenu title={titleRight3} key="4-2-2">
-          <MenuItem key="4-2-2-1">inner inner</MenuItem>
-          <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-      </SubMenu>
-    </SubMenu>
-  </SubMenu>
+  {nestSubMenu}
   <MenuItem disabled>disabled</MenuItem>
   <MenuItem key="4-3">outer3</MenuItem>
 </Menu>;
@@ -50,19 +60,7 @@ var subMenus=<Menu onSelect={handleSelect}>
     <MenuItem key="2-1">2-1</MenuItem>
     <MenuItem key="2-2">2-2</MenuItem>
   </SubMenu>
-  <SubMenu title={titleRight2} key="4">
-    <MenuItem key="4-1">inner inner</MenuItem>
-    <Menu.Divider/>
-    <SubMenu key="4-2"
-             title={titleRight3}
-      >
-      <MenuItem key="4-2-1">inn</MenuItem>
-      <SubMenu title={titleRight4} key="4-2-2">
-          <MenuItem key="4-2-2-1">inner inner</MenuItem>
-          <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-      </SubMenu>
-    </SubMenu>
-  </SubMenu>
+  {nestSubMenu}
 </Menu>;
 
 render(container);

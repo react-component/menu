@@ -1,40 +1,27 @@
 import rcUtil, {KeyCode} from 'rc-util';
 
 export default {
-  getInitialState() {
-    return {
-      open: this.props.open || false,
-    };
-  },
-
   componentDidMount() {
-    if (this.state.open && this.props.mode !== 'inline') {
-      this.bindRootCloseHandlers();
-    }
+    this.componentDidUpdate();
   },
 
-  getOpenClassName() {
-    return this.props.openClassName || this.props.rootPrefixCls + '-submenu-open';
-  },
-
-  setOpenState(newState, onStateChangeComplete) {
-    if (this.state.open !== newState) {
-      if (this.props.mode !== 'inline') {
-        if (newState) {
-          this.bindRootCloseHandlers();
-        } else {
-          this.unbindRootCloseHandlers();
-        }
+  componentDidUpdate() {
+    if (this.props.mode !== 'inline') {
+      if (this.props.expanded) {
+        this.bindRootCloseHandlers();
+      } else {
+        this.unbindRootCloseHandlers();
       }
-      this.setState({
-        open: newState,
-      }, onStateChangeComplete);
     }
   },
 
   handleDocumentKeyUp(e) {
     if (e.keyCode === KeyCode.ESC) {
-      this.props.onHover(null);
+      this.props.onItemHover({
+        key: this.props.eventKey,
+        item: this,
+        hover: false,
+      });
     }
   },
 
@@ -44,7 +31,13 @@ export default {
     if (rcUtil.Dom.contains(React.findDOMNode(this), e.target)) {
       return;
     }
-    this.props.onHover(null);
+    const props = this.props;
+    props.onItemHover({
+      hover: false,
+      item: this,
+      key: this.props.eventKey,
+    });
+    this.triggerExpandedChange(false);
   },
 
   bindRootCloseHandlers() {

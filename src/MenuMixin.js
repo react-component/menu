@@ -2,8 +2,7 @@ import React from 'react';
 import {classSet, createChainedFunction, KeyCode} from 'rc-util';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
-import {noop, getKeyFromChildrenIndex} from './util';
-
+import { getKeyFromChildrenIndex} from './util';
 
 function getActiveKey(props) {
   let activeKey = props.activeKey;
@@ -41,16 +40,14 @@ const MenuMixin = {
   propTypes: {
     focusable: React.PropTypes.bool,
     multiple: React.PropTypes.bool,
-    onSelect: React.PropTypes.func,
-    onDeselect: React.PropTypes.func,
-    onDestroy: React.PropTypes.func,
-    onClick: React.PropTypes.func,
     style: React.PropTypes.object,
     defaultActiveFirst: React.PropTypes.bool,
     visible: React.PropTypes.bool,
-    openSubMenuOnMouseEnter: React.PropTypes.bool,
     activeKey: React.PropTypes.string,
     selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    defaultExpandedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    expandedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
   },
 
   getDefaultProps() {
@@ -62,13 +59,7 @@ const MenuMixin = {
       inlineIndent: 24,
       visible: true,
       focusable: true,
-      closeSubMenuOnDeactive: true,
-      deactiveSubMenuOnMouseLeave: true,
-      openSubMenuOnMouseEnter: true,
       style: {},
-      onSelect: noop,
-      onClick: noop,
-      onDeselect: noop,
     };
   },
 
@@ -130,18 +121,12 @@ const MenuMixin = {
     }
   },
 
-  onItemHover(key) {
-    this.setState({
-      activeKey: key,
-    });
-  },
-
   renderCommonMenuItem(child, i, extraProps) {
     const state = this.state;
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, i);
     const childProps = child.props;
-    let newChildProps = {
+    const newChildProps = assign({
       parent: this,
       mode: props.mode,
       level: props.level,
@@ -150,26 +135,16 @@ const MenuMixin = {
       rootPrefixCls: props.prefixCls,
       ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
       eventKey: key,
-      onHover: this.onItemHover,
+      openSubMenuOnMouseEnter: props.openSubMenuOnMouseEnter,
+      onItemHover: this.onItemHover,
       active: !childProps.disabled && key === state.activeKey,
       multiple: props.multiple,
       onClick: this.onClick,
+      onExpandedChange: this.onExpandedChange,
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       onSelect: this.onSelect,
-    };
-    newChildProps = assign({}, childProps, newChildProps, extraProps);
-    if (props.mode === 'inline') {
-      newChildProps.openSubMenuOnMouseEnter = newChildProps.closeSubMenuOnDeactive = false;
-      delete newChildProps.open;
-    } else if (!('open' in newChildProps)) {
-      if (newChildProps.closeSubMenuOnDeactive && !newChildProps.active) {
-        newChildProps.open = false;
-      }
-      if (!props.visible) {
-        newChildProps.open = false;
-      }
-    }
+    }, extraProps);
     return React.cloneElement(child, newChildProps);
   },
 
@@ -231,6 +206,7 @@ const MenuMixin = {
       }
     }
   },
+
 };
 
 export default MenuMixin;
