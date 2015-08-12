@@ -14,7 +14,7 @@ const SubMenu = React.createClass({
     multiple: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
-    onDestroy:React.PropTypes.func,
+    onDestroy: React.PropTypes.func,
     onHover: React.PropTypes.func,
   },
 
@@ -47,7 +47,7 @@ const SubMenu = React.createClass({
     }
   },
 
-  onDestroy(key){
+  onDestroy(key) {
     this.props.onDestroy(key);
   },
 
