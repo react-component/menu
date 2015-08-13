@@ -10,25 +10,20 @@ function handleSelect(info) {
   console.log('selected ' + info.key);
 }
 
-var titleRight = <span>sub menu</span>;
-var titleRight1 = <span>sub menu 1</span>;
-var titleRight2 = <span>sub menu 2</span>;
-var titleRight3 = <span>sub menu 3</span>;
-var titleRight4 = <span>sub menu 4</span>;
 var container = document.getElementById('__react-content');
 
-var nestSubMenu=<SubMenu title={titleRight2} key="4">
+var nestSubMenu=<SubMenu title={<span>sub menu 2</span>} key="4">
   <MenuItem key="4-1">inner inner</MenuItem>
   <Menu.Divider/>
   <SubMenu key="4-2"
-           title={titleRight3}
+           title={<span>sub menu 3</span>}
     >
     <SubMenu title="sub 4-2-0" key="4-2-0">
       <MenuItem key="4-2-0-1">inner inner</MenuItem>
       <MenuItem key="4-2-0-2">inner inner2</MenuItem>
     </SubMenu>
     <MenuItem key="4-2-1">inn</MenuItem>
-    <SubMenu title={titleRight4} key="4-2-2">
+    <SubMenu title={<span>sub menu 4</span>} key="4-2-2">
       <MenuItem key="4-2-2-1">inner inner</MenuItem>
       <MenuItem key="4-2-2-2">inner inner2</MenuItem>
     </SubMenu>
@@ -40,23 +35,23 @@ var nestSubMenu=<SubMenu title={titleRight2} key="4">
 </SubMenu>;
 
 var commonMenu=<Menu onSelect={handleSelect}>
-  <SubMenu title={titleRight} key="1">
+  <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
   </SubMenu>
+  {nestSubMenu}
   <MenuItem key="2">1</MenuItem>
   <MenuItem key="3">outer</MenuItem>
-  {nestSubMenu}
   <MenuItem disabled>disabled</MenuItem>
-  <MenuItem key="4-3">outer3</MenuItem>
+  <MenuItem key="5">outer3</MenuItem>
 </Menu>;
 
 var subMenus=<Menu onSelect={handleSelect}>
-  <SubMenu title={titleRight} key="1">
+  <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
   </SubMenu>
-  <SubMenu title={titleRight1} key="2">
+  <SubMenu title={<span>sub menu 1</span>} key="2">
     <MenuItem key="2-1">2-1</MenuItem>
     <MenuItem key="2-2">2-2</MenuItem>
   </SubMenu>
@@ -70,9 +65,15 @@ function render(container) {
     mode:'horizontal'
   });
 
+  var horizontalMenu2 = React.cloneElement(commonMenu,{
+    mode:'horizontal',
+    closeSubMenuOnMouseLeave:false
+  });
+
   var horizontalClickMenu = React.cloneElement(subMenus,{
     mode:'horizontal',
-    openSubMenuOnMouseEnter:false
+    openSubMenuOnMouseEnter:false,
+    closeSubMenuOnMouseLeave:false
   });
 
   var verticalMenu = React.cloneElement(commonMenu,{
@@ -88,6 +89,8 @@ function render(container) {
     <div>
       <h3>horizontal</h3>
       <div style={{margin:20,width: 800,}}>{horizontalMenu}</div>
+      <h3>horizontal keep open</h3>
+      <div style={{margin:20,width: 800,}}>{horizontalMenu2}</div>
       <h3>horizontal and click</h3>
       <div style={{margin:20,width: 800,}}>{horizontalClickMenu}</div>
       <h3>vertical</h3>

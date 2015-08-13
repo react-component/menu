@@ -1,6 +1,10 @@
 # History
 ----
 
+## 4.3.0 / 2015-08-13
+- make selectedKeys openedKeys controllable
+- add closeSubMenuOnMouseLeave/onOpen/onClose props
+
 ## 4.1.0 / 2015-08-11
 - remove openOnHover for SubMenu
 - add openSubMenuOnMouseEnter prop for Menu

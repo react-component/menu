@@ -6,77 +6,126 @@ import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} fr
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
 
-var titleRight = <span>sub menu
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight1 = <span>sub menu 1
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight2 = <span>sub menu 2
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight3 = <span>sub menu 3
-  <i className="fa fa-caret-right pull-right"></i>
-</span>;
-
 var Test = React.createClass({
   getInitialState(){
     return {
       destroyed: false,
-      selectedKeys: ['2', '1-1']
+      selectedKeys: [],
+      openedKeys: []
     };
   },
 
-  handleSelect(info){
+  onSelect(info){
     console.log('selected ', info);
     this.setState({
       selectedKeys: info.selectedKeys
     });
   },
 
-  handleDeselect(info) {
+  onDeselect(info) {
     console.log('deselect ', info);
+  },
+
+  onOpen(info){
+    console.log('opened ', info);
+    this.setState({
+      openedKeys: info.openedKeys
+    });
+  },
+
+  onClose(info){
+    console.log('opened ', info);
+    this.setState({
+      openedKeys: info.openedKeys
+    });
   },
 
   getMenu(){
     return (
-      <Menu multiple={true} onSelect={this.handleSelect}
-            onDeselect={this.handleDeselect}
+      <Menu multiple={true}
+            onSelect={this.onSelect}
+            onDeselect={this.onDeselect}
+            onOpen={this.onOpen}
+            onClose={this.onClose}
+            openedKeys={this.state.openedKeys}
             selectedKeys={this.state.selectedKeys}>
-        <SubMenu title={titleRight} key="1">
-          <MenuItem key="1-1">0-1</MenuItem>
-          <MenuItem key="1-2">0-2</MenuItem>
+        <SubMenu key="1" title="submenu1">
+          <MenuItem key="1-1">item1-1</MenuItem>
+          <MenuItem key="1-2">item1-2</MenuItem>
         </SubMenu>
-        <MenuItem key="2" disabled>can not deselect me,i'm disabled</MenuItem>
-        <MenuItem key="3">outer</MenuItem>
-        <SubMenu title={titleRight1} key="4">
-          <MenuItem key="4-1">inner inner</MenuItem>
-          <Menu.Divider />
-          <SubMenu key="4-2"
-                   title={titleRight2}>
-            <MenuItem key="4-2-1">inn</MenuItem>
-            <SubMenu title={titleRight3} key="4-2-2">
-              <MenuItem key="4-2-2-1">inner inner</MenuItem>
-              <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-            </SubMenu>
-          </SubMenu>
+        <SubMenu key="2" title="submenu2">
+          <MenuItem key="2-1">item2-1</MenuItem>
+          <MenuItem key="2-2">item2-2</MenuItem>
         </SubMenu>
-        <MenuItem disabled key="disabled">disabled</MenuItem>
-        <MenuItem key="4-3">outer3</MenuItem>
+        <MenuItem key="3">item3</MenuItem>
       </Menu>
     );
+  },
+
+  onCheck(e){
+    var value = e.target.value;
+    if (e.target.checked) {
+      this.setState({
+        selectedKeys: this.state.selectedKeys.concat(value)
+      });
+    } else {
+      var selectedKeys = this.state.selectedKeys.concat();
+      var index = selectedKeys.indexOf(value);
+      if (value !== -1) {
+        selectedKeys.splice(index, 1);
+      }
+      this.setState({
+        selectedKeys: selectedKeys
+      });
+    }
+  },
+
+  onOpenCheck(e){
+    var value = e.target.value;
+    if (e.target.checked) {
+      this.setState({
+        openedKeys: this.state.openedKeys.concat(value)
+      });
+    } else {
+      var openedKeys = this.state.openedKeys.concat();
+      var index = openedKeys.indexOf(value);
+      if (value !== -1) {
+        openedKeys.splice(index, 1);
+      }
+      this.setState({
+        openedKeys: openedKeys
+      });
+    }
   },
 
   render(){
     if (this.state.destroyed) {
       return null;
     }
+    var allSelectedKeys = ["1-1", "1-2", "2-1", "2-2", "3"];
+    var allOpenedKeys = ["1", "2"];
+    var selectedKeys = this.state.selectedKeys;
+    var openedKeys = this.state.openedKeys;
+
     return <div>
       <h2>multiple selectable menu</h2>
 
       <p>
-        <button onClick={this.destroy}>destroy</button>
+        selectedKeys: &nbsp;&nbsp;&nbsp;
+        {allSelectedKeys.map((k)=> {
+          return <label key={k}>{k} <input value={k} key={k} type="checkbox" onChange={this.onCheck}
+                                           checked={selectedKeys.indexOf(k)!==-1}/></label>;
+        })}
       </p>
+
+      <p>
+        openedKeys: &nbsp;&nbsp;&nbsp;
+        {allOpenedKeys.map((k)=> {
+          return <label key={k}>{k} <input value={k} type="checkbox" onChange={this.onOpenCheck}
+                                           checked={openedKeys.indexOf(k)!==-1}/></label>;
+        })}
+      </p>
+
       <div style={{width: 400}}>{this.getMenu()}</div>
     </div>;
   },

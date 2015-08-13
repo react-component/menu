@@ -25,22 +25,15 @@ class MenuItem extends React.Component {
   }
 
   onMouseLeave() {
-    this.props.parent.leaveTimer = setTimeout(()=> {
-      this.props.parent.leaveTimer = null;
-      this.props.onItemHover({
-        key: this.props.eventKey,
-        item: this,
-        hover: false,
-        trigger: 'mouseleave',
-      });
-    }, 100);
+    this.props.onItemHover({
+      key: this.props.eventKey,
+      item: this,
+      hover: false,
+      trigger: 'mouseleave',
+    });
   }
 
   onMouseEnter() {
-    if (this.props.parent.leaveTimer) {
-      clearTimeout(this.props.parent.leaveTimer);
-      this.props.parent.leaveTimer = null;
-    }
     const props = this.props;
     props.onItemHover({
       key: this.props.eventKey,
@@ -132,7 +125,6 @@ MenuItem.propTypes = {
   onSelect: React.PropTypes.func,
   onClick: React.PropTypes.func,
   onDeselect: React.PropTypes.func,
-  parent: React.PropTypes.object,
   onItemHover: React.PropTypes.func,
   onDestroy: React.PropTypes.func,
 };

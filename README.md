@@ -108,10 +108,34 @@ React.render(<Menu>
             <td>initial selected keys of items</td>
         </tr>
         <tr>
+            <td>openedKeys</td>
+            <td>String[]</td>
+            <th>[]</th>
+            <td>opened keys of SubMenuItem</td>
+        </tr>
+        <tr>
+            <td>defaultOpenedKeys</td>
+            <td>String[]</td>
+            <th>[]</th>
+            <td>initial opened keys of SubMenuItem</td>
+        </tr>
+        <tr>
             <td>onSelect</td>
             <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
             <td>called when select a menu item</td>
+        </tr>
+        <tr>
+            <td>onOpen</td>
+            <td>function({openedKeys:String[]})</td>
+            <th></th>
+            <td>called when open a sub menu</td>
+        </tr>
+        <tr>
+            <td>onClose</td>
+            <td>function({openedKeys:String[]})</td>
+            <th></th>
+            <td>called when close a sub menu</td>
         </tr>
         <tr>
             <td>onDeselect</td>
@@ -124,6 +148,12 @@ React.render(<Menu>
             <td>bool</td>
             <th>true</th>
             <td>whether enable top items to open on mouse enter</td>
+        </tr>
+        <tr>
+            <td>closeSubMenuOnMouseEnter</td>
+            <td>bool</td>
+            <th>true</th>
+            <td>whether enable close submenu on mouse leave</td>
         </tr>
     </tbody>
 </table>

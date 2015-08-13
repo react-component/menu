@@ -46,8 +46,8 @@ const MenuMixin = {
     activeKey: React.PropTypes.string,
     selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultExpandedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    expandedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    defaultOpenedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    openedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
   },
 
   getDefaultProps() {
@@ -121,13 +121,39 @@ const MenuMixin = {
     }
   },
 
+  onCommonItemHover(e) {
+    const {mode} = this.props;
+    const {key, hover, trigger} = e;
+    const activeKey = this.state.activeKey;
+    if (!trigger || hover || this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
+      this.setState({
+        activeKey: hover ? key : null,
+      });
+    } else {
+      // keep active for sub menu for click active
+      // empty
+    }
+    // clear last opened status
+    if (hover && mode !== 'inline') {
+      const activeItem = this.instanceArray.filter((c)=> {
+        return c.props.eventKey === activeKey;
+      })[0];
+      if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
+        this.onOpenedChange({
+          item: activeItem,
+          key: activeItem.props.eventKey,
+          opened: false,
+        });
+      }
+    }
+  },
+
   renderCommonMenuItem(child, i, extraProps) {
     const state = this.state;
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, i);
     const childProps = child.props;
     const newChildProps = assign({
-      parent: this,
       mode: props.mode,
       level: props.level,
       inlineIndent: props.inlineIndent,
@@ -135,16 +161,19 @@ const MenuMixin = {
       rootPrefixCls: props.prefixCls,
       ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
       eventKey: key,
-      openSubMenuOnMouseEnter: props.openSubMenuOnMouseEnter,
+      closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
       onItemHover: this.onItemHover,
       active: !childProps.disabled && key === state.activeKey,
       multiple: props.multiple,
       onClick: this.onClick,
-      onExpandedChange: this.onExpandedChange,
+      onOpenedChange: this.onOpenedChange,
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       onSelect: this.onSelect,
     }, extraProps);
+    if (props.mode === 'inline') {
+      newChildProps.closeSubMenuOnMouseLeave = newChildProps.openSubMenuOnMouseEnter = false;
+    }
     return React.cloneElement(child, newChildProps);
   },
 
@@ -206,7 +235,6 @@ const MenuMixin = {
       }
     }
   },
-
 };
 
 export default MenuMixin;

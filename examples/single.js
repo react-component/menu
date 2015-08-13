@@ -63,6 +63,8 @@ function render(container) {
 
     <p>
       <button onClick={destroy}>destroy</button>
+      &nbsp;
+      <a href="#">archor</a>
     </p>
     <div style={{width: 400}}>{leftMenu}</div>
   </div>, container);

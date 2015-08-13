@@ -6,13 +6,14 @@ const SubMenu = React.createClass({
   propTypes: {
     title: React.PropTypes.node,
     onClick: React.PropTypes.func,
-    onExpandedChange: React.PropTypes.func,
-    parent: React.PropTypes.object,
+    onOpenedChange: React.PropTypes.func,
     rootPrefixCls: React.PropTypes.string,
     eventKey: React.PropTypes.string,
     multiple: React.PropTypes.bool,
-    expanded: React.PropTypes.bool,
+    active: React.PropTypes.bool,
+    opened: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
+    closeSubMenuOnMouseLeave: React.PropTypes.bool,
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
     onItemHover: React.PropTypes.func,
@@ -59,10 +60,10 @@ const SubMenu = React.createClass({
     }
 
     if (keyCode === KeyCode.RIGHT) {
-      if (this.props.expanded) {
+      if (this.props.opened) {
         menu.onKeyDown(e);
       } else {
-        this.triggerExpandedChange(true);
+        this.triggerOpenedChange(true);
         this.setState({
           defaultActiveFirst: true,
         });
@@ -71,38 +72,38 @@ const SubMenu = React.createClass({
     }
     if (keyCode === KeyCode.LEFT) {
       let handled;
-      if (this.props.expanded) {
+      if (this.props.opened) {
         handled = menu.onKeyDown(e);
       } else {
         return undefined;
       }
       if (!handled) {
-        this.triggerExpandedChange(false);
+        this.triggerOpenedChange(false);
         handled = true;
       }
       return handled;
     }
 
-    if (this.props.expanded && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
+    if (this.props.opened && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
       return menu.onKeyDown(e);
     }
   },
 
   onSubTreeMouseEnter() {
-    if (this.props.parent.leaveTimer) {
-      clearTimeout(this.props.parent.leaveTimer);
-      this.props.parent.leaveTimer = null;
+    if (this.leaveTimer) {
+      clearTimeout(this.leaveTimer);
+      this.leaveTimer = null;
     }
   },
 
-  onExpandedChange(e) {
-    this.props.onExpandedChange(e);
+  onOpenedChange(e) {
+    this.props.onOpenedChange(e);
   },
 
   onMouseEnter() {
-    if (this.props.parent.leaveTimer) {
-      clearTimeout(this.props.parent.leaveTimer);
-      this.props.parent.leaveTimer = null;
+    if (this.leaveTimer) {
+      clearTimeout(this.leaveTimer);
+      this.leaveTimer = null;
     }
     const props = this.props;
     props.onItemHover({
@@ -111,27 +112,37 @@ const SubMenu = React.createClass({
       hover: true,
       trigger: 'mouseenter',
     });
-    this.triggerExpandedChange(true, 'mouseenter');
+    if (props.openSubMenuOnMouseEnter) {
+      this.triggerOpenedChange(true);
+    }
     this.setState({
       defaultActiveFirst: false,
     });
   },
 
   onMouseLeave() {
-    this.props.parent.leaveTimer = setTimeout(()=> {
-      this.props.parent.leaveTimer = null;
-      this.props.onItemHover({
-        key: this.props.eventKey,
-        item: this,
-        hover: false,
-        trigger: 'mouseleave',
-      });
-      this.triggerExpandedChange(false, 'mouseleave');
+    // prevent popmenu and submenu gap
+    this.leaveTimer = setTimeout(()=> {
+      // leave whole sub tree
+      // still active
+      if (this.isMounted() && this.props.active) {
+        this.props.onItemHover({
+          key: this.props.eventKey,
+          item: this,
+          hover: false,
+          trigger: 'mouseleave',
+        });
+      }
+      if (this.isMounted() && this.props.opened) {
+        if (this.props.closeSubMenuOnMouseLeave) {
+          this.triggerOpenedChange(false);
+        }
+      }
     }, 100);
   },
 
   onClick() {
-    this.triggerExpandedChange(!this.props.expanded, 'click');
+    this.triggerOpenedChange(!this.props.opened, 'click');
     this.setState({
       defaultActiveFirst: false,
     });
@@ -161,15 +172,15 @@ const SubMenu = React.createClass({
     return this.getPrefixCls() + '-disabled';
   },
 
-  getExpandedClassName() {
-    return this.props.rootPrefixCls + '-submenu-expanded';
+  getOpenedClassName() {
+    return this.props.rootPrefixCls + '-submenu-opened';
   },
 
   renderChildren(children) {
     const props = this.props;
     const baseProps = {
       mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
-      visible: this.props.expanded,
+      visible: this.props.opened,
       level: props.level + 1,
       inlineIndent: props.inlineIndent,
       focusable: false,
@@ -178,9 +189,9 @@ const SubMenu = React.createClass({
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       selectedKeys: props.selectedKeys,
-      expandedKeys: props.expandedKeys,
-      onExpandedChange: this.onExpandedChange,
-      openSubMenuOnMouseEnter: props.openSubMenuOnMouseEnter,
+      openedKeys: props.openedKeys,
+      onOpenedChange: this.onOpenedChange,
+      closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
@@ -191,7 +202,7 @@ const SubMenu = React.createClass({
   },
 
   render() {
-    this.haveOpened = this.haveOpened || this.props.expanded;
+    this.haveOpened = this.haveOpened || this.props.opened;
     const props = this.props;
     const prefixCls = this.getPrefixCls();
     const classes = {
@@ -199,7 +210,7 @@ const SubMenu = React.createClass({
       [`${prefixCls}-${props.mode}`]: 1,
     };
 
-    classes[this.getExpandedClassName()] = this.props.expanded;
+    classes[this.getOpenedClassName()] = this.props.opened;
     classes[this.getActiveClassName()] = props.active;
     classes[this.getDisabledClassName()] = props.disabled;
     this._menuId = this._menuId || guid();
@@ -232,7 +243,7 @@ const SubMenu = React.createClass({
           className={prefixCls + '-title'}
           {...titleMouseEvents}
           {...clickEvents}
-          aria-expanded={props.expanded}
+          aria-opened={props.opened}
           aria-owns={this._menuId}
           aria-haspopup="true"
           >
@@ -247,13 +258,12 @@ const SubMenu = React.createClass({
     this.menuInstance = c;
   },
 
-  triggerExpandedChange(expanded, type) {
-    this.onExpandedChange({
+  triggerOpenedChange(opened, type) {
+    this.onOpenedChange({
       key: this.props.eventKey,
-      parent: this.props.parent,
       item: this,
       trigger: type,
-      expanded: expanded,
+      opened: opened,
     });
   },
 });

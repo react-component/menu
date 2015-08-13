@@ -1,18 +1,19 @@
 import React from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
-import {getKeyFromChildrenIndex} from './util';
+import {noop, getKeyFromChildrenIndex} from './util';
 
 const Menu = React.createClass({
   propTypes: {
     openSubMenuOnMouseEnter: React.PropTypes.bool,
+    closeSubMenuOnMouseLeave: React.PropTypes.bool,
     selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultExpandedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    expandedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    defaultOpenedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    openedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     mode: React.PropTypes.string,
     onClick: React.PropTypes.func,
-    onExpandedChange: React.PropTypes.func,
+    onOpenedChange: React.PropTypes.func,
     onSelect: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
@@ -21,16 +22,15 @@ const Menu = React.createClass({
   getDefaultProps() {
     return {
       openSubMenuOnMouseEnter: true,
-      onExpandedChange() {
-      },
-      onClick() {
-      },
-      onSelect() {
-      },
-      onDeselect() {
-      },
+      closeSubMenuOnMouseLeave: true,
+      onOpenedChange: noop,
+      onClick: noop,
+      onSelect: noop,
+      onOpen: noop,
+      onClose: noop,
+      onDeselect: noop,
       defaultSelectedKeys: [],
-      defaultExpandedKeys: [],
+      defaultOpenedKeys: [],
     };
   },
 
@@ -39,15 +39,15 @@ const Menu = React.createClass({
   getInitialState() {
     const props = this.props;
     let selectedKeys = props.defaultSelectedKeys;
-    let expandedKeys = props.defaultExpandedKeys;
+    let openedKeys = props.defaultOpenedKeys;
     if ('selectedKeys' in props) {
       selectedKeys = props.selectedKeys || [];
     }
-    if ('expandedKeys' in props) {
-      expandedKeys = props.expandedKeys || [];
+    if ('openedKeys' in props) {
+      openedKeys = props.openedKeys || [];
     }
     return {
-      selectedKeys, expandedKeys,
+      selectedKeys, openedKeys,
     };
   },
 
@@ -56,8 +56,8 @@ const Menu = React.createClass({
     if ('selectedKeys' in nextProps) {
       props.selectedKeys = nextProps.selectedKeys;
     }
-    if ('expandedKeys' in nextProps) {
-      props.expandedKeys = nextProps.expandedKeys;
+    if ('openedKeys' in nextProps) {
+      props.openedKeys = nextProps.openedKeys;
     }
     this.setState(props);
   },
@@ -66,40 +66,35 @@ const Menu = React.createClass({
     const state = this.state;
     const props = this.props;
     const selectedKeys = state.selectedKeys;
-    const expandedKeys = state.expandedKeys;
+    const openedKeys = state.openedKeys;
     let index = selectedKeys.indexOf(key);
     if (!('selectedKeys' in props) && index !== -1) {
       selectedKeys.splice(index, 1);
     }
-    index = expandedKeys.indexOf(key);
-    if (!('expandedKeys' in props) && index !== -1) {
-      expandedKeys.splice(index, 1);
+    index = openedKeys.indexOf(key);
+    if (!('openedKeys' in props) && index !== -1) {
+      openedKeys.splice(index, 1);
     }
   },
 
   onItemHover(e) {
-    const {key, hover, trigger, item} = e;
-    if (!trigger) {
-      this.setState({
-        activeKey: hover ? key : null,
-      });
-    } else if (hover || this.props.openSubMenuOnMouseEnter) {
-      this.setState({
-        activeKey: hover ? key : null,
-      });
-    }
-
-    if (hover && this.props.openSubMenuOnMouseEnter && !item.isSubMenu) {
-      const subMenu = this.lastExpandedSubMenu();
-      if (subMenu && key !== subMenu.props.eventKey) {
-        this.onExpandedChange({
-          key: subMenu.props.eventKey,
-          expanded: false,
-          item: subMenu,
-          trigger: 'mouseleave',
+    const {item} = e;
+    // special for top sub menu
+    if (this.props.mode !== 'inline' && !this.props.closeSubMenuOnMouseLeave && item.isSubMenu) {
+      const activeKey = this.state.activeKey;
+      const activeItem = this.instanceArray.filter((c)=> {
+        return c.props.eventKey === activeKey;
+      })[0];
+      if (activeItem && activeItem.props.opened) {
+        this.onOpenedChange({
+          key: item.props.eventKey,
+          item: e.item,
+          opened: true,
         });
       }
     }
+
+    this.onCommonItemHover(e);
   },
 
   onSelect(selectInfo) {
@@ -132,70 +127,43 @@ const Menu = React.createClass({
         this.setState({
           activeKey: null,
         });
-        if (!('expandedKeys' in this.props)) {
-          this.setState({expandedKeys: []});
+        if (!('openedKeys' in this.props)) {
+          this.setState({openedKeys: []});
         }
-        this.props.onExpandedChange({expandedKeys: []});
+        this.props.onOpenedChange({openedKeys: []});
       }
     }
     props.onClick(e);
   },
 
-  onExpandedChange(e) {
-    let expandedKeys = this.state.expandedKeys;
+  onOpenedChange(e) {
+    let openedKeys = this.state.openedKeys;
+    const props = this.props;
     let changed = true;
-    if (e.expanded) {
-      changed = expandedKeys.indexOf(e.key) === -1;
+    if (e.opened) {
+      changed = openedKeys.indexOf(e.key) === -1;
       if (changed) {
-        // same level only one turn on
-        if (!this.isInlineMode()) {
-          expandedKeys = expandedKeys.filter((k) => {
-            return e.parent.instanceArray.every((c) => {
-              return c.props.eventKey !== k;
-            });
-          });
-        }
-        expandedKeys = expandedKeys.concat(e.key);
+        openedKeys = openedKeys.concat(e.key);
       }
     } else {
-      const index = expandedKeys.indexOf(e.key);
+      const index = openedKeys.indexOf(e.key);
       changed = index !== -1;
       if (changed) {
-        expandedKeys = expandedKeys.concat();
-        expandedKeys.splice(index, 1);
+        openedKeys = openedKeys.concat();
+        openedKeys.splice(index, 1);
       }
     }
     if (changed) {
-      const trigger = e.trigger;
-      const mode = this.props.mode;
-      if (trigger) {
-        if (trigger === 'mouseenter') {
-          if (mode === 'inline') {
-            changed = false;
-          } else if (this.props.openSubMenuOnMouseEnter || e.item.props.level !== 1) {
-            changed = true;
-          } else if (e.item.props.level === 1) {
-            changed = !!this.lastExpandedSubMenu();
-          } else {
-            changed = true;
-          }
-        } else if (trigger === 'mouseleave') {
-          if (mode === 'inline') {
-            changed = false;
-          } else if (this.props.openSubMenuOnMouseEnter) {
-            changed = true;
-          } else {
-            changed = false;
-          }
-        }
+      // hack: batch does not update state
+      this.state.openedKeys = openedKeys;
+      if (!('openedKeys' in this.props)) {
+        this.setState({openedKeys});
       }
-      if (!('expandedKeys' in this.props)) {
-        if (changed) {
-          this.setState({expandedKeys});
-        }
-      }
-      if (changed) {
-        this.props.onExpandedChange(assign({expandedKeys}, e));
+      const info = assign({openedKeys}, e);
+      if (e.opened) {
+        props.onOpen(info);
+      } else {
+        props.onClose(info);
       }
     }
   },
@@ -222,10 +190,11 @@ const Menu = React.createClass({
     const key = getKeyFromChildrenIndex(c, i);
     const state = this.state;
     const extraProps = {
-      expandedKeys: state.expandedKeys,
-      expanded: state.expandedKeys.indexOf(key) !== -1,
+      openedKeys: state.openedKeys,
+      opened: state.openedKeys.indexOf(key) !== -1,
       selectedKeys: state.selectedKeys,
       selected: state.selectedKeys.indexOf(key) !== -1,
+      openSubMenuOnMouseEnter: this.props.openSubMenuOnMouseEnter,
     };
     return this.renderCommonMenuItem(c, i, extraProps);
   },
@@ -240,11 +209,11 @@ const Menu = React.createClass({
     return this.props.mode === 'inline';
   },
 
-  lastExpandedSubMenu() {
+  lastOpenedSubMenu() {
     let lastOpen = [];
-    if (this.state.expandedKeys.length) {
+    if (this.state.openedKeys.length) {
       lastOpen = this.instanceArray.filter((c)=> {
-        return this.state.expandedKeys.indexOf(c.props.eventKey) !== -1;
+        return this.state.openedKeys.indexOf(c.props.eventKey) !== -1;
       });
     }
     return lastOpen[0];
