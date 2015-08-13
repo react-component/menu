@@ -94,133 +94,135 @@ webpackJsonp([4],{
 	
 	__webpack_require__(36);
 	
-	var titleRight = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu',
-	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
-	);
-	var titleRight1 = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu 1',
-	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
-	);
-	var titleRight2 = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu 2',
-	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
-	);
-	var titleRight3 = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu 3',
-	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
-	);
-	
 	var Test = _react2['default'].createClass({
 	  displayName: 'Test',
 	
 	  getInitialState: function getInitialState() {
 	    return {
 	      destroyed: false,
-	      selectedKeys: ['2', '1-1']
+	      selectedKeys: [],
+	      openedKeys: []
 	    };
 	  },
 	
-	  handleSelect: function handleSelect(info) {
+	  onSelect: function onSelect(info) {
 	    console.log('selected ', info);
 	    this.setState({
 	      selectedKeys: info.selectedKeys
 	    });
 	  },
 	
-	  handleDeselect: function handleDeselect(info) {
+	  onDeselect: function onDeselect(info) {
 	    console.log('deselect ', info);
+	  },
+	
+	  onOpen: function onOpen(info) {
+	    console.log('opened ', info);
+	    this.setState({
+	      openedKeys: info.openedKeys
+	    });
+	  },
+	
+	  onClose: function onClose(info) {
+	    console.log('opened ', info);
+	    this.setState({
+	      openedKeys: info.openedKeys
+	    });
 	  },
 	
 	  getMenu: function getMenu() {
 	    return _react2['default'].createElement(
 	      _rcMenu2['default'],
-	      { multiple: true, onSelect: this.handleSelect,
-	        onDeselect: this.handleDeselect,
+	      { multiple: true,
+	        onSelect: this.onSelect,
+	        onDeselect: this.onDeselect,
+	        onOpen: this.onOpen,
+	        onClose: this.onClose,
+	        openedKeys: this.state.openedKeys,
 	        selectedKeys: this.state.selectedKeys },
 	      _react2['default'].createElement(
 	        _rcMenu.SubMenu,
-	        { title: titleRight, key: '1' },
+	        { key: '1', title: 'submenu1' },
 	        _react2['default'].createElement(
 	          _rcMenu.Item,
 	          { key: '1-1' },
-	          '0-1'
+	          'item1-1'
 	        ),
 	        _react2['default'].createElement(
 	          _rcMenu.Item,
 	          { key: '1-2' },
-	          '0-2'
+	          'item1-2'
 	        )
 	      ),
 	      _react2['default'].createElement(
-	        _rcMenu.Item,
-	        { key: '2', disabled: true },
-	        'can not deselect me,i\'m disabled'
+	        _rcMenu.SubMenu,
+	        { key: '2', title: 'submenu2' },
+	        _react2['default'].createElement(
+	          _rcMenu.Item,
+	          { key: '2-1' },
+	          'item2-1'
+	        ),
+	        _react2['default'].createElement(
+	          _rcMenu.Item,
+	          { key: '2-2' },
+	          'item2-2'
+	        )
 	      ),
 	      _react2['default'].createElement(
 	        _rcMenu.Item,
 	        { key: '3' },
-	        'outer'
-	      ),
-	      _react2['default'].createElement(
-	        _rcMenu.SubMenu,
-	        { title: titleRight1, key: '4' },
-	        _react2['default'].createElement(
-	          _rcMenu.Item,
-	          { key: '4-1' },
-	          'inner inner'
-	        ),
-	        _react2['default'].createElement(_rcMenu2['default'].Divider, null),
-	        _react2['default'].createElement(
-	          _rcMenu.SubMenu,
-	          { key: '4-2',
-	            title: titleRight2 },
-	          _react2['default'].createElement(
-	            _rcMenu.Item,
-	            { key: '4-2-1' },
-	            'inn'
-	          ),
-	          _react2['default'].createElement(
-	            _rcMenu.SubMenu,
-	            { title: titleRight3, key: '4-2-2' },
-	            _react2['default'].createElement(
-	              _rcMenu.Item,
-	              { key: '4-2-2-1' },
-	              'inner inner'
-	            ),
-	            _react2['default'].createElement(
-	              _rcMenu.Item,
-	              { key: '4-2-2-2' },
-	              'inner inner2'
-	            )
-	          )
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        _rcMenu.Item,
-	        { disabled: true, key: 'disabled' },
-	        'disabled'
-	      ),
-	      _react2['default'].createElement(
-	        _rcMenu.Item,
-	        { key: '4-3' },
-	        'outer3'
+	        'item3'
 	      )
 	    );
 	  },
 	
+	  onCheck: function onCheck(e) {
+	    var value = e.target.value;
+	    if (e.target.checked) {
+	      this.setState({
+	        selectedKeys: this.state.selectedKeys.concat(value)
+	      });
+	    } else {
+	      var selectedKeys = this.state.selectedKeys.concat();
+	      var index = selectedKeys.indexOf(value);
+	      if (value !== -1) {
+	        selectedKeys.splice(index, 1);
+	      }
+	      this.setState({
+	        selectedKeys: selectedKeys
+	      });
+	    }
+	  },
+	
+	  onOpenCheck: function onOpenCheck(e) {
+	    var value = e.target.value;
+	    if (e.target.checked) {
+	      this.setState({
+	        openedKeys: this.state.openedKeys.concat(value)
+	      });
+	    } else {
+	      var openedKeys = this.state.openedKeys.concat();
+	      var index = openedKeys.indexOf(value);
+	      if (value !== -1) {
+	        openedKeys.splice(index, 1);
+	      }
+	      this.setState({
+	        openedKeys: openedKeys
+	      });
+	    }
+	  },
+	
 	  render: function render() {
+	    var _this = this;
+	
 	    if (this.state.destroyed) {
 	      return null;
 	    }
+	    var allSelectedKeys = ["1-1", "1-2", "2-1", "2-2", "3"];
+	    var allOpenedKeys = ["1", "2"];
+	    var selectedKeys = this.state.selectedKeys;
+	    var openedKeys = this.state.openedKeys;
+	
 	    return _react2['default'].createElement(
 	      'div',
 	      null,
@@ -232,11 +234,32 @@ webpackJsonp([4],{
 	      _react2['default'].createElement(
 	        'p',
 	        null,
-	        _react2['default'].createElement(
-	          'button',
-	          { onClick: this.destroy },
-	          'destroy'
-	        )
+	        'selectedKeys:    ',
+	        allSelectedKeys.map(function (k) {
+	          return _react2['default'].createElement(
+	            'label',
+	            { key: k },
+	            k,
+	            ' ',
+	            _react2['default'].createElement('input', { value: k, key: k, type: 'checkbox', onChange: _this.onCheck,
+	              checked: selectedKeys.indexOf(k) !== -1 })
+	          );
+	        })
+	      ),
+	      _react2['default'].createElement(
+	        'p',
+	        null,
+	        'openedKeys:    ',
+	        allOpenedKeys.map(function (k) {
+	          return _react2['default'].createElement(
+	            'label',
+	            { key: k },
+	            k,
+	            ' ',
+	            _react2['default'].createElement('input', { value: k, type: 'checkbox', onChange: _this.onOpenCheck,
+	              checked: openedKeys.indexOf(k) !== -1 })
+	          );
+	        })
 	      ),
 	      _react2['default'].createElement(
 	        'div',

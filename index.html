@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@4.2.0 - menu ui component for react</title>
+  <title>rc-menu@4.3.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@4.2.0</h1>
+  <h1>rc-menu@4.3.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -837,10 +837,34 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
             <td>initial selected keys of items</td>
         </tr>
         <tr>
+            <td>openedKeys</td>
+            <td>String[]</td>
+            <th>[]</th>
+            <td>opened keys of SubMenuItem</td>
+        </tr>
+        <tr>
+            <td>defaultOpenedKeys</td>
+            <td>String[]</td>
+            <th>[]</th>
+            <td>initial opened keys of SubMenuItem</td>
+        </tr>
+        <tr>
             <td>onSelect</td>
             <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
             <th></th>
             <td>called when select a menu item</td>
+        </tr>
+        <tr>
+            <td>onOpen</td>
+            <td>function({openedKeys:String[]})</td>
+            <th></th>
+            <td>called when open a sub menu</td>
+        </tr>
+        <tr>
+            <td>onClose</td>
+            <td>function({openedKeys:String[]})</td>
+            <th></th>
+            <td>called when close a sub menu</td>
         </tr>
         <tr>
             <td>onDeselect</td>
@@ -853,6 +877,12 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
             <td>bool</td>
             <th>true</th>
             <td>whether enable top items to open on mouse enter</td>
+        </tr>
+        <tr>
+            <td>closeSubMenuOnMouseEnter</td>
+            <td>bool</td>
+            <th>true</th>
+            <td>whether enable close submenu on mouse leave</td>
         </tr>
     </tbody>
 </table>

@@ -235,105 +235,154 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>rc-menu@4.2.0</h1>
+            <h1>rc-menu@4.3.0</h1>
             <p>menu ui component for react</p>
         </div>
         <div class="example" id="__react-content"></div>
         <script src="common.js?nowrap"></script>
         <script src="selectedKeys.js?nowrap"></script>
-        <div class="highlight"><pre><code><span class="xml">'use strict';
+        <div class="highlight"><pre><code><span class="hljs-string">'use strict'</span>;
 
-import React from 'react';
-import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
+import React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+import Menu, {SubMenu, Item <span class="hljs-keyword">as</span> MenuItem, ItemGroup <span class="hljs-keyword">as</span> MenuItemGroup, Divider} <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-menu'</span>;
 
-import 'rc-menu/assets/index.css';
-import 'font-awesome/css/font-awesome.css';
+import <span class="hljs-string">'rc-menu/assets/index.css'</span>;
+import <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
 
-var titleRight = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu
-  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
-var titleRight1 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 1
-  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
-var titleRight2 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 2
-  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
-var titleRight3 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 3
-  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;
-
-var Test = React.createClass({
+<span class="hljs-keyword">var</span> Test = React.createClass({
   getInitialState(){
-    return {
-      destroyed: false,
-      selectedKeys: ['2', '1-1']
+    <span class="hljs-keyword">return</span> {
+      destroyed: <span class="hljs-keyword">false</span>,
+      selectedKeys: [],
+      openedKeys: []
     };
   },
 
-  handleSelect(info){
-    console.log('selected ', info);
-    this.setState({
+  onSelect(info){
+    console.log(<span class="hljs-string">'selected '</span>, info);
+    <span class="hljs-keyword">this</span>.setState({
       selectedKeys: info.selectedKeys
     });
   },
 
-  handleDeselect(info) {
-    console.log('deselect ', info);
+  onDeselect(info) {
+    console.log(<span class="hljs-string">'deselect '</span>, info);
+  },
+
+  onOpen(info){
+    console.log(<span class="hljs-string">'opened '</span>, info);
+    <span class="hljs-keyword">this</span>.setState({
+      openedKeys: info.openedKeys
+    });
+  },
+
+  onClose(info){
+    console.log(<span class="hljs-string">'opened '</span>, info);
+    <span class="hljs-keyword">this</span>.setState({
+      openedKeys: info.openedKeys
+    });
   },
 
   getMenu(){
-    return (
-      <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">multiple</span>=<span class="hljs-value">{true}</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{this.handleSelect}</span>
-            <span class="hljs-attribute">onDeselect</span>=<span class="hljs-value">{this.handleDeselect}</span>
-            <span class="hljs-attribute">selectedKeys</span>=<span class="hljs-value">{this.state.selectedKeys}</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span> <span class="hljs-attribute">disabled</span>&gt;</span>can not deselect me,i'm disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight1}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span> /&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
-                   <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight2}</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{titleRight3}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2"</span>&gt;</span>
-              <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-              <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-          <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"disabled"</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-3"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
+    <span class="hljs-keyword">return</span> (
+      &lt;Menu multiple={<span class="hljs-keyword">true</span>}
+            onSelect={<span class="hljs-keyword">this</span>.onSelect}
+            onDeselect={<span class="hljs-keyword">this</span>.onDeselect}
+            onOpen={<span class="hljs-keyword">this</span>.onOpen}
+            onClose={<span class="hljs-keyword">this</span>.onClose}
+            openedKeys={<span class="hljs-keyword">this</span>.state.openedKeys}
+            selectedKeys={<span class="hljs-keyword">this</span>.state.selectedKeys}&gt;
+        &lt;SubMenu key=<span class="hljs-string">"1"</span> title=<span class="hljs-string">"submenu1"</span>&gt;
+          &lt;MenuItem key=<span class="hljs-string">"1-1"</span>&gt;item1-<span class="hljs-number">1</span>&lt;/MenuItem&gt;
+          &lt;MenuItem key=<span class="hljs-string">"1-2"</span>&gt;item1-<span class="hljs-number">2</span>&lt;/MenuItem&gt;
+        &lt;/SubMenu&gt;
+        &lt;SubMenu key=<span class="hljs-string">"2"</span> title=<span class="hljs-string">"submenu2"</span>&gt;
+          &lt;MenuItem key=<span class="hljs-string">"2-1"</span>&gt;item2-<span class="hljs-number">1</span>&lt;/MenuItem&gt;
+          &lt;MenuItem key=<span class="hljs-string">"2-2"</span>&gt;item2-<span class="hljs-number">2</span>&lt;/MenuItem&gt;
+        &lt;/SubMenu&gt;
+        &lt;MenuItem key=<span class="hljs-string">"3"</span>&gt;item3&lt;/MenuItem&gt;
+      &lt;/Menu&gt;
     );
   },
 
-  render(){
-    if (this.state.destroyed) {
-      return null;
+  onCheck(e){
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = e.target.<span class="hljs-keyword">value</span>;
+    <span class="hljs-keyword">if</span> (e.target.<span class="hljs-keyword">checked</span>) {
+      <span class="hljs-keyword">this</span>.setState({
+        selectedKeys: <span class="hljs-keyword">this</span>.state.selectedKeys.concat(<span class="hljs-keyword">value</span>)
+      });
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">var</span> selectedKeys = <span class="hljs-keyword">this</span>.state.selectedKeys.concat();
+      <span class="hljs-keyword">var</span> index = selectedKeys.indexOf(<span class="hljs-keyword">value</span>);
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> !== -<span class="hljs-number">1</span>) {
+        selectedKeys.splice(index, <span class="hljs-number">1</span>);
+      }
+      <span class="hljs-keyword">this</span>.setState({
+        selectedKeys: selectedKeys
+      });
     }
-    return <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>multiple selectable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
+  },
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.destroy}</span>&gt;</span>destroy<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">width</span>: 400}}</span><span class="xml"><span class="hljs-tag">&gt;</span>{this.getMenu()}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;
+  onOpenCheck(e){
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = e.target.<span class="hljs-keyword">value</span>;
+    <span class="hljs-keyword">if</span> (e.target.<span class="hljs-keyword">checked</span>) {
+      <span class="hljs-keyword">this</span>.setState({
+        openedKeys: <span class="hljs-keyword">this</span>.state.openedKeys.concat(<span class="hljs-keyword">value</span>)
+      });
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">var</span> openedKeys = <span class="hljs-keyword">this</span>.state.openedKeys.concat();
+      <span class="hljs-keyword">var</span> index = openedKeys.indexOf(<span class="hljs-keyword">value</span>);
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> !== -<span class="hljs-number">1</span>) {
+        openedKeys.splice(index, <span class="hljs-number">1</span>);
+      }
+      <span class="hljs-keyword">this</span>.setState({
+        openedKeys: openedKeys
+      });
+    }
+  },
+
+  render(){
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.destroyed) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+    <span class="hljs-keyword">var</span> allSelectedKeys = [<span class="hljs-string">"1-1"</span>, <span class="hljs-string">"1-2"</span>, <span class="hljs-string">"2-1"</span>, <span class="hljs-string">"2-2"</span>, <span class="hljs-string">"3"</span>];
+    <span class="hljs-keyword">var</span> allOpenedKeys = [<span class="hljs-string">"1"</span>, <span class="hljs-string">"2"</span>];
+    <span class="hljs-keyword">var</span> selectedKeys = <span class="hljs-keyword">this</span>.state.selectedKeys;
+    <span class="hljs-keyword">var</span> openedKeys = <span class="hljs-keyword">this</span>.state.openedKeys;
+
+    <span class="hljs-keyword">return</span> &lt;div&gt;
+      &lt;h2&gt;multiple selectable menu&lt;/h2&gt;
+
+      &lt;p&gt;
+        selectedKeys: &amp;nbsp;&amp;nbsp;&amp;nbsp;
+        {allSelectedKeys.map((k)=&gt; {
+          <span class="hljs-keyword">return</span> &lt;label key={k}&gt;{k} &lt;input <span class="hljs-keyword">value</span>={k} key={k} type=<span class="hljs-string">"checkbox"</span> onChange={<span class="hljs-keyword">this</span>.onCheck}
+                                           <span class="hljs-keyword">checked</span>={selectedKeys.indexOf(k)!==-<span class="hljs-number">1</span>}/&gt;&lt;/label&gt;;
+        })}
+      &lt;/p&gt;
+
+      &lt;p&gt;
+        openedKeys: &amp;nbsp;&amp;nbsp;&amp;nbsp;
+        {allOpenedKeys.map((k)=&gt; {
+          <span class="hljs-keyword">return</span> &lt;label key={k}&gt;{k} &lt;input <span class="hljs-keyword">value</span>={k} type=<span class="hljs-string">"checkbox"</span> onChange={<span class="hljs-keyword">this</span>.onOpenCheck}
+                                           <span class="hljs-keyword">checked</span>={openedKeys.indexOf(k)!==-<span class="hljs-number">1</span>}/&gt;&lt;/label&gt;;
+        })}
+      &lt;/p&gt;
+
+      &lt;div style={{width: <span class="hljs-number">400</span>}}&gt;{<span class="hljs-keyword">this</span>.getMenu()}&lt;/div&gt;
+    &lt;/div&gt;;
   },
 
   destroy(){
-    this.setState({
-      destroyed: true
+    <span class="hljs-keyword">this</span>.setState({
+      destroyed: <span class="hljs-keyword">true</span>
     });
   }
 });
 
 
-React.render(<span class="hljs-tag">&lt;<span class="hljs-title">Test</span> /&gt;</span>, document.getElementById('__react-content'));
-</span></code></pre></div>
+React.render(&lt;Test /&gt;, document.getElementById(<span class="hljs-string">'__react-content'</span>));
+</code></pre></div>
     </div>
     <a href="http://github.com/react-component/menu"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
 </body>

@@ -28,36 +28,15 @@ webpackJsonp([0],[
 	  console.log('selected ' + info.key);
 	}
 	
-	var titleRight = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu'
-	);
-	var titleRight1 = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu 1'
-	);
-	var titleRight2 = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu 2'
-	);
-	var titleRight3 = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu 3'
-	);
-	var titleRight4 = _react2['default'].createElement(
-	  'span',
-	  null,
-	  'sub menu 4'
-	);
 	var container = document.getElementById('__react-content');
 	
 	var nestSubMenu = _react2['default'].createElement(
 	  _rcMenu.SubMenu,
-	  { title: titleRight2, key: '4' },
+	  { title: _react2['default'].createElement(
+	      'span',
+	      null,
+	      'sub menu 2'
+	    ), key: '4' },
 	  _react2['default'].createElement(
 	    _rcMenu.Item,
 	    { key: '4-1' },
@@ -67,7 +46,11 @@ webpackJsonp([0],[
 	  _react2['default'].createElement(
 	    _rcMenu.SubMenu,
 	    { key: '4-2',
-	      title: titleRight3
+	      title: _react2['default'].createElement(
+	        'span',
+	        null,
+	        'sub menu 3'
+	      )
 	    },
 	    _react2['default'].createElement(
 	      _rcMenu.SubMenu,
@@ -90,7 +73,11 @@ webpackJsonp([0],[
 	    ),
 	    _react2['default'].createElement(
 	      _rcMenu.SubMenu,
-	      { title: titleRight4, key: '4-2-2' },
+	      { title: _react2['default'].createElement(
+	          'span',
+	          null,
+	          'sub menu 4'
+	        ), key: '4-2-2' },
 	      _react2['default'].createElement(
 	        _rcMenu.Item,
 	        { key: '4-2-2-1' },
@@ -124,7 +111,11 @@ webpackJsonp([0],[
 	  { onSelect: handleSelect },
 	  _react2['default'].createElement(
 	    _rcMenu.SubMenu,
-	    { title: titleRight, key: '1' },
+	    { title: _react2['default'].createElement(
+	        'span',
+	        null,
+	        'sub menu'
+	      ), key: '1' },
 	    _react2['default'].createElement(
 	      _rcMenu.Item,
 	      { key: '1-1' },
@@ -136,6 +127,7 @@ webpackJsonp([0],[
 	      '0-2'
 	    )
 	  ),
+	  nestSubMenu,
 	  _react2['default'].createElement(
 	    _rcMenu.Item,
 	    { key: '2' },
@@ -146,7 +138,6 @@ webpackJsonp([0],[
 	    { key: '3' },
 	    'outer'
 	  ),
-	  nestSubMenu,
 	  _react2['default'].createElement(
 	    _rcMenu.Item,
 	    { disabled: true },
@@ -154,7 +145,7 @@ webpackJsonp([0],[
 	  ),
 	  _react2['default'].createElement(
 	    _rcMenu.Item,
-	    { key: '4-3' },
+	    { key: '5' },
 	    'outer3'
 	  )
 	);
@@ -164,7 +155,11 @@ webpackJsonp([0],[
 	  { onSelect: handleSelect },
 	  _react2['default'].createElement(
 	    _rcMenu.SubMenu,
-	    { title: titleRight, key: '1' },
+	    { title: _react2['default'].createElement(
+	        'span',
+	        null,
+	        'sub menu'
+	      ), key: '1' },
 	    _react2['default'].createElement(
 	      _rcMenu.Item,
 	      { key: '1-1' },
@@ -178,7 +173,11 @@ webpackJsonp([0],[
 	  ),
 	  _react2['default'].createElement(
 	    _rcMenu.SubMenu,
-	    { title: titleRight1, key: '2' },
+	    { title: _react2['default'].createElement(
+	        'span',
+	        null,
+	        'sub menu 1'
+	      ), key: '2' },
 	    _react2['default'].createElement(
 	      _rcMenu.Item,
 	      { key: '2-1' },
@@ -200,9 +199,15 @@ webpackJsonp([0],[
 	    mode: 'horizontal'
 	  });
 	
+	  var horizontalMenu2 = _react2['default'].cloneElement(commonMenu, {
+	    mode: 'horizontal',
+	    closeSubMenuOnMouseLeave: false
+	  });
+	
 	  var horizontalClickMenu = _react2['default'].cloneElement(subMenus, {
 	    mode: 'horizontal',
-	    openSubMenuOnMouseEnter: false
+	    openSubMenuOnMouseEnter: false,
+	    closeSubMenuOnMouseLeave: false
 	  });
 	
 	  var verticalMenu = _react2['default'].cloneElement(commonMenu, {
@@ -233,6 +238,16 @@ webpackJsonp([0],[
 	        'div',
 	        { style: { margin: 20, width: 800 } },
 	        horizontalMenu
+	      ),
+	      _react2['default'].createElement(
+	        'h3',
+	        null,
+	        'horizontal keep open'
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        { style: { margin: 20, width: 800 } },
+	        horizontalMenu2
 	      ),
 	      _react2['default'].createElement(
 	        'h3',

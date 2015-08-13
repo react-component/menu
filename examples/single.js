@@ -223,6 +223,12 @@ webpackJsonp([5],{
 	        'button',
 	        { onClick: destroy },
 	        'destroy'
+	      ),
+	      ' ',
+	      _react2['default'].createElement(
+	        'a',
+	        { href: '#' },
+	        'archor'
 	      )
 	    ),
 	    _react2['default'].createElement(
