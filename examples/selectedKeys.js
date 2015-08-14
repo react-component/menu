@@ -11,7 +11,7 @@ var Test = React.createClass({
     return {
       destroyed: false,
       selectedKeys: [],
-      openedKeys: []
+      openKeys: []
     };
   },
 
@@ -27,16 +27,16 @@ var Test = React.createClass({
   },
 
   onOpen(info){
-    console.log('opened ', info);
+    console.log('open ', info);
     this.setState({
-      openedKeys: info.openedKeys
+      openKeys: info.openKeys
     });
   },
 
   onClose(info){
-    console.log('opened ', info);
+    console.log('open ', info);
     this.setState({
-      openedKeys: info.openedKeys
+      openKeys: info.openKeys
     });
   },
 
@@ -47,7 +47,7 @@ var Test = React.createClass({
             onDeselect={this.onDeselect}
             onOpen={this.onOpen}
             onClose={this.onClose}
-            openedKeys={this.state.openedKeys}
+            openKeys={this.state.openKeys}
             selectedKeys={this.state.selectedKeys}>
         <SubMenu key="1" title="submenu1">
           <MenuItem key="1-1">item1-1</MenuItem>
@@ -84,16 +84,16 @@ var Test = React.createClass({
     var value = e.target.value;
     if (e.target.checked) {
       this.setState({
-        openedKeys: this.state.openedKeys.concat(value)
+        openKeys: this.state.openKeys.concat(value)
       });
     } else {
-      var openedKeys = this.state.openedKeys.concat();
-      var index = openedKeys.indexOf(value);
+      var openKeys = this.state.openKeys.concat();
+      var index = openKeys.indexOf(value);
       if (value !== -1) {
-        openedKeys.splice(index, 1);
+        openKeys.splice(index, 1);
       }
       this.setState({
-        openedKeys: openedKeys
+        openKeys: openKeys
       });
     }
   },
@@ -103,9 +103,9 @@ var Test = React.createClass({
       return null;
     }
     var allSelectedKeys = ["1-1", "1-2", "2-1", "2-2", "3"];
-    var allOpenedKeys = ["1", "2"];
+    var allOpenKeys = ["1", "2"];
     var selectedKeys = this.state.selectedKeys;
-    var openedKeys = this.state.openedKeys;
+    var openKeys = this.state.openKeys;
 
     return <div>
       <h2>multiple selectable menu</h2>
@@ -119,10 +119,10 @@ var Test = React.createClass({
       </p>
 
       <p>
-        openedKeys: &nbsp;&nbsp;&nbsp;
-        {allOpenedKeys.map((k)=> {
+        openKeys: &nbsp;&nbsp;&nbsp;
+        {allOpenKeys.map((k)=> {
           return <label key={k}>{k} <input value={k} type="checkbox" onChange={this.onOpenCheck}
-                                           checked={openedKeys.indexOf(k)!==-1}/></label>;
+                                           checked={openKeys.indexOf(k)!==-1}/></label>;
         })}
       </p>
 

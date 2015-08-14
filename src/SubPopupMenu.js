@@ -8,9 +8,9 @@ const SubPopupMenu = React.createClass({
     onSelect: React.PropTypes.func,
     onClick: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
-    onOpenedChange: React.PropTypes.func,
+    onOpenChange: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
-    openedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     closeSubMenuOnMouseLeave: React.PropTypes.bool,
   },
 
@@ -28,8 +28,8 @@ const SubPopupMenu = React.createClass({
     this.props.onClick(e);
   },
 
-  onOpenedChange(e) {
-    this.props.onOpenedChange(e);
+  onOpenChange(e) {
+    this.props.onOpenChange(e);
   },
 
   onDestroy(key) {
@@ -44,9 +44,9 @@ const SubPopupMenu = React.createClass({
     const key = getKeyFromChildrenIndex(c, i);
     const props = this.props;
     const extraProps = {
-      openedKeys: props.openedKeys,
+      openKeys: props.openKeys,
       selectedKeys: props.selectedKeys,
-      opened: props.openedKeys.indexOf(key) !== -1,
+      open: props.openKeys.indexOf(key) !== -1,
       selected: props.selectedKeys.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: true,
     };

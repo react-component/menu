@@ -9,11 +9,11 @@ const Menu = React.createClass({
     closeSubMenuOnMouseLeave: React.PropTypes.bool,
     selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultOpenedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    openedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    defaultOpenKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     mode: React.PropTypes.string,
     onClick: React.PropTypes.func,
-    onOpenedChange: React.PropTypes.func,
+    onOpenChange: React.PropTypes.func,
     onSelect: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
@@ -23,14 +23,14 @@ const Menu = React.createClass({
     return {
       openSubMenuOnMouseEnter: true,
       closeSubMenuOnMouseLeave: true,
-      onOpenedChange: noop,
+      onOpenChange: noop,
       onClick: noop,
       onSelect: noop,
       onOpen: noop,
       onClose: noop,
       onDeselect: noop,
       defaultSelectedKeys: [],
-      defaultOpenedKeys: [],
+      defaultOpenKeys: [],
     };
   },
 
@@ -39,15 +39,15 @@ const Menu = React.createClass({
   getInitialState() {
     const props = this.props;
     let selectedKeys = props.defaultSelectedKeys;
-    let openedKeys = props.defaultOpenedKeys;
+    let openKeys = props.defaultOpenKeys;
     if ('selectedKeys' in props) {
       selectedKeys = props.selectedKeys || [];
     }
-    if ('openedKeys' in props) {
-      openedKeys = props.openedKeys || [];
+    if ('openKeys' in props) {
+      openKeys = props.openKeys || [];
     }
     return {
-      selectedKeys, openedKeys,
+      selectedKeys, openKeys,
     };
   },
 
@@ -56,8 +56,8 @@ const Menu = React.createClass({
     if ('selectedKeys' in nextProps) {
       props.selectedKeys = nextProps.selectedKeys;
     }
-    if ('openedKeys' in nextProps) {
-      props.openedKeys = nextProps.openedKeys;
+    if ('openKeys' in nextProps) {
+      props.openKeys = nextProps.openKeys;
     }
     this.setState(props);
   },
@@ -66,14 +66,14 @@ const Menu = React.createClass({
     const state = this.state;
     const props = this.props;
     const selectedKeys = state.selectedKeys;
-    const openedKeys = state.openedKeys;
+    const openKeys = state.openKeys;
     let index = selectedKeys.indexOf(key);
     if (!('selectedKeys' in props) && index !== -1) {
       selectedKeys.splice(index, 1);
     }
-    index = openedKeys.indexOf(key);
-    if (!('openedKeys' in props) && index !== -1) {
-      openedKeys.splice(index, 1);
+    index = openKeys.indexOf(key);
+    if (!('openKeys' in props) && index !== -1) {
+      openKeys.splice(index, 1);
     }
   },
 
@@ -85,11 +85,11 @@ const Menu = React.createClass({
       const activeItem = this.instanceArray.filter((c)=> {
         return c.props.eventKey === activeKey;
       })[0];
-      if (activeItem && activeItem.props.opened) {
-        this.onOpenedChange({
+      if (activeItem && activeItem.props.open) {
+        this.onOpenChange({
           key: item.props.eventKey,
           item: e.item,
-          opened: true,
+          open: true,
         });
       }
     }
@@ -127,40 +127,40 @@ const Menu = React.createClass({
         this.setState({
           activeKey: null,
         });
-        if (!('openedKeys' in this.props)) {
-          this.setState({openedKeys: []});
+        if (!('openKeys' in this.props)) {
+          this.setState({openKeys: []});
         }
-        this.props.onOpenedChange({openedKeys: []});
+        this.props.onOpenChange({openKeys: []});
       }
     }
     props.onClick(e);
   },
 
-  onOpenedChange(e) {
-    let openedKeys = this.state.openedKeys;
+  onOpenChange(e) {
+    let openKeys = this.state.openKeys;
     const props = this.props;
     let changed = true;
-    if (e.opened) {
-      changed = openedKeys.indexOf(e.key) === -1;
+    if (e.open) {
+      changed = openKeys.indexOf(e.key) === -1;
       if (changed) {
-        openedKeys = openedKeys.concat(e.key);
+        openKeys = openKeys.concat(e.key);
       }
     } else {
-      const index = openedKeys.indexOf(e.key);
+      const index = openKeys.indexOf(e.key);
       changed = index !== -1;
       if (changed) {
-        openedKeys = openedKeys.concat();
-        openedKeys.splice(index, 1);
+        openKeys = openKeys.concat();
+        openKeys.splice(index, 1);
       }
     }
     if (changed) {
       // hack: batch does not update state
-      this.state.openedKeys = openedKeys;
-      if (!('openedKeys' in this.props)) {
-        this.setState({openedKeys});
+      this.state.openKeys = openKeys;
+      if (!('openKeys' in this.props)) {
+        this.setState({openKeys});
       }
-      const info = assign({openedKeys}, e);
-      if (e.opened) {
+      const info = assign({openKeys}, e);
+      if (e.open) {
         props.onOpen(info);
       } else {
         props.onClose(info);
@@ -190,8 +190,8 @@ const Menu = React.createClass({
     const key = getKeyFromChildrenIndex(c, i);
     const state = this.state;
     const extraProps = {
-      openedKeys: state.openedKeys,
-      opened: state.openedKeys.indexOf(key) !== -1,
+      openKeys: state.openKeys,
+      open: state.openKeys.indexOf(key) !== -1,
       selectedKeys: state.selectedKeys,
       selected: state.selectedKeys.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: this.props.openSubMenuOnMouseEnter,
@@ -209,11 +209,11 @@ const Menu = React.createClass({
     return this.props.mode === 'inline';
   },
 
-  lastOpenedSubMenu() {
+  lastOpenSubMenu() {
     let lastOpen = [];
-    if (this.state.openedKeys.length) {
+    if (this.state.openKeys.length) {
       lastOpen = this.instanceArray.filter((c)=> {
-        return this.state.openedKeys.indexOf(c.props.eventKey) !== -1;
+        return this.state.openKeys.indexOf(c.props.eventKey) !== -1;
       });
     }
     return lastOpen[0];

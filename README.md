@@ -108,16 +108,16 @@ React.render(<Menu>
             <td>initial selected keys of items</td>
         </tr>
         <tr>
-            <td>openedKeys</td>
+            <td>openKeys</td>
             <td>String[]</td>
             <th>[]</th>
-            <td>opened keys of SubMenuItem</td>
+            <td>open keys of SubMenuItem</td>
         </tr>
         <tr>
-            <td>defaultOpenedKeys</td>
+            <td>defaultOpenKeys</td>
             <td>String[]</td>
             <th>[]</th>
-            <td>initial opened keys of SubMenuItem</td>
+            <td>initial open keys of SubMenuItem</td>
         </tr>
         <tr>
             <td>onSelect</td>
@@ -127,13 +127,13 @@ React.render(<Menu>
         </tr>
         <tr>
             <td>onOpen</td>
-            <td>function({openedKeys:String[]})</td>
+            <td>function({openKeys:String[]})</td>
             <th></th>
             <td>called when open a sub menu</td>
         </tr>
         <tr>
             <td>onClose</td>
-            <td>function({openedKeys:String[]})</td>
+            <td>function({openKeys:String[]})</td>
             <th></th>
             <td>called when close a sub menu</td>
         </tr>

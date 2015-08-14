@@ -46,8 +46,8 @@ const MenuMixin = {
     activeKey: React.PropTypes.string,
     selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultOpenedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    openedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    defaultOpenKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
   },
 
   getDefaultProps() {
@@ -133,16 +133,16 @@ const MenuMixin = {
       // keep active for sub menu for click active
       // empty
     }
-    // clear last opened status
+    // clear last open status
     if (hover && mode !== 'inline') {
       const activeItem = this.instanceArray.filter((c)=> {
         return c.props.eventKey === activeKey;
       })[0];
       if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
-        this.onOpenedChange({
+        this.onOpenChange({
           item: activeItem,
           key: activeItem.props.eventKey,
-          opened: false,
+          open: false,
         });
       }
     }
@@ -166,7 +166,7 @@ const MenuMixin = {
       active: !childProps.disabled && key === state.activeKey,
       multiple: props.multiple,
       onClick: this.onClick,
-      onOpenedChange: this.onOpenedChange,
+      onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       onSelect: this.onSelect,

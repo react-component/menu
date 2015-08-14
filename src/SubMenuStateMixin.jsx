@@ -7,7 +7,7 @@ export default {
 
   componentDidUpdate() {
     if (this.props.mode !== 'inline') {
-      if (this.props.opened) {
+      if (this.props.open) {
         this.bindRootCloseHandlers();
       } else {
         this.unbindRootCloseHandlers();
@@ -37,7 +37,7 @@ export default {
       item: this,
       key: this.props.eventKey,
     });
-    this.triggerOpenedChange(false);
+    this.triggerOpenChange(false);
   },
 
   bindRootCloseHandlers() {
