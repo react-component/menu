@@ -235,7 +235,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>rc-menu@4.3.0</h1>
+            <h1>rc-menu@4.3.2</h1>
             <p>menu ui component for react</p>
         </div>
         <div class="example" id="__react-content"></div>
@@ -254,7 +254,7 @@ import <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
     <span class="hljs-keyword">return</span> {
       destroyed: <span class="hljs-keyword">false</span>,
       selectedKeys: [],
-      openedKeys: []
+      openKeys: []
     };
   },
 
@@ -270,16 +270,16 @@ import <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
   },
 
   onOpen(info){
-    console.log(<span class="hljs-string">'opened '</span>, info);
+    console.log(<span class="hljs-string">'open '</span>, info);
     <span class="hljs-keyword">this</span>.setState({
-      openedKeys: info.openedKeys
+      openKeys: info.openKeys
     });
   },
 
   onClose(info){
-    console.log(<span class="hljs-string">'opened '</span>, info);
+    console.log(<span class="hljs-string">'open '</span>, info);
     <span class="hljs-keyword">this</span>.setState({
-      openedKeys: info.openedKeys
+      openKeys: info.openKeys
     });
   },
 
@@ -290,7 +290,7 @@ import <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
             onDeselect={<span class="hljs-keyword">this</span>.onDeselect}
             onOpen={<span class="hljs-keyword">this</span>.onOpen}
             onClose={<span class="hljs-keyword">this</span>.onClose}
-            openedKeys={<span class="hljs-keyword">this</span>.state.openedKeys}
+            openKeys={<span class="hljs-keyword">this</span>.state.openKeys}
             selectedKeys={<span class="hljs-keyword">this</span>.state.selectedKeys}&gt;
         &lt;SubMenu key=<span class="hljs-string">"1"</span> title=<span class="hljs-string">"submenu1"</span>&gt;
           &lt;MenuItem key=<span class="hljs-string">"1-1"</span>&gt;item1-<span class="hljs-number">1</span>&lt;/MenuItem&gt;
@@ -327,16 +327,16 @@ import <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
     <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = e.target.<span class="hljs-keyword">value</span>;
     <span class="hljs-keyword">if</span> (e.target.<span class="hljs-keyword">checked</span>) {
       <span class="hljs-keyword">this</span>.setState({
-        openedKeys: <span class="hljs-keyword">this</span>.state.openedKeys.concat(<span class="hljs-keyword">value</span>)
+        openKeys: <span class="hljs-keyword">this</span>.state.openKeys.concat(<span class="hljs-keyword">value</span>)
       });
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">var</span> openedKeys = <span class="hljs-keyword">this</span>.state.openedKeys.concat();
-      <span class="hljs-keyword">var</span> index = openedKeys.indexOf(<span class="hljs-keyword">value</span>);
+      <span class="hljs-keyword">var</span> openKeys = <span class="hljs-keyword">this</span>.state.openKeys.concat();
+      <span class="hljs-keyword">var</span> index = openKeys.indexOf(<span class="hljs-keyword">value</span>);
       <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> !== -<span class="hljs-number">1</span>) {
-        openedKeys.splice(index, <span class="hljs-number">1</span>);
+        openKeys.splice(index, <span class="hljs-number">1</span>);
       }
       <span class="hljs-keyword">this</span>.setState({
-        openedKeys: openedKeys
+        openKeys: openKeys
       });
     }
   },
@@ -346,9 +346,9 @@ import <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
       <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
     }
     <span class="hljs-keyword">var</span> allSelectedKeys = [<span class="hljs-string">"1-1"</span>, <span class="hljs-string">"1-2"</span>, <span class="hljs-string">"2-1"</span>, <span class="hljs-string">"2-2"</span>, <span class="hljs-string">"3"</span>];
-    <span class="hljs-keyword">var</span> allOpenedKeys = [<span class="hljs-string">"1"</span>, <span class="hljs-string">"2"</span>];
+    <span class="hljs-keyword">var</span> allOpenKeys = [<span class="hljs-string">"1"</span>, <span class="hljs-string">"2"</span>];
     <span class="hljs-keyword">var</span> selectedKeys = <span class="hljs-keyword">this</span>.state.selectedKeys;
-    <span class="hljs-keyword">var</span> openedKeys = <span class="hljs-keyword">this</span>.state.openedKeys;
+    <span class="hljs-keyword">var</span> openKeys = <span class="hljs-keyword">this</span>.state.openKeys;
 
     <span class="hljs-keyword">return</span> &lt;div&gt;
       &lt;h2&gt;multiple selectable menu&lt;/h2&gt;
@@ -362,10 +362,10 @@ import <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
       &lt;/p&gt;
 
       &lt;p&gt;
-        openedKeys: &amp;nbsp;&amp;nbsp;&amp;nbsp;
-        {allOpenedKeys.map((k)=&gt; {
+        openKeys: &amp;nbsp;&amp;nbsp;&amp;nbsp;
+        {allOpenKeys.map((k)=&gt; {
           <span class="hljs-keyword">return</span> &lt;label key={k}&gt;{k} &lt;input <span class="hljs-keyword">value</span>={k} type=<span class="hljs-string">"checkbox"</span> onChange={<span class="hljs-keyword">this</span>.onOpenCheck}
-                                           <span class="hljs-keyword">checked</span>={openedKeys.indexOf(k)!==-<span class="hljs-number">1</span>}/&gt;&lt;/label&gt;;
+                                           <span class="hljs-keyword">checked</span>={openKeys.indexOf(k)!==-<span class="hljs-number">1</span>}/&gt;&lt;/label&gt;;
         })}
       &lt;/p&gt;
 

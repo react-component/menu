@@ -101,7 +101,7 @@ webpackJsonp([4],{
 	    return {
 	      destroyed: false,
 	      selectedKeys: [],
-	      openedKeys: []
+	      openKeys: []
 	    };
 	  },
 	
@@ -117,16 +117,16 @@ webpackJsonp([4],{
 	  },
 	
 	  onOpen: function onOpen(info) {
-	    console.log('opened ', info);
+	    console.log('open ', info);
 	    this.setState({
-	      openedKeys: info.openedKeys
+	      openKeys: info.openKeys
 	    });
 	  },
 	
 	  onClose: function onClose(info) {
-	    console.log('opened ', info);
+	    console.log('open ', info);
 	    this.setState({
-	      openedKeys: info.openedKeys
+	      openKeys: info.openKeys
 	    });
 	  },
 	
@@ -138,7 +138,7 @@ webpackJsonp([4],{
 	        onDeselect: this.onDeselect,
 	        onOpen: this.onOpen,
 	        onClose: this.onClose,
-	        openedKeys: this.state.openedKeys,
+	        openKeys: this.state.openKeys,
 	        selectedKeys: this.state.selectedKeys },
 	      _react2['default'].createElement(
 	        _rcMenu.SubMenu,
@@ -198,16 +198,16 @@ webpackJsonp([4],{
 	    var value = e.target.value;
 	    if (e.target.checked) {
 	      this.setState({
-	        openedKeys: this.state.openedKeys.concat(value)
+	        openKeys: this.state.openKeys.concat(value)
 	      });
 	    } else {
-	      var openedKeys = this.state.openedKeys.concat();
-	      var index = openedKeys.indexOf(value);
+	      var openKeys = this.state.openKeys.concat();
+	      var index = openKeys.indexOf(value);
 	      if (value !== -1) {
-	        openedKeys.splice(index, 1);
+	        openKeys.splice(index, 1);
 	      }
 	      this.setState({
-	        openedKeys: openedKeys
+	        openKeys: openKeys
 	      });
 	    }
 	  },
@@ -219,9 +219,9 @@ webpackJsonp([4],{
 	      return null;
 	    }
 	    var allSelectedKeys = ["1-1", "1-2", "2-1", "2-2", "3"];
-	    var allOpenedKeys = ["1", "2"];
+	    var allOpenKeys = ["1", "2"];
 	    var selectedKeys = this.state.selectedKeys;
-	    var openedKeys = this.state.openedKeys;
+	    var openKeys = this.state.openKeys;
 	
 	    return _react2['default'].createElement(
 	      'div',
@@ -249,15 +249,15 @@ webpackJsonp([4],{
 	      _react2['default'].createElement(
 	        'p',
 	        null,
-	        'openedKeys:    ',
-	        allOpenedKeys.map(function (k) {
+	        'openKeys:    ',
+	        allOpenKeys.map(function (k) {
 	          return _react2['default'].createElement(
 	            'label',
 	            { key: k },
 	            k,
 	            ' ',
 	            _react2['default'].createElement('input', { value: k, type: 'checkbox', onChange: _this.onOpenCheck,
-	              checked: openedKeys.indexOf(k) !== -1 })
+	              checked: openKeys.indexOf(k) !== -1 })
 	          );
 	        })
 	      ),
