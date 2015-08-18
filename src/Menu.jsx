@@ -17,12 +17,16 @@ const Menu = React.createClass({
     onSelect: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
+    level: React.PropTypes.number,
+    eventKey: React.PropTypes.string,
+    selectable: React.PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
       openSubMenuOnMouseEnter: true,
       closeSubMenuOnMouseLeave: true,
+      selectable: true,
       onOpenChange: noop,
       onClick: noop,
       onSelect: noop,
@@ -99,22 +103,24 @@ const Menu = React.createClass({
 
   onSelect(selectInfo) {
     const props = this.props;
-    // root menu
-    let selectedKeys = this.state.selectedKeys;
-    const selectedKey = selectInfo.key;
-    if (props.multiple) {
-      selectedKeys = selectedKeys.concat([selectedKey]);
-    } else {
-      selectedKeys = [selectedKey];
-    }
-    if (!('selectedKeys' in props)) {
-      this.setState({
+    if (props.selectable) {
+      // root menu
+      let selectedKeys = this.state.selectedKeys;
+      const selectedKey = selectInfo.key;
+      if (props.multiple) {
+        selectedKeys = selectedKeys.concat([selectedKey]);
+      } else {
+        selectedKeys = [selectedKey];
+      }
+      if (!('selectedKeys' in props)) {
+        this.setState({
+          selectedKeys: selectedKeys,
+        });
+      }
+      props.onSelect(assign({}, selectInfo, {
         selectedKeys: selectedKeys,
-      });
+      }));
     }
-    props.onSelect(assign({}, selectInfo, {
-      selectedKeys: selectedKeys,
-    }));
   },
 
   onClick(e) {
@@ -170,24 +176,26 @@ const Menu = React.createClass({
 
   onDeselect(selectInfo) {
     const props = this.props;
-    const selectedKeys = this.state.selectedKeys.concat();
-    const selectedKey = selectInfo.key;
-    const index = selectedKeys.indexOf(selectedKey);
-    if (index !== -1) {
-      selectedKeys.splice(index, 1);
-    }
-    if (!('selectedKeys' in props)) {
-      this.setState({
+    if (props.selectable) {
+      const selectedKeys = this.state.selectedKeys.concat();
+      const selectedKey = selectInfo.key;
+      const index = selectedKeys.indexOf(selectedKey);
+      if (index !== -1) {
+        selectedKeys.splice(index, 1);
+      }
+      if (!('selectedKeys' in props)) {
+        this.setState({
+          selectedKeys: selectedKeys,
+        });
+      }
+      props.onDeselect(assign({}, selectInfo, {
         selectedKeys: selectedKeys,
-      });
+      }));
     }
-    props.onDeselect(assign({}, selectInfo, {
-      selectedKeys: selectedKeys,
-    }));
   },
 
   renderMenuItem(c, i) {
-    const key = getKeyFromChildrenIndex(c, i);
+    const key = getKeyFromChildrenIndex(c, this.props.eventKey, i);
     const state = this.state;
     const extraProps = {
       openKeys: state.openKeys,

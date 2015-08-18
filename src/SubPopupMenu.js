@@ -41,8 +41,8 @@ const SubPopupMenu = React.createClass({
   },
 
   renderMenuItem(c, i) {
-    const key = getKeyFromChildrenIndex(c, i);
     const props = this.props;
+    const key = getKeyFromChildrenIndex(c, props.eventKey, i);
     const extraProps = {
       openKeys: props.openKeys,
       selectedKeys: props.selectedKeys,

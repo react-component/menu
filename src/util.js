@@ -3,7 +3,8 @@ export default  {
   noop() {
   },
 
-  getKeyFromChildrenIndex(child, index) {
-    return child.key || 'rcMenuItem_' + now + '_' + index;
+  getKeyFromChildrenIndex(child, menuEventKey, index) {
+    const prefix = menuEventKey || '';
+    return child.key || prefix + 'item_' + now + '_' + index;
   },
 };

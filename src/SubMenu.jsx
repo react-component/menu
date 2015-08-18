@@ -189,6 +189,7 @@ const SubMenu = React.createClass({
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       selectedKeys: props.selectedKeys,
+      eventKey: props.eventKey + '-menu-',
       openKeys: props.openKeys,
       onOpenChange: this.onOpenChange,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,

@@ -2,15 +2,16 @@ import React from 'react';
 import {classSet, createChainedFunction, KeyCode} from 'rc-util';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
-import { getKeyFromChildrenIndex} from './util';
+import {getKeyFromChildrenIndex} from './util';
 
 function getActiveKey(props) {
   let activeKey = props.activeKey;
   const children = props.children;
+  const eventKey = props.eventKey;
   if (activeKey) {
     let found;
     React.Children.forEach(children, (c, i)=> {
-      if (!c.props.disabled && activeKey === getKeyFromChildrenIndex(c, i)) {
+      if (!c.props.disabled && activeKey === getKeyFromChildrenIndex(c, eventKey, i)) {
         found = true;
       }
     });
@@ -22,7 +23,7 @@ function getActiveKey(props) {
   if (props.defaultActiveFirst) {
     React.Children.forEach(children, (c, i)=> {
       if (!activeKey && !c.props.disabled) {
-        activeKey = getKeyFromChildrenIndex(c, i);
+        activeKey = getKeyFromChildrenIndex(c, eventKey, i);
       }
     });
     return activeKey;
@@ -151,7 +152,7 @@ const MenuMixin = {
   renderCommonMenuItem(child, i, extraProps) {
     const state = this.state;
     const props = this.props;
-    const key = getKeyFromChildrenIndex(child, i);
+    const key = getKeyFromChildrenIndex(child, props.eventKey, i);
     const childProps = child.props;
     const newChildProps = assign({
       mode: props.mode,
