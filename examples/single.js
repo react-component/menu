@@ -33,7 +33,6 @@ render(container);
 function render(container) {
   var leftMenu = (
     <Menu onSelect={handleSelect}
-          selectable={false}
           onClick={handleClick}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
