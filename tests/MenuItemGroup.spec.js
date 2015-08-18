@@ -5,7 +5,6 @@ var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var Simulate = TestUtils.Simulate;
 var KeyCode = require('rc-util').KeyCode;
-require('../assets/index.css');
 var Menu = require('../');
 var SubMenu = Menu.SubMenu;
 var MenuItem = Menu.Item;
