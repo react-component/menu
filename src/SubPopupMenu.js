@@ -2,6 +2,7 @@ import React from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
 import {getKeyFromChildrenIndex} from './util';
+import Animate from 'rc-animate';
 
 const SubPopupMenu = React.createClass({
   propTypes: {
@@ -10,8 +11,11 @@ const SubPopupMenu = React.createClass({
     onDeselect: React.PropTypes.func,
     onOpenChange: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
+    openTransitionName: React.PropTypes.string,
+    openAnimation: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.object),
     openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     closeSubMenuOnMouseLeave: React.PropTypes.bool,
+    visible: React.PropTypes.bool,
   },
 
   mixins: [MenuMixin],
@@ -40,6 +44,10 @@ const SubPopupMenu = React.createClass({
     this.onCommonItemHover(e);
   },
 
+  getOpenTransitionName() {
+    return this.props.openTransitionName;
+  },
+
   renderMenuItem(c, i) {
     const props = this.props;
     const key = getKeyFromChildrenIndex(c, props.eventKey, i);
@@ -54,9 +62,24 @@ const SubPopupMenu = React.createClass({
   },
 
   render() {
+    this.haveOpened = this.haveOpened || this.props.visible;
+    if (!this.haveOpened) {
+      return null;
+    }
     const props = assign({}, this.props);
     props.className += ` ${props.prefixCls}-sub`;
-    return this.renderRoot(props);
+    const animProps = {};
+    if (props.openTransitionName) {
+      animProps.transitionName = props.openTransitionName;
+    } else if (typeof props.openAnimation === 'object') {
+      animProps.animation = props.openAnimation;
+    }
+    return (<Animate {...animProps}
+      showProp="data-visible"
+      component=""
+      animateMount={true}>
+      {this.renderRoot(props)}
+    </Animate>);
   },
 });
 

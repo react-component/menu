@@ -167,6 +167,8 @@ const MenuMixin = {
       active: !childProps.disabled && key === state.activeKey,
       multiple: props.multiple,
       onClick: this.onClick,
+      openTransitionName: this.getOpenTransitionName(),
+      openAnimation: props.openAnimation,
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
@@ -199,6 +201,7 @@ const MenuMixin = {
     }
     return (
       <ul style={props.style}
+          data-visible={props.visible}
         {...domProps}>
         {React.Children.map(props.children, this.renderMenuItem)}
       </ul>

@@ -17,6 +17,8 @@ const Menu = React.createClass({
     onSelect: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
+    openTransitionName: React.PropTypes.string,
+    openAnimation: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.object),
     level: React.PropTypes.number,
     eventKey: React.PropTypes.string,
     selectable: React.PropTypes.bool,
@@ -192,6 +194,16 @@ const Menu = React.createClass({
         selectedKeys: selectedKeys,
       }));
     }
+  },
+
+  getOpenTransitionName() {
+    const props = this.props;
+    let transitionName = props.openTransitionName;
+    const animationName = props.openAnimation;
+    if (!transitionName && typeof animationName === 'string') {
+      transitionName = `${props.prefixCls}-open-${animationName}`;
+    }
+    return transitionName;
   },
 
   renderMenuItem(c, i) {

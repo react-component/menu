@@ -155,6 +155,18 @@ React.render(<Menu>
             <th>true</th>
             <td>whether enable close submenu on mouse leave</td>
         </tr>
+        <tr>
+            <td>openAnimation</td>
+            <td>{enter:function,leave:function}|String</td>
+            <th></th>
+            <td>animate when sub menu open or close. see rc-animate for object type.</td>
+        </tr>
+        <tr>
+            <td>openTransition</td>
+            <td>String</td>
+            <th></th>
+            <td>css transitionName when sub menu open or close</td>
+        </tr>
     </tbody>
 </table>
 

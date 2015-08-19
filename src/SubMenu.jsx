@@ -180,7 +180,7 @@ const SubMenu = React.createClass({
     const props = this.props;
     const baseProps = {
       mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
-      visible: this.props.open,
+      visible: props.open,
       level: props.level + 1,
       inlineIndent: props.inlineIndent,
       focusable: false,
@@ -191,6 +191,8 @@ const SubMenu = React.createClass({
       selectedKeys: props.selectedKeys,
       eventKey: props.eventKey + '-menu-',
       openKeys: props.openKeys,
+      openTransitionName: props.openTransitionName,
+      openAnimation: props.openAnimation,
       onOpenChange: this.onOpenChange,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
       defaultActiveFirst: this.state.defaultActiveFirst,

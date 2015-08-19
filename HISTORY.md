@@ -1,6 +1,9 @@
 # History
 ----
 
+## 4.4.0 / 2015-08-13
+- add openAnimation/openTransitionName prop
+
 ## 4.3.0 / 2015-08-13
 - make selectedKeys openedKeys controllable
 - add closeSubMenuOnMouseLeave/onOpen/onClose props

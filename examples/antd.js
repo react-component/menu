@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
-
+import velocity from 'velocity-animate';
 import 'rc-menu/assets/index.less';
 
 function handleSelect(info) {
@@ -10,9 +10,57 @@ function handleSelect(info) {
   console.log('selected ' + info.key);
 }
 
+const animation = {
+  enter(node, done){
+    var ok = false;
+
+    function complete() {
+      if (!ok) {
+        ok = 1;
+        done();
+      }
+    }
+
+    velocity(node, 'slideDown', {
+      duration: 300,
+      complete: complete
+    });
+    return {
+      stop: function () {
+        velocity(node, 'finish');
+        // velocity complete is async
+        complete();
+      }
+    };
+  },
+
+  leave(node, done){
+    var ok = false;
+
+    function complete() {
+      if (!ok) {
+        ok = 1;
+        done();
+      }
+    }
+
+    velocity(node, 'slideUp', {
+      duration: 300,
+      complete: complete
+    });
+    return {
+      stop: function () {
+        velocity(node, 'finish');
+        // velocity complete is async
+        complete();
+      }
+    };
+  },
+};
+
 var container = document.getElementById('__react-content');
 
-var nestSubMenu=<SubMenu title={<span>sub menu 2</span>} key="4">
+var nestSubMenu = <SubMenu title={<span>sub menu 2</span>} key="4">
   <MenuItem key="4-1">inner inner</MenuItem>
   <Menu.Divider/>
   <SubMenu key="4-2"
@@ -34,7 +82,7 @@ var nestSubMenu=<SubMenu title={<span>sub menu 2</span>} key="4">
   </SubMenu>
 </SubMenu>;
 
-var commonMenu=<Menu onSelect={handleSelect}>
+var commonMenu = <Menu onSelect={handleSelect}>
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
@@ -46,7 +94,7 @@ var commonMenu=<Menu onSelect={handleSelect}>
   <MenuItem key="5">outer3</MenuItem>
 </Menu>;
 
-var subMenus=<Menu onSelect={handleSelect}>
+var subMenus = <Menu onSelect={handleSelect}>
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
@@ -61,41 +109,53 @@ var subMenus=<Menu onSelect={handleSelect}>
 render(container);
 
 function render(container) {
-  var horizontalMenu = React.cloneElement(commonMenu,{
-    mode:'horizontal'
+  var horizontalMenu = React.cloneElement(commonMenu, {
+    mode: 'horizontal',
+    // use openTransition for antd
+    openAnimation: 'slide-up',
   });
 
-  var horizontalMenu2 = React.cloneElement(commonMenu,{
-    mode:'horizontal',
-    closeSubMenuOnMouseLeave:false
+  var horizontalMenu2 = React.cloneElement(commonMenu, {
+    mode: 'horizontal',
+    openAnimation: 'slide-up',
+    closeSubMenuOnMouseLeave: false
   });
 
-  var horizontalClickMenu = React.cloneElement(subMenus,{
-    mode:'horizontal',
-    openSubMenuOnMouseEnter:false,
-    closeSubMenuOnMouseLeave:false
+  var horizontalClickMenu = React.cloneElement(subMenus, {
+    mode: 'horizontal',
+    openAnimation: 'slide-up',
+    openSubMenuOnMouseEnter: false,
+    closeSubMenuOnMouseLeave: false
   });
 
-  var verticalMenu = React.cloneElement(commonMenu,{
-    mode:'vertical'
+  var verticalMenu = React.cloneElement(commonMenu, {
+    mode: 'vertical',
+    openAnimation: 'zoom',
   });
 
-  var inlineMenu = React.cloneElement(commonMenu,{
-    mode:'inline'
+  var inlineMenu = React.cloneElement(commonMenu, {
+    mode: 'inline',
+    openAnimation: animation
   });
 
   React.render(<div style={{margin:20}}>
     <h2>antd menu</h2>
+
     <div>
       <h3>horizontal</h3>
+
       <div style={{margin:20,width: 800,}}>{horizontalMenu}</div>
       <h3>horizontal keep open</h3>
+
       <div style={{margin:20,width: 800,}}>{horizontalMenu2}</div>
       <h3>horizontal and click</h3>
+
       <div style={{margin:20,width: 800,}}>{horizontalClickMenu}</div>
       <h3>vertical</h3>
+
       <div style={{margin:20,width: 200,}}>{verticalMenu}</div>
       <h3>inline</h3>
+
       <div style={{margin:20,width: 400,}}>{inlineMenu}</div>
     </div>
   </div>, container);
