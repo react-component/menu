@@ -21,6 +21,8 @@ const animation = {
       }
     }
 
+    node.style.display = 'none';
+
     velocity(node, 'slideDown', {
       duration: 300,
       complete: complete
