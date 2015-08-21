@@ -45,6 +45,8 @@ webpackJsonp([0],{
 	      }
 	    }
 	
+	    node.style.display = 'none';
+	
 	    (0, _velocityAnimate2['default'])(node, 'slideDown', {
 	      duration: 300,
 	      complete: complete
