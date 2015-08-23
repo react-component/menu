@@ -168,7 +168,7 @@
   }
 
   &-open {
-    &-slide-up-enter {
+    &-slide-up-enter,&-slide-up-appear {
       .effect();
       opacity: 0;
       animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
@@ -182,7 +182,7 @@
       animation-play-state: paused;
     }
 
-    &-slide-up-enter&-slide-up-enter-active {
+    &-slide-up-enter&-slide-up-enter-active , &-slide-up-appear&-slide-up-appear-active {
       animation-name: rcMenuOpenSlideUpIn;
       animation-play-state: running;
     }
@@ -217,7 +217,7 @@
       }
     }
 
-    &-zoom-enter {
+    &-zoom-enter,&-zoom-appear {
       opacity: 0;
       .effect();
       animation-timing-function: cubic-bezier(0.08,0.82,0.17,1);
@@ -230,7 +230,7 @@
       animation-play-state: paused;
     }
 
-    &-zoom-enter&-zoom-enter-active {
+    &-zoom-enter&-zoom-enter-active,&-zoom-appear&-zoom-appear-active {
       animation-name: rcMenuOpenZoomIn;
       animation-play-state: running;
     }

@@ -77,7 +77,7 @@ const SubPopupMenu = React.createClass({
     return (<Animate {...animProps}
       showProp="data-visible"
       component=""
-      animateMount={true}>
+      transitionAppear={true}>
       {this.renderRoot(props)}
     </Animate>);
   },
