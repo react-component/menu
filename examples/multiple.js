@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(40);
+	module.exports = __webpack_require__(41);
 
 
 /***/ },
 
-/***/ 40:
+/***/ 41:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23,9 +23,9 @@ webpackJsonp([2],{
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(38);
+	__webpack_require__(39);
 	
-	__webpack_require__(41);
+	__webpack_require__(42);
 	
 	function handleSelect(info) {
 	  console.log('selected ', info);
@@ -174,7 +174,7 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 41:
+/***/ 42:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
