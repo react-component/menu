@@ -36,6 +36,10 @@ const animation = {
     };
   },
 
+  appear() {
+    return this.enter.apply(this, arguments);
+  },
+
   leave(node, done){
     var ok = false;
 

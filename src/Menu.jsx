@@ -18,7 +18,7 @@ const Menu = React.createClass({
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
     openTransitionName: React.PropTypes.string,
-    openAnimation: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.object),
+    openAnimation: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     level: React.PropTypes.number,
     eventKey: React.PropTypes.string,
     selectable: React.PropTypes.bool,

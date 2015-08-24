@@ -12,7 +12,7 @@ const SubPopupMenu = React.createClass({
     onOpenChange: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
     openTransitionName: React.PropTypes.string,
-    openAnimation: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.object),
+    openAnimation: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     closeSubMenuOnMouseLeave: React.PropTypes.bool,
     visible: React.PropTypes.bool,
