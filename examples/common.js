@@ -190,7 +190,7 @@
 	    onDeselect: _react2['default'].PropTypes.func,
 	    onDestroy: _react2['default'].PropTypes.func,
 	    openTransitionName: _react2['default'].PropTypes.string,
-	    openAnimation: _react2['default'].PropTypes.oneOfType(_react2['default'].PropTypes.string, _react2['default'].PropTypes.object),
+	    openAnimation: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.object]),
 	    level: _react2['default'].PropTypes.number,
 	    eventKey: _react2['default'].PropTypes.string,
 	    selectable: _react2['default'].PropTypes.bool
@@ -2531,7 +2531,7 @@
 	    onOpenChange: _react2['default'].PropTypes.func,
 	    onDestroy: _react2['default'].PropTypes.func,
 	    openTransitionName: _react2['default'].PropTypes.string,
-	    openAnimation: _react2['default'].PropTypes.oneOfType(_react2['default'].PropTypes.string, _react2['default'].PropTypes.object),
+	    openAnimation: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.object]),
 	    openKeys: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string),
 	    closeSubMenuOnMouseLeave: _react2['default'].PropTypes.bool,
 	    visible: _react2['default'].PropTypes.bool

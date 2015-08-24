@@ -60,6 +60,10 @@ webpackJsonp([0],{
 	    };
 	  },
 	
+	  appear: function appear() {
+	    return this.enter.apply(this, arguments);
+	  },
+	
 	  leave: function leave(node, done) {
 	    var ok = false;
 	
