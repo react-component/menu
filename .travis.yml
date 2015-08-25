@@ -33,8 +33,10 @@ env:
   - TEST_TYPE=browser-test
   - TEST_TYPE=browser-test-cover
   - TEST_TYPE=saucelabs
-  allow_failures:
-  - env: TEST_TYPE=saucelabs
   global:
   - secure: ZA1AnTsJO9Y4lT+G9t7D0JEsgDoq7Dv2toYqXKzThdeHtjwToJ3BD98GksPrq7IkYE0H+Mr7J5c9PPJWQ2neYw42l+FaWtpPd7EypVudnMI/JM9CEND3llz3hRKaeqSN8ny23neR6GwXUsTSNwvXZ+pm0PIGDAJl8nEtX4BAdiw=
   - secure: IRy84xceUtLxjZLb13NQQqPmOa8X9CJy0SSi2DLYwBldhOrebXEBqkdIxwkIsog8og/PsSvVKDYTZCKOF0LVkRbzrsJWzT6trKWf+dzvV2QXOInYU1Whke3ECCuiq9RISjfSKFWvwHHhS8NnmoiT+FkfP7NIjbwsRTISCkNxwNk=
+
+matrix:
+  allow_failures:
+  - env: "TEST_TYPE=saucelabs"
