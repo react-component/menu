@@ -49,7 +49,7 @@ const animation = {
         done();
       }
     }
-
+    node.style.display = 'block';
     velocity(node, 'slideUp', {
       duration: 300,
       complete: complete
@@ -141,6 +141,7 @@ function render(container) {
 
   var inlineMenu = React.cloneElement(commonMenu, {
     mode: 'inline',
+    defaultOpenKeys:['1'],
     openAnimation: animation
   });
 
