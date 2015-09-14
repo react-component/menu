@@ -235,7 +235,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>rc-menu@4.4.3</h1>
+            <h1>rc-menu@4.5.0</h1>
             <p>menu ui component for react</p>
         </div>
         <div class="example" id="__react-content"></div>
@@ -293,6 +293,7 @@ const animation = {
       }
     }
 
+    node.style.display = 'block';
     velocity(node, 'slideUp', {
       duration: 300,
       complete: complete
@@ -370,13 +371,6 @@ function render(container) {
     closeSubMenuOnMouseLeave: false
   });
 
-  var horizontalClickMenu = React.cloneElement(subMenus, {
-    mode: 'horizontal',
-    openAnimation: 'slide-up',
-    openSubMenuOnMouseEnter: false,
-    closeSubMenuOnMouseLeave: false
-  });
-
   var verticalMenu = React.cloneElement(commonMenu, {
     mode: 'vertical',
     openAnimation: 'zoom',
@@ -384,7 +378,38 @@ function render(container) {
 
   var inlineMenu = React.cloneElement(commonMenu, {
     mode: 'inline',
+    defaultOpenKeys: ['1'],
     openAnimation: animation
+  });
+
+  const ClickToHideMenu = React.createClass({
+    getInitialState(){
+      return {
+        openKeys: []
+      };
+    },
+    render(){
+      return React.cloneElement(subMenus, {
+        onOpen: this.syncOpenKeys,
+        onClose: this.syncOpenKeys,
+        openKeys: this.state.openKeys,
+        onClick: this.emptyOpenKeys,
+        mode: 'horizontal',
+        openAnimation: 'slide-up',
+        openSubMenuOnMouseEnter: false,
+        closeSubMenuOnMouseLeave: false
+      });
+    },
+    emptyOpenKeys(){
+      this.setState({
+        openKeys: []
+      });
+    },
+    syncOpenKeys(e){
+      this.setState({
+        openKeys: e.openKeys
+      });
+    }
   });
 
   React.render(<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">margin</span>:20}}</span><span class="xml"><span class="hljs-tag">&gt;</span>
@@ -399,7 +424,7 @@ function render(container) {
       <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">margin</span>:20,<span class="hljs-variable">width</span>: 800,}}</span><span class="xml"><span class="hljs-tag">&gt;</span>{horizontalMenu2}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>horizontal and click<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">margin</span>:20,<span class="hljs-variable">width</span>: 800,}}</span><span class="xml"><span class="hljs-tag">&gt;</span>{horizontalClickMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">margin</span>:20,<span class="hljs-variable">width</span>: 800,}}</span><span class="xml"><span class="hljs-tag">&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">ClickToHideMenu</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>vertical<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
       <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=</span></span><span class="hljs-expression">{{<span class="hljs-variable">margin</span>:20,<span class="hljs-variable">width</span>: 200,}}</span><span class="xml"><span class="hljs-tag">&gt;</span>{verticalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>

@@ -74,6 +74,7 @@ webpackJsonp([0],{
 	      }
 	    }
 	
+	    node.style.display = 'block';
 	    (0, _velocityAnimate2['default'])(node, 'slideUp', {
 	      duration: 300,
 	      complete: complete
@@ -267,13 +268,6 @@ webpackJsonp([0],{
 	    closeSubMenuOnMouseLeave: false
 	  });
 	
-	  var horizontalClickMenu = _react2['default'].cloneElement(subMenus, {
-	    mode: 'horizontal',
-	    openAnimation: 'slide-up',
-	    openSubMenuOnMouseEnter: false,
-	    closeSubMenuOnMouseLeave: false
-	  });
-	
 	  var verticalMenu = _react2['default'].cloneElement(commonMenu, {
 	    mode: 'vertical',
 	    openAnimation: 'zoom'
@@ -281,7 +275,40 @@ webpackJsonp([0],{
 	
 	  var inlineMenu = _react2['default'].cloneElement(commonMenu, {
 	    mode: 'inline',
+	    defaultOpenKeys: ['1'],
 	    openAnimation: animation
+	  });
+	
+	  var ClickToHideMenu = _react2['default'].createClass({
+	    displayName: 'ClickToHideMenu',
+	
+	    getInitialState: function getInitialState() {
+	      return {
+	        openKeys: []
+	      };
+	    },
+	    render: function render() {
+	      return _react2['default'].cloneElement(subMenus, {
+	        onOpen: this.syncOpenKeys,
+	        onClose: this.syncOpenKeys,
+	        openKeys: this.state.openKeys,
+	        onClick: this.emptyOpenKeys,
+	        mode: 'horizontal',
+	        openAnimation: 'slide-up',
+	        openSubMenuOnMouseEnter: false,
+	        closeSubMenuOnMouseLeave: false
+	      });
+	    },
+	    emptyOpenKeys: function emptyOpenKeys() {
+	      this.setState({
+	        openKeys: []
+	      });
+	    },
+	    syncOpenKeys: function syncOpenKeys(e) {
+	      this.setState({
+	        openKeys: e.openKeys
+	      });
+	    }
 	  });
 	
 	  _react2['default'].render(_react2['default'].createElement(
@@ -323,7 +350,7 @@ webpackJsonp([0],{
 	      _react2['default'].createElement(
 	        'div',
 	        { style: { margin: 20, width: 800 } },
-	        horizontalClickMenu
+	        _react2['default'].createElement(ClickToHideMenu, null)
 	      ),
 	      _react2['default'].createElement(
 	        'h3',

@@ -185,7 +185,6 @@
 	    openKeys: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string),
 	    mode: _react2['default'].PropTypes.string,
 	    onClick: _react2['default'].PropTypes.func,
-	    onOpenChange: _react2['default'].PropTypes.func,
 	    onSelect: _react2['default'].PropTypes.func,
 	    onDeselect: _react2['default'].PropTypes.func,
 	    onDestroy: _react2['default'].PropTypes.func,
@@ -201,7 +200,6 @@
 	      openSubMenuOnMouseEnter: true,
 	      closeSubMenuOnMouseLeave: true,
 	      selectable: true,
-	      onOpenChange: _util.noop,
 	      onClick: _util.noop,
 	      onSelect: _util.noop,
 	      onOpen: _util.noop,
@@ -304,20 +302,6 @@
 	
 	  onClick: function onClick(e) {
 	    var props = this.props;
-	    if (!props.multiple && !this.isInlineMode()) {
-	      var tmp = this.instanceArray.filter(function (c) {
-	        return c.props.eventKey === e.key;
-	      });
-	      if (!tmp.length) {
-	        this.setState({
-	          activeKey: null
-	        });
-	        if (!('openKeys' in this.props)) {
-	          this.setState({ openKeys: [] });
-	        }
-	        this.props.onOpenChange({ openKeys: [] });
-	      }
-	    }
 	    props.onClick(e);
 	  },
 	
@@ -2581,9 +2565,15 @@
 	  },
 	
 	  render: function render() {
+	    var renderFirst = this.renderFirst;
+	    this.renderFirst = 1;
 	    this.haveOpened = this.haveOpened || this.props.visible;
 	    if (!this.haveOpened) {
 	      return null;
+	    }
+	    var transitionAppear = true;
+	    if (!renderFirst && this.props.visible) {
+	      transitionAppear = false;
 	    }
 	    var props = (0, _objectAssign2['default'])({}, this.props);
 	    props.className += ' ' + props.prefixCls + '-sub';
@@ -2591,14 +2581,17 @@
 	    if (props.openTransitionName) {
 	      animProps.transitionName = props.openTransitionName;
 	    } else if (typeof props.openAnimation === 'object') {
-	      animProps.animation = props.openAnimation;
+	      animProps.animation = (0, _objectAssign2['default'])({}, props.openAnimation);
+	      if (!transitionAppear) {
+	        delete animProps.animation.appear;
+	      }
 	    }
 	    return _react2['default'].createElement(
 	      _rcAnimate2['default'],
 	      _extends({}, animProps, {
 	        showProp: 'data-visible',
 	        component: '',
-	        transitionAppear: true }),
+	        transitionAppear: transitionAppear }),
 	      this.renderRoot(props)
 	    );
 	  }
@@ -2693,12 +2686,6 @@
 	    };
 	  },
 	
-	  componentDidMount: function componentDidMount() {
-	    this.state.children.map(function (c) {
-	      return c.key;
-	    }).forEach(this.performAppear);
-	  },
-	
 	  getInitialState: function getInitialState() {
 	    this.currentlyAnimatingKeys = {};
 	    this.keysToEnter = [];
@@ -2708,8 +2695,23 @@
 	    };
 	  },
 	
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	  componentDidMount: function componentDidMount() {
 	    var _this = this;
+	
+	    var showProp = this.props.showProp;
+	    var children = this.state.children;
+	    if (showProp) {
+	      children = children.filter(function (c) {
+	        return !!c.props[showProp];
+	      });
+	    }
+	    children.forEach(function (c) {
+	      _this.performAppear(c.key);
+	    });
+	  },
+	
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    var _this2 = this;
 	
 	    var nextChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(nextProps));
 	    var props = this.props;
@@ -2738,7 +2740,7 @@
 	    // exclusive needs immediate response
 	    if (exclusive) {
 	      Object.keys(currentlyAnimatingKeys).forEach(function (key) {
-	        _this.stop(key);
+	        _this2.stop(key);
 	      });
 	      currentChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(props));
 	    }
@@ -2754,11 +2756,11 @@
 	          var showInNow = (0, _ChildrenUtils.isShownInChildren)(currentChildren, c, showProp);
 	          var showInNext = c.props[showProp];
 	          if (!showInNow && showInNext) {
-	            _this.keysToEnter.push(key);
+	            _this2.keysToEnter.push(key);
 	          }
 	        }
 	      } else if (!hasPrev) {
-	        _this.keysToEnter.push(key);
+	        _this2.keysToEnter.push(key);
 	      }
 	    });
 	
@@ -2773,11 +2775,11 @@
 	          var showInNext = (0, _ChildrenUtils.isShownInChildren)(nextChildren, c, showProp);
 	          var showInNow = c.props[showProp];
 	          if (!showInNext && showInNow) {
-	            _this.keysToLeave.push(key);
+	            _this2.keysToLeave.push(key);
 	          }
 	        }
 	      } else if (!hasNext) {
-	        _this.keysToLeave.push(key);
+	        _this2.keysToLeave.push(key);
 	      }
 	    });
 	  },
@@ -2847,13 +2849,13 @@
 	      if (type === 'appear') {
 	        if (_util2['default'].isAppearSupported(props)) {
 	          props.onAppear(key);
+	          props.onEnd(key, true);
 	        }
-	        props.onEnd(key, true);
 	      } else {
 	        if (_util2['default'].isEnterSupported(props)) {
 	          props.onEnter(key);
+	          props.onEnd(key, true);
 	        }
-	        props.onEnd(key, true);
 	      }
 	      if (this.isMounted() && !(0, _ChildrenUtils.isSameChildren)(this.state.children, currentChildren)) {
 	        this.setState({
