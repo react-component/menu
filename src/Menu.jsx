@@ -13,7 +13,6 @@ const Menu = React.createClass({
     openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     mode: React.PropTypes.string,
     onClick: React.PropTypes.func,
-    onOpenChange: React.PropTypes.func,
     onSelect: React.PropTypes.func,
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
@@ -29,7 +28,6 @@ const Menu = React.createClass({
       openSubMenuOnMouseEnter: true,
       closeSubMenuOnMouseLeave: true,
       selectable: true,
-      onOpenChange: noop,
       onClick: noop,
       onSelect: noop,
       onOpen: noop,
@@ -127,20 +125,6 @@ const Menu = React.createClass({
 
   onClick(e) {
     const props = this.props;
-    if (!props.multiple && !this.isInlineMode()) {
-      const tmp = this.instanceArray.filter((c)=> {
-        return c.props.eventKey === e.key;
-      });
-      if (!tmp.length) {
-        this.setState({
-          activeKey: null,
-        });
-        if (!('openKeys' in this.props)) {
-          this.setState({openKeys: []});
-        }
-        this.props.onOpenChange({openKeys: []});
-      }
-    }
     props.onClick(e);
   },
 

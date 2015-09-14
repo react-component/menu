@@ -126,6 +126,12 @@ React.render(<Menu>
             <td>called when select a menu item</td>
         </tr>
         <tr>
+            <td>onClick</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event})</td>
+            <th></th>
+            <td>called when click a menu item</td>
+        </tr>
+        <tr>
             <td>onOpen</td>
             <td>function({openKeys:String[]})</td>
             <th></th>

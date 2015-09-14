@@ -1,6 +1,9 @@
 # History
 ----
 
+## 4.5.0 / 2015-09-14
+- does not hide submenu when click(use onClick to set openKeys to [] if you want)
+
 ## 4.4.0 / 2015-08-13
 - add openAnimation/openTransitionName prop
 

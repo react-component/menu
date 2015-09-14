@@ -49,6 +49,7 @@ const animation = {
         done();
       }
     }
+
     node.style.display = 'block';
     velocity(node, 'slideUp', {
       duration: 300,
@@ -127,13 +128,6 @@ function render(container) {
     closeSubMenuOnMouseLeave: false
   });
 
-  var horizontalClickMenu = React.cloneElement(subMenus, {
-    mode: 'horizontal',
-    openAnimation: 'slide-up',
-    openSubMenuOnMouseEnter: false,
-    closeSubMenuOnMouseLeave: false
-  });
-
   var verticalMenu = React.cloneElement(commonMenu, {
     mode: 'vertical',
     openAnimation: 'zoom',
@@ -141,8 +135,38 @@ function render(container) {
 
   var inlineMenu = React.cloneElement(commonMenu, {
     mode: 'inline',
-    defaultOpenKeys:['1'],
+    defaultOpenKeys: ['1'],
     openAnimation: animation
+  });
+
+  const ClickToHideMenu = React.createClass({
+    getInitialState(){
+      return {
+        openKeys: []
+      };
+    },
+    render(){
+      return React.cloneElement(subMenus, {
+        onOpen: this.syncOpenKeys,
+        onClose: this.syncOpenKeys,
+        openKeys: this.state.openKeys,
+        onClick: this.emptyOpenKeys,
+        mode: 'horizontal',
+        openAnimation: 'slide-up',
+        openSubMenuOnMouseEnter: false,
+        closeSubMenuOnMouseLeave: false
+      });
+    },
+    emptyOpenKeys(){
+      this.setState({
+        openKeys: []
+      });
+    },
+    syncOpenKeys(e){
+      this.setState({
+        openKeys: e.openKeys
+      });
+    }
   });
 
   React.render(<div style={{margin:20}}>
@@ -157,7 +181,7 @@ function render(container) {
       <div style={{margin:20,width: 800,}}>{horizontalMenu2}</div>
       <h3>horizontal and click</h3>
 
-      <div style={{margin:20,width: 800,}}>{horizontalClickMenu}</div>
+      <div style={{margin:20,width: 800,}}><ClickToHideMenu /></div>
       <h3>vertical</h3>
 
       <div style={{margin:20,width: 200,}}>{verticalMenu}</div>
