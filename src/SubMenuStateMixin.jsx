@@ -1,4 +1,5 @@
 import rcUtil, {KeyCode} from 'rc-util';
+import React from 'react';
 
 export default {
   componentDidMount() {
