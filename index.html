@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@4.5.0 - menu ui component for react</title>
+  <title>rc-menu@4.6.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@4.5.0</h1>
+  <h1>rc-menu@4.6.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -749,6 +749,8 @@
       <li><a href="examples/menuItemGroup.html">menuItemGroup</a></li>
       
       <li><a href="examples/multiple.html">multiple</a></li>
+      
+      <li><a href="examples/openKeys.html">openKeys</a></li>
       
       <li><a href="examples/scrollable.html">scrollable</a></li>
       
@@ -854,7 +856,7 @@ React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-titl
         </tr>
         <tr>
             <td>onClick</td>
-            <td>function({key:String, item:ReactComponent, domEvent:Event})</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, keyPath: String[]})</td>
             <th></th>
             <td>called when click a menu item</td>
         </tr>

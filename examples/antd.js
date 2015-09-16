@@ -19,15 +19,15 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _rcMenu = __webpack_require__(3);
+	var _rcMenu = __webpack_require__(158);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	var _velocityAnimate = __webpack_require__(38);
+	var _velocityAnimate = __webpack_require__(193);
 	
 	var _velocityAnimate2 = _interopRequireDefault(_velocityAnimate);
 	
-	__webpack_require__(39);
+	__webpack_require__(194);
 	
 	function handleSelect(info) {
 	  console.log(info);
@@ -378,7 +378,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 38:
+/***/ 193:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! VelocityJS.org (1.2.2). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
