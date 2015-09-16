@@ -23831,6 +23831,10 @@
 	
 	var _rcUtil2 = _interopRequireDefault(_rcUtil);
 	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	exports['default'] = {
 	  componentDidMount: function componentDidMount() {
 	    this.componentDidUpdate();
@@ -23859,7 +23863,7 @@
 	  handleDocumentClick: function handleDocumentClick(e) {
 	    // If the click originated from within this component
 	    // don't do anything.
-	    if (_rcUtil2['default'].Dom.contains(React.findDOMNode(this), e.target)) {
+	    if (_rcUtil2['default'].Dom.contains(_react2['default'].findDOMNode(this), e.target)) {
 	      return;
 	    }
 	    var props = this.props;
