@@ -1,6 +1,7 @@
 import SubPopupMenu from './SubPopupMenu';
 import React from 'react';
 import {classSet, KeyCode, guid} from 'rc-util';
+import assign from 'object-assign';
 
 const SubMenu = React.createClass({
   propTypes: {
@@ -121,7 +122,7 @@ const SubMenu = React.createClass({
   },
 
   onMouseLeave() {
-    // prevent popmenu and submenu gap
+    // prevent popup menu and submenu gap
     this.leaveTimer = setTimeout(()=> {
       // leave whole sub tree
       // still active
@@ -149,7 +150,7 @@ const SubMenu = React.createClass({
   },
 
   onSubMenuClick(info) {
-    this.props.onClick(info);
+    this.props.onClick(this.addKeyPath(info));
   },
 
   onSelect(info) {
@@ -261,9 +262,16 @@ const SubMenu = React.createClass({
     this.menuInstance = c;
   },
 
+  addKeyPath(info) {
+    return assign({}, info, {
+      keyPath: info.keyPath.concat(this.props.eventKey),
+    });
+  },
+
   triggerOpenChange(open, type) {
+    const key = this.props.eventKey;
     this.onOpenChange({
-      key: this.props.eventKey,
+      key: key,
       item: this,
       trigger: type,
       open: open,

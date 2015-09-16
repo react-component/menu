@@ -25,8 +25,9 @@ class MenuItem extends React.Component {
   }
 
   onMouseLeave() {
+    const eventKey = this.props.eventKey;
     this.props.onItemHover({
-      key: this.props.eventKey,
+      key: eventKey,
       item: this,
       hover: false,
       trigger: 'mouseleave',
@@ -35,8 +36,9 @@ class MenuItem extends React.Component {
 
   onMouseEnter() {
     const props = this.props;
+    const eventKey = props.eventKey;
     props.onItemHover({
-      key: this.props.eventKey,
+      key: eventKey,
       item: this,
       hover: true,
       trigger: 'mouseenter',
@@ -48,6 +50,7 @@ class MenuItem extends React.Component {
     const eventKey = props.eventKey;
     const info = {
       key: eventKey,
+      keyPath: [eventKey],
       item: this,
       domEvent: e,
     };

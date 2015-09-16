@@ -146,9 +146,9 @@ const Menu = React.createClass({
       }
     }
     if (changed) {
-      // hack: batch does not update state
-      this.state.openKeys = openKeys;
       if (!('openKeys' in this.props)) {
+        // hack: batch does not update state
+        this.state.openKeys = openKeys;
         this.setState({openKeys});
       }
       const info = assign({openKeys}, e);

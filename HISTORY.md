@@ -1,6 +1,9 @@
 # History
 ----
 
+## 4.6.0 / 2015-09-16
+- add keyPath to onClick argument info
+
 ## 4.5.0 / 2015-09-14
 - does not hide submenu when click(use onClick to set openKeys to [] if you want)
 

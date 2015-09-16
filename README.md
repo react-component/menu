@@ -127,7 +127,7 @@ React.render(<Menu>
         </tr>
         <tr>
             <td>onClick</td>
-            <td>function({key:String, item:ReactComponent, domEvent:Event})</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, keyPath: String[]})</td>
             <th></th>
             <td>called when click a menu item</td>
         </tr>
