@@ -15,6 +15,7 @@ const SubMenu = React.createClass({
     open: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
     closeSubMenuOnMouseLeave: React.PropTypes.bool,
+    openSubMenuOnMouseEnter: React.PropTypes.bool,
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
     onItemHover: React.PropTypes.func,
@@ -143,6 +144,9 @@ const SubMenu = React.createClass({
   },
 
   onClick() {
+    if (this.props.openSubMenuOnMouseEnter) {
+      return;
+    }
     this.triggerOpenChange(!this.props.open, 'click');
     this.setState({
       defaultActiveFirst: false,
