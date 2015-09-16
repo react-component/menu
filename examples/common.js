@@ -22582,6 +22582,7 @@
 	    open: _react2['default'].PropTypes.bool,
 	    onSelect: _react2['default'].PropTypes.func,
 	    closeSubMenuOnMouseLeave: _react2['default'].PropTypes.bool,
+	    openSubMenuOnMouseEnter: _react2['default'].PropTypes.bool,
 	    onDeselect: _react2['default'].PropTypes.func,
 	    onDestroy: _react2['default'].PropTypes.func,
 	    onItemHover: _react2['default'].PropTypes.func
@@ -22711,6 +22712,9 @@
 	  },
 	
 	  onClick: function onClick() {
+	    if (this.props.openSubMenuOnMouseEnter) {
+	      return;
+	    }
 	    this.triggerOpenChange(!this.props.open, 'click');
 	    this.setState({
 	      defaultActiveFirst: false
