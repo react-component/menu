@@ -1,11 +1,10 @@
-'use strict';
-
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 
-React.render(<div>
+ReactDOM.render(<div>
   <h2>menu item group</h2>
   <Menu style={{margin: 20, width: 300}}>
     <MenuItemGroup title="group 1" key="2">

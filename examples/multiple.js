@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
@@ -32,7 +31,7 @@ render(container);
 
 function save(c) {
   console.log('getRef')
-  console.log(React.findDOMNode(c));
+  console.log(ReactDOM.findDOMNode(c));
 }
 
 function render(container) {
@@ -62,7 +61,7 @@ function render(container) {
       <MenuItem key="4-3">outer3</MenuItem>
     </Menu>
   );
-  React.render(<div>
+  ReactDOM.render(<div>
     <h2>multiple selectable menu</h2>
 
     <p>
@@ -72,6 +71,6 @@ function render(container) {
   </div>, container);
 
   function destroy() {
-    React.unmountComponentAtNode(container);
+    ReactDOM.unmountComponentAtNode(container);
   }
 }
