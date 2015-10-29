@@ -1,5 +1,5 @@
 import rcUtil, {KeyCode} from 'rc-util';
-import React from 'react';
+import ReactDOM from 'react-dom';
 
 export default {
   componentDidMount() {
@@ -29,7 +29,7 @@ export default {
   handleDocumentClick(e) {
     // If the click originated from within this component
     // don't do anything.
-    if (rcUtil.Dom.contains(React.findDOMNode(this), e.target)) {
+    if (rcUtil.Dom.contains(ReactDOM.findDOMNode(this), e.target)) {
       return;
     }
     const props = this.props;
