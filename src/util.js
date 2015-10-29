@@ -1,5 +1,5 @@
 const now = Date.now();
-export default  {
+export default {
   noop() {
   },
 

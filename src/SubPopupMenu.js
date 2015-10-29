@@ -16,6 +16,7 @@ const SubPopupMenu = React.createClass({
     openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     closeSubMenuOnMouseLeave: React.PropTypes.bool,
     visible: React.PropTypes.bool,
+    children: React.PropTypes.any,
   },
 
   mixins: [MenuMixin],
