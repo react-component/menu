@@ -1,8 +1,9 @@
 'use strict';
 
 var expect = require('expect.js');
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 var Simulate = TestUtils.Simulate;
 
 var Menu = require('../');
@@ -15,11 +16,11 @@ describe('MenuItem', function () {
   document.body.appendChild(div);
 
   afterEach(function () {
-    React.unmountComponentAtNode(div);
+    ReactDOM.unmountComponentAtNode(div);
   });
 
   it('Should add disabled class', function () {
-    var instance = React.render(
+    var instance = ReactDOM.render(
       <Menu>
         <MenuItem disabled={true}>Pill 2 content</MenuItem>
       </Menu>, div

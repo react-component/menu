@@ -1,8 +1,9 @@
 'use strict';
 
 var expect = require('expect.js');
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 var Simulate = TestUtils.Simulate;
 var KeyCode = require('rc-util').KeyCode;
 var Menu = require('../');
@@ -32,7 +33,7 @@ describe('MenuItemGroup', function () {
   });
 
   afterEach(function () {
-    React.unmountComponentAtNode(div);
+    ReactDOM.unmountComponentAtNode(div);
   });
 
   function expectActive(targetRef) {
@@ -47,7 +48,7 @@ describe('MenuItemGroup', function () {
   }
 
   it('works', function () {
-    var menu = React.render(<Menu>
+    var menu = ReactDOM.render(<Menu>
       <MenuItemGroup title="g1">
         <MenuItem key="1" ref={saveRef("1")}>1</MenuItem>
         <MenuItem key="2" ref={saveRef("2")}>2</MenuItem>
@@ -64,7 +65,7 @@ describe('MenuItemGroup', function () {
 
     expectActive('none');
 
-    var menuNode = React.findDOMNode(menu);
+    var menuNode = ReactDOM.findDOMNode(menu);
 
     Simulate.keyDown(menuNode, {
       keyCode: KeyCode.DOWN

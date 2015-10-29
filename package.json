@@ -48,6 +48,7 @@
     "rc-server": "3.x",
     "rc-tools": "4.x",
     "react": "~0.14.0",
+    "react-addons-test-utils": "~0.14.1",
     "react-dom": "~0.14.0",
     "velocity-animate": "~1.2.2"
   },
