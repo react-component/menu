@@ -21,7 +21,10 @@ const Menu = React.createClass({
     level: React.PropTypes.number,
     eventKey: React.PropTypes.string,
     selectable: React.PropTypes.bool,
+    children: React.PropTypes.any,
   },
+
+  mixins: [MenuMixin],
 
   getDefaultProps() {
     return {
@@ -37,8 +40,6 @@ const Menu = React.createClass({
       defaultOpenKeys: [],
     };
   },
-
-  mixins: [MenuMixin],
 
   getInitialState() {
     const props = this.props;
@@ -190,6 +191,20 @@ const Menu = React.createClass({
     return transitionName;
   },
 
+  isInlineMode() {
+    return this.props.mode === 'inline';
+  },
+
+  lastOpenSubMenu() {
+    let lastOpen = [];
+    if (this.state.openKeys.length) {
+      lastOpen = this.instanceArray.filter((c)=> {
+        return this.state.openKeys.indexOf(c.props.eventKey) !== -1;
+      });
+    }
+    return lastOpen[0];
+  },
+
   renderMenuItem(c, i) {
     const key = getKeyFromChildrenIndex(c, this.props.eventKey, i);
     const state = this.state;
@@ -207,20 +222,6 @@ const Menu = React.createClass({
     const props = assign({}, this.props);
     props.className += ` ${props.prefixCls}-root`;
     return this.renderRoot(props);
-  },
-
-  isInlineMode() {
-    return this.props.mode === 'inline';
-  },
-
-  lastOpenSubMenu() {
-    let lastOpen = [];
-    if (this.state.openKeys.length) {
-      lastOpen = this.instanceArray.filter((c)=> {
-        return this.state.openKeys.indexOf(c.props.eventKey) !== -1;
-      });
-    }
-    return lastOpen[0];
   },
 });
 

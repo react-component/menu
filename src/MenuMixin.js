@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {classSet, createChainedFunction, KeyCode} from 'rc-util';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
@@ -49,6 +50,7 @@ const MenuMixin = {
     defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     defaultOpenKeys: React.PropTypes.arrayOf(React.PropTypes.string),
     openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
+    children: React.PropTypes.any,
   },
 
   getDefaultProps() {
@@ -114,7 +116,7 @@ const MenuMixin = {
       this.setState({
         activeKey: activeItem.props.eventKey,
       }, ()=> {
-        scrollIntoView(React.findDOMNode(activeItem), React.findDOMNode(this), {
+        scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
           onlyScrollIfNeeded: true,
         });
       });
@@ -200,11 +202,14 @@ const MenuMixin = {
       domProps.onKeyDown = this.onKeyDown;
     }
     return (
+      // ESLint is not smart enough to konw that the type of `children` was checked.
+      /*eslint-disable */
       <ul style={props.style}
           data-visible={props.visible}
         {...domProps}>
         {React.Children.map(props.children, this.renderMenuItem)}
       </ul>
+      /*eslint-enable */
     );
   },
 

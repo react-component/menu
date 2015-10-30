@@ -1,8 +1,9 @@
 'use strict';
 
 var expect = require('expect.js');
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 var Simulate = TestUtils.Simulate;
 var KeyCode = require('rc-util').KeyCode;
 var Menu = require('../');
@@ -28,7 +29,7 @@ describe('Menu', function () {
   });
 
   afterEach(function () {
-    React.unmountComponentAtNode(div);
+    ReactDOM.unmountComponentAtNode(div);
   });
 
   it('Should set the correct item active', function () {
@@ -60,11 +61,11 @@ describe('Menu', function () {
         </MenuItem>
       </Menu>
     );
-    Simulate.click(React.findDOMNode(refs.item2));
+    Simulate.click(ReactDOM.findDOMNode(refs.item2));
   });
 
   it('Should fire `mouseEnter` event', function (done) {
-    var instance = React.render(
+    var instance = ReactDOM.render(
       <Menu>
         <MenuItem key="item1">item</MenuItem>
         <MenuItem disabled >disabled</MenuItem>
@@ -72,9 +73,9 @@ describe('Menu', function () {
         ref={saveRef('item2')}
         >item2</MenuItem>
       </Menu>, div);
-    var itemNode = React.findDOMNode(refs.item2);
+    var itemNode = ReactDOM.findDOMNode(refs.item2);
     // see this issue:  https://github.com/facebook/react/issues/1297
-    // Simulate.mouseEnter(instance.refs.menuItem.getDOMNode(), {type: 'mouseenter'});
+    // Simulate.mouseEnter(instance.refs.menuItem, {type: 'mouseenter'});
     if(1){
       done();
       return;
@@ -90,7 +91,7 @@ describe('Menu', function () {
   });
 
   it('Should fire `keyDown` event', function (done) {
-    var instance = React.render(
+    var instance = ReactDOM.render(
       <Menu activeKey="item1">
         <MenuItem key="item1">Pill 1 content</MenuItem>
         <MenuItem disabled />
@@ -101,9 +102,9 @@ describe('Menu', function () {
         </SubMenu>
       </Menu>, div
     );
-    Simulate.keyDown(React.findDOMNode(instance), {keyCode: KeyCode.DOWN});
+    Simulate.keyDown(ReactDOM.findDOMNode(instance), {keyCode: KeyCode.DOWN});
     setTimeout(function () {
-      expect(React.findDOMNode(refs.item2).className.indexOf('rc-menu-item-active') !== -1).to.be(true);
+      expect(ReactDOM.findDOMNode(refs.item2).className.indexOf('rc-menu-item-active') !== -1).to.be(true);
       done();
     }, 10);
   });

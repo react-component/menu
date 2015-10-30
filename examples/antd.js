@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
 import velocity from 'velocity-animate';
 import 'rc-menu/assets/index.less';
@@ -169,7 +168,7 @@ function render(container) {
     }
   });
 
-  React.render(<div style={{margin:20}}>
+  ReactDOM.render(<div style={{margin:20}}>
     <h2>antd menu</h2>
 
     <div>

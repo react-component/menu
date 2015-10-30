@@ -23,18 +23,18 @@ const SubMenu = React.createClass({
 
   mixins: [require('./SubMenuStateMixin')],
 
-  getInitialState() {
-    this.isSubMenu = 1;
-    return {
-      defaultActiveFirst: false,
-    };
-  },
-
   getDefaultProps() {
     return {
       onMouseEnter() {
       },
       title: '',
+    };
+  },
+
+  getInitialState() {
+    this.isSubMenu = 1;
+    return {
+      defaultActiveFirst: false,
     };
   },
 
@@ -181,6 +181,26 @@ const SubMenu = React.createClass({
     return this.props.rootPrefixCls + '-submenu-open';
   },
 
+  saveMenuInstance(c) {
+    this.menuInstance = c;
+  },
+
+  addKeyPath(info) {
+    return assign({}, info, {
+      keyPath: info.keyPath.concat(this.props.eventKey),
+    });
+  },
+
+  triggerOpenChange(open, type) {
+    const key = this.props.eventKey;
+    this.onOpenChange({
+      key: key,
+      item: this,
+      trigger: type,
+      open: open,
+    });
+  },
+
   renderChildren(children) {
     const props = this.props;
     const baseProps = {
@@ -245,7 +265,7 @@ const SubMenu = React.createClass({
       style.paddingLeft = props.inlineIndent * props.level;
     }
     return (
-      <li className={classSet(classes)}  {...mouseEvents}>
+      <li className={classSet(classes)} {...mouseEvents}>
         <div
           style={style}
           className={prefixCls + '-title'}
@@ -260,26 +280,6 @@ const SubMenu = React.createClass({
         {this.renderChildren(props.children)}
       </li>
     );
-  },
-
-  saveMenuInstance(c) {
-    this.menuInstance = c;
-  },
-
-  addKeyPath(info) {
-    return assign({}, info, {
-      keyPath: info.keyPath.concat(this.props.eventKey),
-    });
-  },
-
-  triggerOpenChange(open, type) {
-    const key = this.props.eventKey;
-    this.onOpenChange({
-      key: key,
-      item: this,
-      trigger: type,
-      open: open,
-    });
   },
 });
 
