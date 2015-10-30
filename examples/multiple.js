@@ -3,29 +3,33 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(196);
+	module.exports = __webpack_require__(15);
 
 
 /***/ },
 
-/***/ 196:
+/***/ 15:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"react\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _rcMenu = __webpack_require__(158);
+	var _reactDom = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"react-dom\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _rcMenu = __webpack_require__(2);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(194);
+	__webpack_require__(13);
 	
-	__webpack_require__(197);
+	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"font-awesome/css/font-awesome.css\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	function handleSelect(info) {
 	  console.log('selected ', info);
@@ -65,7 +69,7 @@ webpackJsonp([2],{
 	
 	function save(c) {
 	  console.log('getRef');
-	  console.log(_react2['default'].findDOMNode(c));
+	  console.log(_reactDom2['default'].findDOMNode(c));
 	}
 	
 	function render(container) {
@@ -143,7 +147,7 @@ webpackJsonp([2],{
 	      'outer3'
 	    )
 	  );
-	  _react2['default'].render(_react2['default'].createElement(
+	  _reactDom2['default'].render(_react2['default'].createElement(
 	    'div',
 	    null,
 	    _react2['default'].createElement(
@@ -168,16 +172,9 @@ webpackJsonp([2],{
 	  ), container);
 	
 	  function destroy() {
-	    _react2['default'].unmountComponentAtNode(container);
+	    _reactDom2['default'].unmountComponentAtNode(container);
 	  }
 	}
-
-/***/ },
-
-/***/ 197:
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
 
 /***/ }
 
