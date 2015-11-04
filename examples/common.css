@@ -9,6 +9,9 @@
   border-radius: 3px;
   color: #666;
 }
+.rc-menu-hidden {
+  display: none;
+}
 .rc-menu-item-group-list {
   margin: 0;
   padding: 0;
@@ -76,11 +79,7 @@
   position: relative;
 }
 .rc-menu-submenu > .rc-menu {
-  display: none;
   background-color: #fff;
-}
-.rc-menu-submenu-open > .rc-menu {
-  display: block;
 }
 .rc-menu .rc-menu-submenu-title .anticon,
 .rc-menu .rc-menu-item .anticon {
@@ -151,7 +150,6 @@
   -webkit-transform-origin: 0 0;
       -ms-transform-origin: 0 0;
           transform-origin: 0 0;
-  display: block !important;
   opacity: 0;
   -webkit-animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
           animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
@@ -166,7 +164,6 @@
   -webkit-transform-origin: 0 0;
       -ms-transform-origin: 0 0;
           transform-origin: 0 0;
-  display: block !important;
   opacity: 1;
   -webkit-animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
           animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
@@ -260,7 +257,6 @@
   -webkit-transform-origin: 0 0;
       -ms-transform-origin: 0 0;
           transform-origin: 0 0;
-  display: block !important;
   -webkit-animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
           animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
   -webkit-animation-play-state: paused;
@@ -274,7 +270,6 @@
   -webkit-transform-origin: 0 0;
       -ms-transform-origin: 0 0;
           transform-origin: 0 0;
-  display: block !important;
   -webkit-animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
           animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
   -webkit-animation-play-state: paused;
