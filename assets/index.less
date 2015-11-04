@@ -11,6 +11,10 @@
   border-radius: 3px;
   color: #666;
 
+  &-hidden {
+    display: none;
+  }
+
   &-item-group-list {
     margin: 0;
     padding: 0;
@@ -85,14 +89,7 @@
     position: relative;
 
     > .@{menuPrefixCls} {
-      display: none;
       background-color: #fff;
-    }
-
-    &-open {
-      > .@{menuPrefixCls} {
-        display: block;
-      }
     }
   }
 
@@ -164,7 +161,6 @@
     animation-duration: .3s;
     animation-fill-mode: both;
     transform-origin: 0 0;
-    display: block !important;
   }
 
   &-open {

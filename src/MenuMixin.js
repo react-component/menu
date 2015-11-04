@@ -4,6 +4,7 @@ import {classSet, createChainedFunction, KeyCode} from 'rc-util';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
 import {getKeyFromChildrenIndex} from './util';
+import DOMWrap from './DOMWrap';
 
 function getActiveKey(props) {
   let activeKey = props.activeKey;
@@ -202,13 +203,15 @@ const MenuMixin = {
       domProps.onKeyDown = this.onKeyDown;
     }
     return (
-      // ESLint is not smart enough to konw that the type of `children` was checked.
-      /*eslint-disable */
-      <ul style={props.style}
-          data-visible={props.visible}
+      // ESLint is not smart enough to know that the type of `children` was checked.
+      /* eslint-disable */
+      <DOMWrap style={props.style}
+               tag="ul"
+               hiddenClassName={`${props.prefixCls}-hidden`}
+               visible={props.visible}
         {...domProps}>
         {React.Children.map(props.children, this.renderMenuItem)}
-      </ul>
+      </DOMWrap>
       /*eslint-enable */
     );
   },
