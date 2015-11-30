@@ -1,23 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
+import Menu, {SubMenu, Item as MenuItem} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
 
-var Test = React.createClass({
-  getInitialState(){
+const Test = React.createClass({
+  getInitialState() {
     return {
       destroyed: false,
       selectedKeys: [],
-      openKeys: []
+      openKeys: [],
     };
   },
 
-  onSelect(info){
+  onSelect(info) {
     console.log('selected ', info);
     this.setState({
-      selectedKeys: info.selectedKeys
+      selectedKeys: info.selectedKeys,
     });
   },
 
@@ -25,23 +25,59 @@ var Test = React.createClass({
     console.log('deselect ', info);
   },
 
-  onOpen(info){
+  onOpen(info) {
     console.log('open ', info);
     this.setState({
-      openKeys: info.openKeys
+      openKeys: info.openKeys,
     });
   },
 
-  onClose(info){
+  onClose(info) {
     console.log('open ', info);
     this.setState({
-      openKeys: info.openKeys
+      openKeys: info.openKeys,
     });
   },
 
-  getMenu(){
+  onCheck(e) {
+    const value = e.target.value;
+    if (e.target.checked) {
+      this.setState({
+        selectedKeys: this.state.selectedKeys.concat(value),
+      });
+    } else {
+      const selectedKeys = this.state.selectedKeys.concat();
+      const index = selectedKeys.indexOf(value);
+      if (value !== -1) {
+        selectedKeys.splice(index, 1);
+      }
+      this.setState({
+        selectedKeys: selectedKeys,
+      });
+    }
+  },
+
+  onOpenCheck(e) {
+    const value = e.target.value;
+    if (e.target.checked) {
+      this.setState({
+        openKeys: this.state.openKeys.concat(value),
+      });
+    } else {
+      const openKeys = this.state.openKeys.concat();
+      const index = openKeys.indexOf(value);
+      if (value !== -1) {
+        openKeys.splice(index, 1);
+      }
+      this.setState({
+        openKeys: openKeys,
+      });
+    }
+  },
+
+  getMenu() {
     return (
-      <Menu multiple={true}
+      <Menu multiple
             onSelect={this.onSelect}
             onDeselect={this.onDeselect}
             onOpen={this.onOpen}
@@ -61,79 +97,43 @@ var Test = React.createClass({
     );
   },
 
-  onCheck(e){
-    var value = e.target.value;
-    if (e.target.checked) {
-      this.setState({
-        selectedKeys: this.state.selectedKeys.concat(value)
-      });
-    } else {
-      var selectedKeys = this.state.selectedKeys.concat();
-      var index = selectedKeys.indexOf(value);
-      if (value !== -1) {
-        selectedKeys.splice(index, 1);
-      }
-      this.setState({
-        selectedKeys: selectedKeys
-      });
-    }
+  destroy() {
+    this.setState({
+      destroyed: true,
+    });
   },
 
-  onOpenCheck(e){
-    var value = e.target.value;
-    if (e.target.checked) {
-      this.setState({
-        openKeys: this.state.openKeys.concat(value)
-      });
-    } else {
-      var openKeys = this.state.openKeys.concat();
-      var index = openKeys.indexOf(value);
-      if (value !== -1) {
-        openKeys.splice(index, 1);
-      }
-      this.setState({
-        openKeys: openKeys
-      });
-    }
-  },
-
-  render(){
+  render() {
     if (this.state.destroyed) {
       return null;
     }
-    var allSelectedKeys = ["1-1", "1-2", "2-1", "2-2", "3"];
-    var allOpenKeys = ["1", "2"];
-    var selectedKeys = this.state.selectedKeys;
-    var openKeys = this.state.openKeys;
+    const allSelectedKeys = ['1-1', '1-2', '2-1', '2-2', '3'];
+    const allOpenKeys = ['1', '2'];
+    const selectedKeys = this.state.selectedKeys;
+    const openKeys = this.state.openKeys;
 
-    return <div>
+    return (<div>
       <h2>multiple selectable menu</h2>
 
       <p>
         selectedKeys: &nbsp;&nbsp;&nbsp;
-        {allSelectedKeys.map((k)=> {
-          return <label key={k}>{k} <input value={k} key={k} type="checkbox" onChange={this.onCheck}
-                                           checked={selectedKeys.indexOf(k)!==-1}/></label>;
+        {allSelectedKeys.map((k) => {
+          return (<label key={k}>{k} <input value={k} key={k} type="checkbox" onChange={this.onCheck}
+                                           checked={selectedKeys.indexOf(k) !== -1}/></label>);
         })}
       </p>
 
       <p>
         openKeys: &nbsp;&nbsp;&nbsp;
         {allOpenKeys.map((k)=> {
-          return <label key={k}>{k} <input value={k} type="checkbox" onChange={this.onOpenCheck}
-                                           checked={openKeys.indexOf(k)!==-1}/></label>;
+          return (<label key={k}>{k} <input value={k} type="checkbox" onChange={this.onOpenCheck}
+                                           checked={openKeys.indexOf(k) !== -1}/></label>);
         })}
       </p>
 
       <div style={{width: 400}}>{this.getMenu()}</div>
-    </div>;
+    </div>);
   },
-
-  destroy(){
-    this.setState({
-      destroyed: true
-    });
-  }
 });
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import {joinClasses, classSet, KeyCode} from 'rc-util';
+import {KeyCode} from 'rc-util';
+import classnames from 'classnames';
 
 class MenuItem extends React.Component {
   constructor(props) {
@@ -89,9 +90,10 @@ class MenuItem extends React.Component {
     classes[this.getSelectedClassName()] = props.selected;
     classes[this.getDisabledClassName()] = props.disabled;
     classes[this.getPrefixCls()] = true;
+    classes[props.className]=!!props.className;
     const attrs = {
       title: props.title,
-      className: joinClasses(props.className, classSet(classes)),
+      className: classnames(classes),
       role: 'menuitem',
       'aria-selected': props.selected,
       'aria-disabled': props.disabled,

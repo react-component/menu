@@ -1,54 +1,50 @@
-'use strict';
+const expect = require('expect.js');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-addons-test-utils');
+const Simulate = TestUtils.Simulate;
 
-var expect = require('expect.js');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
-var Simulate = TestUtils.Simulate;
+const Menu = require('../');
+const MenuItem = Menu.Item;
 
-var Menu = require('../');
-var SubMenu = require('../').SubMenu;
-var MenuItem = require('../').Item;
-
-describe('MenuItem', function () {
-  var div = document.createElement('div');
+describe('MenuItem', () => {
+  const div = document.createElement('div');
   div.style.width = '200px';
   document.body.appendChild(div);
 
-  afterEach(function () {
+  afterEach(() => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-  it('Should add disabled class', function () {
-    var instance = ReactDOM.render(
+  it('Should add disabled class', () => {
+    const instance = ReactDOM.render(
       <Menu>
-        <MenuItem disabled={true}>Pill 2 content</MenuItem>
+        <MenuItem disabled>Pill 2 content</MenuItem>
       </Menu>, div
     );
     expect(TestUtils.findRenderedDOMComponentWithClass(instance, 'rc-menu-item-disabled')).to.be.ok();
   });
 
-  it('Should not call `onSelect` when item disabled and is selected', function (done) {
-    var called = 0;
+  it('Should not call `onSelect` when item disabled and is selected', (done) => {
+    let called = 0;
 
     function handleSelect() {
       called = 1;
     }
 
-    var instance = TestUtils.renderIntoDocument(
+    const instance = TestUtils.renderIntoDocument(
       <Menu>
-        <MenuItem disabled={true} onSelect={handleSelect}>
-          <span className='xx'>Item content</span>
+        <MenuItem disabled onSelect={handleSelect}>
+          <span className="xx">Item content</span>
         </MenuItem>
       </Menu>
     );
 
     Simulate.click(TestUtils.findRenderedDOMComponentWithClass(instance, 'xx'));
 
-    setTimeout(function () {
+    setTimeout(() => {
       expect(called).to.be(0);
       done();
     }, 100);
   });
-
 });

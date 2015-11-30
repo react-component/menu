@@ -49,7 +49,7 @@ const SubPopupMenu = React.createClass({
     return this.props.openTransitionName;
   },
 
-  renderMenuItem(c, i) {
+  renderMenuItem(c, i, subIndex) {
     const props = this.props;
     const key = getKeyFromChildrenIndex(c, props.eventKey, i);
     const extraProps = {
@@ -59,7 +59,7 @@ const SubPopupMenu = React.createClass({
       selected: props.selectedKeys.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: true,
     };
-    return this.renderCommonMenuItem(c, i, extraProps);
+    return this.renderCommonMenuItem(c, i, subIndex, extraProps);
   },
 
   render() {

@@ -1,26 +1,33 @@
-
 import React from 'react';
 
-class MenuItemGroup extends React.Component {
+
+const MenuItemGroup = React.createClass({
+  getDefaultProps() {
+    return {
+      disabled: true,
+    };
+  },
+
+  renderInnerMenuItem(item, subIndex) {
+    const renderMenuItem = this.props.renderMenuItem;
+    return renderMenuItem(item, this.props.index, subIndex);
+  },
+
   render() {
     const props = this.props;
     let className = props.className || '';
     const rootPrefixCls = props.rootPrefixCls;
+
     className += ` ${rootPrefixCls}-item-group`;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
     return (<li className={className}>
       <div className={titleClassName}>{props.title}</div>
       <ul className={listClassName}>
-        {React.Children.map(props.children, props.renderMenuItem)}
+        {React.Children.map(props.children, this.renderInnerMenuItem)}
       </ul>
     </li>);
-  }
-}
-
-MenuItemGroup.defaultProps = {
-  // skip key down loop
-  disabled: true,
-};
+  },
+});
 
 export default MenuItemGroup;

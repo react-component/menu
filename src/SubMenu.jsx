@@ -1,6 +1,7 @@
 import SubPopupMenu from './SubPopupMenu';
 import React from 'react';
-import {classSet, KeyCode, guid} from 'rc-util';
+import {KeyCode, guid} from 'rc-util';
+import classnames from 'classnames';
 import assign from 'object-assign';
 
 const SubMenu = React.createClass({
@@ -265,7 +266,7 @@ const SubMenu = React.createClass({
       style.paddingLeft = props.inlineIndent * props.level;
     }
     return (
-      <li className={classSet(classes)} {...mouseEvents}>
+      <li className={classnames(classes)} {...mouseEvents}>
         <div
           style={style}
           className={prefixCls + '-title'}

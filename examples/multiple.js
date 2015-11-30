@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
+import Menu, {SubMenu, Item as MenuItem, Divider} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
@@ -13,32 +13,28 @@ function handleDeselect(info) {
   console.log('deselect ', info);
 }
 
-var titleRight = <span>sub menu
+const titleRight = (<span>sub menu
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight1 = <span>sub menu 1
+</span>);
+const titleRight1 = (<span>sub menu 1
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight2 = <span>sub menu 2
+</span>);
+const titleRight2 = (<span>sub menu 2
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight3 = <span>sub menu 3
+</span>);
+const titleRight3 = (<span>sub menu 3
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var container = document.getElementById('__react-content');
-
-render(container);
-
-function save(c) {
-  console.log('getRef')
-  console.log(ReactDOM.findDOMNode(c));
-}
+</span>);
 
 function render(container) {
-  var leftMenu = (
-    <Menu multiple={true} onSelect={handleSelect}
+  function destroy() {
+    ReactDOM.unmountComponentAtNode(container);
+  }
+
+  const leftMenu = (
+    <Menu multiple onSelect={handleSelect}
           onDeselect={handleDeselect}
-          defaultSelectedKeys={['2','1-1']}>
+          defaultSelectedKeys={['2', '1-1']}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>
         <MenuItem key="1-2">0-2</MenuItem>
@@ -69,8 +65,8 @@ function render(container) {
     </p>
     <div style={{width: 400}}>{leftMenu}</div>
   </div>, container);
-
-  function destroy() {
-    ReactDOM.unmountComponentAtNode(container);
-  }
 }
+
+const container = document.getElementById('__react-content');
+
+render(container);

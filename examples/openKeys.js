@@ -1,35 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
+import Menu, {SubMenu, Item as MenuItem} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 
-var Test = React.createClass({
-  getInitialState(){
+const Test = React.createClass({
+  getInitialState() {
     return {
-      openKeys: []
+      openKeys: [],
     };
   },
 
-  onClick(info){
+  onClick(info) {
     console.log('click ', info);
     this.setState({
-      openKeys: info.keyPath.slice(1)
+      openKeys: info.keyPath.slice(1),
     });
   },
 
-  onOpen(info){
+  onOpen(info) {
     console.log('onOpen', info);
     this.setState({
       openKeys: info.openKeys,
     });
   },
 
-  onClose(info){
+  onClose(info) {
     this.onOpen(info);
   },
 
-  getMenu(){
+  getMenu() {
     return (
       <Menu onClick={this.onClick}
             mode="inline"
@@ -50,10 +50,10 @@ var Test = React.createClass({
     );
   },
 
-  render(){
-    return <div>
+  render() {
+    return (<div>
       <div style={{width: 400}}>{this.getMenu()}</div>
-    </div>;
+    </div>);
   },
 });
 

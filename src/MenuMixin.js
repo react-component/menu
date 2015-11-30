@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {classSet, createChainedFunction, KeyCode} from 'rc-util';
+import {createChainedFunction, KeyCode} from 'rc-util';
+import classnames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
 import {getKeyFromChildrenIndex} from './util';
@@ -33,9 +34,14 @@ function getActiveKey(props) {
   return activeKey;
 }
 
-function saveRef(name, c) {
+function saveRef(index, subIndex, c) {
   if (c) {
-    this.instanceArray.push(c);
+    if (subIndex !== undefined) {
+      this.instanceArray[index] = this.instanceArray[index] || [];
+      this.instanceArray[index][subIndex] = c;
+    } else {
+      this.instanceArray[index] = c;
+    }
   }
 }
 
@@ -94,8 +100,8 @@ const MenuMixin = {
   onKeyDown(e) {
     const keyCode = e.keyCode;
     let handled;
-    this.instanceArray.forEach((obj)=> {
-      if (obj.props.active) {
+    this.getFlatInstanceArray().forEach((obj)=> {
+      if (obj && obj.props.active) {
         handled = obj.onKeyDown(e);
       }
     });
@@ -139,8 +145,8 @@ const MenuMixin = {
     }
     // clear last open status
     if (hover && mode !== 'inline') {
-      const activeItem = this.instanceArray.filter((c)=> {
-        return c.props.eventKey === activeKey;
+      const activeItem = this.getFlatInstanceArray().filter((c)=> {
+        return c && c.props.eventKey === activeKey;
       })[0];
       if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
         this.onOpenChange({
@@ -152,7 +158,26 @@ const MenuMixin = {
     }
   },
 
-  renderCommonMenuItem(child, i, extraProps) {
+  getFlatInstanceArray() {
+    let instanceArray = this.instanceArray;
+    var hasInnerArray = instanceArray.some((a)=> {
+      return Array.isArray(a);
+    });
+    if (hasInnerArray) {
+      instanceArray = [];
+      this.instanceArray.forEach((a)=> {
+        if (Array.isArray(a)) {
+          instanceArray.push.apply(instanceArray, a);
+        } else {
+          instanceArray.push(a);
+        }
+      });
+      this.instanceArray = instanceArray;
+    }
+    return instanceArray;
+  },
+
+  renderCommonMenuItem(child, i, subIndex, extraProps) {
     const state = this.state;
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
@@ -163,7 +188,8 @@ const MenuMixin = {
       inlineIndent: props.inlineIndent,
       renderMenuItem: this.renderMenuItem,
       rootPrefixCls: props.prefixCls,
-      ref: createChainedFunction(child.ref, saveRef.bind(this, key)),
+      index: i,
+      ref: childProps.disabled ? undefined : createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
       eventKey: key,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
       onItemHover: this.onItemHover,
@@ -191,7 +217,7 @@ const MenuMixin = {
       [props.className]: !!props.className,
     };
     const domProps = {
-      className: classSet(classes),
+      className: classnames(classes),
       role: 'menu',
       'aria-activedescendant': '',
     };
@@ -217,7 +243,7 @@ const MenuMixin = {
   },
 
   step(direction) {
-    let children = this.instanceArray;
+    let children = this.getFlatInstanceArray();
     const activeKey = this.state.activeKey;
     const len = children.length;
     if (direction < 0) {
@@ -226,7 +252,7 @@ const MenuMixin = {
     // find current activeIndex
     let activeIndex = -1;
     children.every((c, ci)=> {
-      if (c.props.eventKey === activeKey) {
+      if (c && c.props.eventKey === activeKey) {
         activeIndex = ci;
         return false;
       }
@@ -236,7 +262,7 @@ const MenuMixin = {
     let i = start;
     for (; ;) {
       const child = children[i];
-      if (child.props.disabled) {
+      if (!child || child.props.disabled) {
         i = (i + 1 + len) % len;
         // complete a loop
         if (i === start) {

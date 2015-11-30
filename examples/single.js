@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
+import Menu, {SubMenu, Item as MenuItem, Divider} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
@@ -13,24 +13,25 @@ function handleClick(info) {
   console.log('click ', info);
 }
 
-var titleRight = <span>sub menu
+const titleRight = (<span>sub menu
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight1 = <span>sub menu 1
+</span>);
+const titleRight1 = (<span>sub menu 1
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight2 = <span>sub menu 2
+</span>);
+const titleRight2 = (<span>sub menu 2
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var titleRight3 = <span>sub menu 3
+</span>);
+const titleRight3 = (<span>sub menu 3
   <i className="fa fa-caret-right pull-right"></i>
-</span>;
-var container = document.getElementById('__react-content');
-
-render(container);
+</span>);
 
 function render(container) {
-  var leftMenu = (
+  function destroy() {
+    ReactDOM.unmountComponentAtNode(container);
+  }
+
+  const leftMenu = (
     <Menu onSelect={handleSelect}
           onClick={handleClick}>
       <SubMenu title={titleRight} key="1">
@@ -67,9 +68,8 @@ function render(container) {
     </p>
     <div style={{width: 400}}>{leftMenu}</div>
   </div>, container);
-
-
-  function destroy() {
-    ReactDOM.unmountComponentAtNode(container);
-  }
 }
+
+const container = document.getElementById('__react-content');
+
+render(container);

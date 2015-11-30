@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {SubMenu, Item as MenuItem, ItemGroup as MenuItemGroup, Divider} from 'rc-menu';
+import Menu, {Item as MenuItem, ItemGroup as MenuItemGroup} from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 

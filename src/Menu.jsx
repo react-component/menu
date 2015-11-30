@@ -87,8 +87,8 @@ const Menu = React.createClass({
     // special for top sub menu
     if (this.props.mode !== 'inline' && !this.props.closeSubMenuOnMouseLeave && item.isSubMenu) {
       const activeKey = this.state.activeKey;
-      const activeItem = this.instanceArray.filter((c)=> {
-        return c.props.eventKey === activeKey;
+      const activeItem = this.getFlatInstanceArray().filter((c)=> {
+        return c && c.props.eventKey === activeKey;
       })[0];
       if (activeItem && activeItem.props.open) {
         this.onOpenChange({
@@ -198,14 +198,14 @@ const Menu = React.createClass({
   lastOpenSubMenu() {
     let lastOpen = [];
     if (this.state.openKeys.length) {
-      lastOpen = this.instanceArray.filter((c)=> {
-        return this.state.openKeys.indexOf(c.props.eventKey) !== -1;
+      lastOpen = this.getFlatInstanceArray().filter((c)=> {
+        return c && this.state.openKeys.indexOf(c.props.eventKey) !== -1;
       });
     }
     return lastOpen[0];
   },
 
-  renderMenuItem(c, i) {
+  renderMenuItem(c, i, subIndex) {
     const key = getKeyFromChildrenIndex(c, this.props.eventKey, i);
     const state = this.state;
     const extraProps = {
@@ -215,7 +215,7 @@ const Menu = React.createClass({
       selected: state.selectedKeys.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: this.props.openSubMenuOnMouseEnter,
     };
-    return this.renderCommonMenuItem(c, i, extraProps);
+    return this.renderCommonMenuItem(c, i, subIndex, extraProps);
   },
 
   render() {
