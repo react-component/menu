@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 
 const MenuItemGroup = React.createClass({
+  propTypes: {
+    renderMenuItem: PropTypes.func,
+    index: PropTypes.number,
+  },
+
   getDefaultProps() {
     return {
       disabled: true,

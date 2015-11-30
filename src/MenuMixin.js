@@ -160,7 +160,7 @@ const MenuMixin = {
 
   getFlatInstanceArray() {
     let instanceArray = this.instanceArray;
-    var hasInnerArray = instanceArray.some((a)=> {
+    const hasInnerArray = instanceArray.some((a)=> {
       return Array.isArray(a);
     });
     if (hasInnerArray) {

@@ -90,7 +90,7 @@ class MenuItem extends React.Component {
     classes[this.getSelectedClassName()] = props.selected;
     classes[this.getDisabledClassName()] = props.disabled;
     classes[this.getPrefixCls()] = true;
-    classes[props.className]=!!props.className;
+    classes[props.className] = !!props.className;
     const attrs = {
       title: props.title,
       className: classnames(classes),
