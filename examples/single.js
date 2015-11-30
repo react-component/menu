@@ -3,19 +3,19 @@ webpackJsonp([6],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(204);
+	module.exports = __webpack_require__(214);
 
 
 /***/ },
 
-/***/ 200:
+/***/ 210:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 204:
+/***/ 214:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34,9 +34,9 @@ webpackJsonp([6],{
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(197);
+	__webpack_require__(207);
 	
-	__webpack_require__(200);
+	__webpack_require__(210);
 	
 	function handleSelect(info) {
 	  console.log('selected ', info);
@@ -70,11 +70,12 @@ webpackJsonp([6],{
 	  'sub menu 3',
 	  _react2['default'].createElement('i', { className: 'fa fa-caret-right pull-right' })
 	);
-	var container = document.getElementById('__react-content');
-	
-	render(container);
 	
 	function render(container) {
+	  function destroy() {
+	    _reactDom2['default'].unmountComponentAtNode(container);
+	  }
+	
 	  var leftMenu = _react2['default'].createElement(
 	    _rcMenu2['default'],
 	    { onSelect: handleSelect,
@@ -181,11 +182,11 @@ webpackJsonp([6],{
 	      leftMenu
 	    )
 	  ), container);
-	
-	  function destroy() {
-	    _reactDom2['default'].unmountComponentAtNode(container);
-	  }
 	}
+	
+	var container = document.getElementById('__react-content');
+	
+	render(container);
 
 /***/ }
 

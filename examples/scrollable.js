@@ -3,19 +3,19 @@ webpackJsonp([4],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(202);
+	module.exports = __webpack_require__(212);
 
 
 /***/ },
 
-/***/ 200:
+/***/ 210:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 202:
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34,18 +34,24 @@ webpackJsonp([4],{
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(197);
+	__webpack_require__(207);
 	
-	__webpack_require__(200);
+	__webpack_require__(210);
 	
 	var children = [];
 	for (var i = 0; i < 20; i++) {
 	  children.push(_react2['default'].createElement(
 	    _rcMenu.Item,
-	    { key: i + "" },
+	    { key: i + '' },
 	    i
 	  ));
 	}
+	
+	var menuStyle = {
+	  width: 200,
+	  height: 200,
+	  overflow: 'auto'
+	};
 	_reactDom2['default'].render(_react2['default'].createElement(
 	  'div',
 	  null,
@@ -56,11 +62,7 @@ webpackJsonp([4],{
 	  ),
 	  _react2['default'].createElement(
 	    _rcMenu2['default'],
-	    { style: {
-	        width: 200,
-	        height: 200,
-	        overflow: 'auto'
-	      } },
+	    { style: menuStyle },
 	    children
 	  )
 	), document.getElementById('__react-content'));

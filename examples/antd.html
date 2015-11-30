@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>antd.js - example - rc-menu@4.8.1</title>
+  <title>antd.js - example - rc-menu@4.8.2</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,29 +257,29 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>rc-menu@4.8.1</h1>
+    <h1>rc-menu@4.8.2</h1>
 
     <p>menu ui component for react</p>
   </div>
   <div class="example" id="__react-content"></div>
   <script src="common.js?nowrap"></script>
   <script src="antd.js?nowrap"></script>
-  <div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> Menu, {SubMenu, Item <span class="hljs-keyword">as</span> MenuItem, ItemGroup <span class="hljs-keyword">as</span> MenuItemGroup, Divider} <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-menu'</span>;
-<span class="hljs-keyword">import</span> velocity <span class="hljs-keyword">from</span> <span class="hljs-string">'velocity-animate'</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-string">'rc-menu/assets/index.css'</span>;
+  <div class="highlight"><pre><code language="js">import React from <span class="hljs-string">'react'</span>;
+import ReactDOM from <span class="hljs-string">'react-dom'</span>;
+import Menu, {SubMenu, Item as MenuItem, Divider} from <span class="hljs-string">'rc-menu'</span>;
+import velocity from <span class="hljs-string">'velocity-animate'</span>;
+import <span class="hljs-string">'rc-menu/assets/index.css'</span>;
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleSelect</span>(<span class="hljs-params">info</span>) </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleSelect</span><span class="hljs-params">(info)</span> </span>{
   <span class="hljs-built_in">console</span>.log(info);
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'selected '</span> + info.key);
 }
 
 <span class="hljs-keyword">const</span> animation = {
-  enter(node, done){
-    <span class="hljs-keyword">var</span> ok = <span class="hljs-literal">false</span>;
+  enter(node, done) {
+    <span class="hljs-keyword">let</span> ok = <span class="hljs-literal">false</span>;
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complete</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complete</span><span class="hljs-params">()</span> </span>{
       <span class="hljs-keyword">if</span> (!ok) {
         ok = <span class="hljs-number">1</span>;
         done();
@@ -290,14 +290,14 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
     velocity(node, <span class="hljs-string">'slideDown'</span>, {
       duration: <span class="hljs-number">300</span>,
-      complete: complete
+      complete: complete,
     });
     <span class="hljs-keyword">return</span> {
-      stop: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      stop() {
         velocity(node, <span class="hljs-string">'finish'</span>);
         <span class="hljs-comment">// velocity complete is async</span>
         complete();
-      }
+      },
     };
   },
 
@@ -305,10 +305,10 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.enter.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
   },
 
-  leave(node, done){
-    <span class="hljs-keyword">var</span> ok = <span class="hljs-literal">false</span>;
+  leave(node, done) {
+    <span class="hljs-keyword">let</span> ok = <span class="hljs-literal">false</span>;
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complete</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complete</span><span class="hljs-params">()</span> </span>{
       <span class="hljs-keyword">if</span> (!ok) {
         ok = <span class="hljs-number">1</span>;
         done();
@@ -318,21 +318,21 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     node.style.display = <span class="hljs-string">'block'</span>;
     velocity(node, <span class="hljs-string">'slideUp'</span>, {
       duration: <span class="hljs-number">300</span>,
-      complete: complete
+      complete: complete,
     });
     <span class="hljs-keyword">return</span> {
-      stop: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      stop() {
         velocity(node, <span class="hljs-string">'finish'</span>);
         <span class="hljs-comment">// velocity complete is async</span>
         complete();
-      }
+      },
     };
   },
 };
 
-<span class="hljs-keyword">var</span> container = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'__react-content'</span>);
+<span class="hljs-keyword">const</span> reactContainer = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'__react-content'</span>);
 
-<span class="hljs-keyword">var</span> nestSubMenu = <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu 2<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="4"&gt;
+<span class="hljs-keyword">const</span> nestSubMenu = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu 2<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="4"&gt;
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">Menu.Divider</span>/&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
@@ -352,9 +352,9 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
       <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>);
 
-<span class="hljs-keyword">var</span> commonMenu = <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span>&gt;</span>
+const commonMenu = (<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="1"&gt;
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
@@ -364,9 +364,9 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"5"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>);
 
-<span class="hljs-keyword">var</span> subMenus = <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span>&gt;</span>
+const subMenus = (<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{handleSelect}</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="1"&gt;
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
@@ -376,86 +376,89 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2-2"</span>&gt;</span>2-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
   {nestSubMenu}
-<span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>);
 
-render(container);
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params">container</span>) </span>{
-  <span class="hljs-keyword">var</span> horizontalMenu = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'horizontal'</span>,
-    <span class="hljs-comment">// use openTransition for antd</span>
-    openAnimation: <span class="hljs-string">'slide-up'</span>,
+function render(container) {
+  const horizontalMenu = React.cloneElement(commonMenu, {
+    mode: 'horizontal',
+    // use openTransition for antd
+    openAnimation: 'slide-up',
   });
 
-  <span class="hljs-keyword">var</span> horizontalMenu2 = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'horizontal'</span>,
-    openAnimation: <span class="hljs-string">'slide-up'</span>,
-    closeSubMenuOnMouseLeave: <span class="hljs-literal">false</span>
+  const horizontalMenu2 = React.cloneElement(commonMenu, {
+    mode: 'horizontal',
+    openAnimation: 'slide-up',
+    closeSubMenuOnMouseLeave: false,
   });
 
-  <span class="hljs-keyword">var</span> verticalMenu = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'vertical'</span>,
-    openAnimation: <span class="hljs-string">'zoom'</span>,
+  const verticalMenu = React.cloneElement(commonMenu, {
+    mode: 'vertical',
+    openAnimation: 'zoom',
   });
 
-  <span class="hljs-keyword">var</span> inlineMenu = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'inline'</span>,
-    defaultOpenKeys: [<span class="hljs-string">'1'</span>],
-    openAnimation: animation
+  const inlineMenu = React.cloneElement(commonMenu, {
+    mode: 'inline',
+    defaultOpenKeys: ['1'],
+    openAnimation: animation,
   });
 
-  <span class="hljs-keyword">const</span> ClickToHideMenu = React.createClass({
-    getInitialState(){
-      <span class="hljs-keyword">return</span> {
-        openKeys: []
+  const ClickToHideMenu = React.createClass({
+    getInitialState() {
+      return {
+        openKeys: [],
       };
     },
-    render(){
-      <span class="hljs-keyword">return</span> React.cloneElement(subMenus, {
-        onOpen: <span class="hljs-keyword">this</span>.syncOpenKeys,
-        onClose: <span class="hljs-keyword">this</span>.syncOpenKeys,
-        openKeys: <span class="hljs-keyword">this</span>.state.openKeys,
-        onClick: <span class="hljs-keyword">this</span>.emptyOpenKeys,
-        mode: <span class="hljs-string">'horizontal'</span>,
-        openAnimation: <span class="hljs-string">'slide-up'</span>,
-        openSubMenuOnMouseEnter: <span class="hljs-literal">false</span>,
-        closeSubMenuOnMouseLeave: <span class="hljs-literal">false</span>
+
+    emptyOpenKeys() {
+      this.setState({
+        openKeys: [],
       });
     },
-    emptyOpenKeys(){
-      <span class="hljs-keyword">this</span>.setState({
-        openKeys: []
+
+    syncOpenKeys(e) {
+      this.setState({
+        openKeys: e.openKeys,
       });
     },
-    syncOpenKeys(e){
-      <span class="hljs-keyword">this</span>.setState({
-        openKeys: e.openKeys
+
+    render() {
+      return React.cloneElement(subMenus, {
+        onOpen: this.syncOpenKeys,
+        onClose: this.syncOpenKeys,
+        openKeys: this.state.openKeys,
+        onClick: this.emptyOpenKeys,
+        mode: 'horizontal',
+        openAnimation: 'slide-up',
+        openSubMenuOnMouseEnter: false,
+        closeSubMenuOnMouseLeave: false,
       });
-    }
+    },
   });
 
-  ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:20}}</span>&gt;</span>
+  ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:</span> <span class="hljs-attribute">20</span>}}&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>antd menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
 
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>horizontal<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:20,width:</span> <span class="hljs-attribute">800</span>,}}&gt;</span>{horizontalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">800</span>}}&gt;</span>{horizontalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>horizontal keep open<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:20,width:</span> <span class="hljs-attribute">800</span>,}}&gt;</span>{horizontalMenu2}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">800</span>}}&gt;</span>{horizontalMenu2}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>horizontal and click<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:20,width:</span> <span class="hljs-attribute">800</span>,}}&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">ClickToHideMenu</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">800</span>}}&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">ClickToHideMenu</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>vertical<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:20,width:</span> <span class="hljs-attribute">200</span>,}}&gt;</span>{verticalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">200</span>}}&gt;</span>{verticalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>inline<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:20,width:</span> <span class="hljs-attribute">400</span>,}}&gt;</span>{inlineMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">400</span>}}&gt;</span>{inlineMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, container);
 }
+
+render(reactContainer);
 </span></code></pre></div>
 </div>
 <a href="http://github.com/react-component/menu">

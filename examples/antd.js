@@ -27,11 +27,11 @@ webpackJsonp([0],{
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	var _velocityAnimate = __webpack_require__(196);
+	var _velocityAnimate = __webpack_require__(206);
 	
 	var _velocityAnimate2 = _interopRequireDefault(_velocityAnimate);
 	
-	__webpack_require__(197);
+	__webpack_require__(207);
 	
 	function handleSelect(info) {
 	  console.log(info);
@@ -93,7 +93,7 @@ webpackJsonp([0],{
 	  }
 	};
 	
-	var container = document.getElementById('__react-content');
+	var reactContainer = document.getElementById('__react-content');
 	
 	var nestSubMenu = _react2['default'].createElement(
 	  _rcMenu.SubMenu,
@@ -257,8 +257,6 @@ webpackJsonp([0],{
 	  nestSubMenu
 	);
 	
-	render(container);
-	
 	function render(container) {
 	  var horizontalMenu = _react2['default'].cloneElement(commonMenu, {
 	    mode: 'horizontal',
@@ -291,6 +289,19 @@ webpackJsonp([0],{
 	        openKeys: []
 	      };
 	    },
+	
+	    emptyOpenKeys: function emptyOpenKeys() {
+	      this.setState({
+	        openKeys: []
+	      });
+	    },
+	
+	    syncOpenKeys: function syncOpenKeys(e) {
+	      this.setState({
+	        openKeys: e.openKeys
+	      });
+	    },
+	
 	    render: function render() {
 	      return _react2['default'].cloneElement(subMenus, {
 	        onOpen: this.syncOpenKeys,
@@ -301,16 +312,6 @@ webpackJsonp([0],{
 	        openAnimation: 'slide-up',
 	        openSubMenuOnMouseEnter: false,
 	        closeSubMenuOnMouseLeave: false
-	      });
-	    },
-	    emptyOpenKeys: function emptyOpenKeys() {
-	      this.setState({
-	        openKeys: []
-	      });
-	    },
-	    syncOpenKeys: function syncOpenKeys(e) {
-	      this.setState({
-	        openKeys: e.openKeys
 	      });
 	    }
 	  });
@@ -379,10 +380,12 @@ webpackJsonp([0],{
 	    )
 	  ), container);
 	}
+	
+	render(reactContainer);
 
 /***/ },
 
-/***/ 196:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! VelocityJS.org (1.2.3). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */

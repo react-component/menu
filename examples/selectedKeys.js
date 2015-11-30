@@ -3,19 +3,19 @@ webpackJsonp([5],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(203);
+	module.exports = __webpack_require__(213);
 
 
 /***/ },
 
-/***/ 200:
+/***/ 210:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 203:
+/***/ 213:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34,9 +34,9 @@ webpackJsonp([5],{
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(197);
+	__webpack_require__(207);
 	
-	__webpack_require__(200);
+	__webpack_require__(210);
 	
 	var Test = _react2['default'].createClass({
 	  displayName: 'Test',
@@ -72,6 +72,42 @@ webpackJsonp([5],{
 	    this.setState({
 	      openKeys: info.openKeys
 	    });
+	  },
+	
+	  onCheck: function onCheck(e) {
+	    var value = e.target.value;
+	    if (e.target.checked) {
+	      this.setState({
+	        selectedKeys: this.state.selectedKeys.concat(value)
+	      });
+	    } else {
+	      var selectedKeys = this.state.selectedKeys.concat();
+	      var index = selectedKeys.indexOf(value);
+	      if (value !== -1) {
+	        selectedKeys.splice(index, 1);
+	      }
+	      this.setState({
+	        selectedKeys: selectedKeys
+	      });
+	    }
+	  },
+	
+	  onOpenCheck: function onOpenCheck(e) {
+	    var value = e.target.value;
+	    if (e.target.checked) {
+	      this.setState({
+	        openKeys: this.state.openKeys.concat(value)
+	      });
+	    } else {
+	      var openKeys = this.state.openKeys.concat();
+	      var index = openKeys.indexOf(value);
+	      if (value !== -1) {
+	        openKeys.splice(index, 1);
+	      }
+	      this.setState({
+	        openKeys: openKeys
+	      });
+	    }
 	  },
 	
 	  getMenu: function getMenu() {
@@ -120,40 +156,10 @@ webpackJsonp([5],{
 	    );
 	  },
 	
-	  onCheck: function onCheck(e) {
-	    var value = e.target.value;
-	    if (e.target.checked) {
-	      this.setState({
-	        selectedKeys: this.state.selectedKeys.concat(value)
-	      });
-	    } else {
-	      var selectedKeys = this.state.selectedKeys.concat();
-	      var index = selectedKeys.indexOf(value);
-	      if (value !== -1) {
-	        selectedKeys.splice(index, 1);
-	      }
-	      this.setState({
-	        selectedKeys: selectedKeys
-	      });
-	    }
-	  },
-	
-	  onOpenCheck: function onOpenCheck(e) {
-	    var value = e.target.value;
-	    if (e.target.checked) {
-	      this.setState({
-	        openKeys: this.state.openKeys.concat(value)
-	      });
-	    } else {
-	      var openKeys = this.state.openKeys.concat();
-	      var index = openKeys.indexOf(value);
-	      if (value !== -1) {
-	        openKeys.splice(index, 1);
-	      }
-	      this.setState({
-	        openKeys: openKeys
-	      });
-	    }
+	  destroy: function destroy() {
+	    this.setState({
+	      destroyed: true
+	    });
 	  },
 	
 	  render: function render() {
@@ -162,8 +168,8 @@ webpackJsonp([5],{
 	    if (this.state.destroyed) {
 	      return null;
 	    }
-	    var allSelectedKeys = ["1-1", "1-2", "2-1", "2-2", "3"];
-	    var allOpenKeys = ["1", "2"];
+	    var allSelectedKeys = ['1-1', '1-2', '2-1', '2-2', '3'];
+	    var allOpenKeys = ['1', '2'];
 	    var selectedKeys = this.state.selectedKeys;
 	    var openKeys = this.state.openKeys;
 	
@@ -211,12 +217,6 @@ webpackJsonp([5],{
 	        this.getMenu()
 	      )
 	    );
-	  },
-	
-	  destroy: function destroy() {
-	    this.setState({
-	      destroyed: true
-	    });
 	  }
 	});
 	
