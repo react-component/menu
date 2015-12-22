@@ -33,6 +33,7 @@ function render(container) {
 
   const leftMenu = (
     <Menu onSelect={handleSelect}
+          defaultActiveFirst
           onClick={handleClick}>
       <SubMenu title={titleRight} key="1">
         <MenuItem key="1-1">0-1</MenuItem>

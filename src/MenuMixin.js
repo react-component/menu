@@ -7,8 +7,8 @@ import assign from 'object-assign';
 import {getKeyFromChildrenIndex} from './util';
 import DOMWrap from './DOMWrap';
 
-function getActiveKey(props) {
-  let activeKey = props.activeKey;
+function getActiveKey(props, originalActiveKey) {
+  let activeKey = originalActiveKey;
   const children = props.children;
   const eventKey = props.eventKey;
   if (activeKey) {
@@ -76,16 +76,29 @@ const MenuMixin = {
   getInitialState() {
     const props = this.props;
     return {
-      activeKey: getActiveKey(props),
+      activeKey: getActiveKey(props, props.activeKey),
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    const props = {};
-    if ('activeKey' in nextProps) {
-      props.activeKey = getActiveKey(nextProps);
+    let props;
+    if (nextProps.activeKey) {
+      props = {
+        activeKey: getActiveKey(nextProps, nextProps.activeKey),
+      };
+    } else {
+      const originalActiveKey = this.state.activeKey;
+      const activeKey = getActiveKey(nextProps, originalActiveKey);
+      // fix: this.setState(), parent.render(),
+      if (activeKey !== originalActiveKey) {
+        props = {
+          activeKey,
+        };
+      }
     }
-    this.setState(props);
+    if (props) {
+      this.setState(props);
+    }
   },
 
   shouldComponentUpdate(nextProps) {
@@ -189,6 +202,7 @@ const MenuMixin = {
       renderMenuItem: this.renderMenuItem,
       rootPrefixCls: props.prefixCls,
       index: i,
+      parentMenu: this,
       ref: childProps.disabled ? undefined : createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
       eventKey: key,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,

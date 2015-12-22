@@ -2,20 +2,37 @@ import React from 'react';
 import {KeyCode} from 'rc-util';
 import classnames from 'classnames';
 
-class MenuItem extends React.Component {
-  constructor(props) {
-    super(props);
-    ['onKeyDown', 'onMouseLeave', 'onMouseEnter', 'onClick'].forEach((m)=> {
-      this[m] = this[m].bind(this);
-    });
-  }
+const MenuItem = React.createClass({
+  propTypes: {
+    rootPrefixCls: React.PropTypes.string,
+    eventKey: React.PropTypes.string,
+    active: React.PropTypes.bool,
+    selected: React.PropTypes.bool,
+    disabled: React.PropTypes.bool,
+    title: React.PropTypes.string,
+    onSelect: React.PropTypes.func,
+    onClick: React.PropTypes.func,
+    onDeselect: React.PropTypes.func,
+    parentMenu: React.PropTypes.object,
+    onItemHover: React.PropTypes.func,
+    onDestroy: React.PropTypes.func,
+  },
+
+  getDefaultProps() {
+    return {
+      onSelect() {
+      },
+      onMouseEnter() {
+      },
+    };
+  },
 
   componentWillUnmount() {
     const props = this.props;
     if (props.onDestroy) {
       props.onDestroy(props.eventKey);
     }
-  }
+  },
 
   onKeyDown(e) {
     const keyCode = e.keyCode;
@@ -23,20 +40,30 @@ class MenuItem extends React.Component {
       this.onClick(e);
       return true;
     }
-  }
+  },
 
   onMouseLeave() {
     const eventKey = this.props.eventKey;
-    this.props.onItemHover({
-      key: eventKey,
-      item: this,
-      hover: false,
-      trigger: 'mouseleave',
-    });
-  }
+    const parentMenu = this.props.parentMenu;
+    parentMenu.menuItemMouseLeaveTimer = setTimeout(()=> {
+      if (this.isMounted() && this.props.active) {
+        this.props.onItemHover({
+          key: eventKey,
+          item: this,
+          hover: false,
+          trigger: 'mouseleave',
+        });
+      }
+    }, 30);
+  },
 
   onMouseEnter() {
     const props = this.props;
+    const parentMenu = this.props.parentMenu;
+    if (parentMenu.menuItemMouseLeaveTimer) {
+      clearTimeout(parentMenu.menuItemMouseLeaveTimer);
+      parentMenu.menuItemMouseLeaveTimer = null;
+    }
     const eventKey = props.eventKey;
     props.onItemHover({
       key: eventKey,
@@ -44,7 +71,7 @@ class MenuItem extends React.Component {
       hover: true,
       trigger: 'mouseenter',
     });
-  }
+  },
 
   onClick(e) {
     const props = this.props;
@@ -65,23 +92,23 @@ class MenuItem extends React.Component {
     } else if (!props.selected) {
       props.onSelect(info);
     }
-  }
+  },
 
   getPrefixCls() {
     return this.props.rootPrefixCls + '-item';
-  }
+  },
 
   getActiveClassName() {
     return this.getPrefixCls() + '-active';
-  }
+  },
 
   getSelectedClassName() {
     return this.getPrefixCls() + '-selected';
-  }
+  },
 
   getDisabledClassName() {
     return this.getPrefixCls() + '-disabled';
-  }
+  },
 
   render() {
     const props = this.props;
@@ -117,28 +144,7 @@ class MenuItem extends React.Component {
         {props.children}
       </li>
     );
-  }
-}
-
-MenuItem.propTypes = {
-  rootPrefixCls: React.PropTypes.string,
-  eventKey: React.PropTypes.string,
-  active: React.PropTypes.bool,
-  selected: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  title: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-  onClick: React.PropTypes.func,
-  onDeselect: React.PropTypes.func,
-  onItemHover: React.PropTypes.func,
-  onDestroy: React.PropTypes.func,
-};
-
-MenuItem.defaultProps = {
-  onSelect() {
   },
-  onMouseEnter() {
-  },
-};
+});
 
 export default MenuItem;

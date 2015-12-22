@@ -6,6 +6,7 @@ import assign from 'object-assign';
 
 const SubMenu = React.createClass({
   propTypes: {
+    parentMenu: React.PropTypes.object,
     title: React.PropTypes.node,
     onClick: React.PropTypes.func,
     onOpenChange: React.PropTypes.func,
@@ -109,6 +110,11 @@ const SubMenu = React.createClass({
       this.leaveTimer = null;
     }
     const props = this.props;
+    const parentMenu = props.parentMenu;
+    if (parentMenu.menuItemMouseLeaveTimer) {
+      clearTimeout(parentMenu.menuItemMouseLeaveTimer);
+      parentMenu.menuItemMouseLeaveTimer = null;
+    }
     props.onItemHover({
       key: this.props.eventKey,
       item: this,
@@ -275,7 +281,7 @@ const SubMenu = React.createClass({
           aria-open={props.open}
           aria-owns={this._menuId}
           aria-haspopup="true"
-          >
+        >
           {props.title}
         </div>
         {this.renderChildren(props.children)}
