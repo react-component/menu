@@ -79,6 +79,7 @@ webpackJsonp([6],{
 	  var leftMenu = _react2['default'].createElement(
 	    _rcMenu2['default'],
 	    { onSelect: handleSelect,
+	      defaultActiveFirst: true,
 	      onClick: handleClick },
 	    _react2['default'].createElement(
 	      _rcMenu.SubMenu,

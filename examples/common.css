@@ -148,7 +148,6 @@
   -webkit-animation-fill-mode: both;
           animation-fill-mode: both;
   -webkit-transform-origin: 0 0;
-      -ms-transform-origin: 0 0;
           transform-origin: 0 0;
   opacity: 0;
   -webkit-animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
@@ -162,7 +161,6 @@
   -webkit-animation-fill-mode: both;
           animation-fill-mode: both;
   -webkit-transform-origin: 0 0;
-      -ms-transform-origin: 0 0;
           transform-origin: 0 0;
   opacity: 1;
   -webkit-animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
@@ -255,7 +253,6 @@
   -webkit-animation-fill-mode: both;
           animation-fill-mode: both;
   -webkit-transform-origin: 0 0;
-      -ms-transform-origin: 0 0;
           transform-origin: 0 0;
   -webkit-animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
           animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
@@ -268,7 +265,6 @@
   -webkit-animation-fill-mode: both;
           animation-fill-mode: both;
   -webkit-transform-origin: 0 0;
-      -ms-transform-origin: 0 0;
           transform-origin: 0 0;
   -webkit-animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
           animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
