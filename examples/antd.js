@@ -88,7 +88,10 @@ const nestSubMenu = (<SubMenu title={<span>sub menu 2</span>} key="4">
   </SubMenu>
 </SubMenu>);
 
-const commonMenu = (<Menu onSelect={handleSelect}>
+function log(value) {
+  console.log(value);
+}
+const commonMenu = (<Menu onSelect={handleSelect} onOpen={log}>
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
