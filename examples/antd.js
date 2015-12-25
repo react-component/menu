@@ -171,9 +171,12 @@ webpackJsonp([0],{
 	  )
 	);
 	
+	function log(value) {
+	  console.log(value);
+	}
 	var commonMenu = _react2['default'].createElement(
 	  _rcMenu2['default'],
-	  { onSelect: handleSelect },
+	  { onSelect: handleSelect, onOpen: log },
 	  _react2['default'].createElement(
 	    _rcMenu.SubMenu,
 	    { title: _react2['default'].createElement(

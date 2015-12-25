@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		7:0
+/******/ 		8:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"menuItemGroup","2":"multiple","3":"openKeys","4":"scrollable","5":"selectedKeys","6":"single"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"keyPath","2":"menuItemGroup","3":"multiple","4":"openKeys","5":"scrollable","6":"selectedKeys","7":"single"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -23137,7 +23137,7 @@
 	  },
 	
 	  onOpenChange: function onOpenChange(e) {
-	    this.props.onOpenChange(e);
+	    this.props.onOpenChange(this.addKeyPath(e));
 	  },
 	
 	  onMouseEnter: function onMouseEnter() {
@@ -23232,7 +23232,7 @@
 	
 	  addKeyPath: function addKeyPath(info) {
 	    return (0, _objectAssign2['default'])({}, info, {
-	      keyPath: info.keyPath.concat(this.props.eventKey)
+	      keyPath: (info.keyPath || []).concat(this.props.eventKey)
 	    });
 	  },
 	

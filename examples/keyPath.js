@@ -1,14 +1,14 @@
-webpackJsonp([4],{
+webpackJsonp([1],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(212);
+	module.exports = __webpack_require__(208);
 
 
 /***/ },
 
-/***/ 212:
+/***/ 208:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48,7 +48,7 @@ webpackJsonp([4],{
 	  onOpen: function onOpen(info) {
 	    console.log('onOpen', info);
 	    this.setState({
-	      openKeys: info.openKeys
+	      openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
 	    });
 	  },
 	
@@ -91,6 +91,20 @@ webpackJsonp([4],{
 	          _rcMenu.Item,
 	          { key: '2-2' },
 	          'item2-2'
+	        ),
+	        _react2['default'].createElement(
+	          _rcMenu.SubMenu,
+	          { key: '2-3', title: 'submenu2-3' },
+	          _react2['default'].createElement(
+	            _rcMenu.Item,
+	            { key: '2-3-1' },
+	            'item2-3-1'
+	          ),
+	          _react2['default'].createElement(
+	            _rcMenu.Item,
+	            { key: '2-3-2' },
+	            'item2-3-2'
+	          )
 	        )
 	      ),
 	      _react2['default'].createElement(
@@ -119,4 +133,4 @@ webpackJsonp([4],{
 /***/ }
 
 });
-//# sourceMappingURL=openKeys.js.map
+//# sourceMappingURL=keyPath.js.map
