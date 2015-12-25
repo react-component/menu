@@ -101,7 +101,7 @@ const SubMenu = React.createClass({
   },
 
   onOpenChange(e) {
-    this.props.onOpenChange(e);
+    this.props.onOpenChange(this.addKeyPath(e));
   },
 
   onMouseEnter() {
@@ -194,7 +194,7 @@ const SubMenu = React.createClass({
 
   addKeyPath(info) {
     return assign({}, info, {
-      keyPath: info.keyPath.concat(this.props.eventKey),
+      keyPath: (info.keyPath || []).concat(this.props.eventKey),
     });
   },
 
