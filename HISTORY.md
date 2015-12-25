@@ -1,6 +1,9 @@
 # History
 ----
 
+## 4.9.0 / 2015-12-25
+- add keyPath to onOpen/onClose argument info
+
 ## 4.6.0 / 2015-09-16
 - add keyPath to onClick argument info
 
