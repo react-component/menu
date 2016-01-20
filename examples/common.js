@@ -20165,8 +20165,10 @@
 	    if (handled) {
 	      return 1;
 	    }
-	    var activeItem = undefined;
-	    activeItem = this.step(keyCode === _rcUtil.KeyCode.UP ? -1 : 1);
+	    var activeItem = null;
+	    if (keyCode === _rcUtil.KeyCode.UP || keyCode === _rcUtil.KeyCode.DOWN) {
+	      activeItem = this.step(keyCode === _rcUtil.KeyCode.UP ? -1 : 1);
+	    }
 	    if (activeItem) {
 	      e.preventDefault();
 	      this.setState({
