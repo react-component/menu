@@ -128,8 +128,10 @@ const MenuMixin = {
     if (handled) {
       return 1;
     }
-    let activeItem;
-    activeItem = this.step(keyCode === KeyCode.UP ? -1 : 1);
+    let activeItem = null;
+    if (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN) {
+      activeItem = this.step(keyCode === KeyCode.UP ? -1 : 1);
+    }
     if (activeItem) {
       e.preventDefault();
       this.setState({
