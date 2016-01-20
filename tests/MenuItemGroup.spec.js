@@ -1,13 +1,9 @@
-const expect = require('expect.js');
-const React = require('react');
-const ReactDOM = require('react-dom');
-const TestUtils = require('react-addons-test-utils');
-const Simulate = TestUtils.Simulate;
-const KeyCode = require('rc-util').KeyCode;
-const Menu = require('../');
-const MenuItem = Menu.Item;
-const MenuItemGroup = Menu.ItemGroup;
-const scryRenderedDOMComponentsWithClass = TestUtils.scryRenderedDOMComponentsWithClass;
+import expect from 'expect.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Simulate, scryRenderedDOMComponentsWithClass} from 'react-addons-test-utils';
+import Menu, {MenuItem, MenuItemGroup} from 'rc-menu';
+import {KeyCode} from 'rc-util';
 
 describe('MenuItemGroup', () => {
   const div = document.createElement('div');
@@ -91,6 +87,6 @@ describe('MenuItemGroup', () => {
     Simulate.keyDown(menuNode, {
       keyCode: KeyCode.DOWN,
     });
-    expectActive('1');
+    expectActive('none');
   });
 });

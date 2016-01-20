@@ -7,6 +7,13 @@ import assign from 'object-assign';
 import {getKeyFromChildrenIndex} from './util';
 import DOMWrap from './DOMWrap';
 
+function allDisabled(arr) {
+  if (!arr.length) {
+    return true;
+  }
+  return arr.every(c => !!c.props.disabled);
+}
+
 function getActiveKey(props, originalActiveKey) {
   let activeKey = originalActiveKey;
   const children = props.children;
@@ -122,15 +129,7 @@ const MenuMixin = {
       return 1;
     }
     let activeItem;
-    switch (keyCode) {
-    case KeyCode.UP:
-      activeItem = this.step(-1);
-      break;
-    case KeyCode.DOWN:
-      activeItem = this.step(1);
-      break;
-    default:
-    }
+    activeItem = this.step(keyCode === KeyCode.UP ? -1 : 1);
     if (activeItem) {
       e.preventDefault();
       this.setState({
@@ -139,6 +138,12 @@ const MenuMixin = {
         scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
           onlyScrollIfNeeded: true,
         });
+      });
+      return 1;
+    } else if (activeItem === undefined) {
+      e.preventDefault();
+      this.setState({
+        activeKey: null,
       });
       return 1;
     }
@@ -272,6 +277,11 @@ const MenuMixin = {
       }
       return true;
     });
+    if (!this.props.defaultActiveFirst && activeIndex !== -1) {
+      if (allDisabled(children.slice(activeIndex, len - 1))) {
+        return undefined;
+      }
+    }
     const start = (activeIndex + 1) % len;
     let i = start;
     for (; ;) {

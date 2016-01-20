@@ -4,9 +4,6 @@ import MenuItem from './MenuItem';
 import MenuItemGroup from './MenuItemGroup';
 import Divider from './Divider';
 
-Menu.SubMenu = SubMenu;
-Menu.Item = MenuItem;
-Menu.ItemGroup = MenuItemGroup;
-Menu.Divider = Divider;
+export {SubMenu, MenuItem as Item, MenuItem, MenuItemGroup, MenuItemGroup as ItemGroup, Divider};
 
 export default Menu;

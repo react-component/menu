@@ -1,12 +1,9 @@
-const expect = require('expect.js');
-const React = require('react');
-const ReactDOM = require('react-dom');
-const TestUtils = require('react-addons-test-utils');
-const Simulate = TestUtils.Simulate;
-const KeyCode = require('rc-util').KeyCode;
-const Menu = require('../');
-const SubMenu = require('../').SubMenu;
-const MenuItem = require('../').Item;
+import expect from 'expect.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils, {Simulate} from 'react-addons-test-utils';
+import Menu, {MenuItem, SubMenu, Divider} from 'rc-menu';
+import {KeyCode} from 'rc-util';
 
 describe('Menu', function menu() {
   this.timeout(9999999);
@@ -35,7 +32,7 @@ describe('Menu', function menu() {
     TestUtils.renderIntoDocument(
       <Menu activeKey="item1">
         <MenuItem key="item1" ref={saveRef('item1')}>Pill 1 content</MenuItem>
-        <Menu.Divider/>
+        <Divider/>
         <MenuItem key="item2" ref={saveRef('item2')}>Pill 2 content</MenuItem>
       </Menu>
     );

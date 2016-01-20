@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, {SubMenu, Item as MenuItem, Divider} from 'rc-menu';
-
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
 
@@ -45,7 +44,7 @@ function render(container) {
       <MenuItem key="3">outer</MenuItem>
       <SubMenu title={titleRight1} key="4">
         <MenuItem key="4-1">inner inner</MenuItem>
-        <Menu.Divider />
+        <Divider />
         <SubMenu key="4-2"
                  title={titleRight2}>
           <MenuItem key="4-2-1">inn</MenuItem>

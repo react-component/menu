@@ -1,6 +1,10 @@
 # History
 ----
 
+## 4.10.0 / 2016-01-20
+
+- use es6 export
+
 ## 4.9.0 / 2015-12-25
 - add keyPath to onOpen/onClose argument info
 

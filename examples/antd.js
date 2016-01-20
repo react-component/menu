@@ -68,7 +68,7 @@ const reactContainer = document.getElementById('__react-content');
 
 const nestSubMenu = (<SubMenu title={<span>sub menu 2</span>} key="4">
   <MenuItem key="4-1">inner inner</MenuItem>
-  <Menu.Divider/>
+  <Divider/>
   <SubMenu key="4-2"
            title={<span>sub menu 3</span>}
     >

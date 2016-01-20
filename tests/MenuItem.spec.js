@@ -1,11 +1,8 @@
-const expect = require('expect.js');
-const React = require('react');
-const ReactDOM = require('react-dom');
-const TestUtils = require('react-addons-test-utils');
-const Simulate = TestUtils.Simulate;
-
-const Menu = require('../');
-const MenuItem = Menu.Item;
+import expect from 'expect.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils, {Simulate} from 'react-addons-test-utils';
+import Menu, {MenuItem} from 'rc-menu';
 
 describe('MenuItem', () => {
   const div = document.createElement('div');

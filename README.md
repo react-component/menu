@@ -36,9 +36,7 @@ react menu component. port from https://github.com/kissyteam/menu
 ## Usage
 
 ```js
-var Menu = require('rc-menu');
-var SubMenu = Menu.SubMenu;
-var MenuItem = Menu.Item;
+import Menu, {SubMenu, MenuItem} = require('rc-menu');
 ReactDOM.render(<Menu>
   <MenuItem>1</MenuItem>
   <SubMenu title="2">
