@@ -106,7 +106,7 @@ webpackJsonp([3],{
 	        { key: '4-1' },
 	        'inner inner'
 	      ),
-	      _react2['default'].createElement(_rcMenu2['default'].Divider, null),
+	      _react2['default'].createElement(_rcMenu.Divider, null),
 	      _react2['default'].createElement(
 	        _rcMenu.SubMenu,
 	        { key: '4-2',
