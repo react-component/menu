@@ -20055,7 +20055,7 @@
 	  var eventKey = props.eventKey;
 	  if (activeKey) {
 	    var found = undefined;
-	    _react2['default'].Children.forEach(children, function (c, i) {
+	    (0, _util.loopMenuItem)(children, function (c, i) {
 	      if (!c.props.disabled && activeKey === (0, _util.getKeyFromChildrenIndex)(c, eventKey, i)) {
 	        found = true;
 	      }
@@ -20066,7 +20066,7 @@
 	  }
 	  activeKey = null;
 	  if (props.defaultActiveFirst) {
-	    _react2['default'].Children.forEach(children, function (c, i) {
+	    (0, _util.loopMenuItem)(children, function (c, i) {
 	      if (!activeKey && !c.props.disabled) {
 	        activeKey = (0, _util.getKeyFromChildrenIndex)(c, eventKey, i);
 	      }
@@ -23104,7 +23104,7 @@
 
 /***/ },
 /* 190 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -23113,6 +23113,14 @@
 	});
 	exports.noop = noop;
 	exports.getKeyFromChildrenIndex = getKeyFromChildrenIndex;
+	exports.loopMenuItem = loopMenuItem;
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var now = Date.now();
 	
 	function noop() {}
@@ -23120,6 +23128,21 @@
 	function getKeyFromChildrenIndex(child, menuEventKey, index) {
 	  var prefix = menuEventKey || '';
 	  return child.key || prefix + 'item_' + now + '_' + index;
+	}
+	
+	function loopMenuItem(children, cb) {
+	  var index = -1;
+	  _react2['default'].Children.forEach(children, function (c) {
+	    index++;
+	    if (c && c.type.isMenuItemGroup) {
+	      _react2['default'].Children.forEach(c.props.children, function (c2) {
+	        index++;
+	        cb(c2, index);
+	      });
+	    } else {
+	      cb(c, index);
+	    }
+	  });
 	}
 
 /***/ },
@@ -24814,6 +24837,8 @@
 	    );
 	  }
 	});
+	
+	MenuItemGroup.isMenuItemGroup = true;
 	
 	exports['default'] = MenuItemGroup;
 	module.exports = exports['default'];
