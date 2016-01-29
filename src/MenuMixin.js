@@ -4,7 +4,7 @@ import {createChainedFunction, KeyCode} from 'rc-util';
 import classnames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
-import {getKeyFromChildrenIndex} from './util';
+import {getKeyFromChildrenIndex, loopMenuItem} from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -20,7 +20,7 @@ function getActiveKey(props, originalActiveKey) {
   const eventKey = props.eventKey;
   if (activeKey) {
     let found;
-    React.Children.forEach(children, (c, i)=> {
+    loopMenuItem(children, (c, i) => {
       if (!c.props.disabled && activeKey === getKeyFromChildrenIndex(c, eventKey, i)) {
         found = true;
       }
@@ -31,7 +31,7 @@ function getActiveKey(props, originalActiveKey) {
   }
   activeKey = null;
   if (props.defaultActiveFirst) {
-    React.Children.forEach(children, (c, i)=> {
+    loopMenuItem(children, (c, i)=> {
       if (!activeKey && !c.props.disabled) {
         activeKey = getKeyFromChildrenIndex(c, eventKey, i);
       }

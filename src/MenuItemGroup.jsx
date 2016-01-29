@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 
-
 const MenuItemGroup = React.createClass({
   propTypes: {
     renderMenuItem: PropTypes.func,
@@ -34,5 +33,7 @@ const MenuItemGroup = React.createClass({
     </li>);
   },
 });
+
+MenuItemGroup.isMenuItemGroup = true;
 
 export default MenuItemGroup;
