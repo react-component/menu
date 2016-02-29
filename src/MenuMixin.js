@@ -89,7 +89,7 @@ const MenuMixin = {
 
   componentWillReceiveProps(nextProps) {
     let props;
-    if (nextProps.activeKey) {
+    if ('activeKey' in nextProps) {
       props = {
         activeKey: getActiveKey(nextProps, nextProps.activeKey),
       };
