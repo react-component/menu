@@ -24749,13 +24749,13 @@
 	    classes[this.getDisabledClassName()] = props.disabled;
 	    classes[this.getPrefixCls()] = true;
 	    classes[props.className] = !!props.className;
-	    var attrs = {
+	    var attrs = _extends({}, props.attributes, {
 	      title: props.title,
 	      className: (0, _classnames2['default'])(classes),
 	      role: 'menuitem',
 	      'aria-selected': props.selected,
 	      'aria-disabled': props.disabled
-	    };
+	    });
 	    var mouseEvent = {};
 	    if (!props.disabled) {
 	      mouseEvent = {
