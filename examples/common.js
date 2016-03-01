@@ -24764,7 +24764,7 @@
 	        onMouseEnter: this.onMouseEnter
 	      };
 	    }
-	    var style = {};
+	    var style = _extends({}, props.style);
 	    if (props.mode === 'inline') {
 	      style.paddingLeft = props.inlineIndent * props.level;
 	    }
