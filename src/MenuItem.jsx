@@ -133,7 +133,9 @@ const MenuItem = React.createClass({
         onMouseEnter: this.onMouseEnter,
       };
     }
-    const style = {};
+    const style = {
+      ...props.style,
+    };
     if (props.mode === 'inline') {
       style.paddingLeft = props.inlineIndent * props.level;
     }
