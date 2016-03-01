@@ -3,19 +3,19 @@ webpackJsonp([6],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(214);
+	module.exports = __webpack_require__(213);
 
 
 /***/ },
 
-/***/ 211:
+/***/ 210:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 214:
+/***/ 213:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34,9 +34,9 @@ webpackJsonp([6],{
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(207);
+	__webpack_require__(206);
 	
-	__webpack_require__(211);
+	__webpack_require__(210);
 	
 	var Test = _react2['default'].createClass({
 	  displayName: 'Test',
