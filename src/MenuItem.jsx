@@ -119,7 +119,7 @@ const MenuItem = React.createClass({
     classes[this.getPrefixCls()] = true;
     classes[props.className] = !!props.className;
     const attrs = {
-      ...props.attributes,
+      ...props.attribute,
       title: props.title,
       className: classnames(classes),
       role: 'menuitem',
