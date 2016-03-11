@@ -35,6 +35,8 @@
 }
 .rc-menu-item-selected {
   background-color: #eaf8fe;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
 }
 .rc-menu > li.rc-menu-submenu {
   padding: 0;
