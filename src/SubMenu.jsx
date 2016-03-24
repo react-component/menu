@@ -9,6 +9,7 @@ const SubMenu = React.createClass({
     parentMenu: React.PropTypes.object,
     title: React.PropTypes.node,
     onClick: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
     onOpenChange: React.PropTypes.func,
     rootPrefixCls: React.PropTypes.string,
     eventKey: React.PropTypes.string,
@@ -21,6 +22,7 @@ const SubMenu = React.createClass({
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
     onItemHover: React.PropTypes.func,
+    tabIndex: React.PropTypes.string
   },
 
   mixins: [require('./SubMenuStateMixin')],
@@ -163,6 +165,15 @@ const SubMenu = React.createClass({
   onSubMenuClick(info) {
     this.props.onClick(this.addKeyPath(info));
   },
+  
+  onFocus: function onFocus () {
+    if (!this.props.open) {
+      this.triggerOpenChange(true);
+    }
+    else {
+      this.triggerOpenChange(false);
+    }
+  },
 
   onSelect(info) {
     this.props.onSelect(info);
@@ -252,11 +263,15 @@ const SubMenu = React.createClass({
     classes[prefixCls] = true;
     classes[prefixCls + '-' + props.mode] = 1;
     let clickEvents = {};
+    let focusEvents = {};
     let mouseEvents = {};
     let titleMouseEvents = {};
     if (!props.disabled) {
       clickEvents = {
         onClick: this.onClick,
+      };
+      focusEvents = {
+        onFocus: this.onFocus,
       };
       mouseEvents = {
         onMouseLeave: this.onMouseLeave,
@@ -275,6 +290,7 @@ const SubMenu = React.createClass({
       <li className={classnames(classes)} {...mouseEvents}>
         <div
           style={style}
+          tabIndex={tabIndex}
           className={prefixCls + '-title'}
           {...titleMouseEvents}
           {...clickEvents}
