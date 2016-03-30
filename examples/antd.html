@@ -266,9 +266,9 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <script src="antd.js?nowrap"></script>
   <div class="highlight"><pre><code language="js">import React from <span class="hljs-string">'react'</span>;
 import ReactDOM from <span class="hljs-string">'react-dom'</span>;
-import Menu, {SubMenu, Item as MenuItem, Divider} from <span class="hljs-string">'rc-menu'</span>;
-import velocity from <span class="hljs-string">'velocity-animate'</span>;
+import Menu, { SubMenu, Item as MenuItem, Divider } from <span class="hljs-string">'rc-menu'</span>;
 import <span class="hljs-string">'rc-menu/assets/index.css'</span>;
+import animate from <span class="hljs-string">'css-animation'</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleSelect</span><span class="hljs-params">(info)</span> </span>{
   <span class="hljs-built_in">console</span>.log(info);
@@ -277,28 +277,20 @@ import <span class="hljs-string">'rc-menu/assets/index.css'</span>;
 
 <span class="hljs-keyword">const</span> animation = {
   enter(node, done) {
-    <span class="hljs-keyword">let</span> ok = <span class="hljs-literal">false</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complete</span><span class="hljs-params">()</span> </span>{
-      <span class="hljs-keyword">if</span> (!ok) {
-        ok = <span class="hljs-number">1</span>;
-        done();
-      }
-    }
-
-    node.style.display = <span class="hljs-string">'none'</span>;
-
-    velocity(node, <span class="hljs-string">'slideDown'</span>, {
-      duration: <span class="hljs-number">300</span>,
-      complete: complete,
-    });
-    <span class="hljs-keyword">return</span> {
-      stop() {
-        velocity(node, <span class="hljs-string">'finish'</span>);
-        <span class="hljs-comment">// velocity complete is async</span>
-        complete();
+    <span class="hljs-keyword">let</span> height;
+    <span class="hljs-keyword">return</span> animate(node, <span class="hljs-string">'rc-menu-collapse'</span>, {
+      start() {
+        height = node.offsetHeight;
+        node.style.height = <span class="hljs-number">0</span>;
       },
-    };
+      active() {
+        node.style.height = height + <span class="hljs-string">'px'</span>;
+      },
+      end() {
+        node.style.height = <span class="hljs-string">''</span>;
+        done();
+      },
+    });
   },
 
   appear() {
@@ -306,27 +298,18 @@ import <span class="hljs-string">'rc-menu/assets/index.css'</span>;
   },
 
   leave(node, done) {
-    <span class="hljs-keyword">let</span> ok = <span class="hljs-literal">false</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complete</span><span class="hljs-params">()</span> </span>{
-      <span class="hljs-keyword">if</span> (!ok) {
-        ok = <span class="hljs-number">1</span>;
-        done();
-      }
-    }
-
-    node.style.display = <span class="hljs-string">'block'</span>;
-    velocity(node, <span class="hljs-string">'slideUp'</span>, {
-      duration: <span class="hljs-number">300</span>,
-      complete: complete,
-    });
-    <span class="hljs-keyword">return</span> {
-      stop() {
-        velocity(node, <span class="hljs-string">'finish'</span>);
-        <span class="hljs-comment">// velocity complete is async</span>
-        complete();
+    <span class="hljs-keyword">return</span> animate(node, <span class="hljs-string">'rc-menu-collapse'</span>, {
+      start() {
+        node.style.height = node.offsetHeight + <span class="hljs-string">'px'</span>;
       },
-    };
+      active() {
+        node.style.height = <span class="hljs-number">0</span>;
+      },
+      end() {
+        node.style.height = <span class="hljs-string">''</span>;
+        done();
+      },
+    });
   },
 };
 
@@ -337,7 +320,7 @@ import <span class="hljs-string">'rc-menu/assets/index.css'</span>;
   <span class="hljs-tag">&lt;<span class="hljs-title">Divider</span>/&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
            <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu 3<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>}
-    &gt;
+  &gt;
     <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"sub 4-2-0"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0"</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
