@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {SubMenu, Item as MenuItem, Divider} from 'rc-menu';
-import velocity from 'velocity-animate';
+import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-menu/assets/index.less';
+import animate from 'css-animation';
 
 function handleSelect(info) {
   console.log(info);
@@ -11,28 +11,20 @@ function handleSelect(info) {
 
 const animation = {
   enter(node, done) {
-    let ok = false;
-
-    function complete() {
-      if (!ok) {
-        ok = 1;
-        done();
-      }
-    }
-
-    node.style.display = 'none';
-
-    velocity(node, 'slideDown', {
-      duration: 300,
-      complete: complete,
-    });
-    return {
-      stop() {
-        velocity(node, 'finish');
-        // velocity complete is async
-        complete();
+    let height;
+    return animate(node, 'rc-menu-collapse', {
+      start() {
+        height = node.offsetHeight;
+        node.style.height = 0;
       },
-    };
+      active() {
+        node.style.height = height + 'px';
+      },
+      end() {
+        node.style.height = '';
+        done();
+      },
+    });
   },
 
   appear() {
@@ -40,27 +32,18 @@ const animation = {
   },
 
   leave(node, done) {
-    let ok = false;
-
-    function complete() {
-      if (!ok) {
-        ok = 1;
-        done();
-      }
-    }
-
-    node.style.display = 'block';
-    velocity(node, 'slideUp', {
-      duration: 300,
-      complete: complete,
-    });
-    return {
-      stop() {
-        velocity(node, 'finish');
-        // velocity complete is async
-        complete();
+    return animate(node, 'rc-menu-collapse', {
+      start() {
+        node.style.height = node.offsetHeight + 'px';
       },
-    };
+      active() {
+        node.style.height = 0;
+      },
+      end() {
+        node.style.height = '';
+        done();
+      },
+    });
   },
 };
 
@@ -71,7 +54,7 @@ const nestSubMenu = (<SubMenu title={<span>sub menu 2</span>} key="4">
   <Divider/>
   <SubMenu key="4-2"
            title={<span>sub menu 3</span>}
-    >
+  >
     <SubMenu title="sub 4-2-0" key="4-2-0">
       <MenuItem key="4-2-0-1">inner inner</MenuItem>
       <MenuItem key="4-2-0-2">inner inner2</MenuItem>

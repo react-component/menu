@@ -15,6 +15,13 @@
     display: none;
   }
 
+  &-collapse {
+    overflow: hidden;
+    &-active {
+      transition: height .3s ease-out;
+    }
+  }
+
   &-item-group-list {
     margin: 0;
     padding: 0;
@@ -152,12 +159,11 @@
     box-shadow: none;
 
     & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {
-      padding-top:8px;
+      padding-top: 8px;
       padding-bottom: 8px;
       padding-right: 0;
     }
   }
-
 
   .effect() {
     animation-duration: .3s;
@@ -166,7 +172,7 @@
   }
 
   &-open {
-    &-slide-up-enter,&-slide-up-appear {
+    &-slide-up-enter, &-slide-up-appear {
       .effect();
       opacity: 0;
       animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
@@ -180,7 +186,7 @@
       animation-play-state: paused;
     }
 
-    &-slide-up-enter&-slide-up-enter-active , &-slide-up-appear&-slide-up-appear-active {
+    &-slide-up-enter&-slide-up-enter-active, &-slide-up-appear&-slide-up-appear-active {
       animation-name: rcMenuOpenSlideUpIn;
       animation-play-state: running;
     }
@@ -215,20 +221,20 @@
       }
     }
 
-    &-zoom-enter,&-zoom-appear {
+    &-zoom-enter, &-zoom-appear {
       opacity: 0;
       .effect();
-      animation-timing-function: cubic-bezier(0.08,0.82,0.17,1);
+      animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
       animation-play-state: paused;
     }
 
     &-zoom-leave {
       .effect();
-      animation-timing-function: cubic-bezier(0.6,0.04,0.98,0.34);
+      animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
       animation-play-state: paused;
     }
 
-    &-zoom-enter&-zoom-enter-active,&-zoom-appear&-zoom-appear-active {
+    &-zoom-enter&-zoom-enter-active, &-zoom-appear&-zoom-appear-active {
       animation-name: rcMenuOpenZoomIn;
       animation-play-state: running;
     }
@@ -259,6 +265,6 @@
       }
     }
   }
-  
+
 }
 

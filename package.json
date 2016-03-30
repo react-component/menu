@@ -42,6 +42,7 @@
     "browser-test-cover": "rc-tools run browser-test-cover"
   },
   "devDependencies": {
+    "css-animation": "^1.2.0",
     "expect.js": "~0.3.1",
     "font-awesome": "~4.2.0",
     "pre-commit": "1.x",
@@ -49,8 +50,7 @@
     "rc-tools": "4.x",
     "react": "~0.14.0",
     "react-addons-test-utils": "~0.14.1",
-    "react-dom": "~0.14.0",
-    "velocity-animate": "~1.2.2"
+    "react-dom": "~0.14.0"
   },
   "dependencies": {
     "classnames": "2.x",
