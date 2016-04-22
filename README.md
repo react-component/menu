@@ -154,7 +154,7 @@ ReactDOM.render(<Menu>
             <td>whether enable top items to open on mouse enter</td>
         </tr>
         <tr>
-            <td>closeSubMenuOnMouseEnter</td>
+            <td>closeSubMenuOnMouseLeave</td>
             <td>bool</td>
             <th>true</th>
             <td>whether enable close submenu on mouse leave</td>
