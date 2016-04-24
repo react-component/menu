@@ -204,6 +204,12 @@ ReactDOM.render(<Menu>
             <th></th>
             <td>corresponding to activeKey</td>
         </tr>
+        <tr>
+            <td>tabIndex</td>
+            <td>String</td>
+            <th></th>
+            <td>the tabindex to assign to allow the user to tab to this item</td>
+        </tr>
     </tbody>
 </table>
 
@@ -243,6 +249,12 @@ ReactDOM.render(<Menu>
             <td>Boolean</td>
             <th>false</th>
             <td>no effect for click or keydown for this item</td>
+        </tr>
+        <tr>
+            <td>tabIndex</td>
+            <td>String</td>
+            <th></th>
+            <td>the tabindex to assign to allow the user to tab to this item</td>
         </tr>
     </tbody>
 </table>
