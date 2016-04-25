@@ -58,13 +58,12 @@ const MenuItem = React.createClass({
         });
       }
     }, 30);
+    // triggered only on `inline` mode
     if (props.mode === 'inline') {
-      if (props.onMouseLeave) {
-        props.onMouseLeave({
-          key: eventKey,
-          domEvent: e,
-        });
-      }
+      props.onMouseLeave({
+        key: eventKey,
+        domEvent: e,
+      });
     }
   },
 
@@ -82,7 +81,8 @@ const MenuItem = React.createClass({
       hover: true,
       trigger: 'mouseenter',
     });
-    if (props.onMouseEnter) {
+    // triggered only on `inline` mode
+    if (props.mode === 'inline') {
       props.onMouseEnter({
         key: eventKey,
         domEvent: e,
