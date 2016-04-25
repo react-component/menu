@@ -1,6 +1,7 @@
 import React from 'react';
 import {KeyCode} from 'rc-util';
 import classnames from 'classnames';
+import {noop} from './util';
 
 const MenuItem = React.createClass({
   propTypes: {
@@ -16,14 +17,15 @@ const MenuItem = React.createClass({
     parentMenu: React.PropTypes.object,
     onItemHover: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
+    onMouseEnter: React.PropTypes.func,
+    onMouseLeave: React.PropTypes.func,
   },
 
   getDefaultProps() {
     return {
-      onSelect() {
-      },
-      onMouseEnter() {
-      },
+      onSelect: noop,
+      onMouseEnter: noop,
+      onMouseLeave: noop,
     };
   },
 
@@ -42,12 +44,13 @@ const MenuItem = React.createClass({
     }
   },
 
-  onMouseLeave() {
-    const eventKey = this.props.eventKey;
-    const parentMenu = this.props.parentMenu;
+  onMouseLeave(e) {
+    const props = this.props;
+    const eventKey = props.eventKey;
+    const parentMenu = props.parentMenu;
     parentMenu.menuItemMouseLeaveTimer = setTimeout(()=> {
-      if (this.isMounted() && this.props.active) {
-        this.props.onItemHover({
+      if (this.isMounted() && props.active) {
+        props.onItemHover({
           key: eventKey,
           item: this,
           hover: false,
@@ -55,11 +58,19 @@ const MenuItem = React.createClass({
         });
       }
     }, 30);
+    if (props.mode === 'inline') {
+      if (props.onMouseLeave) {
+        props.onMouseLeave({
+          key: eventKey,
+          domEvent: e,
+        });
+      }
+    }
   },
 
-  onMouseEnter() {
+  onMouseEnter(e) {
     const props = this.props;
-    const parentMenu = this.props.parentMenu;
+    const parentMenu = props.parentMenu;
     if (parentMenu.menuItemMouseLeaveTimer) {
       clearTimeout(parentMenu.menuItemMouseLeaveTimer);
       parentMenu.menuItemMouseLeaveTimer = null;
@@ -71,6 +82,12 @@ const MenuItem = React.createClass({
       hover: true,
       trigger: 'mouseenter',
     });
+    if (props.onMouseEnter) {
+      props.onMouseEnter({
+        key: eventKey,
+        domEvent: e,
+      });
+    }
   },
 
   onClick(e) {
