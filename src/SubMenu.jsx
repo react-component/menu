@@ -1,29 +1,32 @@
 import SubPopupMenu from './SubPopupMenu';
-import React from 'react';
-import {KeyCode, guid} from 'rc-util';
+import React, { PropTypes } from 'react';
+import { KeyCode, guid } from 'rc-util';
 import classnames from 'classnames';
 import assign from 'object-assign';
-import {noop} from './util';
+import { noop } from './util';
 
 const SubMenu = React.createClass({
   propTypes: {
-    parentMenu: React.PropTypes.object,
-    title: React.PropTypes.node,
-    onClick: React.PropTypes.func,
-    onOpenChange: React.PropTypes.func,
-    rootPrefixCls: React.PropTypes.string,
-    eventKey: React.PropTypes.string,
-    multiple: React.PropTypes.bool,
-    active: React.PropTypes.bool,
-    open: React.PropTypes.bool,
-    onSelect: React.PropTypes.func,
-    closeSubMenuOnMouseLeave: React.PropTypes.bool,
-    openSubMenuOnMouseEnter: React.PropTypes.bool,
-    onDeselect: React.PropTypes.func,
-    onDestroy: React.PropTypes.func,
-    onItemHover: React.PropTypes.func,
-    onMouseEnter: React.PropTypes.func,
-    onMouseLeave: React.PropTypes.func,
+    parentMenu: PropTypes.object,
+    title: PropTypes.node,
+    onClick: PropTypes.func,
+    onOpenChange: PropTypes.func,
+    rootPrefixCls: PropTypes.string,
+    eventKey: PropTypes.string,
+    multiple: PropTypes.bool,
+    active: PropTypes.bool,
+    open: PropTypes.bool,
+    onSelect: PropTypes.func,
+    closeSubMenuOnMouseLeave: PropTypes.bool,
+    openSubMenuOnMouseEnter: PropTypes.bool,
+    onDeselect: PropTypes.func,
+    onDestroy: PropTypes.func,
+    onItemHover: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    onTitleMouseEnter: PropTypes.func,
+    onTitleMouseLeave: PropTypes.func,
+    onTitleClick: PropTypes.func,
   },
 
   mixins: [require('./SubMenuStateMixin')],
@@ -32,6 +35,9 @@ const SubMenu = React.createClass({
     return {
       onMouseEnter: noop,
       onMouseLeave: noop,
+      onTitleMouseEnter: noop,
+      onTitleMouseLeave: noop,
+      onTitleClick: noop,
       title: '',
     };
   },
@@ -96,26 +102,24 @@ const SubMenu = React.createClass({
     }
   },
 
-  onSubTreeMouseEnter(e) {
+  onOpenChange(e) {
+    this.props.onOpenChange(this.addKeyPath(e));
+  },
+
+  onMouseEnter(e) {
     if (this.leaveTimer) {
       clearTimeout(this.leaveTimer);
       this.leaveTimer = null;
     }
     const props = this.props;
     const eventKey = props.eventKey;
-    if (props.mode === 'inline') {
-      props.onMouseEnter({
-        key: eventKey,
-        domEvent: e,
-      });
-    }
+    props.onMouseEnter({
+      key: eventKey,
+      domEvent: e,
+    });
   },
 
-  onOpenChange(e) {
-    this.props.onOpenChange(this.addKeyPath(e));
-  },
-
-  onMouseEnter() {
+  onTitleMouseEnter(e) {
     if (this.leaveTimer) {
       clearTimeout(this.leaveTimer);
       this.leaveTimer = null;
@@ -127,7 +131,7 @@ const SubMenu = React.createClass({
       parentMenu.menuItemMouseLeaveTimer = null;
     }
     props.onItemHover({
-      key: this.props.eventKey,
+      key: props.eventKey,
       item: this,
       hover: true,
       trigger: 'mouseenter',
@@ -137,6 +141,26 @@ const SubMenu = React.createClass({
     }
     this.setState({
       defaultActiveFirst: false,
+    });
+    props.onMouseEnter({
+      key: props.eventKey,
+      domEvent: e,
+    });
+  },
+
+  onTitleClick(e) {
+    const { props } = this;
+    props.onTitleClick({
+      key: props.eventKey,
+      domEvent: e,
+    });
+  },
+
+  onTitleMouseLeave(e) {
+    const { props } = this;
+    props.onTitleMouseLeave({
+      key: props.eventKey,
+      domEvent: e,
     });
   },
 
@@ -163,12 +187,10 @@ const SubMenu = React.createClass({
         }
         // trigger mouseleave
         // when leaving whole sub tree on `inline` mode
-        if (props.mode === 'inline') {
-          props.onMouseLeave({
-            key: eventKey,
-            domEvent: e,
-          });
-        }
+        props.onMouseLeave({
+          key: eventKey,
+          domEvent: e,
+        });
       }
     }, 100);
   },
@@ -283,11 +305,13 @@ const SubMenu = React.createClass({
       };
       mouseEvents = {
         onMouseLeave: this.onMouseLeave,
-        onMouseEnter: this.onSubTreeMouseEnter,
+        onMouseEnter: this.onMouseEnter,
       };
       // only works in title, not outer li
       titleMouseEvents = {
-        onMouseEnter: this.onMouseEnter,
+        onMouseEnter: this.onTitleMouseEnter,
+        onClick: this.onTitleClick,
+        onMouseLeave: this.onTitleMouseLeave,
       };
     }
     const style = {};

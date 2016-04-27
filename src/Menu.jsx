@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
 import {noop, getKeyFromChildrenIndex} from './util';
 
 const Menu = React.createClass({
   propTypes: {
-    openSubMenuOnMouseEnter: React.PropTypes.bool,
-    closeSubMenuOnMouseLeave: React.PropTypes.bool,
-    selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultOpenKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    mode: React.PropTypes.string,
-    onClick: React.PropTypes.func,
-    onSelect: React.PropTypes.func,
-    onDeselect: React.PropTypes.func,
-    onDestroy: React.PropTypes.func,
-    openTransitionName: React.PropTypes.string,
-    openAnimation: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
-    level: React.PropTypes.number,
-    eventKey: React.PropTypes.string,
-    selectable: React.PropTypes.bool,
-    children: React.PropTypes.any,
+    openSubMenuOnMouseEnter: PropTypes.bool,
+    closeSubMenuOnMouseLeave: PropTypes.bool,
+    selectedKeys: PropTypes.arrayOf(PropTypes.string),
+    defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
+    defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
+    openKeys: PropTypes.arrayOf(PropTypes.string),
+    mode: PropTypes.string,
+    onClick: PropTypes.func,
+    onSelect: PropTypes.func,
+    onDeselect: PropTypes.func,
+    onDestroy: PropTypes.func,
+    openTransitionName: PropTypes.string,
+    openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    level: PropTypes.number,
+    eventKey: PropTypes.string,
+    selectable: PropTypes.bool,
+    children: PropTypes.any,
   },
 
   mixins: [MenuMixin],

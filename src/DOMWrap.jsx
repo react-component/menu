@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import assign from 'object-assign';
 
 const DOMWrap = React.createClass({
   propTypes: {
-    tag: React.PropTypes.string,
+    tag: PropTypes.string,
   },
 
   getDefaultProps() {

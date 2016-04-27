@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
 import {getKeyFromChildrenIndex} from './util';
@@ -6,17 +6,17 @@ import Animate from 'rc-animate';
 
 const SubPopupMenu = React.createClass({
   propTypes: {
-    onSelect: React.PropTypes.func,
-    onClick: React.PropTypes.func,
-    onDeselect: React.PropTypes.func,
-    onOpenChange: React.PropTypes.func,
-    onDestroy: React.PropTypes.func,
-    openTransitionName: React.PropTypes.string,
-    openAnimation: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
-    openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    closeSubMenuOnMouseLeave: React.PropTypes.bool,
-    visible: React.PropTypes.bool,
-    children: React.PropTypes.any,
+    onSelect: PropTypes.func,
+    onClick: PropTypes.func,
+    onDeselect: PropTypes.func,
+    onOpenChange: PropTypes.func,
+    onDestroy: PropTypes.func,
+    openTransitionName: PropTypes.string,
+    openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    openKeys: PropTypes.arrayOf(PropTypes.string),
+    closeSubMenuOnMouseLeave: PropTypes.bool,
+    visible: PropTypes.bool,
+    children: PropTypes.any,
   },
 
   mixins: [MenuMixin],

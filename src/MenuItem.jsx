@@ -1,24 +1,24 @@
-import React from 'react';
-import {KeyCode} from 'rc-util';
+import React, { PropTypes } from 'react';
+import { KeyCode } from 'rc-util';
 import classnames from 'classnames';
-import {noop} from './util';
+import { noop } from './util';
 
 const MenuItem = React.createClass({
   propTypes: {
-    rootPrefixCls: React.PropTypes.string,
-    eventKey: React.PropTypes.string,
-    active: React.PropTypes.bool,
-    selected: React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-    title: React.PropTypes.string,
-    onSelect: React.PropTypes.func,
-    onClick: React.PropTypes.func,
-    onDeselect: React.PropTypes.func,
-    parentMenu: React.PropTypes.object,
-    onItemHover: React.PropTypes.func,
-    onDestroy: React.PropTypes.func,
-    onMouseEnter: React.PropTypes.func,
-    onMouseLeave: React.PropTypes.func,
+    rootPrefixCls: PropTypes.string,
+    eventKey: PropTypes.string,
+    active: PropTypes.bool,
+    selected: PropTypes.bool,
+    disabled: PropTypes.bool,
+    title: PropTypes.string,
+    onSelect: PropTypes.func,
+    onClick: PropTypes.func,
+    onDeselect: PropTypes.func,
+    parentMenu: PropTypes.object,
+    onItemHover: PropTypes.func,
+    onDestroy: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -58,13 +58,10 @@ const MenuItem = React.createClass({
         });
       }
     }, 30);
-    // triggered only on `inline` mode
-    if (props.mode === 'inline') {
-      props.onMouseLeave({
-        key: eventKey,
-        domEvent: e,
-      });
-    }
+    props.onMouseLeave({
+      key: eventKey,
+      domEvent: e,
+    });
   },
 
   onMouseEnter(e) {
@@ -81,13 +78,10 @@ const MenuItem = React.createClass({
       hover: true,
       trigger: 'mouseenter',
     });
-    // triggered only on `inline` mode
-    if (props.mode === 'inline') {
-      props.onMouseEnter({
-        key: eventKey,
-        domEvent: e,
-      });
-    }
+    props.onMouseEnter({
+      key: eventKey,
+      domEvent: e,
+    });
   },
 
   onClick(e) {

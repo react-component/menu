@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import {createChainedFunction, KeyCode} from 'rc-util';
 import classnames from 'classnames';
@@ -54,17 +54,17 @@ function saveRef(index, subIndex, c) {
 
 const MenuMixin = {
   propTypes: {
-    focusable: React.PropTypes.bool,
-    multiple: React.PropTypes.bool,
-    style: React.PropTypes.object,
-    defaultActiveFirst: React.PropTypes.bool,
-    visible: React.PropTypes.bool,
-    activeKey: React.PropTypes.string,
-    selectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultSelectedKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    defaultOpenKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    openKeys: React.PropTypes.arrayOf(React.PropTypes.string),
-    children: React.PropTypes.any,
+    focusable: PropTypes.bool,
+    multiple: PropTypes.bool,
+    style: PropTypes.object,
+    defaultActiveFirst: PropTypes.bool,
+    visible: PropTypes.bool,
+    activeKey: PropTypes.string,
+    selectedKeys: PropTypes.arrayOf(PropTypes.string),
+    defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
+    defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
+    openKeys: PropTypes.arrayOf(PropTypes.string),
+    children: PropTypes.any,
   },
 
   getDefaultProps() {

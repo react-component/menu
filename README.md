@@ -204,6 +204,18 @@ ReactDOM.render(<Menu>
             <th></th>
             <td>corresponding to activeKey</td>
         </tr>
+        <tr>
+            <td>onMouseEnter</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onMouseLeave</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
     </tbody>
 </table>
 
@@ -243,6 +255,36 @@ ReactDOM.render(<Menu>
             <td>Boolean</td>
             <th>false</th>
             <td>no effect for click or keydown for this item</td>
+        </tr>
+        <tr>
+            <td>onMouseEnter</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onMouseLeave</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onTitleMouseEnter</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onTitleMouseLeave</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onTitleClick</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
         </tr>
     </tbody>
 </table>

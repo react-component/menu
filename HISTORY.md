@@ -1,6 +1,10 @@
 # History
 ----
 
+## 4.11.0 / 2016-04-27
+
+- add onMouseEnter/onTitleMouseLeave/onTitleClick/...
+
 ## 4.10.0 / 2016-01-20
 
 - use es6 export
