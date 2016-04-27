@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@4.10.8 - menu ui component for react</title>
+  <title>rc-menu@4.11.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@4.10.8</h1>
+  <h1>rc-menu@4.11.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -885,7 +885,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
             <td>whether enable top items to open on mouse enter</td>
         </tr>
         <tr>
-            <td>closeSubMenuOnMouseEnter</td>
+            <td>closeSubMenuOnMouseLeave</td>
             <td>bool</td>
             <th>true</th>
             <td>whether enable close submenu on mouse leave</td>
@@ -933,6 +933,18 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
             <th></th>
             <td>corresponding to activeKey</td>
         </tr>
+        <tr>
+            <td>onMouseEnter</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onMouseLeave</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
     </tbody>
 </table>
 
@@ -970,6 +982,36 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
             <td>Boolean</td>
             <th>false</th>
             <td>no effect for click or keydown for this item</td>
+        </tr>
+        <tr>
+            <td>onMouseEnter</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onMouseLeave</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onTitleMouseEnter</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onTitleMouseLeave</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>onTitleClick</td>
+            <td>Function({eventKey, domEvent})</td>
+            <th></th>
+            <td></td>
         </tr>
     </tbody>
 </table>
