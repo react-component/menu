@@ -23369,7 +23369,7 @@
 	    this.setState({
 	      defaultActiveFirst: false
 	    });
-	    props.onMouseEnter({
+	    props.onTitleMouseEnter({
 	      key: props.eventKey,
 	      domEvent: e
 	    });
@@ -23417,7 +23417,6 @@
 	          }
 	        }
 	        // trigger mouseleave
-	        // when leaving whole sub tree on `inline` mode
 	        props.onMouseLeave({
 	          key: eventKey,
 	          domEvent: e
