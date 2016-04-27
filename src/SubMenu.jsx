@@ -3,6 +3,7 @@ import React from 'react';
 import {KeyCode, guid} from 'rc-util';
 import classnames from 'classnames';
 import assign from 'object-assign';
+import {noop} from './util';
 
 const SubMenu = React.createClass({
   propTypes: {
@@ -21,14 +22,16 @@ const SubMenu = React.createClass({
     onDeselect: React.PropTypes.func,
     onDestroy: React.PropTypes.func,
     onItemHover: React.PropTypes.func,
+    onMouseEnter: React.PropTypes.func,
+    onMouseLeave: React.PropTypes.func,
   },
 
   mixins: [require('./SubMenuStateMixin')],
 
   getDefaultProps() {
     return {
-      onMouseEnter() {
-      },
+      onMouseEnter: noop,
+      onMouseLeave: noop,
       title: '',
     };
   },
@@ -93,10 +96,18 @@ const SubMenu = React.createClass({
     }
   },
 
-  onSubTreeMouseEnter() {
+  onSubTreeMouseEnter(e) {
     if (this.leaveTimer) {
       clearTimeout(this.leaveTimer);
       this.leaveTimer = null;
+    }
+    const props = this.props;
+    const eventKey = props.eventKey;
+    if (props.mode === 'inline') {
+      props.onMouseEnter({
+        key: eventKey,
+        domEvent: e,
+      });
     }
   },
 
@@ -129,22 +140,34 @@ const SubMenu = React.createClass({
     });
   },
 
-  onMouseLeave() {
+  onMouseLeave(e) {
     // prevent popup menu and submenu gap
     this.leaveTimer = setTimeout(()=> {
-      // leave whole sub tree
-      // still active
-      if (this.isMounted() && this.props.active) {
-        this.props.onItemHover({
-          key: this.props.eventKey,
-          item: this,
-          hover: false,
-          trigger: 'mouseleave',
-        });
-      }
-      if (this.isMounted() && this.props.open) {
-        if (this.props.closeSubMenuOnMouseLeave) {
-          this.triggerOpenChange(false);
+      const props = this.props;
+      const eventKey = props.eventKey;
+      if (this.isMounted()) {
+        // leave whole sub tree
+        // still active
+        if (props.active) {
+          props.onItemHover({
+            key: eventKey,
+            item: this,
+            hover: false,
+            trigger: 'mouseleave',
+          });
+        }
+        if (props.open) {
+          if (props.closeSubMenuOnMouseLeave) {
+            this.triggerOpenChange(false);
+          }
+        }
+        // trigger mouseleave
+        // when leaving whole sub tree on `inline` mode
+        if (props.mode === 'inline') {
+          props.onMouseLeave({
+            key: eventKey,
+            domEvent: e,
+          });
         }
       }
     }, 100);
