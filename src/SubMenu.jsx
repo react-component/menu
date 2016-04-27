@@ -142,7 +142,7 @@ const SubMenu = React.createClass({
     this.setState({
       defaultActiveFirst: false,
     });
-    props.onMouseEnter({
+    props.onTitleMouseEnter({
       key: props.eventKey,
       domEvent: e,
     });
@@ -186,7 +186,6 @@ const SubMenu = React.createClass({
           }
         }
         // trigger mouseleave
-        // when leaving whole sub tree on `inline` mode
         props.onMouseLeave({
           key: eventKey,
           domEvent: e,
