@@ -48,9 +48,9 @@
     "pre-commit": "1.x",
     "rc-server": "3.x",
     "rc-tools": "4.x",
-    "react": "~0.14.0",
-    "react-addons-test-utils": "~0.14.1",
-    "react-dom": "~0.14.0"
+    "react": "15.x",
+    "react-addons-test-utils": "15.x",
+    "react-dom": "15.x"
   },
   "dependencies": {
     "classnames": "2.x",
