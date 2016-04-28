@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import {createChainedFunction, KeyCode} from 'rc-util';
+import { createChainedFunction, KeyCode } from 'rc-util';
 import classnames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
-import {getKeyFromChildrenIndex, loopMenuItem} from './util';
+import { getKeyFromChildrenIndex, loopMenuItem } from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -152,8 +152,8 @@ const MenuMixin = {
   },
 
   onCommonItemHover(e) {
-    const {mode} = this.props;
-    const {key, hover, trigger} = e;
+    const { mode } = this.props;
+    const { key, hover, trigger } = e;
     const activeKey = this.state.activeKey;
     if (!trigger || hover || this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
       this.setState({
@@ -267,6 +267,9 @@ const MenuMixin = {
     let children = this.getFlatInstanceArray();
     const activeKey = this.state.activeKey;
     const len = children.length;
+    if (!len) {
+      return null;
+    }
     if (direction < 0) {
       children = children.concat().reverse();
     }
