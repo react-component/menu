@@ -20314,6 +20314,9 @@
 	    var children = this.getFlatInstanceArray();
 	    var activeKey = this.state.activeKey;
 	    var len = children.length;
+	    if (!len) {
+	      return null;
+	    }
 	    if (direction < 0) {
 	      children = children.concat().reverse();
 	    }
