@@ -82,6 +82,21 @@ const MenuItem = React.createClass({
       key: eventKey,
       domEvent: e,
     });
+    if (parentMenu.props.mode === 'inline') {
+      if (parentMenu.isSubPopupMenu) {
+        const popupMenuProps = parentMenu.props;
+        const subMenuProps = popupMenuProps.parentMenu.props;
+        const subMenuEventKey = subMenuProps.eventKey;
+        if (subMenuProps.active) {
+          subMenuProps.onItemHover({
+            key: subMenuEventKey,
+            item: this,
+            hover: false,
+            trigger: 'mouseleave',
+          });
+        }
+      }
+    }
   },
 
   onClick(e) {

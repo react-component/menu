@@ -17,9 +17,15 @@ const SubPopupMenu = React.createClass({
     closeSubMenuOnMouseLeave: PropTypes.bool,
     visible: PropTypes.bool,
     children: PropTypes.any,
+    parentMenu: PropTypes.object,
   },
 
   mixins: [MenuMixin],
+
+  getInitialState() {
+    this.isSubPopupMenu = 1;
+    return {};
+  },
 
   onDeselect(selectInfo) {
     this.props.onDeselect(selectInfo);
