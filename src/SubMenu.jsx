@@ -194,7 +194,10 @@ const SubMenu = React.createClass({
     }, 100);
   },
 
-  onClick() {
+  onClick(e) {
+    if (this.props.onClick) {
+      this.props.onClick(e);
+    }
     if (this.props.openSubMenuOnMouseEnter) {
       return;
     }
