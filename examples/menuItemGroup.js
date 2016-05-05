@@ -1,3 +1,5 @@
+/* eslint no-console:0 */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, {Item as MenuItem, ItemGroup as MenuItemGroup} from 'rc-menu';

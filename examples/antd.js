@@ -1,3 +1,5 @@
+/* eslint no-console:0 */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';

@@ -71,6 +71,14 @@ const MenuItem = React.createClass({
       clearTimeout(parentMenu.menuItemMouseLeaveTimer);
       parentMenu.menuItemMouseLeaveTimer = null;
     }
+    if (parentMenu.subMenuLeaveTimer) {
+      clearTimeout(parentMenu.subMenuLeaveTimer);
+      parentMenu.subMenuLeaveTimer = null;
+    }
+    if (parentMenu.subMenuTitleLeaveTimer) {
+      clearTimeout(parentMenu.subMenuTitleLeaveTimer);
+      parentMenu.subMenuTitleLeaveTimer = null;
+    }
     const eventKey = props.eventKey;
     props.onItemHover({
       key: eventKey,

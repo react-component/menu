@@ -1,6 +1,10 @@
 # History
 ----
 
+## 4.12 / 2016-05-05
+
+- make submenu active only title is hovered when inline
+
 ## 4.11.0 / 2016-04-27
 
 - add onMouseEnter/onTitleMouseLeave/onTitleClick/...
