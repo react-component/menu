@@ -29,15 +29,8 @@
   padding: 8px 10px;
   border-bottom: 1px solid #dedede;
 }
-.rc-menu-inline > .rc-menu-item-active,
-.rc-menu-submenu-inline.rc-menu-submenu-active,
-.rc-menu-submenu-inline.rc-menu-submenu-active > .rc-menu-submenu-title:hover {
-  background-color: #fff;
-}
-.rc-menu-inline > .rc-menu-item-active:hover,
 .rc-menu-item-active,
-.rc-menu-submenu-active,
-.rc-menu-submenu-inline.rc-menu-submenu-active > .rc-menu-submenu-title:hover {
+.rc-menu-submenu-active > .rc-menu-submenu-title {
   background-color: #eaf8fe;
 }
 .rc-menu-item-selected {
