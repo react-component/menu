@@ -23613,7 +23613,7 @@
 	    var menu = this.menuInstance;
 	
 	    if (keyCode === _rcUtil.KeyCode.ENTER) {
-	      this.onClick(e);
+	      this.onTitleClick(e);
 	      this.setState({
 	        defaultActiveFirst: true
 	      });
@@ -23697,15 +23697,6 @@
 	    });
 	  },
 	
-	  onTitleClick: function onTitleClick(e) {
-	    var props = this.props;
-	
-	    props.onTitleClick({
-	      key: props.eventKey,
-	      domEvent: e
-	    });
-	  },
-	
 	  onTitleMouseLeave: function onTitleMouseLeave(e) {
 	    var _this = this;
 	
@@ -23769,11 +23760,17 @@
 	    }, 100);
 	  },
 	
-	  onClick: function onClick() {
-	    if (this.props.openSubMenuOnMouseEnter) {
+	  onTitleClick: function onTitleClick(e) {
+	    var props = this.props;
+	
+	    props.onTitleClick({
+	      key: props.eventKey,
+	      domEvent: e
+	    });
+	    if (props.openSubMenuOnMouseEnter) {
 	      return;
 	    }
-	    this.triggerOpenChange(!this.props.open, 'click');
+	    this.triggerOpenChange(!props.open, 'click');
 	    this.setState({
 	      defaultActiveFirst: false
 	    });
@@ -23873,12 +23870,12 @@
 	    this._menuId = this._menuId || (0, _rcUtil.guid)();
 	    classes[prefixCls] = true;
 	    classes[prefixCls + '-' + props.mode] = 1;
-	    var clickEvents = {};
+	    var titleClickEvents = {};
 	    var mouseEvents = {};
 	    var titleMouseEvents = {};
 	    if (!props.disabled) {
-	      clickEvents = {
-	        onClick: this.onClick
+	      titleClickEvents = {
+	        onClick: this.onTitleClick
 	      };
 	      mouseEvents = {
 	        onMouseLeave: this.onMouseLeave,
@@ -23887,7 +23884,6 @@
 	      // only works in title, not outer li
 	      titleMouseEvents = {
 	        onMouseEnter: this.onTitleMouseEnter,
-	        onClick: this.onTitleClick,
 	        onMouseLeave: this.onTitleMouseLeave
 	      };
 	    }
@@ -23903,7 +23899,7 @@
 	        _extends({
 	          style: style,
 	          className: prefixCls + '-title'
-	        }, titleMouseEvents, clickEvents, {
+	        }, titleMouseEvents, titleClickEvents, {
 	          'aria-open': props.open,
 	          'aria-owns': this._menuId,
 	          'aria-haspopup': 'true'
