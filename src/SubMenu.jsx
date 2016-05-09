@@ -74,7 +74,7 @@ const SubMenu = React.createClass({
     const menu = this.menuInstance;
 
     if (keyCode === KeyCode.ENTER) {
-      this.onClick(e);
+      this.onTitleClick(e);
       this.setState({
         defaultActiveFirst: true,
       });
@@ -158,14 +158,6 @@ const SubMenu = React.createClass({
     });
   },
 
-  onTitleClick(e) {
-    const { props } = this;
-    props.onTitleClick({
-      key: props.eventKey,
-      domEvent: e,
-    });
-  },
-
   onTitleMouseLeave(e) {
     const { props } = this;
     const parentMenu = props.parentMenu;
@@ -223,11 +215,16 @@ const SubMenu = React.createClass({
     }, 100);
   },
 
-  onClick() {
-    if (this.props.openSubMenuOnMouseEnter) {
+  onTitleClick(e) {
+    const { props } = this;
+    props.onTitleClick({
+      key: props.eventKey,
+      domEvent: e,
+    });
+    if (props.openSubMenuOnMouseEnter) {
       return;
     }
-    this.triggerOpenChange(!this.props.open, 'click');
+    this.triggerOpenChange(!props.open, 'click');
     this.setState({
       defaultActiveFirst: false,
     });
@@ -324,12 +321,12 @@ const SubMenu = React.createClass({
     this._menuId = this._menuId || guid();
     classes[prefixCls] = true;
     classes[prefixCls + '-' + props.mode] = 1;
-    let clickEvents = {};
+    let titleClickEvents = {};
     let mouseEvents = {};
     let titleMouseEvents = {};
     if (!props.disabled) {
-      clickEvents = {
-        onClick: this.onClick,
+      titleClickEvents = {
+        onClick: this.onTitleClick,
       };
       mouseEvents = {
         onMouseLeave: this.onMouseLeave,
@@ -338,7 +335,6 @@ const SubMenu = React.createClass({
       // only works in title, not outer li
       titleMouseEvents = {
         onMouseEnter: this.onTitleMouseEnter,
-        onClick: this.onTitleClick,
         onMouseLeave: this.onTitleMouseLeave,
       };
     }
@@ -352,7 +348,7 @@ const SubMenu = React.createClass({
           style={style}
           className={prefixCls + '-title'}
           {...titleMouseEvents}
-          {...clickEvents}
+          {...titleClickEvents}
           aria-open={props.open}
           aria-owns={this._menuId}
           aria-haspopup="true"
