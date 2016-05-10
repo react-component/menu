@@ -136,7 +136,11 @@ const Menu = React.createClass({
     if (e.open) {
       changed = openKeys.indexOf(e.key) === -1;
       if (changed) {
-        openKeys = openKeys.concat(e.key);
+        if (props.mode !== 'inline' && props.closeSubMenuOnMouseLeave) {
+          openKeys = [e.key];
+        } else {
+          openKeys = openKeys.concat(e.key);
+        }
       }
     } else {
       const index = openKeys.indexOf(e.key);
