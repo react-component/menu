@@ -31,7 +31,7 @@ function getActiveKey(props, originalActiveKey) {
   }
   activeKey = null;
   if (props.defaultActiveFirst) {
-    loopMenuItem(children, (c, i)=> {
+    loopMenuItem(children, (c, i) => {
       if (!activeKey && !c.props.disabled) {
         activeKey = getKeyFromChildrenIndex(c, eventKey, i);
       }
@@ -120,7 +120,7 @@ const MenuMixin = {
   onKeyDown(e) {
     const keyCode = e.keyCode;
     let handled;
-    this.getFlatInstanceArray().forEach((obj)=> {
+    this.getFlatInstanceArray().forEach((obj) => {
       if (obj && obj.props.active) {
         handled = obj.onKeyDown(e);
       }
@@ -136,7 +136,7 @@ const MenuMixin = {
       e.preventDefault();
       this.setState({
         activeKey: activeItem.props.eventKey,
-      }, ()=> {
+      }, () => {
         scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
           onlyScrollIfNeeded: true,
         });
@@ -155,7 +155,8 @@ const MenuMixin = {
     const { mode } = this.props;
     const { key, hover, trigger } = e;
     const activeKey = this.state.activeKey;
-    if (!trigger || hover || this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
+    if (!trigger || hover || this.props.closeSubMenuOnMouseLeave
+      || !e.item.isSubMenu || mode === 'inline') {
       this.setState({
         activeKey: hover ? key : null,
       });
@@ -165,7 +166,7 @@ const MenuMixin = {
     }
     // clear last open status
     if (hover && mode !== 'inline') {
-      const activeItem = this.getFlatInstanceArray().filter((c)=> {
+      const activeItem = this.getFlatInstanceArray().filter((c) => {
         return c && c.props.eventKey === activeKey;
       })[0];
       if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
@@ -180,12 +181,12 @@ const MenuMixin = {
 
   getFlatInstanceArray() {
     let instanceArray = this.instanceArray;
-    const hasInnerArray = instanceArray.some((a)=> {
+    const hasInnerArray = instanceArray.some((a) => {
       return Array.isArray(a);
     });
     if (hasInnerArray) {
       instanceArray = [];
-      this.instanceArray.forEach((a)=> {
+      this.instanceArray.forEach((a) => {
         if (Array.isArray(a)) {
           instanceArray.push.apply(instanceArray, a);
         } else {
@@ -202,6 +203,7 @@ const MenuMixin = {
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
     const childProps = child.props;
+    const isActive = key === state.activeKey;
     const newChildProps = assign({
       mode: props.mode,
       level: props.level,
@@ -210,11 +212,12 @@ const MenuMixin = {
       rootPrefixCls: props.prefixCls,
       index: i,
       parentMenu: this,
-      ref: childProps.disabled ? undefined : createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
+      ref: childProps.disabled ? undefined :
+        createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
       eventKey: key,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
       onItemHover: this.onItemHover,
-      active: !childProps.disabled && key === state.activeKey,
+      active: !childProps.disabled && isActive,
       multiple: props.multiple,
       onClick: this.onClick,
       openTransitionName: this.getOpenTransitionName(),
@@ -275,7 +278,7 @@ const MenuMixin = {
     }
     // find current activeIndex
     let activeIndex = -1;
-    children.every((c, ci)=> {
+    children.every((c, ci) => {
       if (c && c.props.eventKey === activeKey) {
         activeIndex = ci;
         return false;

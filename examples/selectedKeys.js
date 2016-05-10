@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {SubMenu, Item as MenuItem} from 'rc-menu';
+import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
@@ -54,7 +54,7 @@ const Test = React.createClass({
         selectedKeys.splice(index, 1);
       }
       this.setState({
-        selectedKeys: selectedKeys,
+        selectedKeys,
       });
     }
   },
@@ -72,20 +72,22 @@ const Test = React.createClass({
         openKeys.splice(index, 1);
       }
       this.setState({
-        openKeys: openKeys,
+        openKeys,
       });
     }
   },
 
   getMenu() {
     return (
-      <Menu multiple
-            onSelect={this.onSelect}
-            onDeselect={this.onDeselect}
-            onOpen={this.onOpen}
-            onClose={this.onClose}
-            openKeys={this.state.openKeys}
-            selectedKeys={this.state.selectedKeys}>
+      <Menu
+        multiple
+        onSelect={this.onSelect}
+        onDeselect={this.onDeselect}
+        onOpen={this.onOpen}
+        onClose={this.onClose}
+        openKeys={this.state.openKeys}
+        selectedKeys={this.state.selectedKeys}
+      >
         <SubMenu key="1" title="submenu1">
           <MenuItem key="1-1">item1-1</MenuItem>
           <MenuItem key="1-2">item1-2</MenuItem>
@@ -120,20 +122,32 @@ const Test = React.createClass({
       <p>
         selectedKeys: &nbsp;&nbsp;&nbsp;
         {allSelectedKeys.map((k) => {
-          return (<label key={k}>{k} <input value={k} key={k} type="checkbox" onChange={this.onCheck}
-                                           checked={selectedKeys.indexOf(k) !== -1}/></label>);
+          return (<label key={k}>{k}
+            <input
+              value={k}
+              key={k}
+              type="checkbox"
+              onChange={this.onCheck}
+              checked={selectedKeys.indexOf(k) !== -1}
+            />
+          </label>);
         })}
       </p>
 
       <p>
         openKeys: &nbsp;&nbsp;&nbsp;
-        {allOpenKeys.map((k)=> {
-          return (<label key={k}>{k} <input value={k} type="checkbox" onChange={this.onOpenCheck}
-                                           checked={openKeys.indexOf(k) !== -1}/></label>);
+        {allOpenKeys.map((k) => {
+          return (<label key={k}>{k}
+            <input
+              value={k}
+              type="checkbox"
+              onChange={this.onOpenCheck}
+              checked={openKeys.indexOf(k) !== -1}
+            /></label>);
         })}
       </p>
 
-      <div style={{width: 400}}>{this.getMenu()}</div>
+      <div style={{ width: 400 }}>{this.getMenu()}</div>
     </div>);
   },
 });

@@ -10,9 +10,6 @@ react menu component. port from https://github.com/kissyteam/menu
 [![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
-[![Sauce Test Status](https://saucelabs.com/buildstatus/rc-menu)](https://saucelabs.com/u/rc-menu)
-
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/rc-menu.svg)](https://saucelabs.com/u/rc-menu)
 
 [npm-image]: http://img.shields.io/npm/v/rc-menu.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-menu
@@ -336,11 +333,19 @@ online example: http://react-component.github.io/menu/examples/
 
 ## Test Case
 
-http://localhost:8010/tests/runner.html?coverage
+```
+npm test
+npm run chrome-test
+```
 
 ## Coverage
 
-http://localhost:8010/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8010/tests/runner.html?coverage
+```
+npm run coverage
+```
+
+open coverage/ dir
+
 
 ## License
 

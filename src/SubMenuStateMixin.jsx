@@ -1,4 +1,4 @@
-import rcUtil, {KeyCode} from 'rc-util';
+import rcUtil, { KeyCode } from 'rc-util';
 import ReactDOM from 'react-dom';
 
 export default {
@@ -43,8 +43,10 @@ export default {
 
   bindRootCloseHandlers() {
     if (!this._onDocumentClickListener) {
-      this._onDocumentClickListener = rcUtil.Dom.addEventListener(document, 'click', this.handleDocumentClick);
-      this._onDocumentKeyupListener = rcUtil.Dom.addEventListener(document, 'keyup', this.handleDocumentKeyUp);
+      this._onDocumentClickListener = rcUtil.Dom.addEventListener(document,
+        'click', this.handleDocumentClick);
+      this._onDocumentKeyupListener = rcUtil.Dom.addEventListener(document,
+        'keyup', this.handleDocumentKeyUp);
     }
   },
 

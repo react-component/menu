@@ -1,6 +1,6 @@
 {
   "name": "rc-menu",
-  "version": "4.12.1",
+  "version": "4.12.2",
   "description": "menu ui component for react",
   "keywords": [
     "react",
@@ -33,21 +33,21 @@
   "scripts": {
     "build": "rc-tools run build",
     "gh-pages": "rc-tools run gh-pages",
-    "start": "rc-server",
+    "start": "rc-tools run server",
     "pub": "rc-tools run pub",
     "lint": "rc-tools run lint",
     "karma": "rc-tools run karma",
     "saucelabs": "rc-tools run saucelabs",
-    "browser-test": "rc-tools run browser-test",
-    "browser-test-cover": "rc-tools run browser-test-cover"
+    "test": "rc-tools run test",
+    "chrome-test": "rc-tools run chrome-test",
+    "coverage": "rc-tools run coverage"
   },
   "devDependencies": {
     "css-animation": "^1.2.0",
     "expect.js": "~0.3.1",
     "font-awesome": "~4.2.0",
     "pre-commit": "1.x",
-    "rc-server": "3.x",
-    "rc-tools": "4.x",
+    "rc-tools": "5.x",
     "react": "15.x",
     "react-addons-test-utils": "15.x",
     "react-dom": "15.x"

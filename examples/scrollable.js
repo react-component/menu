@@ -2,14 +2,14 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, {Item as MenuItem} from 'rc-menu';
+import Menu, { Item as MenuItem } from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
 import 'font-awesome/css/font-awesome.css';
 
 const children = [];
 for (let i = 0; i < 20; i++) {
-  children.push(<MenuItem key={i + ''}>{i}</MenuItem>);
+  children.push(<MenuItem key={String(i)}>{i}</MenuItem>);
 }
 
 const menuStyle = {

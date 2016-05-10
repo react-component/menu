@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
-import {getKeyFromChildrenIndex} from './util';
+import { getKeyFromChildrenIndex } from './util';
 import Animate from 'rc-animate';
 
 const SubPopupMenu = React.createClass({
@@ -84,10 +84,12 @@ const SubPopupMenu = React.createClass({
         delete animProps.animation.appear;
       }
     }
-    return (<Animate {...animProps}
+    return (<Animate
+      {...animProps}
       showProp="visible"
       component=""
-      transitionAppear={transitionAppear}>
+      transitionAppear={transitionAppear}
+    >
       {this.renderRoot(props)}
     </Animate>);
   },

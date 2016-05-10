@@ -2,8 +2,9 @@ import SubPopupMenu from './SubPopupMenu';
 import React, { PropTypes } from 'react';
 import { KeyCode, guid } from 'rc-util';
 import classnames from 'classnames';
-import assign from 'object-assign';
 import { noop } from './util';
+
+/* eslint react/no-is-mounted:0 */
 
 const SubMenu = React.createClass({
   propTypes: {
@@ -54,14 +55,8 @@ const SubMenu = React.createClass({
     if (props.onDestroy) {
       props.onDestroy(props.eventKey);
     }
-    const parentMenu = props.parentMenu;
-    if (parentMenu.subMenuTitleLeaveTimer) {
-      clearTimeout(parentMenu.subMenuTitleLeaveTimer);
-      parentMenu.subMenuTitleLeaveTimer = null;
-    }
-    if (parentMenu.subMenuLeaveTimer) {
-      clearTimeout(parentMenu.subMenuLeaveTimer);
-      parentMenu.subMenuLeaveTimer = null;
+    if (props.parentMenu.subMenuInstance === this) {
+      this.clearSubMenuTimers();
     }
   },
 
@@ -117,14 +112,9 @@ const SubMenu = React.createClass({
 
   onMouseEnter(e) {
     const props = this.props;
-    const parentMenu = props.parentMenu;
-    if (parentMenu.subMenuLeaveTimer) {
-      clearTimeout(parentMenu.subMenuLeaveTimer);
-      parentMenu.subMenuLeaveTimer = null;
-    }
-    const eventKey = props.eventKey;
+    this.clearSubMenuLeaveTimer(props.parentMenu.subMenuInstance !== this);
     props.onMouseEnter({
-      key: eventKey,
+      key: props.eventKey,
       domEvent: e,
     });
   },
@@ -132,13 +122,9 @@ const SubMenu = React.createClass({
   onTitleMouseEnter(e) {
     const props = this.props;
     const parentMenu = props.parentMenu;
-    if (parentMenu.subMenuTitleLeaveTimer) {
-      clearTimeout(parentMenu.subMenuTitleLeaveTimer);
-      parentMenu.subMenuTitleLeaveTimer = null;
-    }
-    if (parentMenu.menuItemMouseLeaveTimer) {
-      clearTimeout(parentMenu.menuItemMouseLeaveTimer);
-      parentMenu.menuItemMouseLeaveTimer = null;
+    this.clearSubMenuTitleLeaveTimer(parentMenu.subMenuInstance !== this);
+    if (parentMenu.menuItemInstance) {
+      parentMenu.menuItemInstance.clearMenuItemMouseLeaveTimer(true);
     }
     props.onItemHover({
       key: props.eventKey,
@@ -161,7 +147,8 @@ const SubMenu = React.createClass({
   onTitleMouseLeave(e) {
     const { props } = this;
     const parentMenu = props.parentMenu;
-    parentMenu.subMenuTitleLeaveTimer = setTimeout(()=> {
+    parentMenu.subMenuInstance = this;
+    parentMenu.subMenuTitleLeaveFn = () => {
       const eventKey = props.eventKey;
       if (this.isMounted()) {
         // leave whole sub tree
@@ -179,14 +166,15 @@ const SubMenu = React.createClass({
           domEvent: e,
         });
       }
-    }, 100);
+    };
+    parentMenu.subMenuTitleLeaveTimer = setTimeout(parentMenu.subMenuTitleLeaveFn, 100);
   },
 
   onMouseLeave(e) {
     const { props } = this;
     const parentMenu = props.parentMenu;
-    // prevent popup menu and submenu gap
-    parentMenu.subMenuLeaveTimer = setTimeout(()=> {
+    parentMenu.subMenuInstance = this;
+    parentMenu.subMenuLeaveFn = () => {
       const eventKey = props.eventKey;
       if (this.isMounted()) {
         // leave whole sub tree
@@ -212,7 +200,9 @@ const SubMenu = React.createClass({
           domEvent: e,
         });
       }
-    }, 100);
+    };
+    // prevent popup menu and submenu gap
+    parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);
   },
 
   onTitleClick(e) {
@@ -243,19 +233,19 @@ const SubMenu = React.createClass({
   },
 
   getPrefixCls() {
-    return this.props.rootPrefixCls + '-submenu';
+    return `${this.props.rootPrefixCls}-submenu`;
   },
 
   getActiveClassName() {
-    return this.getPrefixCls() + '-active';
+    return `${this.getPrefixCls()}-active`;
   },
 
   getDisabledClassName() {
-    return this.getPrefixCls() + '-disabled';
+    return `${this.getPrefixCls()}-disabled`;
   },
 
   getOpenClassName() {
-    return this.props.rootPrefixCls + '-submenu-open';
+    return `${this.props.rootPrefixCls}-submenu-open`;
   },
 
   saveMenuInstance(c) {
@@ -263,19 +253,49 @@ const SubMenu = React.createClass({
   },
 
   addKeyPath(info) {
-    return assign({}, info, {
+    return {
+      ...info,
       keyPath: (info.keyPath || []).concat(this.props.eventKey),
-    });
+    };
   },
 
   triggerOpenChange(open, type) {
     const key = this.props.eventKey;
     this.onOpenChange({
-      key: key,
+      key,
       item: this,
       trigger: type,
-      open: open,
+      open,
     });
+  },
+
+  clearSubMenuTimers(callFn) {
+    this.clearSubMenuLeaveTimer(callFn);
+    this.clearSubMenuTitleLeaveTimer(callFn);
+  },
+
+  clearSubMenuTitleLeaveTimer(callFn) {
+    const parentMenu = this.props.parentMenu;
+    if (parentMenu.subMenuTitleLeaveTimer) {
+      clearTimeout(parentMenu.subMenuTitleLeaveTimer);
+      parentMenu.subMenuTitleLeaveTimer = null;
+      if (callFn && parentMenu.subMenuTitleLeaveFn) {
+        parentMenu.subMenuTitleLeaveFn();
+      }
+      parentMenu.subMenuTitleLeaveFn = null;
+    }
+  },
+
+  clearSubMenuLeaveTimer(callFn) {
+    const parentMenu = this.props.parentMenu;
+    if (parentMenu.subMenuLeaveTimer) {
+      clearTimeout(parentMenu.subMenuLeaveTimer);
+      parentMenu.subMenuLeaveTimer = null;
+      if (callFn && parentMenu.subMenuLeaveFn) {
+        parentMenu.subMenuLeaveFn();
+      }
+      parentMenu.subMenuLeaveFn = null;
+    }
   },
 
   renderChildren(children) {
@@ -291,7 +311,7 @@ const SubMenu = React.createClass({
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       selectedKeys: props.selectedKeys,
-      eventKey: props.eventKey + '-menu-',
+      eventKey: `${props.eventKey}-menu-`,
       openKeys: props.openKeys,
       openTransitionName: props.openTransitionName,
       openAnimation: props.openAnimation,
@@ -320,7 +340,7 @@ const SubMenu = React.createClass({
     classes[this.getDisabledClassName()] = props.disabled;
     this._menuId = this._menuId || guid();
     classes[prefixCls] = true;
-    classes[prefixCls + '-' + props.mode] = 1;
+    classes[`${prefixCls}-${props.mode}`] = 1;
     let titleClickEvents = {};
     let mouseEvents = {};
     let titleMouseEvents = {};
@@ -346,7 +366,7 @@ const SubMenu = React.createClass({
       <li className={classnames(classes)} {...mouseEvents}>
         <div
           style={style}
-          className={prefixCls + '-title'}
+          className={`${prefixCls}-title`}
           {...titleMouseEvents}
           {...titleClickEvents}
           aria-open={props.open}

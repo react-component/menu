@@ -1,8 +1,8 @@
 import expect from 'expect.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils, {Simulate} from 'react-addons-test-utils';
-import Menu, {MenuItem} from 'rc-menu';
+import TestUtils, { Simulate } from 'react-addons-test-utils';
+import Menu, { MenuItem } from 'rc-menu';
 
 describe('MenuItem', () => {
   const div = document.createElement('div');
@@ -19,7 +19,8 @@ describe('MenuItem', () => {
         <MenuItem disabled>Pill 2 content</MenuItem>
       </Menu>, div
     );
-    expect(TestUtils.findRenderedDOMComponentWithClass(instance, 'rc-menu-item-disabled')).to.be.ok();
+    expect(TestUtils.findRenderedDOMComponentWithClass(instance,
+      'rc-menu-item-disabled')).to.be.ok();
   });
 
   it('Should not call `onSelect` when item disabled and is selected', (done) => {

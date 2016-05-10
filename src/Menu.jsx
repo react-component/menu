@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
-import {noop, getKeyFromChildrenIndex} from './util';
+import { noop, getKeyFromChildrenIndex } from './util';
 
 const Menu = React.createClass({
   propTypes: {
@@ -83,11 +83,11 @@ const Menu = React.createClass({
   },
 
   onItemHover(e) {
-    const {item} = e;
+    const { item } = e;
     // special for top sub menu
     if (this.props.mode !== 'inline' && !this.props.closeSubMenuOnMouseLeave && item.isSubMenu) {
       const activeKey = this.state.activeKey;
-      const activeItem = this.getFlatInstanceArray().filter((c)=> {
+      const activeItem = this.getFlatInstanceArray().filter((c) => {
         return c && c.props.eventKey === activeKey;
       })[0];
       if (activeItem && activeItem.props.open) {
@@ -115,11 +115,11 @@ const Menu = React.createClass({
       }
       if (!('selectedKeys' in props)) {
         this.setState({
-          selectedKeys: selectedKeys,
+          selectedKeys,
         });
       }
       props.onSelect(assign({}, selectInfo, {
-        selectedKeys: selectedKeys,
+        selectedKeys,
       }));
     }
   },
@@ -130,8 +130,8 @@ const Menu = React.createClass({
   },
 
   onOpenChange(e) {
-    let openKeys = this.state.openKeys;
     const props = this.props;
+    let openKeys = this.state.openKeys;
     let changed = true;
     if (e.open) {
       changed = openKeys.indexOf(e.key) === -1;
@@ -147,12 +147,13 @@ const Menu = React.createClass({
       }
     }
     if (changed) {
+      // hack, synchronous call from onTitleMouseEnter
+      this.state.openKeys = openKeys;
       if (!('openKeys' in this.props)) {
         // hack: batch does not update state
-        this.state.openKeys = openKeys;
-        this.setState({openKeys});
+        this.setState({ openKeys });
       }
-      const info = assign({openKeys}, e);
+      const info = assign({ openKeys }, e);
       if (e.open) {
         props.onOpen(info);
       } else {
@@ -172,11 +173,11 @@ const Menu = React.createClass({
       }
       if (!('selectedKeys' in props)) {
         this.setState({
-          selectedKeys: selectedKeys,
+          selectedKeys,
         });
       }
       props.onDeselect(assign({}, selectInfo, {
-        selectedKeys: selectedKeys,
+        selectedKeys,
       }));
     }
   },
@@ -198,7 +199,7 @@ const Menu = React.createClass({
   lastOpenSubMenu() {
     let lastOpen = [];
     if (this.state.openKeys.length) {
-      lastOpen = this.getFlatInstanceArray().filter((c)=> {
+      lastOpen = this.getFlatInstanceArray().filter((c) => {
         return c && this.state.openKeys.indexOf(c.props.eventKey) !== -1;
       });
     }
