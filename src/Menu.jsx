@@ -207,6 +207,7 @@ const Menu = React.createClass({
   },
 
   renderMenuItem(c, i, subIndex) {
+    if (!c) return null;
     const key = getKeyFromChildrenIndex(c, this.props.eventKey, i);
     const state = this.state;
     const extraProps = {
