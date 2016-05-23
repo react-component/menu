@@ -20460,6 +20460,7 @@
 	    return lastOpen[0];
 	  },
 	  renderMenuItem: function renderMenuItem(c, i, subIndex) {
+	    if (!c) return null;
 	    var key = (0, _util.getKeyFromChildrenIndex)(c, this.props.eventKey, i);
 	    var state = this.state;
 	    var extraProps = {
