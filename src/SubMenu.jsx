@@ -1,6 +1,7 @@
 import SubPopupMenu from './SubPopupMenu';
 import React, { PropTypes } from 'react';
-import { KeyCode, guid } from 'rc-util';
+import KeyCode from 'rc-util/lib/KeyCode';
+import guid from 'rc-util/lib/guid';
 import classnames from 'classnames';
 import { noop } from './util';
 

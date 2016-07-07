@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { createChainedFunction, KeyCode } from 'rc-util';
+import KeyCode from 'rc-util/lib/KeyCode';
+import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classnames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
