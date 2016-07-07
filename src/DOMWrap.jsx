@@ -4,6 +4,8 @@ import assign from 'object-assign';
 const DOMWrap = React.createClass({
   propTypes: {
     tag: PropTypes.string,
+    hiddenClassName: PropTypes.string,
+    visible: PropTypes.bool,
   },
 
   getDefaultProps() {
@@ -19,6 +21,9 @@ const DOMWrap = React.createClass({
       props.className += ` ${props.hiddenClassName}`;
     }
     const Tag = props.tag;
+    delete props.tag;
+    delete props.hiddenClassName;
+    delete props.visible;
     return <Tag {...props} />;
   },
 });

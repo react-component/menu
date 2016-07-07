@@ -255,11 +255,13 @@ const MenuMixin = {
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
-      <DOMWrap style={props.style}
-               tag="ul"
-               hiddenClassName={`${props.prefixCls}-hidden`}
-               visible={props.visible}
-        {...domProps}>
+      <DOMWrap
+        style={props.style}
+        tag="ul"
+        hiddenClassName={`${props.prefixCls}-hidden`}
+        visible={props.visible}
+        {...domProps}
+      >
         {React.Children.map(props.children, this.renderMenuItem)}
       </DOMWrap>
       /*eslint-enable */

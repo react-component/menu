@@ -12,7 +12,7 @@ const Divider = React.createClass({
     let className = props.className || '';
     const rootPrefixCls = props.rootPrefixCls;
     className += ' ' + `${rootPrefixCls}-item-divider`;
-    return <li {...props} className={className}/>;
+    return <li className={className} />;
   },
 });
 
