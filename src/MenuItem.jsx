@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { KeyCode } from 'rc-util';
+import KeyCode from 'rc-util/lib/KeyCode';
 import classnames from 'classnames';
 import { noop } from './util';
 

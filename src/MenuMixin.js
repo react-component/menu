@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { createChainedFunction, KeyCode } from 'rc-util';
+import KeyCode from 'rc-util/lib/KeyCode';
+import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classnames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import assign from 'object-assign';
@@ -255,11 +256,13 @@ const MenuMixin = {
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
-      <DOMWrap style={props.style}
-               tag="ul"
-               hiddenClassName={`${props.prefixCls}-hidden`}
-               visible={props.visible}
-        {...domProps}>
+      <DOMWrap
+        style={props.style}
+        tag="ul"
+        hiddenClassName={`${props.prefixCls}-hidden`}
+        visible={props.visible}
+        {...domProps}
+      >
         {React.Children.map(props.children, this.renderMenuItem)}
       </DOMWrap>
       /*eslint-enable */

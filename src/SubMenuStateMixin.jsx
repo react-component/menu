@@ -1,4 +1,6 @@
-import rcUtil, { KeyCode } from 'rc-util';
+import KeyCode from 'rc-util/lib/KeyCode';
+import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import contains from 'rc-util/lib/Dom/contains';
 import ReactDOM from 'react-dom';
 
 export default {
@@ -29,7 +31,7 @@ export default {
   handleDocumentClick(e) {
     // If the click originated from within this component
     // don't do anything.
-    if (rcUtil.Dom.contains(ReactDOM.findDOMNode(this), e.target)) {
+    if (contains(ReactDOM.findDOMNode(this), e.target)) {
       return;
     }
     const props = this.props;
@@ -43,9 +45,9 @@ export default {
 
   bindRootCloseHandlers() {
     if (!this._onDocumentClickListener) {
-      this._onDocumentClickListener = rcUtil.Dom.addEventListener(document,
+      this._onDocumentClickListener = addEventListener(document,
         'click', this.handleDocumentClick);
-      this._onDocumentKeyupListener = rcUtil.Dom.addEventListener(document,
+      this._onDocumentKeyupListener = addEventListener(document,
         'keyup', this.handleDocumentKeyUp);
     }
   },
