@@ -24,3 +24,15 @@ export function loopMenuItem(children, cb) {
     }
   });
 }
+
+export function loopMenuItemRecursively(children, cb) {
+  let index = -1;
+  React.Children.forEach(children, (c) => {
+    index++;
+    if (/(SubMenu|Menu)$/.test(c.type) && c.props.children) {
+      loopMenuItemRecursively(c.props.children, cb);
+    }
+
+    cb(c, index);
+  });
+}
