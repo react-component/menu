@@ -55,8 +55,9 @@ const SubPopupMenu = React.createClass({
     const extraProps = {
       openKeys: props.openKeys,
       selectedKeys: props.selectedKeys,
+      keyPath: props.keyPath,
       open: props.openKeys.indexOf(key) !== -1,
-      selected: props.selectedKeys.indexOf(key) !== -1,
+      selected: props.selectedKeys.indexOf(key) !== -1 || props.keyPath.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: true,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);

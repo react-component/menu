@@ -52,7 +52,9 @@ const Menu = React.createClass({
       openKeys = props.openKeys || [];
     }
     return {
-      selectedKeys, openKeys,
+      selectedKeys,
+      openKeys,
+      keyPath: [],
     };
   },
 
@@ -125,6 +127,9 @@ const Menu = React.createClass({
   },
 
   onClick(e) {
+    this.setState({
+      keyPath: [...e.keyPath],
+    });
     const props = this.props;
     props.onClick(e);
   },
@@ -214,7 +219,8 @@ const Menu = React.createClass({
       openKeys: state.openKeys,
       open: state.openKeys.indexOf(key) !== -1,
       selectedKeys: state.selectedKeys,
-      selected: state.selectedKeys.indexOf(key) !== -1,
+      keyPath: state.keyPath,
+      selected: state.selectedKeys.indexOf(key) !== -1 || state.keyPath.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: this.props.openSubMenuOnMouseEnter,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);
