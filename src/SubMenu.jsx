@@ -245,6 +245,10 @@ const SubMenu = React.createClass({
     return `${this.getPrefixCls()}-disabled`;
   },
 
+  getSelectedClassName() {
+    return `${this.getPrefixCls()}-selected`;
+  },
+
   getOpenClassName() {
     return `${this.props.rootPrefixCls}-submenu-open`;
   },
@@ -312,6 +316,7 @@ const SubMenu = React.createClass({
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       selectedKeys: props.selectedKeys,
+      keyPath: props.keyPath,
       eventKey: `${props.eventKey}-menu-`,
       openKeys: props.openKeys,
       openTransitionName: props.openTransitionName,
@@ -339,6 +344,7 @@ const SubMenu = React.createClass({
     classes[this.getOpenClassName()] = this.props.open;
     classes[this.getActiveClassName()] = props.active;
     classes[this.getDisabledClassName()] = props.disabled;
+    classes[this.getSelectedClassName()] = props.selected;
     this._menuId = this._menuId || guid();
     classes[prefixCls] = true;
     classes[`${prefixCls}-${props.mode}`] = 1;
