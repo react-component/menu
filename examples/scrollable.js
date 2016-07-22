@@ -9,11 +9,7 @@ webpackJsonp([5],{
 /***/ },
 
 /***/ 208:
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
+204,
 
 /***/ 210:
 /***/ function(module, exports, __webpack_require__) {
@@ -36,12 +32,12 @@ webpackJsonp([5],{
 	
 	__webpack_require__(208);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var children = []; /* eslint no-console:0 */
 	
 	for (var i = 0; i < 20; i++) {
-	  children.push(_react2["default"].createElement(
+	  children.push(_react2.default.createElement(
 	    _rcMenu.Item,
 	    { key: String(i) },
 	    i
@@ -53,16 +49,16 @@ webpackJsonp([5],{
 	  height: 200,
 	  overflow: 'auto'
 	};
-	_reactDom2["default"].render(_react2["default"].createElement(
+	_reactDom2.default.render(_react2.default.createElement(
 	  'div',
 	  null,
-	  _react2["default"].createElement(
+	  _react2.default.createElement(
 	    'h2',
 	    null,
 	    'keyboard scrollable menu'
 	  ),
-	  _react2["default"].createElement(
-	    _rcMenu2["default"],
+	  _react2.default.createElement(
+	    _rcMenu2.default,
 	    { style: menuStyle },
 	    children
 	  )

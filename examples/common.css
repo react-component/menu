@@ -38,6 +38,9 @@
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
 }
+.rc-menu-submenu-selected {
+  background-color: #eaf8fe;
+}
 .rc-menu > li.rc-menu-submenu {
   padding: 0;
 }

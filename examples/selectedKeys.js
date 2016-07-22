@@ -9,11 +9,7 @@ webpackJsonp([6],{
 /***/ },
 
 /***/ 208:
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
+204,
 
 /***/ 211:
 /***/ function(module, exports, __webpack_require__) {
@@ -36,9 +32,9 @@ webpackJsonp([6],{
 	
 	__webpack_require__(208);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Test = _react2["default"].createClass({
+	var Test = _react2.default.createClass({
 	  displayName: 'Test',
 	  getInitialState: function getInitialState() {
 	    return {
@@ -103,8 +99,8 @@ webpackJsonp([6],{
 	    }
 	  },
 	  getMenu: function getMenu() {
-	    return _react2["default"].createElement(
-	      _rcMenu2["default"],
+	    return _react2.default.createElement(
+	      _rcMenu2.default,
 	      {
 	        multiple: true,
 	        onSelect: this.onSelect,
@@ -114,35 +110,35 @@ webpackJsonp([6],{
 	        openKeys: this.state.openKeys,
 	        selectedKeys: this.state.selectedKeys
 	      },
-	      _react2["default"].createElement(
+	      _react2.default.createElement(
 	        _rcMenu.SubMenu,
 	        { key: '1', title: 'submenu1' },
-	        _react2["default"].createElement(
+	        _react2.default.createElement(
 	          _rcMenu.Item,
 	          { key: '1-1' },
 	          'item1-1'
 	        ),
-	        _react2["default"].createElement(
+	        _react2.default.createElement(
 	          _rcMenu.Item,
 	          { key: '1-2' },
 	          'item1-2'
 	        )
 	      ),
-	      _react2["default"].createElement(
+	      _react2.default.createElement(
 	        _rcMenu.SubMenu,
 	        { key: '2', title: 'submenu2' },
-	        _react2["default"].createElement(
+	        _react2.default.createElement(
 	          _rcMenu.Item,
 	          { key: '2-1' },
 	          'item2-1'
 	        ),
-	        _react2["default"].createElement(
+	        _react2.default.createElement(
 	          _rcMenu.Item,
 	          { key: '2-2' },
 	          'item2-2'
 	        )
 	      ),
-	      _react2["default"].createElement(
+	      _react2.default.createElement(
 	        _rcMenu.Item,
 	        { key: '3' },
 	        'item3'
@@ -165,24 +161,24 @@ webpackJsonp([6],{
 	    var selectedKeys = this.state.selectedKeys;
 	    var openKeys = this.state.openKeys;
 	
-	    return _react2["default"].createElement(
+	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2["default"].createElement(
+	      _react2.default.createElement(
 	        'h2',
 	        null,
 	        'multiple selectable menu'
 	      ),
-	      _react2["default"].createElement(
+	      _react2.default.createElement(
 	        'p',
 	        null,
 	        'selectedKeys:    ',
 	        allSelectedKeys.map(function (k) {
-	          return _react2["default"].createElement(
+	          return _react2.default.createElement(
 	            'label',
 	            { key: k },
 	            k,
-	            _react2["default"].createElement('input', {
+	            _react2.default.createElement('input', {
 	              value: k,
 	              key: k,
 	              type: 'checkbox',
@@ -192,16 +188,16 @@ webpackJsonp([6],{
 	          );
 	        })
 	      ),
-	      _react2["default"].createElement(
+	      _react2.default.createElement(
 	        'p',
 	        null,
 	        'openKeys:    ',
 	        allOpenKeys.map(function (k) {
-	          return _react2["default"].createElement(
+	          return _react2.default.createElement(
 	            'label',
 	            { key: k },
 	            k,
-	            _react2["default"].createElement('input', {
+	            _react2.default.createElement('input', {
 	              value: k,
 	              type: 'checkbox',
 	              onChange: _this.onOpenCheck,
@@ -210,7 +206,7 @@ webpackJsonp([6],{
 	          );
 	        })
 	      ),
-	      _react2["default"].createElement(
+	      _react2.default.createElement(
 	        'div',
 	        { style: { width: 400 } },
 	        this.getMenu()
@@ -219,7 +215,7 @@ webpackJsonp([6],{
 	  }
 	}); /* eslint no-console:0 */
 	
-	_reactDom2["default"].render(_react2["default"].createElement(Test, null), document.getElementById('__react-content'));
+	_reactDom2.default.render(_react2.default.createElement(Test, null), document.getElementById('__react-content'));
 
 /***/ }
 
