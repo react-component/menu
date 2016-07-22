@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import guid from 'rc-util/lib/guid';
 import classnames from 'classnames';
-import { noop } from './util';
+import { noop, loopMenuItemRecusively } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
@@ -11,13 +11,15 @@ const SubMenu = React.createClass({
   propTypes: {
     parentMenu: PropTypes.object,
     title: PropTypes.node,
+    children: PropTypes.any,
+    selectedKeys: PropTypes.array,
+    openKeys: PropTypes.array,
     onClick: PropTypes.func,
     onOpenChange: PropTypes.func,
     rootPrefixCls: PropTypes.string,
     eventKey: PropTypes.string,
     multiple: PropTypes.bool,
     active: PropTypes.bool,
-    open: PropTypes.bool,
     onSelect: PropTypes.func,
     closeSubMenuOnMouseLeave: PropTypes.bool,
     openSubMenuOnMouseEnter: PropTypes.bool,
@@ -68,6 +70,7 @@ const SubMenu = React.createClass({
   onKeyDown(e) {
     const keyCode = e.keyCode;
     const menu = this.menuInstance;
+    const isOpen = this.isOpen();
 
     if (keyCode === KeyCode.ENTER) {
       this.onTitleClick(e);
@@ -78,7 +81,7 @@ const SubMenu = React.createClass({
     }
 
     if (keyCode === KeyCode.RIGHT) {
-      if (this.props.open) {
+      if (isOpen) {
         menu.onKeyDown(e);
       } else {
         this.triggerOpenChange(true);
@@ -90,7 +93,7 @@ const SubMenu = React.createClass({
     }
     if (keyCode === KeyCode.LEFT) {
       let handled;
-      if (this.props.open) {
+      if (isOpen) {
         handled = menu.onKeyDown(e);
       } else {
         return undefined;
@@ -102,7 +105,7 @@ const SubMenu = React.createClass({
       return handled;
     }
 
-    if (this.props.open && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
+    if (isOpen && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
       return menu.onKeyDown(e);
     }
   },
@@ -189,7 +192,7 @@ const SubMenu = React.createClass({
               trigger: 'mouseleave',
             });
           }
-          if (props.open) {
+          if (this.isOpen()) {
             if (props.closeSubMenuOnMouseLeave) {
               this.triggerOpenChange(false);
             }
@@ -215,7 +218,7 @@ const SubMenu = React.createClass({
     if (props.openSubMenuOnMouseEnter) {
       return;
     }
-    this.triggerOpenChange(!props.open, 'click');
+    this.triggerOpenChange(!this.isOpen(), 'click');
     this.setState({
       defaultActiveFirst: false,
     });
@@ -303,11 +306,20 @@ const SubMenu = React.createClass({
     }
   },
 
+  isChildrenSelected() {
+    const ret = { find: false };
+    loopMenuItemRecusively(this.props.children, this.props.selectedKeys, ret);
+    return ret.find;
+  },
+  isOpen() {
+    return this.props.openKeys.indexOf(this.props.eventKey) !== -1;
+  },
+
   renderChildren(children) {
     const props = this.props;
     const baseProps = {
       mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
-      visible: props.open,
+      visible: this.isOpen(),
       level: props.level + 1,
       inlineIndent: props.inlineIndent,
       focusable: false,
@@ -316,7 +328,6 @@ const SubMenu = React.createClass({
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       selectedKeys: props.selectedKeys,
-      keyPath: props.keyPath,
       eventKey: `${props.eventKey}-menu-`,
       openKeys: props.openKeys,
       openTransitionName: props.openTransitionName,
@@ -333,7 +344,8 @@ const SubMenu = React.createClass({
   },
 
   render() {
-    this.haveOpen = this.haveOpen || this.props.open;
+    const isOpen = this.isOpen();
+    this.haveOpen = this.haveOpen || isOpen;
     const props = this.props;
     const prefixCls = this.getPrefixCls();
     const classes = {
@@ -341,10 +353,11 @@ const SubMenu = React.createClass({
       [`${prefixCls}-${props.mode}`]: 1,
     };
 
-    classes[this.getOpenClassName()] = this.props.open;
+    classes[this.getOpenClassName()] = isOpen;
     classes[this.getActiveClassName()] = props.active;
     classes[this.getDisabledClassName()] = props.disabled;
-    classes[this.getSelectedClassName()] = props.selected;
+    classes[this.getSelectedClassName()] = this.isChildrenSelected();
+
     this._menuId = this._menuId || guid();
     classes[prefixCls] = true;
     classes[`${prefixCls}-${props.mode}`] = 1;
@@ -376,7 +389,7 @@ const SubMenu = React.createClass({
           className={`${prefixCls}-title`}
           {...titleMouseEvents}
           {...titleClickEvents}
-          aria-open={props.open}
+          aria-open={isOpen}
           aria-owns={this._menuId}
           aria-haspopup="true"
         >
@@ -387,5 +400,7 @@ const SubMenu = React.createClass({
     );
   },
 });
+
+SubMenu.isSubMenu = 1;
 
 export default SubMenu;

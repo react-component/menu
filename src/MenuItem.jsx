@@ -10,7 +10,8 @@ const MenuItem = React.createClass({
     rootPrefixCls: PropTypes.string,
     eventKey: PropTypes.string,
     active: PropTypes.bool,
-    selected: PropTypes.bool,
+    children: PropTypes.any,
+    selectedKeys: PropTypes.array,
     disabled: PropTypes.bool,
     title: PropTypes.string,
     onSelect: PropTypes.func,
@@ -93,6 +94,7 @@ const MenuItem = React.createClass({
 
   onClick(e) {
     const props = this.props;
+    const selected = this.isSelected();
     const eventKey = props.eventKey;
     const info = {
       key: eventKey,
@@ -102,12 +104,12 @@ const MenuItem = React.createClass({
     };
     props.onClick(info);
     if (props.multiple) {
-      if (props.selected) {
+      if (selected) {
         props.onDeselect(info);
       } else {
         props.onSelect(info);
       }
-    } else if (!props.selected) {
+    } else if (!selected) {
       props.onSelect(info);
     }
   },
@@ -141,11 +143,16 @@ const MenuItem = React.createClass({
     }
   },
 
+  isSelected() {
+    return this.props.selectedKeys.indexOf(this.props.eventKey) !== -1;
+  },
+
   render() {
     const props = this.props;
+    const selected = this.isSelected();
     const classes = {};
     classes[this.getActiveClassName()] = !props.disabled && props.active;
-    classes[this.getSelectedClassName()] = props.selected;
+    classes[this.getSelectedClassName()] = selected;
     classes[this.getDisabledClassName()] = props.disabled;
     classes[this.getPrefixCls()] = true;
     classes[props.className] = !!props.className;
@@ -154,7 +161,7 @@ const MenuItem = React.createClass({
       title: props.title,
       className: classnames(classes),
       role: 'menuitem',
-      'aria-selected': props.selected,
+      'aria-selected': selected,
       'aria-disabled': props.disabled,
     };
     let mouseEvent = {};
@@ -182,5 +189,7 @@ const MenuItem = React.createClass({
     );
   },
 });
+
+MenuItem.isMenuItem = 1;
 
 export default MenuItem;

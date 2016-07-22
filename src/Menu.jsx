@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
-import { noop, getKeyFromChildrenIndex } from './util';
+import { noop } from './util';
 
 const Menu = React.createClass({
   propTypes: {
@@ -54,7 +54,6 @@ const Menu = React.createClass({
     return {
       selectedKeys,
       openKeys,
-      keyPath: [],
     };
   },
 
@@ -127,11 +126,7 @@ const Menu = React.createClass({
   },
 
   onClick(e) {
-    this.setState({
-      keyPath: [...e.keyPath],
-    });
-    const props = this.props;
-    props.onClick(e);
+    this.props.onClick(e);
   },
 
   onOpenChange(e) {
@@ -212,15 +207,13 @@ const Menu = React.createClass({
   },
 
   renderMenuItem(c, i, subIndex) {
-    if (!c) return null;
-    const key = getKeyFromChildrenIndex(c, this.props.eventKey, i);
+    if (!c) {
+      return null;
+    }
     const state = this.state;
     const extraProps = {
       openKeys: state.openKeys,
-      open: state.openKeys.indexOf(key) !== -1,
       selectedKeys: state.selectedKeys,
-      keyPath: state.keyPath,
-      selected: state.selectedKeys.indexOf(key) !== -1 || state.keyPath.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: this.props.openSubMenuOnMouseEnter,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);

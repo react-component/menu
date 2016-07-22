@@ -1,6 +1,10 @@
 # History
 ----
 
+## 4.13.0 / 2016-07-22
+
+- support submenu-selected
+
 ## 4.12 / 2016-05-05
 
 - make submenu active only title is hovered when inline

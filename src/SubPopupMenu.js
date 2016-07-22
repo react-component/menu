@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
-import { getKeyFromChildrenIndex } from './util';
 import Animate from 'rc-animate';
 
 const SubPopupMenu = React.createClass({
@@ -51,13 +50,9 @@ const SubPopupMenu = React.createClass({
 
   renderMenuItem(c, i, subIndex) {
     const props = this.props;
-    const key = getKeyFromChildrenIndex(c, props.eventKey, i);
     const extraProps = {
       openKeys: props.openKeys,
       selectedKeys: props.selectedKeys,
-      keyPath: props.keyPath,
-      open: props.openKeys.indexOf(key) !== -1,
-      selected: props.selectedKeys.indexOf(key) !== -1 || props.keyPath.indexOf(key) !== -1,
       openSubMenuOnMouseEnter: true,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);
