@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
 import assign from 'object-assign';
-import { noop, getKeyFromChildrenIndex } from './util';
+import { noop, getKeyFromChildrenIndex, loopMenuItemRecursively } from './util';
 
 const Menu = React.createClass({
   propTypes: {
@@ -56,6 +56,24 @@ const Menu = React.createClass({
       openKeys,
       keyPath: [],
     };
+  },
+
+  componentDidMount() {
+    const children = this.props.children;
+    const activeKeys = this.props.defaultSelectedKeys;
+
+    loopMenuItemRecursively(children, (c, i) => {
+      // multiple select
+      const activeKey = activeKeys.find(key => key === getKeyFromChildrenIndex(c, key, i));
+      if (!c.props.disabled && typeof activeKey !== 'undefined') {
+        const selectInfo = {
+          key: activeKey,
+          item: c,
+        };
+
+        this.onSelect(selectInfo);
+      }
+    });
   },
 
   componentWillReceiveProps(nextProps) {
