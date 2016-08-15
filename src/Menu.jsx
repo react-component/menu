@@ -148,7 +148,9 @@ const Menu = React.createClass({
     }
     if (changed) {
       // hack, synchronous call from onTitleMouseEnter
-      this.state.openKeys = openKeys;
+      if (props.mode !== 'inline') {
+        this.state.openKeys = openKeys;
+      }
       if (!('openKeys' in this.props)) {
         // hack: batch does not update state
         this.setState({ openKeys });
