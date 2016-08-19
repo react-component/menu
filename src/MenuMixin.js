@@ -4,7 +4,6 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classnames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
-import assign from 'object-assign';
 import { getKeyFromChildrenIndex, loopMenuItem } from './util';
 import DOMWrap from './DOMWrap';
 
@@ -17,8 +16,7 @@ function allDisabled(arr) {
 
 function getActiveKey(props, originalActiveKey) {
   let activeKey = originalActiveKey;
-  const children = props.children;
-  const eventKey = props.eventKey;
+  const { children, eventKey } = props;
   if (activeKey) {
     let found;
     loopMenuItem(children, (c, i) => {
@@ -152,12 +150,12 @@ const MenuMixin = {
     }
   },
 
-  onCommonItemHover(e) {
+  getOpenChangesOnItemHover(e) {
     const { mode } = this.props;
     const { key, hover, trigger } = e;
     const activeKey = this.state.activeKey;
-    if (!trigger || hover || this.props.closeSubMenuOnMouseLeave
-      || !e.item.isSubMenu || mode === 'inline') {
+    if (!trigger || hover ||
+      this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
       this.setState({
         activeKey: hover ? key : null,
       });
@@ -171,13 +169,15 @@ const MenuMixin = {
         return c && c.props.eventKey === activeKey;
       })[0];
       if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
-        this.onOpenChange({
+        return ({
           item: activeItem,
+          originalEvent: e,
           key: activeItem.props.eventKey,
           open: false,
         });
       }
     }
+    return [];
   },
 
   getFlatInstanceArray() {
@@ -205,7 +205,7 @@ const MenuMixin = {
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
     const childProps = child.props;
     const isActive = key === state.activeKey;
-    const newChildProps = assign({
+    const newChildProps = {
       mode: props.mode,
       level: props.level,
       inlineIndent: props.inlineIndent,
@@ -227,7 +227,8 @@ const MenuMixin = {
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
       onSelect: this.onSelect,
-    }, extraProps);
+      ...extraProps,
+    };
     if (props.mode === 'inline') {
       newChildProps.closeSubMenuOnMouseLeave = newChildProps.openSubMenuOnMouseEnter = false;
     }

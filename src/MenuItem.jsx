@@ -52,8 +52,7 @@ const MenuItem = React.createClass({
 
   onMouseLeave(e) {
     const props = this.props;
-    const eventKey = props.eventKey;
-    const parentMenu = props.parentMenu;
+    const { eventKey, parentMenu } = props;
     parentMenu.menuItemInstance = this;
     parentMenu.menuItemMouseLeaveFn = () => {
       if (this.isMounted() && props.active) {
@@ -61,6 +60,7 @@ const MenuItem = React.createClass({
           key: eventKey,
           item: this,
           hover: false,
+          domEvent: e,
           trigger: 'mouseleave',
         });
       }
@@ -74,16 +74,16 @@ const MenuItem = React.createClass({
 
   onMouseEnter(e) {
     const props = this.props;
-    const parentMenu = props.parentMenu;
+    const { eventKey, parentMenu } = props;
     this.clearMenuItemMouseLeaveTimer(parentMenu.menuItemInstance !== this);
     if (parentMenu.subMenuInstance) {
-      parentMenu.subMenuInstance.clearSubMenuTimers(true);
+      parentMenu.subMenuInstance.clearSubMenuTimers();
     }
-    const eventKey = props.eventKey;
     props.onItemHover({
       key: eventKey,
       item: this,
       hover: true,
+      domEvent: e,
       trigger: 'mouseenter',
     });
     props.onMouseEnter({
@@ -130,8 +130,9 @@ const MenuItem = React.createClass({
     return `${this.getPrefixCls()}-disabled`;
   },
 
-  clearMenuItemMouseLeaveTimer(callFn) {
+  clearMenuItemMouseLeaveTimer() {
     const props = this.props;
+    let callFn;
     const parentMenu = props.parentMenu;
     if (parentMenu.menuItemMouseLeaveTimer) {
       clearTimeout(parentMenu.menuItemMouseLeaveTimer);

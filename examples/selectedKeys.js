@@ -27,17 +27,10 @@ const Test = React.createClass({
     console.log('deselect ', info);
   },
 
-  onOpen(info) {
-    console.log('open ', info);
+  onOpenChange(openKeys) {
+    console.log('onOpenChange ', openKeys);
     this.setState({
-      openKeys: info.openKeys,
-    });
-  },
-
-  onClose(info) {
-    console.log('open ', info);
-    this.setState({
-      openKeys: info.openKeys,
+      openKeys,
     });
   },
 
@@ -83,8 +76,7 @@ const Test = React.createClass({
         multiple
         onSelect={this.onSelect}
         onDeselect={this.onDeselect}
-        onOpen={this.onOpen}
-        onClose={this.onClose}
+        onOpenChange={this.onOpenChange}
         openKeys={this.state.openKeys}
         selectedKeys={this.state.selectedKeys}
       >

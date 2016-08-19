@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 const Divider = React.createClass({
+  propTypes: {
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
+    rootPrefixCls: PropTypes.string,
+  },
+
   getDefaultProps() {
     return {
       disabled: true,
@@ -8,11 +14,8 @@ const Divider = React.createClass({
   },
 
   render() {
-    const props = this.props;
-    let className = props.className || '';
-    const rootPrefixCls = props.rootPrefixCls;
-    className += ' ' + `${rootPrefixCls}-item-divider`;
-    return <li className={className} />;
+    const { className = '', rootPrefixCls } = this.props;
+    return <li className={`${className} ${rootPrefixCls}-item-divider`}/>;
   },
 });
 

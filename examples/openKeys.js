@@ -15,29 +15,20 @@ const Test = React.createClass({
 
   onClick(info) {
     console.log('click ', info);
+  },
+
+  onOpenChange(openKeys) {
+    console.log('onOpenChange', openKeys);
     this.setState({
-      openKeys: info.keyPath.slice(1),
+      openKeys,
     });
   },
-
-  onOpen(info) {
-    console.log('onOpen', info);
-    this.setState({
-      openKeys: info.openKeys,
-    });
-  },
-
-  onClose(info) {
-    this.onOpen(info);
-  },
-
   getMenu() {
     return (
       <Menu
         onClick={this.onClick}
         mode="inline"
-        onOpen={this.onOpen}
-        onClose={this.onClose}
+        onOpenChange={this.onOpenChange}
         openKeys={this.state.openKeys}
       >
         <SubMenu key="1" title="submenu1">

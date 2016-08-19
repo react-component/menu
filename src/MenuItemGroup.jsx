@@ -4,6 +4,8 @@ const MenuItemGroup = React.createClass({
   propTypes: {
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,
+    className: PropTypes.string,
+    rootPrefixCls: PropTypes.string,
   },
 
   getDefaultProps() {
@@ -13,19 +15,16 @@ const MenuItemGroup = React.createClass({
   },
 
   renderInnerMenuItem(item, subIndex) {
-    const renderMenuItem = this.props.renderMenuItem;
-    return renderMenuItem(item, this.props.index, subIndex);
+    const { renderMenuItem, index } = this.props;
+    return renderMenuItem(item, index, subIndex);
   },
 
   render() {
     const props = this.props;
-    let className = props.className || '';
-    const rootPrefixCls = props.rootPrefixCls;
-
-    className += ` ${rootPrefixCls}-item-group`;
+    const { className = '', rootPrefixCls } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
-    return (<li className={className}>
+    return (<li className={`${className} ${rootPrefixCls}-item-group`}>
       <div className={titleClassName}>{props.title}</div>
       <ul className={listClassName}>
         {React.Children.map(props.children, this.renderInnerMenuItem)}

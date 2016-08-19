@@ -127,16 +127,10 @@ ReactDOM.render(<Menu>
             <td>called when click a menu item</td>
         </tr>
         <tr>
-            <td>onOpen</td>
-            <td>function({openKeys:String[]})</td>
+            <td>onOpenChange</td>
+            <td>(openKeys:String[]) => void</td>
             <th></th>
-            <td>called when open a sub menu</td>
-        </tr>
-        <tr>
-            <td>onClose</td>
-            <td>function({openKeys:String[]})</td>
-            <th></th>
-            <td>called when close a sub menu</td>
+            <td>called when open/close sub menu</td>
         </tr>
         <tr>
             <td>onDeselect</td>

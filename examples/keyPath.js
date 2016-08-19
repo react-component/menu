@@ -7,28 +7,8 @@ import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import 'rc-menu/assets/index.less';
 
 const Test = React.createClass({
-  getInitialState() {
-    return {
-      openKeys: [],
-    };
-  },
-
   onClick(info) {
     console.log('click ', info);
-    this.setState({
-      openKeys: info.keyPath.slice(1),
-    });
-  },
-
-  onOpen(info) {
-    console.log('onOpen', info);
-    this.setState({
-      openKeys: info.open ? info.keyPath : info.keyPath.slice(1),
-    });
-  },
-
-  onClose(info) {
-    this.onOpen(info);
   },
 
   getMenu() {
@@ -36,9 +16,6 @@ const Test = React.createClass({
       <Menu
         onClick={this.onClick}
         mode="inline"
-        onOpen={this.onOpen}
-        onClose={this.onClose}
-        openKeys={this.state.openKeys}
       >
         <SubMenu key="1" title="submenu1">
           <MenuItem key="1-1">item1-1</MenuItem>

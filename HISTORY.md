@@ -1,6 +1,10 @@
 # History
 ----
 
+## 5.0.0 / 2016-08-19
+
+- remove onOpen/onClose, support onOpenChange(openKeys: string[])
+
 ## 4.13.0 / 2016-07-22
 
 - support submenu-selected

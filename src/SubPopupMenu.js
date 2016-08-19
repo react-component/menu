@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import MenuMixin from './MenuMixin';
-import assign from 'object-assign';
 import Animate from 'rc-animate';
 
 const SubPopupMenu = React.createClass({
@@ -41,7 +40,11 @@ const SubPopupMenu = React.createClass({
   },
 
   onItemHover(e) {
-    this.onCommonItemHover(e);
+    let { openChanges = [] } = e;
+    openChanges = openChanges.concat(this.getOpenChangesOnItemHover(e));
+    if (openChanges.length) {
+      this.onOpenChange(openChanges);
+    }
   },
 
   getOpenTransitionName() {
@@ -69,13 +72,13 @@ const SubPopupMenu = React.createClass({
     if (!renderFirst && this.props.visible) {
       transitionAppear = false;
     }
-    const props = assign({}, this.props);
+    const props = { ...this.props };
     props.className += ` ${props.prefixCls}-sub`;
     const animProps = {};
     if (props.openTransitionName) {
       animProps.transitionName = props.openTransitionName;
     } else if (typeof props.openAnimation === 'object') {
-      animProps.animation = assign({}, props.openAnimation);
+      animProps.animation = { ...props.openAnimation };
       if (!transitionAppear) {
         delete animProps.animation.appear;
       }

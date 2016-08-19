@@ -74,10 +74,10 @@ const nestSubMenu = (<SubMenu title={<span>sub menu 2</span>} key="4">
   </SubMenu>
 </SubMenu>);
 
-function log(value) {
-  console.log(value);
+function onOpenChange(value) {
+  console.log('onOpenChange', value);
 }
-const commonMenu = (<Menu onSelect={handleSelect} onOpen={log}>
+const commonMenu = (<Menu onSelect={handleSelect} onOpenChange={onOpenChange}>
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
@@ -131,25 +131,16 @@ function render(container) {
         openKeys: [],
       };
     },
-
-    emptyOpenKeys() {
+    onOpenChange(openKeys) {
       this.setState({
-        openKeys: [],
-      });
-    },
-
-    syncOpenKeys(e) {
-      this.setState({
-        openKeys: e.openKeys,
+        openKeys,
       });
     },
 
     render() {
       return React.cloneElement(subMenus, {
-        onOpen: this.syncOpenKeys,
-        onClose: this.syncOpenKeys,
+        onOpenChange: this.onOpenChange,
         openKeys: this.state.openKeys,
-        onClick: this.emptyOpenKeys,
         mode: 'horizontal',
         openAnimation: 'slide-up',
         openSubMenuOnMouseEnter: false,
