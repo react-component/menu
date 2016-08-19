@@ -3,12 +3,12 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(205);
+	module.exports = __webpack_require__(287);
 
 
 /***/ },
 
-/***/ 205:
+/***/ 287:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,15 +17,15 @@ webpackJsonp([1],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(36);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(171);
+	var _rcMenu = __webpack_require__(176);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(204);
+	__webpack_require__(286);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33,35 +33,15 @@ webpackJsonp([1],{
 	
 	var Test = _react2.default.createClass({
 	  displayName: 'Test',
-	  getInitialState: function getInitialState() {
-	    return {
-	      openKeys: []
-	    };
-	  },
 	  onClick: function onClick(info) {
 	    console.log('click ', info);
-	    this.setState({
-	      openKeys: info.keyPath.slice(1)
-	    });
-	  },
-	  onOpen: function onOpen(info) {
-	    console.log('onOpen', info);
-	    this.setState({
-	      openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
-	    });
-	  },
-	  onClose: function onClose(info) {
-	    this.onOpen(info);
 	  },
 	  getMenu: function getMenu() {
 	    return _react2.default.createElement(
 	      _rcMenu2.default,
 	      {
 	        onClick: this.onClick,
-	        mode: 'inline',
-	        onOpen: this.onOpen,
-	        onClose: this.onClose,
-	        openKeys: this.state.openKeys
+	        mode: 'inline'
 	      },
 	      _react2.default.createElement(
 	        _rcMenu.SubMenu,

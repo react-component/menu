@@ -3,12 +3,12 @@ webpackJsonp([4],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(209);
+	module.exports = __webpack_require__(291);
 
 
 /***/ },
 
-/***/ 209:
+/***/ 291:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,15 +17,15 @@ webpackJsonp([4],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(36);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(171);
+	var _rcMenu = __webpack_require__(176);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(204);
+	__webpack_require__(286);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -40,18 +40,12 @@ webpackJsonp([4],{
 	  },
 	  onClick: function onClick(info) {
 	    console.log('click ', info);
-	    this.setState({
-	      openKeys: info.keyPath.slice(1)
-	    });
 	  },
-	  onOpen: function onOpen(info) {
-	    console.log('onOpen', info);
+	  onOpenChange: function onOpenChange(openKeys) {
+	    console.log('onOpenChange', openKeys);
 	    this.setState({
-	      openKeys: info.openKeys
+	      openKeys: openKeys
 	    });
-	  },
-	  onClose: function onClose(info) {
-	    this.onOpen(info);
 	  },
 	  getMenu: function getMenu() {
 	    return _react2.default.createElement(
@@ -59,8 +53,7 @@ webpackJsonp([4],{
 	      {
 	        onClick: this.onClick,
 	        mode: 'inline',
-	        onOpen: this.onOpen,
-	        onClose: this.onClose,
+	        onOpenChange: this.onOpenChange,
 	        openKeys: this.state.openKeys
 	      },
 	      _react2.default.createElement(

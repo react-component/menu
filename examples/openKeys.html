@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>openKeys.js - example - rc-menu@4.13.0</title>
+  <title>openKeys.js - example - rc-menu@5.0.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@4.13.0</h1>
+      <h1>rc-menu@5.0.0</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -281,29 +281,20 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
   onClick(info) {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'click '</span>, info);
+  },
+
+  onOpenChange(openKeys) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'onOpenChange'</span>, openKeys);
     <span class="hljs-keyword">this</span>.setState({
-      openKeys: info.keyPath.slice(<span class="hljs-number">1</span>),
+      openKeys,
     });
   },
-
-  onOpen(info) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'onOpen'</span>, info);
-    <span class="hljs-keyword">this</span>.setState({
-      openKeys: info.openKeys,
-    });
-  },
-
-  onClose(info) {
-    <span class="hljs-keyword">this</span>.onOpen(info);
-  },
-
   getMenu() {
     <span class="hljs-keyword">return</span> (
       <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>
         <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.onClick}</span>
         <span class="hljs-attribute">mode</span>=<span class="hljs-value">"inline"</span>
-        <span class="hljs-attribute">onOpen</span>=<span class="hljs-value">{this.onOpen}</span>
-        <span class="hljs-attribute">onClose</span>=<span class="hljs-value">{this.onClose}</span>
+        <span class="hljs-attribute">onOpenChange</span>=<span class="hljs-value">{this.onOpenChange}</span>
         <span class="hljs-attribute">openKeys</span>=<span class="hljs-value">{this.state.openKeys}</span>
       &gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"submenu1"</span>&gt;</span>

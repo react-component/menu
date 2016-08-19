@@ -3,15 +3,15 @@ webpackJsonp([6],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(211);
+	module.exports = __webpack_require__(293);
 
 
 /***/ },
 
-/***/ 208:
-204,
+/***/ 290:
+286,
 
-/***/ 211:
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20,17 +20,17 @@ webpackJsonp([6],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(36);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(171);
+	var _rcMenu = __webpack_require__(176);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(204);
+	__webpack_require__(286);
 	
-	__webpack_require__(208);
+	__webpack_require__(290);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -52,16 +52,10 @@ webpackJsonp([6],{
 	  onDeselect: function onDeselect(info) {
 	    console.log('deselect ', info);
 	  },
-	  onOpen: function onOpen(info) {
-	    console.log('open ', info);
+	  onOpenChange: function onOpenChange(openKeys) {
+	    console.log('onOpenChange ', openKeys);
 	    this.setState({
-	      openKeys: info.openKeys
-	    });
-	  },
-	  onClose: function onClose(info) {
-	    console.log('open ', info);
-	    this.setState({
-	      openKeys: info.openKeys
+	      openKeys: openKeys
 	    });
 	  },
 	  onCheck: function onCheck(e) {
@@ -105,8 +99,7 @@ webpackJsonp([6],{
 	        multiple: true,
 	        onSelect: this.onSelect,
 	        onDeselect: this.onDeselect,
-	        onOpen: this.onOpen,
-	        onClose: this.onClose,
+	        onOpenChange: this.onOpenChange,
 	        openKeys: this.state.openKeys,
 	        selectedKeys: this.state.selectedKeys
 	      },

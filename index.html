@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@4.13.0 - menu ui component for react</title>
+  <title>rc-menu@5.0.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@4.13.0</h1>
+  <h1>rc-menu@5.0.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -859,16 +859,10 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
             <td>called when click a menu item</td>
         </tr>
         <tr>
-            <td>onOpen</td>
-            <td>function({openKeys:String[]})</td>
+            <td>onOpenChange</td>
+            <td>(openKeys:String[]) =&gt; void</td>
             <th></th>
-            <td>called when open a sub menu</td>
-        </tr>
-        <tr>
-            <td>onClose</td>
-            <td>function({openKeys:String[]})</td>
-            <th></th>
-            <td>called when close a sub menu</td>
+            <td>called when open/close sub menu</td>
         </tr>
         <tr>
             <td>onDeselect</td>

@@ -15,17 +15,17 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(36);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(171);
+	var _rcMenu = __webpack_require__(176);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(204);
+	__webpack_require__(286);
 	
-	var _cssAnimation = __webpack_require__(189);
+	var _cssAnimation = __webpack_require__(271);
 	
 	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
 	
@@ -151,12 +151,12 @@ webpackJsonp([0],[
 	  )
 	);
 	
-	function log(value) {
-	  console.log(value);
+	function onOpenChange(value) {
+	  console.log('onOpenChange', value);
 	}
 	var commonMenu = _react2.default.createElement(
 	  _rcMenu2.default,
-	  { onSelect: handleSelect, onOpen: log },
+	  { onSelect: handleSelect, onOpenChange: onOpenChange },
 	  _react2.default.createElement(
 	    _rcMenu.SubMenu,
 	    { title: _react2.default.createElement(
@@ -271,22 +271,15 @@ webpackJsonp([0],[
 	        openKeys: []
 	      };
 	    },
-	    emptyOpenKeys: function emptyOpenKeys() {
+	    onOpenChange: function onOpenChange(openKeys) {
 	      this.setState({
-	        openKeys: []
-	      });
-	    },
-	    syncOpenKeys: function syncOpenKeys(e) {
-	      this.setState({
-	        openKeys: e.openKeys
+	        openKeys: openKeys
 	      });
 	    },
 	    render: function render() {
 	      return _react2.default.cloneElement(subMenus, {
-	        onOpen: this.syncOpenKeys,
-	        onClose: this.syncOpenKeys,
+	        onOpenChange: this.onOpenChange,
 	        openKeys: this.state.openKeys,
-	        onClick: this.emptyOpenKeys,
 	        mode: 'horizontal',
 	        openAnimation: 'slide-up',
 	        openSubMenuOnMouseEnter: false,

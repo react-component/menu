@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>selectedKeys.js - example - rc-menu@4.13.0</title>
+  <title>selectedKeys.js - example - rc-menu@5.0.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@4.13.0</h1>
+      <h1>rc-menu@5.0.0</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -293,17 +293,10 @@ const Test = React.createClass({
     console.log('deselect ', info);
   },
 
-  onOpen(info) {
-    console.log('open ', info);
+  onOpenChange(openKeys) {
+    console.log('onOpenChange ', openKeys);
     this.setState({
-      openKeys: info.openKeys,
-    });
-  },
-
-  onClose(info) {
-    console.log('open ', info);
-    this.setState({
-      openKeys: info.openKeys,
+      openKeys,
     });
   },
 
@@ -349,8 +342,7 @@ const Test = React.createClass({
         multiple
         onSelect={this.onSelect}
         onDeselect={this.onDeselect}
-        onOpen={this.onOpen}
-        onClose={this.onClose}
+        onOpenChange={this.onOpenChange}
         openKeys={this.state.openKeys}
         selectedKeys={this.state.selectedKeys}
       &gt;
