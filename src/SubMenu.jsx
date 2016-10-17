@@ -10,6 +10,7 @@ const SubMenu = React.createClass({
   propTypes: {
     parentMenu: PropTypes.object,
     title: PropTypes.node,
+    key: PropTypes.string,
     children: PropTypes.any,
     selectedKeys: PropTypes.array,
     openKeys: PropTypes.array,
@@ -47,7 +48,7 @@ const SubMenu = React.createClass({
 
   getInitialState() {
     this.isSubMenu = 1;
-    this._menuId = this.props.key || Date.now()
+    this._menuId = this.props.key || Date.now();
     return {
       defaultActiveFirst: false,
     };
