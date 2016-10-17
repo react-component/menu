@@ -381,7 +381,14 @@ const SubMenu = React.createClass({
     classes[this.getDisabledClassName()] = props.disabled;
     classes[this.getSelectedClassName()] = this.isChildrenSelected();
 
-    this._menuId = this._menuId || guid();
+    if (!this._menuId) {
+      if (props.eventKey) {
+        this._menuId = `${props.eventKey}$Menu`;
+      } else {
+        this._menuId = guid();
+      }
+    }
+
     classes[prefixCls] = true;
     classes[`${prefixCls}-${props.mode}`] = 1;
     let titleClickEvents = {};
