@@ -24508,7 +24508,14 @@
 	    classes[this.getDisabledClassName()] = props.disabled;
 	    classes[this.getSelectedClassName()] = this.isChildrenSelected();
 	
-	    this._menuId = this._menuId || (0, _guid2.default)();
+	    if (!this._menuId) {
+	      if (props.eventKey) {
+	        this._menuId = props.eventKey + '$Menu';
+	      } else {
+	        this._menuId = (0, _guid2.default)();
+	      }
+	    }
+	
 	    classes[prefixCls] = true;
 	    classes[prefixCls + '-' + props.mode] = 1;
 	    var titleClickEvents = {};
