@@ -1,7 +1,6 @@
 import SubPopupMenu from './SubPopupMenu';
 import React, { PropTypes } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
-import guid from 'rc-util/lib/guid';
 import classnames from 'classnames';
 import { noop, loopMenuItemRecusively } from './util';
 
@@ -11,6 +10,7 @@ const SubMenu = React.createClass({
   propTypes: {
     parentMenu: PropTypes.object,
     title: PropTypes.node,
+    key: PropTypes.string,
     children: PropTypes.any,
     selectedKeys: PropTypes.array,
     openKeys: PropTypes.array,
@@ -48,6 +48,7 @@ const SubMenu = React.createClass({
 
   getInitialState() {
     this.isSubMenu = 1;
+    this._menuId = this.props.key || Date.now();
     return {
       defaultActiveFirst: false,
     };
@@ -381,7 +382,6 @@ const SubMenu = React.createClass({
     classes[this.getDisabledClassName()] = props.disabled;
     classes[this.getSelectedClassName()] = this.isChildrenSelected();
 
-    this._menuId = this._menuId || guid();
     classes[prefixCls] = true;
     classes[`${prefixCls}-${props.mode}`] = 1;
     let titleClickEvents = {};
