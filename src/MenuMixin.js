@@ -31,7 +31,7 @@ function getActiveKey(props, originalActiveKey) {
   activeKey = null;
   if (props.defaultActiveFirst) {
     loopMenuItem(children, (c, i) => {
-      if (!activeKey && !c.props.disabled) {
+      if (!activeKey && c && !c.props.disabled) {
         activeKey = getKeyFromChildrenIndex(c, eventKey, i);
       }
     });
