@@ -21660,11 +21660,11 @@
 	    var _this = this;
 	
 	    var item = e.item;
-	    var _props = this.props,
-	        mode = _props.mode,
-	        closeSubMenuOnMouseLeave = _props.closeSubMenuOnMouseLeave;
-	    var _e$openChanges = e.openChanges,
-	        openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
+	    var _props = this.props;
+	    var mode = _props.mode;
+	    var closeSubMenuOnMouseLeave = _props.closeSubMenuOnMouseLeave;
+	    var _e$openChanges = e.openChanges;
+	    var openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
 	    // special for top sub menu
 	
 	    if (mode !== 'inline' && !closeSubMenuOnMouseLeave && item.isSubMenu) {
@@ -22403,8 +22403,8 @@
 	
 	function getActiveKey(props, originalActiveKey) {
 	  var activeKey = originalActiveKey;
-	  var children = props.children,
-	      eventKey = props.eventKey;
+	  var children = props.children;
+	  var eventKey = props.eventKey;
 	
 	  if (activeKey) {
 	    var found = void 0;
@@ -22539,9 +22539,9 @@
 	  },
 	  getOpenChangesOnItemHover: function getOpenChangesOnItemHover(e) {
 	    var mode = this.props.mode;
-	    var key = e.key,
-	        hover = e.hover,
-	        trigger = e.trigger;
+	    var key = e.key;
+	    var hover = e.hover;
+	    var trigger = e.trigger;
 	
 	    var activeKey = this.state.activeKey;
 	    if (!trigger || hover || this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
@@ -24150,10 +24150,10 @@
 	    };
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
-	    var _props = this.props,
-	        onDestroy = _props.onDestroy,
-	        eventKey = _props.eventKey,
-	        parentMenu = _props.parentMenu;
+	    var _props = this.props;
+	    var onDestroy = _props.onDestroy;
+	    var eventKey = _props.eventKey;
+	    var parentMenu = _props.parentMenu;
 	
 	    if (onDestroy) {
 	      onDestroy(eventKey);
@@ -24220,8 +24220,8 @@
 	  },
 	  onTitleMouseEnter: function onTitleMouseEnter(domEvent) {
 	    var props = this.props;
-	    var parentMenu = props.parentMenu,
-	        key = props.eventKey;
+	    var parentMenu = props.parentMenu;
+	    var key = props.eventKey;
 	
 	    var item = this;
 	    this.clearSubMenuTitleLeaveTimer(parentMenu.subMenuInstance !== item);
@@ -24256,8 +24256,8 @@
 	    var _this = this;
 	
 	    var props = this.props;
-	    var parentMenu = props.parentMenu,
-	        eventKey = props.eventKey;
+	    var parentMenu = props.parentMenu;
+	    var eventKey = props.eventKey;
 	
 	    parentMenu.subMenuInstance = this;
 	    parentMenu.subMenuTitleLeaveFn = function () {
@@ -24284,8 +24284,8 @@
 	    var _this2 = this;
 	
 	    var props = this.props;
-	    var parentMenu = props.parentMenu,
-	        eventKey = props.eventKey;
+	    var parentMenu = props.parentMenu;
+	    var eventKey = props.eventKey;
 	
 	    parentMenu.subMenuInstance = this;
 	    parentMenu.subMenuLeaveFn = function () {
@@ -24592,8 +24592,8 @@
 	    this.props.onDestroy(key);
 	  },
 	  onItemHover: function onItemHover(e) {
-	    var _e$openChanges = e.openChanges,
-	        openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
+	    var _e$openChanges = e.openChanges;
+	    var openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
 	
 	    openChanges = openChanges.concat(this.getOpenChangesOnItemHover(e));
 	    if (openChanges.length) {
@@ -24665,14 +24665,14 @@
 	
 	var _symbol2 = _interopRequireDefault(_symbol);
 	
-	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj; };
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
 	  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	} : function (obj) {
-	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	};
 
 /***/ },
@@ -27209,8 +27209,8 @@
 	    var _this = this;
 	
 	    var props = this.props;
-	    var eventKey = props.eventKey,
-	        parentMenu = props.parentMenu;
+	    var eventKey = props.eventKey;
+	    var parentMenu = props.parentMenu;
 	
 	    parentMenu.menuItemInstance = this;
 	    parentMenu.menuItemMouseLeaveFn = function () {
@@ -27232,8 +27232,8 @@
 	  },
 	  onMouseEnter: function onMouseEnter(e) {
 	    var props = this.props;
-	    var eventKey = props.eventKey,
-	        parentMenu = props.parentMenu;
+	    var eventKey = props.eventKey;
+	    var parentMenu = props.parentMenu;
 	
 	    this.clearMenuItemMouseLeaveTimer(parentMenu.menuItemInstance !== this);
 	    if (parentMenu.subMenuInstance) {
@@ -27375,17 +27375,17 @@
 	    };
 	  },
 	  renderInnerMenuItem: function renderInnerMenuItem(item, subIndex) {
-	    var _props = this.props,
-	        renderMenuItem = _props.renderMenuItem,
-	        index = _props.index;
+	    var _props = this.props;
+	    var renderMenuItem = _props.renderMenuItem;
+	    var index = _props.index;
 	
 	    return renderMenuItem(item, index, subIndex);
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var _props$className = props.className,
-	        className = _props$className === undefined ? '' : _props$className,
-	        rootPrefixCls = props.rootPrefixCls;
+	    var _props$className = props.className;
+	    var className = _props$className === undefined ? '' : _props$className;
+	    var rootPrefixCls = props.rootPrefixCls;
 	
 	    var titleClassName = rootPrefixCls + '-item-group-title';
 	    var listClassName = rootPrefixCls + '-item-group-list';
@@ -27442,10 +27442,10 @@
 	    };
 	  },
 	  render: function render() {
-	    var _props = this.props,
-	        _props$className = _props.className,
-	        className = _props$className === undefined ? '' : _props$className,
-	        rootPrefixCls = _props.rootPrefixCls;
+	    var _props = this.props;
+	    var _props$className = _props.className;
+	    var className = _props$className === undefined ? '' : _props$className;
+	    var rootPrefixCls = _props.rootPrefixCls;
 	
 	    return _react2.default.createElement('li', { className: className + ' ' + rootPrefixCls + '-item-divider' });
 	  }
