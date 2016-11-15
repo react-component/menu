@@ -20,7 +20,7 @@ function getActiveKey(props, originalActiveKey) {
   if (activeKey) {
     let found;
     loopMenuItem(children, (c, i) => {
-      if (!c.props.disabled && activeKey === getKeyFromChildrenIndex(c, eventKey, i)) {
+      if (c && !c.props.disabled && activeKey === getKeyFromChildrenIndex(c, eventKey, i)) {
         found = true;
       }
     });
