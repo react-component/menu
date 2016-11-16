@@ -22409,7 +22409,7 @@
 	  if (activeKey) {
 	    var found = void 0;
 	    (0, _util.loopMenuItem)(children, function (c, i) {
-	      if (!c.props.disabled && activeKey === (0, _util.getKeyFromChildrenIndex)(c, eventKey, i)) {
+	      if (c && !c.props.disabled && activeKey === (0, _util.getKeyFromChildrenIndex)(c, eventKey, i)) {
 	        found = true;
 	      }
 	    });
