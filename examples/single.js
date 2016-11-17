@@ -3,15 +3,12 @@ webpackJsonp([7],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(291);
+	module.exports = __webpack_require__(296);
 
 
 /***/ },
 
-/***/ 287:
-283,
-
-/***/ 291:
+/***/ 296:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20,23 +17,23 @@ webpackJsonp([7],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(35);
+	var _reactDom = __webpack_require__(33);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(173);
+	var _rcMenu = __webpack_require__(179);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(283);
-	
-	__webpack_require__(287);
+	__webpack_require__(289);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	/* eslint no-console:0 */
+	
 	function handleSelect(info) {
 	  console.log('selected ', info);
-	} /* eslint no-console:0 */
+	}
 	
 	function handleClick(info) {
 	  console.log('click ', info);
@@ -157,6 +154,7 @@ webpackJsonp([7],{
 	  _reactDom2.default.render(_react2.default.createElement(
 	    'div',
 	    null,
+	    _react2.default.createElement('link', { href: '//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css', rel: 'stylesheet' }),
 	    _react2.default.createElement(
 	      'h2',
 	      null,

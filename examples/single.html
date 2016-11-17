@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>single.js - example - rc-menu@5.0.4</title>
+  <title>single.js - example - rc-menu@5.0.5</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,13 +257,13 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
   }
   </script>
-  <link rel="stylesheet" href="common.css" /><link rel="stylesheet" href="single.css" />
+  <link rel="stylesheet" href="common.css" />
 </head>
 
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@5.0.4</h1>
+      <h1>rc-menu@5.0.5</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -275,7 +275,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> Menu, { SubMenu, Item <span class="hljs-keyword">as</span> MenuItem, Divider } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-menu'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-menu/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-string">'font-awesome/css/font-awesome.css'</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleSelect</span>(<span class="hljs-params">info</span>) </span>{
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'selected '</span>, info);
@@ -336,6 +335,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
   )</span>;
   ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css"</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>single selectable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
 
     <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
