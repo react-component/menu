@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
-import 'font-awesome/css/font-awesome.css';
 
 const Test = React.createClass({
   getInitialState() {
@@ -109,6 +108,7 @@ const Test = React.createClass({
     const openKeys = this.state.openKeys;
 
     return (<div>
+      <link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
       <h2>multiple selectable menu</h2>
 
       <p>

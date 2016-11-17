@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
 import 'rc-menu/assets/index.less';
-import 'font-awesome/css/font-awesome.css';
 
 const children = [];
 for (let i = 0; i < 20; i++) {
@@ -18,6 +17,7 @@ const menuStyle = {
   overflow: 'auto',
 };
 ReactDOM.render(<div>
+  <link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
   <h2>keyboard scrollable menu</h2>
   <Menu style={menuStyle}>{children}</Menu>
 </div>, document.getElementById('__react-content'));

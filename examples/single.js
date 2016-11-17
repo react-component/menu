@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-menu/assets/index.less';
-import 'font-awesome/css/font-awesome.css';
 
 function handleSelect(info) {
   console.log('selected ', info);
@@ -65,6 +64,7 @@ function render(container) {
     </Menu>
   );
   ReactDOM.render(<div>
+    <link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
     <h2>single selectable menu</h2>
 
     <p>
