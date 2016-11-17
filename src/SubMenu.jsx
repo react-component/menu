@@ -419,7 +419,7 @@ const SubMenu = React.createClass({
           className={`${prefixCls}-title`}
           {...titleMouseEvents}
           {...titleClickEvents}
-          aria-open={isOpen}
+          aria-expanded={isOpen}
           aria-owns={this._menuId}
           aria-haspopup="true"
         >

@@ -47,7 +47,7 @@
     "expect.js": "~0.3.1",
     "font-awesome": "~4.2.0",
     "pre-commit": "1.x",
-    "rc-tools": "5.x",
+    "rc-tools": "5.8.11",
     "react": "15.x",
     "react-addons-test-utils": "15.x",
     "react-dom": "15.x"
