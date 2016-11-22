@@ -712,7 +712,7 @@
 
 /***/ },
 /* 7 */
-[297, 8],
+[296, 8],
 /* 8 */
 /***/ function(module, exports) {
 
@@ -6369,7 +6369,7 @@
 
 /***/ },
 /* 51 */
-[297, 36],
+[296, 36],
 /* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21067,15 +21067,15 @@
 	
 	var _SubMenu2 = _interopRequireDefault(_SubMenu);
 	
-	var _MenuItem = __webpack_require__(286);
+	var _MenuItem = __webpack_require__(285);
 	
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 	
-	var _MenuItemGroup = __webpack_require__(287);
+	var _MenuItemGroup = __webpack_require__(286);
 	
 	var _MenuItemGroup2 = _interopRequireDefault(_MenuItemGroup);
 	
-	var _Divider = __webpack_require__(288);
+	var _Divider = __webpack_require__(287);
 	
 	var _Divider2 = _interopRequireDefault(_Divider);
 	
@@ -23625,10 +23625,6 @@
 	
 	var _KeyCode2 = _interopRequireDefault(_KeyCode);
 	
-	var _guid = __webpack_require__(279);
-	
-	var _guid2 = _interopRequireDefault(_guid);
-	
 	var _classnames = __webpack_require__(227);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
@@ -23636,6 +23632,8 @@
 	var _util = __webpack_require__(231);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var guid = 0;
 	
 	/* eslint react/no-is-mounted:0 */
 	
@@ -23667,7 +23665,7 @@
 	    onTitleClick: _react.PropTypes.func
 	  },
 	
-	  mixins: [__webpack_require__(280)],
+	  mixins: [__webpack_require__(279)],
 	
 	  getDefaultProps: function getDefaultProps() {
 	    return {
@@ -24009,7 +24007,7 @@
 	      if (props.eventKey) {
 	        this._menuId = props.eventKey + '$Menu';
 	      } else {
-	        this._menuId = (0, _guid2.default)();
+	        this._menuId = '$__$' + ++guid + '$Menu';
 	      }
 	    }
 	
@@ -26128,17 +26126,6 @@
 
 /***/ },
 /* 279 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var seed = 0;
-	module.exports = function guid() {
-	  return Date.now() + "_" + seed++;
-	};
-
-/***/ },
-/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26151,11 +26138,11 @@
 	
 	var _KeyCode2 = _interopRequireDefault(_KeyCode);
 	
-	var _addEventListener = __webpack_require__(281);
+	var _addEventListener = __webpack_require__(280);
 	
 	var _addEventListener2 = _interopRequireDefault(_addEventListener);
 	
-	var _contains = __webpack_require__(285);
+	var _contains = __webpack_require__(284);
 	
 	var _contains2 = _interopRequireDefault(_contains);
 	
@@ -26225,7 +26212,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26235,7 +26222,7 @@
 	});
 	exports["default"] = addEventListenerWrap;
 	
-	var _addDomEventListener = __webpack_require__(282);
+	var _addDomEventListener = __webpack_require__(281);
 	
 	var _addDomEventListener2 = _interopRequireDefault(_addDomEventListener);
 	
@@ -26255,7 +26242,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26267,7 +26254,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _EventObject = __webpack_require__(283);
+	var _EventObject = __webpack_require__(282);
 	
 	var _EventObject2 = _interopRequireDefault(_EventObject);
 	
@@ -26297,7 +26284,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26314,7 +26301,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _EventBaseObject = __webpack_require__(284);
+	var _EventBaseObject = __webpack_require__(283);
 	
 	var _EventBaseObject2 = _interopRequireDefault(_EventBaseObject);
 	
@@ -26580,7 +26567,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports) {
 
 	/**
@@ -26648,7 +26635,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -26666,7 +26653,7 @@
 	};
 
 /***/ },
-/* 286 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26880,7 +26867,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26948,7 +26935,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26991,20 +26978,20 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 289 */,
 /* 290 */,
 /* 291 */,
 /* 292 */,
 /* 293 */,
 /* 294 */,
 /* 295 */,
-/* 296 */,
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
