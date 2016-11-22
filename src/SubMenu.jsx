@@ -1,9 +1,10 @@
 import SubPopupMenu from './SubPopupMenu';
 import React, { PropTypes } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
-import guid from 'rc-util/lib/guid';
 import classnames from 'classnames';
 import { noop, loopMenuItemRecusively } from './util';
+
+let guid = 0;
 
 /* eslint react/no-is-mounted:0 */
 
@@ -385,7 +386,7 @@ const SubMenu = React.createClass({
       if (props.eventKey) {
         this._menuId = `${props.eventKey}$Menu`;
       } else {
-        this._menuId = guid();
+        this._menuId = `$__$${++guid}$Menu`;
       }
     }
 
