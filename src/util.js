@@ -1,13 +1,11 @@
 import React from 'react';
 
-const now = Date.now();
-
 export function noop() {
 }
 
 export function getKeyFromChildrenIndex(child, menuEventKey, index) {
   const prefix = menuEventKey || '';
-  return child.key || `${prefix}item_${now}_${index}`;
+  return child.key || `${prefix}item_${index}`;
 }
 
 export function loopMenuItem(children, cb) {
