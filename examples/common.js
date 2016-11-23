@@ -23498,13 +23498,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var now = Date.now();
-	
 	function noop() {}
 	
 	function getKeyFromChildrenIndex(child, menuEventKey, index) {
 	  var prefix = menuEventKey || '';
-	  return child.key || prefix + 'item_' + now + '_' + index;
+	  return child.key || prefix + 'item_' + index;
 	}
 	
 	function loopMenuItem(children, cb) {
