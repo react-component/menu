@@ -38,13 +38,21 @@
     "lint": "rc-tools run lint",
     "karma": "rc-tools run karma",
     "saucelabs": "rc-tools run saucelabs",
-    "test": "rc-tools run test",
+    "test": "jest",
     "chrome-test": "rc-tools run chrome-test",
     "coverage": "rc-tools run coverage"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*"
+    ]
+  },
   "devDependencies": {
     "css-animation": "^1.2.0",
+    "enzyme": "^2.6.0",
+    "enzyme-to-json": "^1.4.1",
     "expect.js": "~0.3.1",
+    "jest": "^17.0.3",
     "pre-commit": "1.x",
     "rc-tools": "5.x",
     "react": "15.x",

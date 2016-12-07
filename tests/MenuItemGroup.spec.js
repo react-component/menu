@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Simulate, scryRenderedDOMComponentsWithClass } from 'react-addons-test-utils';
 import Menu, { MenuItem, MenuItemGroup } from 'rc-menu';
-import { KeyCode } from 'rc-util';
+import KeyCode from 'rc-util/lib/KeyCode';
 
 describe('MenuItemGroup', () => {
   const div = document.createElement('div');

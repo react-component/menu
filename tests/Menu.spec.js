@@ -3,11 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils, { Simulate } from 'react-addons-test-utils';
 import Menu, { MenuItem, SubMenu, Divider } from 'rc-menu';
-import { KeyCode } from 'rc-util';
+import KeyCode from 'rc-util/lib/KeyCode';
 
-describe('Menu', function menu() {
-  this.timeout(9999999);
-
+describe('Menu', () => {
   let refs;
 
   function saveRef(ref) {
