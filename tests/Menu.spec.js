@@ -1,102 +1,63 @@
-import expect from 'expect.js';
+/* eslint-disable no-undef */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils, { Simulate } from 'react-addons-test-utils';
-import Menu, { MenuItem, SubMenu, Divider } from 'rc-menu';
+import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
+import Menu, { MenuItem, SubMenu, Divider } from '../src';
 
 describe('Menu', () => {
-  let refs;
-
-  function saveRef(ref) {
-    return (c) => {
-      refs[ref] = c;
-    };
-  }
-
-  const div = document.createElement('div');
-  div.style.width = '200px';
-  document.body.appendChild(div);
-
-  beforeEach(() => {
-    refs = {};
-  });
-
-  afterEach(() => {
-    ReactDOM.unmountComponentAtNode(div);
-  });
-
   it('Should set the correct item active', () => {
-    ReactDOM.render(
+    const wrapper = mount(
       <Menu activeKey="item1">
-        <MenuItem key="item1" ref={saveRef('item1')}>Pill 1 content</MenuItem>
+        <MenuItem key="item1">Pill 1 content</MenuItem>
         <Divider/>
-        <MenuItem key="item2" ref={saveRef('item2')}>Pill 2 content</MenuItem>
-      </Menu>, div
+        <MenuItem key="item2">Pill 2 content</MenuItem>
+      </Menu>
     );
-    expect(refs.item1.props.active).to.be.ok();
-    expect(refs.item2.props.active).to.not.be.ok();
+    expect(wrapper.find('MenuItem').first().props().active).toBe(true);
+    expect(wrapper.find('MenuItem').last().props().active).toBe(false);
   });
 
-  it('Should call on select when item is selected', (done) => {
-    function handleSelect(e) {
-      expect(e.key).to.be('item2');
-      done();
-    }
-
-    TestUtils.renderIntoDocument(
+  it('Should call on select when item is selected', () => {
+    const handleSelect = jest.fn();
+    const wrapper = mount(
       <Menu activeKey="item1" onSelect={handleSelect}>
         <MenuItem key="item1" href="http://www.baidu.com">Tab 1 content</MenuItem>
-        <MenuItem key="item2" ref={saveRef('item2')}>
+        <MenuItem key="item2">
           Tab 2 content
         </MenuItem>
       </Menu>
     );
-    Simulate.click(ReactDOM.findDOMNode(refs.item2));
+    wrapper.find('MenuItem').last().simulate('click');
+    expect(handleSelect.mock.calls[0][0].key).toBe('item2');
   });
 
-  it('Should fire `mouseEnter` event', (done) => {
-    ReactDOM.render(
+  it('active by mouse enter', () => {
+    const wrapper = mount(
       <Menu>
         <MenuItem key="item1">item</MenuItem>
         <MenuItem disabled>disabled</MenuItem>
-        <MenuItem
-          key="item2"
-          ref={saveRef('item2')}
-        >item2</MenuItem>
-      </Menu>, div);
-    // const itemNode = ReactDOM.findDOMNode(refs.item2);
-    // see this issue:  https://github.com/facebook/react/issues/1297
-    // Simulate.mouseEnter(instance.refs.menuItem, {type: 'mouseenter'});
-    done();
-    // TestUtils.SimulateNative.mouseOver(itemNode, {
-    //   relatedTarget: document.body,
-    // });
-    // setTimeout(() => {
-    //   expect(itemNode.className.indexOf('rc-menu-item-active') !== -1).to.be(true);
-    //   done();
-    // }, 100);
+        <MenuItem key="item2">item2</MenuItem>
+      </Menu>
+    );
+    const menuItem = wrapper.find('MenuItem').last();
+    menuItem.simulate('mouseEnter');
+    expect(menuItem.props().active).toBe(true);
   });
 
-  it('Should fire `keyDown` event', (done) => {
-    const instance = ReactDOM.render(
+  it('active by key down', () => {
+    const wrapper = mount(
       <Menu activeKey="item1">
         <MenuItem key="item1">Pill 1 content</MenuItem>
         <MenuItem disabled/>
-        <MenuItem ref={saveRef('item2')} key="item2">Pill 2 content</MenuItem>
+        <MenuItem key="item2">Pill 2 content</MenuItem>
         <SubMenu key="item3" className="dropdown-submenu" title="right">
           <MenuItem key="231">inner inner</MenuItem>
           <MenuItem key="242">inner inner2</MenuItem>
         </SubMenu>
-      </Menu>, div
+      </Menu>
     );
-    Simulate.keyDown(ReactDOM.findDOMNode(instance), {
-      keyCode: KeyCode.DOWN,
-    });
-    setTimeout(() => {
-      expect(ReactDOM.findDOMNode(refs.item2)
-          .className.indexOf('rc-menu-item-active') !== -1).to.be(true);
-      done();
-    }, 10);
+
+    wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
+    expect(wrapper.find('MenuItem').at(2).props().active).toBe(true);
   });
 });

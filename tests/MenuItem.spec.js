@@ -1,36 +1,21 @@
-import expect from 'expect.js';
+/* eslint-disable no-undef */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils, { Simulate } from 'react-addons-test-utils';
-import Menu, { MenuItem } from 'rc-menu';
+import { mount } from 'enzyme';
+import Menu, { MenuItem } from '../src';
 
 describe('MenuItem', () => {
-  const div = document.createElement('div');
-  div.style.width = '200px';
-  document.body.appendChild(div);
-
-  afterEach(() => {
-    ReactDOM.unmountComponentAtNode(div);
-  });
-
   it('Should add disabled class', () => {
-    const instance = ReactDOM.render(
+    const wrapper = mount(
       <Menu>
         <MenuItem disabled>Pill 2 content</MenuItem>
-      </Menu>, div
+      </Menu>
     );
-    expect(TestUtils.findRenderedDOMComponentWithClass(instance,
-      'rc-menu-item-disabled')).to.be.ok();
+    expect(wrapper.find('.rc-menu-item-disabled').length).toBe(1);
   });
 
-  it('Should not call `onSelect` when item disabled and is selected', (done) => {
-    let called = 0;
-
-    function handleSelect() {
-      called = 1;
-    }
-
-    const instance = TestUtils.renderIntoDocument(
+  it('Should not call `onSelect` when item disabled and is selected', () => {
+    const handleSelect = jest.fn();
+    const wrapper = mount(
       <Menu>
         <MenuItem disabled onSelect={handleSelect}>
           <span className="xx">Item content</span>
@@ -38,11 +23,7 @@ describe('MenuItem', () => {
       </Menu>
     );
 
-    Simulate.click(TestUtils.findRenderedDOMComponentWithClass(instance, 'xx'));
-
-    setTimeout(() => {
-      expect(called).to.be(0);
-      done();
-    }, 100);
+    wrapper.find('.xx').simulate('click');
+    expect(handleSelect).not.toBeCalled();
   });
 });
