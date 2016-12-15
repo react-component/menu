@@ -40,7 +40,7 @@
     "saucelabs": "rc-tools run saucelabs",
     "test": "jest",
     "chrome-test": "rc-tools run chrome-test",
-    "coverage": "rc-tools run coverage"
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "coveralls": "^2.11.15",
     "css-animation": "^1.2.0",
     "enzyme": "^2.6.0",
     "enzyme-to-json": "^1.4.1",
