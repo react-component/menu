@@ -1,0 +1,215 @@
+exports[`Menu render renders horizontal menu correctly 1`] = `
+<ul
+  aria-activedescendant=""
+  class="rc-menu rc-menu-vertical myMenu rc-menu-root"
+  role="menu"
+  tabindex="0">
+  <li
+    class=" rc-menu-item-group">
+    <div
+      class="rc-menu-item-group-title">
+      g1
+    </div>
+    <ul
+      class="rc-menu-item-group-list">
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        1
+      </li>
+      <li
+        class=" rc-menu-item-divider" />
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        2
+      </li>
+    </ul>
+  </li>
+  <li
+    aria-selected="false"
+    class="rc-menu-item"
+    role="menuitem">
+    3
+  </li>
+  <li
+    class=" rc-menu-item-group">
+    <div
+      class="rc-menu-item-group-title">
+      g2
+    </div>
+    <ul
+      class="rc-menu-item-group-list">
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        4
+      </li>
+      <li
+        aria-disabled="true"
+        aria-selected="false"
+        class="rc-menu-item-disabled rc-menu-item"
+        role="menuitem">
+        5
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-submenu-vertical rc-menu-submenu">
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-owns="item_3$Menu"
+      class="rc-menu-submenu-title">
+      submenu
+    </div>
+  </li>
+</ul>
+`;
+
+exports[`Menu render renders inline menu correctly 1`] = `
+<ul
+  aria-activedescendant=""
+  class="rc-menu rc-menu-vertical myMenu rc-menu-root"
+  role="menu"
+  tabindex="0">
+  <li
+    class=" rc-menu-item-group">
+    <div
+      class="rc-menu-item-group-title">
+      g1
+    </div>
+    <ul
+      class="rc-menu-item-group-list">
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        1
+      </li>
+      <li
+        class=" rc-menu-item-divider" />
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        2
+      </li>
+    </ul>
+  </li>
+  <li
+    aria-selected="false"
+    class="rc-menu-item"
+    role="menuitem">
+    3
+  </li>
+  <li
+    class=" rc-menu-item-group">
+    <div
+      class="rc-menu-item-group-title">
+      g2
+    </div>
+    <ul
+      class="rc-menu-item-group-list">
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        4
+      </li>
+      <li
+        aria-disabled="true"
+        aria-selected="false"
+        class="rc-menu-item-disabled rc-menu-item"
+        role="menuitem">
+        5
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-submenu-vertical rc-menu-submenu">
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-owns="item_3$Menu"
+      class="rc-menu-submenu-title">
+      submenu
+    </div>
+  </li>
+</ul>
+`;
+
+exports[`Menu render renders vertical menu correctly 1`] = `
+<ul
+  aria-activedescendant=""
+  class="rc-menu rc-menu-vertical myMenu rc-menu-root"
+  role="menu"
+  tabindex="0">
+  <li
+    class=" rc-menu-item-group">
+    <div
+      class="rc-menu-item-group-title">
+      g1
+    </div>
+    <ul
+      class="rc-menu-item-group-list">
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        1
+      </li>
+      <li
+        class=" rc-menu-item-divider" />
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        2
+      </li>
+    </ul>
+  </li>
+  <li
+    aria-selected="false"
+    class="rc-menu-item"
+    role="menuitem">
+    3
+  </li>
+  <li
+    class=" rc-menu-item-group">
+    <div
+      class="rc-menu-item-group-title">
+      g2
+    </div>
+    <ul
+      class="rc-menu-item-group-list">
+      <li
+        aria-selected="false"
+        class="rc-menu-item"
+        role="menuitem">
+        4
+      </li>
+      <li
+        aria-disabled="true"
+        aria-selected="false"
+        class="rc-menu-item-disabled rc-menu-item"
+        role="menuitem">
+        5
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-submenu-vertical rc-menu-submenu">
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-owns="item_3$Menu"
+      class="rc-menu-submenu-title">
+      submenu
+    </div>
+  </li>
+</ul>
+`;

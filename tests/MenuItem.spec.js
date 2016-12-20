@@ -1,48 +1,68 @@
-import expect from 'expect.js';
+/* eslint-disable no-undef */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils, { Simulate } from 'react-addons-test-utils';
-import Menu, { MenuItem } from 'rc-menu';
+import { mount } from 'enzyme';
+import KeyCode from 'rc-util/lib/KeyCode';
+import Menu, { MenuItem } from '../src';
 
 describe('MenuItem', () => {
-  const div = document.createElement('div');
-  div.style.width = '200px';
-  document.body.appendChild(div);
+  describe('disabled', () => {
+    it('can not be active by key down', () => {
+      const wrapper = mount(
+        <Menu activeKey="1">
+          <MenuItem key="1">1</MenuItem>
+          <MenuItem disabled/>
+          <MenuItem key="2">2</MenuItem>
+        </Menu>
+      );
 
-  afterEach(() => {
-    ReactDOM.unmountComponentAtNode(div);
+      wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
+      expect(wrapper.find('MenuItem').at(1).props().active).toBe(false);
+    });
+
+    it('not fires select event when selected', () => {
+      const handleSelect = jest.fn();
+      const wrapper = mount(
+        <Menu>
+          <MenuItem disabled onSelect={handleSelect}>
+            <span className="xx">Item content</span>
+          </MenuItem>
+        </Menu>
+      );
+
+      wrapper.find('.xx').simulate('click');
+      expect(handleSelect).not.toBeCalled();
+    });
   });
 
-  it('Should add disabled class', () => {
-    const instance = ReactDOM.render(
-      <Menu>
-        <MenuItem disabled>Pill 2 content</MenuItem>
-      </Menu>, div
-    );
-    expect(TestUtils.findRenderedDOMComponentWithClass(instance,
-      'rc-menu-item-disabled')).to.be.ok();
-  });
+  describe('unmount', () => {
+    const App = ({ show }) => {
+      return (
+        <Menu>
+          {show && (
+            <MenuItem key="1">1</MenuItem>
+          )}
+        </Menu>
+      );
+    };
 
-  it('Should not call `onSelect` when item disabled and is selected', (done) => {
-    let called = 0;
+    it('removes self from selectedKeys', () => {
+      const wrapper = mount(<App show />);
+      wrapper.find('MenuItem').simulate('click');
+      expect(wrapper.find('Menu').node.state.selectedKeys).toEqual(['1']);
+      wrapper.setProps({ show: false });
+      expect(wrapper.find('Menu').node.state.selectedKeys).toEqual([]);
+    });
 
-    function handleSelect() {
-      called = 1;
-    }
-
-    const instance = TestUtils.renderIntoDocument(
-      <Menu>
-        <MenuItem disabled onSelect={handleSelect}>
-          <span className="xx">Item content</span>
-        </MenuItem>
-      </Menu>
-    );
-
-    Simulate.click(TestUtils.findRenderedDOMComponentWithClass(instance, 'xx'));
-
-    setTimeout(() => {
-      expect(called).to.be(0);
-      done();
-    }, 100);
+    it('clears mouse leave timer', () => {
+      const wrapper = mount(<App show />);
+      const menu = wrapper.find('Menu');
+      wrapper.find('MenuItem').simulate('mouseEnter');
+      wrapper.find('MenuItem').simulate('mouseLeave');
+      expect(menu.node.menuItemMouseLeaveFn).toBeTruthy();
+      expect(menu.node.menuItemMouseLeaveTimer).toBeTruthy();
+      wrapper.setProps({ show: false });
+      expect(menu.node.menuItemMouseLeaveFn).toBe(null);
+      expect(menu.node.menuItemMouseLeaveTimer).toBe(null);
+    });
   });
 });
