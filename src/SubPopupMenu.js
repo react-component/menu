@@ -52,6 +52,9 @@ const SubPopupMenu = React.createClass({
   },
 
   renderMenuItem(c, i, subIndex) {
+    if (!c) {
+      return null;
+    }
     const props = this.props;
     const extraProps = {
       openKeys: props.openKeys,
