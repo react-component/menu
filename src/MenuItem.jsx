@@ -7,37 +7,55 @@ import { noop } from './util';
 
 const MenuItem = React.createClass({
   propTypes: {
-    rootPrefixCls: PropTypes.string,
-    eventKey: PropTypes.string,
-    active: PropTypes.bool,
     children: PropTypes.any,
-    selectedKeys: PropTypes.array,
     disabled: PropTypes.bool,
     title: PropTypes.string,
-    onSelect: PropTypes.func,
-    onClick: PropTypes.func,
-    onDeselect: PropTypes.func,
-    parentMenu: PropTypes.object,
     onItemHover: PropTypes.func,
-    onDestroy: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
   },
 
+  contextTypes: {
+    parentMenu: PropTypes.object,
+    activeKey: PropTypes.string,
+    selectedKeys: PropTypes.arrayOf(PropTypes.string),
+    mode: PropTypes.string,
+    level: PropTypes.number,
+    multiple: PropTypes.bool,
+    inlineIndent: PropTypes.number,
+    rootPrefixCls: PropTypes.string,
+    saveRef: PropTypes.func,
+    onClick: PropTypes.func,
+    onSelect: PropTypes.func,
+    onDestroy: PropTypes.func,
+    onDeselect: PropTypes.func,
+    onItemHover: PropTypes.func,
+    getEventKey: PropTypes.func,
+  },
+
   getDefaultProps() {
     return {
-      onSelect: noop,
       onMouseEnter: noop,
       onMouseLeave: noop,
     };
   },
 
+  componentWillMount() {
+    this.context.saveRef(this);
+  },
+
+  componentWillUpdate() {
+    this.context.saveRef(this);
+  },
+
   componentWillUnmount() {
     const props = this.props;
-    if (props.onDestroy) {
-      props.onDestroy(props.eventKey);
+    const { parentMenu, onDestroy } = this.context;
+    const eventKey = this.getEventKey();
+    if (onDestroy) {
+      onDestroy(eventKey);
     }
-    if (props.parentMenu.menuItemInstance === this) {
+    if (parentMenu.menuItemInstance === this) {
       this.clearMenuItemMouseLeaveTimer();
     }
   },
@@ -52,11 +70,12 @@ const MenuItem = React.createClass({
 
   onMouseLeave(e) {
     const props = this.props;
-    const { eventKey, parentMenu } = props;
+    const { parentMenu, onItemHover } = this.context
+    const eventKey = this.getEventKey();
     parentMenu.menuItemInstance = this;
     parentMenu.menuItemMouseLeaveFn = () => {
-      if (this.isMounted() && props.active) {
-        props.onItemHover({
+      if (this.isMounted() && this.isActive()) {
+        onItemHover({
           key: eventKey,
           item: this,
           hover: false,
@@ -74,12 +93,13 @@ const MenuItem = React.createClass({
 
   onMouseEnter(e) {
     const props = this.props;
-    const { eventKey, parentMenu } = props;
+    const { parentMenu, onItemHover } = this.context;
+    const eventKey = this.getEventKey();
     this.clearMenuItemMouseLeaveTimer(parentMenu.menuItemInstance !== this);
     if (parentMenu.subMenuInstance) {
       parentMenu.subMenuInstance.clearSubMenuTimers();
     }
-    props.onItemHover({
+    onItemHover({
       key: eventKey,
       item: this,
       hover: true,
@@ -94,28 +114,29 @@ const MenuItem = React.createClass({
 
   onClick(e) {
     const props = this.props;
+    const { multiple, onSelect, onDeselect } = this.context;
+    const eventKey = this.getEventKey();
     const selected = this.isSelected();
-    const eventKey = props.eventKey;
     const info = {
       key: eventKey,
       keyPath: [eventKey],
       item: this,
       domEvent: e,
     };
-    props.onClick(info);
-    if (props.multiple) {
+    this.context.onClick(info);
+    if (multiple) {
       if (selected) {
-        props.onDeselect(info);
+        onDeselect(info);
       } else {
-        props.onSelect(info);
+        onSelect(info);
       }
     } else if (!selected) {
-      props.onSelect(info);
+      onSelect(info);
     }
   },
 
   getPrefixCls() {
-    return `${this.props.rootPrefixCls}-item`;
+    return `${this.context.rootPrefixCls}-item`;
   },
 
   getActiveClassName() {
@@ -130,10 +151,14 @@ const MenuItem = React.createClass({
     return `${this.getPrefixCls()}-disabled`;
   },
 
+  getEventKey() {
+    return this.context.getEventKey(this);
+  },
+
   clearMenuItemMouseLeaveTimer() {
     const props = this.props;
     let callFn;
-    const parentMenu = props.parentMenu;
+    const { parentMenu } = this.context;
     if (parentMenu.menuItemMouseLeaveTimer) {
       clearTimeout(parentMenu.menuItemMouseLeaveTimer);
       parentMenu.menuItemMouseLeaveTimer = null;
@@ -145,14 +170,24 @@ const MenuItem = React.createClass({
   },
 
   isSelected() {
-    return this.props.selectedKeys.indexOf(this.props.eventKey) !== -1;
+    const { selectedKeys } = this.context;
+    const eventKey = this.getEventKey();
+    return selectedKeys.indexOf(eventKey) !== -1;
+  },
+
+  isActive() {
+    const { disabled } = this.props;
+    const { activeKey } = this.context;
+    const eventKey = this.getEventKey();
+    return !disabled && eventKey === activeKey;
   },
 
   render() {
     const props = this.props;
     const selected = this.isSelected();
+    const { mode, level, inlineIndent } = this.context;
     const classes = {};
-    classes[this.getActiveClassName()] = !props.disabled && props.active;
+    classes[this.getActiveClassName()] = !props.disabled && this.isActive();
     classes[this.getSelectedClassName()] = selected;
     classes[this.getDisabledClassName()] = props.disabled;
     classes[this.getPrefixCls()] = true;
@@ -176,8 +211,8 @@ const MenuItem = React.createClass({
     const style = {
       ...props.style,
     };
-    if (props.mode === 'inline') {
-      style.paddingLeft = props.inlineIndent * props.level;
+    if (mode === 'inline') {
+      style.paddingLeft = inlineIndent * level;
     }
     return (
       <li

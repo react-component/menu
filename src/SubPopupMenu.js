@@ -17,7 +17,69 @@ const SubPopupMenu = React.createClass({
     children: PropTypes.any,
   },
 
+  childContextTypes: {
+    parentMenu: PropTypes.object,
+    openKeys: PropTypes.arrayOf(PropTypes.string),
+    activeKey: PropTypes.string,
+    selectedKeys: PropTypes.arrayOf(PropTypes.string),
+    mode: PropTypes.string,
+    level: PropTypes.number,
+    multiple: PropTypes.bool,
+    inlineIndent: PropTypes.number,
+    rootPrefixCls: PropTypes.string,
+    openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    openSubMenuOnMouseEnter: PropTypes.bool,
+    closeSubMenuOnMouseLeave: PropTypes.bool,
+    saveRef: PropTypes.func,
+    onClick: PropTypes.func,
+    onSelect: PropTypes.func,
+    onDestroy: PropTypes.func,
+    onDeselect: PropTypes.func,
+    onItemHover: PropTypes.func,
+    onOpenChange: PropTypes.func,
+    getEventKey: PropTypes.func,
+    openTransitionName: PropTypes.string,
+  },
+
   mixins: [MenuMixin],
+
+  /**
+   * renderMenuItem
+   * index,
+   * ref,
+   * eventKey
+   * active => activeKey
+   */
+  getChildContext() {
+    return {
+      parentMenu: this,
+      openKeys: this.props.openKeys,
+      activeKey: this.props.activeKey,
+      selectedKeys: this.props.selectedKeys,
+      mode: this.props.mode,
+      level: this.props.level,
+      multiple: this.props.multiple,
+      inlineIndent: this.props.inlineIndent,
+      rootPrefixCls: this.props.prefixCls,
+      openAnimation: this.props.openAnimation,
+      openSubMenuOnMouseEnter: this.props.mode !== 'inline',
+      closeSubMenuOnMouseLeave: this.props.mode === 'inline' ? false : this.props.closeSubMenuOnMouseLeave,
+      saveRef: this.saveRef,
+      onClick: this.onClick,
+      onSelect: this.onSelect,
+      onDestroy: this.onDestroy,
+      onDeselect: this.onDeselect,
+      onItemHover: this.onItemHover,
+      onOpenChange: this.onOpenChange,
+      getEventKey: this.getEventKey,
+      openTransitionName: this.getOpenTransitionName(),
+    };
+  },
+
+  componentWillUpdate() {
+    this.refIndex = null;
+    this.instanceArray = [];
+  },
 
   onDeselect(selectInfo) {
     this.props.onDeselect(selectInfo);
