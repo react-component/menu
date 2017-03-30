@@ -65,7 +65,7 @@
     "classnames": "2.x",
     "dom-scroll-into-view": "1.x",
     "rc-animate": "2.x",
-    "rc-util": "3.x"
+    "rc-util": "^4.0.2"
   },
   "pre-commit": [
     "lint"
