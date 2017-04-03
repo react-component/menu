@@ -91,6 +91,12 @@ ReactDOM.render(<Menu>
             <td>whether allow multiple select</td>
         </tr>
         <tr>
+            <td>selectable</td>
+            <td>Boolean</td>
+            <th>true</th>
+            <td>allow selecting menu items</td>
+        </tr>
+        <tr>
             <td>selectedKeys</td>
             <td>String[]</td>
             <th>[]</th>
