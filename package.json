@@ -56,9 +56,9 @@
     "jest": "^17.0.3",
     "pre-commit": "1.x",
     "rc-tools": "5.x",
-    "react": "15.x",
-    "react-addons-test-utils": "15.x",
-    "react-dom": "15.x"
+    "react": "15.4.x",
+    "react-addons-test-utils": "15.4.x",
+    "react-dom": "15.4.x"
   },
   "dependencies": {
     "babel-runtime": "6.x",
