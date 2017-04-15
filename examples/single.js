@@ -63,16 +63,18 @@ function render(container) {
       <MenuItem key="4-3">outer3</MenuItem>
     </Menu>
   );
-  ReactDOM.render(<div>
-    <link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
-    <h2>single selectable menu</h2>
-
-    <p>
-      <button onClick={destroy}>destroy</button>
-      &nbsp;
-      <a href="#">archor</a>
-    </p>
-    <div style={{ width: 400 }}>{leftMenu}</div>
+  ReactDOM.render(<div style={{ width: 200 }}>
+    <Menu
+      openSubMenuOnMouseEnter={false}
+      closeSubMenuOnMouseLeave={false}
+    >
+        <SubMenu key="s1" title="submenu1">
+          <MenuItem key="1">1</MenuItem>
+        </SubMenu>
+        <SubMenu key="s2" title="submenu2">
+          <MenuItem key="2">2</MenuItem>
+        </SubMenu>
+      </Menu>
   </div>, container);
 }
 

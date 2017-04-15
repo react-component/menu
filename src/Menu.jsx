@@ -23,6 +23,30 @@ const Menu = React.createClass({
     children: PropTypes.any,
   },
 
+  childContextTypes: {
+    parentMenu: PropTypes.object,
+    openKeys: PropTypes.arrayOf(PropTypes.string),
+    activeKey: PropTypes.string,
+    selectedKeys: PropTypes.arrayOf(PropTypes.string),
+    mode: PropTypes.string,
+    level: PropTypes.number,
+    multiple: PropTypes.bool,
+    inlineIndent: PropTypes.number,
+    rootPrefixCls: PropTypes.string,
+    openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    openSubMenuOnMouseEnter: PropTypes.bool,
+    closeSubMenuOnMouseLeave: PropTypes.bool,
+    saveRef: PropTypes.func,
+    onClick: PropTypes.func,
+    onSelect: PropTypes.func,
+    onDestroy: PropTypes.func,
+    onDeselect: PropTypes.func,
+    onItemHover: PropTypes.func,
+    onOpenChange: PropTypes.func,
+    getEventKey: PropTypes.func,
+    openTransitionName: PropTypes.string,
+  },
+
   mixins: [MenuMixin],
 
   getDefaultProps() {
@@ -55,6 +79,39 @@ const Menu = React.createClass({
     };
   },
 
+  /**
+   * renderMenuItem // 没用
+   * index // 没用
+   * ref // 通过 callback 实现
+   * eventKey // 通过 callback 实现
+   * active => activeKey
+   */
+  getChildContext() {
+    return {
+      parentMenu: this,
+      openKeys: this.state.openKeys,
+      activeKey: this.state.activeKey,
+      selectedKeys: this.state.selectedKeys,
+      mode: this.props.mode,
+      level: this.props.level,
+      multiple: this.props.multiple,
+      inlineIndent: this.props.inlineIndent,
+      rootPrefixCls: this.props.prefixCls,
+      openAnimation: this.props.openAnimation,
+      openSubMenuOnMouseEnter: this.props.mode === 'inline' ? false : this.props.openSubMenuOnMouseEnter,
+      closeSubMenuOnMouseLeave: this.props.mode === 'inline' ? false : this.props.closeSubMenuOnMouseLeave,
+      saveRef: this.saveRef,
+      onClick: this.onClick,
+      onSelect: this.onSelect,
+      onDestroy: this.onDestroy,
+      onDeselect: this.onDeselect,
+      onItemHover: this.onItemHover,
+      onOpenChange: this.onOpenChange,
+      getEventKey: this.getEventKey,
+      openTransitionName: this.getOpenTransitionName(),
+    };
+  },
+
   componentWillReceiveProps(nextProps) {
     const props = {};
     if ('selectedKeys' in nextProps) {
@@ -64,6 +121,11 @@ const Menu = React.createClass({
       props.openKeys = nextProps.openKeys || [];
     }
     this.setState(props);
+  },
+
+  componentWillUpdate() {
+    this.refIndex = null;
+    this.instanceArray = [];
   },
 
   onDestroy(key) {
@@ -89,11 +151,11 @@ const Menu = React.createClass({
     if (mode !== 'inline' && !closeSubMenuOnMouseLeave && item.isSubMenu) {
       const activeKey = this.state.activeKey;
       const activeItem = this.getFlatInstanceArray().filter((c) => {
-        return c && c.props.eventKey === activeKey;
+        return c && c.getEventKey() === activeKey;
       })[0];
       if (activeItem && activeItem.props.open) {
         openChanges = openChanges.concat({
-          key: item.props.eventKey,
+          key: item.getEventKey(),
           item,
           originalEvent: e,
           open: true,
@@ -207,7 +269,7 @@ const Menu = React.createClass({
     const { openKeys } = this.state;
     if (openKeys.length) {
       lastOpen = this.getFlatInstanceArray().filter((c) => {
-        return c && openKeys.indexOf(c.props.eventKey) !== -1;
+        return c && openKeys.indexOf(c.getEventKey()) !== -1;
       });
     }
     return lastOpen[0];

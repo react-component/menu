@@ -40,17 +40,6 @@ function getActiveKey(props, originalActiveKey) {
   return activeKey;
 }
 
-function saveRef(index, subIndex, c) {
-  if (c) {
-    if (subIndex !== undefined) {
-      this.instanceArray[index] = this.instanceArray[index] || [];
-      this.instanceArray[index][subIndex] = c;
-    } else {
-      this.instanceArray[index] = c;
-    }
-  }
-}
-
 const MenuMixin = {
   propTypes: {
     focusable: PropTypes.bool,
@@ -120,7 +109,7 @@ const MenuMixin = {
     const keyCode = e.keyCode;
     let handled;
     this.getFlatInstanceArray().forEach((obj) => {
-      if (obj && obj.props.active) {
+      if (obj && obj.isActive()) {
         handled = obj.onKeyDown(e);
       }
     });
@@ -134,7 +123,7 @@ const MenuMixin = {
     if (activeItem) {
       e.preventDefault();
       this.setState({
-        activeKey: activeItem.props.eventKey,
+        activeKey: activeItem.getEventKey(),
       }, () => {
         scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
           onlyScrollIfNeeded: true,
@@ -166,13 +155,13 @@ const MenuMixin = {
     // clear last open status
     if (hover && mode !== 'inline') {
       const activeItem = this.getFlatInstanceArray().filter((c) => {
-        return c && c.props.eventKey === activeKey;
+        return c && c.getEventKey() === activeKey;
       })[0];
-      if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
+      if (activeItem && activeItem.isSubMenu && activeItem.getEventKey() !== key) {
         return ({
           item: activeItem,
           originalEvent: e,
-          key: activeItem.props.eventKey,
+          key: activeItem.getEventKey(),
           open: false,
         });
       }
@@ -264,7 +253,7 @@ const MenuMixin = {
         visible={props.visible}
         {...domProps}
       >
-        {React.Children.map(props.children, this.renderMenuItem)}
+        {props.children}
       </DOMWrap>
       /*eslint-enable */
     );
@@ -283,7 +272,7 @@ const MenuMixin = {
     // find current activeIndex
     let activeIndex = -1;
     children.every((c, ci) => {
-      if (c && c.props.eventKey === activeKey) {
+      if (c && c.getEventKey() === activeKey) {
         activeIndex = ci;
         return false;
       }
@@ -308,6 +297,17 @@ const MenuMixin = {
         return child;
       }
     }
+  },
+
+  saveRef(node) {
+    this.refIndex = this.refIndex || 0;
+    this.refIndex++;
+    this.instanceArray[this.refIndex] = node;
+  },
+
+  getEventKey(node) {
+    const index = this.instanceArray.indexOf(node);
+    return getKeyFromChildrenIndex(node, this.context.eventKey, index);
   },
 };
 
