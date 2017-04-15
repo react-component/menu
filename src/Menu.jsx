@@ -1,8 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import MenuMixin from './MenuMixin';
 import { noop } from './util';
 
-const Menu = React.createClass({
+const Menu = createReactClass({
   propTypes: {
     openSubMenuOnMouseEnter: PropTypes.bool,
     closeSubMenuOnMouseLeave: PropTypes.bool,

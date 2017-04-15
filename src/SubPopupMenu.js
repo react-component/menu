@@ -1,8 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import MenuMixin from './MenuMixin';
 import Animate from 'rc-animate';
 
-const SubPopupMenu = React.createClass({
+const SubPopupMenu = createReactClass({
   propTypes: {
     onSelect: PropTypes.func,
     onClick: PropTypes.func,

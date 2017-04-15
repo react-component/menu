@@ -1,11 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classnames from 'classnames';
 import { noop } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
-const MenuItem = React.createClass({
+const MenuItem = createReactClass({
   propTypes: {
     rootPrefixCls: PropTypes.string,
     eventKey: PropTypes.string,
@@ -40,8 +42,15 @@ const MenuItem = React.createClass({
     if (props.parentMenu.menuItemInstance === this) {
       this.clearMenuItemMouseLeaveTimer();
     }
+    this.setState({
+      _isMounted: false,
+    });
   },
-
+  componentWillMount() {
+    this.setState({
+      _isMounted: true,
+    });
+  },
   onKeyDown(e) {
     const keyCode = e.keyCode;
     if (keyCode === KeyCode.ENTER) {
@@ -55,7 +64,7 @@ const MenuItem = React.createClass({
     const { eventKey, parentMenu } = props;
     parentMenu.menuItemInstance = this;
     parentMenu.menuItemMouseLeaveFn = () => {
-      if (this.isMounted() && props.active) {
+      if (this.state._isMounted && props.active) {
         props.onItemHover({
           key: eventKey,
           item: this,

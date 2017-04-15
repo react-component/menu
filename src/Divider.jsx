@@ -1,6 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
-const Divider = React.createClass({
+const Divider = createReactClass({
   propTypes: {
     disabled: PropTypes.bool,
     className: PropTypes.string,
