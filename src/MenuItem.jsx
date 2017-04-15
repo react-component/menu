@@ -42,14 +42,6 @@ const MenuItem = createReactClass({
     if (props.parentMenu.menuItemInstance === this) {
       this.clearMenuItemMouseLeaveTimer();
     }
-    this.setState({
-      _isMounted: false,
-    });
-  },
-  componentWillMount() {
-    this.setState({
-      _isMounted: true,
-    });
   },
   onKeyDown(e) {
     const keyCode = e.keyCode;
@@ -64,7 +56,7 @@ const MenuItem = createReactClass({
     const { eventKey, parentMenu } = props;
     parentMenu.menuItemInstance = this;
     parentMenu.menuItemMouseLeaveFn = () => {
-      if (this.state._isMounted && props.active) {
+      if (this.isMounted() && props.active) {
         props.onItemHover({
           key: eventKey,
           item: this,
