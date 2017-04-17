@@ -5,6 +5,8 @@ import MenuMixin from './MenuMixin';
 import Animate from 'rc-animate';
 
 const SubPopupMenu = createReactClass({
+  displayName: 'SubPopupMenu',
+
   propTypes: {
     onSelect: PropTypes.func,
     onClick: PropTypes.func,

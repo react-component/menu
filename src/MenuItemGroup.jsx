@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 
 const MenuItemGroup = createReactClass({
+  displayName: 'MenuItemGroup',
+
   propTypes: {
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,

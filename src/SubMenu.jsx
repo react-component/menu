@@ -11,6 +11,8 @@ let guid = 0;
 /* eslint react/no-is-mounted:0 */
 
 const SubMenu = createReactClass({
+  displayName: 'SubMenu',
+
   propTypes: {
     parentMenu: PropTypes.object,
     title: PropTypes.node,

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 
 const DOMWrap = createReactClass({
+  displayName: 'DOMWrap',
+
   propTypes: {
     tag: PropTypes.string,
     hiddenClassName: PropTypes.string,

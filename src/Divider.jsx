@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 
 const Divider = createReactClass({
+  displayName: 'Divider',
+
   propTypes: {
     disabled: PropTypes.bool,
     className: PropTypes.string,

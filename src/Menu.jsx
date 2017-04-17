@@ -5,6 +5,8 @@ import MenuMixin from './MenuMixin';
 import { noop } from './util';
 
 const Menu = createReactClass({
+  displayName: 'Menu',
+
   propTypes: {
     openSubMenuOnMouseEnter: PropTypes.bool,
     closeSubMenuOnMouseLeave: PropTypes.bool,
