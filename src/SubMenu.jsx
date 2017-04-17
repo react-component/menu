@@ -166,22 +166,20 @@ const SubMenu = createReactClass({
     const { parentMenu, eventKey } = props;
     parentMenu.subMenuInstance = this;
     parentMenu.subMenuTitleLeaveFn = () => {
-      if (this.isMounted()) {
-        // leave whole sub tree
-        // still active
-        if (props.mode === 'inline' && props.active) {
-          props.onItemHover({
-            key: eventKey,
-            item: this,
-            hover: false,
-            trigger: 'mouseleave',
-          });
-        }
-        props.onTitleMouseLeave({
-          key: props.eventKey,
-          domEvent: e,
+      // leave whole sub tree
+      // still active
+      if (props.mode === 'inline' && props.active) {
+        props.onItemHover({
+          key: eventKey,
+          item: this,
+          hover: false,
+          trigger: 'mouseleave',
         });
       }
+      props.onTitleMouseLeave({
+        key: props.eventKey,
+        domEvent: e,
+      });
     };
     parentMenu.subMenuTitleLeaveTimer = setTimeout(parentMenu.subMenuTitleLeaveFn, 100);
   },
@@ -191,44 +189,42 @@ const SubMenu = createReactClass({
     const { parentMenu, eventKey } = props;
     parentMenu.subMenuInstance = this;
     parentMenu.subMenuLeaveFn = () => {
-      if (this.isMounted()) {
-        // leave whole sub tree
-        // still active
-        if (props.mode !== 'inline') {
-          const isOpen = this.isOpen();
-          if (isOpen && props.closeSubMenuOnMouseLeave && props.active) {
+      // leave whole sub tree
+      // still active
+      if (props.mode !== 'inline') {
+        const isOpen = this.isOpen();
+        if (isOpen && props.closeSubMenuOnMouseLeave && props.active) {
+          props.onItemHover({
+            key: eventKey,
+            item: this,
+            hover: false,
+            trigger: 'mouseleave',
+            openChanges: [{
+              key: eventKey,
+              item: this,
+              trigger: 'mouseleave',
+              open: false,
+            }],
+          });
+        } else {
+          if (props.active) {
             props.onItemHover({
               key: eventKey,
               item: this,
               hover: false,
               trigger: 'mouseleave',
-              openChanges: [{
-                key: eventKey,
-                item: this,
-                trigger: 'mouseleave',
-                open: false,
-              }],
             });
-          } else {
-            if (props.active) {
-              props.onItemHover({
-                key: eventKey,
-                item: this,
-                hover: false,
-                trigger: 'mouseleave',
-              });
-            }
-            if (isOpen && props.closeSubMenuOnMouseLeave) {
-              this.triggerOpenChange(false);
-            }
+          }
+          if (isOpen && props.closeSubMenuOnMouseLeave) {
+            this.triggerOpenChange(false);
           }
         }
-        // trigger mouseleave
-        props.onMouseLeave({
-          key: eventKey,
-          domEvent: e,
-        });
       }
+      // trigger mouseleave
+      props.onMouseLeave({
+        key: eventKey,
+        domEvent: e,
+      });
     };
     // prevent popup menu and submenu gap
     parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);

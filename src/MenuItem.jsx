@@ -58,7 +58,7 @@ const MenuItem = createReactClass({
     const { eventKey, parentMenu } = props;
     parentMenu.menuItemInstance = this;
     parentMenu.menuItemMouseLeaveFn = () => {
-      if (this.isMounted() && props.active) {
+      if (props.active) {
         props.onItemHover({
           key: eventKey,
           item: this,
