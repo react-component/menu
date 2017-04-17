@@ -1,11 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classnames from 'classnames';
 import { noop } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
-const MenuItem = React.createClass({
+const MenuItem = createReactClass({
   propTypes: {
     rootPrefixCls: PropTypes.string,
     eventKey: PropTypes.string,
@@ -41,7 +43,6 @@ const MenuItem = React.createClass({
       this.clearMenuItemMouseLeaveTimer();
     }
   },
-
   onKeyDown(e) {
     const keyCode = e.keyCode;
     if (keyCode === KeyCode.ENTER) {

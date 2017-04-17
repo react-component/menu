@@ -3,6 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
+import createReactClass from 'create-react-class';
+React.createClass = createReactClass;
 
 import 'rc-menu/assets/index.less';
 

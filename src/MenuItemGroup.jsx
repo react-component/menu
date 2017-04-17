@@ -1,6 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
-const MenuItemGroup = React.createClass({
+const MenuItemGroup = createReactClass({
   propTypes: {
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,

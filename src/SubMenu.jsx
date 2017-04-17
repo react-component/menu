@@ -1,5 +1,7 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import SubPopupMenu from './SubPopupMenu';
-import React, { PropTypes } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classnames from 'classnames';
 import { noop, loopMenuItemRecusively } from './util';
@@ -8,7 +10,7 @@ let guid = 0;
 
 /* eslint react/no-is-mounted:0 */
 
-const SubMenu = React.createClass({
+const SubMenu = createReactClass({
   propTypes: {
     parentMenu: PropTypes.object,
     title: PropTypes.node,

@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-menu/assets/index.less';
 import animate from 'css-animation';
+import createReactClass from 'create-react-class';
 
 function handleSelect(info) {
   console.log(info);
@@ -125,7 +126,7 @@ function render(container) {
     openAnimation: animation,
   });
 
-  const ClickToHideMenu = React.createClass({
+  const ClickToHideMenu = createReactClass({
     getInitialState() {
       return {
         openKeys: [],
