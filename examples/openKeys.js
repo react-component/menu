@@ -25,11 +25,17 @@ webpackJsonp([4],{
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
 	__webpack_require__(288);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/* eslint no-console:0 */
+	
+	_react2.default.createClass = _createReactClass2.default;
 	
 	var Test = _react2.default.createClass({
 	  displayName: 'Test',

@@ -21174,9 +21174,13 @@
 	
 	var _extends3 = _interopRequireDefault(_extends2);
 	
-	var _react = __webpack_require__(2);
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
-	var _react2 = _interopRequireDefault(_react);
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
 	
 	var _MenuMixin = __webpack_require__(220);
 	
@@ -21186,27 +21190,28 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Menu = _react2.default.createClass({
+	// import React from 'react';
+	var Menu = (0, _createReactClass2.default)({
 	  displayName: 'Menu',
 	
 	  propTypes: {
-	    openSubMenuOnMouseEnter: _react.PropTypes.bool,
-	    closeSubMenuOnMouseLeave: _react.PropTypes.bool,
-	    selectedKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    defaultSelectedKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    defaultOpenKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    openKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    mode: _react.PropTypes.string,
-	    onClick: _react.PropTypes.func,
-	    onSelect: _react.PropTypes.func,
-	    onDeselect: _react.PropTypes.func,
-	    onDestroy: _react.PropTypes.func,
-	    openTransitionName: _react.PropTypes.string,
-	    openAnimation: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.object]),
-	    level: _react.PropTypes.number,
-	    eventKey: _react.PropTypes.string,
-	    selectable: _react.PropTypes.bool,
-	    children: _react.PropTypes.any
+	    openSubMenuOnMouseEnter: _propTypes2.default.bool,
+	    closeSubMenuOnMouseLeave: _propTypes2.default.bool,
+	    selectedKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    defaultSelectedKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    defaultOpenKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    openKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    mode: _propTypes2.default.string,
+	    onClick: _propTypes2.default.func,
+	    onSelect: _propTypes2.default.func,
+	    onDeselect: _propTypes2.default.func,
+	    onDestroy: _propTypes2.default.func,
+	    openTransitionName: _propTypes2.default.string,
+	    openAnimation: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+	    level: _propTypes2.default.number,
+	    eventKey: _propTypes2.default.string,
+	    selectable: _propTypes2.default.bool,
+	    children: _propTypes2.default.any
 	  },
 	
 	  mixins: [_MenuMixin2.default],
@@ -21971,6 +21976,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
 	var _reactDom = __webpack_require__(33);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -22049,17 +22058,17 @@
 	
 	var MenuMixin = {
 	  propTypes: {
-	    focusable: _react.PropTypes.bool,
-	    multiple: _react.PropTypes.bool,
-	    style: _react.PropTypes.object,
-	    defaultActiveFirst: _react.PropTypes.bool,
-	    visible: _react.PropTypes.bool,
-	    activeKey: _react.PropTypes.string,
-	    selectedKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    defaultSelectedKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    defaultOpenKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    openKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    children: _react.PropTypes.any
+	    focusable: _propTypes2.default.bool,
+	    multiple: _propTypes2.default.bool,
+	    style: _propTypes2.default.object,
+	    defaultActiveFirst: _propTypes2.default.bool,
+	    visible: _propTypes2.default.bool,
+	    activeKey: _propTypes2.default.string,
+	    selectedKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    defaultSelectedKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    defaultOpenKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    openKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    children: _propTypes2.default.any
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -23631,15 +23640,23 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var DOMWrap = _react2.default.createClass({
+	var DOMWrap = (0, _createReactClass2.default)({
 	  displayName: 'DOMWrap',
 	
 	  propTypes: {
-	    tag: _react.PropTypes.string,
-	    hiddenClassName: _react.PropTypes.string,
-	    visible: _react.PropTypes.bool
+	    tag: _propTypes2.default.string,
+	    hiddenClassName: _propTypes2.default.string,
+	    visible: _propTypes2.default.bool
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -23682,13 +23699,21 @@
 	
 	var _extends3 = _interopRequireDefault(_extends2);
 	
-	var _SubPopupMenu = __webpack_require__(234);
-	
-	var _SubPopupMenu2 = _interopRequireDefault(_SubPopupMenu);
-	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
+	var _SubPopupMenu = __webpack_require__(234);
+	
+	var _SubPopupMenu2 = _interopRequireDefault(_SubPopupMenu);
 	
 	var _KeyCode = __webpack_require__(225);
 	
@@ -23706,32 +23731,32 @@
 	
 	/* eslint react/no-is-mounted:0 */
 	
-	var SubMenu = _react2.default.createClass({
+	var SubMenu = (0, _createReactClass2.default)({
 	  displayName: 'SubMenu',
 	
 	  propTypes: {
-	    parentMenu: _react.PropTypes.object,
-	    title: _react.PropTypes.node,
-	    children: _react.PropTypes.any,
-	    selectedKeys: _react.PropTypes.array,
-	    openKeys: _react.PropTypes.array,
-	    onClick: _react.PropTypes.func,
-	    onOpenChange: _react.PropTypes.func,
-	    rootPrefixCls: _react.PropTypes.string,
-	    eventKey: _react.PropTypes.string,
-	    multiple: _react.PropTypes.bool,
-	    active: _react.PropTypes.bool,
-	    onSelect: _react.PropTypes.func,
-	    closeSubMenuOnMouseLeave: _react.PropTypes.bool,
-	    openSubMenuOnMouseEnter: _react.PropTypes.bool,
-	    onDeselect: _react.PropTypes.func,
-	    onDestroy: _react.PropTypes.func,
-	    onItemHover: _react.PropTypes.func,
-	    onMouseEnter: _react.PropTypes.func,
-	    onMouseLeave: _react.PropTypes.func,
-	    onTitleMouseEnter: _react.PropTypes.func,
-	    onTitleMouseLeave: _react.PropTypes.func,
-	    onTitleClick: _react.PropTypes.func
+	    parentMenu: _propTypes2.default.object,
+	    title: _propTypes2.default.node,
+	    children: _propTypes2.default.any,
+	    selectedKeys: _propTypes2.default.array,
+	    openKeys: _propTypes2.default.array,
+	    onClick: _propTypes2.default.func,
+	    onOpenChange: _propTypes2.default.func,
+	    rootPrefixCls: _propTypes2.default.string,
+	    eventKey: _propTypes2.default.string,
+	    multiple: _propTypes2.default.bool,
+	    active: _propTypes2.default.bool,
+	    onSelect: _propTypes2.default.func,
+	    closeSubMenuOnMouseLeave: _propTypes2.default.bool,
+	    openSubMenuOnMouseEnter: _propTypes2.default.bool,
+	    onDeselect: _propTypes2.default.func,
+	    onDestroy: _propTypes2.default.func,
+	    onItemHover: _propTypes2.default.func,
+	    onMouseEnter: _propTypes2.default.func,
+	    onMouseLeave: _propTypes2.default.func,
+	    onTitleMouseEnter: _propTypes2.default.func,
+	    onTitleMouseLeave: _propTypes2.default.func,
+	    onTitleClick: _propTypes2.default.func
 	  },
 	
 	  mixins: [__webpack_require__(279)],
@@ -23864,22 +23889,20 @@
 	
 	    parentMenu.subMenuInstance = this;
 	    parentMenu.subMenuTitleLeaveFn = function () {
-	      if (_this.isMounted()) {
-	        // leave whole sub tree
-	        // still active
-	        if (props.mode === 'inline' && props.active) {
-	          props.onItemHover({
-	            key: eventKey,
-	            item: _this,
-	            hover: false,
-	            trigger: 'mouseleave'
-	          });
-	        }
-	        props.onTitleMouseLeave({
-	          key: props.eventKey,
-	          domEvent: e
+	      // leave whole sub tree
+	      // still active
+	      if (props.mode === 'inline' && props.active) {
+	        props.onItemHover({
+	          key: eventKey,
+	          item: _this,
+	          hover: false,
+	          trigger: 'mouseleave'
 	        });
 	      }
+	      props.onTitleMouseLeave({
+	        key: props.eventKey,
+	        domEvent: e
+	      });
 	    };
 	    parentMenu.subMenuTitleLeaveTimer = setTimeout(parentMenu.subMenuTitleLeaveFn, 100);
 	  },
@@ -23892,44 +23915,42 @@
 	
 	    parentMenu.subMenuInstance = this;
 	    parentMenu.subMenuLeaveFn = function () {
-	      if (_this2.isMounted()) {
-	        // leave whole sub tree
-	        // still active
-	        if (props.mode !== 'inline') {
-	          var isOpen = _this2.isOpen();
-	          if (isOpen && props.closeSubMenuOnMouseLeave && props.active) {
+	      // leave whole sub tree
+	      // still active
+	      if (props.mode !== 'inline') {
+	        var isOpen = _this2.isOpen();
+	        if (isOpen && props.closeSubMenuOnMouseLeave && props.active) {
+	          props.onItemHover({
+	            key: eventKey,
+	            item: _this2,
+	            hover: false,
+	            trigger: 'mouseleave',
+	            openChanges: [{
+	              key: eventKey,
+	              item: _this2,
+	              trigger: 'mouseleave',
+	              open: false
+	            }]
+	          });
+	        } else {
+	          if (props.active) {
 	            props.onItemHover({
 	              key: eventKey,
 	              item: _this2,
 	              hover: false,
-	              trigger: 'mouseleave',
-	              openChanges: [{
-	                key: eventKey,
-	                item: _this2,
-	                trigger: 'mouseleave',
-	                open: false
-	              }]
+	              trigger: 'mouseleave'
 	            });
-	          } else {
-	            if (props.active) {
-	              props.onItemHover({
-	                key: eventKey,
-	                item: _this2,
-	                hover: false,
-	                trigger: 'mouseleave'
-	              });
-	            }
-	            if (isOpen && props.closeSubMenuOnMouseLeave) {
-	              _this2.triggerOpenChange(false);
-	            }
+	          }
+	          if (isOpen && props.closeSubMenuOnMouseLeave) {
+	            _this2.triggerOpenChange(false);
 	          }
 	        }
-	        // trigger mouseleave
-	        props.onMouseLeave({
-	          key: eventKey,
-	          domEvent: e
-	        });
 	      }
+	      // trigger mouseleave
+	      props.onMouseLeave({
+	        key: eventKey,
+	        domEvent: e
+	      });
 	    };
 	    // prevent popup menu and submenu gap
 	    parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);
@@ -24150,6 +24171,14 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
 	var _MenuMixin = __webpack_require__(220);
 	
 	var _MenuMixin2 = _interopRequireDefault(_MenuMixin);
@@ -24160,21 +24189,21 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var SubPopupMenu = _react2.default.createClass({
+	var SubPopupMenu = (0, _createReactClass2.default)({
 	  displayName: 'SubPopupMenu',
 	
 	  propTypes: {
-	    onSelect: _react.PropTypes.func,
-	    onClick: _react.PropTypes.func,
-	    onDeselect: _react.PropTypes.func,
-	    onOpenChange: _react.PropTypes.func,
-	    onDestroy: _react.PropTypes.func,
-	    openTransitionName: _react.PropTypes.string,
-	    openAnimation: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.object]),
-	    openKeys: _react.PropTypes.arrayOf(_react.PropTypes.string),
-	    closeSubMenuOnMouseLeave: _react.PropTypes.bool,
-	    visible: _react.PropTypes.bool,
-	    children: _react.PropTypes.any
+	    onSelect: _propTypes2.default.func,
+	    onClick: _propTypes2.default.func,
+	    onDeselect: _propTypes2.default.func,
+	    onOpenChange: _propTypes2.default.func,
+	    onDestroy: _propTypes2.default.func,
+	    openTransitionName: _propTypes2.default.string,
+	    openAnimation: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+	    openKeys: _propTypes2.default.arrayOf(_propTypes2.default.string),
+	    closeSubMenuOnMouseLeave: _propTypes2.default.bool,
+	    visible: _propTypes2.default.bool,
+	    children: _propTypes2.default.any
 	  },
 	
 	  mixins: [_MenuMixin2.default],
@@ -26737,6 +26766,14 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
 	var _KeyCode = __webpack_require__(225);
 	
 	var _KeyCode2 = _interopRequireDefault(_KeyCode);
@@ -26751,25 +26788,25 @@
 	
 	/* eslint react/no-is-mounted:0 */
 	
-	var MenuItem = _react2.default.createClass({
+	var MenuItem = (0, _createReactClass2.default)({
 	  displayName: 'MenuItem',
 	
 	  propTypes: {
-	    rootPrefixCls: _react.PropTypes.string,
-	    eventKey: _react.PropTypes.string,
-	    active: _react.PropTypes.bool,
-	    children: _react.PropTypes.any,
-	    selectedKeys: _react.PropTypes.array,
-	    disabled: _react.PropTypes.bool,
-	    title: _react.PropTypes.string,
-	    onSelect: _react.PropTypes.func,
-	    onClick: _react.PropTypes.func,
-	    onDeselect: _react.PropTypes.func,
-	    parentMenu: _react.PropTypes.object,
-	    onItemHover: _react.PropTypes.func,
-	    onDestroy: _react.PropTypes.func,
-	    onMouseEnter: _react.PropTypes.func,
-	    onMouseLeave: _react.PropTypes.func
+	    rootPrefixCls: _propTypes2.default.string,
+	    eventKey: _propTypes2.default.string,
+	    active: _propTypes2.default.bool,
+	    children: _propTypes2.default.any,
+	    selectedKeys: _propTypes2.default.array,
+	    disabled: _propTypes2.default.bool,
+	    title: _propTypes2.default.string,
+	    onSelect: _propTypes2.default.func,
+	    onClick: _propTypes2.default.func,
+	    onDeselect: _propTypes2.default.func,
+	    parentMenu: _propTypes2.default.object,
+	    onItemHover: _propTypes2.default.func,
+	    onDestroy: _propTypes2.default.func,
+	    onMouseEnter: _propTypes2.default.func,
+	    onMouseLeave: _propTypes2.default.func
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -26804,7 +26841,7 @@
 	
 	    parentMenu.menuItemInstance = this;
 	    parentMenu.menuItemMouseLeaveFn = function () {
-	      if (_this.isMounted() && props.active) {
+	      if (props.active) {
 	        props.onItemHover({
 	          key: eventKey,
 	          item: _this,
@@ -26947,16 +26984,24 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var MenuItemGroup = _react2.default.createClass({
+	var MenuItemGroup = (0, _createReactClass2.default)({
 	  displayName: 'MenuItemGroup',
 	
 	  propTypes: {
-	    renderMenuItem: _react.PropTypes.func,
-	    index: _react.PropTypes.number,
-	    className: _react.PropTypes.string,
-	    rootPrefixCls: _react.PropTypes.string
+	    renderMenuItem: _propTypes2.default.func,
+	    index: _propTypes2.default.number,
+	    className: _propTypes2.default.string,
+	    rootPrefixCls: _propTypes2.default.string
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -27015,15 +27060,23 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"prop-types\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"create-react-class\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Divider = _react2.default.createClass({
+	var Divider = (0, _createReactClass2.default)({
 	  displayName: 'Divider',
 	
 	  propTypes: {
-	    disabled: _react.PropTypes.bool,
-	    className: _react.PropTypes.string,
-	    rootPrefixCls: _react.PropTypes.string
+	    disabled: _propTypes2.default.bool,
+	    className: _propTypes2.default.string,
+	    rootPrefixCls: _propTypes2.default.string
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
