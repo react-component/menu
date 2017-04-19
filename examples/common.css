@@ -16,7 +16,6 @@
   overflow: hidden;
 }
 .rc-menu-collapse-active {
-  -webkit-transition: height 0.3s ease-out;
   transition: height 0.3s ease-out;
 }
 .rc-menu-item-group-list {
