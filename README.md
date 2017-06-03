@@ -32,7 +32,7 @@ react menu component. port from https://github.com/kissyteam/menu
 
 ## Usage
 
-```js
+```jsx
 import Menu, {SubMenu, MenuItem} from 'rc-menu';
 ReactDOM.render(<Menu>
   <MenuItem>1</MenuItem>
