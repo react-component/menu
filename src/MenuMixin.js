@@ -117,7 +117,7 @@ const MenuMixin = {
   },
 
   // all keyboard events callbacks run from here at first
-  onKeyDown(e) {
+  onKeyDown(e, callback) {
     const keyCode = e.keyCode;
     let handled;
     this.getFlatInstanceArray().forEach((obj) => {
@@ -140,6 +140,9 @@ const MenuMixin = {
         scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
           onlyScrollIfNeeded: true,
         });
+        if (callback) {
+          callback(activeItem);
+        }
       });
       return 1;
     } else if (activeItem === undefined) {
