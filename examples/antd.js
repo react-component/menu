@@ -15,21 +15,21 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(37);
+	var _reactDom = __webpack_require__(38);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(183);
+	var _rcMenu = __webpack_require__(185);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(219);
+	__webpack_require__(306);
 	
-	var _cssAnimation = __webpack_require__(205);
+	var _cssAnimation = __webpack_require__(292);
 	
 	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
 	
-	var _createReactClass = __webpack_require__(188);
+	var _createReactClass = __webpack_require__(228);
 	
 	var _createReactClass2 = _interopRequireDefault(_createReactClass);
 	
@@ -271,6 +271,7 @@ webpackJsonp([0],[
 	  });
 	
 	  var ClickToHideMenu = (0, _createReactClass2.default)({
+	    displayName: 'ClickToHideMenu',
 	    getInitialState: function getInitialState() {
 	      return {
 	        openKeys: []
