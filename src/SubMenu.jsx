@@ -36,7 +36,7 @@ const SubMenu = createReactClass({
     onTitleMouseEnter: PropTypes.func,
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
-    leaveTimeout: _propTypes2["default"].number,
+    leaveTimeout: PropTypes.number,
   },
 
   mixins: [require('./SubMenuStateMixin')],
