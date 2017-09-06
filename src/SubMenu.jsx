@@ -36,6 +36,7 @@ const SubMenu = createReactClass({
     onTitleMouseEnter: PropTypes.func,
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
+    leaveTimeout: PropTypes.number,
   },
 
   mixins: [require('./SubMenuStateMixin')],
@@ -181,7 +182,7 @@ const SubMenu = createReactClass({
         domEvent: e,
       });
     };
-    parentMenu.subMenuTitleLeaveTimer = setTimeout(parentMenu.subMenuTitleLeaveFn, 100);
+    parentMenu.subMenuTitleLeaveTimer = setTimeout(parentMenu.subMenuTitleLeaveFn, props.leaveTimeout);
   },
 
   onMouseLeave(e) {
@@ -227,7 +228,7 @@ const SubMenu = createReactClass({
       });
     };
     // prevent popup menu and submenu gap
-    parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);
+    parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, props.leaveTimeout);
   },
 
   onTitleClick(e) {
@@ -358,6 +359,7 @@ const SubMenu = createReactClass({
       openAnimation: props.openAnimation,
       onOpenChange: this.onOpenChange,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
+      leaveTimeout: props.leaveTimeout === undefined ? 100 : props.leaveTimeout,
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,

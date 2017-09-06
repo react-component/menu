@@ -253,6 +253,12 @@ ReactDOM.render(<Menu>
             <th>false</th>
             <td>no effect for click or keydown for this item</td>
         </tr>
+         <tr>
+            <td>leaveTimeout</td>
+            <td>Number</td>
+            <th>100</th>
+            <td>Timeout before hiding the SubMenu</td>
+        </tr>
         <tr>
             <td>onMouseEnter</td>
             <td>Function({eventKey, domEvent})</td>
