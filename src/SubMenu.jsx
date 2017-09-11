@@ -425,7 +425,7 @@ const SubMenu = createReactClass({
           aria-haspopup="true"
         >
           {props.title}
-          <i className="arrow" />
+          <i className={`${prefixCls}-arrow`} />
         </div>
         {this.renderChildren(props.children)}
       </li>
