@@ -13,18 +13,10 @@ function handleClick(info) {
   console.log('click ', info);
 }
 
-const titleRight = (<span>sub menu
-  <i className="fa fa-caret-right pull-right"></i>
-</span>);
-const titleRight1 = (<span>sub menu 1
-  <i className="fa fa-caret-right pull-right"></i>
-</span>);
-const titleRight2 = (<span>sub menu 2
-  <i className="fa fa-caret-right pull-right"></i>
-</span>);
-const titleRight3 = (<span>sub menu 3
-  <i className="fa fa-caret-right pull-right"></i>
-</span>);
+const titleRight = (<span>sub menu</span>);
+const titleRight1 = (<span>sub menu 1</span>);
+const titleRight2 = (<span>sub menu 2</span>);
+const titleRight3 = (<span>sub menu 3</span>);
 
 function render(container) {
   function destroy() {
@@ -64,7 +56,6 @@ function render(container) {
     </Menu>
   );
   ReactDOM.render(<div>
-    <link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
     <h2>single selectable menu</h2>
 
     <p>

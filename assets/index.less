@@ -1,5 +1,13 @@
 @menuPrefixCls: rc-menu;
 
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.eot?v=4.2.0');
+  src: url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.woff?v=4.2.0') format('woff'), url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .@{menuPrefixCls} {
   outline: none;
   margin-bottom: 0;
@@ -142,6 +150,32 @@
     & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {
       padding: 12px 8px 12px 24px;
     }
+    .arrow {
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      vertical-align: baseline;
+      text-align: center;
+      text-transform: none;
+      text-rendering: auto;
+      position: absolute;
+      right: 16px;
+      line-height: 1.5em;
+      &:before {
+        content: "\f0da";
+      }
+    }
+  }
+  &-inline {
+    .arrow {
+      transform: rotate(90deg);
+      transition: transform .3s;
+    }
+    & .@{menuPrefixCls}-submenu-open > .@{menuPrefixCls}-submenu-title {
+      .arrow {
+        transform: rotate(-90deg);
+      }
+    }
   }
 
   &-vertical&-sub {
@@ -168,6 +202,7 @@
   }
 
   &-open {
+
     &-slide-up-enter, &-slide-up-appear {
       .effect();
       opacity: 0;
