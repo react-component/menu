@@ -65,6 +65,8 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
       aria-owns="item_3$Menu"
       class="rc-menu-submenu-title">
       submenu
+      <i
+        class="rc-menu-submenu-arrow" />
     </div>
   </li>
 </ul>
@@ -137,6 +139,8 @@ exports[`Menu render renders inline menu correctly 1`] = `
       aria-owns="item_3$Menu"
       class="rc-menu-submenu-title">
       submenu
+      <i
+        class="rc-menu-submenu-arrow" />
     </div>
   </li>
 </ul>
@@ -209,6 +213,8 @@ exports[`Menu render renders vertical menu correctly 1`] = `
       aria-owns="item_3$Menu"
       class="rc-menu-submenu-title">
       submenu
+      <i
+        class="rc-menu-submenu-arrow" />
     </div>
   </li>
 </ul>
