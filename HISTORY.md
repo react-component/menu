@@ -1,6 +1,10 @@
 # History
 ----
 
+## 5.1.0 / 2016-09-12
+
+- Add dom for submenu arrow
+
 ## 5.0.0 / 2016-08-19
 
 - remove onOpen/onClose, support onOpenChange(openKeys: string[])
