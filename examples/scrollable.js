@@ -3,8 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { Item as MenuItem } from 'rc-menu';
-import createReactClass from 'create-react-class';
-React.createClass = createReactClass;
 
 import 'rc-menu/assets/index.less';
 
@@ -19,7 +17,6 @@ const menuStyle = {
   overflow: 'auto',
 };
 ReactDOM.render(<div>
-  <link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
   <h2>keyboard scrollable menu</h2>
   <Menu style={menuStyle}>{children}</Menu>
 </div>, document.getElementById('__react-content'));
