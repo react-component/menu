@@ -3,12 +3,12 @@ webpackJsonp([3],{
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(309);
+	module.exports = __webpack_require__(301);
 
 
 /***/ }),
 
-/***/ 309:
+/***/ 301:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,15 +17,15 @@ webpackJsonp([3],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(38);
+	var _reactDom = __webpack_require__(35);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(185);
+	var _rcMenu = __webpack_require__(173);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	__webpack_require__(306);
+	__webpack_require__(298);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -42,26 +42,22 @@ webpackJsonp([3],{
 	var titleRight = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu'
 	);
 	var titleRight1 = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu 1',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu 1'
 	);
 	var titleRight2 = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu 2',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu 2'
 	);
 	var titleRight3 = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu 3',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu 3'
 	);
 	
 	function render(container) {
@@ -151,7 +147,6 @@ webpackJsonp([3],{
 	  _reactDom2.default.render(_react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement('link', { href: '//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css', rel: 'stylesheet' }),
 	    _react2.default.createElement(
 	      'h2',
 	      null,

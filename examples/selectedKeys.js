@@ -3,12 +3,12 @@ webpackJsonp([6],{
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(312);
+	module.exports = __webpack_require__(304);
 
 
 /***/ }),
 
-/***/ 312:
+/***/ 304:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,28 +17,23 @@ webpackJsonp([6],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(38);
+	var _reactDom = __webpack_require__(35);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMenu = __webpack_require__(185);
+	var _rcMenu = __webpack_require__(173);
 	
 	var _rcMenu2 = _interopRequireDefault(_rcMenu);
 	
-	var _createReactClass = __webpack_require__(228);
+	var _createReactClass = __webpack_require__(219);
 	
 	var _createReactClass2 = _interopRequireDefault(_createReactClass);
 	
-	__webpack_require__(306);
+	__webpack_require__(298);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/* eslint no-console:0 */
-	
-	_react2.default.createClass = _createReactClass2.default;
-	
-	
-	var Test = _react2.default.createClass({
+	var Test = (0, _createReactClass2.default)({
 	  displayName: 'Test',
 	  getInitialState: function getInitialState() {
 	    return {
@@ -161,7 +156,6 @@ webpackJsonp([6],{
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement('link', { href: '//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css', rel: 'stylesheet' }),
 	      _react2.default.createElement(
 	        'h2',
 	        null,
@@ -211,7 +205,7 @@ webpackJsonp([6],{
 	      )
 	    );
 	  }
-	});
+	}); /* eslint no-console:0 */
 	
 	_reactDom2.default.render(_react2.default.createElement(Test, null), document.getElementById('__react-content'));
 
