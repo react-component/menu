@@ -30,7 +30,10 @@ const MenuItemGroup = createReactClass({
     const listClassName = `${rootPrefixCls}-item-group-list`;
     return (
       <li className={`${className} ${rootPrefixCls}-item-group`}>
-        <div className={titleClassName} title={typeof props.title === 'string' ? props.title : ''}>
+        <div
+          className={titleClassName}
+          title={typeof props.title === 'string' ? props.title : undefined}
+        >
           {props.title}
         </div>
         <ul className={listClassName}>
