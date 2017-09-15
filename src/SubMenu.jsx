@@ -423,6 +423,7 @@ const SubMenu = createReactClass({
           aria-expanded={isOpen}
           aria-owns={this._menuId}
           aria-haspopup="true"
+          title={typeof props.title === 'string' ? props.title : ''}
         >
           {props.title}
           <i className={`${prefixCls}-arrow`} />

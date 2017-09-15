@@ -7,7 +7,8 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
   <li
     class=" rc-menu-item-group">
     <div
-      class="rc-menu-item-group-title">
+      class="rc-menu-item-group-title"
+      title="g1">
       g1
     </div>
     <ul
@@ -37,7 +38,8 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
   <li
     class=" rc-menu-item-group">
     <div
-      class="rc-menu-item-group-title">
+      class="rc-menu-item-group-title"
+      title="g2">
       g2
     </div>
     <ul
@@ -63,7 +65,8 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       aria-owns="item_3$Menu"
-      class="rc-menu-submenu-title">
+      class="rc-menu-submenu-title"
+      title="submenu">
       submenu
       <i
         class="rc-menu-submenu-arrow" />
@@ -81,7 +84,8 @@ exports[`Menu render renders inline menu correctly 1`] = `
   <li
     class=" rc-menu-item-group">
     <div
-      class="rc-menu-item-group-title">
+      class="rc-menu-item-group-title"
+      title="g1">
       g1
     </div>
     <ul
@@ -111,7 +115,8 @@ exports[`Menu render renders inline menu correctly 1`] = `
   <li
     class=" rc-menu-item-group">
     <div
-      class="rc-menu-item-group-title">
+      class="rc-menu-item-group-title"
+      title="g2">
       g2
     </div>
     <ul
@@ -137,7 +142,8 @@ exports[`Menu render renders inline menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       aria-owns="item_3$Menu"
-      class="rc-menu-submenu-title">
+      class="rc-menu-submenu-title"
+      title="submenu">
       submenu
       <i
         class="rc-menu-submenu-arrow" />
@@ -155,7 +161,8 @@ exports[`Menu render renders vertical menu correctly 1`] = `
   <li
     class=" rc-menu-item-group">
     <div
-      class="rc-menu-item-group-title">
+      class="rc-menu-item-group-title"
+      title="g1">
       g1
     </div>
     <ul
@@ -185,7 +192,8 @@ exports[`Menu render renders vertical menu correctly 1`] = `
   <li
     class=" rc-menu-item-group">
     <div
-      class="rc-menu-item-group-title">
+      class="rc-menu-item-group-title"
+      title="g2">
       g2
     </div>
     <ul
@@ -211,7 +219,8 @@ exports[`Menu render renders vertical menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       aria-owns="item_3$Menu"
-      class="rc-menu-submenu-title">
+      class="rc-menu-submenu-title"
+      title="submenu">
       submenu
       <i
         class="rc-menu-submenu-arrow" />
