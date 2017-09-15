@@ -28,12 +28,16 @@ const MenuItemGroup = createReactClass({
     const { className = '', rootPrefixCls } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
-    return (<li className={`${className} ${rootPrefixCls}-item-group`}>
-      <div className={titleClassName}>{props.title}</div>
-      <ul className={listClassName}>
-        {React.Children.map(props.children, this.renderInnerMenuItem)}
-      </ul>
-    </li>);
+    return (
+      <li className={`${className} ${rootPrefixCls}-item-group`}>
+        <div className={titleClassName} title={typeof props.title === 'string' ? props.title : ''}>
+          {props.title}
+        </div>
+        <ul className={listClassName}>
+          {React.Children.map(props.children, this.renderInnerMenuItem)}
+        </ul>
+      </li>
+    );
   },
 });
 
