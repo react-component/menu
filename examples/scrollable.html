@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>scrollable.js - example - rc-menu@5.0.12</title>
+  <title>scrollable.js - example - rc-menu@5.1.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@5.0.12</h1>
+      <h1>rc-menu@5.1.1</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -274,8 +274,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> Menu, { Item <span class="hljs-keyword">as</span> MenuItem } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-menu'</span>;
-<span class="hljs-keyword">import</span> createReactClass <span class="hljs-keyword">from</span> <span class="hljs-string">'create-react-class'</span>;
-React.createClass = createReactClass;
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-menu/assets/index.css'</span>;
 
@@ -290,7 +288,6 @@ React.createClass = createReactClass;
   overflow: <span class="hljs-string">'auto'</span>,
 };
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css"</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> /&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>keyboard scrollable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{menuStyle}</span>&gt;</span>{children}<span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));

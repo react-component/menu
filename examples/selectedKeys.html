@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>selectedKeys.js - example - rc-menu@5.0.12</title>
+  <title>selectedKeys.js - example - rc-menu@5.1.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@5.0.12</h1>
+      <h1>rc-menu@5.1.1</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -275,10 +275,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
-React.createClass = createReactClass;
+
 import 'rc-menu/assets/index.css';
 
-const Test = React.createClass({
+const Test = createReactClass({
   getInitialState() {
     return {
       destroyed: false,
@@ -380,7 +380,6 @@ const Test = React.createClass({
     const openKeys = this.state.openKeys;
 
     return (&lt;div&gt;
-      &lt;link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" /&gt;
       &lt;h2&gt;multiple selectable menu&lt;/h2&gt;
 
       &lt;p&gt;

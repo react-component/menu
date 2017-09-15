@@ -42,26 +42,22 @@ webpackJsonp([7],{
 	var titleRight = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu'
 	);
 	var titleRight1 = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu 1',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu 1'
 	);
 	var titleRight2 = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu 2',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu 2'
 	);
 	var titleRight3 = _react2.default.createElement(
 	  'span',
 	  null,
-	  'sub menu 3',
-	  _react2.default.createElement('i', { className: 'fa fa-caret-right pull-right' })
+	  'sub menu 3'
 	);
 	
 	function render(container) {
@@ -154,7 +150,6 @@ webpackJsonp([7],{
 	  _reactDom2.default.render(_react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement('link', { href: '//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css', rel: 'stylesheet' }),
 	    _react2.default.createElement(
 	      'h2',
 	      null,
