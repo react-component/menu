@@ -22986,7 +22986,7 @@
 	
 	
 	  // all keyboard events callbacks run from here at first
-	  onKeyDown: function onKeyDown(e) {
+	  onKeyDown: function onKeyDown(e, callback) {
 	    var _this = this;
 	
 	    var keyCode = e.keyCode;
@@ -23011,6 +23011,9 @@
 	        (0, _domScrollIntoView2.default)(_reactDom2.default.findDOMNode(activeItem), _reactDom2.default.findDOMNode(_this), {
 	          onlyScrollIfNeeded: true
 	        });
+	        if (callback) {
+	          callback(activeItem);
+	        }
 	      });
 	      return 1;
 	    } else if (activeItem === undefined) {
@@ -25019,7 +25022,8 @@
 	          'aria-haspopup': 'true',
 	          title: typeof props.title === 'string' ? props.title : undefined
 	        }),
-	        props.title
+	        props.title,
+	        _react2.default.createElement('i', { className: prefixCls + '-arrow' })
 	      ),
 	      this.renderChildren(props.children)
 	    );
