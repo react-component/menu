@@ -33,7 +33,12 @@ webpackJsonp([6],{
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Test = (0, _createReactClass2.default)({
+	/* eslint no-console:0 */
+	
+	_react2.default.createClass = _createReactClass2.default;
+	
+	
+	var Test = _react2.default.createClass({
 	  displayName: 'Test',
 	  getInitialState: function getInitialState() {
 	    return {
@@ -156,6 +161,7 @@ webpackJsonp([6],{
 	    return _react2.default.createElement(
 	      'div',
 	      null,
+	      _react2.default.createElement('link', { href: '//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css', rel: 'stylesheet' }),
 	      _react2.default.createElement(
 	        'h2',
 	        null,
@@ -205,7 +211,7 @@ webpackJsonp([6],{
 	      )
 	    );
 	  }
-	}); /* eslint no-console:0 */
+	});
 	
 	_reactDom2.default.render(_react2.default.createElement(Test, null), document.getElementById('__react-content'));
 

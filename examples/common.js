@@ -22986,7 +22986,7 @@
 	
 	
 	  // all keyboard events callbacks run from here at first
-	  onKeyDown: function onKeyDown(e, callback) {
+	  onKeyDown: function onKeyDown(e) {
 	    var _this = this;
 	
 	    var keyCode = e.keyCode;
@@ -23011,9 +23011,6 @@
 	        (0, _domScrollIntoView2.default)(_reactDom2.default.findDOMNode(activeItem), _reactDom2.default.findDOMNode(_this), {
 	          onlyScrollIfNeeded: true
 	        });
-	        if (callback) {
-	          callback(activeItem);
-	        }
 	      });
 	      return 1;
 	    } else if (activeItem === undefined) {
@@ -25020,10 +25017,9 @@
 	          'aria-expanded': isOpen,
 	          'aria-owns': this._menuId,
 	          'aria-haspopup': 'true',
-	          title: typeof props.title === 'string' ? props.title : ''
+	          title: typeof props.title === 'string' ? props.title : undefined
 	        }),
-	        props.title,
-	        _react2.default.createElement('i', { className: prefixCls + '-arrow' })
+	        props.title
 	      ),
 	      this.renderChildren(props.children)
 	    );
@@ -28222,7 +28218,10 @@
 	      { className: className + ' ' + rootPrefixCls + '-item-group' },
 	      _react2.default.createElement(
 	        'div',
-	        { className: titleClassName, title: typeof props.title === 'string' ? props.title : '' },
+	        {
+	          className: titleClassName,
+	          title: typeof props.title === 'string' ? props.title : undefined
+	        },
 	        props.title
 	      ),
 	      _react2.default.createElement(

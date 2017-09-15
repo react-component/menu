@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>single.js - example - rc-menu@5.1.1</title>
+  <title>single.js - example - rc-menu@5.0.13</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@5.1.1</h1>
+      <h1>rc-menu@5.0.13</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -284,10 +284,18 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'click '</span>, info);
 }
 
-<span class="hljs-keyword">const</span> titleRight = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
-<span class="hljs-keyword">const</span> titleRight1 = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 1<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
-<span class="hljs-keyword">const</span> titleRight2 = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 2<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
-<span class="hljs-keyword">const</span> titleRight3 = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 3<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
+<span class="hljs-keyword">const</span> titleRight = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu
+  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
+<span class="hljs-keyword">const</span> titleRight1 = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 1
+  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
+<span class="hljs-keyword">const</span> titleRight2 = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 2
+  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
+<span class="hljs-keyword">const</span> titleRight3 = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>sub menu 3
+  <span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"fa fa-caret-right pull-right"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>)</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params">container</span>) </span>{
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span>(<span class="hljs-params"></span>) </span>{
@@ -327,6 +335,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
   )</span>;
   ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css"</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>single selectable menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
 
     <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>

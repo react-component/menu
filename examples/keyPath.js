@@ -33,7 +33,11 @@ webpackJsonp([1],{
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Test = (0, _createReactClass2.default)({
+	/* eslint no-console:0 */
+	
+	_react2.default.createClass = _createReactClass2.default;
+	
+	var Test = _react2.default.createClass({
 	  displayName: 'Test',
 	  onClick: function onClick(info) {
 	    console.log('click ', info);
@@ -105,7 +109,7 @@ webpackJsonp([1],{
 	      )
 	    );
 	  }
-	}); /* eslint no-console:0 */
+	});
 	
 	_reactDom2.default.render(_react2.default.createElement(Test, null), document.getElementById('__react-content'));
 
