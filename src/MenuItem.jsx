@@ -78,7 +78,7 @@ const MenuItem = createReactClass({
   onMouseEnter(e) {
     const props = this.props;
     const { eventKey, parentMenu } = props;
-    this.clearMenuItemMouseLeaveTimer(parentMenu.menuItemInstance !== this);
+    this.clearMenuItemMouseLeaveTimer();
     if (parentMenu.subMenuInstance) {
       parentMenu.subMenuInstance.clearSubMenuTimers();
     }
@@ -135,14 +135,10 @@ const MenuItem = createReactClass({
 
   clearMenuItemMouseLeaveTimer() {
     const props = this.props;
-    let callFn;
     const parentMenu = props.parentMenu;
     if (parentMenu.menuItemMouseLeaveTimer) {
       clearTimeout(parentMenu.menuItemMouseLeaveTimer);
       parentMenu.menuItemMouseLeaveTimer = null;
-      if (callFn && parentMenu.menuItemMouseLeaveFn) {
-        parentMenu.menuItemMouseLeaveFn();
-      }
       parentMenu.menuItemMouseLeaveFn = null;
     }
   },

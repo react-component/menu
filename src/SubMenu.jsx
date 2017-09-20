@@ -121,20 +121,66 @@ const SubMenu = createReactClass({
 
   onMouseEnter(e) {
     const props = this.props;
-    this.clearSubMenuLeaveTimer(props.parentMenu.subMenuInstance !== this);
+    this.clearSubMenuLeaveTimer();
     props.onMouseEnter({
       key: props.eventKey,
       domEvent: e,
     });
   },
 
+  onMouseLeave(e) {
+    const { props } = this;
+    const { parentMenu, eventKey } = props;
+    parentMenu.subMenuInstance = this;
+    parentMenu.subMenuLeaveFn = () => {
+      // leave whole sub tree
+      // still active
+      if (props.mode !== 'inline') {
+        const isOpen = this.isOpen();
+        if (isOpen && props.closeSubMenuOnMouseLeave && props.active) {
+          props.onItemHover({
+            key: eventKey,
+            item: this,
+            hover: false,
+            trigger: 'mouseleave',
+            openChanges: [{
+              key: eventKey,
+              item: this,
+              trigger: 'mouseleave',
+              open: false,
+            }],
+          });
+        } else {
+          if (props.active) {
+            props.onItemHover({
+              key: eventKey,
+              item: this,
+              hover: false,
+              trigger: 'mouseleave',
+            });
+          }
+          if (isOpen && props.closeSubMenuOnMouseLeave) {
+            this.triggerOpenChange(false);
+          }
+        }
+      }
+      // trigger mouseleave
+      props.onMouseLeave({
+        key: eventKey,
+        domEvent: e,
+      });
+    };
+    // prevent popup menu and submenu gap
+    parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);
+  },
+
   onTitleMouseEnter(domEvent) {
     const props = this.props;
     const { parentMenu, eventKey: key } = props;
     const item = this;
-    this.clearSubMenuTitleLeaveTimer(parentMenu.subMenuInstance !== item);
+    this.clearSubMenuTitleLeaveTimer();
     if (parentMenu.menuItemInstance) {
-      parentMenu.menuItemInstance.clearMenuItemMouseLeaveTimer(true);
+      parentMenu.menuItemInstance.clearMenuItemMouseLeaveTimer();
     }
     const openChanges = [];
     if (props.openSubMenuOnMouseEnter) {
@@ -182,52 +228,6 @@ const SubMenu = createReactClass({
       });
     };
     parentMenu.subMenuTitleLeaveTimer = setTimeout(parentMenu.subMenuTitleLeaveFn, 100);
-  },
-
-  onMouseLeave(e) {
-    const { props } = this;
-    const { parentMenu, eventKey } = props;
-    parentMenu.subMenuInstance = this;
-    parentMenu.subMenuLeaveFn = () => {
-      // leave whole sub tree
-      // still active
-      if (props.mode !== 'inline') {
-        const isOpen = this.isOpen();
-        if (isOpen && props.closeSubMenuOnMouseLeave && props.active) {
-          props.onItemHover({
-            key: eventKey,
-            item: this,
-            hover: false,
-            trigger: 'mouseleave',
-            openChanges: [{
-              key: eventKey,
-              item: this,
-              trigger: 'mouseleave',
-              open: false,
-            }],
-          });
-        } else {
-          if (props.active) {
-            props.onItemHover({
-              key: eventKey,
-              item: this,
-              hover: false,
-              trigger: 'mouseleave',
-            });
-          }
-          if (isOpen && props.closeSubMenuOnMouseLeave) {
-            this.triggerOpenChange(false);
-          }
-        }
-      }
-      // trigger mouseleave
-      props.onMouseLeave({
-        key: eventKey,
-        domEvent: e,
-      });
-    };
-    // prevent popup menu and submenu gap
-    parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);
   },
 
   onTitleClick(e) {
@@ -299,33 +299,24 @@ const SubMenu = createReactClass({
   },
 
   clearSubMenuTimers() {
-    let callFn;
-    this.clearSubMenuLeaveTimer(callFn);
-    this.clearSubMenuTitleLeaveTimer(callFn);
+    this.clearSubMenuLeaveTimer();
+    this.clearSubMenuTitleLeaveTimer();
   },
 
   clearSubMenuTitleLeaveTimer() {
-    let callFn;
     const parentMenu = this.props.parentMenu;
     if (parentMenu.subMenuTitleLeaveTimer) {
       clearTimeout(parentMenu.subMenuTitleLeaveTimer);
       parentMenu.subMenuTitleLeaveTimer = null;
-      if (callFn && parentMenu.subMenuTitleLeaveFn) {
-        parentMenu.subMenuTitleLeaveFn();
-      }
       parentMenu.subMenuTitleLeaveFn = null;
     }
   },
 
   clearSubMenuLeaveTimer() {
-    let callFn;
     const parentMenu = this.props.parentMenu;
     if (parentMenu.subMenuLeaveTimer) {
       clearTimeout(parentMenu.subMenuLeaveTimer);
       parentMenu.subMenuLeaveTimer = null;
-      if (callFn && parentMenu.subMenuLeaveFn) {
-        parentMenu.subMenuLeaveFn();
-      }
       parentMenu.subMenuLeaveFn = null;
     }
   },
@@ -392,16 +383,16 @@ const SubMenu = createReactClass({
 
     classes[prefixCls] = true;
     classes[`${prefixCls}-${props.mode}`] = 1;
-    let titleClickEvents = {};
     let mouseEvents = {};
+    let titleClickEvents = {};
     let titleMouseEvents = {};
     if (!props.disabled) {
-      titleClickEvents = {
-        onClick: this.onTitleClick,
-      };
       mouseEvents = {
         onMouseLeave: this.onMouseLeave,
         onMouseEnter: this.onMouseEnter,
+      };
+      titleClickEvents = {
+        onClick: this.onTitleClick,
       };
       // only works in title, not outer li
       titleMouseEvents = {
