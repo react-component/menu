@@ -35,6 +35,7 @@
     "compile": "rc-tools run compile --babel-runtime",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
+    "start:preact": "DEMO_ENV=preact rmc-tools run server",
     "pub": "rc-tools run pub --babel-runtime",
     "lint": "rc-tools run lint",
     "lint:fix": "rc-tools run lint --fix",
@@ -45,7 +46,13 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*"
-    ]
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "\\.jsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js"
+    }
   },
   "devDependencies": {
     "coveralls": "^2.11.15",
@@ -57,7 +64,8 @@
     "rc-tools": "6.x",
     "react": "15.x",
     "react-dom": "15.x",
-    "react-test-renderer": "^15.3.2"
+    "react-test-renderer": "^15.3.2",
+    "rmc-tools": "^0.0.2"
   },
   "dependencies": {
     "create-react-class": "^15.5.2",
@@ -70,16 +78,5 @@
   },
   "pre-commit": [
     "lint"
-  ],
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "transform": {
-      "\\.jsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js"
-    }
-  }
+  ]
 }
