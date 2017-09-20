@@ -32,14 +32,14 @@
   },
   "scripts": {
     "build": "rc-tools run build",
+    "compile": "rc-tools run compile --babel-runtime",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
     "pub": "rc-tools run pub --babel-runtime",
     "lint": "rc-tools run lint",
-    "karma": "rc-tools run karma",
-    "saucelabs": "rc-tools run saucelabs",
+    "lint:fix": "rc-tools run lint --fix",
     "test": "jest",
-    "chrome-test": "rc-tools run chrome-test",
+    "prepublish": "rc-tools run guard",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "jest": {
@@ -51,14 +51,13 @@
     "coveralls": "^2.11.15",
     "css-animation": "^1.2.0",
     "enzyme": "^2.6.0",
-    "enzyme-to-json": "^1.4.1",
-    "expect.js": "~0.3.1",
-    "jest": "^17.0.3",
+    "enzyme-to-json": "^2.0.0",
+    "jest": "^21.0.0",
     "pre-commit": "1.x",
-    "rc-tools": "5.x",
-    "react": "^15.5.x",
-    "react-dom": "^15.5.x",
-    "react-addons-test-utils": "15.4.x"
+    "rc-tools": "6.x",
+    "react": "15.x",
+    "react-dom": "15.x",
+    "react-test-renderer": "^15.3.2"
   },
   "dependencies": {
     "create-react-class": "^15.5.2",
@@ -71,5 +70,16 @@
   },
   "pre-commit": [
     "lint"
-  ]
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "\\.jsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js"
+    }
+  }
 }
