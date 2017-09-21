@@ -6,15 +6,8 @@ const Divider = createReactClass({
   displayName: 'Divider',
 
   propTypes: {
-    disabled: PropTypes.bool,
     className: PropTypes.string,
     rootPrefixCls: PropTypes.string,
-  },
-
-  getDefaultProps() {
-    return {
-      disabled: true,
-    };
   },
 
   render() {

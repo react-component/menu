@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
-import SubPopupMenu from './SubPopupMenu';
+import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
-import classnames from 'classnames';
+import classNames from 'classnames';
+import SubPopupMenu from './SubPopupMenu';
+import placements from './placements';
 import { noop, loopMenuItemRecusively } from './util';
 
 let guid = 0;
@@ -24,13 +26,13 @@ const SubMenu = createReactClass({
     rootPrefixCls: PropTypes.string,
     eventKey: PropTypes.string,
     multiple: PropTypes.bool,
-    active: PropTypes.bool,
+    active: PropTypes.bool, // TODO: remove
+    onItemHover: PropTypes.func,
     onSelect: PropTypes.func,
     closeSubMenuOnMouseLeave: PropTypes.bool,
     openSubMenuOnMouseEnter: PropTypes.bool,
     onDeselect: PropTypes.func,
     onDestroy: PropTypes.func,
-    onItemHover: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onTitleMouseEnter: PropTypes.func,
@@ -38,7 +40,7 @@ const SubMenu = createReactClass({
     onTitleClick: PropTypes.func,
   },
 
-  mixins: [require('./SubMenuStateMixin')],
+  isRootMenu: false,
 
   getDefaultProps() {
     return {
@@ -119,26 +121,13 @@ const SubMenu = createReactClass({
     this.props.onOpenChange(e);
   },
 
+  onPopupVisibleChange(visible) {
+    this.triggerOpenChange(visible, visible ? 'mouseenter' : 'mouseleave');
+  },
+
   onMouseEnter(e) {
-    const { eventKey: key, openSubMenuOnMouseEnter, onItemHover, onMouseEnter } = this.props;
+    const { eventKey: key, onMouseEnter } = this.props;
     this.clearSubMenuLeaveTimer();
-    const item = this;
-    const openChanges = [];
-    if (openSubMenuOnMouseEnter) {
-      openChanges.push({
-        key,
-        item,
-        trigger: 'mouseenter',
-        open: true,
-      });
-    }
-    onItemHover({
-      key,
-      item,
-      hover: true,
-      trigger: 'mouseenter',
-      openChanges,
-    });
     this.setState({
       defaultActiveFirst: false,
     });
@@ -150,42 +139,12 @@ const SubMenu = createReactClass({
 
   onMouseLeave(e) {
     const {
-      parentMenu, mode, active, closeSubMenuOnMouseLeave, eventKey,
-      onItemHover, onMouseLeave,
+      parentMenu,
+      eventKey,
+      onMouseLeave,
     } = this.props;
     parentMenu.subMenuInstance = this;
     parentMenu.subMenuLeaveFn = () => {
-      // leave whole sub tree
-      // still active
-      if (mode !== 'inline') {
-        const isOpen = this.isOpen();
-        if (isOpen && closeSubMenuOnMouseLeave && active) {
-          onItemHover({
-            key: eventKey,
-            item: this,
-            hover: false,
-            trigger: 'mouseleave',
-            openChanges: [{
-              key: eventKey,
-              item: this,
-              trigger: 'mouseleave',
-              open: false,
-            }],
-          });
-        } else {
-          if (active) {
-            onItemHover({
-              key: eventKey,
-              item: this,
-              hover: false,
-              trigger: 'mouseleave',
-            });
-          }
-          if (isOpen && closeSubMenuOnMouseLeave) {
-            this.triggerOpenChange(false);
-          }
-        }
-      }
       // trigger mouseleave
       onMouseLeave({
         key: eventKey,
@@ -197,11 +156,12 @@ const SubMenu = createReactClass({
   },
 
   onTitleMouseEnter(domEvent) {
-    const { parentMenu, eventKey: key, onTitleMouseEnter } = this.props;
+    const { eventKey: key, onItemHover, onTitleMouseEnter } = this.props;
     this.clearSubMenuTitleLeaveTimer();
-    if (parentMenu.menuItemInstance) {
-      parentMenu.menuItemInstance.clearMenuItemMouseLeaveTimer();
-    }
+    onItemHover({
+      key,
+      hover: true,
+    });
     onTitleMouseEnter({
       key,
       domEvent,
@@ -209,19 +169,13 @@ const SubMenu = createReactClass({
   },
 
   onTitleMouseLeave(e) {
-    const { parentMenu, mode, active, eventKey, onItemHover, onTitleMouseLeave } = this.props;
+    const { parentMenu, eventKey, onItemHover, onTitleMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     parentMenu.subMenuTitleLeaveFn = () => {
-      // leave whole sub tree
-      // still active
-      if (mode === 'inline' && active) {
-        onItemHover({
-          key: eventKey,
-          item: this,
-          hover: false,
-          trigger: 'mouseleave',
-        });
-      }
+      onItemHover({
+        key: eventKey,
+        hover: false,
+      });
       onTitleMouseLeave({
         key: eventKey,
         domEvent: e,
@@ -359,19 +313,17 @@ const SubMenu = createReactClass({
   },
 
   render() {
-    const isOpen = this.isOpen();
-    this.haveOpen = this.haveOpen || isOpen;
     const props = this.props;
+    const isOpen = this.isOpen();
     const prefixCls = this.getPrefixCls();
-    const classes = {
+    const isInlineMode = props.mode === 'inline';
+    const className = classNames(prefixCls, `${prefixCls}-${props.mode}`, {
       [props.className]: !!props.className,
-      [`${prefixCls}-${props.mode}`]: 1,
-    };
-
-    classes[this.getOpenClassName()] = isOpen;
-    classes[this.getActiveClassName()] = props.active;
-    classes[this.getDisabledClassName()] = props.disabled;
-    classes[this.getSelectedClassName()] = this.isChildrenSelected();
+      [this.getOpenClassName()]: isOpen,
+      [this.getActiveClassName()]: props.active || (isOpen && !isInlineMode),
+      [this.getDisabledClassName()]: props.disabled,
+      [this.getSelectedClassName()]: this.isChildrenSelected(),
+    });
 
     if (!this._menuId) {
       if (props.eventKey) {
@@ -381,8 +333,6 @@ const SubMenu = createReactClass({
       }
     }
 
-    classes[prefixCls] = true;
-    classes[`${prefixCls}-${props.mode}`] = 1;
     let mouseEvents = {};
     let titleClickEvents = {};
     let titleMouseEvents = {};
@@ -391,35 +341,59 @@ const SubMenu = createReactClass({
         onMouseLeave: this.onMouseLeave,
         onMouseEnter: this.onMouseEnter,
       };
+
+      // only works in title, not outer li
       titleClickEvents = {
         onClick: this.onTitleClick,
       };
-      // only works in title, not outer li
       titleMouseEvents = {
         onMouseEnter: this.onTitleMouseEnter,
         onMouseLeave: this.onTitleMouseLeave,
       };
     }
+
     const style = {};
-    if (props.mode === 'inline') {
+    if (isInlineMode) {
       style.paddingLeft = props.inlineIndent * props.level;
     }
+    const title = (
+      <div
+        style={style}
+        className={`${prefixCls}-title`}
+        {...titleMouseEvents}
+        {...titleClickEvents}
+        aria-expanded={isOpen}
+        aria-owns={this._menuId}
+        aria-haspopup="true"
+        title={typeof props.title === 'string' ? props.title : undefined}
+      >
+        {props.title}
+        <i className={`${prefixCls}-arrow`} />
+      </div>
+    );
+    const children = this.renderChildren(props.children);
+
+    const getPopupContainer = props.parentMenu.isRootMenu ?
+      undefined : triggerNode => triggerNode.parentNode;
     return (
-      <li className={classnames(classes)} {...mouseEvents} style={props.style}>
-        <div
-          style={style}
-          className={`${prefixCls}-title`}
-          {...titleMouseEvents}
-          {...titleClickEvents}
-          aria-expanded={isOpen}
-          aria-owns={this._menuId}
-          aria-haspopup="true"
-          title={typeof props.title === 'string' ? props.title : undefined}
-        >
-          {props.title}
-          <i className={`${prefixCls}-arrow`} />
-        </div>
-        {this.renderChildren(props.children)}
+      <li {...mouseEvents} className={className} style={props.style}>
+        {isInlineMode && title}
+        {isInlineMode && children}
+        {!isInlineMode && (
+          <Trigger
+            prefixCls={prefixCls}
+            popupClassName={`${prefixCls}-popup`}
+            getPopupContainer={getPopupContainer}
+            builtinPlacements={placements}
+            popupPlacement={props.mode === 'horizontal' ? 'bottomLeft' : 'rightTop'}
+            popupVisible={isOpen}
+            popup={children}
+            action={['hover']}
+            onPopupVisibleChange={this.onPopupVisibleChange}
+          >
+            {title}
+          </Trigger>
+        )}
       </li>
     );
   },

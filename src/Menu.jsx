@@ -29,6 +29,8 @@ const Menu = createReactClass({
 
   mixins: [MenuMixin],
 
+  isRootMenu: true,
+
   getDefaultProps() {
     return {
       openSubMenuOnMouseEnter: true,
@@ -82,31 +84,6 @@ const Menu = createReactClass({
     index = openKeys.indexOf(key);
     if (!('openKeys' in props) && index !== -1) {
       openKeys.splice(index, 1);
-    }
-  },
-
-  onItemHover(e) {
-    const { item } = e;
-    const { mode, closeSubMenuOnMouseLeave } = this.props;
-    let { openChanges = [] } = e;
-    // special for top sub menu
-    if (mode !== 'inline' && !closeSubMenuOnMouseLeave && item.isSubMenu) {
-      const activeKey = this.state.activeKey;
-      const activeItem = this.getFlatInstanceArray().filter((c) => {
-        return c && c.props.eventKey === activeKey;
-      })[0];
-      if (activeItem && activeItem.props.open) {
-        openChanges = openChanges.concat({
-          key: item.props.eventKey,
-          item,
-          originalEvent: e,
-          open: true,
-        });
-      }
-    }
-    openChanges = openChanges.concat(this.getOpenChangesOnItemHover(e));
-    if (openChanges.length) {
-      this.onOpenChange(openChanges);
     }
   },
 

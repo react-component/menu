@@ -75,7 +75,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu-vertical rc-menu-submenu"
+    class="rc-menu-submenu rc-menu-submenu-vertical"
   >
     <div
       aria-expanded="false"
@@ -168,7 +168,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu-vertical rc-menu-submenu"
+    class="rc-menu-submenu rc-menu-submenu-vertical"
   >
     <div
       aria-expanded="false"
@@ -261,7 +261,7 @@ exports[`Menu render renders vertical menu correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu-vertical rc-menu-submenu"
+    class="rc-menu-submenu rc-menu-submenu-vertical"
   >
     <div
       aria-expanded="false"

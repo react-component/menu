@@ -154,34 +154,11 @@ const MenuMixin = {
     }
   },
 
-  getOpenChangesOnItemHover(e) {
-    const { mode } = this.props;
-    const { key, hover, trigger } = e;
-    const activeKey = this.state.activeKey;
-    if (!trigger || hover ||
-      this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
-      this.setState({
-        activeKey: hover ? key : null,
-      });
-    } else {
-      // keep active for sub menu for click active
-      // empty
-    }
-    // clear last open status
-    if (hover && mode !== 'inline') {
-      const activeItem = this.getFlatInstanceArray().filter((c) => {
-        return c && c.props.eventKey === activeKey;
-      })[0];
-      if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
-        return ({
-          item: activeItem,
-          originalEvent: e,
-          key: activeItem.props.eventKey,
-          open: false,
-        });
-      }
-    }
-    return [];
+  onItemHover(e) {
+    const { key, hover } = e;
+    this.setState({
+      activeKey: hover ? key : null,
+    });
   },
 
   getFlatInstanceArray() {
@@ -221,10 +198,10 @@ const MenuMixin = {
         createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
       eventKey: key,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
-      onItemHover: this.onItemHover,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
       onClick: this.onClick,
+      onItemHover: this.onItemHover,
       openTransitionName: this.getOpenTransitionName(),
       openAnimation: props.openAnimation,
       onOpenChange: this.onOpenChange,
