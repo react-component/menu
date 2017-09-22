@@ -10,7 +10,12 @@ import { noop, loopMenuItemRecusively } from './util';
 
 let guid = 0;
 
-/* eslint react/no-is-mounted:0 */
+const popupPlacementMap = {
+  horizontal: 'bottomLeft',
+  vertical: 'rightTop',
+  'vertical-left': 'rightTop',
+  'vertical-right': 'leftTop',
+};
 
 const SubMenu = createReactClass({
   displayName: 'SubMenu',
@@ -377,6 +382,7 @@ const SubMenu = createReactClass({
 
     const getPopupContainer = props.parentMenu.isRootMenu ?
       props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
+    const popupPlacement = popupPlacementMap[props.mode];
     return (
       <li {...mouseEvents} className={className} style={props.style}>
         {isInlineMode && title}
@@ -387,7 +393,7 @@ const SubMenu = createReactClass({
             popupClassName={`${prefixCls}-popup`}
             getPopupContainer={getPopupContainer}
             builtinPlacements={placements}
-            popupPlacement={props.mode === 'horizontal' ? 'bottomLeft' : 'rightTop'}
+            popupPlacement={popupPlacement}
             popupVisible={isOpen}
             popup={children}
             action={['hover']}

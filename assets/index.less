@@ -61,7 +61,9 @@
   }
 
   &-horizontal&-sub,
-  &-vertical&-sub {
+  &-vertical&-sub,
+  &-vertical-left&-sub,
+  &-vertical-right&-sub {
     min-width: 160px;
     margin-top: 0;
   }
@@ -135,7 +137,10 @@
     }
   }
 
-  &-vertical, &-inline {
+  &-vertical,
+  &-vertical-left,
+  &-vertical-right,
+  &-inline {
     padding: 12px 0;
     & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {
       padding: 12px 8px 12px 24px;
@@ -168,7 +173,9 @@
     }
   }
 
-  &-vertical&-sub {
+  &-vertical&-sub,
+  &-vertical-left&-sub,
+  &-vertical-right&-sub {
     padding: 0;
   }
 
