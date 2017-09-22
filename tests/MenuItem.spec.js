@@ -35,34 +35,16 @@ describe('MenuItem', () => {
   });
 
   describe('unmount', () => {
-    const App = ({ show }) => {
-      return (
+    it('removes self from selectedKeys', () => {
+      const wrapper = mount(
         <Menu>
-          {show && (
-            <MenuItem key="1">1</MenuItem>
-          )}
+          <MenuItem key="1">1</MenuItem>
         </Menu>
       );
-    };
-
-    it('removes self from selectedKeys', () => {
-      const wrapper = mount(<App show />);
       wrapper.find('MenuItem').simulate('click');
-      expect(wrapper.find('Menu').node.state.selectedKeys).toEqual(['1']);
-      wrapper.setProps({ show: false });
-      expect(wrapper.find('Menu').node.state.selectedKeys).toEqual([]);
-    });
-
-    it('clears mouse leave timer', () => {
-      const wrapper = mount(<App show />);
-      const menu = wrapper.find('Menu');
-      wrapper.find('MenuItem').simulate('mouseEnter');
-      wrapper.find('MenuItem').simulate('mouseLeave');
-      expect(menu.node.menuItemMouseLeaveFn).toBeTruthy();
-      expect(menu.node.menuItemMouseLeaveTimer).toBeTruthy();
-      wrapper.setProps({ show: false });
-      expect(menu.node.menuItemMouseLeaveFn).toBe(null);
-      expect(menu.node.menuItemMouseLeaveTimer).toBe(null);
+      expect(wrapper.state('selectedKeys')).toEqual(['1']);
+      wrapper.setProps({ children: null });
+      expect(wrapper.state('selectedKeys')).toEqual([]);
     });
   });
 });
