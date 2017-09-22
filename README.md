@@ -168,6 +168,12 @@ ReactDOM.render(<Menu>
             <th></th>
             <td>css transitionName when sub menu open or close</td>
         </tr>
+        <tr>
+            <td>getPopupContainer</td>
+            <td>Function(menuDOMNode): HTMLElement</td>
+            <th>() => document.body</th>
+            <td>Where to render the DOM node of popup menu when the mode is horizontal or vertical</td>
+        </tr>
     </tbody>
 </table>
 

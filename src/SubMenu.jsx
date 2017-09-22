@@ -374,7 +374,7 @@ const SubMenu = createReactClass({
     const children = this.renderChildren(props.children);
 
     const getPopupContainer = props.parentMenu.isRootMenu ?
-      undefined : triggerNode => triggerNode.parentNode;
+      props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
     return (
       <li {...mouseEvents} className={className} style={props.style}>
         {isInlineMode && title}
