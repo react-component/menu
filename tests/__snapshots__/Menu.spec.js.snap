@@ -3,7 +3,7 @@
 exports[`Menu render renders horizontal menu correctly 1`] = `
 <ul
   aria-activedescendant=""
-  class="rc-menu rc-menu-vertical myMenu rc-menu-root"
+  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
   role="menu"
   tabindex="0"
 >
@@ -67,7 +67,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
       <li
         aria-disabled="true"
         aria-selected="false"
-        class="rc-menu-item-disabled rc-menu-item"
+        class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
       >
         5
@@ -96,7 +96,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
 exports[`Menu render renders inline menu correctly 1`] = `
 <ul
   aria-activedescendant=""
-  class="rc-menu rc-menu-vertical myMenu rc-menu-root"
+  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
   role="menu"
   tabindex="0"
 >
@@ -160,7 +160,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
       <li
         aria-disabled="true"
         aria-selected="false"
-        class="rc-menu-item-disabled rc-menu-item"
+        class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
       >
         5
@@ -189,7 +189,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
 exports[`Menu render renders vertical menu correctly 1`] = `
 <ul
   aria-activedescendant=""
-  class="rc-menu rc-menu-vertical myMenu rc-menu-root"
+  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
   role="menu"
   tabindex="0"
 >
@@ -253,7 +253,7 @@ exports[`Menu render renders vertical menu correctly 1`] = `
       <li
         aria-disabled="true"
         aria-selected="false"
-        class="rc-menu-item-disabled rc-menu-item"
+        class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
       >
         5

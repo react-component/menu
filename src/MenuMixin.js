@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import { getKeyFromChildrenIndex, loopMenuItem } from './util';
 import DOMWrap from './DOMWrap';
@@ -140,7 +140,8 @@ const MenuMixin = {
         scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
           onlyScrollIfNeeded: true,
         });
-        if (callback) {
+        // https://github.com/react-component/menu/commit/9899a9672f6f028ec3cdf773f1ecea5badd2d33e
+        if (typeof callback === 'function') {
           callback(activeItem);
         }
       });
@@ -218,13 +219,13 @@ const MenuMixin = {
 
   renderRoot(props) {
     this.instanceArray = [];
-    const classes = {
-      [props.prefixCls]: 1,
-      [`${props.prefixCls}-${props.mode}`]: 1,
-      [props.className]: !!props.className,
-    };
+    const className = classNames(
+      props.prefixCls,
+      props.className,
+      `${props.prefixCls}-${props.mode}`,
+    );
     const domProps = {
-      className: classnames(classes),
+      className,
       role: 'menu',
       'aria-activedescendant': '',
     };
