@@ -22,6 +22,8 @@ const Menu = createReactClass({
     closeSubMenuOnMouseLeave: PropTypes.bool,
     openTransitionName: PropTypes.string,
     openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    subMenuOpenDelay: PropTypes.number,
+    subMenuCloseDelay: PropTypes.number,
     level: PropTypes.number,
     selectable: PropTypes.bool,
     multiple: PropTypes.bool,
@@ -34,8 +36,6 @@ const Menu = createReactClass({
 
   getDefaultProps() {
     return {
-      openSubMenuOnMouseEnter: true,
-      closeSubMenuOnMouseLeave: true,
       selectable: true,
       onClick: noop,
       onSelect: noop,
@@ -43,6 +43,10 @@ const Menu = createReactClass({
       onDeselect: noop,
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
+      openSubMenuOnMouseEnter: true,
+      closeSubMenuOnMouseLeave: true,
+      subMenuOpenDelay: 0,
+      subMenuCloseDelay: 0.1,
     };
   },
 

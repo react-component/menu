@@ -205,6 +205,8 @@ const MenuMixin = {
       onItemHover: this.onItemHover,
       openTransitionName: this.getOpenTransitionName(),
       openAnimation: props.openAnimation,
+      subMenuOpenDelay: props.subMenuOpenDelay,
+      subMenuCloseDelay: props.subMenuCloseDelay,
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,

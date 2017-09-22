@@ -169,6 +169,18 @@ ReactDOM.render(<Menu>
             <td>css transitionName when sub menu open or close</td>
         </tr>
         <tr>
+            <td>subMenuOpenDelay</td>
+            <td>Number</td>
+            <th>0</th>
+            <td>delay time to show popup sub menu. unit: s</td>
+        </tr>
+        <tr>
+            <td>subMenuCloseDelay</td>
+            <td>Number</td>
+            <th>0.1</th>
+            <td>delay time to hide popup sub menu. unit: s</td>
+        </tr>
+        <tr>
             <td>getPopupContainer</td>
             <td>Function(menuDOMNode): HTMLElement</td>
             <th>() => document.body</th>

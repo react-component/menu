@@ -302,6 +302,8 @@ const SubMenu = createReactClass({
       openTransitionName: props.openTransitionName,
       openAnimation: props.openAnimation,
       onOpenChange: this.onOpenChange,
+      subMenuOpenDelay: props.subMenuOpenDelay,
+      subMenuCloseDelay: props.subMenuCloseDelay,
       closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
@@ -389,6 +391,8 @@ const SubMenu = createReactClass({
             popupVisible={isOpen}
             popup={children}
             action={['hover']}
+            mouseEnterDelay={props.subMenuOpenDelay}
+            mouseLeaveDelay={props.subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
           >
             {title}
