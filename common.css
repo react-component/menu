@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'FontAwesome';
-  src: url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.eot?v=4.2.0');
-  src: url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.woff?v=4.2.0') format('woff'), url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('http://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+  src: url('https://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.eot?v=4.2.0');
+  src: url('https://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('https://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.woff?v=4.2.0') format('woff'), url('https://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('https://cdn.bootcss.com/font-awesome/4.2.0/fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -122,7 +122,7 @@
   color: #2baee9;
 }
 .rc-menu-horizontal:after {
-  content: "\20";
+  content: " ";
   display: block;
   height: 0;
   clear: both;
@@ -152,7 +152,7 @@
 }
 .rc-menu-vertical .rc-menu-submenu-arrow:before,
 .rc-menu-inline .rc-menu-submenu-arrow:before {
-  content: "\f0da";
+  content: "\F0DA";
 }
 .rc-menu-inline .rc-menu-submenu-arrow {
   -webkit-transform: rotate(90deg);
