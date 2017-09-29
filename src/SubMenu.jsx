@@ -405,7 +405,7 @@ const SubMenu = createReactClass({
       style.paddingLeft = props.inlineIndent * props.level;
     }
     return (
-      <li className={classnames(classes)} {...mouseEvents} style={...props.style}>
+      <li className={classnames(classes)} {...mouseEvents} style={props.style}>
         <div
           style={style}
           className={`${prefixCls}-title`}
