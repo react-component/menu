@@ -198,7 +198,6 @@ const MenuMixin = {
       ref: childProps.disabled ? undefined :
         createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
       eventKey: key,
-      closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
       onClick: this.onClick,
@@ -214,7 +213,7 @@ const MenuMixin = {
       ...extraProps,
     };
     if (props.mode === 'inline') {
-      newChildProps.closeSubMenuOnMouseLeave = newChildProps.openSubMenuOnMouseEnter = false;
+      newChildProps.triggerSubMenuAction = 'click';
     }
     return React.cloneElement(child, newChildProps);
   },

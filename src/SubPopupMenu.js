@@ -16,7 +16,6 @@ const SubPopupMenu = createReactClass({
     openTransitionName: PropTypes.string,
     openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     openKeys: PropTypes.arrayOf(PropTypes.string),
-    closeSubMenuOnMouseLeave: PropTypes.bool,
     visible: PropTypes.bool,
     children: PropTypes.any,
   },
@@ -55,7 +54,7 @@ const SubPopupMenu = createReactClass({
     const extraProps = {
       openKeys: props.openKeys,
       selectedKeys: props.selectedKeys,
-      openSubMenuOnMouseEnter: true,
+      triggerSubMenuAction: props.triggerSubMenuAction,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);
   },

@@ -145,16 +145,10 @@ ReactDOM.render(<Menu>
             <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>
         <tr>
-            <td>openSubMenuOnMouseEnter</td>
-            <td>bool</td>
-            <th>true</th>
-            <td>whether enable top items to open on mouse enter</td>
-        </tr>
-        <tr>
-            <td>closeSubMenuOnMouseLeave</td>
-            <td>bool</td>
-            <th>true</th>
-            <td>whether enable close submenu on mouse leave</td>
+            <td>triggerSubMenuAction</td>
+            <td>Enum { hover, click }</td>
+            <th>hover</th>
+            <td>which action can trigger submenu open/close</td>
         </tr>
         <tr>
             <td>openAnimation</td>

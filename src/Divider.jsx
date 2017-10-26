@@ -10,6 +10,11 @@ const Divider = createReactClass({
     rootPrefixCls: PropTypes.string,
   },
 
+  getDefaultProps() {
+    // To fix keyboard UX.
+    return { disabled: true };
+  },
+
   render() {
     const { className = '', rootPrefixCls } = this.props;
     return <li className={`${className} ${rootPrefixCls}-item-divider`}/>;

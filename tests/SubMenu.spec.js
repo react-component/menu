@@ -37,8 +37,7 @@ describe('SubMenu', () => {
 
     beforeEach(() => {
       wrapper = mount(createMenu({
-        openSubMenuOnMouseEnter: false,
-        closeSubMenuOnMouseLeave: false,
+        triggerSubMenuAction: 'click',
       }));
     });
 
@@ -48,14 +47,6 @@ describe('SubMenu', () => {
 
       wrapper.find('.rc-menu-submenu-title').first().simulate('click');
       expect(wrapper.state('openKeys')).toEqual([]);
-    });
-
-    it('closes another open submenu when hover', () => {
-      wrapper.find('.rc-menu-submenu').first().simulate('mouseEnter');
-      wrapper.find('.rc-menu-submenu-title').first().simulate('click');
-      expect(wrapper.find('.rc-menu-sub').first().is('.rc-menu-hidden')).toBe(false);
-      wrapper.find('.rc-menu-submenu').last().simulate('mouseEnter');
-      expect(wrapper.find('.rc-menu-sub').first().is('.rc-menu-hidden')).toBe(true);
     });
   });
 

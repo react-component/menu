@@ -34,8 +34,7 @@ const SubMenu = createReactClass({
     active: PropTypes.bool, // TODO: remove
     onItemHover: PropTypes.func,
     onSelect: PropTypes.func,
-    closeSubMenuOnMouseLeave: PropTypes.bool,
-    openSubMenuOnMouseEnter: PropTypes.bool,
+    triggerSubMenuAction: PropTypes.string,
     onDeselect: PropTypes.func,
     onDestroy: PropTypes.func,
     onMouseEnter: PropTypes.func,
@@ -195,7 +194,7 @@ const SubMenu = createReactClass({
       key: props.eventKey,
       domEvent: e,
     });
-    if (props.openSubMenuOnMouseEnter) {
+    if (props.triggerSubMenuAction === 'hover') {
       return;
     }
     this.triggerOpenChange(!this.isOpen(), 'click');
@@ -309,7 +308,7 @@ const SubMenu = createReactClass({
       onOpenChange: this.onOpenChange,
       subMenuOpenDelay: props.subMenuOpenDelay,
       subMenuCloseDelay: props.subMenuCloseDelay,
-      closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
+      triggerSubMenuAction: props.triggerSubMenuAction,
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
@@ -396,7 +395,7 @@ const SubMenu = createReactClass({
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
             popup={children}
-            action={['hover']}
+            action={[props.triggerSubMenuAction]}
             mouseEnterDelay={props.subMenuOpenDelay}
             mouseLeaveDelay={props.subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
