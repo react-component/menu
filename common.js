@@ -15667,6 +15667,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
+      className: props.className,
       id: this._menuId,
       ref: this.saveMenuInstance
     };
