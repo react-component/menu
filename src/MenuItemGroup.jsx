@@ -12,6 +12,11 @@ const MenuItemGroup = createReactClass({
     rootPrefixCls: PropTypes.string,
   },
 
+  getDefaultProps() {
+    // To fix keyboard UX.
+    return { disabled: true };
+  },
+
   renderInnerMenuItem(item, subIndex) {
     const { renderMenuItem, index } = this.props;
     return renderMenuItem(item, index, subIndex);

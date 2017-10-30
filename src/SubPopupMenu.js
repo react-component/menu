@@ -60,25 +60,35 @@ const SubPopupMenu = createReactClass({
   },
 
   render() {
-    this.haveOpened = this.haveOpened || this.props.visible;
+    const props = { ...this.props };
+
+    const haveRendered = this.haveRendered;
+    this.haveRendered = true;
+
+    this.haveOpened = this.haveOpened || props.visible;
     if (!this.haveOpened) {
       return null;
     }
 
-    const props = { ...this.props };
+    const transitionAppear = !(!haveRendered && props.visible && props.mode === 'inline');
+
     props.className += ` ${props.prefixCls}-sub`;
     const animProps = {};
     if (props.openTransitionName) {
       animProps.transitionName = props.openTransitionName;
     } else if (typeof props.openAnimation === 'object') {
       animProps.animation = { ...props.openAnimation };
+      if (!transitionAppear) {
+        delete animProps.animation.appear;
+      }
     }
+
     return (
       <Animate
         {...animProps}
         showProp="visible"
         component=""
-        transitionAppear
+        transitionAppear={transitionAppear}
       >
         {this.renderRoot(props)}
       </Animate>

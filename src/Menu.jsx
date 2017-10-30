@@ -12,7 +12,7 @@ const Menu = createReactClass({
     selectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
     openKeys: PropTypes.arrayOf(PropTypes.string),
-    mode: PropTypes.oneOf(['horizontal', 'vertical', 'inline']),
+    mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     getPopupContainer: PropTypes.func,
     onClick: PropTypes.func,
     onSelect: PropTypes.func,
