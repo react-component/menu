@@ -170,8 +170,9 @@ describe('Menu', () => {
         <MenuItem key="item2">item2</MenuItem>
       </Menu>
     );
-    const menuItem = wrapper.find('MenuItem').last();
+    let menuItem = wrapper.find('MenuItem').last();
     menuItem.simulate('mouseEnter');
+    menuItem = wrapper.find('MenuItem').last();
     expect(menuItem.props().active).toBe(true);
   });
 

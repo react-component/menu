@@ -8,31 +8,33 @@ const Menu = createReactClass({
   displayName: 'Menu',
 
   propTypes: {
-    openSubMenuOnMouseEnter: PropTypes.bool,
-    closeSubMenuOnMouseLeave: PropTypes.bool,
-    selectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
+    selectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
     openKeys: PropTypes.arrayOf(PropTypes.string),
-    mode: PropTypes.string,
+    mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
+    getPopupContainer: PropTypes.func,
     onClick: PropTypes.func,
     onSelect: PropTypes.func,
     onDeselect: PropTypes.func,
     onDestroy: PropTypes.func,
     openTransitionName: PropTypes.string,
     openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    subMenuOpenDelay: PropTypes.number,
+    subMenuCloseDelay: PropTypes.number,
+    triggerSubMenuAction: PropTypes.string,
     level: PropTypes.number,
-    eventKey: PropTypes.string,
     selectable: PropTypes.bool,
+    multiple: PropTypes.bool,
     children: PropTypes.any,
   },
 
   mixins: [MenuMixin],
 
+  isRootMenu: true,
+
   getDefaultProps() {
     return {
-      openSubMenuOnMouseEnter: true,
-      closeSubMenuOnMouseLeave: true,
       selectable: true,
       onClick: noop,
       onSelect: noop,
@@ -40,6 +42,9 @@ const Menu = createReactClass({
       onDeselect: noop,
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
+      subMenuOpenDelay: 0,
+      subMenuCloseDelay: 0.3,
+      triggerSubMenuAction: 'hover',
     };
   },
 
@@ -82,31 +87,6 @@ const Menu = createReactClass({
     index = openKeys.indexOf(key);
     if (!('openKeys' in props) && index !== -1) {
       openKeys.splice(index, 1);
-    }
-  },
-
-  onItemHover(e) {
-    const { item } = e;
-    const { mode, closeSubMenuOnMouseLeave } = this.props;
-    let { openChanges = [] } = e;
-    // special for top sub menu
-    if (mode !== 'inline' && !closeSubMenuOnMouseLeave && item.isSubMenu) {
-      const activeKey = this.state.activeKey;
-      const activeItem = this.getFlatInstanceArray().filter((c) => {
-        return c && c.props.eventKey === activeKey;
-      })[0];
-      if (activeItem && activeItem.props.open) {
-        openChanges = openChanges.concat({
-          key: item.props.eventKey,
-          item,
-          originalEvent: e,
-          open: true,
-        });
-      }
-    }
-    openChanges = openChanges.concat(this.getOpenChangesOnItemHover(e));
-    if (openChanges.length) {
-      this.onOpenChange(openChanges);
     }
   },
 
@@ -225,7 +205,7 @@ const Menu = createReactClass({
     const extraProps = {
       openKeys: state.openKeys,
       selectedKeys: state.selectedKeys,
-      openSubMenuOnMouseEnter: this.props.openSubMenuOnMouseEnter,
+      triggerSubMenuAction: this.props.triggerSubMenuAction,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);
   },

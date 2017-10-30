@@ -13,9 +13,8 @@ const MenuItemGroup = createReactClass({
   },
 
   getDefaultProps() {
-    return {
-      disabled: true,
-    };
+    // To fix keyboard UX.
+    return { disabled: true };
   },
 
   renderInnerMenuItem(item, subIndex) {

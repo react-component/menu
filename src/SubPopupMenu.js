@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
-import MenuMixin from './MenuMixin';
 import Animate from 'rc-animate';
+import MenuMixin from './MenuMixin';
 
 const SubPopupMenu = createReactClass({
   displayName: 'SubPopupMenu',
@@ -16,7 +16,6 @@ const SubPopupMenu = createReactClass({
     openTransitionName: PropTypes.string,
     openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     openKeys: PropTypes.arrayOf(PropTypes.string),
-    closeSubMenuOnMouseLeave: PropTypes.bool,
     visible: PropTypes.bool,
     children: PropTypes.any,
   },
@@ -43,14 +42,6 @@ const SubPopupMenu = createReactClass({
     this.props.onDestroy(key);
   },
 
-  onItemHover(e) {
-    let { openChanges = [] } = e;
-    openChanges = openChanges.concat(this.getOpenChangesOnItemHover(e));
-    if (openChanges.length) {
-      this.onOpenChange(openChanges);
-    }
-  },
-
   getOpenTransitionName() {
     return this.props.openTransitionName;
   },
@@ -63,23 +54,24 @@ const SubPopupMenu = createReactClass({
     const extraProps = {
       openKeys: props.openKeys,
       selectedKeys: props.selectedKeys,
-      openSubMenuOnMouseEnter: true,
+      triggerSubMenuAction: props.triggerSubMenuAction,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);
   },
 
   render() {
-    const renderFirst = this.renderFirst;
-    this.renderFirst = 1;
-    this.haveOpened = this.haveOpened || this.props.visible;
+    const props = { ...this.props };
+
+    const haveRendered = this.haveRendered;
+    this.haveRendered = true;
+
+    this.haveOpened = this.haveOpened || props.visible;
     if (!this.haveOpened) {
       return null;
     }
-    let transitionAppear = true;
-    if (!renderFirst && this.props.visible) {
-      transitionAppear = false;
-    }
-    const props = { ...this.props };
+
+    const transitionAppear = !(!haveRendered && props.visible && props.mode === 'inline');
+
     props.className += ` ${props.prefixCls}-sub`;
     const animProps = {};
     if (props.openTransitionName) {
@@ -90,14 +82,17 @@ const SubPopupMenu = createReactClass({
         delete animProps.animation.appear;
       }
     }
-    return (<Animate
-      {...animProps}
-      showProp="visible"
-      component=""
-      transitionAppear={transitionAppear}
-    >
-      {this.renderRoot(props)}
-    </Animate>);
+
+    return (
+      <Animate
+        {...animProps}
+        showProp="visible"
+        component=""
+        transitionAppear={transitionAppear}
+      >
+        {this.renderRoot(props)}
+      </Animate>
+    );
   },
 });
 

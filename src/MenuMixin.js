@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import { getKeyFromChildrenIndex, loopMenuItem } from './util';
 import DOMWrap from './DOMWrap';
@@ -140,7 +140,8 @@ const MenuMixin = {
         scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
           onlyScrollIfNeeded: true,
         });
-        if (callback) {
+        // https://github.com/react-component/menu/commit/9899a9672f6f028ec3cdf773f1ecea5badd2d33e
+        if (typeof callback === 'function') {
           callback(activeItem);
         }
       });
@@ -154,34 +155,11 @@ const MenuMixin = {
     }
   },
 
-  getOpenChangesOnItemHover(e) {
-    const { mode } = this.props;
-    const { key, hover, trigger } = e;
-    const activeKey = this.state.activeKey;
-    if (!trigger || hover ||
-      this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
-      this.setState({
-        activeKey: hover ? key : null,
-      });
-    } else {
-      // keep active for sub menu for click active
-      // empty
-    }
-    // clear last open status
-    if (hover && mode !== 'inline') {
-      const activeItem = this.getFlatInstanceArray().filter((c) => {
-        return c && c.props.eventKey === activeKey;
-      })[0];
-      if (activeItem && activeItem.isSubMenu && activeItem.props.eventKey !== key) {
-        return ({
-          item: activeItem,
-          originalEvent: e,
-          key: activeItem.props.eventKey,
-          open: false,
-        });
-      }
-    }
-    return [];
+  onItemHover(e) {
+    const { key, hover } = e;
+    this.setState({
+      activeKey: hover ? key : null,
+    });
   },
 
   getFlatInstanceArray() {
@@ -220,13 +198,14 @@ const MenuMixin = {
       ref: childProps.disabled ? undefined :
         createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
       eventKey: key,
-      closeSubMenuOnMouseLeave: props.closeSubMenuOnMouseLeave,
-      onItemHover: this.onItemHover,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
       onClick: this.onClick,
+      onItemHover: this.onItemHover,
       openTransitionName: this.getOpenTransitionName(),
       openAnimation: props.openAnimation,
+      subMenuOpenDelay: props.subMenuOpenDelay,
+      subMenuCloseDelay: props.subMenuCloseDelay,
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
@@ -234,20 +213,20 @@ const MenuMixin = {
       ...extraProps,
     };
     if (props.mode === 'inline') {
-      newChildProps.closeSubMenuOnMouseLeave = newChildProps.openSubMenuOnMouseEnter = false;
+      newChildProps.triggerSubMenuAction = 'click';
     }
     return React.cloneElement(child, newChildProps);
   },
 
   renderRoot(props) {
     this.instanceArray = [];
-    const classes = {
-      [props.prefixCls]: 1,
-      [`${props.prefixCls}-${props.mode}`]: 1,
-      [props.className]: !!props.className,
-    };
+    const className = classNames(
+      props.prefixCls,
+      props.className,
+      `${props.prefixCls}-${props.mode}`,
+    );
     const domProps = {
-      className: classnames(classes),
+      className,
       role: 'menu',
       'aria-activedescendant': '',
     };

@@ -13,7 +13,6 @@
   margin-bottom: 0;
   padding-left: 0; // Override default ul/ol
   list-style: none;
-  z-index: 99999;
   border: 1px solid #d9d9d9;
   box-shadow: 0 0 4px #d9d9d9;
   border-radius: 3px;
@@ -61,20 +60,12 @@
     padding: 0;
   }
 
-  &-submenu-horizontal > .@{menuPrefixCls} {
-    top: 100%;
-    left: 0;
-    position: absolute;
+  &-horizontal&-sub,
+  &-vertical&-sub,
+  &-vertical-left&-sub,
+  &-vertical-right&-sub {
     min-width: 160px;
-    margin-top: 4px;
-  }
-
-  &-submenu-vertical > .@{menuPrefixCls} {
-    top: 0;
-    left: 100%;
-    position: absolute;
-    min-width: 160px;
-    margin-left: 4px;
+    margin-top: 0;
   }
 
   &-item, &-submenu-title {
@@ -99,8 +90,9 @@
   }
 
   &-submenu {
-    position: relative;
-
+    &-popup {
+      position: absolute;
+    }
     > .@{menuPrefixCls} {
       background-color: #fff;
     }
@@ -145,7 +137,10 @@
     }
   }
 
-  &-vertical, &-inline {
+  &-vertical,
+  &-vertical-left,
+  &-vertical-right,
+  &-inline {
     padding: 12px 0;
     & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {
       padding: 12px 8px 12px 24px;
@@ -178,7 +173,9 @@
     }
   }
 
-  &-vertical&-sub {
+  &-vertical&-sub,
+  &-vertical-left&-sub,
+  &-vertical-right&-sub {
     padding: 0;
   }
 

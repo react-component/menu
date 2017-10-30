@@ -70,7 +70,7 @@ ReactDOM.render(<Menu>
           <td>mode</td>
           <td>String</td>
           <td>vertical</td>
-          <td>one of ["vertical","horizontal","inline"]</td>
+          <td>one of ["horizontal","inline","vertical-left","vertical-right"]</td>
         </tr>
         <tr>
             <td>activeKey</td>
@@ -145,16 +145,10 @@ ReactDOM.render(<Menu>
             <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>
         <tr>
-            <td>openSubMenuOnMouseEnter</td>
-            <td>bool</td>
-            <th>true</th>
-            <td>whether enable top items to open on mouse enter</td>
-        </tr>
-        <tr>
-            <td>closeSubMenuOnMouseLeave</td>
-            <td>bool</td>
-            <th>true</th>
-            <td>whether enable close submenu on mouse leave</td>
+            <td>triggerSubMenuAction</td>
+            <td>Enum { hover, click }</td>
+            <th>hover</th>
+            <td>which action can trigger submenu open/close</td>
         </tr>
         <tr>
             <td>openAnimation</td>
@@ -167,6 +161,24 @@ ReactDOM.render(<Menu>
             <td>String</td>
             <th></th>
             <td>css transitionName when sub menu open or close</td>
+        </tr>
+        <tr>
+            <td>subMenuOpenDelay</td>
+            <td>Number</td>
+            <th>0</th>
+            <td>delay time to show popup sub menu. unit: s</td>
+        </tr>
+        <tr>
+            <td>subMenuCloseDelay</td>
+            <td>Number</td>
+            <th>0.1</th>
+            <td>delay time to hide popup sub menu. unit: s</td>
+        </tr>
+        <tr>
+            <td>getPopupContainer</td>
+            <td>Function(menuDOMNode): HTMLElement</td>
+            <th>() => document.body</th>
+            <td>Where to render the DOM node of popup menu when the mode is horizontal or vertical</td>
         </tr>
     </tbody>
 </table>
