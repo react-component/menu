@@ -14922,7 +14922,7 @@ var Menu = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
       subMenuOpenDelay: 0,
-      subMenuCloseDelay: 0.3,
+      subMenuCloseDelay: 0.1,
       triggerSubMenuAction: 'hover'
     };
   },
