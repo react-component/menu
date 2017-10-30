@@ -1,6 +1,12 @@
 # History
 ----
 
+## 6.0.0 / 2017-10-30
+
+- Replace openSubMenuOnMouseEnter/closeSubMenuOnMouseLeave with triggerSubMenuAction
+- Add subMenuCloseDelay and subMenuOpenDelay
+- Refactor with rc-trigger
+
 ## 5.1.0 / 2016-09-12
 
 - Add dom for submenu arrow
