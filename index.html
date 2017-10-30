@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@5.1.4 - menu ui component for react</title>
+  <title>rc-menu@6.0.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@5.1.4</h1>
+  <h1>rc-menu@6.0.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -802,7 +802,7 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>&
           <td>mode</td>
           <td>String</td>
           <td>vertical</td>
-          <td>one of [&quot;vertical&quot;,&quot;horizontal&quot;,&quot;inline&quot;]</td>
+          <td>one of [&quot;horizontal&quot;,&quot;inline&quot;,&quot;vertical-left&quot;,&quot;vertical-right&quot;]</td>
         </tr>
         <tr>
             <td>activeKey</td>
@@ -877,16 +877,10 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>&
             <td>called when deselect a menu item. only called when allow multiple</td>
         </tr>
         <tr>
-            <td>openSubMenuOnMouseEnter</td>
-            <td>bool</td>
-            <th>true</th>
-            <td>whether enable top items to open on mouse enter</td>
-        </tr>
-        <tr>
-            <td>closeSubMenuOnMouseLeave</td>
-            <td>bool</td>
-            <th>true</th>
-            <td>whether enable close submenu on mouse leave</td>
+            <td>triggerSubMenuAction</td>
+            <td>Enum { hover, click }</td>
+            <th>hover</th>
+            <td>which action can trigger submenu open/close</td>
         </tr>
         <tr>
             <td>openAnimation</td>
@@ -899,6 +893,24 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>&
             <td>String</td>
             <th></th>
             <td>css transitionName when sub menu open or close</td>
+        </tr>
+        <tr>
+            <td>subMenuOpenDelay</td>
+            <td>Number</td>
+            <th>0</th>
+            <td>delay time to show popup sub menu. unit: s</td>
+        </tr>
+        <tr>
+            <td>subMenuCloseDelay</td>
+            <td>Number</td>
+            <th>0.1</th>
+            <td>delay time to hide popup sub menu. unit: s</td>
+        </tr>
+        <tr>
+            <td>getPopupContainer</td>
+            <td>Function(menuDOMNode): HTMLElement</td>
+            <th>() =&gt; document.body</th>
+            <td>Where to render the DOM node of popup menu when the mode is horizontal or vertical</td>
         </tr>
     </tbody>
 </table>

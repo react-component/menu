@@ -1,23 +1,20 @@
 webpackJsonp([7],{
 
-/***/ 144:
+/***/ 150:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rc_menu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_css_animation__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_create_react_class__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_create_react_class__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_css_animation__ = __webpack_require__(111);
 /* eslint no-console:0 */
-
 
 
 
@@ -192,48 +189,6 @@ var commonMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   )
 );
 
-var subMenus = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-  __WEBPACK_IMPORTED_MODULE_2_rc_menu___default.a,
-  { onSelect: handleSelect },
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-    { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'span',
-        null,
-        'sub menu'
-      ), key: '1' },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-      { key: '1-1' },
-      '0-1'
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-      { key: '1-2' },
-      '0-2'
-    )
-  ),
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-    { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'span',
-        null,
-        'sub menu 1'
-      ), key: '2' },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-      { key: '2-1' },
-      '2-1'
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-      { key: '2-2' },
-      '2-2'
-    )
-  ),
-  nestSubMenu
-);
-
 function render(container) {
   var horizontalMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(commonMenu, {
     mode: 'horizontal',
@@ -244,7 +199,7 @@ function render(container) {
   var horizontalMenu2 = __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(commonMenu, {
     mode: 'horizontal',
     openAnimation: 'slide-up',
-    closeSubMenuOnMouseLeave: false
+    triggerSubMenuAction: 'click'
   });
 
   var verticalMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(commonMenu, {
@@ -256,30 +211,6 @@ function render(container) {
     mode: 'inline',
     defaultOpenKeys: ['1'],
     openAnimation: animation
-  });
-
-  var ClickToHideMenu = __WEBPACK_IMPORTED_MODULE_5_create_react_class___default()({
-    displayName: 'ClickToHideMenu',
-    getInitialState: function getInitialState() {
-      return {
-        openKeys: []
-      };
-    },
-    onOpenChange: function onOpenChange(openKeys) {
-      this.setState({
-        openKeys: openKeys
-      });
-    },
-    render: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(subMenus, {
-        onOpenChange: this.onOpenChange,
-        openKeys: this.state.openKeys,
-        mode: 'horizontal',
-        openAnimation: 'slide-up',
-        openSubMenuOnMouseEnter: false,
-        closeSubMenuOnMouseLeave: false
-      });
-    }
   });
 
   __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -306,22 +237,12 @@ function render(container) {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'h3',
         null,
-        'horizontal keep open'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { style: { margin: 20, width: 800 } },
-        horizontalMenu2
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h3',
-        null,
         'horizontal and click'
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { style: { margin: 20, width: 800 } },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ClickToHideMenu, null)
+        horizontalMenu2
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'h3',
@@ -351,13 +272,13 @@ render(reactContainer);
 
 /***/ }),
 
-/***/ 313:
+/***/ 334:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(144);
+module.exports = __webpack_require__(150);
 
 
 /***/ })
 
-},[313]);
+},[334]);
 //# sourceMappingURL=antd.js.map

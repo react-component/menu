@@ -10,7 +10,6 @@
   margin-bottom: 0;
   padding-left: 0;
   list-style: none;
-  z-index: 99999;
   border: 1px solid #d9d9d9;
   box-shadow: 0 0 4px #d9d9d9;
   border-radius: 3px;
@@ -50,19 +49,12 @@
 .rc-menu > li.rc-menu-submenu {
   padding: 0;
 }
-.rc-menu-submenu-horizontal > .rc-menu {
-  top: 100%;
-  left: 0;
-  position: absolute;
+.rc-menu-horizontal.rc-menu-sub,
+.rc-menu-vertical.rc-menu-sub,
+.rc-menu-vertical-left.rc-menu-sub,
+.rc-menu-vertical-right.rc-menu-sub {
   min-width: 160px;
-  margin-top: 4px;
-}
-.rc-menu-submenu-vertical > .rc-menu {
-  top: 0;
-  left: 100%;
-  position: absolute;
-  min-width: 160px;
-  margin-left: 4px;
+  margin-top: 0;
 }
 .rc-menu-item,
 .rc-menu-submenu-title {
@@ -86,8 +78,8 @@
   line-height: 0;
   background-color: #e5e5e5;
 }
-.rc-menu-submenu {
-  position: relative;
+.rc-menu-submenu-popup {
+  position: absolute;
 }
 .rc-menu-submenu > .rc-menu {
   background-color: #fff;
@@ -128,16 +120,24 @@
   clear: both;
 }
 .rc-menu-vertical,
+.rc-menu-vertical-left,
+.rc-menu-vertical-right,
 .rc-menu-inline {
   padding: 12px 0;
 }
 .rc-menu-vertical > .rc-menu-item,
+.rc-menu-vertical-left > .rc-menu-item,
+.rc-menu-vertical-right > .rc-menu-item,
 .rc-menu-inline > .rc-menu-item,
 .rc-menu-vertical > .rc-menu-submenu > .rc-menu-submenu-title,
+.rc-menu-vertical-left > .rc-menu-submenu > .rc-menu-submenu-title,
+.rc-menu-vertical-right > .rc-menu-submenu > .rc-menu-submenu-title,
 .rc-menu-inline > .rc-menu-submenu > .rc-menu-submenu-title {
   padding: 12px 8px 12px 24px;
 }
 .rc-menu-vertical .rc-menu-submenu-arrow,
+.rc-menu-vertical-left .rc-menu-submenu-arrow,
+.rc-menu-vertical-right .rc-menu-submenu-arrow,
 .rc-menu-inline .rc-menu-submenu-arrow {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -151,6 +151,8 @@
   line-height: 1.5em;
 }
 .rc-menu-vertical .rc-menu-submenu-arrow:before,
+.rc-menu-vertical-left .rc-menu-submenu-arrow:before,
+.rc-menu-vertical-right .rc-menu-submenu-arrow:before,
 .rc-menu-inline .rc-menu-submenu-arrow:before {
   content: "\F0DA";
 }
@@ -165,7 +167,9 @@
   -webkit-transform: rotate(-90deg);
           transform: rotate(-90deg);
 }
-.rc-menu-vertical.rc-menu-sub {
+.rc-menu-vertical.rc-menu-sub,
+.rc-menu-vertical-left.rc-menu-sub,
+.rc-menu-vertical-right.rc-menu-sub {
   padding: 0;
 }
 .rc-menu-sub.rc-menu-inline {
