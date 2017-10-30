@@ -312,6 +312,7 @@ const SubMenu = createReactClass({
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
+      className: props.className,
       id: this._menuId,
       ref: this.saveMenuInstance,
     };
