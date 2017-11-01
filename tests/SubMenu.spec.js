@@ -63,11 +63,11 @@ describe('SubMenu', () => {
         </SubMenu>
       </Menu>
     );
+
     wrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
     expect(handleOpenChange).toBeCalledWith(['item_1']);
 
-    const popupMenuWrapper = mount(wrapper.find('Trigger').instance().getComponent());
-    popupMenuWrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
+    wrapper.find('.rc-menu-submenu-title').at(1).simulate('mouseEnter');
     expect(handleOpenChange).toBeCalledWith(['item_1', 'item_1-menu-item_1']);
   });
 
@@ -96,11 +96,10 @@ describe('SubMenu', () => {
       const wrapper = mount(<App show />);
       const parentMenu = wrapper.find('Menu').first();
 
+      wrapper.find('.rc-menu-submenu').first().simulate('mouseEnter');
       wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
-      wrapper.find('.rc-menu-submenu').last().simulate('mouseEnter');
-      wrapper.find('.rc-menu-submenu-title').last().simulate('mouseEnter');
-      wrapper.find('.rc-menu-submenu-title').last().simulate('mouseLeave');
-      wrapper.find('.rc-menu-submenu').last().simulate('mouseLeave');
+      wrapper.find('.rc-menu-submenu-title').first().simulate('mouseLeave');
+      wrapper.find('.rc-menu-submenu').first().simulate('mouseLeave');
 
       expect(parentMenu.instance().subMenuLeaveFn).toBeTruthy();
       expect(parentMenu.instance().subMenuLeaveTimer).toBeTruthy();
@@ -124,9 +123,8 @@ describe('SubMenu', () => {
 
         title.simulate('mouseEnter').simulate('keyDown', { keyCode: KeyCode.ENTER });
 
-        const popupMenuWrapper = mount(wrapper.find('Trigger').first().instance().getComponent());
-        expect(popupMenuWrapper.find('.rc-menu-sub').first().is('.rc-menu-hidden')).toBe(false);
-        expect(popupMenuWrapper.find('MenuItem').first().props().active).toBe(true);
+        expect(wrapper.find('.rc-menu-sub').first().is('.rc-menu-hidden')).toBe(false);
+        expect(wrapper.find('MenuItem').first().props().active).toBe(true);
       });
     });
 
@@ -140,13 +138,12 @@ describe('SubMenu', () => {
         title.simulate('keyDown', { keyCode: KeyCode.RIGHT });
         expect(wrapper.state('openKeys')).toEqual(['s1']);
 
-        const popupMenuWrapper = mount(wrapper.find('Trigger').first().instance().getComponent());
-        expect(popupMenuWrapper.find('MenuItem').first().props().active).toBe(true);
+        expect(wrapper.find('MenuItem').first().props().active).toBe(true);
       });
     });
 
 
-    describe('up & down key', () => {
+    it('up & down key', () => {
       const wrapper = mount(createMenu());
       const titles = wrapper.find('.rc-menu-submenu-title');
 
@@ -165,8 +162,7 @@ describe('SubMenu', () => {
     const wrapper = mount(createMenu({ onSelect: handleSelect }));
     wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
 
-    const popupMenuWrapper = mount(wrapper.find('Trigger').first().instance().getComponent());
-    popupMenuWrapper.find('MenuItem').first().simulate('click');
+    wrapper.find('MenuItem').first().simulate('click');
     expect(handleSelect.mock.calls[0][0].key).toBe('1');
   });
 
@@ -178,10 +174,8 @@ describe('SubMenu', () => {
     }));
     wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
 
-    let popupMenuWrapper = mount(wrapper.find('Trigger').first().instance().getComponent());
-    popupMenuWrapper.find('MenuItem').first().simulate('click');
-    popupMenuWrapper = mount(wrapper.find('Trigger').first().instance().getComponent());
-    popupMenuWrapper.find('MenuItem').first().simulate('click');
+    wrapper.find('MenuItem').first().simulate('click');
+    wrapper.find('MenuItem').first().simulate('click');
 
     expect(handleDeselect.mock.calls[0][0].key).toBe('1');
   });
