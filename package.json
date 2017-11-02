@@ -10,10 +10,12 @@
     "react-menu"
   ],
   "files": [
+    "es",
     "lib",
     "assets/*.css"
   ],
   "main": "./lib/index",
+  "module": "./es/index",
   "homepage": "http://github.com/react-component/menu",
   "maintainers": [
     "yiminghe@gmail.com",
