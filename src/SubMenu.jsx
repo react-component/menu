@@ -312,7 +312,7 @@ const SubMenu = createReactClass({
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
-      className: props.className,
+      className: props.mode === 'inline' ? '' : props.popupClassName,
       id: this._menuId,
       ref: this.saveMenuInstance,
     };
