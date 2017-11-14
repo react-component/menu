@@ -312,7 +312,6 @@ const SubMenu = createReactClass({
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
-      className: props.mode === 'inline' ? '' : props.popupClassName,
       id: this._menuId,
       ref: this.saveMenuInstance,
     };
@@ -383,6 +382,7 @@ const SubMenu = createReactClass({
     const getPopupContainer = props.parentMenu.isRootMenu ?
       props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
+    const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
     return (
       <li {...mouseEvents} className={className} style={props.style}>
         {isInlineMode && title}
@@ -390,7 +390,7 @@ const SubMenu = createReactClass({
         {!isInlineMode && (
           <Trigger
             prefixCls={prefixCls}
-            popupClassName={`${prefixCls}-popup`}
+            popupClassName={`${prefixCls}-popup ${popupClassName}`}
             getPopupContainer={getPopupContainer}
             builtinPlacements={placements}
             popupPlacement={popupPlacement}
