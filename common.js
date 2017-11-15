@@ -169,41 +169,6 @@ if (process.env.NODE_ENV === 'production') {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(162)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(161)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
@@ -242,6 +207,41 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(176);
 } else {
   module.exports = __webpack_require__(175);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(162)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(161)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -2706,9 +2706,9 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_util_lib_KeyCode__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_util_lib_KeyCode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_util_lib_KeyCode__);
@@ -3821,7 +3821,7 @@ module.exports = shallowEqual;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ChildrenUtils__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__AnimateChild__ = __webpack_require__(166);
@@ -4221,7 +4221,7 @@ var util = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 
 
@@ -4329,7 +4329,7 @@ var _addDomEventListener = __webpack_require__(91);
 
 var _addDomEventListener2 = _interopRequireDefault(_addDomEventListener);
 
-var _reactDom = __webpack_require__(2);
+var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -4752,7 +4752,7 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_create_react_class__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_create_react_class__);
@@ -4798,7 +4798,7 @@ var DOMWrap = __WEBPACK_IMPORTED_MODULE_3_create_react_class___default()({
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_create_react_class__);
@@ -4837,7 +4837,7 @@ var Divider = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_create_react_class__);
@@ -5063,7 +5063,7 @@ var Menu = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_class__);
@@ -5245,7 +5245,7 @@ MenuItem.isMenuItem = 1;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_create_react_class__);
@@ -5317,18 +5317,21 @@ MenuItemGroup.isMenuItemGroup = true;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_class__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_trigger__ = __webpack_require__(170);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SubPopupMenu__ = __webpack_require__(98);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__placements__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__util__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_create_react_class__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_create_react_class__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rc_trigger__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SubPopupMenu__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__placements__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__util__ = __webpack_require__(31);
+
 
 
 
@@ -5350,42 +5353,42 @@ var popupPlacementMap = {
   'vertical-right': 'leftTop'
 };
 
-var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
+var SubMenu = __WEBPACK_IMPORTED_MODULE_5_create_react_class___default()({
   displayName: 'SubMenu',
 
   propTypes: {
-    parentMenu: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object,
-    title: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.node,
-    children: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.any,
-    selectedKeys: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.array,
-    openKeys: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.array,
-    onClick: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onOpenChange: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    rootPrefixCls: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string,
-    eventKey: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string,
-    multiple: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool,
-    active: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool, // TODO: remove
-    onItemHover: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onSelect: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    triggerSubMenuAction: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string,
-    onDeselect: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onDestroy: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onMouseEnter: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onMouseLeave: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onTitleMouseEnter: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onTitleMouseLeave: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
-    onTitleClick: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func
+    parentMenu: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.object,
+    title: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.node,
+    children: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.any,
+    selectedKeys: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.array,
+    openKeys: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.array,
+    onClick: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onOpenChange: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    rootPrefixCls: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.string,
+    eventKey: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.string,
+    multiple: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.bool,
+    active: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.bool, // TODO: remove
+    onItemHover: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onSelect: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    triggerSubMenuAction: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.string,
+    onDeselect: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onDestroy: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onMouseEnter: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onMouseLeave: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onTitleMouseEnter: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onTitleMouseLeave: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func,
+    onTitleClick: __WEBPACK_IMPORTED_MODULE_4_prop_types___default.a.func
   },
 
   isRootMenu: false,
 
   getDefaultProps: function getDefaultProps() {
     return {
-      onMouseEnter: __WEBPACK_IMPORTED_MODULE_10__util__["a" /* noop */],
-      onMouseLeave: __WEBPACK_IMPORTED_MODULE_10__util__["a" /* noop */],
-      onTitleMouseEnter: __WEBPACK_IMPORTED_MODULE_10__util__["a" /* noop */],
-      onTitleMouseLeave: __WEBPACK_IMPORTED_MODULE_10__util__["a" /* noop */],
-      onTitleClick: __WEBPACK_IMPORTED_MODULE_10__util__["a" /* noop */],
+      onMouseEnter: __WEBPACK_IMPORTED_MODULE_11__util__["a" /* noop */],
+      onMouseLeave: __WEBPACK_IMPORTED_MODULE_11__util__["a" /* noop */],
+      onTitleMouseEnter: __WEBPACK_IMPORTED_MODULE_11__util__["a" /* noop */],
+      onTitleMouseLeave: __WEBPACK_IMPORTED_MODULE_11__util__["a" /* noop */],
+      onTitleClick: __WEBPACK_IMPORTED_MODULE_11__util__["a" /* noop */],
       title: ''
     };
   },
@@ -5395,11 +5398,35 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
       defaultActiveFirst: false
     };
   },
-  componentWillUnmount: function componentWillUnmount() {
+  componentDidMount: function componentDidMount() {
+    this.componentDidUpdate();
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    var _this = this;
+
     var _props = this.props,
-        onDestroy = _props.onDestroy,
-        eventKey = _props.eventKey,
+        mode = _props.mode,
         parentMenu = _props.parentMenu;
+
+    if (mode !== 'horizontal' || !parentMenu.isRootMenu) {
+      return;
+    }
+    setTimeout(function () {
+      if (!_this.subMenuTitle || !_this.menuInstance) {
+        return;
+      }
+      var popupMenu = __WEBPACK_IMPORTED_MODULE_3_react_dom___default.a.findDOMNode(_this.menuInstance);
+      if (popupMenu.offsetWidth >= _this.subMenuTitle.offsetWidth) {
+        return;
+      }
+      popupMenu.style.minWidth = _this.subMenuTitle.offsetWidth + 'px';
+    }, 0);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var _props2 = this.props,
+        onDestroy = _props2.onDestroy,
+        eventKey = _props2.eventKey,
+        parentMenu = _props2.parentMenu;
 
     if (onDestroy) {
       onDestroy(eventKey);
@@ -5416,7 +5443,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     var menu = this.menuInstance;
     var isOpen = this.isOpen();
 
-    if (keyCode === __WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode___default.a.ENTER) {
+    if (keyCode === __WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode___default.a.ENTER) {
       this.onTitleClick(e);
       this.setState({
         defaultActiveFirst: true
@@ -5424,7 +5451,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
       return true;
     }
 
-    if (keyCode === __WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode___default.a.RIGHT) {
+    if (keyCode === __WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode___default.a.RIGHT) {
       if (isOpen) {
         menu.onKeyDown(e);
       } else {
@@ -5435,7 +5462,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
       }
       return true;
     }
-    if (keyCode === __WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode___default.a.LEFT) {
+    if (keyCode === __WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode___default.a.LEFT) {
       var handled = void 0;
       if (isOpen) {
         handled = menu.onKeyDown(e);
@@ -5449,7 +5476,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
       return handled;
     }
 
-    if (isOpen && (keyCode === __WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode___default.a.UP || keyCode === __WEBPACK_IMPORTED_MODULE_6_rc_util_lib_KeyCode___default.a.DOWN)) {
+    if (isOpen && (keyCode === __WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode___default.a.UP || keyCode === __WEBPACK_IMPORTED_MODULE_7_rc_util_lib_KeyCode___default.a.DOWN)) {
       return menu.onKeyDown(e);
     }
   },
@@ -5460,9 +5487,9 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     this.triggerOpenChange(visible, visible ? 'mouseenter' : 'mouseleave');
   },
   onMouseEnter: function onMouseEnter(e) {
-    var _props2 = this.props,
-        key = _props2.eventKey,
-        onMouseEnter = _props2.onMouseEnter;
+    var _props3 = this.props,
+        key = _props3.eventKey,
+        onMouseEnter = _props3.onMouseEnter;
 
     this.clearSubMenuLeaveTimer();
     this.setState({
@@ -5474,10 +5501,10 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     });
   },
   onMouseLeave: function onMouseLeave(e) {
-    var _props3 = this.props,
-        parentMenu = _props3.parentMenu,
-        eventKey = _props3.eventKey,
-        onMouseLeave = _props3.onMouseLeave;
+    var _props4 = this.props,
+        parentMenu = _props4.parentMenu,
+        eventKey = _props4.eventKey,
+        onMouseLeave = _props4.onMouseLeave;
 
     parentMenu.subMenuInstance = this;
     parentMenu.subMenuLeaveFn = function () {
@@ -5491,10 +5518,10 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);
   },
   onTitleMouseEnter: function onTitleMouseEnter(domEvent) {
-    var _props4 = this.props,
-        key = _props4.eventKey,
-        onItemHover = _props4.onItemHover,
-        onTitleMouseEnter = _props4.onTitleMouseEnter;
+    var _props5 = this.props,
+        key = _props5.eventKey,
+        onItemHover = _props5.onItemHover,
+        onTitleMouseEnter = _props5.onTitleMouseEnter;
 
     this.clearSubMenuTitleLeaveTimer();
     onItemHover({
@@ -5507,11 +5534,11 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     });
   },
   onTitleMouseLeave: function onTitleMouseLeave(e) {
-    var _props5 = this.props,
-        parentMenu = _props5.parentMenu,
-        eventKey = _props5.eventKey,
-        onItemHover = _props5.onItemHover,
-        onTitleMouseLeave = _props5.onTitleMouseLeave;
+    var _props6 = this.props,
+        parentMenu = _props6.parentMenu,
+        eventKey = _props6.eventKey,
+        onItemHover = _props6.onItemHover,
+        onTitleMouseLeave = _props6.onTitleMouseLeave;
 
     parentMenu.subMenuInstance = this;
     parentMenu.subMenuTitleLeaveFn = function () {
@@ -5604,7 +5631,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
   },
   isChildrenSelected: function isChildrenSelected() {
     var ret = { find: false };
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__util__["d" /* loopMenuItemRecusively */])(this.props.children, this.props.selectedKeys, ret);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__util__["d" /* loopMenuItemRecusively */])(this.props.children, this.props.selectedKeys, ret);
     return ret.find;
   },
   isOpen: function isOpen() {
@@ -5638,10 +5665,13 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
       ref: this.saveMenuInstance
     };
     return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_8__SubPopupMenu__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_9__SubPopupMenu__["a" /* default */],
       baseProps,
       children
     );
+  },
+  saveSubMenuTitle: function saveSubMenuTitle(subMenuTitle) {
+    this.subMenuTitle = subMenuTitle;
   },
   render: function render() {
     var _classNames;
@@ -5650,7 +5680,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     var isOpen = this.isOpen();
     var prefixCls = this.getPrefixCls();
     var isInlineMode = props.mode === 'inline';
-    var className = __WEBPACK_IMPORTED_MODULE_7_classnames___default()(prefixCls, prefixCls + '-' + props.mode, (_classNames = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, props.className, !!props.className), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getOpenClassName(), isOpen), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getActiveClassName(), props.active || isOpen && !isInlineMode), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getDisabledClassName(), props.disabled), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getSelectedClassName(), this.isChildrenSelected()), _classNames));
+    var className = __WEBPACK_IMPORTED_MODULE_8_classnames___default()(prefixCls, prefixCls + '-' + props.mode, (_classNames = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, props.className, !!props.className), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getOpenClassName(), isOpen), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getActiveClassName(), props.active || isOpen && !isInlineMode), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getDisabledClassName(), props.disabled), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classNames, this.getSelectedClassName(), this.isChildrenSelected()), _classNames));
 
     if (!this._menuId) {
       if (props.eventKey) {
@@ -5686,6 +5716,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     var title = __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
       'div',
       __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({
+        ref: this.saveSubMenuTitle,
         style: style,
         className: prefixCls + '-title'
       }, titleMouseEvents, titleClickEvents, {
@@ -5710,12 +5741,12 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
       isInlineMode && title,
       isInlineMode && children,
       !isInlineMode && __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_5_rc_trigger__["a" /* default */],
+        __WEBPACK_IMPORTED_MODULE_6_rc_trigger__["a" /* default */],
         {
           prefixCls: prefixCls,
           popupClassName: prefixCls + '-popup ' + popupClassName,
           getPopupContainer: getPopupContainer,
-          builtinPlacements: __WEBPACK_IMPORTED_MODULE_9__placements__["a" /* default */],
+          builtinPlacements: __WEBPACK_IMPORTED_MODULE_10__placements__["a" /* default */],
           popupPlacement: popupPlacement,
           popupVisible: isOpen,
           popup: children,
@@ -5745,7 +5776,7 @@ SubMenu.isSubMenu = 1;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_class__);
@@ -9946,11 +9977,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(2);
+var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -10173,9 +10204,9 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_css_animation__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__util__ = __webpack_require__(77);
@@ -10424,9 +10455,9 @@ function mergeChildren(prev, next) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_dom__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_dom__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_align__ = __webpack_require__(164);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_align___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rc_align__);
@@ -10691,7 +10722,7 @@ var _initialiseProps = function _initialiseProps() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LazyRenderBox__ = __webpack_require__(78);
 
@@ -10760,9 +10791,9 @@ PopupInner.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_class__);
@@ -11377,11 +11408,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(2);
+var _reactDom = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -11497,7 +11528,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports['default'] = getContainerRenderMixin;
 
-var _reactDom = __webpack_require__(2);
+var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
