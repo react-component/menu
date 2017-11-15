@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import Trigger from 'rc-trigger';
@@ -62,6 +63,27 @@ const SubMenu = createReactClass({
     return {
       defaultActiveFirst: false,
     };
+  },
+
+  componentDidMount() {
+    this.componentDidUpdate();
+  },
+
+  componentDidUpdate() {
+    const { mode, parentMenu } = this.props;
+    if (mode !== 'horizontal' || !parentMenu.isRootMenu) {
+      return;
+    }
+    setTimeout(() => {
+      if (!this.subMenuTitle || !this.menuInstance) {
+        return;
+      }
+      const popupMenu = ReactDOM.findDOMNode(this.menuInstance);
+      if (popupMenu.offsetWidth >= this.subMenuTitle.offsetWidth) {
+        return;
+      }
+      popupMenu.style.minWidth = `${this.subMenuTitle.offsetWidth}px`;
+    }, 0);
   },
 
   componentWillUnmount() {
@@ -318,6 +340,10 @@ const SubMenu = createReactClass({
     return <SubPopupMenu {...baseProps}>{children}</SubPopupMenu>;
   },
 
+  saveSubMenuTitle(subMenuTitle) {
+    this.subMenuTitle = subMenuTitle;
+  },
+
   render() {
     const props = this.props;
     const isOpen = this.isOpen();
@@ -364,6 +390,7 @@ const SubMenu = createReactClass({
     }
     const title = (
       <div
+        ref={this.saveSubMenuTitle}
         style={style}
         className={`${prefixCls}-title`}
         {...titleMouseEvents}
