@@ -71,7 +71,7 @@ const SubMenu = createReactClass({
 
   componentDidUpdate() {
     const { mode, parentMenu } = this.props;
-    if (mode !== 'horizontal' || !parentMenu.isRootMenu) {
+    if (mode !== 'horizontal' || !parentMenu.isRootMenu || !this.isOpen()) {
       return;
     }
     setTimeout(() => {
@@ -330,6 +330,7 @@ const SubMenu = createReactClass({
       onOpenChange: this.onOpenChange,
       subMenuOpenDelay: props.subMenuOpenDelay,
       subMenuCloseDelay: props.subMenuCloseDelay,
+      forceSubMenuRender: props.forceSubMenuRender,
       triggerSubMenuAction: props.triggerSubMenuAction,
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
@@ -427,6 +428,7 @@ const SubMenu = createReactClass({
             mouseEnterDelay={props.subMenuOpenDelay}
             mouseLeaveDelay={props.subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
+            forceRender={props.forceSubMenuRender}
           >
             {title}
           </Trigger>

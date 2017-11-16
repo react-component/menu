@@ -65,7 +65,7 @@ const SubPopupMenu = createReactClass({
     const haveRendered = this.haveRendered;
     this.haveRendered = true;
 
-    this.haveOpened = this.haveOpened || props.visible;
+    this.haveOpened = this.haveOpened || props.visible || props.forceSubMenuRender;
     if (!this.haveOpened) {
       return null;
     }
