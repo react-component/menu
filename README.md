@@ -175,6 +175,12 @@ ReactDOM.render(<Menu>
             <td>delay time to hide popup sub menu. unit: s</td>
         </tr>
         <tr>
+            <td>forceSubMenuRender</td>
+            <td>Boolean</td>
+            <th>false</th>
+            <td>whether to render submenu even if it is not visible</td>
+        </tr>
+        <tr>
             <td>getPopupContainer</td>
             <td>Function(menuDOMNode): HTMLElement</td>
             <th>() => document.body</th>

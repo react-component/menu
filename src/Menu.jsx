@@ -22,6 +22,7 @@ const Menu = createReactClass({
     openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     subMenuOpenDelay: PropTypes.number,
     subMenuCloseDelay: PropTypes.number,
+    forceSubMenuRender: PropTypes.bool,
     triggerSubMenuAction: PropTypes.string,
     level: PropTypes.number,
     selectable: PropTypes.bool,
