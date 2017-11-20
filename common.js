@@ -2930,6 +2930,7 @@ var MenuMixin = {
       openAnimation: props.openAnimation,
       subMenuOpenDelay: props.subMenuOpenDelay,
       subMenuCloseDelay: props.subMenuCloseDelay,
+      forceSubMenuRender: props.forceSubMenuRender,
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
       onDestroy: this.onDestroy,
@@ -4868,6 +4869,7 @@ var Menu = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
     openAnimation: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object]),
     subMenuOpenDelay: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
     subMenuCloseDelay: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+    forceSubMenuRender: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
     triggerSubMenuAction: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
     level: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
     selectable: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
@@ -5408,7 +5410,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_5_create_react_class___default()({
         mode = _props.mode,
         parentMenu = _props.parentMenu;
 
-    if (mode !== 'horizontal' || !parentMenu.isRootMenu) {
+    if (mode !== 'horizontal' || !parentMenu.isRootMenu || !this.isOpen()) {
       return;
     }
     setTimeout(function () {
@@ -5657,6 +5659,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_5_create_react_class___default()({
       onOpenChange: this.onOpenChange,
       subMenuOpenDelay: props.subMenuOpenDelay,
       subMenuCloseDelay: props.subMenuCloseDelay,
+      forceSubMenuRender: props.forceSubMenuRender,
       triggerSubMenuAction: props.triggerSubMenuAction,
       defaultActiveFirst: this.state.defaultActiveFirst,
       multiple: props.multiple,
@@ -5753,7 +5756,8 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_5_create_react_class___default()({
           action: [props.triggerSubMenuAction],
           mouseEnterDelay: props.subMenuOpenDelay,
           mouseLeaveDelay: props.subMenuCloseDelay,
-          onPopupVisibleChange: this.onPopupVisibleChange
+          onPopupVisibleChange: this.onPopupVisibleChange,
+          forceRender: props.forceSubMenuRender
         },
         title
       )
@@ -5844,7 +5848,7 @@ var SubPopupMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     var haveRendered = this.haveRendered;
     this.haveRendered = true;
 
-    this.haveOpened = this.haveOpened || props.visible;
+    this.haveOpened = this.haveOpened || props.visible || props.forceSubMenuRender;
     if (!this.haveOpened) {
       return null;
     }
@@ -10843,6 +10847,9 @@ if (!IS_REACT_16) {
     isVisible: function isVisible(instance) {
       return instance.state.popupVisible;
     },
+    isForceRender: function isForceRender(instance) {
+      return instance.props.forceRender;
+    },
     getContainer: function getContainer(instance) {
       return instance.getContainer();
     }
@@ -10874,6 +10881,7 @@ var Trigger = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     blurDelay: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
     getPopupContainer: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
     getDocument: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+    forceRender: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
     destroyPopupOnHide: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
     mask: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
     maskClosable: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
@@ -11341,7 +11349,7 @@ var Trigger = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     }
 
     var portal = void 0;
-        if (popupVisible || this._component) {
+        if (popupVisible || this._component || props.forceRender) {
       portal = __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
         __WEBPACK_IMPORTED_MODULE_10_rc_util_lib_Portal___default.a,
         {
@@ -11546,6 +11554,7 @@ function getContainerRenderMixin(config) {
       _config$autoDestroy = config.autoDestroy,
       autoDestroy = _config$autoDestroy === undefined ? true : _config$autoDestroy,
       isVisible = config.isVisible,
+      isForceRender = config.isForceRender,
       getComponent = config.getComponent,
       _config$getContainer = config.getContainer,
       getContainer = _config$getContainer === undefined ? defaultGetContainer : _config$getContainer;
@@ -11554,7 +11563,7 @@ function getContainerRenderMixin(config) {
   var mixin = void 0;
 
   function _renderComponent(instance, componentArg, ready) {
-    if (!isVisible || instance._component || isVisible(instance)) {
+    if (!isVisible || instance._component || isVisible(instance) || isForceRender && isForceRender(instance)) {
       if (!instance._container) {
         instance._container = getContainer(instance);
       }
