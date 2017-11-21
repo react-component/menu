@@ -5753,7 +5753,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_5_create_react_class___default()({
           popupPlacement: popupPlacement,
           popupVisible: isOpen,
           popup: children,
-          action: [props.triggerSubMenuAction],
+          action: props.disabled ? [] : [props.triggerSubMenuAction],
           mouseEnterDelay: props.subMenuOpenDelay,
           mouseLeaveDelay: props.subMenuCloseDelay,
           onPopupVisibleChange: this.onPopupVisibleChange,
