@@ -18,6 +18,18 @@ describe('SubMenu', () => {
     );
   }
 
+  it('don\'t show submenu when disabled', () => {
+    const wrapper = mount(
+      <Menu mode="vertical">
+        <SubMenu key="s" title="submenu" disabled>
+          <MenuItem key="1">1</MenuItem>
+        </SubMenu>
+      </Menu>
+    );
+    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+    expect(wrapper.state('openKeys')).toEqual([]);
+  });
+
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are ture', () => {
     it('toggles when mouse enter and leave', () => {
       const wrapper = mount(createMenu());
