@@ -121,7 +121,7 @@ const MenuMixin = {
     const keyCode = e.keyCode;
     let handled;
     this.getFlatInstanceArray().forEach((obj) => {
-      if (obj && obj.props.active) {
+      if (obj && obj.props.active && obj.onKeyDown) {
         handled = obj.onKeyDown(e);
       }
     });
