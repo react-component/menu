@@ -2847,7 +2847,7 @@ var MenuMixin = {
     var keyCode = e.keyCode;
     var handled = void 0;
     this.getFlatInstanceArray().forEach(function (obj) {
-      if (obj && obj.props.active) {
+      if (obj && obj.props.active && obj.onKeyDown) {
         handled = obj.onKeyDown(e);
       }
     });
