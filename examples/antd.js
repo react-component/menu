@@ -1,284 +1,366 @@
-webpackJsonp([7],{
-
-/***/ 179:
+webpackJsonp([0],[
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(81);
+	module.exports = __webpack_require__(1);
 
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 81:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rc_menu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_css_animation__ = __webpack_require__(68);
-/* eslint no-console:0 */
-
-
-
-
-
-
-
-function handleSelect(info) {
-  console.log(info);
-  console.log('selected ' + info.key);
-}
-
-var animation = {
-  enter: function enter(node, done) {
-    var height = void 0;
-    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_css_animation__["b" /* default */])(node, 'rc-menu-collapse', {
-      start: function start() {
-        height = node.offsetHeight;
-        node.style.height = 0;
-      },
-      active: function active() {
-        node.style.height = height + 'px';
-      },
-      end: function end() {
-        node.style.height = '';
-        done();
-      }
-    });
-  },
-  appear: function appear() {
-    return this.enter.apply(this, arguments);
-  },
-  leave: function leave(node, done) {
-    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_css_animation__["b" /* default */])(node, 'rc-menu-collapse', {
-      start: function start() {
-        node.style.height = node.offsetHeight + 'px';
-      },
-      active: function active() {
-        node.style.height = 0;
-      },
-      end: function end() {
-        node.style.height = '';
-        done();
-      }
-    });
-  }
-};
-
-var reactContainer = document.getElementById('__react-content');
-
-var nestSubMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-  __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-  { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'span',
-      null,
-      'sub menu 2'
-    ), key: '4' },
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-    { key: '4-1' },
-    'inner inner'
-  ),
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_rc_menu__["Divider"], null),
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-    {
-      key: '4-2',
-      title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'span',
-        null,
-        'sub menu 3'
-      )
-    },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-      { title: 'sub 4-2-0', key: '4-2-0' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-        { key: '4-2-0-1' },
-        'inner inner'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-        { key: '4-2-0-2' },
-        'inner inner2'
-      )
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-      { key: '4-2-1' },
-      'inn'
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-      { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'span',
-          null,
-          'sub menu 4'
-        ), key: '4-2-2' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-        { key: '4-2-2-1' },
-        'inner inner'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-        { key: '4-2-2-2' },
-        'inner inner2'
-      )
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-      { title: 'sub 4-2-3', key: '4-2-3' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-        { key: '4-2-3-1' },
-        'inner inner'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-        { key: '4-2-3-2' },
-        'inner inner2'
-      )
-    )
-  )
-);
-
-function onOpenChange(value) {
-  console.log('onOpenChange', value);
-}
-var commonMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-  __WEBPACK_IMPORTED_MODULE_2_rc_menu___default.a,
-  { onSelect: handleSelect, onOpenChange: onOpenChange },
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
-    { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'span',
-        null,
-        'sub menu'
-      ), key: '1' },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-      { key: '1-1' },
-      '0-1'
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-      { key: '1-2' },
-      '0-2'
-    )
-  ),
-  nestSubMenu,
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-    { key: '2' },
-    '1'
-  ),
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-    { key: '3' },
-    'outer'
-  ),
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-    { disabled: true },
-    'disabled'
-  ),
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
-    { key: '5' },
-    'outer3'
-  )
-);
-
-function render(container) {
-  var horizontalMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(commonMenu, {
-    mode: 'horizontal',
-    // use openTransition for antd
-    openAnimation: 'slide-up'
-  });
-
-  var horizontalMenu2 = __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(commonMenu, {
-    mode: 'horizontal',
-    openAnimation: 'slide-up',
-    triggerSubMenuAction: 'click'
-  });
-
-  var verticalMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(commonMenu, {
-    mode: 'vertical',
-    openAnimation: 'zoom'
-  });
-
-  var inlineMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(commonMenu, {
-    mode: 'inline',
-    defaultOpenKeys: ['1'],
-    openAnimation: animation
-  });
-
-  __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    { style: { margin: 20 } },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'h2',
-      null,
-      'antd menu'
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      null,
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h3',
-        null,
-        'horizontal'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { style: { margin: 20, width: 800 } },
-        horizontalMenu
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h3',
-        null,
-        'horizontal and click'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { style: { margin: 20, width: 800 } },
-        horizontalMenu2
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h3',
-        null,
-        'vertical'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { style: { margin: 20, width: 200 } },
-        verticalMenu
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'h3',
-        null,
-        'inline'
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { style: { margin: 20, width: 400 } },
-        inlineMenu
-      )
-    )
-  ), container);
-}
-
-render(reactContainer);
+	'use strict';
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(38);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _rcMenu = __webpack_require__(185);
+	
+	var _rcMenu2 = _interopRequireDefault(_rcMenu);
+	
+	__webpack_require__(306);
+	
+	var _cssAnimation = __webpack_require__(292);
+	
+	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
+	
+	var _createReactClass = __webpack_require__(228);
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* eslint no-console:0 */
+	
+	function handleSelect(info) {
+	  console.log(info);
+	  console.log('selected ' + info.key);
+	}
+	
+	var animation = {
+	  enter: function enter(node, done) {
+	    var height = void 0;
+	    return (0, _cssAnimation2.default)(node, 'rc-menu-collapse', {
+	      start: function start() {
+	        height = node.offsetHeight;
+	        node.style.height = 0;
+	      },
+	      active: function active() {
+	        node.style.height = height + 'px';
+	      },
+	      end: function end() {
+	        node.style.height = '';
+	        done();
+	      }
+	    });
+	  },
+	  appear: function appear() {
+	    return this.enter.apply(this, arguments);
+	  },
+	  leave: function leave(node, done) {
+	    return (0, _cssAnimation2.default)(node, 'rc-menu-collapse', {
+	      start: function start() {
+	        node.style.height = node.offsetHeight + 'px';
+	      },
+	      active: function active() {
+	        node.style.height = 0;
+	      },
+	      end: function end() {
+	        node.style.height = '';
+	        done();
+	      }
+	    });
+	  }
+	};
+	
+	var reactContainer = document.getElementById('__react-content');
+	
+	var nestSubMenu = _react2.default.createElement(
+	  _rcMenu.SubMenu,
+	  { title: _react2.default.createElement(
+	      'span',
+	      null,
+	      'sub menu 2'
+	    ), key: '4' },
+	  _react2.default.createElement(
+	    _rcMenu.Item,
+	    { key: '4-1' },
+	    'inner inner'
+	  ),
+	  _react2.default.createElement(_rcMenu.Divider, null),
+	  _react2.default.createElement(
+	    _rcMenu.SubMenu,
+	    {
+	      key: '4-2',
+	      title: _react2.default.createElement(
+	        'span',
+	        null,
+	        'sub menu 3'
+	      )
+	    },
+	    _react2.default.createElement(
+	      _rcMenu.SubMenu,
+	      { title: 'sub 4-2-0', key: '4-2-0' },
+	      _react2.default.createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-0-1' },
+	        'inner inner'
+	      ),
+	      _react2.default.createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-0-2' },
+	        'inner inner2'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      _rcMenu.Item,
+	      { key: '4-2-1' },
+	      'inn'
+	    ),
+	    _react2.default.createElement(
+	      _rcMenu.SubMenu,
+	      { title: _react2.default.createElement(
+	          'span',
+	          null,
+	          'sub menu 4'
+	        ), key: '4-2-2' },
+	      _react2.default.createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-2-1' },
+	        'inner inner'
+	      ),
+	      _react2.default.createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-2-2' },
+	        'inner inner2'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      _rcMenu.SubMenu,
+	      { title: 'sub 4-2-3', key: '4-2-3' },
+	      _react2.default.createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-3-1' },
+	        'inner inner'
+	      ),
+	      _react2.default.createElement(
+	        _rcMenu.Item,
+	        { key: '4-2-3-2' },
+	        'inner inner2'
+	      )
+	    )
+	  )
+	);
+	
+	function onOpenChange(value) {
+	  console.log('onOpenChange', value);
+	}
+	var commonMenu = _react2.default.createElement(
+	  _rcMenu2.default,
+	  { onSelect: handleSelect, onOpenChange: onOpenChange },
+	  _react2.default.createElement(
+	    _rcMenu.SubMenu,
+	    { title: _react2.default.createElement(
+	        'span',
+	        null,
+	        'sub menu'
+	      ), key: '1' },
+	    _react2.default.createElement(
+	      _rcMenu.Item,
+	      { key: '1-1' },
+	      '0-1'
+	    ),
+	    _react2.default.createElement(
+	      _rcMenu.Item,
+	      { key: '1-2' },
+	      '0-2'
+	    )
+	  ),
+	  nestSubMenu,
+	  _react2.default.createElement(
+	    _rcMenu.Item,
+	    { key: '2' },
+	    '1'
+	  ),
+	  _react2.default.createElement(
+	    _rcMenu.Item,
+	    { key: '3' },
+	    'outer'
+	  ),
+	  _react2.default.createElement(
+	    _rcMenu.Item,
+	    { disabled: true },
+	    'disabled'
+	  ),
+	  _react2.default.createElement(
+	    _rcMenu.Item,
+	    { key: '5' },
+	    'outer3'
+	  )
+	);
+	
+	var subMenus = _react2.default.createElement(
+	  _rcMenu2.default,
+	  { onSelect: handleSelect },
+	  _react2.default.createElement(
+	    _rcMenu.SubMenu,
+	    { title: _react2.default.createElement(
+	        'span',
+	        null,
+	        'sub menu'
+	      ), key: '1' },
+	    _react2.default.createElement(
+	      _rcMenu.Item,
+	      { key: '1-1' },
+	      '0-1'
+	    ),
+	    _react2.default.createElement(
+	      _rcMenu.Item,
+	      { key: '1-2' },
+	      '0-2'
+	    )
+	  ),
+	  _react2.default.createElement(
+	    _rcMenu.SubMenu,
+	    { title: _react2.default.createElement(
+	        'span',
+	        null,
+	        'sub menu 1'
+	      ), key: '2' },
+	    _react2.default.createElement(
+	      _rcMenu.Item,
+	      { key: '2-1' },
+	      '2-1'
+	    ),
+	    _react2.default.createElement(
+	      _rcMenu.Item,
+	      { key: '2-2' },
+	      '2-2'
+	    )
+	  ),
+	  nestSubMenu
+	);
+	
+	function render(container) {
+	  var horizontalMenu = _react2.default.cloneElement(commonMenu, {
+	    mode: 'horizontal',
+	    // use openTransition for antd
+	    openAnimation: 'slide-up'
+	  });
+	
+	  var horizontalMenu2 = _react2.default.cloneElement(commonMenu, {
+	    mode: 'horizontal',
+	    openAnimation: 'slide-up',
+	    closeSubMenuOnMouseLeave: false
+	  });
+	
+	  var verticalMenu = _react2.default.cloneElement(commonMenu, {
+	    mode: 'vertical',
+	    openAnimation: 'zoom'
+	  });
+	
+	  var inlineMenu = _react2.default.cloneElement(commonMenu, {
+	    mode: 'inline',
+	    defaultOpenKeys: ['1'],
+	    openAnimation: animation
+	  });
+	
+	  var ClickToHideMenu = (0, _createReactClass2.default)({
+	    displayName: 'ClickToHideMenu',
+	    getInitialState: function getInitialState() {
+	      return {
+	        openKeys: []
+	      };
+	    },
+	    onOpenChange: function onOpenChange(openKeys) {
+	      this.setState({
+	        openKeys: openKeys
+	      });
+	    },
+	    render: function render() {
+	      return _react2.default.cloneElement(subMenus, {
+	        onOpenChange: this.onOpenChange,
+	        openKeys: this.state.openKeys,
+	        mode: 'horizontal',
+	        openAnimation: 'slide-up',
+	        openSubMenuOnMouseEnter: false,
+	        closeSubMenuOnMouseLeave: false
+	      });
+	    }
+	  });
+	
+	  _reactDom2.default.render(_react2.default.createElement(
+	    'div',
+	    { style: { margin: 20 } },
+	    _react2.default.createElement(
+	      'h2',
+	      null,
+	      'antd menu'
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'horizontal'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { style: { margin: 20, width: 800 } },
+	        horizontalMenu
+	      ),
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'horizontal keep open'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { style: { margin: 20, width: 800 } },
+	        horizontalMenu2
+	      ),
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'horizontal and click'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { style: { margin: 20, width: 800 } },
+	        _react2.default.createElement(ClickToHideMenu, null)
+	      ),
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'vertical'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { style: { margin: 20, width: 200 } },
+	        verticalMenu
+	      ),
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'inline'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { style: { margin: 20, width: 400 } },
+	        inlineMenu
+	      )
+	    )
+	  ), container);
+	}
+	
+	render(reactContainer);
 
 /***/ })
-
-},[179]);
+]);
 //# sourceMappingURL=antd.js.map
