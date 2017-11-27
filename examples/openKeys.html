@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>openKeys.js - example - rc-menu@5.0.14</title>
+  <title>openKeys.js - example - rc-menu@6.2.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,13 +257,13 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
   }
   </script>
-  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="../common.css" />
 </head>
 
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@5.0.14</h1>
+      <h1>rc-menu@6.2.3</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -275,11 +275,10 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> Menu, { SubMenu, Item <span class="hljs-keyword">as</span> MenuItem } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-menu'</span>;
 <span class="hljs-keyword">import</span> createReactClass <span class="hljs-keyword">from</span> <span class="hljs-string">'create-react-class'</span>;
-React.createClass = createReactClass;
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-menu/assets/index.css'</span>;
 
-<span class="hljs-keyword">const</span> Test = React.createClass({
+<span class="hljs-keyword">const</span> Test = createReactClass({
   getInitialState() {
     <span class="hljs-keyword">return</span> {
       openKeys: [],
@@ -335,7 +334,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
          data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
   </a>
   <script>FastClick.attach(document.body);</script>
-  <script src="common.js?nowrap"></script>
+  <script src="../common.js?nowrap"></script>
   <script src="openKeys.js?nowrap"></script>
 </body>
 
