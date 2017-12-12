@@ -45,6 +45,10 @@ const SubMenu = createReactClass({
     onTitleClick: PropTypes.func,
   },
 
+  contextTypes: {
+    builtinPlacements: PropTypes.object,
+  },
+
   isRootMenu: false,
 
   getDefaultProps() {
@@ -420,7 +424,7 @@ const SubMenu = createReactClass({
             prefixCls={prefixCls}
             popupClassName={`${prefixCls}-popup ${popupClassName}`}
             getPopupContainer={getPopupContainer}
-            builtinPlacements={placements}
+            builtinPlacements={Object.assign({}, placements, this.context.builtinPlacements)}
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
             popup={children}
