@@ -33,18 +33,4 @@ describe('MenuItem', () => {
       expect(handleSelect).not.toBeCalled();
     });
   });
-
-  describe('unmount', () => {
-    it('removes self from selectedKeys', () => {
-      const wrapper = mount(
-        <Menu>
-          <MenuItem key="1">1</MenuItem>
-        </Menu>
-      );
-      wrapper.find('MenuItem').simulate('click');
-      expect(wrapper.state('selectedKeys')).toEqual(['1']);
-      wrapper.setProps({ children: null });
-      expect(wrapper.state('selectedKeys')).toEqual([]);
-    });
-  });
 });

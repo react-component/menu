@@ -76,21 +76,6 @@ const Menu = createReactClass({
     this.setState(props);
   },
 
-  onDestroy(key) {
-    const state = this.state;
-    const props = this.props;
-    const selectedKeys = state.selectedKeys;
-    const openKeys = state.openKeys;
-    let index = selectedKeys.indexOf(key);
-    if (!('selectedKeys' in props) && index !== -1) {
-      selectedKeys.splice(index, 1);
-    }
-    index = openKeys.indexOf(key);
-    if (!('openKeys' in props) && index !== -1) {
-      openKeys.splice(index, 1);
-    }
-  },
-
   onSelect(selectInfo) {
     const props = this.props;
     if (props.selectable) {
