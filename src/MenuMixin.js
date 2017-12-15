@@ -209,7 +209,6 @@ const MenuMixin = {
       forceSubMenuRender: props.forceSubMenuRender,
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
-      onDestroy: this.onDestroy,
       onSelect: this.onSelect,
       ...extraProps,
     };

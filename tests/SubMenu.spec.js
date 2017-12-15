@@ -96,14 +96,6 @@ describe('SubMenu', () => {
       );
     };
 
-    it('removes self key from openKeys', () => {
-      const wrapper = mount(<App show />);
-      wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
-      expect(wrapper.find('Menu').instance().state.openKeys).toEqual(['s1']);
-      wrapper.setProps({ show: false });
-      expect(wrapper.find('Menu').instance().state.openKeys).toEqual([]);
-    });
-
     it('clears parent timers', () => {
       const wrapper = mount(<App show />);
       const parentMenu = wrapper.find('Menu').first();
