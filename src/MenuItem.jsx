@@ -42,6 +42,7 @@ const MenuItem = createReactClass({
       props.onDestroy(props.eventKey);
     }
   },
+
   onKeyDown(e) {
     const keyCode = e.keyCode;
     if (keyCode === KeyCode.ENTER) {
