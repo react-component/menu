@@ -5,6 +5,13 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('SubMenu', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
+  afterAll(() => {
+  });
+
   function createMenu(props) {
     return (
       <Menu {...props}>
@@ -35,9 +42,9 @@ describe('SubMenu', () => {
       const wrapper = mount(createMenu());
 
       wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+      jest.runAllTimers();
       expect(wrapper.state('openKeys')).toEqual(['s1']);
 
-      jest.useFakeTimers();
       wrapper.find('.rc-menu-submenu-title').first().simulate('mouseLeave');
       jest.runAllTimers();
       expect(wrapper.state('openKeys')).toEqual([]);
@@ -77,46 +84,14 @@ describe('SubMenu', () => {
     );
 
     wrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
+    jest.runAllTimers();
     expect(handleOpenChange).toBeCalledWith(['item_1']);
 
+    wrapper.update();
+
     wrapper.find('.rc-menu-submenu-title').at(1).simulate('mouseEnter');
+    jest.runAllTimers();
     expect(handleOpenChange).toBeCalledWith(['item_1', 'item_1-menu-item_1']);
-  });
-
-  describe('unmount', () => {
-    const App = ({ show }) => {
-      return (
-        <Menu>
-          {show && (
-            <SubMenu key="s1" title="submenu">
-              <MenuItem key="1">1</MenuItem>
-            </SubMenu>
-          )}
-        </Menu>
-      );
-    };
-
-    it('clears parent timers', () => {
-      const wrapper = mount(<App show />);
-      const parentMenu = wrapper.find('Menu').first();
-
-      wrapper.find('.rc-menu-submenu').first().simulate('mouseEnter');
-      wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
-      wrapper.find('.rc-menu-submenu-title').first().simulate('mouseLeave');
-      wrapper.find('.rc-menu-submenu').first().simulate('mouseLeave');
-
-      expect(parentMenu.instance().subMenuLeaveFn).toBeTruthy();
-      expect(parentMenu.instance().subMenuLeaveTimer).toBeTruthy();
-      expect(parentMenu.instance().subMenuTitleLeaveFn).toBeTruthy();
-      expect(parentMenu.instance().subMenuTitleLeaveTimer).toBeTruthy();
-
-      wrapper.setProps({ show: false });
-
-      expect(parentMenu.instance().subMenuLeaveFn).toBe(null);
-      expect(parentMenu.instance().subMenuLeaveTimer).toBe(null);
-      expect(parentMenu.instance().subMenuTitleLeaveFn).toBe(null);
-      expect(parentMenu.instance().subMenuTitleLeaveTimer).toBe(null);
-    });
   });
 
   describe('key press', () => {
@@ -126,6 +101,9 @@ describe('SubMenu', () => {
         const title = wrapper.find('.rc-menu-submenu-title').first();
 
         title.simulate('mouseEnter').simulate('keyDown', { keyCode: KeyCode.ENTER });
+
+        jest.runAllTimers();
+        wrapper.update();
 
         expect(wrapper.find('.rc-menu-sub').first().is('.rc-menu-hidden')).toBe(false);
         expect(wrapper.find('MenuItem').first().props().active).toBe(true);
@@ -166,6 +144,9 @@ describe('SubMenu', () => {
     const wrapper = mount(createMenu({ onSelect: handleSelect }));
     wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
 
+    jest.runAllTimers();
+    wrapper.update();
+
     wrapper.find('MenuItem').first().simulate('click');
     expect(handleSelect.mock.calls[0][0].key).toBe('1');
   });
@@ -177,6 +158,9 @@ describe('SubMenu', () => {
       onDeselect: handleDeselect,
     }));
     wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+
+    jest.runAllTimers();
+    wrapper.update();
 
     wrapper.find('MenuItem').first().simulate('click');
     wrapper.find('MenuItem').first().simulate('click');
