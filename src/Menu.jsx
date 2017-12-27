@@ -103,7 +103,7 @@ const Menu = createReactClass({
     this.props.onClick(e);
   },
 
-  onOpenChange(e_) {
+  onOpenChange(event) {
     const props = this.props;
     const openKeys = this.state.openKeys.concat();
     let changed = false;
@@ -123,11 +123,11 @@ const Menu = createReactClass({
       }
       changed = changed || oneChanged;
     };
-    if (Array.isArray(e_)) {
+    if (Array.isArray(event)) {
       // batch change call
-      e_.forEach(processSingle);
+      event.forEach(processSingle);
     } else {
-      processSingle(e_);
+      processSingle(event);
     }
     if (changed) {
       if (!('openKeys' in this.props)) {
