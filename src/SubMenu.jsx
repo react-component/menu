@@ -87,15 +87,15 @@ const SubMenu = createReactClass({
   },
 
   componentWillUnmount() {
-    const { onDestroy, eventKey, parentMenu } = this.props;
+    const { onDestroy, eventKey } = this.props;
     if (onDestroy) {
       onDestroy(eventKey);
     }
-    if (parentMenu.subMenuInstance === this) {
-      this.clearSubMenuTimers();
-    }
     if (this.minWidthTimeout) {
       clearTimeout(this.minWidthTimeout);
+    }
+    if (this.mouseenterTimeout) {
+      clearTimeout(this.mouseenterTimeout);
     }
   },
 
@@ -156,7 +156,6 @@ const SubMenu = createReactClass({
 
   onMouseEnter(e) {
     const { eventKey: key, onMouseEnter } = this.props;
-    this.clearSubMenuLeaveTimer();
     this.setState({
       defaultActiveFirst: false,
     });
@@ -181,7 +180,6 @@ const SubMenu = createReactClass({
 
   onTitleMouseEnter(domEvent) {
     const { eventKey: key, onItemHover, onTitleMouseEnter } = this.props;
-    this.clearSubMenuTitleLeaveTimer();
     onItemHover({
       key,
       hover: true,
@@ -265,34 +263,21 @@ const SubMenu = createReactClass({
 
   triggerOpenChange(open, type) {
     const key = this.props.eventKey;
-    this.onOpenChange({
-      key,
-      item: this,
-      trigger: type,
-      open,
-    });
-  },
-
-  clearSubMenuTimers() {
-    this.clearSubMenuLeaveTimer();
-    this.clearSubMenuTitleLeaveTimer();
-  },
-
-  clearSubMenuTitleLeaveTimer() {
-    const parentMenu = this.props.parentMenu;
-    if (parentMenu.subMenuTitleLeaveTimer) {
-      clearTimeout(parentMenu.subMenuTitleLeaveTimer);
-      parentMenu.subMenuTitleLeaveTimer = null;
-      parentMenu.subMenuTitleLeaveFn = null;
-    }
-  },
-
-  clearSubMenuLeaveTimer() {
-    const parentMenu = this.props.parentMenu;
-    if (parentMenu.subMenuLeaveTimer) {
-      clearTimeout(parentMenu.subMenuLeaveTimer);
-      parentMenu.subMenuLeaveTimer = null;
-      parentMenu.subMenuLeaveFn = null;
+    const openChange = () => {
+      this.onOpenChange({
+        key,
+        item: this,
+        trigger: type,
+        open,
+      });
+    };
+    if (type === 'mouseenter') {
+      // make sure mouseenter happen after other menu item's mouseleave
+      this.mouseenterTimeout = setTimeout(() => {
+        openChange();
+      }, 0);
+    } else {
+      openChange();
     }
   },
 

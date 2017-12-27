@@ -64,10 +64,7 @@ const MenuItem = createReactClass({
   },
 
   onMouseEnter(e) {
-    const { eventKey, parentMenu, onItemHover, onMouseEnter } = this.props;
-    if (parentMenu.subMenuInstance) {
-      parentMenu.subMenuInstance.clearSubMenuTimers();
-    }
+    const { eventKey, onItemHover, onMouseEnter } = this.props;
     onItemHover({
       key: eventKey,
       hover: true,

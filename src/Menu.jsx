@@ -43,7 +43,7 @@ const Menu = createReactClass({
       onDeselect: noop,
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
-      subMenuOpenDelay: 0,
+      subMenuOpenDelay: 0.1,
       subMenuCloseDelay: 0.1,
       triggerSubMenuAction: 'hover',
     };
