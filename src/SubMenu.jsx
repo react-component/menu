@@ -74,7 +74,7 @@ const SubMenu = createReactClass({
     if (mode !== 'horizontal' || !parentMenu.isRootMenu || !this.isOpen()) {
       return;
     }
-    setTimeout(() => {
+    this.minWidthTimeout = setTimeout(() => {
       if (!this.subMenuTitle || !this.menuInstance) {
         return;
       }
@@ -93,6 +93,9 @@ const SubMenu = createReactClass({
     }
     if (parentMenu.subMenuInstance === this) {
       this.clearSubMenuTimers();
+    }
+    if (this.minWidthTimeout) {
+      clearTimeout(this.minWidthTimeout);
     }
   },
 
