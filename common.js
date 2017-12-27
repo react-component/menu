@@ -3637,6 +3637,8 @@ function noop() {}
 var Animate = function (_React$Component) {
   __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default()(Animate, _React$Component);
 
+  // eslint-disable-line
+
   function Animate(props) {
     __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default()(this, Animate);
 
@@ -3649,7 +3651,7 @@ var Animate = function (_React$Component) {
     _this.keysToLeave = [];
 
     _this.state = {
-      children: Object(__WEBPACK_IMPORTED_MODULE_8__ChildrenUtils__["e" /* toArrayChildren */])(getChildrenFromProps(_this.props))
+      children: Object(__WEBPACK_IMPORTED_MODULE_8__ChildrenUtils__["e" /* toArrayChildren */])(getChildrenFromProps(props))
     };
 
     _this.childrenRefs = {};
@@ -3847,6 +3849,7 @@ var Animate = function (_React$Component) {
   return Animate;
 }(__WEBPACK_IMPORTED_MODULE_6_react___default.a.Component);
 
+Animate.isAnimate = true;
 Animate.propTypes = {
   component: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.any,
   componentProps: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.object,
@@ -21623,7 +21626,7 @@ var Menu = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
       onDeselect: __WEBPACK_IMPORTED_MODULE_4__util__["d" /* noop */],
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
-      subMenuOpenDelay: 0,
+      subMenuOpenDelay: 0.1,
       subMenuCloseDelay: 0.1,
       triggerSubMenuAction: 'hover'
     };
@@ -21677,7 +21680,7 @@ var Menu = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
   onClick: function onClick(e) {
     this.props.onClick(e);
   },
-  onOpenChange: function onOpenChange(e_) {
+  onOpenChange: function onOpenChange(event) {
     var props = this.props;
     var openKeys = this.state.openKeys.concat();
     var changed = false;
@@ -21697,11 +21700,11 @@ var Menu = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
       }
       changed = changed || oneChanged;
     };
-    if (Array.isArray(e_)) {
+    if (Array.isArray(event)) {
       // batch change call
-      e_.forEach(processSingle);
+      event.forEach(processSingle);
     } else {
-      processSingle(e_);
+      processSingle(event);
     }
     if (changed) {
       if (!('openKeys' in this.props)) {
@@ -24162,7 +24165,7 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     if (mode !== 'horizontal' || !parentMenu.isRootMenu || !this.isOpen()) {
       return;
     }
-    setTimeout(function () {
+    this.minWidthTimeout = setTimeout(function () {
       if (!_this.subMenuTitle || !_this.menuInstance) {
         return;
       }
@@ -24176,14 +24179,16 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
   componentWillUnmount: function componentWillUnmount() {
     var _props2 = this.props,
         onDestroy = _props2.onDestroy,
-        eventKey = _props2.eventKey,
-        parentMenu = _props2.parentMenu;
+        eventKey = _props2.eventKey;
 
     if (onDestroy) {
       onDestroy(eventKey);
     }
-    if (parentMenu.subMenuInstance === this) {
-      this.clearSubMenuTimers();
+    if (this.minWidthTimeout) {
+      clearTimeout(this.minWidthTimeout);
+    }
+    if (this.mouseenterTimeout) {
+      clearTimeout(this.mouseenterTimeout);
     }
   },
   onDestroy: function onDestroy(key) {
@@ -24242,7 +24247,6 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
         key = _props3.eventKey,
         onMouseEnter = _props3.onMouseEnter;
 
-    this.clearSubMenuLeaveTimer();
     this.setState({
       defaultActiveFirst: false
     });
@@ -24258,15 +24262,10 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
         onMouseLeave = _props4.onMouseLeave;
 
     parentMenu.subMenuInstance = this;
-    parentMenu.subMenuLeaveFn = function () {
-      // trigger mouseleave
-      onMouseLeave({
-        key: eventKey,
-        domEvent: e
-      });
-    };
-    // prevent popup menu and submenu gap
-    parentMenu.subMenuLeaveTimer = setTimeout(parentMenu.subMenuLeaveFn, 100);
+    onMouseLeave({
+      key: eventKey,
+      domEvent: e
+    });
   },
   onTitleMouseEnter: function onTitleMouseEnter(domEvent) {
     var _props5 = this.props,
@@ -24274,7 +24273,6 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
         onItemHover = _props5.onItemHover,
         onTitleMouseEnter = _props5.onTitleMouseEnter;
 
-    this.clearSubMenuTitleLeaveTimer();
     onItemHover({
       key: key,
       hover: true
@@ -24292,17 +24290,14 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
         onTitleMouseLeave = _props6.onTitleMouseLeave;
 
     parentMenu.subMenuInstance = this;
-    parentMenu.subMenuTitleLeaveFn = function () {
-      onItemHover({
-        key: eventKey,
-        hover: false
-      });
-      onTitleMouseLeave({
-        key: eventKey,
-        domEvent: e
-      });
-    };
-    parentMenu.subMenuTitleLeaveTimer = setTimeout(parentMenu.subMenuTitleLeaveFn, 100);
+    onItemHover({
+      key: eventKey,
+      hover: false
+    });
+    onTitleMouseLeave({
+      key: eventKey,
+      domEvent: e
+    });
   },
   onTitleClick: function onTitleClick(e) {
     var props = this.props;
@@ -24352,32 +24347,24 @@ var SubMenu = __WEBPACK_IMPORTED_MODULE_4_create_react_class___default()({
     });
   },
   triggerOpenChange: function triggerOpenChange(open, type) {
+    var _this2 = this;
+
     var key = this.props.eventKey;
-    this.onOpenChange({
-      key: key,
-      item: this,
-      trigger: type,
-      open: open
-    });
-  },
-  clearSubMenuTimers: function clearSubMenuTimers() {
-    this.clearSubMenuLeaveTimer();
-    this.clearSubMenuTitleLeaveTimer();
-  },
-  clearSubMenuTitleLeaveTimer: function clearSubMenuTitleLeaveTimer() {
-    var parentMenu = this.props.parentMenu;
-    if (parentMenu.subMenuTitleLeaveTimer) {
-      clearTimeout(parentMenu.subMenuTitleLeaveTimer);
-      parentMenu.subMenuTitleLeaveTimer = null;
-      parentMenu.subMenuTitleLeaveFn = null;
-    }
-  },
-  clearSubMenuLeaveTimer: function clearSubMenuLeaveTimer() {
-    var parentMenu = this.props.parentMenu;
-    if (parentMenu.subMenuLeaveTimer) {
-      clearTimeout(parentMenu.subMenuLeaveTimer);
-      parentMenu.subMenuLeaveTimer = null;
-      parentMenu.subMenuLeaveFn = null;
+    var openChange = function openChange() {
+      _this2.onOpenChange({
+        key: key,
+        item: _this2,
+        trigger: type,
+        open: open
+      });
+    };
+    if (type === 'mouseenter') {
+      // make sure mouseenter happen after other menu item's mouseleave
+      this.mouseenterTimeout = setTimeout(function () {
+        openChange();
+      }, 0);
+    } else {
+      openChange();
     }
   },
   isChildrenSelected: function isChildrenSelected() {
@@ -28331,13 +28318,9 @@ var MenuItem = __WEBPACK_IMPORTED_MODULE_3_create_react_class___default()({
   onMouseEnter: function onMouseEnter(e) {
     var _props2 = this.props,
         eventKey = _props2.eventKey,
-        parentMenu = _props2.parentMenu,
         onItemHover = _props2.onItemHover,
         onMouseEnter = _props2.onMouseEnter;
 
-    if (parentMenu.subMenuInstance) {
-      parentMenu.subMenuInstance.clearSubMenuTimers();
-    }
     onItemHover({
       key: eventKey,
       hover: true
