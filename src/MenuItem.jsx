@@ -125,12 +125,12 @@ const MenuItem = createReactClass({
       [this.getDisabledClassName()]: props.disabled,
     });
     const attrs = {
-      ...props.attribute,
-      title: props.title,
-      className,
       role: 'menuitem',
       'aria-selected': selected,
       'aria-disabled': props.disabled,
+      ...props.attribute,
+      title: props.title,
+      className,
     };
     let mouseEvent = {};
     if (!props.disabled) {

@@ -39,6 +39,27 @@ describe('Menu', () => {
     });
   });
 
+  describe('render role listbox', () => {
+    function createMenu() {
+      return (
+        <Menu
+          className="myMenu"
+          openAnimation="fade"
+          role="listbox"
+        >
+          <MenuItem key="1" attribute={{ role: 'option' }}>1</MenuItem>
+          <MenuItem key="2" attribute={{ role: 'option' }}>2</MenuItem>
+          <MenuItem key="3" attribute={{ role: 'option' }}>3</MenuItem>
+        </Menu>
+      );
+    }
+
+    it(`renders menu correctly`, () => {
+      const wrapper = render(createMenu());
+      expect(renderToJson(wrapper)).toMatchSnapshot();
+    });
+  });
+
 
   it('set activeKey', () => {
     const wrapper = mount(

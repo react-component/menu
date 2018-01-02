@@ -65,6 +65,7 @@ const MenuMixin = {
     defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
     openKeys: PropTypes.arrayOf(PropTypes.string),
     children: PropTypes.any,
+    role: PropTypes.string,
   },
 
   getDefaultProps() {
@@ -225,11 +226,12 @@ const MenuMixin = {
       props.className,
       `${props.prefixCls}-${props.mode}`,
     );
+
     const domProps = {
       className,
-      role: 'menu',
-      'aria-activedescendant': '',
+      role: props.role || 'menu',
     };
+
     if (props.id) {
       domProps.id = props.id;
     }
