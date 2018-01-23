@@ -66,14 +66,16 @@ const Menu = createReactClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    const props = {};
     if ('selectedKeys' in nextProps) {
-      props.selectedKeys = nextProps.selectedKeys || [];
+      this.setState({
+        selectedKeys: nextProps.selectedKeys || [],
+      });
     }
     if ('openKeys' in nextProps) {
-      props.openKeys = nextProps.openKeys || [];
+      this.setState({
+        openKeys: nextProps.openKeys || [],
+      });
     }
-    this.setState(props);
   },
 
   onSelect(selectInfo) {
