@@ -1,7 +1,8 @@
-// import React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
-import MenuMixin from './MenuMixin';
+import { Provider, create } from 'mini-store';
+import { default as MenuMixin, getActiveKey } from './MenuMixin';
 import { noop } from './util';
 
 const Menu = createReactClass({
@@ -59,20 +60,24 @@ const Menu = createReactClass({
     if ('openKeys' in props) {
       openKeys = props.openKeys || [];
     }
-    return {
+
+    this.store = create({
       selectedKeys,
       openKeys,
-    };
+      activeKey: { '0-menu-': getActiveKey(props, props.activeKey) },
+    });
+
+    return {};
   },
 
   componentWillReceiveProps(nextProps) {
     if ('selectedKeys' in nextProps) {
-      this.setState({
+      this.store.setState({
         selectedKeys: nextProps.selectedKeys || [],
       });
     }
     if ('openKeys' in nextProps) {
-      this.setState({
+      this.store.setState({
         openKeys: nextProps.openKeys || [],
       });
     }
@@ -82,7 +87,7 @@ const Menu = createReactClass({
     const props = this.props;
     if (props.selectable) {
       // root menu
-      let selectedKeys = this.state.selectedKeys;
+      let selectedKeys = this.store.getState().selectedKeys;
       const selectedKey = selectInfo.key;
       if (props.multiple) {
         selectedKeys = selectedKeys.concat([selectedKey]);
@@ -90,7 +95,7 @@ const Menu = createReactClass({
         selectedKeys = [selectedKey];
       }
       if (!('selectedKeys' in props)) {
-        this.setState({
+        this.store.setState({
           selectedKeys,
         });
       }
@@ -107,7 +112,7 @@ const Menu = createReactClass({
 
   onOpenChange(event) {
     const props = this.props;
-    const openKeys = this.state.openKeys.concat();
+    const openKeys = this.store.getState().openKeys.concat();
     let changed = false;
     const processSingle = (e) => {
       let oneChanged = false;
@@ -133,7 +138,7 @@ const Menu = createReactClass({
     }
     if (changed) {
       if (!('openKeys' in this.props)) {
-        this.setState({ openKeys });
+        this.store.setState({ openKeys });
       }
       props.onOpenChange(openKeys);
     }
@@ -142,14 +147,14 @@ const Menu = createReactClass({
   onDeselect(selectInfo) {
     const props = this.props;
     if (props.selectable) {
-      const selectedKeys = this.state.selectedKeys.concat();
+      const selectedKeys = this.store.getState().selectedKeys.concat();
       const selectedKey = selectInfo.key;
       const index = selectedKeys.indexOf(selectedKey);
       if (index !== -1) {
         selectedKeys.splice(index, 1);
       }
       if (!('selectedKeys' in props)) {
-        this.setState({
+        this.store.setState({
           selectedKeys,
         });
       }
@@ -176,7 +181,7 @@ const Menu = createReactClass({
 
   lastOpenSubMenu() {
     let lastOpen = [];
-    const { openKeys } = this.state;
+    const { openKeys } = this.store.getState();
     if (openKeys.length) {
       lastOpen = this.getFlatInstanceArray().filter((c) => {
         return c && openKeys.indexOf(c.props.eventKey) !== -1;
@@ -189,7 +194,7 @@ const Menu = createReactClass({
     if (!c) {
       return null;
     }
-    const state = this.state;
+    const state = this.store.getState();
     const extraProps = {
       openKeys: state.openKeys,
       selectedKeys: state.selectedKeys,
@@ -201,7 +206,11 @@ const Menu = createReactClass({
   render() {
     const props = { ...this.props };
     props.className += ` ${props.prefixCls}-root`;
-    return this.renderRoot(props);
+    return (
+      <Provider store={this.store}>
+        {this.renderRoot(props)}
+      </Provider>
+    );
   },
 });
 

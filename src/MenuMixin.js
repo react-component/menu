@@ -15,7 +15,17 @@ function allDisabled(arr) {
   return arr.every(c => !!c.props.disabled);
 }
 
-function getActiveKey(props, originalActiveKey) {
+function updateActiveKey(store, menuId, activeKey) {
+  const state = store.getState();
+  store.setState({
+    activeKey: {
+      ...state.activeKey,
+      [menuId]: activeKey,
+    },
+  });
+}
+
+export function getActiveKey(props, originalActiveKey) {
   let activeKey = originalActiveKey;
   const { children, eventKey } = props;
   if (activeKey) {
@@ -80,36 +90,32 @@ const MenuMixin = {
     };
   },
 
-  getInitialState() {
-    const props = this.props;
-    return {
-      activeKey: getActiveKey(props, props.activeKey),
-    };
-  },
-
   componentWillReceiveProps(nextProps) {
-    let props;
+    let activeKey;
     if ('activeKey' in nextProps) {
-      props = {
-        activeKey: getActiveKey(nextProps, nextProps.activeKey),
-      };
+      activeKey = getActiveKey(nextProps, nextProps.activeKey);
+      updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
     } else {
-      const originalActiveKey = this.state.activeKey;
-      const activeKey = getActiveKey(nextProps, originalActiveKey);
+      const originalActiveKey = this.getStore().getState().activeKey[this.getEventKey()];
+      activeKey = getActiveKey(nextProps, originalActiveKey);
       // fix: this.setState(), parent.render(),
       if (activeKey !== originalActiveKey) {
-        props = {
-          activeKey,
-        };
+        updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
       }
-    }
-    if (props) {
-      this.setState(props);
     }
   },
 
   shouldComponentUpdate(nextProps) {
     return this.props.visible || nextProps.visible;
+  },
+
+  componentDidUpdate() {
+    if (this.activeItem) {
+      scrollIntoView(ReactDOM.findDOMNode(this.activeItem), ReactDOM.findDOMNode(this), {
+        onlyScrollIfNeeded: true,
+      });
+      this.activeItem = undefined;
+    }
   },
 
   componentWillMount() {
@@ -134,32 +140,35 @@ const MenuMixin = {
     }
     if (activeItem) {
       e.preventDefault();
-      this.setState({
-        activeKey: activeItem.props.eventKey,
-      }, () => {
-        scrollIntoView(ReactDOM.findDOMNode(activeItem), ReactDOM.findDOMNode(this), {
-          onlyScrollIfNeeded: true,
-        });
-        // https://github.com/react-component/menu/commit/9899a9672f6f028ec3cdf773f1ecea5badd2d33e
-        if (typeof callback === 'function') {
-          callback(activeItem);
-        }
-      });
+      updateActiveKey(this.getStore(), this.getEventKey(), activeItem.props.eventKey);
+
+      this.activeItem = activeItem;
+      if (typeof callback === 'function') {
+        callback(activeItem);
+      }
+
       return 1;
     } else if (activeItem === undefined) {
       e.preventDefault();
-      this.setState({
-        activeKey: null,
-      });
+      updateActiveKey(this.getStore(), this.getEventKey(), null);
       return 1;
     }
   },
 
   onItemHover(e) {
     const { key, hover } = e;
-    this.setState({
-      activeKey: hover ? key : null,
-    });
+    updateActiveKey(this.getStore(), this.getEventKey(), hover ? key : null);
+  },
+
+  getEventKey() {
+    // when eventKey not available ,it's menu and return menu id '0-menu-'
+    return this.props.eventKey || '0-menu-';
+  },
+
+  getStore() {
+    const store = this.store || this.props.store;
+
+    return store;
   },
 
   getFlatInstanceArray() {
@@ -182,7 +191,7 @@ const MenuMixin = {
   },
 
   renderCommonMenuItem(child, i, subIndex, extraProps) {
-    const state = this.state;
+    const state = this.getStore().getState();
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
     const childProps = child.props;
@@ -195,7 +204,8 @@ const MenuMixin = {
       rootPrefixCls: props.prefixCls,
       index: i,
       parentMenu: this,
-      ref: childProps.disabled ? undefined :
+      // customized ref function, need to be invoked manually in child's componentDidMount
+      manualRef: childProps.disabled ? undefined :
         createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
       eventKey: key,
       active: !childProps.disabled && isActive,
@@ -219,7 +229,6 @@ const MenuMixin = {
   },
 
   renderRoot(props) {
-    this.instanceArray = [];
     const className = classNames(
       props.prefixCls,
       props.className,
@@ -255,7 +264,7 @@ const MenuMixin = {
 
   step(direction) {
     let children = this.getFlatInstanceArray();
-    const activeKey = this.state.activeKey;
+    const activeKey = this.getStore().getState().activeKey[this.getEventKey()];
     const len = children.length;
     if (!len) {
       return null;

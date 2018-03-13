@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import Animate from 'rc-animate';
-import MenuMixin from './MenuMixin';
+import { connect } from 'mini-store';
+import { default as MenuMixin, getActiveKey } from './MenuMixin';
 
 const SubPopupMenu = createReactClass({
   displayName: 'SubPopupMenu',
@@ -21,6 +22,25 @@ const SubPopupMenu = createReactClass({
   },
 
   mixins: [MenuMixin],
+
+  getInitialState() {
+    const props = this.props;
+    props.store.setState({
+      activeKey: {
+        ...props.store.getState().activeKey,
+        [props.eventKey]: getActiveKey(props, props.activeKey),
+      },
+    });
+
+    return {};
+  },
+
+  componentDidMount() {
+    // invoke customized ref to expose component to mixin
+    if (this.props.manualRef) {
+      this.props.manualRef(this);
+    }
+  },
 
   onDeselect(selectInfo) {
     this.props.onDeselect(selectInfo);
@@ -96,4 +116,4 @@ const SubPopupMenu = createReactClass({
   },
 });
 
-export default SubPopupMenu;
+export default connect()(SubPopupMenu);

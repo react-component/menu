@@ -16,10 +16,10 @@ describe('SubMenu', () => {
     return (
       <Menu {...props}>
         <SubMenu key="s1" title="submenu1">
-          <MenuItem key="1">1</MenuItem>
+          <MenuItem key="s1-1">1</MenuItem>
         </SubMenu>
         <SubMenu key="s2" title="submenu2">
-          <MenuItem key="2">2</MenuItem>
+          <MenuItem key="s2-2">2</MenuItem>
         </SubMenu>
       </Menu>
     );
@@ -34,20 +34,20 @@ describe('SubMenu', () => {
       </Menu>
     );
     wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
-    expect(wrapper.state('openKeys')).toEqual([]);
+    expect(wrapper.instance().store.getState().openKeys).toEqual([]);
   });
 
-  describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are ture', () => {
+  describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are true', () => {
     it('toggles when mouse enter and leave', () => {
       const wrapper = mount(createMenu());
 
       wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
       jest.runAllTimers();
-      expect(wrapper.state('openKeys')).toEqual(['s1']);
+      expect(wrapper.instance().store.getState().openKeys).toEqual(['s1']);
 
       wrapper.find('.rc-menu-submenu-title').first().simulate('mouseLeave');
       jest.runAllTimers();
-      expect(wrapper.state('openKeys')).toEqual([]);
+      expect(wrapper.instance().store.getState().openKeys).toEqual([]);
     });
   });
 
@@ -62,10 +62,10 @@ describe('SubMenu', () => {
 
     it('toggles when mouse click', () => {
       wrapper.find('.rc-menu-submenu-title').first().simulate('click');
-      expect(wrapper.state('openKeys')).toEqual(['s1']);
+      expect(wrapper.instance().store.getState().openKeys).toEqual(['s1']);
 
       wrapper.find('.rc-menu-submenu-title').first().simulate('click');
-      expect(wrapper.state('openKeys')).toEqual([]);
+      expect(wrapper.instance().store.getState().openKeys).toEqual([]);
     });
   });
 
@@ -112,14 +112,13 @@ describe('SubMenu', () => {
 
     describe('left & right key', () => {
       it('toggles menu', () => {
-        const wrapper = mount(createMenu());
+        const wrapper = mount(createMenu({ defaultActiveFirst: true }));
         const title = wrapper.find('.rc-menu-submenu-title').first();
 
         title.simulate('mouseEnter').simulate('keyDown', { keyCode: KeyCode.LEFT });
-        expect(wrapper.state('openKeys')).toEqual([]);
+        expect(wrapper.instance().store.getState().openKeys).toEqual([]);
         title.simulate('keyDown', { keyCode: KeyCode.RIGHT });
-        expect(wrapper.state('openKeys')).toEqual(['s1']);
-
+        expect(wrapper.instance().store.getState().openKeys).toEqual(['s1']);
         expect(wrapper.find('MenuItem').first().props().active).toBe(true);
       });
     });
@@ -148,7 +147,7 @@ describe('SubMenu', () => {
     wrapper.update();
 
     wrapper.find('MenuItem').first().simulate('click');
-    expect(handleSelect.mock.calls[0][0].key).toBe('1');
+    expect(handleSelect.mock.calls[0][0].key).toBe('s1-1');
   });
 
   it('fires deselect event for multiple menu', () => {
@@ -165,6 +164,6 @@ describe('SubMenu', () => {
     wrapper.find('MenuItem').first().simulate('click');
     wrapper.find('MenuItem').first().simulate('click');
 
-    expect(handleDeselect.mock.calls[0][0].key).toBe('1');
+    expect(handleDeselect.mock.calls[0][0].key).toBe('s1-1');
   });
 });
