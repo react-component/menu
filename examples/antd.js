@@ -51,7 +51,7 @@ const animation = {
 
 const reactContainer = document.getElementById('__react-content');
 
-const nestSubMenu = (<SubMenu title={<span>sub menu 2</span>} key="4">
+const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" popupOffset={[10, 15]}>
   <MenuItem key="4-1">inner inner</MenuItem>
   <Divider/>
   <SubMenu

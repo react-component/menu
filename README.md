@@ -301,6 +301,12 @@ ReactDOM.render(<Menu>
             <th></th>
             <td></td>
         </tr>
+        <tr>
+            <td>popupOffset</td>
+            <td>Array</td>
+            <th></th>
+            <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: `[0,15]`</td>
+        </tr>
     </tbody>
 </table>
 

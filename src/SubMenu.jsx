@@ -43,6 +43,7 @@ const SubMenu = createReactClass({
     onTitleMouseEnter: PropTypes.func,
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
+    popupOffset: PropTypes.array,
   },
 
   isRootMenu: false,
@@ -391,6 +392,7 @@ const SubMenu = createReactClass({
     const getPopupContainer = props.parentMenu.isRootMenu ?
       props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
+    const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
     const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
     return (
       <li {...mouseEvents} className={className} style={props.style}>
@@ -404,6 +406,7 @@ const SubMenu = createReactClass({
             builtinPlacements={placements}
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
+            popupAlign={popupAlign}
             popup={children}
             action={props.disabled ? [] : [props.triggerSubMenuAction]}
             mouseEnterDelay={props.subMenuOpenDelay}
