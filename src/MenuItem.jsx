@@ -164,5 +164,5 @@ MenuItem.isMenuItem = 1;
 
 export default connect(({ activeKey, selectedKeys }, { eventKey }) => ({
   active: activeKey[getMenuIdFromItemEventKey(eventKey)] === eventKey,
-  isSelected: selectedKeys.findIndex((k) => k === eventKey) !== -1,
+  isSelected: selectedKeys.indexOf(eventKey) !== -1,
 }))(MenuItem);

@@ -453,7 +453,6 @@ const SubMenu = createReactClass({
 SubMenu.isSubMenu = 1;
 
 export default connect(({ openKeys, activeKey }, { eventKey }) => ({
-  // k is of type integer, and eventKey is of type string
-  isOpen: openKeys.findIndex((k) => k === eventKey) > -1,
+  isOpen: openKeys.indexOf(eventKey) > -1,
   active: activeKey[getMenuIdFromItemEventKey(eventKey)] === eventKey,
 }))(SubMenu);
