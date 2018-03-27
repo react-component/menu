@@ -8,23 +8,6 @@ export function getKeyFromChildrenIndex(child, menuEventKey, index) {
   return child.key || `${prefix}item_${index}`;
 }
 
-/*
- find which menu an item with particular event that it belongs to.
- e.g.:
-   eventkey of '1' or '2' belongs to root menu ('0-menu-')
-   eventkey of '2-1' or '2-2' belongs to sub menu with key id '2-menu-'
-   eventkey of '2-2-1' or '2-2-2' belongs to sub menu with key id '2-2-menu-'
-*/
-export function getMenuIdFromItemEventKey(eventkey) {
-  const index = eventkey.lastIndexOf('-');
-  if (index === -1) {
-    return '0-menu-';
-  }
-
-  const ret = eventkey.slice(0, index);
-  return `${ret}-menu-`;
-}
-
 export function getMenuIdFromSubMenuEventKey(eventKey) {
   return `${eventKey}-menu-`;
 }

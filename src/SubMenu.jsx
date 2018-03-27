@@ -11,7 +11,6 @@ import placements from './placements';
 import {
   noop,
   loopMenuItemRecusively,
-  getMenuIdFromItemEventKey,
   getMenuIdFromSubMenuEventKey,
 } from './util';
 
@@ -452,7 +451,7 @@ const SubMenu = createReactClass({
 
 SubMenu.isSubMenu = 1;
 
-export default connect(({ openKeys, activeKey }, { eventKey }) => ({
+export default connect(({ openKeys, activeKey }, { eventKey, subMenuKey }) => ({
   isOpen: openKeys.indexOf(eventKey) > -1,
-  active: activeKey[getMenuIdFromItemEventKey(eventKey)] === eventKey,
+  active: activeKey[subMenuKey] === eventKey,
 }))(SubMenu);

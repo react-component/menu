@@ -66,7 +66,7 @@ const SubPopupMenu = createReactClass({
     return this.props.openTransitionName;
   },
 
-  renderMenuItem(c, i, subIndex) {
+  renderMenuItem(c, i, subIndex, subMenuKey) {
     if (!c) {
       return null;
     }
@@ -75,6 +75,7 @@ const SubPopupMenu = createReactClass({
       openKeys: props.openKeys,
       selectedKeys: props.selectedKeys,
       triggerSubMenuAction: props.triggerSubMenuAction,
+      subMenuKey,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);
   },

@@ -92,16 +92,11 @@ const MenuMixin = {
 
   componentWillReceiveProps(nextProps) {
     let activeKey;
-    if ('activeKey' in nextProps) {
-      activeKey = getActiveKey(nextProps, nextProps.activeKey);
+    const originalActiveKey = this.getStore().getState().activeKey[this.getEventKey()];
+    activeKey = getActiveKey(nextProps, originalActiveKey);
+    // fix: this.setState(), parent.render(),
+    if (activeKey !== originalActiveKey) {
       updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
-    } else {
-      const originalActiveKey = this.getStore().getState().activeKey[this.getEventKey()];
-      activeKey = getActiveKey(nextProps, originalActiveKey);
-      // fix: this.setState(), parent.render(),
-      if (activeKey !== originalActiveKey) {
-        updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
-      }
     }
   },
 
@@ -256,7 +251,10 @@ const MenuMixin = {
         visible={props.visible}
         {...domProps}
       >
-        {React.Children.map(props.children, this.renderMenuItem)}
+        {React.Children.map(
+          props.children,
+          (c, i, subIndex) => this.renderMenuItem(c, i, subIndex, props.eventKey || '0-menu-'),
+        )}
       </DOMWrap>
       /*eslint-enable */
     );

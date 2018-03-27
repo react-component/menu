@@ -4,7 +4,7 @@ import createReactClass from 'create-react-class';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
-import { noop, getMenuIdFromItemEventKey } from './util';
+import { noop } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
@@ -162,7 +162,7 @@ const MenuItem = createReactClass({
 
 MenuItem.isMenuItem = 1;
 
-export default connect(({ activeKey, selectedKeys }, { eventKey }) => ({
-  active: activeKey[getMenuIdFromItemEventKey(eventKey)] === eventKey,
+export default connect(({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+  active: activeKey[subMenuKey] === eventKey,
   isSelected: selectedKeys.indexOf(eventKey) !== -1,
 }))(MenuItem);

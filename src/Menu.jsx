@@ -190,7 +190,7 @@ const Menu = createReactClass({
     return lastOpen[0];
   },
 
-  renderMenuItem(c, i, subIndex) {
+  renderMenuItem(c, i, subIndex, subMenuKey) {
     if (!c) {
       return null;
     }
@@ -199,6 +199,7 @@ const Menu = createReactClass({
       openKeys: state.openKeys,
       selectedKeys: state.selectedKeys,
       triggerSubMenuAction: this.props.triggerSubMenuAction,
+      subMenuKey,
     };
     return this.renderCommonMenuItem(c, i, subIndex, extraProps);
   },
