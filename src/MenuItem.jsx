@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
+import { connect } from 'mini-store';
 import { noop } from './util';
 
 /* eslint react/no-is-mounted:0 */
@@ -43,6 +44,13 @@ const MenuItem = createReactClass({
     }
   },
 
+  componentDidMount() {
+    // invoke customized ref to expose component to mixin
+    if (this.props.manualRef) {
+      this.props.manualRef(this);
+    }
+  },
+
   onKeyDown(e) {
     const keyCode = e.keyCode;
     if (keyCode === KeyCode.ENTER) {
@@ -76,8 +84,7 @@ const MenuItem = createReactClass({
   },
 
   onClick(e) {
-    const { eventKey, multiple, onClick, onSelect, onDeselect } = this.props;
-    const selected = this.isSelected();
+    const { eventKey, multiple, onClick, onSelect, onDeselect, isSelected } = this.props;
     const info = {
       key: eventKey,
       keyPath: [eventKey],
@@ -86,12 +93,12 @@ const MenuItem = createReactClass({
     };
     onClick(info);
     if (multiple) {
-      if (selected) {
+      if (isSelected) {
         onDeselect(info);
       } else {
         onSelect(info);
       }
-    } else if (!selected) {
+    } else if (!isSelected) {
       onSelect(info);
     }
   },
@@ -112,16 +119,11 @@ const MenuItem = createReactClass({
     return `${this.getPrefixCls()}-disabled`;
   },
 
-  isSelected() {
-    return this.props.selectedKeys.indexOf(this.props.eventKey) !== -1;
-  },
-
   render() {
     const props = this.props;
-    const selected = this.isSelected();
     const className = classNames(this.getPrefixCls(), props.className, {
       [this.getActiveClassName()]: !props.disabled && props.active,
-      [this.getSelectedClassName()]: selected,
+      [this.getSelectedClassName()]: props.isSelected,
       [this.getDisabledClassName()]: props.disabled,
     });
     const attrs = {
@@ -129,7 +131,7 @@ const MenuItem = createReactClass({
       title: props.title,
       className,
       role: 'menuitem',
-      'aria-selected': selected,
+      'aria-selected': props.isSelected,
       'aria-disabled': props.disabled,
     };
     let mouseEvent = {};
@@ -160,4 +162,7 @@ const MenuItem = createReactClass({
 
 MenuItem.isMenuItem = 1;
 
-export default MenuItem;
+export default connect(({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+  active: activeKey[subMenuKey] === eventKey,
+  isSelected: selectedKeys.indexOf(eventKey) !== -1,
+}))(MenuItem);

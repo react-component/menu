@@ -8,6 +8,10 @@ export function getKeyFromChildrenIndex(child, menuEventKey, index) {
   return child.key || `${prefix}item_${index}`;
 }
 
+export function getMenuIdFromSubMenuEventKey(eventKey) {
+  return `${eventKey}-menu-`;
+}
+
 export function loopMenuItem(children, cb) {
   let index = -1;
   React.Children.forEach(children, (c) => {
