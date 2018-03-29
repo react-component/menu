@@ -94,6 +94,32 @@ describe('SubMenu', () => {
     expect(handleOpenChange).toBeCalledWith(['item_1', 'item_1-menu-item_1']);
   });
 
+  describe('mouse events', () => {
+    it('mouse enter event on a submenu should not activate first item', () => {
+      const wrapper = mount(createMenu({ openKeys: ['s1'] }));
+      const title = wrapper.find('.rc-menu-submenu-title').first();
+      title.simulate('mouseEnter');
+
+      jest.runAllTimers();
+      wrapper.update();
+
+      expect(wrapper.find('.rc-menu-sub').first().is('.rc-menu-hidden')).toBe(false);
+      expect(wrapper.find('MenuItem').first().props().active).toBe(false);
+    });
+
+    it('click to open a submenu should not activate first item', () => {
+      const wrapper = mount(createMenu({ triggerSubMenuAction: 'click' }));
+      const subMenuTitle = wrapper.find('.rc-menu-submenu-title').first();
+      subMenuTitle.simulate('click');
+
+      jest.runAllTimers();
+      wrapper.update();
+
+      expect(wrapper.find('.rc-menu-sub').first().is('.rc-menu-hidden')).toBe(false);
+      expect(wrapper.find('MenuItem').first().props().active).toBe(false);
+    });
+  });
+
   describe('key press', () => {
     describe('enter key', () => {
       it('opens menu and active first item', () => {
