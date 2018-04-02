@@ -187,7 +187,7 @@ const SubMenu = createReactClass({
 
   onMouseEnter(e) {
     const { eventKey: key, onMouseEnter, store } = this.props;
-    updateDefaultActiveFirst(store, this.props.eventKey, true);
+    updateDefaultActiveFirst(store, this.props.eventKey, false);
     onMouseEnter({
       key,
       domEvent: e,
@@ -242,7 +242,7 @@ const SubMenu = createReactClass({
       return;
     }
     this.triggerOpenChange(!props.isOpen, 'click');
-    updateDefaultActiveFirst(props.store, this.props.eventKey, true);
+    updateDefaultActiveFirst(props.store, this.props.eventKey, false);
   },
 
   onSubMenuClick(info) {
