@@ -212,6 +212,7 @@ const MenuMixin = {
   },
 
   renderRoot(props) {
+    this.instanceArray = [];
     const className = classNames(
       props.prefixCls,
       props.className,

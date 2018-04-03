@@ -48,9 +48,7 @@ const MenuItem = createReactClass({
 
   componentDidMount() {
     // invoke customized ref to expose component to mixin
-    if (this.props.manualRef) {
-      this.props.manualRef(this);
-    }
+    this.callRef();
   },
 
   componentDidUpdate() {
@@ -59,7 +57,10 @@ const MenuItem = createReactClass({
         onlyScrollIfNeeded: true,
       });
     }
+
+    this.callRef();
   },
+
 
   onKeyDown(e) {
     const keyCode = e.keyCode;
@@ -127,6 +128,12 @@ const MenuItem = createReactClass({
 
   getDisabledClassName() {
     return `${this.getPrefixCls()}-disabled`;
+  },
+
+  callRef() {
+    if (this.props.manualRef) {
+      this.props.manualRef(this);
+    }
   },
 
   render() {

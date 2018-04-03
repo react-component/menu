@@ -187,4 +187,32 @@ describe('Menu', () => {
     wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
     expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
   });
+
+  it('keydown works when children change', () => {
+    class App extends React.Component {
+      state = {
+        items: [1, 2, 3],
+      }
+
+      render() {
+        return (
+          <Menu>
+            {this.state.items.map(i =>
+              <MenuItem key={i}>{i}</MenuItem>
+            )}
+          </Menu>
+        );
+      }
+    }
+
+    const wrapper = mount(<App />);
+
+    wrapper.setState({ items: [0, 1] });
+
+    wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
+    expect(wrapper.find('MenuItem').at(0).props().active).toBe(true);
+
+    wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
+    expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
+  });
 });
