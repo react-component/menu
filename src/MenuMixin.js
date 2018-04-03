@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import scrollIntoView from 'dom-scroll-into-view';
 import { getKeyFromChildrenIndex, loopMenuItem } from './util';
 import DOMWrap from './DOMWrap';
 
@@ -104,15 +102,6 @@ const MenuMixin = {
     return this.props.visible || nextProps.visible;
   },
 
-  componentDidUpdate() {
-    if (this.activeItem) {
-      scrollIntoView(ReactDOM.findDOMNode(this.activeItem), ReactDOM.findDOMNode(this), {
-        onlyScrollIfNeeded: true,
-      });
-      this.activeItem = undefined;
-    }
-  },
-
   componentWillMount() {
     this.instanceArray = [];
   },
@@ -137,7 +126,6 @@ const MenuMixin = {
       e.preventDefault();
       updateActiveKey(this.getStore(), this.getEventKey(), activeItem.props.eventKey);
 
-      this.activeItem = activeItem;
       if (typeof callback === 'function') {
         callback(activeItem);
       }

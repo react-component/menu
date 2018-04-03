@@ -1,8 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
+import scrollIntoView from 'dom-scroll-into-view';
 import { connect } from 'mini-store';
 import { noop } from './util';
 
@@ -48,6 +50,14 @@ const MenuItem = createReactClass({
     // invoke customized ref to expose component to mixin
     if (this.props.manualRef) {
       this.props.manualRef(this);
+    }
+  },
+
+  componentDidUpdate() {
+    if (this.props.active) {
+      scrollIntoView(ReactDOM.findDOMNode(this), ReactDOM.findDOMNode(this.props.parentMenu), {
+        onlyScrollIfNeeded: true,
+      });
     }
   },
 
