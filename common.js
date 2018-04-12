@@ -3143,10 +3143,8 @@ var MenuMixin = {
     };
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    var activeKey = void 0;
-    var originalActiveKey = this.getStore().getState().activeKey[this.getEventKey()];
-    activeKey = getActiveKey(nextProps, originalActiveKey);
-    // fix: this.setState(), parent.render(),
+    var originalActiveKey = 'activeKey' in nextProps ? nextProps.activeKey : this.getStore().getState().activeKey[this.getEventKey()];
+    var activeKey = getActiveKey(nextProps, originalActiveKey);
     if (activeKey !== originalActiveKey) {
       updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
     }
