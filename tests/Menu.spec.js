@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, react/no-multi-comp */
 import React from 'react';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
@@ -214,5 +214,31 @@ describe('Menu', () => {
 
     wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
     expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
+  });
+
+  it('active first item when children changes', () => {
+    class App extends React.Component {
+      state = {
+        items: ['foo'],
+      }
+
+      render() {
+        return (
+          <Menu defaultActiveFirst activeKey="" selectedKeys={['foo']}>
+            {this.state.items.map(item =>
+              <MenuItem key={item}>{item}</MenuItem>
+            )}
+          </Menu>
+        );
+      }
+    }
+
+    const wrapper = mount(<App />);
+
+    wrapper.setState({ items: ['bar', 'foo'] });
+
+    expect(
+      wrapper.find('li').first().hasClass('rc-menu-item-active')
+    ).toBe(true);
   });
 });

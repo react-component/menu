@@ -89,10 +89,9 @@ const MenuMixin = {
   },
 
   componentWillReceiveProps(nextProps) {
-    let activeKey;
-    const originalActiveKey = this.getStore().getState().activeKey[this.getEventKey()];
-    activeKey = getActiveKey(nextProps, originalActiveKey);
-    // fix: this.setState(), parent.render(),
+    const originalActiveKey = 'activeKey' in nextProps ? nextProps.activeKey :
+      this.getStore().getState().activeKey[this.getEventKey()];
+    const activeKey = getActiveKey(nextProps, originalActiveKey);
     if (activeKey !== originalActiveKey) {
       updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
     }
