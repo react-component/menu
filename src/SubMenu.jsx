@@ -94,17 +94,20 @@ const SubMenu = createReactClass({
 
   componentDidMount() {
     this.componentDidUpdate();
-    // invoke customized ref to expose component to mixin
-    if (this.props.manualRef) {
-      this.props.manualRef(this);
-    }
   },
 
   componentDidUpdate() {
-    const { mode, parentMenu } = this.props;
+    const { mode, parentMenu, manualRef } = this.props;
+
+    // invoke customized ref to expose component to mixin
+    if (manualRef) {
+      manualRef(this);
+    }
+
     if (mode !== 'horizontal' || !parentMenu.isRootMenu || !this.props.isOpen) {
       return;
     }
+
     this.minWidthTimeout = setTimeout(() => {
       if (!this.subMenuTitle || !this.menuInstance) {
         return;
