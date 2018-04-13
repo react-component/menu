@@ -28,7 +28,12 @@ const Menu = createReactClass({
     level: PropTypes.number,
     selectable: PropTypes.bool,
     multiple: PropTypes.bool,
+    builtinPlacements: PropTypes.object,
     children: PropTypes.any,
+  },
+
+  childContextTypes: {
+    builtinPlacements: PropTypes.object,
   },
 
   mixins: [MenuMixin],
@@ -68,6 +73,12 @@ const Menu = createReactClass({
     });
 
     return {};
+  },
+
+  getChildContext() {
+    return {
+      builtinPlacements: this.props.builtinPlacements,
+    };
   },
 
   componentWillReceiveProps(nextProps) {
