@@ -17,6 +17,9 @@ describe('SubMenu', () => {
       <Menu {...props}>
         <SubMenu key="s1" title="submenu1">
           <MenuItem key="s1-1">1</MenuItem>
+          <SubMenu key="s1-2" title="submenu1-1">
+            <MenuItem key="s1-2-1">2</MenuItem>
+          </SubMenu>
         </SubMenu>
         <SubMenu key="s2" title="submenu2">
           <MenuItem key="s2-2">2</MenuItem>
@@ -149,7 +152,6 @@ describe('SubMenu', () => {
       });
     });
 
-
     it('up & down key', () => {
       const wrapper = mount(createMenu());
       const titles = wrapper.find('.rc-menu-submenu-title');
@@ -161,6 +163,29 @@ describe('SubMenu', () => {
 
       titles.last().simulate('keyDown', { keyCode: KeyCode.UP });
       expect(wrapper.find('.rc-menu-submenu').first().is('.rc-menu-submenu-active')).toBe(true);
+    });
+
+    it('combined key presses', () => {
+      const wrapper = mount(createMenu());
+      const titles = wrapper.find('.rc-menu-submenu-title');
+      const firstItem = titles.first();
+
+      // testing keydown event after submenu is closed and then opened again
+      firstItem.simulate('mouseEnter')
+                    .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+                    .simulate('keyDown', { keyCode: KeyCode.LEFT })
+                    .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+                    .simulate('keyDown', { keyCode: KeyCode.DOWN })
+                    .simulate('keyDown', { keyCode: KeyCode.DOWN })
+                    .simulate('keyDown', { keyCode: KeyCode.DOWN });
+
+      expect(
+        wrapper
+          .find('[title="submenu1-1"]')
+          .find('.rc-menu-submenu')
+          .first()
+          .is('.rc-menu-submenu-active')
+      ).toBe(true);
     });
   });
 
