@@ -10,7 +10,7 @@ import SubPopupMenu from './SubPopupMenu';
 import placements from './placements';
 import {
   noop,
-  loopMenuItemRecusively,
+  loopMenuItemRecursively,
   getMenuIdFromSubMenuEventKey,
 } from './util';
 
@@ -96,6 +96,20 @@ const SubMenu = createReactClass({
     this.componentDidUpdate();
   },
 
+  adjustWidth() {
+    /* istanbul ignore if */
+    if (!this.subMenuTitle || !this.menuInstance) {
+      return;
+    }
+    const popupMenu = ReactDOM.findDOMNode(this.menuInstance);
+    if (popupMenu.offsetWidth >= this.subMenuTitle.offsetWidth) {
+      return;
+    }
+
+    /* istanbul ignore next */
+    popupMenu.style.minWidth = `${this.subMenuTitle.offsetWidth}px`;
+  },
+
   componentDidUpdate() {
     const { mode, parentMenu, manualRef } = this.props;
 
@@ -108,16 +122,7 @@ const SubMenu = createReactClass({
       return;
     }
 
-    this.minWidthTimeout = setTimeout(() => {
-      if (!this.subMenuTitle || !this.menuInstance) {
-        return;
-      }
-      const popupMenu = ReactDOM.findDOMNode(this.menuInstance);
-      if (popupMenu.offsetWidth >= this.subMenuTitle.offsetWidth) {
-        return;
-      }
-      popupMenu.style.minWidth = `${this.subMenuTitle.offsetWidth}px`;
-    }, 0);
+    this.minWidthTimeout = setTimeout(() => this.adjustWidth(), 0);
   },
 
   componentWillUnmount() {
@@ -125,9 +130,13 @@ const SubMenu = createReactClass({
     if (onDestroy) {
       onDestroy(eventKey);
     }
+
+    /* istanbul ignore if */
     if (this.minWidthTimeout) {
       clearTimeout(this.minWidthTimeout);
     }
+
+    /* istanbul ignore if */
     if (this.mouseenterTimeout) {
       clearTimeout(this.mouseenterTimeout);
     }
@@ -314,7 +323,7 @@ const SubMenu = createReactClass({
 
   isChildrenSelected() {
     const ret = { find: false };
-    loopMenuItemRecusively(this.props.children, this.props.selectedKeys, ret);
+    loopMenuItemRecursively(this.props.children, this.props.selectedKeys, ret);
     return ret.find;
   },
 
@@ -454,7 +463,8 @@ const SubMenu = createReactClass({
 
 SubMenu.isSubMenu = 1;
 
-export default connect(({ openKeys, activeKey }, { eventKey, subMenuKey }) => ({
+export default connect(({ openKeys, activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
   isOpen: openKeys.indexOf(eventKey) > -1,
   active: activeKey[subMenuKey] === eventKey,
+  selectedKeys,
 }))(SubMenu);

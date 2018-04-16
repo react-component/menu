@@ -10,7 +10,7 @@ import { noop } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
-const MenuItem = createReactClass({
+export const MenuItem = createReactClass({
   displayName: 'MenuItem',
 
   propTypes: {

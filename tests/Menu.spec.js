@@ -33,12 +33,11 @@ describe('Menu', () => {
 
     ['vertical', 'horizontal', 'inline'].forEach((mode) => {
       it(`renders ${mode} menu correctly`, () => {
-        const wrapper = render(createMenu({ [mode]: true }));
+        const wrapper = render(createMenu({ mode }));
         expect(renderToJson(wrapper)).toMatchSnapshot();
       });
     });
   });
-
 
   it('set activeKey', () => {
     const wrapper = mount(
