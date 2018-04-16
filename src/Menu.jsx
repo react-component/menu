@@ -29,6 +29,7 @@ const Menu = createReactClass({
     selectable: PropTypes.bool,
     multiple: PropTypes.bool,
     children: PropTypes.any,
+    role: PropTypes.string,
   },
 
   mixins: [MenuMixin],
