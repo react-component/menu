@@ -14,13 +14,13 @@ const DOMWrap = createReactClass({
   getDefaultProps() {
     return {
       tag: 'div',
+      className: '',
     };
   },
 
   render() {
     const props = { ...this.props };
     if (!props.visible) {
-      props.className = props.className || '';
       props.className += ` ${props.hiddenClassName}`;
     }
     const Tag = props.tag;

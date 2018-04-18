@@ -37,9 +37,7 @@ const SubPopupMenu = createReactClass({
 
   componentDidMount() {
     // invoke customized ref to expose component to mixin
-    if (this.props.manualRef) {
-      this.props.manualRef(this);
-    }
+    this.props.manualRef(this);
   },
 
   onDeselect(selectInfo) {
@@ -59,6 +57,7 @@ const SubPopupMenu = createReactClass({
   },
 
   onDestroy(key) {
+    /* istanbul ignore next */
     this.props.onDestroy(key);
   },
 
@@ -66,7 +65,8 @@ const SubPopupMenu = createReactClass({
     return this.props.openTransitionName;
   },
 
-  renderMenuItem(c, i, subIndex, subMenuKey) {
+  renderMenuItem(c, i, subMenuKey) {
+    /* istanbul ignore next */
     if (!c) {
       return null;
     }
@@ -77,24 +77,28 @@ const SubPopupMenu = createReactClass({
       triggerSubMenuAction: props.triggerSubMenuAction,
       subMenuKey,
     };
-    return this.renderCommonMenuItem(c, i, subIndex, extraProps);
+    return this.renderCommonMenuItem(c, i, extraProps);
   },
 
   render() {
     const props = { ...this.props };
-
     const haveRendered = this.haveRendered;
     this.haveRendered = true;
 
     this.haveOpened = this.haveOpened || props.visible || props.forceSubMenuRender;
+    // never rendered not planning to, don't render
     if (!this.haveOpened) {
       return null;
     }
 
-    const transitionAppear = !(!haveRendered && props.visible && props.mode === 'inline');
+    // don't show transition on first rendering (no animation for opened menu)
+    // show appear transition if it's not visible (not sure why)
+    // show appear transition if it's not inline mode
+    const transitionAppear = haveRendered || !props.visible || !props.mode === 'inline';
 
     props.className += ` ${props.prefixCls}-sub`;
     const animProps = {};
+
     if (props.openTransitionName) {
       animProps.transitionName = props.openTransitionName;
     } else if (typeof props.openAnimation === 'object') {

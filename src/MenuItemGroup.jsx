@@ -17,9 +17,9 @@ const MenuItemGroup = createReactClass({
     return { disabled: true };
   },
 
-  renderInnerMenuItem(item, subIndex) {
+  renderInnerMenuItem(item) {
     const { renderMenuItem, index } = this.props;
-    return renderMenuItem(item, index, subIndex, this.props.subMenuKey);
+    return renderMenuItem(item, index, this.props.subMenuKey);
   },
 
   render() {

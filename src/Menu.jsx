@@ -175,22 +175,8 @@ const Menu = createReactClass({
     return transitionName;
   },
 
-  isInlineMode() {
-    return this.props.mode === 'inline';
-  },
-
-  lastOpenSubMenu() {
-    let lastOpen = [];
-    const { openKeys } = this.store.getState();
-    if (openKeys.length) {
-      lastOpen = this.getFlatInstanceArray().filter((c) => {
-        return c && openKeys.indexOf(c.props.eventKey) !== -1;
-      });
-    }
-    return lastOpen[0];
-  },
-
-  renderMenuItem(c, i, subIndex, subMenuKey) {
+  renderMenuItem(c, i, subMenuKey) {
+    /* istanbul ignore if */
     if (!c) {
       return null;
     }
@@ -201,7 +187,7 @@ const Menu = createReactClass({
       triggerSubMenuAction: this.props.triggerSubMenuAction,
       subMenuKey,
     };
-    return this.renderCommonMenuItem(c, i, subIndex, extraProps);
+    return this.renderCommonMenuItem(c, i, extraProps);
   },
 
   render() {

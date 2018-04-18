@@ -3,7 +3,7 @@
 exports[`Menu render renders horizontal menu correctly 1`] = `
 <ul
   aria-activedescendant=""
-  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
+  class="rc-menu myMenu rc-menu-root rc-menu-horizontal"
   role="menu"
   tabindex="0"
 >
@@ -75,7 +75,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-vertical"
+    class="rc-menu-submenu rc-menu-submenu-horizontal"
   >
     <div
       aria-expanded="false"
@@ -96,7 +96,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
 exports[`Menu render renders inline menu correctly 1`] = `
 <ul
   aria-activedescendant=""
-  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
+  class="rc-menu myMenu rc-menu-root rc-menu-inline"
   role="menu"
   tabindex="0"
 >
@@ -116,6 +116,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
         aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
+        style="padding-left:24px"
       >
         1
       </li>
@@ -126,6 +127,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
         aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
+        style="padding-left:24px"
       >
         2
       </li>
@@ -135,6 +137,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
     aria-selected="false"
     class="rc-menu-item"
     role="menuitem"
+    style="padding-left:24px"
   >
     3
   </li>
@@ -154,6 +157,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
         aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
+        style="padding-left:24px"
       >
         4
       </li>
@@ -162,19 +166,21 @@ exports[`Menu render renders inline menu correctly 1`] = `
         aria-selected="false"
         class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
+        style="padding-left:24px"
       >
         5
       </li>
     </ul>
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-vertical"
+    class="rc-menu-submenu rc-menu-submenu-inline"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
       aria-owns="item_3$Menu"
       class="rc-menu-submenu-title"
+      style="padding-left:24px"
       title="submenu"
     >
       submenu

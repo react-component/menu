@@ -49,14 +49,9 @@ export function getActiveKey(props, originalActiveKey) {
   return activeKey;
 }
 
-function saveRef(index, subIndex, c) {
+function saveRef(index, c) {
   if (c) {
-    if (subIndex !== undefined) {
-      this.instanceArray[index] = this.instanceArray[index] || [];
-      this.instanceArray[index][subIndex] = c;
-    } else {
-      this.instanceArray[index] = c;
-    }
+    this.instanceArray[index] = c;
   }
 }
 
@@ -106,6 +101,7 @@ const MenuMixin = {
   },
 
   // all keyboard events callbacks run from here at first
+  // FIXME: callback is currently used by rc-select, should be more explicit
   onKeyDown(e, callback) {
     const keyCode = e.keyCode;
     let handled;
@@ -130,10 +126,6 @@ const MenuMixin = {
       }
 
       return 1;
-    } else if (activeItem === undefined) {
-      e.preventDefault();
-      updateActiveKey(this.getStore(), this.getEventKey(), null);
-      return 1;
     }
   },
 
@@ -154,25 +146,10 @@ const MenuMixin = {
   },
 
   getFlatInstanceArray() {
-    let instanceArray = this.instanceArray;
-    const hasInnerArray = instanceArray.some((a) => {
-      return Array.isArray(a);
-    });
-    if (hasInnerArray) {
-      instanceArray = [];
-      this.instanceArray.forEach((a) => {
-        if (Array.isArray(a)) {
-          instanceArray.push.apply(instanceArray, a);
-        } else {
-          instanceArray.push(a);
-        }
-      });
-      this.instanceArray = instanceArray;
-    }
-    return instanceArray;
+    return this.instanceArray;
   },
 
-  renderCommonMenuItem(child, i, subIndex, extraProps) {
+  renderCommonMenuItem(child, i, extraProps) {
     const state = this.getStore().getState();
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
@@ -188,7 +165,7 @@ const MenuMixin = {
       parentMenu: this,
       // customized ref function, need to be invoked manually in child's componentDidMount
       manualRef: childProps.disabled ? undefined :
-        createChainedFunction(child.ref, saveRef.bind(this, i, subIndex)),
+        createChainedFunction(child.ref, saveRef.bind(this, i)),
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
@@ -241,7 +218,7 @@ const MenuMixin = {
       >
         {React.Children.map(
           props.children,
-          (c, i, subIndex) => this.renderMenuItem(c, i, subIndex, props.eventKey || '0-menu-'),
+          (c, i) => this.renderMenuItem(c, i, props.eventKey || '0-menu-'),
         )}
       </DOMWrap>
       /*eslint-enable */
