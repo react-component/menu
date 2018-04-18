@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import { Provider, create } from 'mini-store';
-import { default as MenuMixin, getActiveKey } from './MenuMixin';
+import { default as SubPopupMenu, getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
 
 const Menu = createReactClass({
@@ -10,6 +10,7 @@ const Menu = createReactClass({
 
   propTypes: {
     defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
+    defaultActiveFirst: PropTypes.bool,
     selectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
     openKeys: PropTypes.arrayOf(PropTypes.string),
@@ -29,9 +30,11 @@ const Menu = createReactClass({
     selectable: PropTypes.bool,
     multiple: PropTypes.bool,
     children: PropTypes.any,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    activeKey: PropTypes.string,
+    prefixCls: PropTypes.string,
   },
-
-  mixins: [MenuMixin],
 
   isRootMenu: true,
 
@@ -47,6 +50,10 @@ const Menu = createReactClass({
       subMenuOpenDelay: 0.1,
       subMenuCloseDelay: 0.1,
       triggerSubMenuAction: 'hover',
+      prefixCls: 'rc-menu',
+      className: '',
+      mode: 'vertical',
+      style: {},
     };
   },
 
@@ -175,27 +182,21 @@ const Menu = createReactClass({
     return transitionName;
   },
 
-  renderMenuItem(c, i, subMenuKey) {
-    /* istanbul ignore if */
-    if (!c) {
-      return null;
-    }
-    const state = this.store.getState();
-    const extraProps = {
-      openKeys: state.openKeys,
-      selectedKeys: state.selectedKeys,
-      triggerSubMenuAction: this.props.triggerSubMenuAction,
-      subMenuKey,
-    };
-    return this.renderCommonMenuItem(c, i, extraProps);
-  },
-
   render() {
-    const props = { ...this.props };
+    let { children, ...props } = this.props;
     props.className += ` ${props.prefixCls}-root`;
+    props = {
+      ...props,
+      onClick: this.onClick,
+      onOpenChange: this.onOpenChange,
+      onDeselect: this.onDeselect,
+      onSelect: this.onSelect,
+      openTransitionName: this.getOpenTransitionName(),
+      parentMenu: this,
+    }
     return (
       <Provider store={this.store}>
-        {this.renderRoot(props)}
+        <SubPopupMenu {...props}>{children}</SubPopupMenu>
       </Provider>
     );
   },

@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { connect } from 'mini-store';
 import SubPopupMenu from './SubPopupMenu';
 import placements from './placements';
+import Animate from 'rc-animate';
 import {
   noop,
   loopMenuItemRecursively,
@@ -350,6 +351,7 @@ const SubMenu = createReactClass({
       openAnimation: props.openAnimation,
       onOpenChange: this.onOpenChange,
       subMenuOpenDelay: props.subMenuOpenDelay,
+      parentMenu: this,
       subMenuCloseDelay: props.subMenuCloseDelay,
       forceSubMenuRender: props.forceSubMenuRender,
       triggerSubMenuAction: props.triggerSubMenuAction,
@@ -360,7 +362,43 @@ const SubMenu = createReactClass({
       id: this._menuId,
       manualRef: this.saveMenuInstance,
     };
-    return <SubPopupMenu {...baseProps}>{children}</SubPopupMenu>;
+
+    const haveRendered = this.haveRendered;
+    this.haveRendered = true;
+
+    this.haveOpened = this.haveOpened || baseProps.visible || baseProps.forceSubMenuRender;
+    // never rendered not planning to, don't render
+    if (!this.haveOpened) {
+      return <div />;
+    }
+
+    // don't show transition on first rendering (no animation for opened menu)
+    // show appear transition if it's not visible (not sure why)
+    // show appear transition if it's not inline mode
+    const transitionAppear = haveRendered || !baseProps.visible || !baseProps.mode === 'inline';
+
+    baseProps.className += ` ${baseProps.prefixCls}-sub`;
+    const animProps = {};
+
+    if (baseProps.openTransitionName) {
+      animProps.transitionName = baseProps.openTransitionName;
+    } else if (typeof baseProps.openAnimation === 'object') {
+      animProps.animation = { ...baseProps.openAnimation };
+      if (!transitionAppear) {
+        delete animProps.animation.appear;
+      }
+    }
+
+    return (
+      <Animate
+        {...animProps}
+        showProp="visible"
+        component=""
+        transitionAppear={transitionAppear}
+      >
+        <SubPopupMenu {...baseProps}>{children}</SubPopupMenu>
+      </Animate>
+    );
   },
 
   saveSubMenuTitle(subMenuTitle) {
