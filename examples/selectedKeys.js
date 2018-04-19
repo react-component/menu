@@ -3,38 +3,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
-import createReactClass from 'create-react-class';
 
 import 'rc-menu/assets/index.less';
 
-const Test = createReactClass({
-  getInitialState() {
-    return {
-      destroyed: false,
-      selectedKeys: [],
-      openKeys: [],
-    };
-  },
+class Test extends React.Component {
+  state = {
+    destroyed: false,
+    selectedKeys: [],
+    openKeys: [],
+  };
 
-  onSelect(info) {
+  onSelect = (info) => {
     console.log('selected ', info);
     this.setState({
       selectedKeys: info.selectedKeys,
     });
-  },
+  };
 
   onDeselect(info) {
     console.log('deselect ', info);
-  },
+  }
 
-  onOpenChange(openKeys) {
+  onOpenChange = (openKeys) => {
     console.log('onOpenChange ', openKeys);
     this.setState({
       openKeys,
     });
-  },
+  };
 
-  onCheck(e) {
+  onCheck = (e) => {
     const value = e.target.value;
     if (e.target.checked) {
       this.setState({
@@ -50,9 +47,9 @@ const Test = createReactClass({
         selectedKeys,
       });
     }
-  },
+  };
 
-  onOpenCheck(e) {
+  onOpenCheck = (e) => {
     const value = e.target.value;
     if (e.target.checked) {
       this.setState({
@@ -68,7 +65,7 @@ const Test = createReactClass({
         openKeys,
       });
     }
-  },
+  };
 
   getMenu() {
     return (
@@ -91,13 +88,13 @@ const Test = createReactClass({
         <MenuItem key="3">item3</MenuItem>
       </Menu>
     );
-  },
+  }
 
   destroy() {
     this.setState({
       destroyed: true,
     });
-  },
+  }
 
   render() {
     if (this.state.destroyed) {
@@ -141,8 +138,8 @@ const Test = createReactClass({
 
       <div style={{ width: 400 }}>{this.getMenu()}</div>
     </div>);
-  },
-});
+  }
+};
 
 
 ReactDOM.render(<Test />, document.getElementById('__react-content'));
