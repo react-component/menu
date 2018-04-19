@@ -171,9 +171,7 @@ export class SubPopupMenu extends React.Component {
   };
 
   getStore = () => {
-    const store = this.props.store;
-
-    return store;
+    return this.props.store;
   };
 
   getFlatInstanceArray = () => {
@@ -316,25 +314,22 @@ export class SubPopupMenu extends React.Component {
       }
       return true;
     });
-    if (!this.props.defaultActiveFirst && activeIndex !== -1) {
-      if (allDisabled(children.slice(activeIndex, len - 1))) {
-        return undefined;
-      }
+    if (!this.props.defaultActiveFirst && activeIndex !== -1 && allDisabled(children.slice(activeIndex, len - 1))) {
+      return undefined;
     }
     const start = (activeIndex + 1) % len;
     let i = start;
-    for (; ;) {
+
+    do {
       const child = children[i];
       if (!child || child.props.disabled) {
-        i = (i + 1 + len) % len;
-        // complete a loop
-        if (i === start) {
-          return null;
-        }
+        i = (i + 1) % len;
       } else {
         return child;
       }
-    }
+    } while (i !== start);
+
+    return null;
   }
 }
 
