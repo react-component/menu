@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Animate from 'rc-animate';
 import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { getKeyFromChildrenIndex, loopMenuItem } from './util';
+import { getKeyFromChildrenIndex, loopMenuItem, noop } from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -70,6 +69,11 @@ export class SubPopupMenu extends React.Component {
     visible: PropTypes.bool,
     children: PropTypes.any,
     parentMenu: PropTypes.object,
+    eventKey: PropTypes.string,
+    store: PropTypes.shape({
+      getState: PropTypes.func,
+      setState: PropTypes.func,
+    }),
 
     // adding in refactor
     focusable: PropTypes.bool,
@@ -80,10 +84,11 @@ export class SubPopupMenu extends React.Component {
     selectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
-    openKeys: PropTypes.arrayOf(PropTypes.string),
     level: PropTypes.number,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
+    triggerSubMenuAction: PropTypes.oneOf(['click', 'hover']),
     inlineIndent: PropTypes.number,
+    manualRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -95,6 +100,7 @@ export class SubPopupMenu extends React.Component {
     visible: true,
     focusable: true,
     style: {},
+    manualRef: noop,
   };
 
   constructor(props) {
@@ -108,13 +114,8 @@ export class SubPopupMenu extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const originalActiveKey = 'activeKey' in nextProps ? nextProps.activeKey :
-      this.getStore().getState().activeKey[this.getEventKey()];
-    const activeKey = getActiveKey(nextProps, originalActiveKey);
-    if (activeKey !== originalActiveKey) {
-      updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
-    }
+  componentWillMount() {
+    this.instanceArray = [];
   }
 
   componentDidMount() {
@@ -124,12 +125,17 @@ export class SubPopupMenu extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.visible || nextProps.visible;
+  componentWillReceiveProps(nextProps) {
+    const originalActiveKey = 'activeKey' in nextProps ? nextProps.activeKey :
+      this.getStore().getState().activeKey[this.getEventKey()];
+    const activeKey = getActiveKey(nextProps, originalActiveKey);
+    if (activeKey !== originalActiveKey) {
+      updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
+    }
   }
 
-  componentWillMount() {
-    this.instanceArray = [];
+  shouldComponentUpdate(nextProps) {
+    return this.props.visible || nextProps.visible;
   }
 
   // all keyboard events callbacks run from here at first
@@ -165,19 +171,6 @@ export class SubPopupMenu extends React.Component {
     updateActiveKey(this.getStore(), this.getEventKey(), hover ? key : null);
   };
 
-  getEventKey = () => {
-    // when eventKey not available ,it's menu and return menu id '0-menu-'
-    return this.props.eventKey || '0-menu-';
-  };
-
-  getStore = () => {
-    return this.props.store;
-  };
-
-  getFlatInstanceArray = () => {
-    return this.instanceArray;
-  };
-
   onDeselect = (selectInfo) => {
     this.props.onDeselect(selectInfo);
   };
@@ -199,8 +192,62 @@ export class SubPopupMenu extends React.Component {
     this.props.onDestroy(key);
   };
 
+  getFlatInstanceArray = () => {
+    return this.instanceArray;
+  };
+
+  getStore = () => {
+    return this.props.store;
+  };
+
+  getEventKey = () => {
+    // when eventKey not available ,it's menu and return menu id '0-menu-'
+    return this.props.eventKey || '0-menu-';
+  };
+
   getOpenTransitionName = () => {
     return this.props.openTransitionName;
+  };
+
+  step = (direction) => {
+    let children = this.getFlatInstanceArray();
+    const activeKey = this.getStore().getState().activeKey[this.getEventKey()];
+    const len = children.length;
+    if (!len) {
+      return null;
+    }
+    if (direction < 0) {
+      children = children.concat().reverse();
+    }
+    // find current activeIndex
+    let activeIndex = -1;
+    children.every((c, ci) => {
+      if (c && c.props.eventKey === activeKey) {
+        activeIndex = ci;
+        return false;
+      }
+      return true;
+    });
+    if (
+      !this.props.defaultActiveFirst && activeIndex !== -1
+      &&
+      allDisabled(children.slice(activeIndex, len - 1))
+    ) {
+      return undefined;
+    }
+    const start = (activeIndex + 1) % len;
+    let i = start;
+
+    do {
+      const child = children[i];
+      if (!child || child.props.disabled) {
+        i = (i + 1) % len;
+      } else {
+        return child;
+      }
+    } while (i !== start);
+
+    return null;
   };
 
   renderCommonMenuItem = (child, i, extraProps) => {
@@ -293,43 +340,6 @@ export class SubPopupMenu extends React.Component {
       </DOMWrap>
       /*eslint-enable */
     );
-  }
-
-  step(direction) {
-    let children = this.getFlatInstanceArray();
-    const activeKey = this.getStore().getState().activeKey[this.getEventKey()];
-    const len = children.length;
-    if (!len) {
-      return null;
-    }
-    if (direction < 0) {
-      children = children.concat().reverse();
-    }
-    // find current activeIndex
-    let activeIndex = -1;
-    children.every((c, ci) => {
-      if (c && c.props.eventKey === activeKey) {
-        activeIndex = ci;
-        return false;
-      }
-      return true;
-    });
-    if (!this.props.defaultActiveFirst && activeIndex !== -1 && allDisabled(children.slice(activeIndex, len - 1))) {
-      return undefined;
-    }
-    const start = (activeIndex + 1) % len;
-    let i = start;
-
-    do {
-      const child = children[i];
-      if (!child || child.props.disabled) {
-        i = (i + 1) % len;
-      } else {
-        return child;
-      }
-    } while (i !== start);
-
-    return null;
   }
 }
 

@@ -139,7 +139,6 @@ class Test extends React.Component {
       <div style={{ width: 400 }}>{this.getMenu()}</div>
     </div>);
   }
-};
-
+}
 
 ReactDOM.render(<Test />, document.getElementById('__react-content'));

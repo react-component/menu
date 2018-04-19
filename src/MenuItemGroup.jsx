@@ -6,6 +6,7 @@ class MenuItemGroup extends React.Component {
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,
     className: PropTypes.string,
+    subMenuKey: PropTypes.string,
     rootPrefixCls: PropTypes.string,
   };
 

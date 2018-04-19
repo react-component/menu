@@ -184,7 +184,7 @@ export default class Menu extends React.Component {
   }
 
   render() {
-    let { children, ...props } = this.props;
+    let { ...props } = this.props;
     props.className += ` ${props.prefixCls}-root`;
     props = {
       ...props,
@@ -194,11 +194,11 @@ export default class Menu extends React.Component {
       onSelect: this.onSelect,
       openTransitionName: this.getOpenTransitionName(),
       parentMenu: this,
-    }
+    };
     return (
       <Provider store={this.store}>
-        <SubPopupMenu {...props} ref={c => this.innerMenu = c}>{children}</SubPopupMenu>
+        <SubPopupMenu {...props} ref={c => this.innerMenu = c}>{this.props.children}</SubPopupMenu>
       </Provider>
     );
   }
-};
+}

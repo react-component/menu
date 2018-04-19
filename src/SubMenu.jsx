@@ -58,6 +58,9 @@ export class SubMenu extends React.Component {
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
     isOpen: PropTypes.bool,
+    store: PropTypes.object,
+    mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
+    manualRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -66,6 +69,8 @@ export class SubMenu extends React.Component {
     onTitleMouseEnter: noop,
     onTitleMouseLeave: noop,
     onTitleClick: noop,
+    manualRef: noop,
+    mode: 'vertical',
     title: '',
   };
 
@@ -89,20 +94,6 @@ export class SubMenu extends React.Component {
   componentDidMount() {
     this.componentDidUpdate();
   }
-
-  adjustWidth = () => {
-    /* istanbul ignore if */
-    if (!this.subMenuTitle || !this.menuInstance) {
-      return;
-    }
-    const popupMenu = ReactDOM.findDOMNode(this.menuInstance);
-    if (popupMenu.offsetWidth >= this.subMenuTitle.offsetWidth) {
-      return;
-    }
-
-    /* istanbul ignore next */
-    popupMenu.style.minWidth = `${this.subMenuTitle.offsetWidth}px`;
-  };
 
   componentDidUpdate() {
     const { mode, parentMenu, manualRef } = this.props;
@@ -134,9 +125,9 @@ export class SubMenu extends React.Component {
     if (this.mouseenterTimeout) {
       clearTimeout(this.mouseenterTimeout);
     }
-  };
+  }
 
-  onDestroy(key) {
+  onDestroy = (key) => {
     this.props.onDestroy(key);
   };
 
@@ -325,6 +316,24 @@ export class SubMenu extends React.Component {
     return this.props.openKeys.indexOf(this.props.eventKey) !== -1;
   }
 
+  adjustWidth = () => {
+    /* istanbul ignore if */
+    if (!this.subMenuTitle || !this.menuInstance) {
+      return;
+    }
+    const popupMenu = ReactDOM.findDOMNode(this.menuInstance);
+    if (popupMenu.offsetWidth >= this.subMenuTitle.offsetWidth) {
+      return;
+    }
+
+    /* istanbul ignore next */
+    popupMenu.style.minWidth = `${this.subMenuTitle.offsetWidth}px`;
+  };
+
+  saveSubMenuTitle = (subMenuTitle) => {
+    this.subMenuTitle = subMenuTitle;
+  }
+
   renderChildren(children) {
     const props = this.props;
     const baseProps = {
@@ -392,10 +401,6 @@ export class SubMenu extends React.Component {
         <SubPopupMenu {...baseProps}>{children}</SubPopupMenu>
       </Animate>
     );
-  }
-
-  saveSubMenuTitle = (subMenuTitle) => {
-    this.subMenuTitle = subMenuTitle;
   }
 
   render() {
@@ -490,7 +495,7 @@ export class SubMenu extends React.Component {
       </li>
     );
   }
-};
+}
 
 const connected = connect(({ openKeys, activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
   isOpen: openKeys.indexOf(eventKey) > -1,

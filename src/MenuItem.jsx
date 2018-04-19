@@ -26,23 +26,20 @@ export class MenuItem extends React.Component {
     onDestroy: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
+    multiple: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    manualRef: PropTypes.func,
   };
 
   static defaultProps = {
     onSelect: noop,
     onMouseEnter: noop,
     onMouseLeave: noop,
+    manualRef: noop,
   };
 
   constructor(props) {
     super(props);
-  } 
-
-  componentWillUnmount() {
-    const props = this.props;
-    if (props.onDestroy) {
-      props.onDestroy(props.eventKey);
-    }
   }
 
   componentDidMount() {
@@ -58,6 +55,13 @@ export class MenuItem extends React.Component {
     }
 
     this.callRef();
+  }
+
+  componentWillUnmount() {
+    const props = this.props;
+    if (props.onDestroy) {
+      props.onDestroy(props.eventKey);
+    }
   }
 
   onKeyDown = (e) => {
