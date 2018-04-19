@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 import Animate from 'rc-animate';
 import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
@@ -58,10 +57,8 @@ function saveRef(index, c) {
   }
 }
 
-const SubPopupMenu = createReactClass({
-  displayName: 'SubPopupMenu',
-
-  propTypes: {
+export class SubPopupMenu extends React.Component {
+  static propTypes = {
     onSelect: PropTypes.func,
     onClick: PropTypes.func,
     onDeselect: PropTypes.func,
@@ -87,32 +84,29 @@ const SubPopupMenu = createReactClass({
     level: PropTypes.number,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     inlineIndent: PropTypes.number,
-  },
+  };
 
-  getInitialState() {
-    const props = this.props;
+  static defaultProps = {
+    prefixCls: 'rc-menu',
+    className: '',
+    mode: 'vertical',
+    level: 1,
+    inlineIndent: 24,
+    visible: true,
+    focusable: true,
+    style: {},
+  };
+
+  constructor(props) {
+    super(props);
+
     props.store.setState({
       activeKey: {
         ...props.store.getState().activeKey,
         [props.eventKey]: getActiveKey(props, props.activeKey),
       },
     });
-
-    return {};
-  },
-
-  getDefaultProps() {
-    return {
-      prefixCls: 'rc-menu',
-      className: '',
-      mode: 'vertical',
-      level: 1,
-      inlineIndent: 24,
-      visible: true,
-      focusable: true,
-      style: {},
-    };
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     const originalActiveKey = 'activeKey' in nextProps ? nextProps.activeKey :
@@ -121,25 +115,25 @@ const SubPopupMenu = createReactClass({
     if (activeKey !== originalActiveKey) {
       updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
     }
-  },
+  }
 
   componentDidMount() {
     // invoke customized ref to expose component to mixin
     if (this.props.manualRef) {
       this.props.manualRef(this);
     }
-  },
+  }
 
   shouldComponentUpdate(nextProps) {
     return this.props.visible || nextProps.visible;
-  },
+  }
 
   componentWillMount() {
     this.instanceArray = [];
-  },
+  }
 
   // all keyboard events callbacks run from here at first
-  onKeyDown(e, callback) {
+  onKeyDown = (e, callback) => {
     const keyCode = e.keyCode;
     let handled;
     this.getFlatInstanceArray().forEach((obj) => {
@@ -164,54 +158,54 @@ const SubPopupMenu = createReactClass({
 
       return 1;
     }
-  },
+  };
 
-  onItemHover(e) {
+  onItemHover = (e) => {
     const { key, hover } = e;
     updateActiveKey(this.getStore(), this.getEventKey(), hover ? key : null);
-  },
+  };
 
-  getEventKey() {
+  getEventKey = () => {
     // when eventKey not available ,it's menu and return menu id '0-menu-'
     return this.props.eventKey || '0-menu-';
-  },
+  };
 
-  getStore() {
+  getStore = () => {
     const store = this.props.store;
 
     return store;
-  },
+  };
 
-  getFlatInstanceArray() {
+  getFlatInstanceArray = () => {
     return this.instanceArray;
-  },
+  };
 
-  onDeselect(selectInfo) {
+  onDeselect = (selectInfo) => {
     this.props.onDeselect(selectInfo);
-  },
+  };
 
-  onSelect(selectInfo) {
+  onSelect = (selectInfo) => {
     this.props.onSelect(selectInfo);
-  },
+  }
 
-  onClick(e) {
+  onClick = (e) => {
     this.props.onClick(e);
-  },
+  };
 
-  onOpenChange(e) {
+  onOpenChange = (e) => {
     this.props.onOpenChange(e);
-  },
+  };
 
-  onDestroy(key) {
+  onDestroy = (key) => {
     /* istanbul ignore next */
     this.props.onDestroy(key);
-  },
+  };
 
-  getOpenTransitionName() {
+  getOpenTransitionName = () => {
     return this.props.openTransitionName;
-  },
+  };
 
-  renderCommonMenuItem(child, i, extraProps) {
+  renderCommonMenuItem = (child, i, extraProps) => {
     const state = this.getStore().getState();
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
@@ -247,9 +241,9 @@ const SubPopupMenu = createReactClass({
       newChildProps.triggerSubMenuAction = 'click';
     }
     return React.cloneElement(child, newChildProps);
-  },
+  };
 
-  renderMenuItem(c, i, subMenuKey) {
+  renderMenuItem = (c, i, subMenuKey) => {
     /* istanbul ignore if */
     if (!c) {
       return null;
@@ -262,7 +256,7 @@ const SubPopupMenu = createReactClass({
       subMenuKey,
     };
     return this.renderCommonMenuItem(c, i, extraProps);
-  },
+  };
 
   render() {
     const props = this.props;
@@ -301,7 +295,7 @@ const SubPopupMenu = createReactClass({
       </DOMWrap>
       /*eslint-enable */
     );
-  },
+  }
 
   step(direction) {
     let children = this.getFlatInstanceArray();
@@ -341,7 +335,7 @@ const SubPopupMenu = createReactClass({
         return child;
       }
     }
-  },
-});
+  }
+}
 
 export default connect()(SubPopupMenu);

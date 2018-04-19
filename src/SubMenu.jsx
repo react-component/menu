@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
@@ -35,10 +34,8 @@ const updateDefaultActiveFirst = (store, eventKey, defaultActiveFirst) => {
   });
 };
 
-const SubMenu = createReactClass({
-  displayName: 'SubMenu',
-
-  propTypes: {
+export class SubMenu extends React.Component {
+  static propTypes = {
     parentMenu: PropTypes.object,
     title: PropTypes.node,
     children: PropTypes.any,
@@ -61,27 +58,25 @@ const SubMenu = createReactClass({
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
     isOpen: PropTypes.bool,
-  },
+  };
 
-  isRootMenu: false,
+  static defaultProps = {
+    onMouseEnter: noop,
+    onMouseLeave: noop,
+    onTitleMouseEnter: noop,
+    onTitleMouseLeave: noop,
+    onTitleClick: noop,
+    title: '',
+  };
 
-  getDefaultProps() {
-    return {
-      onMouseEnter: noop,
-      onMouseLeave: noop,
-      onTitleMouseEnter: noop,
-      onTitleMouseLeave: noop,
-      onTitleClick: noop,
-      title: '',
-    };
-  },
-
-  getInitialState() {
-    this.isSubMenu = 1;
-    const props = this.props;
+  constructor(props) {
+    super(props);
     const store = props.store;
     const eventKey = props.eventKey;
     const defaultActiveFirst = store.getState().defaultActiveFirst;
+
+    this.isRootMenu = false;
+
     let value = false;
 
     if (defaultActiveFirst) {
@@ -89,15 +84,13 @@ const SubMenu = createReactClass({
     }
 
     updateDefaultActiveFirst(store, eventKey, value);
-
-    return {};
-  },
+  }
 
   componentDidMount() {
     this.componentDidUpdate();
-  },
+  }
 
-  adjustWidth() {
+  adjustWidth = () => {
     /* istanbul ignore if */
     if (!this.subMenuTitle || !this.menuInstance) {
       return;
@@ -109,7 +102,7 @@ const SubMenu = createReactClass({
 
     /* istanbul ignore next */
     popupMenu.style.minWidth = `${this.subMenuTitle.offsetWidth}px`;
-  },
+  };
 
   componentDidUpdate() {
     const { mode, parentMenu, manualRef } = this.props;
@@ -124,7 +117,7 @@ const SubMenu = createReactClass({
     }
 
     this.minWidthTimeout = setTimeout(() => this.adjustWidth(), 0);
-  },
+  }
 
   componentWillUnmount() {
     const { onDestroy, eventKey } = this.props;
@@ -141,13 +134,13 @@ const SubMenu = createReactClass({
     if (this.mouseenterTimeout) {
       clearTimeout(this.mouseenterTimeout);
     }
-  },
+  };
 
   onDestroy(key) {
     this.props.onDestroy(key);
-  },
+  };
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     const keyCode = e.keyCode;
     const menu = this.menuInstance;
     const {
@@ -188,26 +181,26 @@ const SubMenu = createReactClass({
     if (isOpen && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
       return menu.onKeyDown(e);
     }
-  },
+  };
 
-  onOpenChange(e) {
+  onOpenChange = (e) => {
     this.props.onOpenChange(e);
-  },
+  };
 
-  onPopupVisibleChange(visible) {
+  onPopupVisibleChange = (visible) => {
     this.triggerOpenChange(visible, visible ? 'mouseenter' : 'mouseleave');
-  },
+  };
 
-  onMouseEnter(e) {
+  onMouseEnter = (e) => {
     const { eventKey: key, onMouseEnter, store } = this.props;
     updateDefaultActiveFirst(store, this.props.eventKey, false);
     onMouseEnter({
       key,
       domEvent: e,
     });
-  },
+  };
 
-  onMouseLeave(e) {
+  onMouseLeave = (e) => {
     const {
       parentMenu,
       eventKey,
@@ -218,9 +211,9 @@ const SubMenu = createReactClass({
       key: eventKey,
       domEvent: e,
     });
-  },
+  };
 
-  onTitleMouseEnter(domEvent) {
+  onTitleMouseEnter = (domEvent) => {
     const { eventKey: key, onItemHover, onTitleMouseEnter } = this.props;
     onItemHover({
       key,
@@ -230,9 +223,9 @@ const SubMenu = createReactClass({
       key,
       domEvent,
     });
-  },
+  };
 
-  onTitleMouseLeave(e) {
+  onTitleMouseLeave = (e) => {
     const { parentMenu, eventKey, onItemHover, onTitleMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onItemHover({
@@ -243,9 +236,9 @@ const SubMenu = createReactClass({
       key: eventKey,
       domEvent: e,
     });
-  },
+  };
 
-  onTitleClick(e) {
+  onTitleClick = (e) => {
     const { props } = this;
     props.onTitleClick({
       key: props.eventKey,
@@ -256,53 +249,53 @@ const SubMenu = createReactClass({
     }
     this.triggerOpenChange(!props.isOpen, 'click');
     updateDefaultActiveFirst(props.store, this.props.eventKey, false);
-  },
+  };
 
-  onSubMenuClick(info) {
+  onSubMenuClick = (info) => {
     this.props.onClick(this.addKeyPath(info));
-  },
+  };
 
-  onSelect(info) {
+  onSelect = (info) => {
     this.props.onSelect(info);
-  },
+  };
 
-  onDeselect(info) {
+  onDeselect = (info) => {
     this.props.onDeselect(info);
-  },
+  };
 
-  getPrefixCls() {
+  getPrefixCls = () => {
     return `${this.props.rootPrefixCls}-submenu`;
-  },
+  };
 
-  getActiveClassName() {
+  getActiveClassName = () => {
     return `${this.getPrefixCls()}-active`;
-  },
+  };
 
-  getDisabledClassName() {
+  getDisabledClassName = () => {
     return `${this.getPrefixCls()}-disabled`;
-  },
+  };
 
-  getSelectedClassName() {
+  getSelectedClassName = () => {
     return `${this.getPrefixCls()}-selected`;
-  },
+  };
 
-  getOpenClassName() {
+  getOpenClassName = () => {
     return `${this.props.rootPrefixCls}-submenu-open`;
-  },
+  };
 
-  saveMenuInstance(c) {
+  saveMenuInstance = (c) => {
     // children menu instance
     this.menuInstance = c;
-  },
+  };
 
-  addKeyPath(info) {
+  addKeyPath = (info) => {
     return {
       ...info,
       keyPath: (info.keyPath || []).concat(this.props.eventKey),
     };
-  },
+  };
 
-  triggerOpenChange(open, type) {
+  triggerOpenChange = (open, type) => {
     const key = this.props.eventKey;
     const openChange = () => {
       this.onOpenChange({
@@ -320,17 +313,17 @@ const SubMenu = createReactClass({
     } else {
       openChange();
     }
-  },
+  }
 
-  isChildrenSelected() {
+  isChildrenSelected = () => {
     const ret = { find: false };
     loopMenuItemRecursively(this.props.children, this.props.selectedKeys, ret);
     return ret.find;
-  },
+  }
 
-  isOpen() {
+  isOpen = () => {
     return this.props.openKeys.indexOf(this.props.eventKey) !== -1;
-  },
+  }
 
   renderChildren(children) {
     const props = this.props;
@@ -399,11 +392,11 @@ const SubMenu = createReactClass({
         <SubPopupMenu {...baseProps}>{children}</SubPopupMenu>
       </Animate>
     );
-  },
+  }
 
-  saveSubMenuTitle(subMenuTitle) {
+  saveSubMenuTitle = (subMenuTitle) => {
     this.subMenuTitle = subMenuTitle;
-  },
+  }
 
   render() {
     const props = this.props;
@@ -496,13 +489,15 @@ const SubMenu = createReactClass({
         )}
       </li>
     );
-  },
-});
+  }
+};
 
-SubMenu.isSubMenu = 1;
-
-export default connect(({ openKeys, activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+const connected = connect(({ openKeys, activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
   isOpen: openKeys.indexOf(eventKey) > -1,
   active: activeKey[subMenuKey] === eventKey,
   selectedKeys,
 }))(SubMenu);
+
+connected.isSubMenu = true;
+
+export default connected;

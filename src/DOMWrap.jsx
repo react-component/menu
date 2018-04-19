@@ -1,22 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 
-const DOMWrap = createReactClass({
-  displayName: 'DOMWrap',
-
-  propTypes: {
+export default class DOMWrap extends React.Component {
+  static propTypes = {
     tag: PropTypes.string,
     hiddenClassName: PropTypes.string,
     visible: PropTypes.bool,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      tag: 'div',
-      className: '',
-    };
-  },
+  static defaultProps = {
+    tag: 'div',
+    className: '',
+  };
 
   render() {
     const props = { ...this.props };
@@ -28,7 +23,5 @@ const DOMWrap = createReactClass({
     delete props.hiddenClassName;
     delete props.visible;
     return <Tag {...props} />;
-  },
-});
-
-export default DOMWrap;
+  }
+}

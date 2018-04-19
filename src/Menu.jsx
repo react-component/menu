@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 import { Provider, create } from 'mini-store';
 import { default as SubPopupMenu, getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
 
-const Menu = createReactClass({
-  displayName: 'Menu',
-
-  propTypes: {
+export default class Menu extends React.Component {
+  static propTypes = {
     defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultActiveFirst: PropTypes.bool,
     selectedKeys: PropTypes.arrayOf(PropTypes.string),
@@ -34,31 +31,30 @@ const Menu = createReactClass({
     style: PropTypes.object,
     activeKey: PropTypes.string,
     prefixCls: PropTypes.string,
-  },
+  };
 
-  isRootMenu: true,
+  static defaultProps = {
+    selectable: true,
+    onClick: noop,
+    onSelect: noop,
+    onOpenChange: noop,
+    onDeselect: noop,
+    defaultSelectedKeys: [],
+    defaultOpenKeys: [],
+    subMenuOpenDelay: 0.1,
+    subMenuCloseDelay: 0.1,
+    triggerSubMenuAction: 'hover',
+    prefixCls: 'rc-menu',
+    className: '',
+    mode: 'vertical',
+    style: {},
+  };
 
-  getDefaultProps() {
-    return {
-      selectable: true,
-      onClick: noop,
-      onSelect: noop,
-      onOpenChange: noop,
-      onDeselect: noop,
-      defaultSelectedKeys: [],
-      defaultOpenKeys: [],
-      subMenuOpenDelay: 0.1,
-      subMenuCloseDelay: 0.1,
-      triggerSubMenuAction: 'hover',
-      prefixCls: 'rc-menu',
-      className: '',
-      mode: 'vertical',
-      style: {},
-    };
-  },
+  constructor(props) {
+    super(props);
 
-  getInitialState() {
-    const props = this.props;
+    this.isRootMenu = true;
+
     let selectedKeys = props.defaultSelectedKeys;
     let openKeys = props.defaultOpenKeys;
     if ('selectedKeys' in props) {
@@ -73,9 +69,7 @@ const Menu = createReactClass({
       openKeys,
       activeKey: { '0-menu-': getActiveKey(props, props.activeKey) },
     });
-
-    return {};
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if ('selectedKeys' in nextProps) {
@@ -88,9 +82,9 @@ const Menu = createReactClass({
         openKeys: nextProps.openKeys || [],
       });
     }
-  },
+  }
 
-  onSelect(selectInfo) {
+  onSelect = (selectInfo) => {
     const props = this.props;
     if (props.selectable) {
       // root menu
@@ -111,20 +105,20 @@ const Menu = createReactClass({
         selectedKeys,
       });
     }
-  },
+  }
 
-  onClick(e) {
+  onClick = (e) => {
     this.props.onClick(e);
-  },
+  }
 
   // onKeyDown needs to be exposed as a instance method
   // e.g., in rc-select, we need to navigate menu item while
   // current active item is rc-select input box rather than the menu itself
-  onKeyDown(e, callback) {
+  onKeyDown = (e, callback) => {
     this.innerMenu.getWrappedInstance().onKeyDown(e, callback);
-  },
+  }
 
-  onOpenChange(event) {
+  onOpenChange = (event) => {
     const props = this.props;
     const openKeys = this.store.getState().openKeys.concat();
     let changed = false;
@@ -156,9 +150,9 @@ const Menu = createReactClass({
       }
       props.onOpenChange(openKeys);
     }
-  },
+  }
 
-  onDeselect(selectInfo) {
+  onDeselect = (selectInfo) => {
     const props = this.props;
     if (props.selectable) {
       const selectedKeys = this.store.getState().selectedKeys.concat();
@@ -177,9 +171,9 @@ const Menu = createReactClass({
         selectedKeys,
       });
     }
-  },
+  }
 
-  getOpenTransitionName() {
+  getOpenTransitionName = () => {
     const props = this.props;
     let transitionName = props.openTransitionName;
     const animationName = props.openAnimation;
@@ -187,7 +181,7 @@ const Menu = createReactClass({
       transitionName = `${props.prefixCls}-open-${animationName}`;
     }
     return transitionName;
-  },
+  }
 
   render() {
     let { children, ...props } = this.props;
@@ -206,7 +200,5 @@ const Menu = createReactClass({
         <SubPopupMenu {...props} ref={c => this.innerMenu = c}>{children}</SubPopupMenu>
       </Provider>
     );
-  },
-});
-
-export default Menu;
+  }
+};
