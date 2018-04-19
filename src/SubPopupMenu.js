@@ -139,7 +139,6 @@ const SubPopupMenu = createReactClass({
   },
 
   // all keyboard events callbacks run from here at first
-  // FIXME: callback is currently used by rc-select, should be more explicit
   onKeyDown(e, callback) {
     const keyCode = e.keyCode;
     let handled;

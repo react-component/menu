@@ -117,6 +117,13 @@ const Menu = createReactClass({
     this.props.onClick(e);
   },
 
+  // onKeyDown needs to be exposed as a instance method
+  // e.g., in rc-select, we need to navigate menu item while
+  // current active item is rc-select input box rather than the menu itself
+  onKeyDown(e, callback) {
+    this.innerMenu.getWrappedInstance().onKeyDown(e, callback);
+  },
+
   onOpenChange(event) {
     const props = this.props;
     const openKeys = this.store.getState().openKeys.concat();
@@ -196,7 +203,7 @@ const Menu = createReactClass({
     }
     return (
       <Provider store={this.store}>
-        <SubPopupMenu {...props}>{children}</SubPopupMenu>
+        <SubPopupMenu {...props} ref={c => this.innerMenu = c}>{children}</SubPopupMenu>
       </Provider>
     );
   },
