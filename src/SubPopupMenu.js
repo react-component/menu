@@ -311,6 +311,7 @@ export class SubPopupMenu extends React.Component {
       props.className,
       `${props.prefixCls}-${props.mode}`,
     );
+    const focusable = props.focusable;
     [
       'defaultSelectedKeys',
       'selectedKeys',
@@ -333,6 +334,8 @@ export class SubPopupMenu extends React.Component {
       'multiple',
       'onOpenChange',
       'visible',
+      'focusable',
+      'defaultActiveFirst',
     ].forEach(key => delete props[key]);
     const domProps = {
       ...props,
@@ -343,7 +346,7 @@ export class SubPopupMenu extends React.Component {
     if (props.id) {
       domProps.id = props.id;
     }
-    if (props.focusable) {
+    if (focusable) {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
