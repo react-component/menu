@@ -336,6 +336,8 @@ export class SubPopupMenu extends React.Component {
       'visible',
       'focusable',
       'defaultActiveFirst',
+      'prefixCls',
+      'inlineIndent',
     ].forEach(key => delete props[key]);
     const domProps = {
       ...props,
