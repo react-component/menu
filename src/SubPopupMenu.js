@@ -87,7 +87,7 @@ export class SubPopupMenu extends React.Component {
     level: PropTypes.number,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     triggerSubMenuAction: PropTypes.oneOf(['click', 'hover']),
-    inlineIndent: PropTypes.number,
+    inlineIndent: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
     manualRef: PropTypes.func,
   };
 
