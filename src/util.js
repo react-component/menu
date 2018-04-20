@@ -95,4 +95,5 @@ export const menuInheritProps = [
   'index',
   'isSelected',
   'store',
+  'activeKey',
 ];
