@@ -6,6 +6,7 @@ import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
 import { getKeyFromChildrenIndex, loopMenuItem, noop } from './util';
 import DOMWrap from './DOMWrap';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 function allDisabled(arr) {
   if (!arr.length) {
@@ -311,7 +312,31 @@ export class SubPopupMenu extends React.Component {
       props.className,
       `${props.prefixCls}-${props.mode}`,
     );
+    [
+      'defaultSelectedKeys',
+      'selectedKeys',
+      'defaultOpenKeys',
+      'openKeys',
+      'mode',
+      'getPopupContainer',
+      'onClick',
+      'onSelect',
+      'onDeselect',
+      'onDestroy',
+      'openTransitionName',
+      'openAnimation',
+      'subMenuOpenDelay',
+      'subMenuCloseDelay',
+      'forceSubMenuRender',
+      'triggerSubMenuAction',
+      'level',
+      'selectable',
+      'multiple',
+      'onOpenChange',
+      'visible',
+    ].forEach(key => delete props[key]);
     const domProps = {
+      ...props,
       className,
       role: 'menu',
       'aria-activedescendant': '',

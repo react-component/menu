@@ -404,7 +404,7 @@ export class SubMenu extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const props = { ...this.props };
     const isOpen = props.isOpen;
     const prefixCls = this.getPrefixCls();
     const isInlineMode = props.mode === 'inline';
@@ -469,9 +469,31 @@ export class SubMenu extends React.Component {
       props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
     const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
-
+    [
+      'parentMenu',
+      'title',
+      'selectedKeys',
+      'openKeys',
+      'onClick',
+      'onOpenChange',
+      'rootPrefixCls',
+      'eventKey',
+      'multiple',
+      'active',
+      'onItemHover',
+      'onSelect',
+      'triggerSubMenuAction',
+      'onDeselect',
+      'onDestroy',
+      'onMouseEnter',
+      'onMouseLeave',
+      'onTitleMouseEnter',
+      'onTitleMouseLeave',
+      'onTitleClick',
+      'isOpen',
+    ].forEach(key => delete props[key]);
     return (
-      <li {...mouseEvents} className={className} style={props.style}>
+      <li {...props} {...mouseEvents} className={className}>
         {isInlineMode && title}
         {isInlineMode && children}
         {!isInlineMode && (

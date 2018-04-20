@@ -139,7 +139,7 @@ export class MenuItem extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const props = { ...this.props };
     const className = classNames(this.getPrefixCls(), props.className, {
       [this.getActiveClassName()]: !props.disabled && props.active,
       [this.getSelectedClassName()]: props.isSelected,
@@ -161,6 +161,22 @@ export class MenuItem extends React.Component {
         onMouseEnter: this.onMouseEnter,
       };
     }
+    [
+      'rootPrefixCls',
+      'eventKey',
+      'active',
+      'selectedKeys',
+      'disabled',
+      'title',
+      'onItemHover',
+      'onSelect',
+      'onClick',
+      'onDeselect',
+      'parentMenu',
+      'onDestroy',
+      'onMouseEnter',
+      'onMouseLeave',
+    ].forEach(key => delete props[key])
     const style = {
       ...props.style,
     };
@@ -169,6 +185,7 @@ export class MenuItem extends React.Component {
     }
     return (
       <li
+        {...props}
         {...attrs}
         {...mouseEvent}
         style={style}

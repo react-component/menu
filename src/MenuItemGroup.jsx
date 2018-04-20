@@ -20,12 +20,17 @@ class MenuItemGroup extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const { ...props } = this.props;
     const { className = '', rootPrefixCls } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
+    [
+      'renderMenuItem',
+      'index',
+      'rootPrefixCls',
+    ].forEach(key => delete props[key]);
     return (
-      <li className={`${className} ${rootPrefixCls}-item-group`}>
+      <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
         <div
           className={titleClassName}
           title={typeof props.title === 'string' ? props.title : undefined}
