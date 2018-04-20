@@ -94,4 +94,4 @@ export const menuInheritProps = [
   'disabled',
   'index',
   'isSelected',
-]
+];
