@@ -311,7 +311,18 @@ export class SubPopupMenu extends React.Component {
       props.className,
       `${props.prefixCls}-${props.mode}`,
     );
-    const focusable = props.focusable;
+    const domProps = {
+      className,
+      role: 'menu',
+      'aria-activedescendant': '',
+    };
+    if (props.id) {
+      domProps.id = props.id;
+    }
+    if (props.focusable) {
+      domProps.tabIndex = '0';
+      domProps.onKeyDown = this.onKeyDown;
+    }
     [
       'defaultSelectedKeys',
       'selectedKeys',
@@ -339,28 +350,16 @@ export class SubPopupMenu extends React.Component {
       'prefixCls',
       'inlineIndent',
     ].forEach(key => delete props[key]);
-    const domProps = {
-      ...props,
-      className,
-      role: 'menu',
-      'aria-activedescendant': '',
-    };
-    if (props.id) {
-      domProps.id = props.id;
-    }
-    if (focusable) {
-      domProps.tabIndex = '0';
-      domProps.onKeyDown = this.onKeyDown;
-    }
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
       <DOMWrap
-        {...domProps}
+        {...props}
         style={props.style}
         tag="ul"
         hiddenClassName={`${props.prefixCls}-hidden`}
         visible={props.visible}
+        {...domProps}
       >
         {React.Children.map(
           props.children,
