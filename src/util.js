@@ -36,8 +36,8 @@ export function loopMenuItemRecursively(children, keys, ret) {
     if (c) {
       const construct = c.type;
       if (!construct
-            ||
-          !(construct.isSubMenu || construct.isMenuItem || construct.isMenuItemGroup)
+        ||
+        !(construct.isSubMenu || construct.isMenuItem || construct.isMenuItemGroup)
       ) {
         return;
       }
@@ -49,3 +49,49 @@ export function loopMenuItemRecursively(children, keys, ret) {
     }
   });
 }
+
+export const menuInheritProps = [
+  'defaultSelectedKeys',
+  'selectedKeys',
+  'defaultOpenKeys',
+  'openKeys',
+  'mode',
+  'getPopupContainer',
+  'onClick',
+  'onSelect',
+  'onDeselect',
+  'onDestroy',
+  'openTransitionName',
+  'openAnimation',
+  'subMenuOpenDelay',
+  'subMenuCloseDelay',
+  'forceSubMenuRender',
+  'triggerSubMenuAction',
+  'level',
+  'selectable',
+  'multiple',
+  'onOpenChange',
+  'visible',
+  'focusable',
+  'defaultActiveFirst',
+  'prefixCls',
+  'inlineIndent',
+  'parentMenu',
+  'title',
+  'rootPrefixCls',
+  'eventKey',
+  'active',
+  'onItemHover',
+  'onMouseEnter',
+  'onMouseLeave',
+  'onTitleMouseEnter',
+  'onTitleMouseLeave',
+  'onTitleClick',
+  'isOpen',
+  'renderMenuItem',
+  'manualRef',
+  'subMenuKey',
+  'disabled',
+  'index',
+  'isSelected',
+]

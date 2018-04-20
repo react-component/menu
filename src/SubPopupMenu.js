@@ -4,7 +4,7 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { getKeyFromChildrenIndex, loopMenuItem, noop } from './util';
+import { getKeyFromChildrenIndex, loopMenuItem, noop, menuInheritProps } from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -323,33 +323,7 @@ export class SubPopupMenu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
-    [
-      'defaultSelectedKeys',
-      'selectedKeys',
-      'defaultOpenKeys',
-      'openKeys',
-      'mode',
-      'getPopupContainer',
-      'onClick',
-      'onSelect',
-      'onDeselect',
-      'onDestroy',
-      'openTransitionName',
-      'openAnimation',
-      'subMenuOpenDelay',
-      'subMenuCloseDelay',
-      'forceSubMenuRender',
-      'triggerSubMenuAction',
-      'level',
-      'selectable',
-      'multiple',
-      'onOpenChange',
-      'visible',
-      'focusable',
-      'defaultActiveFirst',
-      'prefixCls',
-      'inlineIndent',
-    ].forEach(key => delete props[key]);
+    menuInheritProps.forEach(key => delete props[key]);
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */

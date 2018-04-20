@@ -5,7 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import { connect } from 'mini-store';
-import { noop } from './util';
+import { noop, menuInheritProps } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
@@ -161,22 +161,7 @@ export class MenuItem extends React.Component {
         onMouseEnter: this.onMouseEnter,
       };
     }
-    [
-      'rootPrefixCls',
-      'eventKey',
-      'active',
-      'selectedKeys',
-      'disabled',
-      'title',
-      'onItemHover',
-      'onSelect',
-      'onClick',
-      'onDeselect',
-      'parentMenu',
-      'onDestroy',
-      'onMouseEnter',
-      'onMouseLeave',
-    ].forEach(key => delete props[key])
+    menuInheritProps.forEach(key => delete props[key])
     const style = {
       ...props.style,
     };
