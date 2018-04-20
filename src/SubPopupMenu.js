@@ -323,6 +323,7 @@ export class SubPopupMenu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
+    const { prefixCls, eventKey, visible } = props;
     menuInheritProps.forEach(key => delete props[key]);
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
@@ -331,13 +332,13 @@ export class SubPopupMenu extends React.Component {
         {...props}
         style={props.style}
         tag="ul"
-        hiddenClassName={`${props.prefixCls}-hidden`}
-        visible={props.visible}
+        hiddenClassName={`${prefixCls}-hidden`}
+        visible={visible}
         {...domProps}
       >
         {React.Children.map(
           props.children,
-          (c, i) => this.renderMenuItem(c, i, props.eventKey || '0-menu-'),
+          (c, i) => this.renderMenuItem(c, i, eventKey || '0-menu-'),
         )}
       </DOMWrap>
       /*eslint-enable */

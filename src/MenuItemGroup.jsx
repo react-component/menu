@@ -25,14 +25,15 @@ class MenuItemGroup extends React.Component {
     const { className = '', rootPrefixCls } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
+    const { title } = props;
     menuInheritProps.forEach(key => delete props[key]);
     return (
       <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
         <div
           className={titleClassName}
-          title={typeof props.title === 'string' ? props.title : undefined}
+          title={typeof title === 'string' ? title : undefined}
         >
-          {props.title}
+          {title}
         </div>
         <ul className={listClassName}>
           {React.Children.map(props.children, this.renderInnerMenuItem)}

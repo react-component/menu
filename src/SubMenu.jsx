@@ -470,6 +470,13 @@ export class SubMenu extends React.Component {
       props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
     const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
+    const {
+      disabled,
+      triggerSubMenuAction,
+      subMenuOpenDelay,
+      forceSubMenuRender,
+      subMenuCloseDelay,
+    } = props;
     menuInheritProps.forEach(key => delete props[key]);
     return (
       <li {...props} {...mouseEvents} className={className}>
@@ -484,11 +491,11 @@ export class SubMenu extends React.Component {
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
             popup={children}
-            action={props.disabled ? [] : [props.triggerSubMenuAction]}
-            mouseEnterDelay={props.subMenuOpenDelay}
-            mouseLeaveDelay={props.subMenuCloseDelay}
+            action={disabled ? [] : [triggerSubMenuAction]}
+            mouseEnterDelay={subMenuOpenDelay}
+            mouseLeaveDelay={subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
-            forceRender={props.forceSubMenuRender}
+            forceRender={forceSubMenuRender}
           >
             {title}
           </Trigger>

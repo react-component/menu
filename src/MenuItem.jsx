@@ -161,13 +161,13 @@ export class MenuItem extends React.Component {
         onMouseEnter: this.onMouseEnter,
       };
     }
-    menuInheritProps.forEach(key => delete props[key]);
     const style = {
       ...props.style,
     };
     if (props.mode === 'inline') {
       style.paddingLeft = props.inlineIndent * props.level;
     }
+    menuInheritProps.forEach(key => delete props[key]);
     return (
       <li
         {...props}
