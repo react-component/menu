@@ -256,10 +256,19 @@ describe('SubMenu', () => {
 
   describe('horizontal menu', () => {
     it('should automatically adjust width', () => {
-      const wrapper = mount(createMenu({
+      const props = {
         mode: 'horizontal',
         openKeys: ['s1'],
-      }));
+      };
+
+      const wrapper = mount(
+        <Menu {...props}>
+          <MenuItem key="1">1</MenuItem>
+          <SubMenu title="s1" key="s1">
+            <MenuItem key="2">2</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
 
       const subMenuInstance = wrapper.find('SubMenu').first().instance();
       const adjustWidthSpy = jest.spyOn(subMenuInstance, 'adjustWidth');

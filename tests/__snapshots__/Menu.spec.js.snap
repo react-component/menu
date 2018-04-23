@@ -188,6 +188,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
         class="rc-menu-submenu-arrow"
       />
     </div>
+    <div />
   </li>
 </ul>
 `;

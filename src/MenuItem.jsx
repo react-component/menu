@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
@@ -10,10 +9,8 @@ import { noop } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
-export const MenuItem = createReactClass({
-  displayName: 'MenuItem',
-
-  propTypes: {
+export class MenuItem extends React.Component {
+  static propTypes = {
     rootPrefixCls: PropTypes.string,
     eventKey: PropTypes.string,
     active: PropTypes.bool,
@@ -29,27 +26,26 @@ export const MenuItem = createReactClass({
     onDestroy: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
-  },
+    multiple: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    manualRef: PropTypes.func,
+  };
 
-  getDefaultProps() {
-    return {
-      onSelect: noop,
-      onMouseEnter: noop,
-      onMouseLeave: noop,
-    };
-  },
+  static defaultProps = {
+    onSelect: noop,
+    onMouseEnter: noop,
+    onMouseLeave: noop,
+    manualRef: noop,
+  };
 
-  componentWillUnmount() {
-    const props = this.props;
-    if (props.onDestroy) {
-      props.onDestroy(props.eventKey);
-    }
-  },
+  constructor(props) {
+    super(props);
+  }
 
   componentDidMount() {
     // invoke customized ref to expose component to mixin
     this.callRef();
-  },
+  }
 
   componentDidUpdate() {
     if (this.props.active) {
@@ -59,18 +55,24 @@ export const MenuItem = createReactClass({
     }
 
     this.callRef();
-  },
+  }
 
+  componentWillUnmount() {
+    const props = this.props;
+    if (props.onDestroy) {
+      props.onDestroy(props.eventKey);
+    }
+  }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     const keyCode = e.keyCode;
     if (keyCode === KeyCode.ENTER) {
       this.onClick(e);
       return true;
     }
-  },
+  };
 
-  onMouseLeave(e) {
+  onMouseLeave = (e) => {
     const { eventKey, onItemHover, onMouseLeave } = this.props;
     onItemHover({
       key: eventKey,
@@ -80,9 +82,9 @@ export const MenuItem = createReactClass({
       key: eventKey,
       domEvent: e,
     });
-  },
+  };
 
-  onMouseEnter(e) {
+  onMouseEnter = (e) => {
     const { eventKey, onItemHover, onMouseEnter } = this.props;
     onItemHover({
       key: eventKey,
@@ -92,9 +94,9 @@ export const MenuItem = createReactClass({
       key: eventKey,
       domEvent: e,
     });
-  },
+  };
 
-  onClick(e) {
+  onClick = (e) => {
     const { eventKey, multiple, onClick, onSelect, onDeselect, isSelected } = this.props;
     const info = {
       key: eventKey,
@@ -112,29 +114,29 @@ export const MenuItem = createReactClass({
     } else if (!isSelected) {
       onSelect(info);
     }
-  },
+  };
 
   getPrefixCls() {
     return `${this.props.rootPrefixCls}-item`;
-  },
+  }
 
   getActiveClassName() {
     return `${this.getPrefixCls()}-active`;
-  },
+  }
 
   getSelectedClassName() {
     return `${this.getPrefixCls()}-selected`;
-  },
+  }
 
   getDisabledClassName() {
     return `${this.getPrefixCls()}-disabled`;
-  },
+  }
 
   callRef() {
     if (this.props.manualRef) {
       this.props.manualRef(this);
     }
-  },
+  }
 
   render() {
     const props = this.props;
@@ -174,12 +176,14 @@ export const MenuItem = createReactClass({
         {props.children}
       </li>
     );
-  },
-});
+  }
+}
 
-MenuItem.isMenuItem = 1;
-
-export default connect(({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+const connected = connect(({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
   active: activeKey[subMenuKey] === eventKey,
   isSelected: selectedKeys.indexOf(eventKey) !== -1,
 }))(MenuItem);
+
+connected.isMenuItem = true;
+
+export default connected;

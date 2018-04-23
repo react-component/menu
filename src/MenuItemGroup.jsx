@@ -1,26 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 
-const MenuItemGroup = createReactClass({
-  displayName: 'MenuItemGroup',
-
-  propTypes: {
+class MenuItemGroup extends React.Component {
+  static propTypes = {
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,
     className: PropTypes.string,
+    subMenuKey: PropTypes.string,
     rootPrefixCls: PropTypes.string,
-  },
+  };
 
-  getDefaultProps() {
-    // To fix keyboard UX.
-    return { disabled: true };
-  },
+  static defaultProps = {
+    disabled: true,
+  };
 
-  renderInnerMenuItem(item) {
+  renderInnerMenuItem = (item) => {
     const { renderMenuItem, index } = this.props;
     return renderMenuItem(item, index, this.props.subMenuKey);
-  },
+  }
 
   render() {
     const props = this.props;
@@ -40,8 +37,8 @@ const MenuItemGroup = createReactClass({
         </ul>
       </li>
     );
-  },
-});
+  }
+}
 
 MenuItemGroup.isMenuItemGroup = true;
 
