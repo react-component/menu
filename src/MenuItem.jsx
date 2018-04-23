@@ -5,7 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import { connect } from 'mini-store';
-import { noop, menuInheritProps } from './util';
+import { noop, menuAllProps } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
@@ -167,7 +167,7 @@ export class MenuItem extends React.Component {
     if (props.mode === 'inline') {
       style.paddingLeft = props.inlineIndent * props.level;
     }
-    menuInheritProps.forEach(key => delete props[key]);
+    menuAllProps.forEach(key => delete props[key]);
     return (
       <li
         {...props}

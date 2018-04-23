@@ -324,7 +324,7 @@ export class SubPopupMenu extends React.Component {
       domProps.onKeyDown = this.onKeyDown;
     }
     const { prefixCls, eventKey, visible } = props;
-    menuInheritProps.forEach(key => delete props[key]);
+    menuAllProps.forEach(key => delete props[key]);
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */

@@ -50,7 +50,7 @@ export function loopMenuItemRecursively(children, keys, ret) {
   });
 }
 
-export const menuInheritProps = [
+export const menuAllProps = [
   'defaultSelectedKeys',
   'selectedKeys',
   'defaultOpenKeys',

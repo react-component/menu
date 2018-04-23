@@ -12,7 +12,7 @@ import {
   noop,
   loopMenuItemRecursively,
   getMenuIdFromSubMenuEventKey,
-  menuInheritProps,
+  menuAllProps,
 } from './util';
 
 let guid = 0;
@@ -477,7 +477,7 @@ export class SubMenu extends React.Component {
       forceSubMenuRender,
       subMenuCloseDelay,
     } = props;
-    menuInheritProps.forEach(key => delete props[key]);
+    menuAllProps.forEach(key => delete props[key]);
     return (
       <li {...props} {...mouseEvents} className={className}>
         {isInlineMode && title}

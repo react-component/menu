@@ -26,7 +26,7 @@ class MenuItemGroup extends React.Component {
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
     const { title } = props;
-    menuInheritProps.forEach(key => delete props[key]);
+    menuAllProps.forEach(key => delete props[key]);
     return (
       <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
         <div
