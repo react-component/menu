@@ -270,7 +270,10 @@ export class SubPopupMenu extends React.Component {
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
-      onClick: this.onClick,
+      onClick: (e) => {
+        (childProps.onClick || noop)(e);
+        this.onClick(e);
+      },
       onItemHover: this.onItemHover,
       openTransitionName: this.getOpenTransitionName(),
       openAnimation: props.openAnimation,
