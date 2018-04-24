@@ -4,7 +4,7 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { getKeyFromChildrenIndex, loopMenuItem, noop, menuInheritProps } from './util';
+import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps } from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -87,7 +87,7 @@ export class SubPopupMenu extends React.Component {
     level: PropTypes.number,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     triggerSubMenuAction: PropTypes.oneOf(['click', 'hover']),
-    inlineIndent: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+    inlineIndent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     manualRef: PropTypes.func,
   };
 
@@ -304,7 +304,7 @@ export class SubPopupMenu extends React.Component {
   };
 
   render() {
-    const props = this.props;
+    const { ...props } = this.props;
     this.instanceArray = [];
     const className = classNames(
       props.prefixCls,
@@ -330,7 +330,6 @@ export class SubPopupMenu extends React.Component {
       /* eslint-disable */
       <DOMWrap
         {...props}
-        style={props.style}
         tag="ul"
         hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}
