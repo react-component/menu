@@ -12,6 +12,7 @@ import {
   noop,
   loopMenuItemRecursively,
   getMenuIdFromSubMenuEventKey,
+  menuAllProps,
 } from './util';
 
 let guid = 0;
@@ -404,7 +405,7 @@ export class SubMenu extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const props = { ...this.props };
     const isOpen = props.isOpen;
     const prefixCls = this.getPrefixCls();
     const isInlineMode = props.mode === 'inline';
@@ -469,9 +470,16 @@ export class SubMenu extends React.Component {
       props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
     const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
-
+    const {
+      disabled,
+      triggerSubMenuAction,
+      subMenuOpenDelay,
+      forceSubMenuRender,
+      subMenuCloseDelay,
+    } = props;
+    menuAllProps.forEach(key => delete props[key]);
     return (
-      <li {...mouseEvents} className={className} style={props.style}>
+      <li {...props} {...mouseEvents} className={className}>
         {isInlineMode && title}
         {isInlineMode && children}
         {!isInlineMode && (
@@ -483,11 +491,11 @@ export class SubMenu extends React.Component {
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
             popup={children}
-            action={props.disabled ? [] : [props.triggerSubMenuAction]}
-            mouseEnterDelay={props.subMenuOpenDelay}
-            mouseLeaveDelay={props.subMenuCloseDelay}
+            action={disabled ? [] : [triggerSubMenuAction]}
+            mouseEnterDelay={subMenuOpenDelay}
+            mouseLeaveDelay={subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
-            forceRender={props.forceSubMenuRender}
+            forceRender={forceSubMenuRender}
           >
             {title}
           </Trigger>

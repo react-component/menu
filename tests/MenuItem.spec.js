@@ -2,7 +2,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
-import Menu, { MenuItem } from '../src';
+import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 
 import { MenuItem as NakedMenuItem } from '../src/MenuItem';
 
@@ -79,6 +79,37 @@ describe('MenuItem', () => {
 
       expect(onItemHover).toHaveBeenCalledWith({ key, hover: false });
       expect(onMouseLeave).toHaveBeenCalledWith({ key, domEvent });
+    });
+  });
+
+  describe('rest props', () => {
+    it('can render all props to sub component', () => {
+      const onClick = jest.fn();
+      const restProps = {
+        onClick,
+        'data-whatever': 'whatever',
+        title: 'title',
+        className: 'className',
+        style: { fontSize: 20 },
+      };
+      const wrapper = mount(
+        <Menu mode="inline" activeKey="1">
+          <MenuItem key="1" {...restProps}>1</MenuItem>
+          <SubMenu {...restProps}>
+            <MenuItem key="2" {...restProps}>3</MenuItem>
+          </SubMenu>
+          <MenuItemGroup {...restProps}>
+            <MenuItem key="3" {...restProps}>4</MenuItem>
+          </MenuItemGroup>
+        </Menu>
+      );
+      expect(wrapper.render()).toMatchSnapshot();
+      wrapper.find('MenuItem').at(0).simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(1);
+      wrapper.find('SubMenu').at(0).simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(2);
+      wrapper.find('MenuItemGroup').at(0).simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(3);
     });
   });
 });

@@ -4,7 +4,7 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { getKeyFromChildrenIndex, loopMenuItem, noop } from './util';
+import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps } from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -87,7 +87,7 @@ export class SubPopupMenu extends React.Component {
     level: PropTypes.number,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     triggerSubMenuAction: PropTypes.oneOf(['click', 'hover']),
-    inlineIndent: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+    inlineIndent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     manualRef: PropTypes.func,
   };
 
@@ -270,7 +270,10 @@ export class SubPopupMenu extends React.Component {
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
-      onClick: this.onClick,
+      onClick: (e) => {
+        (childProps.onClick || noop)(e);
+        this.onClick(e);
+      },
       onItemHover: this.onItemHover,
       openTransitionName: this.getOpenTransitionName(),
       openAnimation: props.openAnimation,
@@ -304,7 +307,7 @@ export class SubPopupMenu extends React.Component {
   };
 
   render() {
-    const props = this.props;
+    const { ...props } = this.props;
     this.instanceArray = [];
     const className = classNames(
       props.prefixCls,
@@ -323,19 +326,21 @@ export class SubPopupMenu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
+    const { prefixCls, eventKey, visible } = props;
+    menuAllProps.forEach(key => delete props[key]);
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
       <DOMWrap
-        style={props.style}
+        {...props}
         tag="ul"
-        hiddenClassName={`${props.prefixCls}-hidden`}
-        visible={props.visible}
+        hiddenClassName={`${prefixCls}-hidden`}
+        visible={visible}
         {...domProps}
       >
         {React.Children.map(
           props.children,
-          (c, i) => this.renderMenuItem(c, i, props.eventKey || '0-menu-'),
+          (c, i) => this.renderMenuItem(c, i, eventKey || '0-menu-'),
         )}
       </DOMWrap>
       /*eslint-enable */

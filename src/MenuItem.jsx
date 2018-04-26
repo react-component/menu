@@ -5,7 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import { connect } from 'mini-store';
-import { noop } from './util';
+import { noop, menuAllProps } from './util';
 
 /* eslint react/no-is-mounted:0 */
 
@@ -139,7 +139,7 @@ export class MenuItem extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const props = { ...this.props };
     const className = classNames(this.getPrefixCls(), props.className, {
       [this.getActiveClassName()]: !props.disabled && props.active,
       [this.getSelectedClassName()]: props.isSelected,
@@ -167,8 +167,10 @@ export class MenuItem extends React.Component {
     if (props.mode === 'inline') {
       style.paddingLeft = props.inlineIndent * props.level;
     }
+    menuAllProps.forEach(key => delete props[key]);
     return (
       <li
+        {...props}
         {...attrs}
         {...mouseEvent}
         style={style}

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { menuAllProps } from './util';
 
 class MenuItemGroup extends React.Component {
   static propTypes = {
@@ -20,20 +21,22 @@ class MenuItemGroup extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const { ...props } = this.props;
     const { className = '', rootPrefixCls } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
+    const { title, children } = props;
+    menuAllProps.forEach(key => delete props[key]);
     return (
-      <li className={`${className} ${rootPrefixCls}-item-group`}>
+      <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
         <div
           className={titleClassName}
-          title={typeof props.title === 'string' ? props.title : undefined}
+          title={typeof title === 'string' ? title : undefined}
         >
-          {props.title}
+          {title}
         </div>
         <ul className={listClassName}>
-          {React.Children.map(props.children, this.renderInnerMenuItem)}
+          {React.Children.map(children, this.renderInnerMenuItem)}
         </ul>
       </li>
     );
