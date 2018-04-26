@@ -1,47 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
+import { menuAllProps } from './util';
 
-const MenuItemGroup = createReactClass({
-  displayName: 'MenuItemGroup',
-
-  propTypes: {
+class MenuItemGroup extends React.Component {
+  static propTypes = {
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,
     className: PropTypes.string,
+    subMenuKey: PropTypes.string,
     rootPrefixCls: PropTypes.string,
-  },
+  };
 
-  getDefaultProps() {
-    // To fix keyboard UX.
-    return { disabled: true };
-  },
+  static defaultProps = {
+    disabled: true,
+  };
 
-  renderInnerMenuItem(item, subIndex) {
+  renderInnerMenuItem = (item) => {
     const { renderMenuItem, index } = this.props;
-    return renderMenuItem(item, index, subIndex);
-  },
+    return renderMenuItem(item, index, this.props.subMenuKey);
+  }
 
   render() {
-    const props = this.props;
+    const { ...props } = this.props;
     const { className = '', rootPrefixCls } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
+    const { title, children } = props;
+    menuAllProps.forEach(key => delete props[key]);
     return (
-      <li className={`${className} ${rootPrefixCls}-item-group`}>
+      <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
         <div
           className={titleClassName}
-          title={typeof props.title === 'string' ? props.title : undefined}
+          title={typeof title === 'string' ? title : undefined}
         >
-          {props.title}
+          {title}
         </div>
         <ul className={listClassName}>
-          {React.Children.map(props.children, this.renderInnerMenuItem)}
+          {React.Children.map(children, this.renderInnerMenuItem)}
         </ul>
       </li>
     );
-  },
-});
+  }
+}
 
 MenuItemGroup.isMenuItemGroup = true;
 

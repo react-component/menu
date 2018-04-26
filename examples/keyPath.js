@@ -3,14 +3,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
-import createReactClass from 'create-react-class';
 
 import 'rc-menu/assets/index.less';
 
-const Test = createReactClass({
+class Test extends React.Component {
   onClick(info) {
     console.log('click ', info);
-  },
+  }
 
   getMenu() {
     return (
@@ -33,14 +32,14 @@ const Test = createReactClass({
         <MenuItem key="3">item3</MenuItem>
       </Menu>
     );
-  },
+  }
 
   render() {
     return (<div>
       <div style={{ width: 400 }}>{this.getMenu()}</div>
     </div>);
-  },
-});
+  }
+}
 
 
 ReactDOM.render(<Test />, document.getElementById('__react-content'));

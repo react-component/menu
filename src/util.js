@@ -8,6 +8,10 @@ export function getKeyFromChildrenIndex(child, menuEventKey, index) {
   return child.key || `${prefix}item_${index}`;
 }
 
+export function getMenuIdFromSubMenuEventKey(eventKey) {
+  return `${eventKey}-menu-`;
+}
+
 export function loopMenuItem(children, cb) {
   let index = -1;
   React.Children.forEach(children, (c) => {
@@ -23,24 +27,70 @@ export function loopMenuItem(children, cb) {
   });
 }
 
-export function loopMenuItemRecusively(children, keys, ret) {
+export function loopMenuItemRecursively(children, keys, ret) {
+  /* istanbul ignore if */
   if (!children || ret.find) {
     return;
   }
   React.Children.forEach(children, (c) => {
-    if (ret.find) {
-      return;
-    }
     if (c) {
-      const construt = c.type;
-      if (!construt || !(construt.isSubMenu || construt.isMenuItem || construt.isMenuItemGroup)) {
+      const construct = c.type;
+      if (!construct
+        ||
+        !(construct.isSubMenu || construct.isMenuItem || construct.isMenuItemGroup)
+      ) {
         return;
       }
       if (keys.indexOf(c.key) !== -1) {
         ret.find = true;
       } else if (c.props.children) {
-        loopMenuItemRecusively(c.props.children, keys, ret);
+        loopMenuItemRecursively(c.props.children, keys, ret);
       }
     }
   });
 }
+
+export const menuAllProps = [
+  'defaultSelectedKeys',
+  'selectedKeys',
+  'defaultOpenKeys',
+  'openKeys',
+  'mode',
+  'getPopupContainer',
+  'onSelect',
+  'onDeselect',
+  'onDestroy',
+  'openTransitionName',
+  'openAnimation',
+  'subMenuOpenDelay',
+  'subMenuCloseDelay',
+  'forceSubMenuRender',
+  'triggerSubMenuAction',
+  'level',
+  'selectable',
+  'multiple',
+  'onOpenChange',
+  'visible',
+  'focusable',
+  'defaultActiveFirst',
+  'prefixCls',
+  'inlineIndent',
+  'parentMenu',
+  'title',
+  'rootPrefixCls',
+  'eventKey',
+  'active',
+  'onItemHover',
+  'onTitleMouseEnter',
+  'onTitleMouseLeave',
+  'onTitleClick',
+  'isOpen',
+  'renderMenuItem',
+  'manualRef',
+  'subMenuKey',
+  'disabled',
+  'index',
+  'isSelected',
+  'store',
+  'activeKey',
+];

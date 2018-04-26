@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, react/no-multi-comp */
 import React from 'react';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
@@ -33,12 +33,11 @@ describe('Menu', () => {
 
     ['vertical', 'horizontal', 'inline'].forEach((mode) => {
       it(`renders ${mode} menu correctly`, () => {
-        const wrapper = render(createMenu({ [mode]: true }));
+        const wrapper = render(createMenu({ mode }));
         expect(renderToJson(wrapper)).toMatchSnapshot();
       });
     });
   });
-
 
   it('set activeKey', () => {
     const wrapper = mount(
@@ -186,5 +185,59 @@ describe('Menu', () => {
 
     wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
     expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
+  });
+
+  it('keydown works when children change', () => {
+    class App extends React.Component {
+      state = {
+        items: [1, 2, 3],
+      }
+
+      render() {
+        return (
+          <Menu>
+            {this.state.items.map(i =>
+              <MenuItem key={i}>{i}</MenuItem>
+            )}
+          </Menu>
+        );
+      }
+    }
+
+    const wrapper = mount(<App />);
+
+    wrapper.setState({ items: [0, 1] });
+
+    wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
+    expect(wrapper.find('MenuItem').at(0).props().active).toBe(true);
+
+    wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
+    expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
+  });
+
+  it('active first item when children changes', () => {
+    class App extends React.Component {
+      state = {
+        items: ['foo'],
+      }
+
+      render() {
+        return (
+          <Menu defaultActiveFirst activeKey="" selectedKeys={['foo']}>
+            {this.state.items.map(item =>
+              <MenuItem key={item}>{item}</MenuItem>
+            )}
+          </Menu>
+        );
+      }
+    }
+
+    const wrapper = mount(<App />);
+
+    wrapper.setState({ items: ['bar', 'foo'] });
+
+    expect(
+      wrapper.find('li').first().hasClass('rc-menu-item-active')
+    ).toBe(true);
   });
 });
