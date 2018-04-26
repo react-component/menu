@@ -89,7 +89,7 @@ export class SubMenu extends React.Component {
     if (defaultActiveFirst) {
       value = defaultActiveFirst[eventKey];
     }
-    
+
     updateDefaultActiveFirst(store, eventKey, value);
   }
 
