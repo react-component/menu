@@ -2,13 +2,11 @@
 
 exports[`MenuItem rest props can render all props to sub component 1`] = `
 <ul
-  aria-activedescendant=""
   class="rc-menu  rc-menu-root rc-menu-inline"
   role="menu"
   tabindex="0"
 >
   <li
-    aria-selected="false"
     class="rc-menu-item className rc-menu-item-active"
     data-whatever="whatever"
     role="menuitem"
@@ -20,12 +18,12 @@ exports[`MenuItem rest props can render all props to sub component 1`] = `
   <li
     class="rc-menu-submenu rc-menu-submenu-inline className"
     data-whatever="whatever"
+    role="menuitem"
     style="font-size: 20px;"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
-      aria-owns="item_1$Menu"
       class="rc-menu-submenu-title"
       style="padding-left: 24px;"
       title="title"
@@ -52,7 +50,6 @@ exports[`MenuItem rest props can render all props to sub component 1`] = `
       class="rc-menu-item-group-list"
     >
       <li
-        aria-selected="false"
         class="rc-menu-item className"
         data-whatever="whatever"
         role="menuitem"

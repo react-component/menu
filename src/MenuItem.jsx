@@ -11,6 +11,7 @@ import { noop, menuAllProps } from './util';
 
 export class MenuItem extends React.Component {
   static propTypes = {
+    attribute: PropTypes.object,
     rootPrefixCls: PropTypes.string,
     eventKey: PropTypes.string,
     active: PropTypes.bool,
@@ -145,14 +146,27 @@ export class MenuItem extends React.Component {
       [this.getSelectedClassName()]: props.isSelected,
       [this.getDisabledClassName()]: props.disabled,
     });
-    const attrs = {
+    let attrs = {
       ...props.attribute,
       title: props.title,
       className,
+      // set to menuitem by default
       role: 'menuitem',
-      'aria-selected': props.isSelected,
       'aria-disabled': props.disabled,
     };
+
+    if (props.role === 'option') {
+      // overwrite to option
+      attrs = {
+        ...attrs,
+        role: 'option',
+        'aria-selected': props.isSelected,
+      };
+    } else if (attrs.role === null) {
+      // sometimes we want to specify role inside <li/> element
+      // <li><a role='menuitem'>Link</a></li> would be a good example
+      delete attrs.role;
+    }
     let mouseEvent = {};
     if (!props.disabled) {
       mouseEvent = {
@@ -181,11 +195,11 @@ export class MenuItem extends React.Component {
   }
 }
 
+MenuItem.isMenuItem = true;
+
 const connected = connect(({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
   active: activeKey[subMenuKey] === eventKey,
   isSelected: selectedKeys.indexOf(eventKey) !== -1,
 }))(MenuItem);
-
-connected.isMenuItem = true;
 
 export default connected;

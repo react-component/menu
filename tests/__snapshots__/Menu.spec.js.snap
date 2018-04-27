@@ -2,7 +2,6 @@
 
 exports[`Menu render renders horizontal menu correctly 1`] = `
 <ul
-  aria-activedescendant=""
   class="rc-menu myMenu rc-menu-root rc-menu-horizontal"
   role="menu"
   tabindex="0"
@@ -20,7 +19,6 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
       class="rc-menu-item-group-list"
     >
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
       >
@@ -30,7 +28,6 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
         class=" rc-menu-item-divider"
       />
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
       >
@@ -39,7 +36,6 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
     </ul>
   </li>
   <li
-    aria-selected="false"
     class="rc-menu-item"
     role="menuitem"
   >
@@ -58,7 +54,6 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
       class="rc-menu-item-group-list"
     >
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
       >
@@ -66,7 +61,6 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
       </li>
       <li
         aria-disabled="true"
-        aria-selected="false"
         class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
       >
@@ -76,11 +70,11 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-horizontal"
+    role="menuitem"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
-      aria-owns="item_3$Menu"
       class="rc-menu-submenu-title"
       title="submenu"
     >
@@ -95,7 +89,6 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
 
 exports[`Menu render renders inline menu correctly 1`] = `
 <ul
-  aria-activedescendant=""
   class="rc-menu myMenu rc-menu-root rc-menu-inline"
   role="menu"
   tabindex="0"
@@ -113,7 +106,6 @@ exports[`Menu render renders inline menu correctly 1`] = `
       class="rc-menu-item-group-list"
     >
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
         style="padding-left:24px"
@@ -124,7 +116,6 @@ exports[`Menu render renders inline menu correctly 1`] = `
         class=" rc-menu-item-divider"
       />
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
         style="padding-left:24px"
@@ -134,7 +125,6 @@ exports[`Menu render renders inline menu correctly 1`] = `
     </ul>
   </li>
   <li
-    aria-selected="false"
     class="rc-menu-item"
     role="menuitem"
     style="padding-left:24px"
@@ -154,7 +144,6 @@ exports[`Menu render renders inline menu correctly 1`] = `
       class="rc-menu-item-group-list"
     >
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
         style="padding-left:24px"
@@ -163,7 +152,6 @@ exports[`Menu render renders inline menu correctly 1`] = `
       </li>
       <li
         aria-disabled="true"
-        aria-selected="false"
         class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
         style="padding-left:24px"
@@ -174,11 +162,11 @@ exports[`Menu render renders inline menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-inline"
+    role="menuitem"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
-      aria-owns="item_3$Menu"
       class="rc-menu-submenu-title"
       style="padding-left:24px"
       title="submenu"
@@ -195,7 +183,6 @@ exports[`Menu render renders inline menu correctly 1`] = `
 
 exports[`Menu render renders vertical menu correctly 1`] = `
 <ul
-  aria-activedescendant=""
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
   role="menu"
   tabindex="0"
@@ -213,7 +200,6 @@ exports[`Menu render renders vertical menu correctly 1`] = `
       class="rc-menu-item-group-list"
     >
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
       >
@@ -223,7 +209,6 @@ exports[`Menu render renders vertical menu correctly 1`] = `
         class=" rc-menu-item-divider"
       />
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
       >
@@ -232,7 +217,6 @@ exports[`Menu render renders vertical menu correctly 1`] = `
     </ul>
   </li>
   <li
-    aria-selected="false"
     class="rc-menu-item"
     role="menuitem"
   >
@@ -251,7 +235,6 @@ exports[`Menu render renders vertical menu correctly 1`] = `
       class="rc-menu-item-group-list"
     >
       <li
-        aria-selected="false"
         class="rc-menu-item"
         role="menuitem"
       >
@@ -259,7 +242,6 @@ exports[`Menu render renders vertical menu correctly 1`] = `
       </li>
       <li
         aria-disabled="true"
-        aria-selected="false"
         class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
       >
@@ -269,11 +251,11 @@ exports[`Menu render renders vertical menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="menuitem"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
-      aria-owns="item_3$Menu"
       class="rc-menu-submenu-title"
       title="submenu"
     >
