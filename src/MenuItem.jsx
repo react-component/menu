@@ -162,7 +162,7 @@ export class MenuItem extends React.Component {
         role: 'option',
         'aria-selected': props.isSelected,
       };
-    } else if (attrs.role === null) {
+    } else if (props.role === null) {
       // sometimes we want to specify role inside <li/> element
       // <li><a role='menuitem'>Link</a></li> would be a good example
       delete attrs.role;

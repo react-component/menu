@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MenuItem overwrite default role should set empty role 1`] = `
+<li
+  class="undefined-item"
+>
+  test
+</li>
+`;
+
+exports[`MenuItem overwrite default role should set specific role 1`] = `
+<li
+  class="undefined-item"
+  role="option"
+>
+  test
+</li>
+`;
+
 exports[`MenuItem rest props can render all props to sub component 1`] = `
 <ul
   class="rc-menu  rc-menu-root rc-menu-inline"

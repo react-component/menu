@@ -112,4 +112,18 @@ describe('MenuItem', () => {
       expect(onClick).toHaveBeenCalledTimes(3);
     });
   });
+
+  describe('overwrite default role', () => {
+    it('should set empty role', () => {
+      const wrapper = shallow(<NakedMenuItem role={null}>test</NakedMenuItem>);
+
+      expect(wrapper.render()).toMatchSnapshot();
+    });
+
+    it('should set specific role', () => {
+      const wrapper = shallow(<NakedMenuItem role="option">test</NakedMenuItem>);
+
+      expect(wrapper.render()).toMatchSnapshot();
+    });
+  });
 });
