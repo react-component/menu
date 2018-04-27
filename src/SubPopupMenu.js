@@ -4,6 +4,7 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
+import { polyfill } from 'react-lifecycles-compat';
 import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps } from './util';
 import DOMWrap from './DOMWrap';
 
@@ -22,6 +23,11 @@ function updateActiveKey(store, menuId, activeKey) {
       [menuId]: activeKey,
     },
   });
+}
+
+function getEventKey(props) {
+  // when eventKey not available ,it's menu and return menu id '0-menu-'
+  return props.eventKey || '0-menu-';
 }
 
 export function getActiveKey(props, originalActiveKey) {
@@ -119,9 +125,7 @@ export class SubPopupMenu extends React.Component {
         [props.eventKey]: getActiveKey(props, props.activeKey),
       },
     });
-  }
 
-  componentWillMount() {
     this.instanceArray = [];
   }
 
@@ -129,15 +133,6 @@ export class SubPopupMenu extends React.Component {
     // invoke customized ref to expose component to mixin
     if (this.props.manualRef) {
       this.props.manualRef(this);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const originalActiveKey = 'activeKey' in nextProps ? nextProps.activeKey :
-      this.getStore().getState().activeKey[this.getEventKey()];
-    const activeKey = getActiveKey(nextProps, originalActiveKey);
-    if (activeKey !== originalActiveKey) {
-      updateActiveKey(this.getStore(), this.getEventKey(), activeKey);
     }
   }
 
@@ -163,7 +158,7 @@ export class SubPopupMenu extends React.Component {
     }
     if (activeItem) {
       e.preventDefault();
-      updateActiveKey(this.getStore(), this.getEventKey(), activeItem.props.eventKey);
+      updateActiveKey(this.props.store, getEventKey(this.props), activeItem.props.eventKey);
 
       if (typeof callback === 'function') {
         callback(activeItem);
@@ -175,7 +170,7 @@ export class SubPopupMenu extends React.Component {
 
   onItemHover = (e) => {
     const { key, hover } = e;
-    updateActiveKey(this.getStore(), this.getEventKey(), hover ? key : null);
+    updateActiveKey(this.props.store, getEventKey(this.props), hover ? key : null);
   };
 
   onDeselect = (selectInfo) => {
@@ -184,7 +179,7 @@ export class SubPopupMenu extends React.Component {
 
   onSelect = (selectInfo) => {
     this.props.onSelect(selectInfo);
-  }
+  };
 
   onClick = (e) => {
     this.props.onClick(e);
@@ -199,17 +194,18 @@ export class SubPopupMenu extends React.Component {
     this.props.onDestroy(key);
   };
 
+  componentDidUpdate() {
+    const props = this.props;
+    const originalActiveKey = 'activeKey' in props ? props.activeKey :
+      props.store.getState().activeKey[getEventKey(props)];
+    const activeKey = getActiveKey(props, originalActiveKey);
+    if (activeKey !== originalActiveKey) {
+      updateActiveKey(props.store, getEventKey(props), activeKey);
+    }
+  }
+
   getFlatInstanceArray = () => {
     return this.instanceArray;
-  };
-
-  getStore = () => {
-    return this.props.store;
-  };
-
-  getEventKey = () => {
-    // when eventKey not available ,it's menu and return menu id '0-menu-'
-    return this.props.eventKey || '0-menu-';
   };
 
   getOpenTransitionName = () => {
@@ -218,7 +214,7 @@ export class SubPopupMenu extends React.Component {
 
   step = (direction) => {
     let children = this.getFlatInstanceArray();
-    const activeKey = this.getStore().getState().activeKey[this.getEventKey()];
+    const activeKey = this.props.store.getState().activeKey[getEventKey(this.props)];
     const len = children.length;
     if (!len) {
       return null;
@@ -258,7 +254,7 @@ export class SubPopupMenu extends React.Component {
   };
 
   renderCommonMenuItem = (child, i, extraProps) => {
-    const state = this.getStore().getState();
+    const state = this.props.store.getState();
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
     const childProps = child.props;
@@ -303,7 +299,7 @@ export class SubPopupMenu extends React.Component {
     if (!c) {
       return null;
     }
-    const state = this.getStore().getState();
+    const state = this.props.store.getState();
     const extraProps = {
       openKeys: state.openKeys,
       selectedKeys: state.selectedKeys,
@@ -357,5 +353,7 @@ export class SubPopupMenu extends React.Component {
     );
   }
 }
+
+polyfill(SubPopupMenu);
 
 export default connect()(SubPopupMenu);

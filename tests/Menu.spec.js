@@ -103,6 +103,7 @@ describe('Menu', () => {
     );
     expect(wrapper.find('li').first().props().className).toContain('-selected');
     wrapper.setProps({ selectedKeys: ['2'] });
+    wrapper.update();
     expect(wrapper.find('li').last().props().className).toContain('-selected');
   });
 
@@ -256,6 +257,7 @@ describe('Menu', () => {
     const wrapper = mount(<App />);
 
     wrapper.setState({ items: ['bar', 'foo'] });
+    wrapper.update();
 
     expect(
       wrapper.find('li').first().hasClass('rc-menu-item-active')

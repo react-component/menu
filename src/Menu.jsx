@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { Provider, create } from 'mini-store';
 import { default as SubPopupMenu, getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
+import { polyfill } from 'react-lifecycles-compat';
 
-export default class Menu extends React.Component {
+class Menu extends React.Component {
   static propTypes = {
     defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultActiveFirst: PropTypes.bool,
@@ -71,17 +72,12 @@ export default class Menu extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ('selectedKeys' in nextProps) {
-      this.store.setState({
-        selectedKeys: nextProps.selectedKeys || [],
-      });
-    }
-    if ('openKeys' in nextProps) {
-      this.store.setState({
-        openKeys: nextProps.openKeys || [],
-      });
-    }
+  componentDidMount() {
+    this.updateMiniStore();
+  }
+
+  componentDidUpdate() {
+    this.updateMiniStore();
   }
 
   onSelect = (selectInfo) => {
@@ -183,6 +179,19 @@ export default class Menu extends React.Component {
     return transitionName;
   }
 
+  updateMiniStore() {
+    if ('selectedKeys' in this.props) {
+      this.store.setState({
+        selectedKeys: this.props.selectedKeys || [],
+      });
+    }
+    if ('openKeys' in this.props) {
+      this.store.setState({
+        openKeys: this.props.openKeys || [],
+      });
+    }
+  }
+
   render() {
     let { ...props } = this.props;
     props.className += ` ${props.prefixCls}-root`;
@@ -202,3 +211,7 @@ export default class Menu extends React.Component {
     );
   }
 }
+
+polyfill(Menu);
+
+export default Menu;

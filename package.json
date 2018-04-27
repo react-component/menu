@@ -80,7 +80,8 @@
     "prop-types": "^15.5.6",
     "rc-animate": "2.x",
     "rc-trigger": "^2.3.0",
-    "rc-util": "^4.1.0"
+    "rc-util": "^4.1.0",
+    "react-lifecycles-compat": "^3.0.2"
   },
   "pre-commit": [
     "lint"
