@@ -316,8 +316,8 @@ export class SubPopupMenu extends React.Component {
     );
     const domProps = {
       className,
-      role: 'menu',
-      'aria-activedescendant': '',
+      // role could be 'select' and by default set to menu
+      role: props.role || 'menu',
     };
     if (props.id) {
       domProps.id = props.id;

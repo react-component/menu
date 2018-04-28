@@ -399,7 +399,7 @@ export class SubMenu extends React.Component {
         component=""
         transitionAppear={transitionAppear}
       >
-        <SubPopupMenu {...baseProps}>{children}</SubPopupMenu>
+        <SubPopupMenu {...baseProps} id={this._menuId}>{children}</SubPopupMenu>
       </Animate>
     );
   }
@@ -448,6 +448,17 @@ export class SubMenu extends React.Component {
     if (isInlineMode) {
       style.paddingLeft = props.inlineIndent * props.level;
     }
+
+    let ariaOwns = {};
+    // only set aria-owns when menu is open
+    // otherwise it would be an invalid aria-owns value
+    // since corresponding node cannot be found
+    if (this.props.isOpen) {
+      ariaOwns = {
+        'aria-owns': this._menuId,
+      };
+    }
+
     const title = (
       <div
         ref={this.saveSubMenuTitle}
@@ -456,7 +467,7 @@ export class SubMenu extends React.Component {
         {...titleMouseEvents}
         {...titleClickEvents}
         aria-expanded={isOpen}
-        aria-owns={this._menuId}
+        {...ariaOwns}
         aria-haspopup="true"
         title={typeof props.title === 'string' ? props.title : undefined}
       >
@@ -479,7 +490,7 @@ export class SubMenu extends React.Component {
     } = props;
     menuAllProps.forEach(key => delete props[key]);
     return (
-      <li {...props} {...mouseEvents} className={className}>
+      <li {...props} {...mouseEvents} className={className} role="menuitem">
         {isInlineMode && title}
         {isInlineMode && children}
         {!isInlineMode && (
