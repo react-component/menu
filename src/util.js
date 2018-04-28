@@ -93,4 +93,12 @@ export const menuAllProps = [
   'isSelected',
   'store',
   'activeKey',
+
+  // the following keys found need to be removed from test regression
+  'attribute',
+  'value',
+  'popupClassName',
+  'inlineCollapsed',
+  'menu',
+  'theme',
 ];
