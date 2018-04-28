@@ -58,6 +58,7 @@ export class SubMenu extends React.Component {
     onTitleMouseEnter: PropTypes.func,
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
+    popupOffset: PropTypes.array,
     isOpen: PropTypes.bool,
     store: PropTypes.object,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
@@ -480,6 +481,7 @@ export class SubMenu extends React.Component {
     const getPopupContainer = props.parentMenu.isRootMenu ?
       props.parentMenu.props.getPopupContainer : triggerNode => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
+    const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
     const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
     const {
       disabled,
@@ -501,6 +503,7 @@ export class SubMenu extends React.Component {
             builtinPlacements={placements}
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
+            popupAlign={popupAlign}
             popup={children}
             action={disabled ? [] : [triggerSubMenuAction]}
             mouseEnterDelay={subMenuOpenDelay}

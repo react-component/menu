@@ -84,6 +84,7 @@ export const menuAllProps = [
   'onTitleMouseEnter',
   'onTitleMouseLeave',
   'onTitleClick',
+  'popupOffset',
   'isOpen',
   'renderMenuItem',
   'manualRef',

@@ -41,6 +41,19 @@ describe('SubMenu', () => {
     expect(wrapper.instance().store.getState().openKeys).toEqual([]);
   });
 
+  it('offsets the submenu popover', () => {
+    const wrapper = mount(
+      <Menu mode="horizontal">
+        <SubMenu key="s" title="submenu" popupOffset={[0, 15]}>
+          <MenuItem key="1">1</MenuItem>
+        </SubMenu>
+      </Menu>
+    );
+
+    const popupAlign = wrapper.find('Trigger').prop('popupAlign');
+    expect(popupAlign).toEqual({ offset: [0, 15] });
+  });
+
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are true', () => {
     it('toggles when mouse enter and leave', () => {
       const wrapper = mount(createMenu());
