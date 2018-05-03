@@ -1,5 +1,11 @@
 # History
 ----
+## 7.0.2 / 2018-05-03
+
+- Better aria-* attributes support.
+- Improve Menu performance by avoiding unnecessary updates.
+- Minor key shortcut bug fixes.
+- Support passing props through to MenuItem list item
 
 ## 6.0.0 / 2017-10-30
 
