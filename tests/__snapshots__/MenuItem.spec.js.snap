@@ -34,9 +34,7 @@ exports[`MenuItem rest props can render all props to sub component 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-inline className"
-    data-whatever="whatever"
     role="menuitem"
-    style="font-size: 20px;"
   >
     <div
       aria-expanded="false"

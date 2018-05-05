@@ -11,6 +11,10 @@ function handleSelect(info) {
   console.log(`selected ${info.key}`);
 }
 
+function handleItemClick(e) {
+  console.log('item clicked');
+}
+
 const animation = {
   enter(node, done) {
     let height;
@@ -52,24 +56,24 @@ const animation = {
 const reactContainer = document.getElementById('__react-content');
 
 const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" popupOffset={[10, 15]}>
-  <MenuItem key="4-1">inner inner</MenuItem>
+  <MenuItem key="4-1" whatever="inner inner" onClick={handleItemClick}>inner inner</MenuItem>
   <Divider/>
   <SubMenu
     key="4-2"
     title={<span>sub menu 3</span>}
   >
     <SubMenu title="sub 4-2-0" key="4-2-0">
-      <MenuItem key="4-2-0-1">inner inner</MenuItem>
-      <MenuItem key="4-2-0-2">inner inner2</MenuItem>
+      <MenuItem key="4-2-0-1" whatever="inner inner1" onClick={handleItemClick}>inner inner1</MenuItem>
+      <MenuItem key="4-2-0-2" whatever="inner inner2" onClick={handleItemClick}>inner inner2</MenuItem>
     </SubMenu>
-    <MenuItem key="4-2-1">inn</MenuItem>
+    <MenuItem key="4-2-1" whatever="inner inner3" onClick={handleItemClick}>inner inner3</MenuItem>
     <SubMenu title={<span>sub menu 4</span>} key="4-2-2">
-      <MenuItem key="4-2-2-1">inner inner</MenuItem>
-      <MenuItem key="4-2-2-2">inner inner2</MenuItem>
+      <MenuItem key="4-2-2-1" whatever="inner inner4" onClick={handleItemClick}>inner inner4</MenuItem>
+      <MenuItem key="4-2-2-2" whatever="inner inner5" onClick={handleItemClick}>inner inner5</MenuItem>
     </SubMenu>
     <SubMenu title="sub 4-2-3" key="4-2-3">
-      <MenuItem key="4-2-3-1">inner inner</MenuItem>
-      <MenuItem key="4-2-3-2">inner inner2</MenuItem>
+      <MenuItem key="4-2-3-1" whatever="inner inner6" onClick={handleItemClick}>inner inner6</MenuItem>
+      <MenuItem key="4-2-3-2" whatever="inner inner7" onClick={handleItemClick}>inner inner7</MenuItem>
     </SubMenu>
   </SubMenu>
 </SubMenu>);
@@ -77,16 +81,16 @@ const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" pop
 function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
-const commonMenu = (<Menu onSelect={handleSelect} onOpenChange={onOpenChange}>
+const commonMenu = (<Menu onClick={handleSelect} onOpenChange={onOpenChange}>
   <SubMenu title={<span>sub menu</span>} key="1">
-    <MenuItem key="1-1">0-1</MenuItem>
-    <MenuItem key="1-2">0-2</MenuItem>
+    <MenuItem key="1-1" onClick={handleItemClick}>0-1</MenuItem>
+    <MenuItem key="1-2" onClick={handleItemClick}>0-2</MenuItem>
   </SubMenu>
   {nestSubMenu}
-  <MenuItem key="2">1</MenuItem>
-  <MenuItem key="3">outer</MenuItem>
+  <MenuItem key="2" onClick={handleItemClick}>1</MenuItem>
+  <MenuItem key="3" onClick={handleItemClick}>outer</MenuItem>
   <MenuItem disabled>disabled</MenuItem>
-  <MenuItem key="5">outer3</MenuItem>
+  <MenuItem key="5" onClick={handleItemClick}>outer3</MenuItem>
 </Menu>);
 
 function render(container) {
