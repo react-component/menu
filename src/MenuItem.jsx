@@ -167,14 +167,12 @@ export class MenuItem extends React.Component {
       // <li><a role='menuitem'>Link</a></li> would be a good example
       delete attrs.role;
     }
-    let mouseEvent = {};
-    if (!props.disabled) {
-      mouseEvent = {
-        onClick: this.onClick,
-        onMouseLeave: this.onMouseLeave,
-        onMouseEnter: this.onMouseEnter,
-      };
-    }
+    // In case that onClick/onMouseLeave/onMouseEnter is passed down from owner
+    const mouseEvent = {
+      onClick: props.disabled ? null : this.onClick,
+      onMouseLeave: props.disabled ? null : this.onMouseLeave,
+      onMouseEnter: props.disabled ? null : this.onMouseEnter,
+    };
     const style = {
       ...props.style,
     };
