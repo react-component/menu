@@ -4,7 +4,7 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps } from './util';
+import { getKeyFromChildrenIndex, loopMenuItem, noop } from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -327,12 +327,11 @@ export class SubPopupMenu extends React.Component {
       domProps.onKeyDown = this.onKeyDown;
     }
     const { prefixCls, eventKey, visible } = props;
-    menuAllProps.forEach(key => delete props[key]);
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
       <DOMWrap
-        {...props}
+        style={props.style}
         tag="ul"
         hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}
