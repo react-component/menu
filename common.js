@@ -3359,6 +3359,9 @@ var SubPopupMenu = function (_React$Component) {
     __WEBPACK_IMPORTED_MODULE_11__util__["e" /* menuAllProps */].forEach(function (key) {
       return delete props[key];
     });
+
+    // Otherwise, the propagated click event will trigger another onClick
+    delete props.onClick;
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
@@ -24101,9 +24104,15 @@ var SubMenu = function (_React$Component) {
     __WEBPACK_IMPORTED_MODULE_14__util__["e" /* menuAllProps */].forEach(function (key) {
       return delete props[key];
     });
+    // Set onClick to null, to ignore propagated onClick event
+    delete props.onClick;
+
     return __WEBPACK_IMPORTED_MODULE_4_react___default.a.createElement(
       'li',
-      __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_extends___default()({}, props, mouseEvents, { className: className, role: 'menuitem' }),
+      __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_extends___default()({}, props, mouseEvents, {
+        className: className,
+        role: 'menuitem'
+      }),
       isInlineMode && title,
       isInlineMode && children,
       !isInlineMode && __WEBPACK_IMPORTED_MODULE_4_react___default.a.createElement(
@@ -27596,14 +27605,12 @@ var MenuItem = function (_React$Component) {
       // <li><a role='menuitem'>Link</a></li> would be a good example
       delete attrs.role;
     }
-    var mouseEvent = {};
-    if (!props.disabled) {
-      mouseEvent = {
-        onClick: this.onClick,
-        onMouseLeave: this.onMouseLeave,
-        onMouseEnter: this.onMouseEnter
-      };
-    }
+    // In case that onClick/onMouseLeave/onMouseEnter is passed down from owner
+    var mouseEvent = {
+      onClick: props.disabled ? null : this.onClick,
+      onMouseLeave: props.disabled ? null : this.onMouseLeave,
+      onMouseEnter: props.disabled ? null : this.onMouseEnter
+    };
     var style = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, props.style);
     if (props.mode === 'inline') {
       style.paddingLeft = props.inlineIndent * props.level;

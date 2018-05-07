@@ -30,9 +30,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-function handleSelect(info) {
+function handleClick(info) {
+  console.log('clicked ' + info.key);
   console.log(info);
-  console.log('selected ' + info.key);
 }
 
 var animation = {
@@ -155,7 +155,7 @@ function onOpenChange(value) {
 }
 var commonMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   __WEBPACK_IMPORTED_MODULE_2_rc_menu___default.a,
-  { onSelect: handleSelect, onOpenChange: onOpenChange },
+  { onClick: handleClick, onOpenChange: onOpenChange },
   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
     { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
