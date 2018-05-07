@@ -106,10 +106,8 @@ describe('MenuItem', () => {
       expect(wrapper.render()).toMatchSnapshot();
       wrapper.find('MenuItem').at(0).simulate('click');
       expect(onClick).toHaveBeenCalledTimes(1);
-      wrapper.find('SubMenu').at(0).simulate('click');
-      expect(onClick).toHaveBeenCalledTimes(2);
       wrapper.find('MenuItemGroup').at(0).simulate('click');
-      expect(onClick).toHaveBeenCalledTimes(3);
+      expect(onClick).toHaveBeenCalledTimes(2);
     });
   });
 
