@@ -328,6 +328,9 @@ export class SubPopupMenu extends React.Component {
     }
     const { prefixCls, eventKey, visible } = props;
     menuAllProps.forEach(key => delete props[key]);
+
+    // Otherwise, the propagated click event will trigger another onClick
+    delete props.onClick;
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */

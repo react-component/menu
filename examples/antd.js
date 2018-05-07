@@ -6,9 +6,9 @@ import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-menu/assets/index.less';
 import animate from 'css-animation';
 
-function handleSelect(info) {
+function handleClick(info) {
+  console.log(`clicked ${info.key}`);
   console.log(info);
-  console.log(`selected ${info.key}`);
 }
 
 const animation = {
@@ -77,7 +77,7 @@ const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" pop
 function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
-const commonMenu = (<Menu onSelect={handleSelect} onOpenChange={onOpenChange}>
+const commonMenu = (<Menu onClick={handleClick} onOpenChange={onOpenChange}>
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>

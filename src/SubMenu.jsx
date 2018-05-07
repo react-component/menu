@@ -491,8 +491,16 @@ export class SubMenu extends React.Component {
       subMenuCloseDelay,
     } = props;
     menuAllProps.forEach(key => delete props[key]);
+    // Set onClick to null, to ignore propagated onClick event
+    delete props.onClick;
+
     return (
-      <li {...props} {...mouseEvents} className={className} role="menuitem">
+      <li
+        {...props}
+        {...mouseEvents}
+        className={className}
+        role="menuitem"
+      >
         {isInlineMode && title}
         {isInlineMode && children}
         {!isInlineMode && (
