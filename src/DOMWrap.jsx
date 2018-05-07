@@ -22,8 +22,6 @@ export default class DOMWrap extends React.Component {
     delete props.tag;
     delete props.hiddenClassName;
     delete props.visible;
-    // Otherwise, the propagated click event will trigger another onClick
-    props.onClick = null;
     return <Tag {...props} />;
   }
 }
