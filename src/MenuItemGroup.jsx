@@ -27,6 +27,10 @@ class MenuItemGroup extends React.Component {
     const listClassName = `${rootPrefixCls}-item-group-list`;
     const { title, children } = props;
     menuAllProps.forEach(key => delete props[key]);
+
+    // Set onClick to null, to ignore propagated onClick event
+    delete props.onClick;
+
     return (
       <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
         <div
