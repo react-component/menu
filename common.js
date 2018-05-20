@@ -28326,6 +28326,10 @@ var MenuItemGroup = function (_React$Component) {
     __WEBPACK_IMPORTED_MODULE_7__util__["e" /* menuAllProps */].forEach(function (key) {
       return delete props[key];
     });
+
+    // Set onClick to null, to ignore propagated onClick event
+    delete props.onClick;
+
     return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
       'li',
       __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, props, { className: className + ' ' + rootPrefixCls + '-item-group' }),
