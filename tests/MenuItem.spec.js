@@ -83,7 +83,7 @@ describe('MenuItem', () => {
   });
 
   describe('rest props', () => {
-    it('can render all props to sub component', () => {
+    it('onClick event should only trigger 1 time along the component hierarchy', () => {
       const onClick = jest.fn();
       const restProps = {
         onClick,
@@ -103,8 +103,15 @@ describe('MenuItem', () => {
           </MenuItemGroup>
         </Menu>
       );
+
       expect(wrapper.render()).toMatchSnapshot();
       wrapper.find('MenuItem').at(0).simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(1);
+
+      wrapper.find('SubMenu').at(0).simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(1);
+
+      wrapper.find('MenuItemGroup').at(0).simulate('click');
       expect(onClick).toHaveBeenCalledTimes(1);
     });
   });

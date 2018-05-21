@@ -17,7 +17,7 @@ exports[`MenuItem overwrite default role should set specific role 1`] = `
 </li>
 `;
 
-exports[`MenuItem rest props can render all props to sub component 1`] = `
+exports[`MenuItem rest props onClick event should only trigger 1 time along the component hierarchy 1`] = `
 <ul
   class="rc-menu  rc-menu-root rc-menu-inline"
   role="menu"
