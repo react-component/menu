@@ -3200,6 +3200,7 @@ var storeShape = exports.storeShape = _propTypes2.default.shape({
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = getActiveKey;
+/* unused harmony export saveRef */
 /* unused harmony export SubPopupMenu */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_objectWithoutProperties__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_objectWithoutProperties___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_objectWithoutProperties__);
@@ -3283,9 +3284,16 @@ function getActiveKey(props, originalActiveKey) {
   return activeKey;
 }
 
-function saveRef(index, c) {
+function saveRef(c) {
   if (c) {
-    this.instanceArray[index] = c;
+    var index = this.instanceArray.indexOf(c);
+    if (index !== -1) {
+      // update component if it's already inside instanceArray
+      this.instanceArray[index] = c;
+    } else {
+      // add component if it's not in instanceArray yet;
+      this.instanceArray.push(c);
+    }
   }
 }
 
@@ -3556,7 +3564,7 @@ var _initialiseProps = function _initialiseProps() {
       index: i,
       parentMenu: props.parentMenu,
       // customized ref function, need to be invoked manually in child's componentDidMount
-      manualRef: childProps.disabled ? undefined : Object(__WEBPACK_IMPORTED_MODULE_9_rc_util_es_createChainedFunction__["a" /* default */])(child.ref, saveRef.bind(_this3, i)),
+      manualRef: childProps.disabled ? undefined : Object(__WEBPACK_IMPORTED_MODULE_9_rc_util_es_createChainedFunction__["a" /* default */])(child.ref, saveRef.bind(_this3)),
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
@@ -27548,7 +27556,6 @@ var MenuItem = function (_React$Component) {
         onlyScrollIfNeeded: true
       });
     }
-
     this.callRef();
   };
 
