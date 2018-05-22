@@ -50,9 +50,16 @@ export function getActiveKey(props, originalActiveKey) {
   return activeKey;
 }
 
-function saveRef(index, c) {
+export function saveRef(c) {
   if (c) {
-    this.instanceArray[index] = c;
+    const index = this.instanceArray.indexOf(c);
+    if (index !== -1) {
+      // update component if it's already inside instanceArray
+      this.instanceArray[index] = c;
+    } else {
+      // add component if it's not in instanceArray yet;
+      this.instanceArray.push(c);
+    }
   }
 }
 
@@ -266,7 +273,7 @@ export class SubPopupMenu extends React.Component {
       parentMenu: props.parentMenu,
       // customized ref function, need to be invoked manually in child's componentDidMount
       manualRef: childProps.disabled ? undefined :
-        createChainedFunction(child.ref, saveRef.bind(this, i)),
+        createChainedFunction(child.ref, saveRef.bind(this)),
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,

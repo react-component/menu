@@ -54,7 +54,6 @@ export class MenuItem extends React.Component {
         onlyScrollIfNeeded: true,
       });
     }
-
     this.callRef();
   }
 
