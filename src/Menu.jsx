@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Provider, create } from 'mini-store';
 import { default as SubPopupMenu, getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
-import { polyfill } from 'react-lifecycles-compat';
 
 class Menu extends React.Component {
   static propTypes = {
@@ -211,7 +210,5 @@ class Menu extends React.Component {
     );
   }
 }
-
-polyfill(Menu);
 
 export default Menu;

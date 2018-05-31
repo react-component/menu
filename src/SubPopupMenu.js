@@ -4,7 +4,6 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { polyfill } from 'react-lifecycles-compat';
 import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps } from './util';
 import DOMWrap from './DOMWrap';
 
@@ -140,6 +139,16 @@ export class SubPopupMenu extends React.Component {
     return this.props.visible || nextProps.visible;
   }
 
+  componentDidUpdate() {
+    const props = this.props;
+    const originalActiveKey = 'activeKey' in props ? props.activeKey :
+      props.store.getState().activeKey[getEventKey(props)];
+    const activeKey = getActiveKey(props, originalActiveKey);
+    if (activeKey !== originalActiveKey) {
+      updateActiveKey(props.store, getEventKey(props), activeKey);
+    }
+  }
+
   // all keyboard events callbacks run from here at first
   onKeyDown = (e, callback) => {
     const keyCode = e.keyCode;
@@ -193,16 +202,6 @@ export class SubPopupMenu extends React.Component {
     /* istanbul ignore next */
     this.props.onDestroy(key);
   };
-
-  componentDidUpdate() {
-    const props = this.props;
-    const originalActiveKey = 'activeKey' in props ? props.activeKey :
-      props.store.getState().activeKey[getEventKey(props)];
-    const activeKey = getActiveKey(props, originalActiveKey);
-    if (activeKey !== originalActiveKey) {
-      updateActiveKey(props.store, getEventKey(props), activeKey);
-    }
-  }
 
   getFlatInstanceArray = () => {
     return this.instanceArray;
@@ -353,7 +352,5 @@ export class SubPopupMenu extends React.Component {
     );
   }
 }
-
-polyfill(SubPopupMenu);
 
 export default connect()(SubPopupMenu);
