@@ -150,7 +150,7 @@ export class MenuItem extends React.Component {
       title: props.title,
       className,
       // set to menuitem by default
-      role: 'menuitem',
+      role: props.role || 'menuitem',
       'aria-disabled': props.disabled,
     };
 

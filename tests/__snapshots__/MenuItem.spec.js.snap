@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MenuItem overwrite default role should set role to listitem 1`] = `
+<li
+  class="undefined-item"
+  role="listitem"
+>
+  test
+</li>
+`;
+
 exports[`MenuItem overwrite default role should set role to none if none 1`] = `
 <li
   class="undefined-item"
@@ -18,7 +27,7 @@ exports[`MenuItem overwrite default role should set role to none if null 1`] = `
 </li>
 `;
 
-exports[`MenuItem overwrite default role should set specific role 1`] = `
+exports[`MenuItem overwrite default role should set role to option 1`] = `
 <li
   class="undefined-item"
   role="option"
