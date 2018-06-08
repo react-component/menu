@@ -117,13 +117,25 @@ describe('MenuItem', () => {
   });
 
   describe('overwrite default role', () => {
-    it('should set empty role', () => {
+    it('should set role to none if null', () => {
       const wrapper = shallow(<NakedMenuItem role={null}>test</NakedMenuItem>);
 
       expect(wrapper.render()).toMatchSnapshot();
     });
 
-    it('should set specific role', () => {
+    it('should set role to none if none', () => {
+      const wrapper = shallow(<NakedMenuItem role="none">test</NakedMenuItem>);
+
+      expect(wrapper.render()).toMatchSnapshot();
+    });
+
+    it('should set role to listitem', () => {
+      const wrapper = shallow(<NakedMenuItem role="listitem">test</NakedMenuItem>);
+
+      expect(wrapper.render()).toMatchSnapshot();
+    });
+
+    it('should set role to option', () => {
       const wrapper = shallow(<NakedMenuItem role="option">test</NakedMenuItem>);
 
       expect(wrapper.render()).toMatchSnapshot();

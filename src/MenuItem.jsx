@@ -150,7 +150,7 @@ export class MenuItem extends React.Component {
       title: props.title,
       className,
       // set to menuitem by default
-      role: 'menuitem',
+      role: props.role || 'menuitem',
       'aria-disabled': props.disabled,
     };
 
@@ -161,10 +161,13 @@ export class MenuItem extends React.Component {
         role: 'option',
         'aria-selected': props.isSelected,
       };
-    } else if (props.role === null) {
+    } else if (props.role === null || props.role === 'none') {
       // sometimes we want to specify role inside <li/> element
       // <li><a role='menuitem'>Link</a></li> would be a good example
-      delete attrs.role;
+      // in this case the role on <li/> should be "none" to
+      // remove the implied listitem role.
+      // https://www.w3.org/TR/wai-aria-practices-1.1/examples/menubar/menubar-1/menubar-1.html
+      attrs.role = 'none';
     }
     // In case that onClick/onMouseLeave/onMouseEnter is passed down from owner
     const mouseEvent = {
