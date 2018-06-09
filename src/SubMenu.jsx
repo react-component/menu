@@ -359,6 +359,7 @@ export class SubMenu extends React.Component {
       subMenuCloseDelay: props.subMenuCloseDelay,
       forceSubMenuRender: props.forceSubMenuRender,
       triggerSubMenuAction: props.triggerSubMenuAction,
+      builtinPlacements: props.builtinPlacements,
       defaultActiveFirst: props.store.getState()
         .defaultActiveFirst[getMenuIdFromSubMenuEventKey(props.eventKey)],
       multiple: props.multiple,
@@ -489,6 +490,7 @@ export class SubMenu extends React.Component {
       subMenuOpenDelay,
       forceSubMenuRender,
       subMenuCloseDelay,
+      builtinPlacements,
     } = props;
     menuAllProps.forEach(key => delete props[key]);
     // Set onClick to null, to ignore propagated onClick event
@@ -508,7 +510,7 @@ export class SubMenu extends React.Component {
             prefixCls={prefixCls}
             popupClassName={`${prefixCls}-popup ${popupClassName}`}
             getPopupContainer={getPopupContainer}
-            builtinPlacements={placements}
+            builtinPlacements={Object.assign({}, placements, builtinPlacements)}
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
             popupAlign={popupAlign}
