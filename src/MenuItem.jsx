@@ -30,6 +30,7 @@ export class MenuItem extends React.Component {
     multiple: PropTypes.bool,
     isSelected: PropTypes.bool,
     manualRef: PropTypes.func,
+    disableScrollIntoView: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -37,6 +38,7 @@ export class MenuItem extends React.Component {
     onMouseEnter: noop,
     onMouseLeave: noop,
     manualRef: noop,
+    disableScrollIntoView: false,
   };
 
   constructor(props) {
@@ -49,7 +51,7 @@ export class MenuItem extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.active) {
+    if (this.props.active && !this.props.disableScrollIntoView) {
       scrollIntoView(ReactDOM.findDOMNode(this), ReactDOM.findDOMNode(this.props.parentMenu), {
         onlyScrollIfNeeded: true,
       });

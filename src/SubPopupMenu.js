@@ -329,7 +329,8 @@ export class SubPopupMenu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
-    const { prefixCls, eventKey, visible } = props;
+
+    const { prefixCls, eventKey, visible, mode, overflowedIndicator } = props;
     menuAllProps.forEach(key => delete props[key]);
 
     // Otherwise, the propagated click event will trigger another onClick
@@ -339,9 +340,12 @@ export class SubPopupMenu extends React.Component {
       /* eslint-disable */
       <DOMWrap
         {...props}
+        prefixCls={prefixCls}
+        mode={mode}
         tag="ul"
         hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}
+        overflowedIndicator={overflowedIndicator}
         {...domProps}
       >
         {React.Children.map(
@@ -353,5 +357,6 @@ export class SubPopupMenu extends React.Component {
     );
   }
 }
+const connected = connect()(SubPopupMenu);
 
-export default connect()(SubPopupMenu);
+export default connected;

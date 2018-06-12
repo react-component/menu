@@ -266,6 +266,12 @@ ReactDOM.render(<Menu>
           <td>sub menu's content</td>
         </tr>
         <tr>
+          <td>overflowedIndicator</td>
+          <td>String/ReactElement</td>
+          <td>...</td>
+          <td>overflow indicator when menu overlows in horizontal mode</td>
+        </tr>
+        <tr>
             <td>key</td>
             <td>Object</td>
             <th></th>
