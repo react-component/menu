@@ -33,7 +33,8 @@ export default class DOMWrap extends React.Component {
 
     this.rest = [];
     let currentSumWidth = 0;
-    let counter = 0;
+    let counter = -1;
+    const children = this.props.children;
 
     if (this.state.scrollWidth === undefined) {
       this.setState({ scrollWidth });
@@ -41,20 +42,20 @@ export default class DOMWrap extends React.Component {
 
     if ((this.state.scrollWidth || scrollWidth) > width) {
       let lastChild;
-      Array.prototype.slice.apply(this.state.liChildren || ul.children).forEach((li, index) => {
+      Array.prototype.slice.apply(ul.children).forEach((li, index) => {
         const liWidth = li.getBoundingClientRect().width;
         currentSumWidth += liWidth;
         if (currentSumWidth > width) {
-          this.rest.push(this.props.children[index]);
+          // somehow children[index].key is in the format of '.$key', have to overwrite with the correct key
+          this.rest.push(React.cloneElement(children[index], { key: children[index].props.eventKey }));
         } else {
           counter++;
-          lastChild = this.props.children[index];
+          lastChild = children[index];
         }
       });
-      this.rest.unshift(lastChild);
+      this.rest.unshift(React.cloneElement(lastChild, { key: lastChild.props.eventKey }));
 
       this.setState({ counter });
-
     } else {
       this.setState({ counter: undefined });
     }
@@ -83,15 +84,15 @@ export default class DOMWrap extends React.Component {
       <Tag {...otherProps}>
         {React.Children.map(children, (childNode, index) => {
           if (this.state.counter !== undefined && this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1) {
-            if (index < this.state.counter - 1) {
+            if (index < this.state.counter) {
               return childNode;
-            } else if (index === this.state.counter - 1) {
-              const copy = this.props.children[this.state.counter - 1];
+            } else if (index === this.state.counter) {
+              const copy = this.props.children[this.state.counter];
               const { children, title, ...copyProps } = copy.props;
               
               const more = (
                 <SubMenu title="More">
-                {this.rest}
+                  {this.rest}
                 </SubMenu>
               );
 

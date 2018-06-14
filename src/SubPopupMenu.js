@@ -329,7 +329,7 @@ export class SubPopupMenu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
-    console.log({ menuAllProps: props });
+
     const { prefixCls, eventKey, visible } = props;
     menuAllProps.forEach(key => delete props[key]);
 
