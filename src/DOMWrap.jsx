@@ -35,69 +35,38 @@ export default class DOMWrap extends React.Component {
     let currentSumWidth = 0;
     let counter = 0;
 
-    console.log({
-      scrollWidth,
-      width,
-    });
-
     if (this.state.scrollWidth === undefined) {
       this.setState({ scrollWidth });
     }
-    if ((this.state.scrollWidth || scrollWidth) >= width) {
-      // console.log(ul.children);
+
+    if ((this.state.scrollWidth || scrollWidth) > width) {
+      let lastChild;
       Array.prototype.slice.apply(this.state.liChildren || ul.children).forEach((li, index) => {
         const liWidth = li.getBoundingClientRect().width;
-        console.log({ liWidth });
         currentSumWidth += liWidth;
-        if (currentSumWidth >= width) {
-          // rest.push(index);
+        if (currentSumWidth > width) {
           this.rest.push(this.props.children[index]);
         } else {
           counter++;
+          lastChild = this.props.children[index];
         }
       });
+      this.rest.unshift(lastChild);
 
       this.setState({ counter });
-      /*
-      this.props.children.forEach((c, i) => {
 
-      });
-      */
-      /*
-      ReactDOM.render(
-        <Menu>
-          <SubMenu title="More">
-            {rest}
-          </SubMenu>
-        </Menu>
-        ,
-        document.querySelector('#test'),
-      )
-      console.log({rest})
-      */
-      // const temp = (
-      //   <SubMenu title="More">
-      //     {rest}
-      //   </SubMenu>
-      // );
-
-      //Array.prototype.splice.apply(this.props.children, counter, temp);
-      // this.props.children[counter] = temp;
     } else {
       this.setState({ counter: undefined });
     }
   }
 
   componentDidMount() {
-    console.log('domWrap mounted');
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
-    console.log('parentMounted');
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
-
   }
 
   render() {
@@ -113,27 +82,21 @@ export default class DOMWrap extends React.Component {
     return (
       <Tag {...otherProps}>
         {React.Children.map(children, (childNode, index) => {
-          console.log({ counter: this.state.counter });
-          if (this.state.counter !== undefined) {
+          if (this.state.counter !== undefined && this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1) {
             if (index < this.state.counter - 1) {
               return childNode;
             } else if (index === this.state.counter - 1) {
-              console.log({ rest: this.rest })
               const copy = this.props.children[this.state.counter - 1];
-              const { children, ...copyProps } = copy.props;
+              const { children, title, ...copyProps } = copy.props;
               
-              const temp = (
+              const more = (
                 <SubMenu title="More">
                 {this.rest}
                 </SubMenu>
               );
-              return React.cloneElement(temp, copyProps); 
-              // console.log();
-              // return childNode;
-              // return temp;
+
+              return React.cloneElement(more, { ...copyProps, disabled: false  }); 
             } else {
-              // const props = { ...childNode.props };
-              // props.style = { visibility: }
               return React.cloneElement(childNode, { ...childNode.props, style: { ...childNode.props.style, visibility: 'hidden' } }); ;
             }
           } else {

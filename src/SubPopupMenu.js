@@ -340,6 +340,7 @@ export class SubPopupMenu extends React.Component {
       /* eslint-disable */
       <DOMWrap
         {...props}
+        prefixCls={prefixCls}
         tag="ul"
         hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}
