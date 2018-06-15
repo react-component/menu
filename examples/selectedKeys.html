@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>selectedKeys.js - example - rc-menu@7.0.5</title>
+  <title>selectedKeys.js - example - rc-menu@6.2.11</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@7.0.5</h1>
+      <h1>rc-menu@6.2.11</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -274,35 +274,38 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
+import createReactClass from 'create-react-class';
 
 import 'rc-menu/assets/index.css';
 
-class Test extends React.Component {
-  state = {
-    destroyed: false,
-    selectedKeys: [],
-    openKeys: [],
-  };
+const Test = createReactClass({
+  getInitialState() {
+    return {
+      destroyed: false,
+      selectedKeys: [],
+      openKeys: [],
+    };
+  },
 
-  onSelect = (info) =&gt; {
+  onSelect(info) {
     console.log('selected ', info);
     this.setState({
       selectedKeys: info.selectedKeys,
     });
-  };
+  },
 
   onDeselect(info) {
     console.log('deselect ', info);
-  }
+  },
 
-  onOpenChange = (openKeys) =&gt; {
+  onOpenChange(openKeys) {
     console.log('onOpenChange ', openKeys);
     this.setState({
       openKeys,
     });
-  };
+  },
 
-  onCheck = (e) =&gt; {
+  onCheck(e) {
     const value = e.target.value;
     if (e.target.checked) {
       this.setState({
@@ -318,9 +321,9 @@ class Test extends React.Component {
         selectedKeys,
       });
     }
-  };
+  },
 
-  onOpenCheck = (e) =&gt; {
+  onOpenCheck(e) {
     const value = e.target.value;
     if (e.target.checked) {
       this.setState({
@@ -336,7 +339,7 @@ class Test extends React.Component {
         openKeys,
       });
     }
-  };
+  },
 
   getMenu() {
     return (
@@ -359,13 +362,13 @@ class Test extends React.Component {
         &lt;MenuItem key="3"&gt;item3&lt;/MenuItem&gt;
       &lt;/Menu&gt;
     );
-  }
+  },
 
   destroy() {
     this.setState({
       destroyed: true,
     });
-  }
+  },
 
   render() {
     if (this.state.destroyed) {
@@ -409,8 +412,9 @@ class Test extends React.Component {
 
       &lt;div style={{ width: 400 }}&gt;{this.getMenu()}&lt;/div&gt;
     &lt;/div&gt;);
-  }
-}
+  },
+});
+
 
 ReactDOM.render(&lt;Test /&gt;, document.getElementById('__react-content'));
 </code></pre></div>
