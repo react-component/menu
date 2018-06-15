@@ -77,7 +77,7 @@ const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" pop
 function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
-const commonMenu = (<Menu onClick={handleClick} onOpenChange={onOpenChange}>
+const commonMenu = (<Menu onClick={handleClick} onOpenChange={onOpenChange} selectedKeys={["5"]}>
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
@@ -117,13 +117,14 @@ function render(container) {
     <h2>antd menu</h2>
 
     <div>
+      {/*
       <h3>horizontal</h3>
 
-      <div style={{ margin: 20 }}>{horizontalMenu}</div>
-      {/* <h3>horizontal and click</h3>
+      <div style={{ margin: 20 }}>{horizontalMenu}</div> */}
+      <h3>horizontal and click</h3>
 
       <div style={{ margin: 20 }}>{horizontalMenu2}</div>
-      <h3>vertical</h3>
+      {/* <h3>vertical</h3>
 
       <div style={{ margin: 20, width: 200 }}>{verticalMenu}</div>
       <h3>inline</h3>
