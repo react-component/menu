@@ -77,7 +77,7 @@ const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" pop
 function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
-const commonMenu = (<Menu onClick={handleClick} onOpenChange={onOpenChange} selectedKeys={["5"]}>
+const commonMenu = (<Menu onClick={handleClick} onOpenChange={onOpenChange} selectedKeys={['5']}>
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
@@ -116,7 +116,6 @@ function render(container) {
   ReactDOM.render(<div style={{ margin: 20 }}>
     <h2>antd menu</h2>
     <div>
-      
       <h3>horizontal</h3>
 
       <div style={{ margin: 20 }}>{horizontalMenu}</div>

@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
-import scrollIntoView from 'dom-scroll-into-view';
+// import scrollIntoView from 'dom-scroll-into-view';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
 
