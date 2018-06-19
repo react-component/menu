@@ -330,7 +330,7 @@ export class SubPopupMenu extends React.Component {
       domProps.onKeyDown = this.onKeyDown;
     }
 
-    const { prefixCls, eventKey, visible } = props;
+    const { prefixCls, eventKey, visible, mode } = props;
     menuAllProps.forEach(key => delete props[key]);
 
     // Otherwise, the propagated click event will trigger another onClick
@@ -341,6 +341,7 @@ export class SubPopupMenu extends React.Component {
       <DOMWrap
         {...props}
         prefixCls={prefixCls}
+        mode={mode}
         tag="ul"
         hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}

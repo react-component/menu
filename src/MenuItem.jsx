@@ -50,9 +50,9 @@ export class MenuItem extends React.Component {
 
   componentDidUpdate() {
     if (this.props.active) {
-      scrollIntoView(ReactDOM.findDOMNode(this), ReactDOM.findDOMNode(this.props.parentMenu), {
-        onlyScrollIfNeeded: true,
-      });
+      // scrollIntoView(ReactDOM.findDOMNode(this), ReactDOM.findDOMNode(this.props.parentMenu), {
+      //   onlyScrollIfNeeded: true,
+      // });
     }
     this.callRef();
   }

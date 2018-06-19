@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import SubMenu from './SubMenu';
-// import SubPopupMenu from './SubPopupMenu';
 import Menu from './Menu';
 import debounce from 'lodash/debounce';
 
@@ -19,76 +18,80 @@ export default class DOMWrap extends React.Component {
   };
 
   state = {
-    counter: undefined,
-    scrollWidth: undefined,
+    overflowingIndex: undefined,
   };
 
-  rest = [];
+  overflowedItems = [];
 
   childrenCache = [];
 
   handleResize = () => {
+    if (this.props.mode !== 'horizontal') {
+      return;
+    }
+    // reset children to childrenCache
     this.props.children.forEach((c, i) => this.props.children[i] = React.cloneElement(this.childrenCache[i]));
+
     const ul = ReactDOM.findDOMNode(this);
-
     const scrollWidth = ul.scrollWidth;
-
     const width = ul.getBoundingClientRect().width;
 
-    this.rest = [];
+    this.overflowedItems = [];
     let currentSumWidth = 0;
-    let counter = -1;
+    // last index of menuItem that is overflowed
+    let overflowingIndex = -1;
     const children = this.props.children;
 
-    if (this.state.scrollWidth === undefined) {
-      this.setState({ scrollWidth });
-    }
-
-    if ((this.state.scrollWidth || scrollWidth) > width) {
-      let lastChild;
+    // try to find all the overflowed items
+    if (scrollWidth > width) {
+      let lastVisibleChild;
       Array.prototype.slice.apply(ul.children).forEach((li, index) => {
         const liWidth = li.getBoundingClientRect().width;
         currentSumWidth += liWidth;
         if (currentSumWidth > width) {
           // somehow children[index].key is in the format of '.$key', we have to overwrite with the correct key
-          this.rest.push(React.cloneElement(children[index], { key: children[index].props.eventKey }));
+          this.overflowedItems.push(React.cloneElement(children[index], { key: children[index].props.eventKey }));
         } else {
-          counter++;
-          lastChild = children[index];
+          overflowingIndex++;
+          lastVisibleChild = children[index];
         }
       });
 
-      this.rest.unshift(React.cloneElement(lastChild, { key: lastChild.props.eventKey }));
+      // we need to replace last visible child with a overflow indicator ('...')
+      this.overflowedItems.unshift(React.cloneElement(lastVisibleChild, { key: lastVisibleChild.props.eventKey }));
 
-      const selected = this.rest.findIndex(x => {
-        return x.props.selectedKeys.includes(x.props.eventKey);
+      const selectedIndex = this.childrenCache.findIndex(c => {
+        return c.props.selectedKeys.includes(c.props.eventKey);
       });
 
-      if (selected !== -1) {
-        const lastVisibleIndex = this.props.children.findIndex(c => c.props.eventKey === lastChild.props.eventKey) - 1;
+      const lastVisibleIndex = this.props.children.findIndex(c => c.props.eventKey === lastVisibleChild.props.eventKey) - 1;
 
-        const tmp = this.props.children[lastVisibleIndex];
-        this.props.children[lastVisibleIndex] = this.rest[selected];
-        this.rest[selected] = tmp;
+      // try to move the selected item out of the overflowed item
+      if (selectedIndex !== -1 && selectedIndex > lastVisibleIndex) {
+        const selectedIndexInOverflow = this.overflowedItems.findIndex(ele => ele.props.eventKey === this.childrenCache[selectedIndex].props.eventKey)
+        const tmp = this.props.children[lastVisibleIndex - 1];
+        this.props.children[lastVisibleIndex] = this.overflowedItems[selectedIndexInOverflow];
+        this.overflowedItems[selectedIndexInOverflow] = tmp;
       }
 
-      this.setState({ counter });
+      this.setState({ overflowingIndex });
     } else {
-      this.setState({ counter: undefined });
+      this.setState({ overflowingIndex: undefined });
     }
   }
 
-  debouncedHandleResize = debounce(this.handleResize, 100);
+  debouncedHandleResize = debounce(this.handleResize, 500);
 
   componentDidMount() {
     window.addEventListener('resize', this.debouncedHandleResize);
-    this.props.children.forEach((c, i) => this.childrenCache[i] = React.cloneElement(this.props.children[i]));
     this.updateChildrenCache();
     this.handleResize();
   }
 
-  componentDidUpdate() {
+  getDerivedStateFromProps(props) {
     this.updateChildrenCache();
+
+    return null;
   }
 
   componentWillUnmount() {
@@ -96,32 +99,44 @@ export default class DOMWrap extends React.Component {
   }
 
   updateChildrenCache = () => {
-    this.props.children.forEach((c, i) => this.childrenCache[i] = React.cloneElement(this.props.children[i]));
+    if (this.props.mode !== 'horizontal') {
+      return;
+    }
+
+    this.props.children.forEach((c, i) => this.childrenCache[i] = React.cloneElement(c));
   }
 
   renderChildren(children) {
-    return React.Children.map(children, (childNode, index) => {
-      if (this.state.counter !== undefined && this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1) {
-        if (index < this.state.counter) {
-          return childNode;
-        } else if (index === this.state.counter) {
-          const copy = this.props.children[this.state.counter];
-          const { children, title, ...copyProps } = copy.props;
-          
-          const more = (
-            <SubMenu title="More">
-              {this.rest}
-            </SubMenu>
-          );
+    // need to take care of overflowed items in horizontal mode
+    if (this.props.mode === 'horizontal') {
+      return React.Children.map(children, (childNode, index) => {
+        // only process the scenario when overflow actually happens and it's the root menu
+        if (this.state.overflowingIndex !== undefined && this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1) {
+          if (index < this.state.overflowingIndex) {
+            return childNode;
+          } else if (index === this.state.overflowingIndex) {
+            // put all the overflowed item inside a submenu with a title of overflow indicator ('...')
+            const copy = this.props.children[this.state.overflowingIndex];
+            const { children, title, ...rest } = copy.props;
 
-          return React.cloneElement(more, { ...copyProps, disabled: false  }); 
+            const more = (
+              <SubMenu title="...">
+                {this.overflowedItems}
+              </SubMenu>
+            );
+
+            return React.cloneElement(more, { ...rest, disabled: false  }); 
+          } else {
+            // to make the original overflow item invisible but still occupying dom space
+            return React.cloneElement(childNode, { ...childNode.props, style: { ...childNode.props.style, visibility: 'hidden' } }); ;
+          }
         } else {
-          return React.cloneElement(childNode, { ...childNode.props, style: { ...childNode.props.style, visibility: 'hidden' } }); ;
+          return childNode;
         }
-      } else {
-        return childNode;
-      }
-    })
+      });
+    }
+
+    return this.props.children;
   }
 
   render() {
