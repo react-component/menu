@@ -259,7 +259,7 @@ export class SubPopupMenu extends React.Component {
     const childProps = child.props;
     const isActive = key === state.activeKey;
     const newChildProps = {
-      mode: props.mode,
+      mode: childProps.mode || props.mode,
       level: props.level,
       inlineIndent: props.inlineIndent,
       renderMenuItem: this.renderMenuItem,

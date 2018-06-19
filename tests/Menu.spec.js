@@ -264,6 +264,7 @@ describe('Menu', () => {
     ).toBe(true);
   });
 
+<<<<<<< HEAD
   it('should accept builtinPlacements', () => {
     const builtinPlacements = {
       leftTop: {
@@ -287,5 +288,31 @@ describe('Menu', () => {
 
     expect(wrapper.find('Trigger').prop('builtinPlacements').leftTop)
       .toEqual(builtinPlacements.leftTop);
+  });
+
+  describe('submenu mode', () => {
+    it('should use menu mode by default', () => {
+      const wrapper = mount(
+        <Menu mode="horizontal">
+          <SubMenu title="submenu">
+            <MenuItem>menuItem</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
+
+      expect(wrapper.find('SubMenu').prop('mode')).toEqual('horizontal');
+    });
+
+    it('should be able to customize SubMenu mode', () => {
+      const wrapper = mount(
+        <Menu mode="horizontal">
+          <SubMenu title="submenu" mode="vertical-right">
+            <MenuItem>menuItem</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
+
+      expect(wrapper.find('SubMenu').prop('mode')).toEqual('vertical-right');
+    });
   });
 });
