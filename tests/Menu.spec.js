@@ -263,4 +263,29 @@ describe('Menu', () => {
       wrapper.find('li').first().hasClass('rc-menu-item-active')
     ).toBe(true);
   });
+
+  it('should accept builtinPlacements', () => {
+    const builtinPlacements = {
+      leftTop: {
+        points: ['tr', 'tl'],
+        overflow: {
+          adjustX: 0,
+          adjustY: 0,
+        },
+        offset: [0, 0],
+      },
+    };
+
+    const wrapper = mount(
+      <Menu builtinPlacements={builtinPlacements}>
+        <MenuItem>menuItem</MenuItem>
+        <SubMenu title="submenu">
+          <MenuItem>menuItem</MenuItem>
+        </SubMenu>
+      </Menu>
+    );
+
+    expect(wrapper.find('Trigger').prop('builtinPlacements').leftTop)
+      .toEqual(builtinPlacements.leftTop);
+  });
 });

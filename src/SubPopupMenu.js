@@ -285,6 +285,7 @@ export class SubPopupMenu extends React.Component {
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
       onSelect: this.onSelect,
+      builtinPlacements: props.builtinPlacements,
       ...extraProps,
     };
     if (props.mode === 'inline') {

@@ -31,6 +31,7 @@ class Menu extends React.Component {
     style: PropTypes.object,
     activeKey: PropTypes.string,
     prefixCls: PropTypes.string,
+    builtinPlacements: PropTypes.object,
   };
 
   static defaultProps = {
@@ -48,6 +49,7 @@ class Menu extends React.Component {
     className: '',
     mode: 'vertical',
     style: {},
+    builtinPlacements: {},
   };
 
   constructor(props) {
