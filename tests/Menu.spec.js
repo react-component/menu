@@ -264,7 +264,6 @@ describe('Menu', () => {
     ).toBe(true);
   });
 
-<<<<<<< HEAD
   it('should accept builtinPlacements', () => {
     const builtinPlacements = {
       leftTop: {
