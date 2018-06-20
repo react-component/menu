@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-menu@6.2.11 - menu ui component for react</title>
+  <title>rc-menu@7.1.0 - menu ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-menu@6.2.11</h1>
+  <h1>rc-menu@7.1.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -918,6 +918,12 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>&
             <th>() =&gt; document.body</th>
             <td>Where to render the DOM node of popup menu when the mode is horizontal or vertical</td>
         </tr>
+        <tr>
+            <td>builtinPlacements</td>
+            <td>Object of alignConfigs for <a href="https://github.com/yiminghe/dom-align">dom-align</a></td>
+            <th>see <a href="./src/placements.jsx">placements.jsx</a></th>
+            <td>Describes how the popup menus should be positioned</td>
+        </tr>
     </tbody>
 </table>
 
@@ -1028,6 +1034,12 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>&
             <td>Function({eventKey, domEvent})</td>
             <th></th>
             <td></td>
+        </tr>
+        <tr>
+            <td>popupOffset</td>
+            <td>Array</td>
+            <th></th>
+            <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: <code>[0,15]</code></td>
         </tr>
     </tbody>
 </table>

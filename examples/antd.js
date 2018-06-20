@@ -15,11 +15,11 @@ module.exports = __webpack_require__(83);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rc_menu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rc_menu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rc_menu_assets_index_less__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_css_animation__ = __webpack_require__(77);
 /* eslint no-console:0 */
@@ -30,9 +30,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-function handleSelect(info) {
+function handleClick(info) {
+  console.log('clicked ' + info.key);
   console.log(info);
-  console.log('selected ' + info.key);
 }
 
 var animation = {
@@ -78,8 +78,8 @@ var nestSubMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'span',
       null,
-      'sub menu 2'
-    ), key: '4' },
+      'offset sub menu 2'
+    ), key: '4', popupOffset: [10, 15] },
   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
     { key: '4-1' },
@@ -155,7 +155,7 @@ function onOpenChange(value) {
 }
 var commonMenu = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   __WEBPACK_IMPORTED_MODULE_2_rc_menu___default.a,
-  { onSelect: handleSelect, onOpenChange: onOpenChange },
+  { onClick: handleClick, onOpenChange: onOpenChange },
   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
     { title: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
