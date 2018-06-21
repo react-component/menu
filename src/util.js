@@ -91,6 +91,7 @@ export const menuAllProps = [
   'manualRef',
   'subMenuKey',
   'disabled',
+  'disableScrollIntoView',
   'index',
   'isSelected',
   'store',

@@ -128,7 +128,7 @@ export default class DOMWrap extends React.Component {
             // put all the overflowed item inside a submenu
             // with a title of overflow indicator ('...')
             const copy = this.props.children[overflowingIndex];
-            const { children: throwAway, title, ...rest } = copy.props;
+            const { children: throwAway, title, eventKey, ...rest } = copy.props;
 
             const more = (
               <SubMenu title="...">
@@ -161,6 +161,7 @@ export default class DOMWrap extends React.Component {
     delete rest.tag;
     delete rest.hiddenClassName;
     delete rest.visible;
+    delete rest.prefixCls;
 
     return (
       <Tag {...rest}>
