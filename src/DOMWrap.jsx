@@ -142,8 +142,7 @@ export default class DOMWrap extends React.Component {
           // to make the original overflow item invisible but still occupying dom space
           return React.cloneElement(
             childNode,
-            { style: { ...childNode.props.style, visibility: 'hidden' },
-          });
+            { style: { ...childNode.props.style, visibility: 'hidden' }, disableScrollIntoView: true });
         }
 
         return childNode;

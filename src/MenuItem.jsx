@@ -1,9 +1,9 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
-// import scrollIntoView from 'dom-scroll-into-view';
+import scrollIntoView from 'dom-scroll-into-view';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
 
@@ -30,6 +30,7 @@ export class MenuItem extends React.Component {
     multiple: PropTypes.bool,
     isSelected: PropTypes.bool,
     manualRef: PropTypes.func,
+    disableScrollIntoView: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -37,6 +38,7 @@ export class MenuItem extends React.Component {
     onMouseEnter: noop,
     onMouseLeave: noop,
     manualRef: noop,
+    disableScrollIntoView: false,
   };
 
   constructor(props) {
@@ -49,10 +51,10 @@ export class MenuItem extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.active) {
-      // scrollIntoView(ReactDOM.findDOMNode(this), ReactDOM.findDOMNode(this.props.parentMenu), {
-      //   onlyScrollIfNeeded: true,
-      // });
+    if (this.props.active && !this.props.disableScrollIntoView) {
+      scrollIntoView(ReactDOM.findDOMNode(this), ReactDOM.findDOMNode(this.props.parentMenu), {
+        onlyScrollIfNeeded: true,
+      });
     }
     this.callRef();
   }
