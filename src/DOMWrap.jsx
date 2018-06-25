@@ -55,6 +55,14 @@ export default class DOMWrap extends React.Component {
     });
   }
 
+  getWidth(elem) {
+    return elem.getBoundingClientRect().width;
+  }
+
+  getScrollWidth(elem) {
+    return elem.scrollWidth;
+  }
+
   handleResize = () => {
     if (this.props.mode !== 'horizontal') {
       return;
@@ -65,7 +73,7 @@ export default class DOMWrap extends React.Component {
     );
 
     const ul = ReactDOM.findDOMNode(this);
-    const width = ul.getBoundingClientRect().width;
+    const width = this.getWidth(ul);
 
     this.overflowedItems = [];
     let currentSumWidth = 0;
@@ -145,11 +153,11 @@ export default class DOMWrap extends React.Component {
     }
 
     const ul = ReactDOM.findDOMNode(this);
-    const scrollWidth = ul.scrollWidth;
+    const scrollWidth = this.getScrollWidth(ul);
     
     this.props.children.forEach((c, i) => this.childrenCache[i] = {
       component: React.cloneElement(c),
-      width: ul.children[i].getBoundingClientRect().width,
+      width: this.getWidth(ul.children[i]),
     });
 
     this.originalScrollWidth = scrollWidth;
@@ -211,6 +219,7 @@ export default class DOMWrap extends React.Component {
     delete rest.visible;
     delete rest.prefixCls;
     delete rest.overflowedIndicator;
+    delete rest.mode;
 
     return (
       <Tag {...rest}>
