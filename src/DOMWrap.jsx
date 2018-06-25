@@ -77,7 +77,6 @@ export default class DOMWrap extends React.Component {
     // overflow indicator, so we need a flag to mark this
     let shouldReuseLastSpot = true;
 
-    // try to find all the overflowed items
     if (this.originalScrollWidth > width) {
       let lastVisibleChild;
       let lastWidth;
@@ -91,7 +90,10 @@ export default class DOMWrap extends React.Component {
         if (currentSumWidth > width) {
           if (lastSumWidth && lastSumWidth <= width) {
             let availableWidth = width - lastSumWidth;
-            if (selectedIndex !== -1 &&  selectedIndex >= index) {
+            // if there is any selected item that got hidden,
+            // we'll have to swap the selected item with last visible item,
+            // so we need to re-calculate the available width
+            if (selectedIndex !== -1 && selectedIndex >= index) {
               availableWidth += lastWidth - this.childrenCache[selectedIndex].width
             }
             shouldReuseLastSpot = (availableWidth >= this.overflowedIndicatorWidth);
@@ -103,6 +105,7 @@ export default class DOMWrap extends React.Component {
             { key: children[index].props.eventKey },
           ));
         } else {
+          // still spacious enough to contain current item, so mark it to be lastVisibleChild
           lastVisibleChild = children[index];
         }
         lastWidth = liWidth;
@@ -114,6 +117,9 @@ export default class DOMWrap extends React.Component {
           c  => c.props.eventKey === lastVisibleChild.props.eventKey
         ) : undefined;
 
+      // we're not able to reuse the remaining spot
+      // so pushing one more item into overflowed items
+      // and unshift the lastVisibleIndex
       if (!shouldReuseLastSpot && lastVisibleChild) {
         // we need to replace last visible child with a overflow indicator ('...')
         this.overflowedItems.unshift(React.cloneElement(
@@ -124,7 +130,7 @@ export default class DOMWrap extends React.Component {
         lastVisibleIndex = lastVisibleIndex - 1;
       }
 
-      // try to move the selected item out of the overflowed item
+      // try to swap any hidden selected item with last visible child
       if (selectedIndex !== -1 && selectedIndex > lastVisibleIndex) {
         const selectedIndexInOverflow = this.overflowedItems.findIndex(
           ele => ele.props.eventKey === this.childrenCache[selectedIndex].component.props.eventKey
@@ -134,10 +140,9 @@ export default class DOMWrap extends React.Component {
         this.overflowedItems[selectedIndexInOverflow] = tmp;
       }
 
-      this.setState({ lastVisibleIndex });
-    } else {
-      this.setState({ lastVisibleIndex: undefined });
     }
+
+    this.setState({ lastVisibleIndex });
   }
 
   debouncedHandleResize = debounce(this.handleResize, 500);
@@ -179,18 +184,21 @@ export default class DOMWrap extends React.Component {
     // need to take care of overflowed items in horizontal mode
     if (this.props.mode === 'horizontal') {
       const lastVisibleIndex = this.state.lastVisibleIndex;
-      return React.Children.map([...children], (childNode, index) => {
+      return React.Children.map(children, (childNode, index) => {
         // only process the scenario when overflow actually happens and it's the root menu
         if (lastVisibleIndex !== undefined
             &&
             this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
         ) {
           if (index <= lastVisibleIndex) {
+            // visible item, just render
             return childNode;
           } else if (index === lastVisibleIndex + 1) {
+            // time to use overflow indicator!
             return this.getOverflowedSubMenuItem();
           }
-          // to make the original overflow item invisible but still occupying dom space
+
+          // otherwise, make the original overflow item invisible but still occupying dom space
           return React.cloneElement(
             childNode,
             { style: { ...childNode.props.style, visibility: 'hidden' }, disableScrollIntoView: true });
