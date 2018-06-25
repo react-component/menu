@@ -97,6 +97,7 @@ export const menuAllProps = [
   'store',
   'activeKey',
   'builtinPlacements',
+  'overflowedIndicator',
 
   // the following keys found need to be removed from test regression
   'attribute',
