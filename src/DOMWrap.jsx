@@ -31,14 +31,38 @@ export default class DOMWrap extends React.Component {
     window.removeEventListener('resize', this.debouncedHandleResize);
   }
 
-  // original scroll size of the list
-  originalScrollWidth = 0;
+  getOverflowedSubMenuItem = () => {
+    const { overflowedIndicator } = this.props;
+    // put all the overflowed item inside a submenu
+    // with a title of overflow indicator ('...')
+    const copy = this.props.children[0];
+    const { children: throwAway, title, eventKey, ...rest } = copy.props;
 
-  // copy of overflowed items 
-  overflowedItems = [];
+    const more = (
+      <SubMenu title={overflowedIndicator} className={`${this.props.prefixCls}-overflowed-submenu`}>
+        {this.overflowedItems}
+      </SubMenu>
+    );
 
-  // cache item of the original items (so we can track the size and order)
-  childrenCache = [];
+    return React.cloneElement(more, { ...rest, disabled: false });
+  }
+
+  // cache ul size and size of the original item in ul.
+  setChildrenCache = () => {
+    if (this.props.mode !== 'horizontal') {
+      return;
+    }
+
+    const ul = ReactDOM.findDOMNode(this);
+    const scrollWidth = getScrollWidth(ul);
+
+    this.props.children.forEach((c, i) => this.childrenCache[i] = {
+      component: React.cloneElement(c),
+      width: getWidth(ul.children[i]),
+    });
+
+    this.originalScrollWidth = scrollWidth;
+  }
 
   // set overflow indicator size
   setOverflowedIndicatorSize() {
@@ -46,7 +70,6 @@ export default class DOMWrap extends React.Component {
       return;
     }
     const container = document.body.appendChild(document.createElement('div'));
-    const child = container.appendChild(document.createElement('div'));
     container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
     ReactDOM.render(this.props.overflowedIndicator, container, () => {
       this.overflowedIndicatorWidth = getWidth(container) + 40;
@@ -55,6 +78,15 @@ export default class DOMWrap extends React.Component {
       this.handleResize();
     });
   }
+
+  // original scroll size of the list
+  originalScrollWidth = 0;
+
+  // copy of overflowed items
+  overflowedItems = [];
+
+  // cache item of the original items (so we can track the size and order)
+  childrenCache = [];
 
   handleResize = () => {
     if (this.props.mode !== 'horizontal') {
@@ -77,6 +109,9 @@ export default class DOMWrap extends React.Component {
     // overflow indicator, so we need a flag to mark this
     let shouldReuseLastSpot = true;
 
+    // index for last visible child in horizontal mode
+    let lastVisibleIndex;
+
     if (this.originalScrollWidth > width) {
       let lastVisibleChild;
       let lastWidth;
@@ -94,7 +129,7 @@ export default class DOMWrap extends React.Component {
             // we'll have to swap the selected item with last visible item,
             // so we need to re-calculate the available width
             if (selectedIndex !== -1 && selectedIndex >= index) {
-              availableWidth += lastWidth - this.childrenCache[selectedIndex].width
+              availableWidth += lastWidth - this.childrenCache[selectedIndex].width;
             }
             shouldReuseLastSpot = (availableWidth >= this.overflowedIndicatorWidth);
           }
@@ -112,9 +147,9 @@ export default class DOMWrap extends React.Component {
         lastSumWidth = currentSumWidth;
       });
 
-      let lastVisibleIndex = lastVisibleChild ?
+      lastVisibleIndex = lastVisibleChild ?
         this.props.children.findIndex(
-          c  => c.props.eventKey === lastVisibleChild.props.eventKey
+          c => c.props.eventKey === lastVisibleChild.props.eventKey
         ) : undefined;
 
       // we're not able to reuse the remaining spot
@@ -139,46 +174,12 @@ export default class DOMWrap extends React.Component {
         this.props.children[lastVisibleIndex] = this.overflowedItems[selectedIndexInOverflow];
         this.overflowedItems[selectedIndexInOverflow] = tmp;
       }
-
     }
 
     this.setState({ lastVisibleIndex });
   }
 
   debouncedHandleResize = debounce(this.handleResize, 500);
-
-  // cache ul size and size of the original item in ul.
-  setChildrenCache = () => {
-    if (this.props.mode !== 'horizontal') {
-      return;
-    }
-
-    const ul = ReactDOM.findDOMNode(this);
-    const scrollWidth = getScrollWidth(ul);
-    
-    this.props.children.forEach((c, i) => this.childrenCache[i] = {
-      component: React.cloneElement(c),
-      width: getWidth(ul.children[i]),
-    });
-
-    this.originalScrollWidth = scrollWidth;
-  }
-
-  getOverflowedSubMenuItem = () => {
-    const { overflowedIndicator } = this.props;
-    // put all the overflowed item inside a submenu
-    // with a title of overflow indicator ('...')
-    const copy = this.props.children[0];
-    const { children: throwAway, title, eventKey, ...rest } = copy.props;
-
-    const more = (
-      <SubMenu title={overflowedIndicator} className={`${this.props.prefixCls}-overflowed-submenu`}>
-        {this.overflowedItems}
-      </SubMenu>
-    );
-
-    return React.cloneElement(more, { ...rest, disabled: false });
-  }
 
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
@@ -201,7 +202,11 @@ export default class DOMWrap extends React.Component {
           // otherwise, make the original overflow item invisible but still occupying dom space
           return React.cloneElement(
             childNode,
-            { style: { ...childNode.props.style, visibility: 'hidden' }, disableScrollIntoView: true });
+            {
+              style: { ...childNode.props.style, visibility: 'hidden' },
+              disableScrollIntoView: true,
+            }
+          );
         }
 
         return childNode;
