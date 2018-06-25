@@ -312,9 +312,6 @@ describe('Menu', () => {
     }
 
     let wrapper;
-    beforeEach(() => {
-      // wrapper = mount(createMenu());
-    });
 
     it("should not include overflow indicator when having enough width", () => {
       const scrollWidth = 200;
