@@ -107,3 +107,7 @@ export const menuAllProps = [
   'menu',
   'theme',
 ];
+
+export const getWidth = (elem) => elem.getBoundingClientRect().width;
+
+export const getScrollWidth = (elem) => elem.scrollWidth;

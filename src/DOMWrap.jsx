@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import SubMenu from './SubMenu';
 import debounce from 'lodash/debounce';
+import SubMenu from './SubMenu';
+import { getWidth, getScrollWidth } from './util';
 
 export default class DOMWrap extends React.Component {
   static propTypes = {
@@ -48,19 +49,11 @@ export default class DOMWrap extends React.Component {
     const child = container.appendChild(document.createElement('div'));
     container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
     ReactDOM.render(this.props.overflowedIndicator, container, () => {
-      this.overflowedIndicatorWidth = container.getBoundingClientRect().width + 40;
+      this.overflowedIndicatorWidth = getWidth(container) + 40;
       document.body.removeChild(container);
 
       this.handleResize();
     });
-  }
-
-  getWidth(elem) {
-    return elem.getBoundingClientRect().width;
-  }
-
-  getScrollWidth(elem) {
-    return elem.scrollWidth;
   }
 
   handleResize = () => {
@@ -73,7 +66,7 @@ export default class DOMWrap extends React.Component {
     );
 
     const ul = ReactDOM.findDOMNode(this);
-    const width = this.getWidth(ul);
+    const width = getWidth(ul);
 
     this.overflowedItems = [];
     let currentSumWidth = 0;
@@ -87,6 +80,7 @@ export default class DOMWrap extends React.Component {
     // try to find all the overflowed items
     if (this.originalScrollWidth > width) {
       let lastVisibleChild;
+      let lastWidth;
 
       const selectedIndex = this.childrenCache.findIndex(({ component: c }) => {
         return c.props.selectedKeys.includes(c.props.eventKey);
@@ -96,10 +90,11 @@ export default class DOMWrap extends React.Component {
         currentSumWidth += liWidth;
         if (currentSumWidth > width) {
           if (lastSumWidth && lastSumWidth <= width) {
+            let availableWidth = width - lastSumWidth;
             if (selectedIndex !== -1 &&  selectedIndex >= index) {
-              lastSumWidth = lastSumWidth - this.childrenCache[index - 1].width + this.childrenCache[selectedIndex].width;
+              availableWidth += lastWidth - this.childrenCache[selectedIndex].width
             }
-            shouldReuseLastSpot = ((width - lastSumWidth) >= this.overflowedIndicatorWidth);
+            shouldReuseLastSpot = (availableWidth >= this.overflowedIndicatorWidth);
           }
           // somehow children[index].key is in the format of '.$key',
           // we have to overwrite with the correct key
@@ -110,6 +105,7 @@ export default class DOMWrap extends React.Component {
         } else {
           lastVisibleChild = children[index];
         }
+        lastWidth = liWidth;
         lastSumWidth = currentSumWidth;
       });
 
@@ -153,11 +149,11 @@ export default class DOMWrap extends React.Component {
     }
 
     const ul = ReactDOM.findDOMNode(this);
-    const scrollWidth = this.getScrollWidth(ul);
+    const scrollWidth = getScrollWidth(ul);
     
     this.props.children.forEach((c, i) => this.childrenCache[i] = {
       component: React.cloneElement(c),
-      width: this.getWidth(ul.children[i]),
+      width: getWidth(ul.children[i]),
     });
 
     this.originalScrollWidth = scrollWidth;
@@ -171,7 +167,7 @@ export default class DOMWrap extends React.Component {
     const { children: throwAway, title, eventKey, ...rest } = copy.props;
 
     const more = (
-      <SubMenu title={overflowedIndicator}>
+      <SubMenu title={overflowedIndicator} className={`${this.props.prefixCls}-overflowed-submenu`}>
         {this.overflowedItems}
       </SubMenu>
     );
@@ -182,8 +178,8 @@ export default class DOMWrap extends React.Component {
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
     if (this.props.mode === 'horizontal') {
+      const lastVisibleIndex = this.state.lastVisibleIndex;
       return React.Children.map([...children], (childNode, index) => {
-        const lastVisibleIndex = this.state.lastVisibleIndex;
         // only process the scenario when overflow actually happens and it's the root menu
         if (lastVisibleIndex !== undefined
             &&
@@ -194,7 +190,6 @@ export default class DOMWrap extends React.Component {
           } else if (index === lastVisibleIndex + 1) {
             return this.getOverflowedSubMenuItem();
           }
-
           // to make the original overflow item invisible but still occupying dom space
           return React.cloneElement(
             childNode,

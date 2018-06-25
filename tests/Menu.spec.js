@@ -1,6 +1,8 @@
+const mockedUtil = require('../src/util');
+
 /* eslint-disable no-undef, react/no-multi-comp */
 import React from 'react';
-import { render, mount } from 'enzyme';
+import { render, mount, shallow } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
@@ -287,5 +289,128 @@ describe('Menu', () => {
 
     expect(wrapper.find('Trigger').prop('builtinPlacements').leftTop)
       .toEqual(builtinPlacements.leftTop);
+  });
+
+  describe('DOMWrap Allow Overflow', () => {
+    function createMenu(props) {
+      return (
+        <Menu
+          mode="horizontal"
+          className="myMenu"
+          openAnimation="fade"
+          overflowedIndicator={<div className="test-overflow-indicator">...</div>}
+          {...props}
+        >
+          <MenuItem key="1">1</MenuItem>
+          <MenuItem key="2" disabled>2</MenuItem>
+          <SubMenu title="submeddnu">
+            <MenuItem key="3">3</MenuItem>
+          </SubMenu>
+          <MenuItem key="4">4</MenuItem>
+        </Menu>
+      );
+    }
+
+    let wrapper;
+    beforeEach(() => {
+      // wrapper = mount(createMenu());
+    });
+
+    it("should not include overflow indicator when having enough width", () => {
+      const scrollWidth = 200;
+      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const liWidths = [50, 50, 50, 50];
+      const availableWidth = 250
+      const widths = [...liWidths, indicatorWidth, availableWidth];
+      let i = 0;
+      mockedUtil.getWidth = (ele) => {
+        return widths[i++];
+      }
+      mockedUtil.getScrollWidth = (ele) => {
+        return scrollWidth;
+      }
+      wrapper = mount(createMenu());
+
+      expect(wrapper.find('.test-overflow-indicator').length).toEqual(0);
+      expect(wrapper.find('MenuItem').length).toEqual(3);
+    });
+
+    it("should include overflow indicator when having not enough width", () => {
+      const scrollWidth = 200;
+      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const liWidths = [50, 50, 50, 50];
+      const availableWidth = 150;
+      const widths = [...liWidths, indicatorWidth, availableWidth];
+      let i = 0;
+      mockedUtil.getWidth = (ele) => {
+        return widths[i++];
+      }
+      mockedUtil.getScrollWidth = (ele) => {
+        return scrollWidth;
+      }
+      wrapper = mount(createMenu());
+
+      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
+      expect(wrapper.find('MenuItem').length).toEqual(3);
+      expect(wrapper.find('MenuItem').at(2).prop('style').visibility).toEqual('hidden');
+      expect(wrapper.find('MenuItem').at(0).prop('children')).toEqual('1');
+    });
+
+    it('should hoist selected item when selected item got hidden', () => {
+      const scrollWidth = 200;
+      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const liWidths = [50, 50, 50, 50];
+      const availableWidth = 130;
+      const widths = [...liWidths, indicatorWidth, availableWidth];
+      let i = 0;
+      mockedUtil.getWidth = (ele) => {
+        return widths[i++];
+      }
+      mockedUtil.getScrollWidth = (ele) => {
+        return scrollWidth;
+      }
+      wrapper = mount(createMenu({ selectedKeys: ["4"]}));
+
+      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
+      expect(wrapper.find('MenuItem').at(0).prop('children')).toEqual('4');
+    });
+
+    it('should not reuse last item for displaying overflow indicator', () => {
+      const scrollWidth = 200;
+      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const liWidths = [50, 50, 50, 50];
+      const availableWidth = 170;
+      const widths = [...liWidths, indicatorWidth, availableWidth];
+      let i = 0;
+      mockedUtil.getWidth = (ele) => {
+        return widths[i++];
+      }
+      mockedUtil.getScrollWidth = (ele) => {
+        return scrollWidth;
+      }
+      wrapper = mount(createMenu());
+
+      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
+      expect(wrapper.find('ul.rc-menu').childAt(2).prop('className')).toEqual('rc-menu-overflowed-submenu');
+    });
+
+    it('should reuse last item for displaying overflow indicator', () => {
+      const scrollWidth = 200;
+      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const liWidths = [50, 50, 50, 50];
+      const availableWidth = 150;
+      const widths = [...liWidths, indicatorWidth, availableWidth];
+      let i = 0;
+      mockedUtil.getWidth = (ele) => {
+        return widths[i++];
+      }
+      mockedUtil.getScrollWidth = (ele) => {
+        return scrollWidth;
+      }
+      wrapper = mount(createMenu());
+
+      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
+      expect(wrapper.find('ul.rc-menu').childAt(2).prop('className')).toEqual('rc-menu-overflowed-submenu');
+    });
   });
 });
