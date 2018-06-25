@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash.debounce';
 import SubMenu from './SubMenu';
 import { getWidth, getScrollWidth } from './util';
 
@@ -184,7 +184,7 @@ export default class DOMWrap extends React.Component {
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
     if (this.props.mode === 'horizontal') {
-      const lastVisibleIndex = this.state.lastVisibleIndex;
+      const { lastVisibleIndex } = this.state;
       return React.Children.map(children, (childNode, index) => {
         // only process the scenario when overflow actually happens and it's the root menu
         if (lastVisibleIndex !== undefined
@@ -217,17 +217,20 @@ export default class DOMWrap extends React.Component {
   }
 
   render() {
-    const { children, ...rest } = this.props;
-    if (!rest.visible) {
-      rest.className += ` ${rest.hiddenClassName}`;
+    const {
+      hiddenClassName,
+      visible,
+      prefixCls,
+      overflowedIndicator,
+      mode,
+      tag: Tag,
+      children,
+      ...rest,
+    } = this.props;
+
+    if (!visible) {
+      rest.className += ` ${hiddenClassName}`;
     }
-    const Tag = rest.tag;
-    delete rest.tag;
-    delete rest.hiddenClassName;
-    delete rest.visible;
-    delete rest.prefixCls;
-    delete rest.overflowedIndicator;
-    delete rest.mode;
 
     return (
       <Tag {...rest}>
