@@ -92,12 +92,12 @@ const children1 = [
 ];
 
 const children2 = [
-<SubMenu title={<span>sub menu</span>} key="1">
-  <MenuItem key="1-1">0-1</MenuItem>
-  <MenuItem key="1-2">0-2</MenuItem>
-</SubMenu>,
-<MenuItem key="2">1</MenuItem>,
-<MenuItem key="3">outer</MenuItem>,
+  <SubMenu title={<span>sub menu</span>} key="1">
+    <MenuItem key="1-1">0-1</MenuItem>
+    <MenuItem key="1-2">0-2</MenuItem>
+  </SubMenu>,
+  <MenuItem key="2">1</MenuItem>,
+  <MenuItem key="3">outer</MenuItem>,
 ];
 
 const overflowedIndicator1 = '...';
@@ -115,12 +115,15 @@ class CommonMenu extends React.Component {
   }
   toggleOverflowedIndicator = () => {
     this.setState({
-      overflowedIndicator: this.state.overflowedIndicator === overflowedIndicator1 ? overflowedIndicator2 : overflowedIndicator1,
+      overflowedIndicator:
+        this.state.overflowedIndicator === overflowedIndicator1 ?
+          overflowedIndicator2 :
+          overflowedIndicator1,
     });
   }
   render() {
     const { children, overflowedIndicator } = this.state;
-    return(
+    return (
       <React.Fragment>
         {this.props.updateChildrenAndOverflowedIndicator && <div>
           <button onClick={this.toggleChildren}>toggle children</button>
@@ -148,33 +151,41 @@ CommonMenu.propTypes = {
   triggerSubMenuAction: PropTypes.string,
   defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
   updateChildrenAndOverflowedIndicator: PropTypes.bool,
-}
+};
 
 function render(container) {
-  const horizontalMenu = <CommonMenu
-    mode="horizontal"
-    // use openTransition for antd
-    openAnimation="slide-up"
-  />
+  const horizontalMenu = (
+    <CommonMenu
+      mode="horizontal"
+      // use openTransition for antd
+      openAnimation="slide-up"
+    />
+  );
 
-  const horizontalMenu2 = <CommonMenu
-    mode="horizontal"
-    // use openTransition for antd
-    openAnimation="slide-up"
-    triggerSubMenuAction="click"
-    updateChildrenAndOverflowedIndicator
-  />
+  const horizontalMenu2 = (
+    <CommonMenu
+      mode="horizontal"
+      // use openTransition for antd
+      openAnimation="slide-up"
+      triggerSubMenuAction="click"
+      updateChildrenAndOverflowedIndicator
+    />
+  );
 
-  const verticalMenu = <CommonMenu
-    mode="vertical"
-    openAnimation="zoom"
-  />
+  const verticalMenu = (
+    <CommonMenu
+      mode="vertical"
+      openAnimation="zoom"
+    />
+  );
 
-  const inlineMenu = <CommonMenu
-    mode="inline"
-    defaultOpenKeys={['1']}
-    openAnimation={animation}
-  />
+  const inlineMenu = (
+    <CommonMenu
+      mode="inline"
+      defaultOpenKeys={['1']}
+      openAnimation={animation}
+    />
+  );
 
   ReactDOM.render(<div style={{ margin: 20 }}>
     <h2>antd menu</h2>

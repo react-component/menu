@@ -15,12 +15,26 @@ export default class DOMWrap extends React.Component {
 
   static defaultProps = {
     tag: 'div',
-    className: '',  
+    className: '',
   };
 
   state = {
     lastVisibleIndex: undefined,
   };
+
+  componentDidMount() {
+    this.updateNodesCacheAndResize();
+    window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
+  }
+
+  componentDidUpdate() {
+    this.updateNodesCacheAndResize();
+  }
+
+  componentWillUnmount() {
+    this.debouncedHandleResize.cancel();
+    window.removeEventListener('resize', this.debouncedHandleResize);
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.mode !== 'horizontal' && nextProps.mode !== 'horizontal') {
@@ -40,7 +54,7 @@ export default class DOMWrap extends React.Component {
         ...newState,
         children: nextProps.children,
         childrenUpdated: true,
-      }
+      };
     }
 
     if (nextProps.overflowedIndicator !== prevState.overflowedIndicator) {
@@ -48,31 +62,10 @@ export default class DOMWrap extends React.Component {
         ...newState,
         overflowedIndicator: nextProps.overflowedIndicator,
         overflowedIndicatorUpdated: true,
-      }
+      };
     }
 
     return newState;
-  }
-
-  componentDidMount() {
-    this.updateNodesCacheAndResize();
-    window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
-  }
-
-  componentDidUpdate() {
-    this.updateNodesCacheAndResize();
-  }
-
-  componentWillUnmount() {
-    this.debouncedHandleResize.cancel();
-    window.removeEventListener('resize', this.debouncedHandleResize);
-  }
-
-  updateNodesCacheAndResize() {
-    if (this.state.childrenUpdated || this.state.overflowedIndicatorUpdated) {
-      this.setChildrenCache();
-      this.setOverflowedIndicatorSize();
-    }
   }
 
   getOverflowedSubMenuItem = () => {
@@ -129,6 +122,13 @@ export default class DOMWrap extends React.Component {
     this.setState({
       overflowedIndicatorUpdated: false,
     });
+  }
+
+  updateNodesCacheAndResize() {
+    if (this.state.childrenUpdated || this.state.overflowedIndicatorUpdated) {
+      this.setChildrenCache();
+      this.setOverflowedIndicatorSize();
+    }
   }
 
   // original scroll size of the list

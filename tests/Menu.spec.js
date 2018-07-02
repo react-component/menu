@@ -415,15 +415,12 @@ describe('Menu', () => {
     });
 
     describe('props changes', () => {
-      let wrapper;
-      let instance;
-
       it('should recalculate overflow on children changes', () => {
         const scrollWidth = 200;
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
-        let indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
-        let widths = [...liWidths, indicatorWidth, availableWidth];
+        const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
+        const widths = [...liWidths, indicatorWidth, availableWidth];
         let i = 0;
 
         mockedUtil.getWidth = () => {
@@ -434,7 +431,7 @@ describe('Menu', () => {
         };
 
         wrapper = mount(createMenu());
-        wrapper.setProps({ children: <MenuItem>child</MenuItem> })
+        wrapper.setProps({ children: <MenuItem>child</MenuItem> });
         wrapper.update();
 
         expect(wrapper.find('.test-overflow-indicator').length).toEqual(0);
@@ -444,7 +441,7 @@ describe('Menu', () => {
         const scrollWidth = 200;
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
-        let indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
+        let indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
         let widths = [...liWidths, indicatorWidth, availableWidth];
         let i = 0;
 
@@ -464,7 +461,7 @@ describe('Menu', () => {
         widths = [...liWidths, indicatorWidth, availableWidth];
 
         i = 0;
-        wrapper.setProps({ overflowedIndicator: <span>add more</span> })
+        wrapper.setProps({ overflowedIndicator: <span>add more</span> });
         wrapper.update();
 
         expect(wrapper.find('ul.rc-menu').childAt(1).prop('className'))
