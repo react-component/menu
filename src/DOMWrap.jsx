@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { polyfill } from 'react-lifecycles-compat';
 import debounce from 'lodash/debounce';
 import SubMenu from './SubMenu';
 import { getWidth, getScrollWidth } from './util';
@@ -27,45 +26,17 @@ export default class DOMWrap extends React.Component {
     window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
   }
 
-  componentDidUpdate() {
-    this.updateNodesCacheAndResize();
+  componentDidUpdate(prevProps) {
+    if (prevProps.children !== this.props.children
+      || prevProps.overflowedIndicator !== this.props.overflowedIndicator
+    ) {
+      this.updateNodesCacheAndResize();
+    }
   }
 
   componentWillUnmount() {
     this.debouncedHandleResize.cancel();
     window.removeEventListener('resize', this.debouncedHandleResize);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.mode !== 'horizontal' && nextProps.mode !== 'horizontal') {
-      return null;
-    }
-
-    let newState = null;
-
-    if (prevState.mode !== nextProps.mode) {
-      newState = {
-        mode: nextProps.mode,
-      };
-    }
-
-    if (nextProps.children !== prevState.children) {
-      newState = {
-        ...newState,
-        children: nextProps.children,
-        childrenUpdated: true,
-      };
-    }
-
-    if (nextProps.overflowedIndicator !== prevState.overflowedIndicator) {
-      newState = {
-        ...newState,
-        overflowedIndicator: nextProps.overflowedIndicator,
-        overflowedIndicatorUpdated: true,
-      };
-    }
-
-    return newState;
   }
 
   getOverflowedSubMenuItem = () => {
@@ -99,10 +70,6 @@ export default class DOMWrap extends React.Component {
     });
 
     this.originalScrollWidth = scrollWidth;
-
-    this.setState({
-      childrenUpdated: false,
-    });
   }
 
   // set overflow indicator size
@@ -118,17 +85,17 @@ export default class DOMWrap extends React.Component {
 
       this.handleResize();
     });
-
-    this.setState({
-      overflowedIndicatorUpdated: false,
-    });
   }
 
   updateNodesCacheAndResize() {
-    if (this.state.childrenUpdated || this.state.overflowedIndicatorUpdated) {
+    this.setState({
+      shouldOptimizeOverflow: false,
+    }, () => {
       this.setChildrenCache();
       this.setOverflowedIndicatorSize();
-    }
+
+      this.setState({ shouldOptimizeOverflow: true });
+    });
   }
 
   // original scroll size of the list
@@ -235,10 +202,7 @@ export default class DOMWrap extends React.Component {
 
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
-    if (this.props.mode === 'horizontal'
-      && !this.state.childrenUpdated
-      && !this.state.overflowedIndicatorUpdated
-    ) {
+    if (this.props.mode === 'horizontal' && this.state.shouldOptimizeOverflow) {
       const { lastVisibleIndex } = this.state;
       return React.Children.map(children, (childNode, index) => {
         // only process the scenario when overflow actually happens and it's the root menu
@@ -294,8 +258,6 @@ export default class DOMWrap extends React.Component {
     );
   }
 }
-
-polyfill(DOMWrap);
 
 DOMWrap.propTypes = {
   className: PropTypes.string,
