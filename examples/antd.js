@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-menu/assets/index.less';
 import animate from 'css-animation';
@@ -77,41 +78,103 @@ const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" pop
 function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
-const commonMenu = (<Menu onClick={handleClick} onOpenChange={onOpenChange} selectedKeys={['5']}>
+
+const children1 = [
   <SubMenu title={<span>sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
-  </SubMenu>
-  {nestSubMenu}
-  <MenuItem key="2">1</MenuItem>
-  <MenuItem key="3">outer</MenuItem>
-  <MenuItem disabled>disabled</MenuItem>
-  <MenuItem key="5">outer3</MenuItem>
-</Menu>);
+  </SubMenu>,
+  nestSubMenu,
+  <MenuItem key="2">1</MenuItem>,
+  <MenuItem key="3">outer</MenuItem>,
+  <MenuItem key="5" disabled>disabled</MenuItem>,
+  <MenuItem key="6">outer3</MenuItem>,
+];
+
+const children2 = [
+<SubMenu title={<span>sub menu</span>} key="1">
+  <MenuItem key="1-1">0-1</MenuItem>
+  <MenuItem key="1-2">0-2</MenuItem>
+</SubMenu>,
+<MenuItem key="2">1</MenuItem>,
+<MenuItem key="3">outer</MenuItem>,
+];
+
+const overflowedIndicator1 = '...';
+const overflowedIndicator2 = <span>Add More Items</span>;
+
+class CommonMenu extends React.Component {
+  state={
+    children: children1,
+    overflowedIndicator: overflowedIndicator1,
+  }
+  toggleChildren = () => {
+    this.setState({
+      children: this.state.children === children1 ? children2 : children1,
+    });
+  }
+  toggleOverflowedIndicator = () => {
+    this.setState({
+      overflowedIndicator: this.state.overflowedIndicator === overflowedIndicator1 ? overflowedIndicator2 : overflowedIndicator1,
+    });
+  }
+  render() {
+    const { children, overflowedIndicator } = this.state;
+    return(
+      <React.Fragment>
+        {this.props.updateChildrenAndOverflowedIndicator && <div>
+          <button onClick={this.toggleChildren}>toggle children</button>
+          <button onClick={this.toggleOverflowedIndicator}>toggle overflowedIndicator</button>
+        </div>}
+        <Menu
+          onClick={handleClick}
+          onOpenChange={onOpenChange}
+          selectedKeys={['5']}
+          mode={this.props.mode}
+          openAnimation={this.props.openAnimation}
+          defaultOpenKeys={this.props.defaultOpenKeys}
+          overflowedIndicator={overflowedIndicator}
+        >
+          {children}
+        </Menu>
+      </React.Fragment>
+    );
+  }
+}
+
+CommonMenu.propTypes = {
+  mode: PropTypes.string,
+  openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  triggerSubMenuAction: PropTypes.string,
+  defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
+  updateChildrenAndOverflowedIndicator: PropTypes.bool,
+}
 
 function render(container) {
-  const horizontalMenu = React.cloneElement(commonMenu, {
-    mode: 'horizontal',
+  const horizontalMenu = <CommonMenu
+    mode="horizontal"
     // use openTransition for antd
-    openAnimation: 'slide-up',
-  });
+    openAnimation="slide-up"
+  />
 
-  const horizontalMenu2 = React.cloneElement(commonMenu, {
-    mode: 'horizontal',
-    openAnimation: 'slide-up',
-    triggerSubMenuAction: 'click',
-  });
+  const horizontalMenu2 = <CommonMenu
+    mode="horizontal"
+    // use openTransition for antd
+    openAnimation="slide-up"
+    triggerSubMenuAction="click"
+    updateChildrenAndOverflowedIndicator
+  />
 
-  const verticalMenu = React.cloneElement(commonMenu, {
-    mode: 'vertical',
-    openAnimation: 'zoom',
-  });
+  const verticalMenu = <CommonMenu
+    mode="vertical"
+    openAnimation="zoom"
+  />
 
-  const inlineMenu = React.cloneElement(commonMenu, {
-    mode: 'inline',
-    defaultOpenKeys: ['1'],
-    openAnimation: animation,
-  });
+  const inlineMenu = <CommonMenu
+    mode="inline"
+    defaultOpenKeys={['1']}
+    openAnimation={animation}
+  />
 
   ReactDOM.render(<div style={{ margin: 20 }}>
     <h2>antd menu</h2>

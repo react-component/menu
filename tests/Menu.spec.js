@@ -303,7 +303,7 @@ describe('Menu', () => {
         >
           <MenuItem key="1">1</MenuItem>
           <MenuItem key="2" disabled>2</MenuItem>
-          <SubMenu title="submeddnu">
+          <SubMenu title="submenu">
             <MenuItem key="3">3</MenuItem>
           </SubMenu>
           <MenuItem key="4">4</MenuItem>
@@ -334,9 +334,9 @@ describe('Menu', () => {
 
     it('should include overflow indicator when having not enough width', () => {
       const scrollWidth = 200;
-      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
       const liWidths = [50, 50, 50, 50];
-      const availableWidth = 150;
+      const availableWidth = 145;
       const widths = [...liWidths, indicatorWidth, availableWidth];
       let i = 0;
       mockedUtil.getWidth = () => {
@@ -355,7 +355,7 @@ describe('Menu', () => {
 
     it('should hoist selected item when selected item got hidden', () => {
       const scrollWidth = 200;
-      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
       const liWidths = [50, 50, 50, 50];
       const availableWidth = 130;
       const widths = [...liWidths, indicatorWidth, availableWidth];
@@ -395,9 +395,9 @@ describe('Menu', () => {
 
     it('should reuse last item for displaying overflow indicator', () => {
       const scrollWidth = 200;
-      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
       const liWidths = [50, 50, 50, 50];
-      const availableWidth = 150;
+      const availableWidth = 145;
       const widths = [...liWidths, indicatorWidth, availableWidth];
       let i = 0;
       mockedUtil.getWidth = () => {
@@ -412,6 +412,64 @@ describe('Menu', () => {
 
       expect(wrapper.find('ul.rc-menu').childAt(2).prop('className'))
         .toEqual('rc-menu-overflowed-submenu');
+    });
+
+    describe('props changes', () => {
+      let wrapper;
+      let instance;
+
+      it('should recalculate overflow on children changes', () => {
+        const scrollWidth = 200;
+        const liWidths = [50, 50, 50, 50];
+        const availableWidth = 145;
+        let indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
+        let widths = [...liWidths, indicatorWidth, availableWidth];
+        let i = 0;
+
+        mockedUtil.getWidth = () => {
+          return widths[i++];
+        };
+        mockedUtil.getScrollWidth = () => {
+          return scrollWidth;
+        };
+
+        wrapper = mount(createMenu());
+        wrapper.setProps({ children: <MenuItem>child</MenuItem> })
+        wrapper.update();
+
+        expect(wrapper.find('.test-overflow-indicator').length).toEqual(0);
+      });
+
+      it('should recalculate overflow on overflow indicator changes', () => {
+        const scrollWidth = 200;
+        const liWidths = [50, 50, 50, 50];
+        const availableWidth = 145;
+        let indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
+        let widths = [...liWidths, indicatorWidth, availableWidth];
+        let i = 0;
+
+        mockedUtil.getWidth = () => {
+          return widths[i++];
+        };
+        mockedUtil.getScrollWidth = () => {
+          return scrollWidth;
+        };
+
+        wrapper = mount(createMenu());
+
+        expect(wrapper.find('ul.rc-menu').childAt(2).prop('className'))
+          .toEqual('rc-menu-overflowed-submenu');
+
+        indicatorWidth = 20; // actual width including 40 px padding, which will be 60;
+        widths = [...liWidths, indicatorWidth, availableWidth];
+
+        i = 0;
+        wrapper.setProps({ overflowedIndicator: <span>add more</span> })
+        wrapper.update();
+
+        expect(wrapper.find('ul.rc-menu').childAt(1).prop('className'))
+          .toEqual('rc-menu-overflowed-submenu');
+      });
     });
   });
 });
