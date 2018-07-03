@@ -198,7 +198,7 @@ export default class DOMWrap extends React.Component {
     this.setState({ lastVisibleIndex });
   }
 
-  debouncedHandleResize = debounce(this.handleResize, 500);
+  debouncedHandleResize = debounce(this.handleResize, 150);
 
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode

@@ -132,7 +132,7 @@ class CommonMenu extends React.Component {
         <Menu
           onClick={handleClick}
           onOpenChange={onOpenChange}
-          selectedKeys={['5']}
+          selectedKeys={['3']}
           mode={this.props.mode}
           openAnimation={this.props.openAnimation}
           defaultOpenKeys={this.props.defaultOpenKeys}
