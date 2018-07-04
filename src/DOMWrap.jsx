@@ -263,6 +263,7 @@ class DOMWrap extends React.Component {
 }
 
 DOMWrap.propTypes = {
+  store: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.node,
   mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
