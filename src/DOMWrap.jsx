@@ -186,14 +186,16 @@ class DOMWrap extends React.Component {
         lastVisibleIndex = lastVisibleIndex - 1;
       }
 
-      // try to swap any hidden selected item with last visible child
+      // try to hoist hidden selected item
       if (selectedIndex !== -1 && selectedIndex > lastVisibleIndex) {
         const selectedIndexInOverflow = this.overflowedItems.findIndex(
           ele => ele.props.eventKey === this.childrenCache[selectedIndex].component.props.eventKey
         );
         const tmp = this.props.children[lastVisibleIndex];
         this.props.children[lastVisibleIndex] = this.overflowedItems[selectedIndexInOverflow];
-        this.overflowedItems[selectedIndexInOverflow] = tmp;
+
+        this.overflowedItems.splice(selectedIndexInOverflow, 1);
+        this.overflowedItems.unshift(tmp);
       }
     }
 
