@@ -357,5 +357,6 @@ export class SubPopupMenu extends React.Component {
     );
   }
 }
+const connected = connect()(SubPopupMenu);
 
-export default connect()(SubPopupMenu);
+export default connected;

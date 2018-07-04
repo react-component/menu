@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import SubMenu from './SubMenu';
+import { connect } from 'mini-store';
 import { getWidth, getScrollWidth } from './util';
 
-export default class DOMWrap extends React.Component {
+class DOMWrap extends React.Component {
   static propTypes = {
     tag: PropTypes.string,
     hiddenClassName: PropTypes.string,
@@ -134,9 +135,10 @@ export default class DOMWrap extends React.Component {
     if (this.originalScrollWidth > width) {
       let lastVisibleChild;
       let lastWidth;
+      const selectedKeys = this.props.store.getState().selectedKeys;
 
       const selectedIndex = this.childrenCache.findIndex(({ component: c }) => {
-        return c.props.selectedKeys.includes(c.props.eventKey);
+        return selectedKeys.includes(c.props.eventKey);
       });
 
       this.childrenCache.forEach(({ width: liWidth }, index) => {
@@ -244,6 +246,7 @@ export default class DOMWrap extends React.Component {
       mode,
       tag: Tag,
       children,
+      store,
       ...rest,
     } = this.props;
 
@@ -266,3 +269,5 @@ DOMWrap.propTypes = {
   prefixCls: PropTypes.string,
   overflowedIndicator: PropTypes.node,
 };
+
+export default connect()(DOMWrap);
