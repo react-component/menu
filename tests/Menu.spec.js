@@ -353,54 +353,6 @@ describe('Menu', () => {
       expect(wrapper.find('MenuItem').at(0).prop('children')).toEqual('1');
     });
 
-    it('should hoist selected item when selected item got hidden', () => {
-      const scrollWidth = 200;
-      const indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
-      const liWidths = [50, 50, 50, 50];
-      const availableWidth = 130;
-      const widths = [...liWidths, indicatorWidth, availableWidth];
-      let i = 0;
-      mockedUtil.getWidth = () => {
-        return widths[i++];
-      };
-      mockedUtil.getScrollWidth = () => {
-        return scrollWidth;
-      };
-      wrapper = mount(createMenu({ selectedKeys: ['4'] }));
-
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
-      expect(wrapper.find('MenuItem').at(0).prop('children')).toEqual('4');
-    });
-
-    it('should hoist item that got selected in uncontrolled mode', () => {
-      const scrollWidth = 200;
-      const indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
-      const liWidths = [50, 50, 50, 50];
-      const availableWidth = 200;
-      let widths = [...liWidths, indicatorWidth, availableWidth];
-      let i = 0;
-      mockedUtil.getWidth = () => {
-        return widths[i++];
-      };
-      mockedUtil.getScrollWidth = () => {
-        return scrollWidth;
-      };
-      wrapper = mount(createMenu({}));
-
-      expect(wrapper.find('MenuItem').first().text()).toEqual('1');
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(0);
-
-      wrapper.find('MenuItem').last().simulate('click');
-      widths = [...liWidths, indicatorWidth, 130];
-
-      i = 0;
-      // change overflowedIndicator to trigger handleResize logic
-      wrapper.setProps({ overflowedIndicator: <span className="test-overflow-indicator">...</span>});
-      wrapper.update();
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
-      expect(wrapper.find('MenuItem').first().text()).toEqual('4');
-    });
-
     it('should not reuse last item for displaying overflow indicator', () => {
       const scrollWidth = 200;
       const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;

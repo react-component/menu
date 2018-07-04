@@ -134,24 +134,13 @@ class DOMWrap extends React.Component {
 
     if (this.originalScrollWidth > width) {
       let lastVisibleChild;
-      let lastWidth;
-      const selectedKeys = this.props.store.getState().selectedKeys;
-
-      const selectedIndex = this.childrenCache.findIndex(({ component: c }) => {
-        return selectedKeys.includes(c.props.eventKey);
-      });
 
       this.childrenCache.forEach(({ width: liWidth }, index) => {
         currentSumWidth += liWidth;
         if (currentSumWidth > width) {
           if (lastSumWidth && lastSumWidth <= width) {
-            let availableWidth = width - lastSumWidth;
-            // if there is any selected item that got hidden,
-            // we'll have to swap the selected item with last visible item,
-            // so we need to re-calculate the available width
-            if (selectedIndex !== -1 && selectedIndex >= index) {
-              availableWidth += lastWidth - this.childrenCache[selectedIndex].width;
-            }
+            const availableWidth = width - lastSumWidth;
+
             shouldReuseLastSpot = (availableWidth >= this.overflowedIndicatorWidth);
           }
           // somehow children[index].key is in the format of '.$key',
@@ -164,7 +153,6 @@ class DOMWrap extends React.Component {
           // still spacious enough to contain current item, so mark it to be lastVisibleChild
           lastVisibleChild = children[index];
         }
-        lastWidth = liWidth;
         lastSumWidth = currentSumWidth;
       });
 
@@ -184,18 +172,6 @@ class DOMWrap extends React.Component {
         ));
 
         lastVisibleIndex = lastVisibleIndex - 1;
-      }
-
-      // try to hoist hidden selected item
-      if (selectedIndex !== -1 && selectedIndex > lastVisibleIndex) {
-        const selectedIndexInOverflow = this.overflowedItems.findIndex(
-          ele => ele.props.eventKey === this.childrenCache[selectedIndex].component.props.eventKey
-        );
-        const tmp = this.props.children[lastVisibleIndex];
-        this.props.children[lastVisibleIndex] = this.overflowedItems[selectedIndexInOverflow];
-
-        this.overflowedItems.splice(selectedIndexInOverflow, 1);
-        this.overflowedItems.unshift(tmp);
       }
     }
 
@@ -248,7 +224,6 @@ class DOMWrap extends React.Component {
       mode,
       tag: Tag,
       children,
-      store,
       ...rest,
     } = this.props;
 
@@ -265,7 +240,6 @@ class DOMWrap extends React.Component {
 }
 
 DOMWrap.propTypes = {
-  store: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.node,
   mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
