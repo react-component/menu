@@ -52,35 +52,43 @@ const animation = {
 
 const reactContainer = document.getElementById('__react-content');
 
-const nestSubMenu = (<SubMenu title={<span>offset sub menu 2</span>} key="4" popupOffset={[10, 15]}>
-  <MenuItem key="4-1">inner inner</MenuItem>
-  <Divider/>
+const nestSubMenu = (
   <SubMenu
-    key="4-2"
-    title={<span>sub menu 3</span>}
+    title={
+      <span className="submenu-title-wrapper">offset sub menu 2</span>
+    }
+    key="4"
+    popupOffset={[10, 15]}
   >
-    <SubMenu title="sub 4-2-0" key="4-2-0">
-      <MenuItem key="4-2-0-1">inner inner</MenuItem>
-      <MenuItem key="4-2-0-2">inner inner2</MenuItem>
-    </SubMenu>
-    <MenuItem key="4-2-1">inn</MenuItem>
-    <SubMenu title={<span>sub menu 4</span>} key="4-2-2">
-      <MenuItem key="4-2-2-1">inner inner</MenuItem>
-      <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-    </SubMenu>
-    <SubMenu title="sub 4-2-3" key="4-2-3">
-      <MenuItem key="4-2-3-1">inner inner</MenuItem>
-      <MenuItem key="4-2-3-2">inner inner2</MenuItem>
+    <MenuItem key="4-1">inner inner</MenuItem>
+    <Divider/>
+    <SubMenu
+      key="4-2"
+      title={<span className="submenu-title-wrapper">sub menu 1</span>}
+    >
+      <SubMenu title={<span className="submenu-title-wrapper">sub 4-2-0</span>} key="4-2-0">
+        <MenuItem key="4-2-0-1">inner inner</MenuItem>
+        <MenuItem key="4-2-0-2">inner inner2</MenuItem>
+      </SubMenu>
+      <MenuItem key="4-2-1">inn</MenuItem>
+      <SubMenu title={<span className="submenu-title-wrapper">sub menu 4</span>} key="4-2-2">
+        <MenuItem key="4-2-2-1">inner inner</MenuItem>
+        <MenuItem key="4-2-2-2">inner inner2</MenuItem>
+      </SubMenu>
+      <SubMenu title={<span className="submenu-title-wrapper">sub menu 3</span>} key="4-2-3">
+        <MenuItem key="4-2-3-1">inner inner</MenuItem>
+        <MenuItem key="4-2-3-2">inner inner2</MenuItem>
+      </SubMenu>
     </SubMenu>
   </SubMenu>
-</SubMenu>);
+);
 
 function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
 
 const children1 = [
-  <SubMenu title={<span>sub menu</span>} key="1">
+  <SubMenu title={<span className="submenu-title-wrapper">sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
   </SubMenu>,
@@ -92,7 +100,7 @@ const children1 = [
 ];
 
 const children2 = [
-  <SubMenu title={<span>sub menu</span>} key="1">
+  <SubMenu title={<span className="submenu-title-wrapper">sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
   </SubMenu>,
@@ -122,6 +130,7 @@ class CommonMenu extends React.Component {
     });
   }
   render() {
+    const { triggerSubMenuAction } = this.props;
     const { children, overflowedIndicator } = this.state;
     return (
       <React.Fragment>
@@ -131,6 +140,7 @@ class CommonMenu extends React.Component {
         </div>}
         <Menu
           onClick={handleClick}
+          triggerSubMenuAction={triggerSubMenuAction}
           onOpenChange={onOpenChange}
           selectedKeys={['3']}
           mode={this.props.mode}

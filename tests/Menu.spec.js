@@ -374,8 +374,7 @@ describe('Menu', () => {
       wrapper = mount(createMenu());
 
       expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
-      expect(wrapper.find('MenuItem').length).toEqual(3);
-      expect(wrapper.find('MenuItem').at(2).prop('style').visibility).toEqual('hidden');
+      expect(wrapper.find('MenuItem').length).toEqual(1);
       expect(wrapper.find('MenuItem').at(0).prop('children')).toEqual('1');
     });
 
@@ -384,7 +383,7 @@ describe('Menu', () => {
       const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
       const liWidths = [50, 50, 50, 50];
       const availableWidth = 170;
-      const widths = [...liWidths, indicatorWidth, availableWidth];
+      const widths = [indicatorWidth, ...liWidths, availableWidth];
       let i = 0;
       mockedUtil.getWidth = () => {
         return widths[i++];
@@ -405,7 +404,7 @@ describe('Menu', () => {
       const indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
       const liWidths = [50, 50, 50, 50];
       const availableWidth = 145;
-      const widths = [...liWidths, indicatorWidth, availableWidth];
+      const widths = [indicatorWidth, ...liWidths, availableWidth];
       let i = 0;
       mockedUtil.getWidth = () => {
         return widths[i++];
@@ -422,12 +421,12 @@ describe('Menu', () => {
     });
 
     describe('props changes', () => {
-      it('should recalculate overflow on children changes', () => {
+      it('should recalculate overflow on children length changes', () => {
         const scrollWidth = 200;
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
         const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
-        const widths = [...liWidths, indicatorWidth, availableWidth];
+        const widths = [indicatorWidth, ...liWidths, availableWidth];
         let i = 0;
 
         mockedUtil.getWidth = () => {
@@ -449,7 +448,7 @@ describe('Menu', () => {
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
         let indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
-        let widths = [...liWidths, indicatorWidth, availableWidth];
+        let widths = [indicatorWidth, ...liWidths, availableWidth];
         let i = 0;
 
         mockedUtil.getWidth = () => {
@@ -465,7 +464,7 @@ describe('Menu', () => {
           .toEqual('rc-menu-overflowed-submenu');
 
         indicatorWidth = 20; // actual width including 40 px padding, which will be 60;
-        widths = [...liWidths, indicatorWidth, availableWidth];
+        widths = [indicatorWidth, ...liWidths, availableWidth];
 
         i = 0;
         wrapper.setProps({ overflowedIndicator: <span>add more</span> });
