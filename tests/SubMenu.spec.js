@@ -288,7 +288,7 @@ describe('SubMenu', () => {
 
       jest.runAllTimers();
 
-      expect(adjustWidthSpy).toHaveBeenCalledTimes(3);
+      expect(adjustWidthSpy).toHaveBeenCalledTimes(2);
     });
   });
 
