@@ -314,7 +314,7 @@ describe('Menu', () => {
       );
 
       expect(wrapper.find('SubMenu').prop('mode')).toEqual('vertical-right');
-    })
+    });
   });
 
   describe('DOMWrap Allow Overflow', () => {

@@ -69,6 +69,8 @@ class DOMWrap extends React.Component {
     container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
     ReactDOM.render(this.props.overflowedIndicator, container, () => {
       this.overflowedIndicatorWidth = getWidth(container) + 40;
+
+      ReactDOM.unmountComponentAtNode(container);
       document.body.removeChild(container);
     });
   }
@@ -109,12 +111,11 @@ class DOMWrap extends React.Component {
         const ul = container.childNodes[0];
         const scrollWidth = getScrollWidth(ul);
 
-        this.props.children.forEach((c, i) => this.childrenSizes[i] = {
-          width: getWidth(ul.children[i]),
-        });
+        this.props.children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
 
         this.originalScrollWidth = scrollWidth;
 
+        ReactDOM.unmountComponentAtNode(container);
         document.body.removeChild(container);
         this.handleResize();
       });
@@ -144,57 +145,29 @@ class DOMWrap extends React.Component {
 
     this.overflowedItems = [];
     let currentSumWidth = 0;
-    let lastSumWidth = 0;
     const children = this.props.children;
 
-    // it's possible that the last visible item is not wide enough to contain
-    // overflow indicator, so we need a flag to mark this
-    let shouldReuseLastSpot = true;
-
     // index for last visible child in horizontal mode
-    let lastVisibleIndex;
+    let lastVisibleIndex = undefined;
 
     if (this.originalScrollWidth > width) {
-      let lastVisibleChild;
+      lastVisibleIndex = -1;
 
-      this.childrenSizes.forEach(({ width: liWidth }, index) => {
+      this.childrenSizes.forEach(liWidth => {
         currentSumWidth += liWidth;
-        if (currentSumWidth > width) {
-          if (lastSumWidth && lastSumWidth <= width) {
-            const availableWidth = width - lastSumWidth;
-
-            shouldReuseLastSpot = (availableWidth >= this.overflowedIndicatorWidth);
-          }
-          // children[index].key will become '.$key' in clone by default,
-          // we have to overwrite with the correct key explicitly
-          this.overflowedItems.push(React.cloneElement(
-            children[index],
-            { key: children[index].props.eventKey },
-          ));
-        } else {
-          // still spacious enough to contain current item, so mark it to be lastVisibleChild
-          lastVisibleChild = children[index];
+        if (currentSumWidth + this.overflowedIndicatorWidth <= width) {
+          lastVisibleIndex++;
         }
-        lastSumWidth = currentSumWidth;
       });
 
-      lastVisibleIndex = lastVisibleChild ?
-        this.props.children.findIndex(
-          c => c.props.eventKey === lastVisibleChild.props.eventKey
-        ) : undefined;
-
-      // we're not able to reuse the remaining spot
-      // so pushing one more item into overflowed items
-      // and unshift the lastVisibleIndex
-      if (!shouldReuseLastSpot && lastVisibleChild) {
-        // we need to replace last visible child with a overflow indicator ('...')
-        this.overflowedItems.unshift(React.cloneElement(
-          lastVisibleChild,
-          { key: lastVisibleChild.props.eventKey },
+      children.slice(lastVisibleIndex + 1).forEach(c => {
+        // children[index].key will become '.$key' in clone by default,
+        // we have to overwrite with the correct key explicitly
+        this.overflowedItems.push(React.cloneElement(
+          c,
+          { key: c.props.eventKey },
         ));
-
-        lastVisibleIndex = lastVisibleIndex - 1;
-      }
+      });
     }
 
     this.setState({ lastVisibleIndex });
