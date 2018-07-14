@@ -51,7 +51,7 @@ class Menu extends React.Component {
     mode: 'vertical',
     style: {},
     builtinPlacements: {},
-    overflowedIndicator: '···',
+    overflowedIndicator: <span>···</span>,
   };
 
   constructor(props) {
