@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>antd.js - example - rc-menu@7.2.0</title>
+  <title>antd.js - example - rc-menu@7.2.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@7.2.0</h1>
+      <h1>rc-menu@7.2.1</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -379,13 +379,12 @@ const children2 = [
   <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>,
 ];
 
-const overflowedIndicator1 = '...';
-const overflowedIndicator2 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>Add More Items<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;</span>
+const customizeIndicator = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>Add More Items<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;</span>
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommonMenu</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   state={
     children: children1,
-    overflowedIndicator: overflowedIndicator1,
+    overflowedIndicator: <span class="hljs-literal">undefined</span>,
   }
   toggleChildren = () =&gt; {
     <span class="hljs-keyword">this</span>.setState({
@@ -395,9 +394,9 @@ const overflowedIndicator2 = <span class="hljs-tag">&lt;<span class="hljs-title"
   toggleOverflowedIndicator = () =&gt; {
     <span class="hljs-keyword">this</span>.setState({
       overflowedIndicator:
-        <span class="hljs-keyword">this</span>.state.overflowedIndicator === overflowedIndicator1 ?
-          overflowedIndicator2 :
-          overflowedIndicator1,
+        <span class="hljs-keyword">this</span>.state.overflowedIndicator === <span class="hljs-literal">null</span> ?
+          customizeIndicator :
+          <span class="hljs-literal">undefined</span>,
     });
   }
   render() {

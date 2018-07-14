@@ -23877,7 +23877,7 @@ Menu.defaultProps = {
   mode: 'vertical',
   style: {},
   builtinPlacements: {},
-  overflowedIndicator: '...'
+  overflowedIndicator: '···'
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -24566,7 +24566,7 @@ var DOMWrap = function (_React$Component) {
         children.slice(lastVisibleIndex + 1).forEach(function (c) {
           // children[index].key will become '.$key' in clone by default,
           // we have to overwrite with the correct key explicitly
-          _this.overflowedItems.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.cloneElement(c, { key: c.props.eventKey }));
+          _this.overflowedItems.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.cloneElement(c, { key: c.props.eventKey, mode: 'vertical-left' }));
         });
       }
 

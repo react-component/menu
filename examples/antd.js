@@ -240,8 +240,7 @@ var children2 = [__WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
   'outer'
 )];
 
-var overflowedIndicator1 = '...';
-var overflowedIndicator2 = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
+var customizeIndicator = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
   'span',
   null,
   'Add More Items'
@@ -261,14 +260,14 @@ var CommonMenu = function (_React$Component) {
 
     return _ret = (_temp = (_this = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_possibleConstructorReturn___default()(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.state = {
       children: children1,
-      overflowedIndicator: overflowedIndicator1
+      overflowedIndicator: undefined
     }, _this.toggleChildren = function () {
       _this.setState({
         children: _this.state.children === children1 ? children2 : children1
       });
     }, _this.toggleOverflowedIndicator = function () {
       _this.setState({
-        overflowedIndicator: _this.state.overflowedIndicator === overflowedIndicator1 ? overflowedIndicator2 : overflowedIndicator1
+        overflowedIndicator: _this.state.overflowedIndicator === null ? customizeIndicator : undefined
       });
     }, _temp), __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_possibleConstructorReturn___default()(_this, _ret);
   }
