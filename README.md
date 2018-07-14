@@ -268,7 +268,7 @@ ReactDOM.render(<Menu>
         <tr>
           <td>overflowedIndicator</td>
           <td>String/ReactElement</td>
-          <td>...</td>
+          <td>···</td>
           <td>overflow indicator when menu overlows in horizontal mode</td>
         </tr>
         <tr>

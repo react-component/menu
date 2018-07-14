@@ -108,13 +108,12 @@ const children2 = [
   <MenuItem key="3">outer</MenuItem>,
 ];
 
-const overflowedIndicator1 = '...';
-const overflowedIndicator2 = <span>Add More Items</span>;
+const customizeIndicator = <span>Add More Items</span>;
 
 class CommonMenu extends React.Component {
   state={
     children: children1,
-    overflowedIndicator: overflowedIndicator1,
+    overflowedIndicator: undefined,
   }
   toggleChildren = () => {
     this.setState({
@@ -124,9 +123,9 @@ class CommonMenu extends React.Component {
   toggleOverflowedIndicator = () => {
     this.setState({
       overflowedIndicator:
-        this.state.overflowedIndicator === overflowedIndicator1 ?
-          overflowedIndicator2 :
-          overflowedIndicator1,
+        this.state.overflowedIndicator === null ?
+          customizeIndicator :
+          undefined,
     });
   }
   render() {

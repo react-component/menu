@@ -165,7 +165,7 @@ class DOMWrap extends React.Component {
         // we have to overwrite with the correct key explicitly
         this.overflowedItems.push(React.cloneElement(
           c,
-          { key: c.props.eventKey },
+          { key: c.props.eventKey, mode: 'vertical-left' },
         ));
       });
     }
