@@ -23877,7 +23877,11 @@ Menu.defaultProps = {
   mode: 'vertical',
   style: {},
   builtinPlacements: {},
-  overflowedIndicator: '···'
+  overflowedIndicator: __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+    'span',
+    null,
+    '\xB7\xB7\xB7'
+  )
 };
 
 var _initialiseProps = function _initialiseProps() {
