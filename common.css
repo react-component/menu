@@ -80,6 +80,9 @@
 .rc-menu-submenu-popup {
   position: absolute;
 }
+.rc-menu-submenu-popup .submenu-title-wrapper {
+  padding-right: 20px;
+}
 .rc-menu-submenu > .rc-menu {
   background-color: #fff;
 }
@@ -95,6 +98,8 @@
   border: none;
   border-bottom: 1px solid #d9d9d9;
   box-shadow: none;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .rc-menu-horizontal > .rc-menu-item,
 .rc-menu-horizontal > .rc-menu-submenu > .rc-menu-submenu-title {
@@ -102,8 +107,8 @@
 }
 .rc-menu-horizontal > .rc-menu-submenu,
 .rc-menu-horizontal > .rc-menu-item {
-  float: left;
   border-bottom: 2px solid transparent;
+  display: inline-block;
 }
 .rc-menu-horizontal > .rc-menu-submenu-active,
 .rc-menu-horizontal > .rc-menu-item-active {

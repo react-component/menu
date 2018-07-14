@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>antd.js - example - rc-menu@7.1.0</title>
+  <title>antd.js - example - rc-menu@7.2.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@7.1.0</h1>
+      <h1>rc-menu@7.2.0</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -273,6 +273,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">'prop-types'</span>;
 <span class="hljs-keyword">import</span> Menu, { SubMenu, Item <span class="hljs-keyword">as</span> MenuItem, Divider } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-menu'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-menu/assets/index.css'</span>;
 <span class="hljs-keyword">import</span> animate <span class="hljs-keyword">from</span> <span class="hljs-string">'css-animation'</span>;
@@ -322,78 +323,160 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 <span class="hljs-keyword">const</span> reactContainer = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'__react-content'</span>);
 
-<span class="hljs-keyword">const</span> nestSubMenu = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>offset sub menu 2<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="4" popupOffset={[10, 15]}&gt;
-  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">Divider</span>/&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span>
-    <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
-    <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu 3<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>}
+<span class="hljs-keyword">const</span> nestSubMenu = (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span>
+    <span class="hljs-attribute">title</span>=<span class="hljs-value">{</span>
+      &lt;<span class="hljs-attribute">span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"submenu-title-wrapper"</span>&gt;</span>offset sub menu 2<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+    }
+    key="4"
+    popupOffset={[10, 15]}
   &gt;
-    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"sub 4-2-0"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0"</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu 4<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="4-2-2"&gt;
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"sub 4-2-3"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3"</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">Divider</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span>
+      <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2"</span>
+      <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"submenu-title-wrapper"</span>&gt;</span>sub menu 1<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>}
+    &gt;
+      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"submenu-title-wrapper"</span>&gt;</span>sub 4-2-0<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="4-2-0"&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-0-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-1"</span>&gt;</span>inn<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"submenu-title-wrapper"</span>&gt;</span>sub menu 4<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="4-2-2"&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-2-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"submenu-title-wrapper"</span>&gt;</span>sub menu 3<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="4-2-3"&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3-1"</span>&gt;</span>inner inner<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"4-2-3-2"</span>&gt;</span>inner inner2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>)</span>;
+)</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onOpenChange</span>(<span class="hljs-params">value</span>) </span>{
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'onOpenChange'</span>, value);
 }
-<span class="hljs-keyword">const</span> commonMenu = (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Menu</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{handleClick}</span> <span class="hljs-attribute">onOpenChange</span>=<span class="hljs-value">{onOpenChange}</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>sub menu<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="1"&gt;
+
+<span class="hljs-keyword">const</span> children1 = [
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"submenu-title-wrapper"</span>&gt;</span>sub menu<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="1"&gt;
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>
-  {nestSubMenu}
-  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">disabled</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"5"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>)</span>;
+  <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>,
+  nestSubMenu,
+  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>,
+  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>,
+  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"5"</span> <span class="hljs-attribute">disabled</span>&gt;</span>disabled<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>,
+  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"6"</span>&gt;</span>outer3<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>,
+];
+
+const children2 = [
+  <span class="hljs-tag">&lt;<span class="hljs-title">SubMenu</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{&lt;span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"submenu-title-wrapper"</span>&gt;</span>sub menu<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>} key="1"&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-1"</span>&gt;</span>0-1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1-2"</span>&gt;</span>0-2<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">SubMenu</span>&gt;</span>,
+  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>,
+  <span class="hljs-tag">&lt;<span class="hljs-title">MenuItem</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>outer<span class="hljs-tag">&lt;/<span class="hljs-title">MenuItem</span>&gt;</span>,
+];
+
+const overflowedIndicator1 = '...';
+const overflowedIndicator2 = <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>Add More Items<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommonMenu</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state={
+    children: children1,
+    overflowedIndicator: overflowedIndicator1,
+  }
+  toggleChildren = () =&gt; {
+    <span class="hljs-keyword">this</span>.setState({
+      children: <span class="hljs-keyword">this</span>.state.children === children1 ? children2 : children1,
+    });
+  }
+  toggleOverflowedIndicator = () =&gt; {
+    <span class="hljs-keyword">this</span>.setState({
+      overflowedIndicator:
+        <span class="hljs-keyword">this</span>.state.overflowedIndicator === overflowedIndicator1 ?
+          overflowedIndicator2 :
+          overflowedIndicator1,
+    });
+  }
+  render() {
+    <span class="hljs-keyword">const</span> { triggerSubMenuAction } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">const</span> { children, overflowedIndicator } = <span class="hljs-keyword">this</span>.state;
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">React.Fragment</span>&gt;</span>
+        {this.props.updateChildrenAndOverflowedIndicator &amp;&amp; <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.toggleChildren}</span>&gt;</span>toggle children<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.toggleOverflowedIndicator}</span>&gt;</span>toggle overflowedIndicator<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>}
+        <span class="hljs-tag">&lt;<span class="hljs-title">Menu</span>
+          <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{handleClick}</span>
+          <span class="hljs-attribute">triggerSubMenuAction</span>=<span class="hljs-value">{triggerSubMenuAction}</span>
+          <span class="hljs-attribute">onOpenChange</span>=<span class="hljs-value">{onOpenChange}</span>
+          <span class="hljs-attribute">selectedKeys</span>=<span class="hljs-value">{['3']}</span>
+          <span class="hljs-attribute">mode</span>=<span class="hljs-value">{this.props.mode}</span>
+          <span class="hljs-attribute">openAnimation</span>=<span class="hljs-value">{this.props.openAnimation}</span>
+          <span class="hljs-attribute">defaultOpenKeys</span>=<span class="hljs-value">{this.props.defaultOpenKeys}</span>
+          <span class="hljs-attribute">overflowedIndicator</span>=<span class="hljs-value">{overflowedIndicator}</span>
+        &gt;</span>
+          {children}
+        <span class="hljs-tag">&lt;/<span class="hljs-title">Menu</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">React.Fragment</span>&gt;</span>
+    )</span>;
+  }
+}
+
+CommonMenu.propTypes = {
+  mode: PropTypes.string,
+  openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  triggerSubMenuAction: PropTypes.string,
+  defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
+  updateChildrenAndOverflowedIndicator: PropTypes.bool,
+};
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params">container</span>) </span>{
-  <span class="hljs-keyword">const</span> horizontalMenu = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'horizontal'</span>,
-    <span class="hljs-comment">// use openTransition for antd</span>
-    openAnimation: <span class="hljs-string">'slide-up'</span>,
-  });
+  <span class="hljs-keyword">const</span> horizontalMenu = (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">CommonMenu</span>
+      <span class="hljs-attribute">mode</span>=<span class="hljs-value">"horizontal"</span>
+      // <span class="hljs-attribute">use</span> <span class="hljs-attribute">openTransition</span> <span class="hljs-attribute">for</span> <span class="hljs-attribute">antd</span>
+      <span class="hljs-attribute">openAnimation</span>=<span class="hljs-value">"slide-up"</span>
+    /&gt;</span>
+  )</span>;
 
-  <span class="hljs-keyword">const</span> horizontalMenu2 = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'horizontal'</span>,
-    openAnimation: <span class="hljs-string">'slide-up'</span>,
-    triggerSubMenuAction: <span class="hljs-string">'click'</span>,
-  });
+  <span class="hljs-keyword">const</span> horizontalMenu2 = (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">CommonMenu</span>
+      <span class="hljs-attribute">mode</span>=<span class="hljs-value">"horizontal"</span>
+      // <span class="hljs-attribute">use</span> <span class="hljs-attribute">openTransition</span> <span class="hljs-attribute">for</span> <span class="hljs-attribute">antd</span>
+      <span class="hljs-attribute">openAnimation</span>=<span class="hljs-value">"slide-up"</span>
+      <span class="hljs-attribute">triggerSubMenuAction</span>=<span class="hljs-value">"click"</span>
+      <span class="hljs-attribute">updateChildrenAndOverflowedIndicator</span>
+    /&gt;</span>
+  )</span>;
 
-  <span class="hljs-keyword">const</span> verticalMenu = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'vertical'</span>,
-    openAnimation: <span class="hljs-string">'zoom'</span>,
-  });
+  <span class="hljs-keyword">const</span> verticalMenu = (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">CommonMenu</span>
+      <span class="hljs-attribute">mode</span>=<span class="hljs-value">"vertical"</span>
+      <span class="hljs-attribute">openAnimation</span>=<span class="hljs-value">"zoom"</span>
+    /&gt;</span>
+  )</span>;
 
-  <span class="hljs-keyword">const</span> inlineMenu = React.cloneElement(commonMenu, {
-    mode: <span class="hljs-string">'inline'</span>,
-    defaultOpenKeys: [<span class="hljs-string">'1'</span>],
-    openAnimation: animation,
-  });
+  <span class="hljs-keyword">const</span> inlineMenu = (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">CommonMenu</span>
+      <span class="hljs-attribute">mode</span>=<span class="hljs-value">"inline"</span>
+      <span class="hljs-attribute">defaultOpenKeys</span>=<span class="hljs-value">{['1']}</span>
+      <span class="hljs-attribute">openAnimation</span>=<span class="hljs-value">{animation}</span>
+    /&gt;</span>
+  )</span>;
 
   ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span> }}&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>antd menu<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
-
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>horizontal<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">800</span> }}&gt;</span>{horizontalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span> }}&gt;</span>{horizontalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>horizontal and click<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">800</span> }}&gt;</span>{horizontalMenu2}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span> }}&gt;</span>{horizontalMenu2}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>vertical<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
 
       <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span>, <span class="hljs-attribute">width:</span> <span class="hljs-attribute">200</span> }}&gt;</span>{verticalMenu}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
