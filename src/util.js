@@ -96,6 +96,7 @@ export const menuAllProps = [
   'store',
   'activeKey',
   'builtinPlacements',
+  'overflowedIndicator',
 
   // the following keys found need to be removed from test regression
   'attribute',
@@ -105,3 +106,7 @@ export const menuAllProps = [
   'menu',
   'theme',
 ];
+
+export const getWidth = (elem) => elem.getBoundingClientRect().width;
+
+export const getScrollWidth = (elem) => elem.scrollWidth;
