@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
-import SubMenu from './SubMenu';
 import { Provider, create } from 'mini-store';
+import debounce from 'lodash/debounce';
+import ContainerRender from 'rc-util/lib/ContainerRender';
+import SubMenu from './SubMenu';
 import { getWidth, getScrollWidth } from './util';
+
+const getCloneContainer = () => {
+  const container = document.body.appendChild(document.createElement('div'));
+  container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
+  return container;
+};
 
 class DOMWrap extends React.Component {
   static propTypes = {
@@ -22,6 +29,8 @@ class DOMWrap extends React.Component {
     lastVisibleIndex: undefined,
   };
 
+  container = getCloneContainer();
+
   componentDidMount() {
     this.updateNodesCacheAndResize();
     window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
@@ -38,6 +47,8 @@ class DOMWrap extends React.Component {
   componentWillUnmount() {
     this.debouncedHandleResize.cancel();
     window.removeEventListener('resize', this.debouncedHandleResize);
+
+    document.body.removeChild(this.container);
   }
 
   getOverflowedSubMenuItem = () => {
@@ -80,45 +91,18 @@ class DOMWrap extends React.Component {
     if (this.props.mode !== 'horizontal') {
       return;
     }
-    const container = document.body.appendChild(document.createElement('div'));
-    container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
 
-    const {
-      hiddenClassName,
-      visible,
-      prefixCls,
-      overflowedIndicator,
-      mode,
-      tag: Tag,
-      children,
-      ...rest,
-    } = this.props;
+    const ul = this.container.childNodes[0];
+    console.log({ ul, container: this.container });
+    if (!ul) {
+      return;
+    }
+    const scrollWidth = getScrollWidth(ul);
 
-    this.store = create({
-      selectedKeys: [],
-      openKeys: [],
-      activeKey: {},
-    });
+    this.props.children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
+    this.originalScrollWidth = scrollWidth;
 
-    ReactDOM.render(
-      <Provider store={this.store}>
-        <Tag {...rest}>{children}</Tag>
-      </Provider>, // content
-
-      container, // container
-
-      () => { // callback
-        const ul = container.childNodes[0];
-        const scrollWidth = getScrollWidth(ul);
-
-        this.props.children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
-
-        this.originalScrollWidth = scrollWidth;
-
-        ReactDOM.unmountComponentAtNode(container);
-        document.body.removeChild(container);
-        this.handleResize();
-      });
+    this.handleResize();
   }
 
   updateNodesCacheAndResize() {
@@ -173,7 +157,9 @@ class DOMWrap extends React.Component {
     this.setState({ lastVisibleIndex });
   }
 
-  debouncedHandleResize = debounce(this.handleResize, 150);
+  debouncedHandleResize = () => {
+    requestAnimationFrame(this.handleResize);
+  }
 
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
@@ -202,6 +188,50 @@ class DOMWrap extends React.Component {
     });
   }
 
+  renderPortal(props) {
+    const {
+      hiddenClassName,
+      visible,
+      prefixCls,
+      overflowedIndicator,
+      mode,
+      tag: Tag,
+      children,
+      ...rest,
+    } = this.props;
+
+    if (mode !== 'horizontal' || !this.container) {
+      return null;
+    }
+
+    const component = (
+      <Tag {...rest} style={{ display: 'inline-block' }}>
+        {children}
+      </Tag>
+    );
+
+    if (false) {
+      return (
+        <ContainerRender
+          parent={this}
+          visible
+          autoMount
+          autoDestroy={false}
+          getComponent={() => component}
+          getContainer={() => this.container}
+        >
+          {({ renderComponent, removeContainer }) => {
+            this.renderComponent = renderComponent;
+            this.removeContainer = removeContainer;
+            return null;
+          }}
+        </ContainerRender>
+      );
+    } else {
+      return ReactDOM.createPortal(component, this.container);
+    }
+  }
+
   render() {
     const {
       hiddenClassName,
@@ -219,9 +249,12 @@ class DOMWrap extends React.Component {
     }
 
     return (
-      <Tag {...rest}>
-        {this.renderChildren(this.props.children)}
-      </Tag>
+      <React.Fragment>
+        <Tag {...rest}>
+          {this.renderChildren(children)}
+        </Tag>
+        {this.renderPortal()} 
+      </React.Fragment>
     );
   }
 }
@@ -232,6 +265,7 @@ DOMWrap.propTypes = {
   mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
   prefixCls: PropTypes.string,
   overflowedIndicator: PropTypes.node,
+  theme: PropTypes.string,
 };
 
 export default DOMWrap;
