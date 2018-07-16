@@ -80,7 +80,8 @@ class DOMWrap extends React.Component {
     if (this.props.mode !== 'horizontal') {
       return;
     }
-    const container = document.body.appendChild(document.createElement('div'));
+    const parent = ReactDOM.findDOMNode(this).parentNode;
+    const container = parent.appendChild(document.createElement('div'));
     container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
 
     const {
@@ -121,7 +122,7 @@ class DOMWrap extends React.Component {
         this.originalScrollWidth = scrollWidth;
 
         ReactDOM.unmountComponentAtNode(container);
-        document.body.removeChild(container);
+        parent.removeChild(container);
         this.handleResize();
       });
   }
