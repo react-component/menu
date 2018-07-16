@@ -24654,6 +24654,11 @@ var DOMWrap = function (_React$Component) {
     function () {
       // callback
       var ul = container.childNodes[0];
+
+      if (!ul) {
+        return;
+      }
+
       var scrollWidth = Object(__WEBPACK_IMPORTED_MODULE_11__util__["c" /* getScrollWidth */])(ul);
 
       _this3.props.children.forEach(function (c, i) {
