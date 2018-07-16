@@ -3,7 +3,9 @@
 exports[`Menu render renders horizontal menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-horizontal"
+  level="1"
   role="menu"
+  style="position:relative"
   tabindex="0"
 >
   <li
@@ -90,7 +92,9 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
 exports[`Menu render renders inline menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-inline"
+  level="1"
   role="menu"
+  style="position:relative"
   tabindex="0"
 >
   <li
@@ -184,7 +188,9 @@ exports[`Menu render renders inline menu correctly 1`] = `
 exports[`Menu render renders vertical menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
+  level="1"
   role="menu"
+  style="position:relative"
   tabindex="0"
 >
   <li
@@ -271,7 +277,9 @@ exports[`Menu render renders vertical menu correctly 1`] = `
 exports[`Menu render role listbox renders menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
+  level="1"
   role="listbox"
+  style="position:relative"
   tabindex="0"
 >
   <li

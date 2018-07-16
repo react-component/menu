@@ -123,7 +123,7 @@ class CommonMenu extends React.Component {
   toggleOverflowedIndicator = () => {
     this.setState({
       overflowedIndicator:
-        this.state.overflowedIndicator === null ?
+        this.state.overflowedIndicator === undefined ?
           customizeIndicator :
           undefined,
     });

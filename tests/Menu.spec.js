@@ -340,7 +340,6 @@ describe('Menu', () => {
     let wrapper;
 
     it('should not include overflow indicator when having enough width', () => {
-      const scrollWidth = 200;
       const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
       const liWidths = [50, 50, 50, 50];
       const availableWidth = 250;
@@ -349,9 +348,6 @@ describe('Menu', () => {
       mockedUtil.getWidth = () => {
         return widths[i++];
       };
-      mockedUtil.getScrollWidth = () => {
-        return scrollWidth;
-      };
       wrapper = mount(createMenu());
 
       expect(wrapper.find('.test-overflow-indicator').length).toEqual(0);
@@ -359,7 +355,6 @@ describe('Menu', () => {
     });
 
     it('should include overflow indicator when having not enough width', () => {
-      const scrollWidth = 200;
       const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
       const liWidths = [50, 50, 50, 50];
       const availableWidth = 145;
@@ -368,72 +363,25 @@ describe('Menu', () => {
       mockedUtil.getWidth = () => {
         return widths[i++];
       };
-      mockedUtil.getScrollWidth = () => {
-        return scrollWidth;
-      };
       wrapper = mount(createMenu());
 
+      expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
+      expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
+      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ visibility: 'hidden' });
+      expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
       expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
-      expect(wrapper.find('MenuItem').length).toEqual(1);
-      expect(wrapper.find('MenuItem').at(0).prop('children')).toEqual('1');
-    });
-
-    it('should not reuse last item for displaying overflow indicator', () => {
-      const scrollWidth = 200;
-      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
-      const liWidths = [50, 50, 50, 50];
-      const availableWidth = 170;
-      const widths = [indicatorWidth, ...liWidths, availableWidth];
-      let i = 0;
-      mockedUtil.getWidth = () => {
-        return widths[i++];
-      };
-      mockedUtil.getScrollWidth = () => {
-        return scrollWidth;
-      };
-      wrapper = mount(createMenu());
-
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
-
-      expect(wrapper.find('ul.rc-menu').childAt(2).prop('className'))
-        .toEqual('rc-menu-overflowed-submenu');
-    });
-
-    it('should reuse last item for displaying overflow indicator', () => {
-      const scrollWidth = 200;
-      const indicatorWidth = 5; // actual width including 40 px padding, which will be 50;
-      const liWidths = [50, 50, 50, 50];
-      const availableWidth = 145;
-      const widths = [indicatorWidth, ...liWidths, availableWidth];
-      let i = 0;
-      mockedUtil.getWidth = () => {
-        return widths[i++];
-      };
-      mockedUtil.getScrollWidth = () => {
-        return scrollWidth;
-      };
-      wrapper = mount(createMenu());
-
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
-
-      expect(wrapper.find('ul.rc-menu').childAt(2).prop('className'))
-        .toEqual('rc-menu-overflowed-submenu');
     });
 
     describe('props changes', () => {
       it('should recalculate overflow on children length changes', () => {
-        const scrollWidth = 200;
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
         const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
-        const widths = [indicatorWidth, ...liWidths, availableWidth];
+        const widths = [...liWidths, indicatorWidth, availableWidth];
         let i = 0;
 
         mockedUtil.getWidth = () => {
           return widths[i++];
-        };
-        mockedUtil.getScrollWidth = () => {
-          return scrollWidth;
         };
 
         wrapper = mount(createMenu());
@@ -444,34 +392,39 @@ describe('Menu', () => {
       });
 
       it('should recalculate overflow on overflow indicator changes', () => {
-        const scrollWidth = 200;
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
         let indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
-        let widths = [indicatorWidth, ...liWidths, availableWidth];
+        let widths = [...liWidths, indicatorWidth, availableWidth];
         let i = 0;
 
         mockedUtil.getWidth = () => {
           return widths[i++];
         };
-        mockedUtil.getScrollWidth = () => {
-          return scrollWidth;
-        };
 
         wrapper = mount(createMenu());
 
-        expect(wrapper.find('ul.rc-menu').childAt(2).prop('className'))
-          .toEqual('rc-menu-overflowed-submenu');
+        expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
+        expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
+        expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ visibility: 'hidden' });
+        expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
+
+        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').prop('style'))
+          .toEqual({ position: 'absolute', left: 100 });
 
         indicatorWidth = 20; // actual width including 40 px padding, which will be 60;
-        widths = [indicatorWidth, ...liWidths, availableWidth];
+        widths = [...liWidths, indicatorWidth, availableWidth];
 
         i = 0;
         wrapper.setProps({ overflowedIndicator: <span>add more</span> });
         wrapper.update();
 
-        expect(wrapper.find('ul.rc-menu').childAt(1).prop('className'))
-          .toEqual('rc-menu-overflowed-submenu');
+        expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
+        expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({ visibility: 'hidden' });
+        expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ visibility: 'hidden' });
+        expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
+        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').prop('style'))
+          .toEqual({ position: 'absolute', left: 50 });
       });
     });
   });
