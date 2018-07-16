@@ -109,6 +109,11 @@ class DOMWrap extends React.Component {
 
       () => { // callback
         const ul = container.childNodes[0];
+
+        if (!ul) {
+          return;
+        }
+
         const scrollWidth = getScrollWidth(ul);
 
         this.props.children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
