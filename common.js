@@ -24620,7 +24620,8 @@ var DOMWrap = function (_React$Component) {
     if (this.props.mode !== 'horizontal') {
       return;
     }
-    var container = document.body.appendChild(document.createElement('div'));
+    var parent = __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.findDOMNode(this).parentNode;
+    var container = parent.appendChild(document.createElement('div'));
     container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
 
     var _props = this.props,
@@ -24668,7 +24669,7 @@ var DOMWrap = function (_React$Component) {
       _this3.originalScrollWidth = scrollWidth;
 
       __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.unmountComponentAtNode(container);
-      document.body.removeChild(container);
+      parent.removeChild(container);
       _this3.handleResize();
     });
   };
