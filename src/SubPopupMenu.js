@@ -348,7 +348,7 @@ export class SubPopupMenu extends React.Component {
         visible={visible}
         overflowedIndicator={overflowedIndicator}
         {...domProps}
-        style={{ position: 'relative' }}
+        style={{ position: 'relative', zIndex: level }}
       >
         {React.Children.map(
           props.children,

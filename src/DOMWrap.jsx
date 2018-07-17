@@ -182,6 +182,7 @@ class DOMWrap extends React.Component {
       prefixCls,
       overflowedIndicator,
       mode,
+      level,
       tag: Tag,
       children,
       ...rest,
