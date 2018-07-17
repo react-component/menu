@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import SubMenu from './SubMenu';
-import { Provider, create } from 'mini-store';
 import { getWidth } from './util';
 
 class DOMWrap extends React.Component {
@@ -181,7 +180,11 @@ class DOMWrap extends React.Component {
                   // visible item, just render
                   return childNode;
                 }
-                return React.cloneElement(childNode, { style: { visibility: 'hidden' }, eventKey: `${childNode.eventKey}-hidden` })
+                return React.cloneElement(
+                  childNode,
+                  // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
+                  { style: { visibility: 'hidden' }, eventKey: `${childNode.eventKey}-hidden` },
+                );
               }
             }
             return childNode;
@@ -221,6 +224,7 @@ DOMWrap.propTypes = {
   children: PropTypes.node,
   mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
   prefixCls: PropTypes.string,
+  level: PropTypes.number,
   overflowedIndicator: PropTypes.node,
 };
 
