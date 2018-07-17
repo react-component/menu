@@ -6,17 +6,6 @@ import SubMenu from './SubMenu';
 import { getWidth } from './util';
 
 class DOMWrap extends React.Component {
-  static propTypes = {
-    tag: PropTypes.string,
-    hiddenClassName: PropTypes.string,
-    visible: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    tag: 'div',
-    className: '',
-  };
-
   state = {
     lastVisibleIndex: undefined,
   };
@@ -40,7 +29,7 @@ class DOMWrap extends React.Component {
   }
 
   getOverflowedSubMenuItem = (lastVisibleIndex) => {
-    const { overflowedIndicator, level, mode } = this.props;
+    const { overflowedIndicator, level, mode, className, prefixCls, theme } = this.props;
     if (level !== 1 || mode !== 'horizontal') {
       return null;
     }
@@ -66,10 +55,13 @@ class DOMWrap extends React.Component {
       };
     }
 
+    const popupClassName = theme ? `${prefixCls}-${theme}` : '';
+
     return (
       <SubMenu
         title={overflowedIndicator}
-        className={`${this.props.prefixCls}-overflowed-submenu`}
+        className={`${prefixCls}-overflowed-submenu`}
+        popupClassName={popupClassName}
         {...rest}
         eventKey="overflowed-indicator"
         disabled={false}
@@ -213,7 +205,14 @@ DOMWrap.propTypes = {
   mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
   prefixCls: PropTypes.string,
   level: PropTypes.number,
+  theme: PropTypes.string,
   overflowedIndicator: PropTypes.node,
+  visible: PropTypes.bool,
 };
+
+DOMWrap.defaultProps = {
+  tag: 'div',
+  className: '',
+}
 
 export default DOMWrap;
