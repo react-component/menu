@@ -86,6 +86,24 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
       />
     </div>
   </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="position:absolute;left:0;visibility:hidden;height:0"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
 </ul>
 `;
 

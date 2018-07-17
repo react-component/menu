@@ -22,7 +22,7 @@ class DOMWrap extends React.Component {
   };
 
   componentDidMount() {
-    this.updateNodesCacheAndResize();
+    this.setChildrenWidthAndResize();
     window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
   }
 
@@ -30,7 +30,7 @@ class DOMWrap extends React.Component {
     if (prevProps.children !== this.props.children
       || prevProps.overflowedIndicator !== this.props.overflowedIndicator
     ) {
-      this.updateNodesCacheAndResize();
+      this.setChildrenWidthAndResize();
     }
   }
 
@@ -41,7 +41,7 @@ class DOMWrap extends React.Component {
 
   getOverflowedSubMenuItem = (lastVisibleIndex) => {
     const { overflowedIndicator, level, mode } = this.props;
-    if (level !== 1 || mode !== 'horizontal' || lastVisibleIndex === undefined) {
+    if (level !== 1 || mode !== 'horizontal') {
       return null;
     }
     // put all the overflowed item inside a submenu
@@ -53,9 +53,17 @@ class DOMWrap extends React.Component {
       return acc + cur;
     }, 0);
 
-    const style = {
+    let style = {
       position: 'absolute',
       left,
+    };
+
+    if (lastVisibleIndex === undefined) {
+      style = {
+        ...style,
+        visibility: 'hidden',
+        height: 0,
+      };
     }
 
     return (
@@ -72,25 +80,8 @@ class DOMWrap extends React.Component {
     );
   }
 
-  // set overflow indicator size
-  setOverflowedIndicatorSize() {
-    if (this.props.mode !== 'horizontal') {
-      return;
-    }
-    const container = document.body.appendChild(document.createElement('div'));
-    container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
-    ReactDOM.render(this.props.overflowedIndicator, container, () => {
-      this.overflowedIndicatorWidth = getWidth(container) + 40;
-
-      ReactDOM.unmountComponentAtNode(container);
-      document.body.removeChild(container);
-
-      this.handleResize();
-    });
-  }
-
   // memorize rendered menuSize
-  setChildrenSize() {
+  setChildrenWidthAndResize() {
     if (this.props.mode !== 'horizontal') {
       return;
     }
@@ -101,16 +92,13 @@ class DOMWrap extends React.Component {
     }
 
     this.childrenSizes = [];
+    const { children } = this.props;
 
-    this.props.children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
-    const totalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
+    children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
 
-    this.originalTotalWidth = totalWidth;
-  }
-
-  updateNodesCacheAndResize() {
-    this.setChildrenSize();
-    this.setOverflowedIndicatorSize();
+    this.overflowedIndicatorWidth = getWidth(ul.children[children.length]);
+    this.originalTotalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
+    this.handleResize();
   }
 
   // original scroll size of the list
@@ -190,7 +178,7 @@ class DOMWrap extends React.Component {
             return childNode;
           })
         }
-        {this.getOverflowedSubMenuItem(lastVisibleIndex)} 
+        {this.getOverflowedSubMenuItem(lastVisibleIndex)}
       </React.Fragment>
     );
   }

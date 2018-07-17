@@ -301,7 +301,7 @@ describe('Menu', () => {
         </Menu>
       );
 
-      expect(wrapper.find('SubMenu').prop('mode')).toEqual('horizontal');
+      expect(wrapper.find('SubMenu').first().prop('mode')).toEqual('horizontal');
     });
 
     it('should be able to customize SubMenu mode', () => {
@@ -313,7 +313,7 @@ describe('Menu', () => {
         </Menu>
       );
 
-      expect(wrapper.find('SubMenu').prop('mode')).toEqual('vertical-right');
+      expect(wrapper.find('SubMenu').first().prop('mode')).toEqual('vertical-right');
     });
   });
 
@@ -350,8 +350,14 @@ describe('Menu', () => {
       };
       wrapper = mount(createMenu());
 
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(0);
-      expect(wrapper.find('MenuItem').length).toEqual(3);
+      // overflow indicator hidden
+      expect(wrapper.find('SubMenu').last().prop('style')).toEqual({
+        height: 0, left: 0, position: 'absolute', visibility: 'hidden',
+      });
+      expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
+      expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
+      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual(undefined);
+      expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({});
     });
 
     it('should include overflow indicator when having not enough width', () => {
@@ -376,7 +382,7 @@ describe('Menu', () => {
       it('should recalculate overflow on children length changes', () => {
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
-        const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
+        const indicatorWidth = 45;
         const widths = [...liWidths, indicatorWidth, availableWidth];
         let i = 0;
 
@@ -388,13 +394,16 @@ describe('Menu', () => {
         wrapper.setProps({ children: <MenuItem>child</MenuItem> });
         wrapper.update();
 
-        expect(wrapper.find('.test-overflow-indicator').length).toEqual(0);
+        // overflow indicator hidden
+        expect(wrapper.find('SubMenu').last().prop('style')).toEqual({
+          height: 0, left: 0, position: 'absolute', visibility: 'hidden',
+        });
       });
 
       it('should recalculate overflow on overflow indicator changes', () => {
         const liWidths = [50, 50, 50, 50];
         const availableWidth = 145;
-        let indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
+        let indicatorWidth = 45;
         let widths = [...liWidths, indicatorWidth, availableWidth];
         let i = 0;
 
@@ -412,7 +421,7 @@ describe('Menu', () => {
         expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').prop('style'))
           .toEqual({ position: 'absolute', left: 100 });
 
-        indicatorWidth = 20; // actual width including 40 px padding, which will be 60;
+        indicatorWidth = 60;
         widths = [...liWidths, indicatorWidth, availableWidth];
 
         i = 0;

@@ -50,7 +50,7 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const popupAlign = wrapper.find('Trigger').prop('popupAlign');
+    const popupAlign = wrapper.find('Trigger').first().prop('popupAlign');
     expect(popupAlign).toEqual({ offset: [0, 15] });
   });
 
