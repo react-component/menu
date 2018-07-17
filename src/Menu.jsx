@@ -32,7 +32,6 @@ class Menu extends React.Component {
     activeKey: PropTypes.string,
     prefixCls: PropTypes.string,
     builtinPlacements: PropTypes.object,
-    overflowedIndicator: PropTypes.node,
   };
 
   static defaultProps = {
@@ -51,7 +50,6 @@ class Menu extends React.Component {
     mode: 'vertical',
     style: {},
     builtinPlacements: {},
-    overflowedIndicator: <span>···</span>,
   };
 
   constructor(props) {
