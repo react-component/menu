@@ -58,8 +58,6 @@ class DOMWrap extends React.Component {
 
     const popupClassName = theme ? `${prefixCls}-${theme}` : '';
 
-    console.log({popupClassName});
-
     return (
       <SubMenu
         title={overflowedIndicator}
@@ -211,6 +209,7 @@ DOMWrap.propTypes = {
   visible: PropTypes.bool,
   hiddenClassName: PropTypes.string,
   tag: PropTypes.string,
+  style: PropTypes.object,
 };
 
 DOMWrap.defaultProps = {

@@ -339,7 +339,7 @@ export class SubPopupMenu extends React.Component {
     // Otherwise, the propagated click event will trigger another onClick
     delete props.onClick;
 
-    let style = {
+    const style = {
       ...props.style,
     };
     if (level === 1) {
