@@ -29,7 +29,7 @@ class DOMWrap extends React.Component {
   }
 
   getOverflowedSubMenuItem = (lastVisibleIndex) => {
-    const { overflowedIndicator, level, mode, className, prefixCls, theme } = this.props;
+    const { overflowedIndicator, level, mode, prefixCls, theme } = this.props;
     if (level !== 1 || mode !== 'horizontal') {
       return null;
     }
@@ -209,11 +209,13 @@ DOMWrap.propTypes = {
   theme: PropTypes.string,
   overflowedIndicator: PropTypes.node,
   visible: PropTypes.bool,
+  hiddenClassName: PropTypes.string,
+  tag: PropTypes.string,
 };
 
 DOMWrap.defaultProps = {
   tag: 'div',
   className: '',
-}
+};
 
 export default DOMWrap;
