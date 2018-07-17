@@ -86,7 +86,7 @@ class DOMWrap extends React.Component {
     this.childrenSizes = [];
     const { children } = this.props;
 
-    children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
+    this.childrenSizes = children.map((c, i) => getWidth(ul.children[i]));
 
     this.overflowedIndicatorWidth = getWidth(ul.children[children.length]);
     this.originalTotalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
