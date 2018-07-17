@@ -267,7 +267,7 @@ var CommonMenu = function (_React$Component) {
       });
     }, _this.toggleOverflowedIndicator = function () {
       _this.setState({
-        overflowedIndicator: _this.state.overflowedIndicator === null ? customizeIndicator : undefined
+        overflowedIndicator: _this.state.overflowedIndicator === undefined ? customizeIndicator : undefined
       });
     }, _temp), __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_possibleConstructorReturn___default()(_this, _ret);
   }
