@@ -356,4 +356,22 @@ describe('SubMenu', () => {
       expect(onDestroy).toHaveBeenCalledWith('s1');
     });
   });
+
+  describe('customizing style', () => {
+    it('should take style prop', () => {
+      const App = () => (
+        <Menu style={{ backgroundColor: 'black' }}>
+          <SubMenu key="s1" title="submenu1">
+            <MenuItem key="s1-1">1</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
+
+      const wrapper = mount(<App show />);
+      expect(wrapper.find('Menu ul').prop('style')).toEqual({
+        position: 'relative',
+        backgroundColor: 'black',
+      });
+    });
+  });
 });

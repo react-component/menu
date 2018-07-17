@@ -212,6 +212,7 @@ DOMWrap.propTypes = {
   visible: PropTypes.bool,
   hiddenClassName: PropTypes.string,
   tag: PropTypes.string,
+  style: PropTypes.object,
 };
 
 DOMWrap.defaultProps = {
