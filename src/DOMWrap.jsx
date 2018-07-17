@@ -145,37 +145,32 @@ class DOMWrap extends React.Component {
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
     const { lastVisibleIndex } = this.state;
-    return (
-      <React.Fragment>
-        {
-          React.Children.map(children, (childNode, index) => {
-          // only process the scenario when overflow actually happens and it's the root menu
+    return React.Children.map(children, (childNode, index) => {
+      // only process the scenario when overflow actually happens and it's the root menu
 
-            if (this.props.mode === 'horizontal') {
-              if (lastVisibleIndex !== undefined
-                  &&
-                  this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
-              ) {
-                if (index <= lastVisibleIndex) {
-                  // visible item, just render
-                  return childNode;
-                }
-                return React.cloneElement(
-                  childNode,
-                  // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
-                  { style: { visibility: 'hidden' }, eventKey: `${childNode.eventKey}-hidden` },
-                );
-              }
-            }
+      if (this.props.mode === 'horizontal') {
+        if (lastVisibleIndex !== undefined
+            &&
+            this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
+        ) {
+          if (index <= lastVisibleIndex) {
+            // visible item, just render
             return childNode;
-          })
+          }
+          return React.cloneElement(
+            childNode,
+            // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
+            { style: { visibility: 'hidden' }, eventKey: `${childNode.eventKey}-hidden` },
+          );
         }
-        {this.getOverflowedSubMenuItem(lastVisibleIndex)}
-      </React.Fragment>
-    );
+      }
+      return childNode;
+    });
   }
 
   render() {
+    const { lastVisibleIndex } = this.state;
+
     const {
       hiddenClassName,
       visible,
@@ -195,6 +190,7 @@ class DOMWrap extends React.Component {
     return (
       <Tag {...rest}>
         {this.renderChildren(this.props.children)}
+        {this.getOverflowedSubMenuItem(lastVisibleIndex)}
       </Tag>
     );
   }
