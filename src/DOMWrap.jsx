@@ -3,27 +3,15 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import SubMenu from './SubMenu';
-import { Provider, create } from 'mini-store';
-import { getWidth, getScrollWidth } from './util';
+import { getWidth } from './util';
 
 class DOMWrap extends React.Component {
-  static propTypes = {
-    tag: PropTypes.string,
-    hiddenClassName: PropTypes.string,
-    visible: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    tag: 'div',
-    className: '',
-  };
-
   state = {
     lastVisibleIndex: undefined,
   };
 
   componentDidMount() {
-    this.updateNodesCacheAndResize();
+    this.setChildrenWidthAndResize();
     window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
   }
 
@@ -31,7 +19,7 @@ class DOMWrap extends React.Component {
     if (prevProps.children !== this.props.children
       || prevProps.overflowedIndicator !== this.props.overflowedIndicator
     ) {
-      this.updateNodesCacheAndResize();
+      this.setChildrenWidthAndResize();
     }
   }
 
@@ -40,100 +28,73 @@ class DOMWrap extends React.Component {
     window.removeEventListener('resize', this.debouncedHandleResize);
   }
 
-  getOverflowedSubMenuItem = () => {
-    const { overflowedIndicator } = this.props;
+  getOverflowedSubMenuItem = (lastVisibleIndex) => {
+    const { overflowedIndicator, level, mode, prefixCls, theme } = this.props;
+    if (level !== 1 || mode !== 'horizontal') {
+      return null;
+    }
     // put all the overflowed item inside a submenu
     // with a title of overflow indicator ('...')
     const copy = this.props.children[0];
     const { children: throwAway, title, eventKey, ...rest } = copy.props;
 
+    const left = this.childrenSizes.slice(0, lastVisibleIndex + 1).reduce((acc, cur) => {
+      return acc + cur;
+    }, 0);
+
+    let style = {
+      position: 'absolute',
+      left,
+    };
+
+    if (lastVisibleIndex === undefined) {
+      style = {
+        ...style,
+        visibility: 'hidden',
+        height: 0,
+      };
+    }
+
+    const popupClassName = theme ? `${prefixCls}-${theme}` : '';
+
     return (
       <SubMenu
         title={overflowedIndicator}
-        className={`${this.props.prefixCls}-overflowed-submenu`}
+        className={`${prefixCls}-overflowed-submenu`}
+        popupClassName={popupClassName}
         {...rest}
         eventKey="overflowed-indicator"
         disabled={false}
+        style={style}
       >
         {this.overflowedItems}
       </SubMenu>
     );
   }
 
-  // set overflow indicator size
-  setOverflowedIndicatorSize() {
-    if (this.props.mode !== 'horizontal') {
-      return;
-    }
-    const container = document.body.appendChild(document.createElement('div'));
-    container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
-    ReactDOM.render(this.props.overflowedIndicator, container, () => {
-      this.overflowedIndicatorWidth = getWidth(container) + 40;
-
-      ReactDOM.unmountComponentAtNode(container);
-      document.body.removeChild(container);
-    });
-  }
-
   // memorize rendered menuSize
-  setChildrenSize() {
+  setChildrenWidthAndResize() {
     if (this.props.mode !== 'horizontal') {
       return;
     }
-    const parent = ReactDOM.findDOMNode(this).parentNode;
-    const container = parent.appendChild(document.createElement('div'));
-    container.setAttribute('style', 'position: absolute; top: 0; visibility: hidden');
+    const ul = ReactDOM.findDOMNode(this);
 
-    const {
-      hiddenClassName,
-      visible,
-      prefixCls,
-      overflowedIndicator,
-      mode,
-      tag: Tag,
-      children,
-      ...rest,
-    } = this.props;
+    if (!ul) {
+      return;
+    }
 
-    this.store = create({
-      selectedKeys: [],
-      openKeys: [],
-      activeKey: {},
-    });
+    this.childrenSizes = [];
+    const { children } = this.props;
 
-    ReactDOM.render(
-      <Provider store={this.store}>
-        <Tag {...rest}>{children}</Tag>
-      </Provider>, // content
+    this.childrenSizes = children.map((c, i) => getWidth(ul.children[i]));
 
-      container, // container
-
-      () => { // callback
-        const ul = container.childNodes[0];
-
-        if (!ul) {
-          return;
-        }
-
-        const scrollWidth = getScrollWidth(ul);
-
-        this.props.children.forEach((c, i) => this.childrenSizes[i] = getWidth(ul.children[i]));
-
-        this.originalScrollWidth = scrollWidth;
-
-        ReactDOM.unmountComponentAtNode(container);
-        parent.removeChild(container);
-        this.handleResize();
-      });
-  }
-
-  updateNodesCacheAndResize() {
-    this.setOverflowedIndicatorSize();
-    this.setChildrenSize();
+    this.overflowedIndicatorWidth = getWidth(ul.children[children.length]);
+    this.originalTotalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
+    this.handleResize();
   }
 
   // original scroll size of the list
-  originalScrollWidth = 0;
+  originalTotalWidth = 0;
 
   // copy of overflowed items
   overflowedItems = [];
@@ -156,7 +117,7 @@ class DOMWrap extends React.Component {
     // index for last visible child in horizontal mode
     let lastVisibleIndex = undefined;
 
-    if (this.originalScrollWidth > width) {
+    if (this.originalTotalWidth > width) {
       lastVisibleIndex = -1;
 
       this.childrenSizes.forEach(liWidth => {
@@ -184,28 +145,34 @@ class DOMWrap extends React.Component {
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
     const { lastVisibleIndex } = this.state;
-    return React.Children.map(children, (childNode, index) => {
-      // only process the scenario when overflow actually happens and it's the root menu
+    return (
+      <React.Fragment>
+        {
+          React.Children.map(children, (childNode, index) => {
+          // only process the scenario when overflow actually happens and it's the root menu
 
-      if (this.props.mode === 'horizontal') {
-        if (lastVisibleIndex !== undefined
-            &&
-            this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
-        ) {
-          if (index <= lastVisibleIndex) {
-            // visible item, just render
+            if (this.props.mode === 'horizontal') {
+              if (lastVisibleIndex !== undefined
+                  &&
+                  this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
+              ) {
+                if (index <= lastVisibleIndex) {
+                  // visible item, just render
+                  return childNode;
+                }
+                return React.cloneElement(
+                  childNode,
+                  // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
+                  { style: { visibility: 'hidden' }, eventKey: `${childNode.eventKey}-hidden` },
+                );
+              }
+            }
             return childNode;
-          } else if (index === lastVisibleIndex + 1) {
-            // time to use overflow indicator!
-            return this.getOverflowedSubMenuItem();
-          }
-
-          return null;
+          })
         }
-      }
-
-      return childNode;
-    });
+        {this.getOverflowedSubMenuItem(lastVisibleIndex)}
+      </React.Fragment>
+    );
   }
 
   render() {
@@ -215,6 +182,7 @@ class DOMWrap extends React.Component {
       prefixCls,
       overflowedIndicator,
       mode,
+      level,
       tag: Tag,
       children,
       ...rest,
@@ -237,7 +205,17 @@ DOMWrap.propTypes = {
   children: PropTypes.node,
   mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
   prefixCls: PropTypes.string,
+  level: PropTypes.number,
+  theme: PropTypes.string,
   overflowedIndicator: PropTypes.node,
+  visible: PropTypes.bool,
+  hiddenClassName: PropTypes.string,
+  tag: PropTypes.string,
+};
+
+DOMWrap.defaultProps = {
+  tag: 'div',
+  className: '',
 };
 
 export default DOMWrap;
