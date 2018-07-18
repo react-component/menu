@@ -132,7 +132,7 @@ class CommonMenu extends React.Component {
     const { triggerSubMenuAction } = this.props;
     const { children, overflowedIndicator } = this.state;
     return (
-      <React.Fragment>
+      <div>
         {this.props.updateChildrenAndOverflowedIndicator && <div>
           <button onClick={this.toggleChildren}>toggle children</button>
           <button onClick={this.toggleOverflowedIndicator}>toggle overflowedIndicator</button>
@@ -149,7 +149,7 @@ class CommonMenu extends React.Component {
         >
           {children}
         </Menu>
-      </React.Fragment>
+      </div>
     );
   }
 }
