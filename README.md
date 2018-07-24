@@ -313,6 +313,12 @@ ReactDOM.render(<Menu>
             <th></th>
             <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: `[0,15]`</td>
         </tr>
+        <tr>
+            <td>arrowIcon</td>
+            <td>React.Node</td>
+            <th>''</th>
+            <td>specific the arrow icon.</td>
+        </tr>
     </tbody>
 </table>
 

@@ -63,6 +63,7 @@ export class SubMenu extends React.Component {
     store: PropTypes.object,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     manualRef: PropTypes.func,
+    arrowIcon: PropTypes.node,
   };
 
   static defaultProps = {
@@ -74,6 +75,7 @@ export class SubMenu extends React.Component {
     manualRef: noop,
     mode: 'vertical',
     title: '',
+    arrowIcon: '',
   };
 
   constructor(props) {
@@ -366,6 +368,7 @@ export class SubMenu extends React.Component {
       prefixCls: props.rootPrefixCls,
       id: this._menuId,
       manualRef: this.saveMenuInstance,
+      arrowIcon: props.arrowIcon,
     };
 
     const haveRendered = this.haveRendered;
@@ -461,6 +464,8 @@ export class SubMenu extends React.Component {
       };
     }
 
+    const arrowIcon = props.mode !== 'horizontal' ? props.arrowIcon : null;
+
     const title = (
       <div
         ref={this.saveSubMenuTitle}
@@ -474,7 +479,9 @@ export class SubMenu extends React.Component {
         title={typeof props.title === 'string' ? props.title : undefined}
       >
         {props.title}
-        <i className={`${prefixCls}-arrow`} />
+        <i className={`${prefixCls}-arrow`}>
+          {arrowIcon}
+        </i>
       </div>
     );
     const children = this.renderChildren(props.children);

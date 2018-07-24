@@ -101,6 +101,7 @@ export class SubPopupMenu extends React.Component {
     triggerSubMenuAction: PropTypes.oneOf(['click', 'hover']),
     inlineIndent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     manualRef: PropTypes.func,
+    arrowIcon: PropTypes.node,
   };
 
   static defaultProps = {
