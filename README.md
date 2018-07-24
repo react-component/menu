@@ -316,7 +316,7 @@ ReactDOM.render(<Menu>
         <tr>
             <td>arrowIcon</td>
             <td>React.Node</td>
-            <th>''</th>
+            <th></th>
             <td>specific the arrow icon.</td>
         </tr>
     </tbody>

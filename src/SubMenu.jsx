@@ -75,7 +75,6 @@ export class SubMenu extends React.Component {
     manualRef: noop,
     mode: 'vertical',
     title: '',
-    arrowIcon: '',
   };
 
   constructor(props) {

@@ -54,6 +54,32 @@ describe('SubMenu', () => {
     expect(popupAlign).toEqual({ offset: [0, 15] });
   });
 
+  it('should render custom arrow icon correctly.', () => {
+    const wrapper = mount(
+      <Menu mode="vertical">
+        <SubMenu key="s" title="submenu" arrowIcon={'test-text'}>
+          <MenuItem key="1">1</MenuItem>
+        </SubMenu>
+      </Menu>
+    );
+
+    const childText = wrapper.find('.rc-menu-submenu-arrow').first().text();
+    expect(childText).toEqual('test-text');
+  });
+
+  it('should Not render custom arrow icon in horizontal mode.', () => {
+    const wrapper = mount(
+      <Menu mode="horizontal">
+        <SubMenu key="s" title="submenu" arrowIcon={'test-text'}>
+          <MenuItem key="1">1</MenuItem>
+        </SubMenu>
+      </Menu>
+    );
+
+    const childText = wrapper.find('.rc-menu-submenu-arrow').first().text();
+    expect(childText).toEqual('');
+  });
+
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are true', () => {
     it('toggles when mouse enter and leave', () => {
       const wrapper = mount(createMenu());
