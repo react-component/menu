@@ -463,6 +463,7 @@ export class SubMenu extends React.Component {
       };
     }
 
+    // expand arrow icon should NOT be displayed in menu with horizontal mode.
     const arrowIcon = props.mode !== 'horizontal' ? props.arrowIcon : null;
 
     const title = (
@@ -478,9 +479,7 @@ export class SubMenu extends React.Component {
         title={typeof props.title === 'string' ? props.title : undefined}
       >
         {props.title}
-        <i className={`${prefixCls}-arrow`}>
-          {arrowIcon}
-        </i>
+        {arrowIcon || <i className={`${prefixCls}-arrow`}/>}
       </div>
     );
     const children = this.renderChildren(props.children);

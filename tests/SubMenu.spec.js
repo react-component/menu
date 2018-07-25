@@ -63,8 +63,8 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const childText = wrapper.find('.rc-menu-submenu-arrow').first().text();
-    expect(childText).toEqual('test-text');
+    const childText = wrapper.find('.rc-menu-submenu-title').first().text();
+    expect(childText).toEqual('submenutest-text');
   });
 
   it('should Not render custom arrow icon in horizontal mode.', () => {
@@ -76,8 +76,8 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const childText = wrapper.find('.rc-menu-submenu-arrow').first().text();
-    expect(childText).toEqual('');
+    const childText = wrapper.find('.rc-menu-submenu-title').first().text();
+    expect(childText).toEqual('submenu');
   });
 
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are true', () => {
