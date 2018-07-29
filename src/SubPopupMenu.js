@@ -339,16 +339,6 @@ export class SubPopupMenu extends React.Component {
     // Otherwise, the propagated click event will trigger another onClick
     delete props.onClick;
 
-    const style = {
-      ...props.style,
-    };
-    if (level === 1) {
-      // need to absolutely position overflow indicator
-      style.position = 'relative';
-    } else if (level > 1) {
-      // adding correct zIndex for popover
-      style.zIndex = level;
-    }
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
@@ -363,7 +353,6 @@ export class SubPopupMenu extends React.Component {
         visible={visible}
         overflowedIndicator={overflowedIndicator}
         {...domProps}
-        style={style}
       >
         {React.Children.map(
           props.children,
