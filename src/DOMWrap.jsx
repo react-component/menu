@@ -28,7 +28,8 @@ class DOMWrap extends React.Component {
     window.removeEventListener('resize', this.debouncedHandleResize);
   }
 
-  getOverflowedSubMenuItem = (lastVisibleIndex) => {
+  getOverflowedSubMenuItem = (keyPrefix, overflowedItems) => {
+    const { lastVisibleIndex } = this.state;
     const { overflowedIndicator, level, mode, prefixCls, theme, style: propStyle } = this.props;
     if (level !== 1 || mode !== 'horizontal') {
       return null;
@@ -38,21 +39,12 @@ class DOMWrap extends React.Component {
     const copy = this.props.children[0];
     const { children: throwAway, title, eventKey, ...rest } = copy.props;
 
-    const left = this.childrenSizes.slice(0, lastVisibleIndex + 1).reduce((acc, cur) => {
-      return acc + cur;
-    }, 0);
+    let style = { ...propStyle };
 
-    let style = {
-      ...propStyle,
-      position: 'absolute',
-      left,
-    };
-
-    if (lastVisibleIndex === undefined) {
+    if (overflowedItems.length === 0) {
       style = {
         ...style,
-        visibility: 'hidden',
-        height: 0,
+        display: 'none',
       };
     }
 
@@ -64,11 +56,12 @@ class DOMWrap extends React.Component {
         className={`${prefixCls}-overflowed-submenu`}
         popupClassName={popupClassName}
         {...rest}
-        eventKey="overflowed-indicator"
+        key={`${keyPrefix}-overflowed-indicator`}
+        eventKey={`${keyPrefix}-overflowed-indicator`}
         disabled={false}
         style={style}
       >
-        {this.overflowedItems}
+        {overflowedItems}
       </SubMenu>
     );
   }
@@ -87,7 +80,7 @@ class DOMWrap extends React.Component {
     this.childrenSizes = [];
     const { children } = this.props;
 
-    this.childrenSizes = children.map((c, i) => getWidth(ul.children[i]));
+    this.childrenSizes = children.map((c, i) => getWidth(ul.children[2*i]));
 
     this.overflowedIndicatorWidth = getWidth(ul.children[children.length]);
     this.originalTotalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
@@ -146,27 +139,30 @@ class DOMWrap extends React.Component {
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
     const { lastVisibleIndex } = this.state;
-    return React.Children.map(children, (childNode, index) => {
-        // only process the scenario when overflow actually happens and it's the root menu
+    return children.reduce((acc, childNode, index) => {
+      let item = childNode;
+      if (this.props.mode === 'horizontal') {
+        let overflowed = this.getOverflowedSubMenuItem(childNode.props.eventKey, []);
 
-          if (this.props.mode === 'horizontal') {
-            if (lastVisibleIndex !== undefined
-                &&
-                this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
-            ) {
-              if (index <= lastVisibleIndex) {
-                // visible item, just render
-                return childNode;
-              }
-              return React.cloneElement(
-                childNode,
-                // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
-                { style: { visibility: 'hidden' }, eventKey: `${childNode.eventKey}-hidden` },
-              );
-            }
+        if (lastVisibleIndex !== undefined
+            &&
+            this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
+        ) {
+          if (index > lastVisibleIndex) {
+            item = React.cloneElement(
+              childNode,
+              // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
+              { style: { visibility: 'hidden' }, eventKey: `${childNode.props.eventKey}-hidden` },
+            );
+          } else if (index === lastVisibleIndex) {
+            overflowed = this.getOverflowedSubMenuItem(childNode.props.eventKey, this.overflowedItems);
           }
-          return childNode;
-    });
+        }
+
+        return [...acc, item, overflowed];
+      }
+      return [...acc, item];
+    }, []);
   }
 
   render() {
@@ -192,7 +188,6 @@ class DOMWrap extends React.Component {
     return (
       <Tag {...rest}>
         {this.renderChildren(this.props.children)}
-        {this.getOverflowedSubMenuItem(lastVisibleIndex)}
       </Tag>
     );
   }
