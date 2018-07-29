@@ -339,7 +339,7 @@ describe('SubMenu', () => {
         </Menu>
       );
 
-      const subMenuInstance = wrapper.find('SubMenu').first().instance();
+      const subMenuInstance = wrapper.find('SubMenu').at(1).instance();
       const adjustWidthSpy = jest.spyOn(subMenuInstance, 'adjustWidth');
 
       jest.runAllTimers();
@@ -425,7 +425,6 @@ describe('SubMenu', () => {
 
       const wrapper = mount(<App show />);
       expect(wrapper.find('Menu ul').prop('style')).toEqual({
-        position: 'relative',
         backgroundColor: 'black',
       });
     });

@@ -352,11 +352,11 @@ describe('Menu', () => {
 
       // overflow indicator hidden
       expect(wrapper.find('SubMenu').last().prop('style')).toEqual({
-        height: 0, left: 0, position: 'absolute', visibility: 'hidden',
+        display: 'none',
       });
       expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
       expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual(undefined);
+      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ display: 'none' });
       expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({});
     });
 
@@ -373,9 +373,9 @@ describe('Menu', () => {
 
       expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
       expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ visibility: 'hidden' });
+      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ display: 'none' });
       expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(1);
+      expect(wrapper.find('.test-overflow-indicator').length).toEqual(4);
     });
 
     describe('props changes', () => {
@@ -396,7 +396,7 @@ describe('Menu', () => {
 
         // overflow indicator hidden
         expect(wrapper.find('SubMenu').last().prop('style')).toEqual({
-          height: 0, left: 0, position: 'absolute', visibility: 'hidden',
+          display: 'none',
         });
       });
 
@@ -415,11 +415,9 @@ describe('Menu', () => {
 
         expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
         expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-        expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ visibility: 'hidden' });
+        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').at(0).prop('style')).toEqual({ display: 'none' });
+        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').at(1).prop('style')).toEqual({});
         expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
-
-        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').prop('style'))
-          .toEqual({ position: 'absolute', left: 100 });
 
         indicatorWidth = 60;
         widths = [...liWidths, indicatorWidth, availableWidth];
@@ -430,10 +428,8 @@ describe('Menu', () => {
 
         expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
         expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({ visibility: 'hidden' });
-        expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ visibility: 'hidden' });
+        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').at(0).prop('style')).toEqual({});
         expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
-        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').prop('style'))
-          .toEqual({ position: 'absolute', left: 50 });
       });
     });
   });

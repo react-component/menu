@@ -4,7 +4,6 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-horizontal"
   role="menu"
-  style="position:relative"
   tabindex="0"
 >
   <li
@@ -37,10 +36,46 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
     </ul>
   </li>
   <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
     class="rc-menu-item"
     role="menuitem"
   >
     3
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
   </li>
   <li
     class=" rc-menu-item-group"
@@ -70,6 +105,24 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
     </ul>
   </li>
   <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
     class="rc-menu-submenu rc-menu-submenu-horizontal"
     role="menuitem"
   >
@@ -88,7 +141,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
   <li
     class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
     role="menuitem"
-    style="position:absolute;left:0;visibility:hidden;height:0"
+    style="display:none"
   >
     <div
       aria-expanded="false"
@@ -110,7 +163,6 @@ exports[`Menu render renders inline menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-inline"
   role="menu"
-  style="position:relative"
   tabindex="0"
 >
   <li
@@ -205,7 +257,6 @@ exports[`Menu render renders vertical menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
   role="menu"
-  style="position:relative"
   tabindex="0"
 >
   <li
@@ -293,7 +344,6 @@ exports[`Menu render role listbox renders menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
   role="listbox"
-  style="position:relative"
   tabindex="0"
 >
   <li
