@@ -315,7 +315,7 @@ ReactDOM.render(<Menu>
         </tr>
         <tr>
             <td>arrowIcon</td>
-            <td>React.ReactNode</td>
+            <td>ReactNode</td>
             <th></th>
             <td>specific the arrow icon.</td>
         </tr>
