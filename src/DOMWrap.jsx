@@ -28,8 +28,7 @@ class DOMWrap extends React.Component {
     window.removeEventListener('resize', this.debouncedHandleResize);
   }
 
-  getOverflowedSubMenuItem = (keyPrefix, overflowedItems) => {
-    const { lastVisibleIndex } = this.state;
+  getOverflowedSubMenuItem = (keyPrefix, overflowedItems, renderPlaceholder) => {
     const { overflowedIndicator, level, mode, prefixCls, theme, style: propStyle } = this.props;
     if (level !== 1 || mode !== 'horizontal') {
       return null;
@@ -40,12 +39,19 @@ class DOMWrap extends React.Component {
     const { children: throwAway, title, eventKey, ...rest } = copy.props;
 
     let style = { ...propStyle };
+    let key = `${keyPrefix}-overflowed-indicator`;
 
-    if (overflowedItems.length === 0) {
+    if (overflowedItems.length === 0 && renderPlaceholder !== true) {
       style = {
         ...style,
         display: 'none',
       };
+    } else if (renderPlaceholder) {
+      style = {
+        ...style,
+        visibility: 'hidden',
+      };
+      key = `${key}-placeholder`;
     }
 
     const popupClassName = theme ? `${prefixCls}-${theme}` : '';
@@ -56,7 +62,7 @@ class DOMWrap extends React.Component {
         className={`${prefixCls}-overflowed-submenu`}
         popupClassName={popupClassName}
         {...rest}
-        key={`${keyPrefix}-overflowed-indicator`}
+        key={key}
         eventKey={`${keyPrefix}-overflowed-indicator`}
         disabled={false}
         style={style}
@@ -80,9 +86,9 @@ class DOMWrap extends React.Component {
     this.childrenSizes = [];
     const { children } = this.props;
 
-    this.childrenSizes = children.map((c, i) => getWidth(ul.children[2*i]));
+    this.childrenSizes = children.map((c, i) => getWidth(ul.children[2 * i + 1]));
 
-    this.overflowedIndicatorWidth = getWidth(ul.children[children.length]);
+    this.overflowedIndicatorWidth = getWidth(ul.children[ul.children.length - 1]);
     this.originalTotalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
     this.handleResize();
   }
@@ -143,7 +149,6 @@ class DOMWrap extends React.Component {
       let item = childNode;
       if (this.props.mode === 'horizontal') {
         let overflowed = this.getOverflowedSubMenuItem(childNode.props.eventKey, []);
-
         if (lastVisibleIndex !== undefined
             &&
             this.props.className.indexOf(`${this.props.prefixCls}-root`) !== -1
@@ -154,12 +159,22 @@ class DOMWrap extends React.Component {
               // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
               { style: { visibility: 'hidden' }, eventKey: `${childNode.props.eventKey}-hidden` },
             );
-          } else if (index === lastVisibleIndex) {
-            overflowed = this.getOverflowedSubMenuItem(childNode.props.eventKey, this.overflowedItems);
+          }
+          if (index === lastVisibleIndex + 1) {
+            overflowed = this.getOverflowedSubMenuItem(
+              childNode.props.eventKey,
+              this.overflowedItems,
+            );
           }
         }
 
-        return [...acc, item, overflowed];
+        const ret = [...acc, overflowed, item];
+
+        if (index === children.length - 1) {
+          // need a placeholder for calculating overflowed indicator width
+          ret.push(this.getOverflowedSubMenuItem(childNode.props.eventKey, [], true));
+        }
+        return ret;
       }
       return [...acc, item];
     }, []);
@@ -178,8 +193,6 @@ class DOMWrap extends React.Component {
       theme,
       ...rest,
     } = this.props;
-
-    const { lastVisibleIndex } = this.state;
 
     if (!visible) {
       rest.className += ` ${hiddenClassName}`;

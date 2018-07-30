@@ -339,7 +339,9 @@ describe('SubMenu', () => {
         </Menu>
       );
 
-      const subMenuInstance = wrapper.find('SubMenu').at(1).instance();
+      // every item has a prefixed overflow indicator as a submenu
+      // so we have to get the 3rd submenu
+      const subMenuInstance = wrapper.find('SubMenu').at(2).instance();
       const adjustWidthSpy = jest.spyOn(subMenuInstance, 'adjustWidth');
 
       jest.runAllTimers();

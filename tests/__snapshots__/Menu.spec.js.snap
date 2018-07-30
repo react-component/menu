@@ -7,6 +7,24 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
   tabindex="0"
 >
   <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
     class=" rc-menu-item-group"
   >
     <div
@@ -141,7 +159,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
   <li
     class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
     role="menuitem"
-    style="display:none"
+    style="visibility:hidden"
   >
     <div
       aria-expanded="false"

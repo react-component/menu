@@ -318,6 +318,7 @@ describe('Menu', () => {
   });
 
   describe('DOMWrap Allow Overflow', () => {
+    const overflowIndicatorSelector = 'SubMenu.rc-menu-overflowed-submenu';
     function createMenu(props) {
       return (
         <Menu
@@ -329,9 +330,7 @@ describe('Menu', () => {
         >
           <MenuItem key="1">1</MenuItem>
           <MenuItem key="2" disabled>2</MenuItem>
-          <SubMenu title="submenu">
-            <MenuItem key="3">3</MenuItem>
-          </SubMenu>
+          <MenuItem key="3">3</MenuItem>
           <MenuItem key="4">4</MenuItem>
         </Menu>
       );
@@ -340,7 +339,7 @@ describe('Menu', () => {
     let wrapper;
 
     it('should not include overflow indicator when having enough width', () => {
-      const indicatorWidth = 10; // actual width including 40 px padding, which will be 50;
+      const indicatorWidth = 50; // actual width including 40 px padding, which will be 50;
       const liWidths = [50, 50, 50, 50];
       const availableWidth = 250;
       const widths = [...liWidths, indicatorWidth, availableWidth];
@@ -350,14 +349,20 @@ describe('Menu', () => {
       };
       wrapper = mount(createMenu());
 
-      // overflow indicator hidden
-      expect(wrapper.find('SubMenu').last().prop('style')).toEqual({
+      // overflow indicator placeholder
+      expect(wrapper.find(overflowIndicatorSelector).at(4).prop('style')).toEqual({
+        visibility: 'hidden',
+      });
+
+      // last overflow indicator should be hidden
+      expect(wrapper.find(overflowIndicatorSelector).at(3).prop('style')).toEqual({
         display: 'none',
       });
+
       expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
       expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ display: 'none' });
       expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({});
+      expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({});
     });
 
     it('should include overflow indicator when having not enough width', () => {
@@ -373,9 +378,13 @@ describe('Menu', () => {
 
       expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
       expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-      expect(wrapper.find('SubMenu li').at(0).prop('style')).toEqual({ display: 'none' });
       expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
-      expect(wrapper.find('.test-overflow-indicator').length).toEqual(4);
+      expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({ visibility: 'hidden' });
+
+      expect(wrapper.find(overflowIndicatorSelector).at(2).prop('style')).toEqual({});
+      expect(wrapper.find(overflowIndicatorSelector).at(3).prop('style')).toEqual({
+        display: 'none',
+      });
     });
 
     describe('props changes', () => {
@@ -391,11 +400,18 @@ describe('Menu', () => {
         };
 
         wrapper = mount(createMenu());
+
+        expect(wrapper.find(overflowIndicatorSelector).length).toEqual(5);
+        expect(wrapper.find(overflowIndicatorSelector).at(1).prop('style')).toEqual({
+          display: 'none',
+        });
+        expect(wrapper.find(overflowIndicatorSelector).at(2).prop('style')).toEqual({});
+
         wrapper.setProps({ children: <MenuItem>child</MenuItem> });
         wrapper.update();
 
-        // overflow indicator hidden
-        expect(wrapper.find('SubMenu').last().prop('style')).toEqual({
+        expect(wrapper.find(overflowIndicatorSelector).length).toEqual(2);
+        expect(wrapper.find(overflowIndicatorSelector).at(0).prop('style')).toEqual({
           display: 'none',
         });
       });
@@ -415,8 +431,11 @@ describe('Menu', () => {
 
         expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
         expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').at(0).prop('style')).toEqual({ display: 'none' });
-        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').at(1).prop('style')).toEqual({});
+
+        const overflowedSubmenu = wrapper.find(overflowIndicatorSelector);
+        expect(overflowedSubmenu.at(1).prop('style')).toEqual({ display: 'none' });
+        expect(overflowedSubmenu.at(2).prop('style')).toEqual({});
+
         expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
 
         indicatorWidth = 60;
@@ -428,8 +447,7 @@ describe('Menu', () => {
 
         expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
         expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({ visibility: 'hidden' });
-        expect(wrapper.find('SubMenu.rc-menu-overflowed-submenu').at(0).prop('style')).toEqual({});
-        expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
+        expect(wrapper.find(overflowIndicatorSelector).at(1).prop('style')).toEqual({});
       });
     });
   });
