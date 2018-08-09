@@ -193,10 +193,10 @@ ReactDOM.render(<Menu>
             <td>Describes how the popup menus should be positioned</td>
         </tr>
         <tr>
-            <td>customIcon</td>
-            <td>(props: MenuItemProps | SubMenuProps) => ReactNode</td>
+            <td>itemIcon</td>
+            <td>(props: MenuItemProps) => ReactNode</td>
             <th></th>
-            <td>specific the arrow icon.</td>
+            <td>specific the menu item icon.</td>
         </tr>
     </tbody>
 </table>
@@ -242,6 +242,12 @@ ReactDOM.render(<Menu>
             <td>Function({eventKey, domEvent})</td>
             <th></th>
             <td></td>
+        </tr>
+        <tr>
+            <td>itemIcon</td>
+            <td>(props: MenuItemProps) => ReactNode</td>
+            <th></th>
+            <td>specific the menu item icon.</td>
         </tr>
     </tbody>
 </table>
@@ -318,6 +324,12 @@ ReactDOM.render(<Menu>
             <td>Array</td>
             <th></th>
             <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: `[0,15]`</td>
+        </tr>
+        <tr>
+            <td>itemIcon</td>
+            <td>(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode</td>
+            <th></th>
+            <td>specific the menu item icon.</td>
         </tr>
     </tbody>
 </table>

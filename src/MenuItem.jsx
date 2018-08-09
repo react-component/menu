@@ -30,7 +30,7 @@ export class MenuItem extends React.Component {
     multiple: PropTypes.bool,
     isSelected: PropTypes.bool,
     manualRef: PropTypes.func,
-    customIcon: PropTypes.func,
+    itemIcon: PropTypes.func,
   };
 
   static defaultProps = {
@@ -184,8 +184,8 @@ export class MenuItem extends React.Component {
     }
     menuAllProps.forEach(key => delete props[key]);
 
-    const icon = typeof this.props.customIcon === 'function' ?
-      React.createElement(this.props.customIcon, this.props) : null;
+    const icon = typeof this.props.itemIcon === 'function' ?
+      React.createElement(this.props.itemIcon, this.props) : null;
     return (
       <li
         {...props}
@@ -202,10 +202,9 @@ export class MenuItem extends React.Component {
 
 MenuItem.isMenuItem = true;
 
-const connected = connect(({ activeKey, selectedKeys, customIcon }, { eventKey, subMenuKey }) => ({
+const connected = connect(({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
   active: activeKey[subMenuKey] === eventKey,
   isSelected: selectedKeys.indexOf(eventKey) !== -1,
-  customIcon,
 }))(MenuItem);
 
 export default connected;

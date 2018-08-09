@@ -7,22 +7,36 @@ import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { MenuItem as NakedMenuItem } from '../src/MenuItem';
 
 describe('MenuItem', () => {
-  function customIcon({ isSubMenu }) {
+  const subMenuIconText = 'SubMenuIcon';
+  const menuItemIconText = 'MenuItemIcon';
+  function itemIcon({ isSubMenu }) {
     if (isSubMenu) {
-      return <span>SubMenuIcon</span>;
+      return <span>{subMenuIconText}</span>;
     }
-    return <span>MenuItemIcon</span>;
+    return <span>{menuItemIconText}</span>;
   }
 
   describe('custom icon', () => {
     it('should render custom arrow icon correctly.', () => {
       const wrapper = mount(
-        <Menu mode="vertical" customIcon={customIcon}>
+        <Menu mode="vertical" itemIcon={itemIcon}>
           <MenuItem key="1">1</MenuItem>
         </Menu>
       );
       const menuItemText = wrapper.find('.rc-menu-item').first().text();
-      expect(menuItemText).toEqual('1MenuItemIcon');
+      expect(menuItemText).toEqual(`1${menuItemIconText}`);
+    });
+
+    it('should render custom arrow icon correctly (with children props).', () => {
+      const targetText = 'target';
+      const wrapper = mount(
+        <Menu mode="vertical" itemIcon={itemIcon}>
+          <MenuItem key="1" itemIcon={() => <span>{targetText}</span>}>1</MenuItem>
+          <MenuItem key="2">2</MenuItem>
+        </Menu>
+      );
+      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      expect(menuItemText).toEqual(`1${targetText}`);
     });
   });
 

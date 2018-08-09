@@ -32,7 +32,7 @@ class Menu extends React.Component {
     activeKey: PropTypes.string,
     prefixCls: PropTypes.string,
     builtinPlacements: PropTypes.object,
-    customIcon: PropTypes.func,
+    itemIcon: PropTypes.func,
   };
 
   static defaultProps = {
@@ -71,7 +71,6 @@ class Menu extends React.Component {
       selectedKeys,
       openKeys,
       activeKey: { '0-menu-': getActiveKey(props, props.activeKey) },
-      customIcon: props.customIcon,
     });
   }
 

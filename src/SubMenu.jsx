@@ -63,7 +63,7 @@ export class SubMenu extends React.Component {
     store: PropTypes.object,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     manualRef: PropTypes.func,
-    customIcon: PropTypes.func,
+    itemIcon: PropTypes.func,
   };
 
   static defaultProps = {
@@ -367,6 +367,7 @@ export class SubMenu extends React.Component {
       prefixCls: props.rootPrefixCls,
       id: this._menuId,
       manualRef: this.saveMenuInstance,
+      itemIcon: props.itemIcon,
     };
 
     const haveRendered = this.haveRendered;
@@ -465,8 +466,8 @@ export class SubMenu extends React.Component {
     // expand custom icon should NOT be displayed in menu with horizontal mode.
     let icon = null;
     if (props.mode !== 'horizontal') {
-      icon = typeof this.props.customIcon === 'function' ?
-        React.createElement(this.props.customIcon, { ...this.props, isSubMenu: true }) : null;
+      icon = typeof this.props.itemIcon === 'function' ?
+        React.createElement(this.props.itemIcon, { ...this.props, isSubMenu: true }) : null;
     }
 
     const title = (
@@ -538,13 +539,12 @@ export class SubMenu extends React.Component {
 }
 
 const connected = connect((
-  { openKeys, activeKey, selectedKeys, customIcon },
+  { openKeys, activeKey, selectedKeys },
   { eventKey, subMenuKey }
 ) => ({
   isOpen: openKeys.indexOf(eventKey) > -1,
   active: activeKey[subMenuKey] === eventKey,
   selectedKeys,
-  customIcon,
 }))(SubMenu);
 
 connected.isSubMenu = true;
