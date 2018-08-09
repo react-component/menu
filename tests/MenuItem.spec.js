@@ -7,12 +7,31 @@ import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { MenuItem as NakedMenuItem } from '../src/MenuItem';
 
 describe('MenuItem', () => {
+  function customIcon({ isSubMenu }) {
+    if (isSubMenu) {
+      return <span>SubMenuIcon</span>;
+    }
+    return <span>MenuItemIcon</span>;
+  }
+
+  describe('custom icon', () => {
+    it('should render custom arrow icon correctly.', () => {
+      const wrapper = mount(
+        <Menu mode="vertical" customIcon={customIcon}>
+          <MenuItem key="1">1</MenuItem>
+        </Menu>
+      );
+      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      expect(menuItemText).toEqual('1MenuItemIcon');
+    });
+  });
+
   describe('disabled', () => {
     it('can not be active by key down', () => {
       const wrapper = mount(
         <Menu activeKey="1">
           <MenuItem key="1">1</MenuItem>
-          <MenuItem disabled/>
+          <MenuItem disabled />
           <MenuItem key="2">2</MenuItem>
         </Menu>
       );

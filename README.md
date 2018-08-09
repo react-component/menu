@@ -192,6 +192,12 @@ ReactDOM.render(<Menu>
             <th>see <a href="./src/placements.jsx">placements.jsx</a></th>
             <td>Describes how the popup menus should be positioned</td>
         </tr>
+        <tr>
+            <td>customIcon</td>
+            <td>(props: MenuItemProps | SubMenuProps) => ReactNode</td>
+            <th></th>
+            <td>specific the arrow icon.</td>
+        </tr>
     </tbody>
 </table>
 
@@ -312,12 +318,6 @@ ReactDOM.render(<Menu>
             <td>Array</td>
             <th></th>
             <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: `[0,15]`</td>
-        </tr>
-        <tr>
-            <td>arrowIcon</td>
-            <td>ReactNode</td>
-            <th></th>
-            <td>specific the arrow icon.</td>
         </tr>
     </tbody>
 </table>

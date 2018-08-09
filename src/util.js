@@ -104,7 +104,5 @@ export const menuAllProps = [
   'inlineCollapsed',
   'menu',
   'theme',
-
-  // arrow icon
-  'arrowIcon',
+  'customIcon',
 ];

@@ -29,6 +29,13 @@ describe('SubMenu', () => {
     );
   }
 
+  function customIcon({ isSubMenu }) {
+    if (isSubMenu) {
+      return <span>SubMenuIcon</span>;
+    }
+    return <span>MenuItemIcon</span>;
+  }
+
   it('don\'t show submenu when disabled', () => {
     const wrapper = mount(
       <Menu mode="vertical">
@@ -56,21 +63,22 @@ describe('SubMenu', () => {
 
   it('should render custom arrow icon correctly.', () => {
     const wrapper = mount(
-      <Menu mode="vertical">
-        <SubMenu key="s" title="submenu" arrowIcon={'test-text'}>
+      <Menu mode="vertical" customIcon={customIcon}>
+        <SubMenu key="s" title="submenu">
           <MenuItem key="1">1</MenuItem>
+          <MenuItem key="2">2</MenuItem>
         </SubMenu>
       </Menu>
     );
 
-    const childText = wrapper.find('.rc-menu-submenu-title').first().text();
-    expect(childText).toEqual('submenutest-text');
+    const subMenuText = wrapper.find('.rc-menu-submenu-title').first().text();
+    expect(subMenuText).toEqual('submenuSubMenuIcon');
   });
 
   it('should Not render custom arrow icon in horizontal mode.', () => {
     const wrapper = mount(
       <Menu mode="horizontal">
-        <SubMenu key="s" title="submenu" arrowIcon={'test-text'}>
+        <SubMenu key="s" title="submenu" customIcon={customIcon}>
           <MenuItem key="1">1</MenuItem>
         </SubMenu>
       </Menu>
@@ -221,8 +229,8 @@ describe('SubMenu', () => {
       const titles = wrapper.find('.rc-menu-submenu-title');
 
       titles.first().simulate('mouseEnter')
-                    .simulate('keyDown', { keyCode: KeyCode.LEFT })
-                    .simulate('keyDown', { keyCode: KeyCode.DOWN });
+        .simulate('keyDown', { keyCode: KeyCode.LEFT })
+        .simulate('keyDown', { keyCode: KeyCode.DOWN });
       expect(wrapper.find('.rc-menu-submenu').last().is('.rc-menu-submenu-active')).toBe(true);
 
       titles.last().simulate('keyDown', { keyCode: KeyCode.UP });
@@ -236,12 +244,12 @@ describe('SubMenu', () => {
 
       // testing keydown event after submenu is closed and then opened again
       firstItem.simulate('mouseEnter')
-                    .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-                    .simulate('keyDown', { keyCode: KeyCode.LEFT })
-                    .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-                    .simulate('keyDown', { keyCode: KeyCode.DOWN })
-                    .simulate('keyDown', { keyCode: KeyCode.DOWN })
-                    .simulate('keyDown', { keyCode: KeyCode.DOWN });
+        .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+        .simulate('keyDown', { keyCode: KeyCode.LEFT })
+        .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+        .simulate('keyDown', { keyCode: KeyCode.DOWN })
+        .simulate('keyDown', { keyCode: KeyCode.DOWN })
+        .simulate('keyDown', { keyCode: KeyCode.DOWN });
 
       expect(
         wrapper
@@ -319,7 +327,7 @@ describe('SubMenu', () => {
   });
 
   describe('submenu animation', () => {
-    const appear = () => {};
+    const appear = () => { };
 
     it('should animate with transition class', () => {
       const wrapper = mount(createMenu({
