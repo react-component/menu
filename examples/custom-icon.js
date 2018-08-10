@@ -27,18 +27,19 @@ const getSvgIcon = (style = {}) => {
 };
 
 function itemIcon(props) {
-  if (props.isSubMenu) {
-    return getSvgIcon({
-      position: 'absolute',
-      right: '1rem',
-      color: 'lightblue',
-      transform: `rotate(${props.isOpen ? 90 : 0}deg)`,
-    });
-  }
   return getSvgIcon({
     position: 'absolute',
     right: '1rem',
     color: props.isSelected ? 'pink' : 'inherit',
+  });
+}
+
+function expandIcon(props) {
+  return getSvgIcon({
+    position: 'absolute',
+    right: '1rem',
+    color: 'lightblue',
+    transform: `rotate(${props.isOpen ? 90 : 0}deg)`,
   });
 }
 
@@ -121,7 +122,7 @@ class Demo extends React.Component {
   renderCommonMenu = (props = {}) => {
     return (
       <Menu onClick={this.handleClick} onOpenChange={this.onOpenChange} {...props}>
-        <SubMenu title={<span>sub menu</span>} itemIcon={() => '123'} key="1">
+        <SubMenu title={<span>sub menu</span>} key="1">
           <MenuItem key="1-1">0-1</MenuItem>
           <MenuItem key="1-2">0-2</MenuItem>
         </SubMenu>
@@ -139,6 +140,7 @@ class Demo extends React.Component {
       mode: 'vertical',
       openAnimation: 'zoom',
       itemIcon,
+      expandIcon,
     });
 
     const inlineMenu = this.renderCommonMenu({
@@ -146,6 +148,7 @@ class Demo extends React.Component {
       defaultOpenKeys: ['1'],
       openAnimation: animation,
       itemIcon,
+      expandIcon,
     });
 
     return (

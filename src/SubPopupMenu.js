@@ -102,6 +102,7 @@ export class SubPopupMenu extends React.Component {
     inlineIndent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     manualRef: PropTypes.func,
     itemIcon: PropTypes.func,
+    expandIcon: PropTypes.func,
   };
 
   static defaultProps = {
@@ -288,6 +289,7 @@ export class SubPopupMenu extends React.Component {
       onSelect: this.onSelect,
       builtinPlacements: props.builtinPlacements,
       itemIcon: childProps.itemIcon || this.props.itemIcon,
+      expandIcon: childProps.expandIcon || this.props.expandIcon,
       ...extraProps,
     };
     if (props.mode === 'inline') {

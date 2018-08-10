@@ -198,6 +198,12 @@ ReactDOM.render(<Menu>
             <th></th>
             <td>specific the menu item icon.</td>
         </tr>
+        <tr>
+            <td>expandIcon</td>
+            <td>(props: SubMenuProps) => ReactNode</td>
+            <th></th>
+            <td>specific the menu item icon.</td>
+        </tr>
     </tbody>
 </table>
 
@@ -324,6 +330,12 @@ ReactDOM.render(<Menu>
             <td>Array</td>
             <th></th>
             <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: `[0,15]`</td>
+        </tr>
+        <tr>
+            <td>expandIcon</td>
+            <td>(props: SubMenuProps) => ReactNode</td>
+            <th></th>
+            <td>specific the menu item icon.</td>
         </tr>
         <tr>
             <td>itemIcon</td>

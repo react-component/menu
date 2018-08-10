@@ -105,4 +105,5 @@ export const menuAllProps = [
   'menu',
   'theme',
   'itemIcon',
+  'expandIcon',
 ];

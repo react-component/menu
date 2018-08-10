@@ -9,17 +9,18 @@ import { MenuItem as NakedMenuItem } from '../src/MenuItem';
 describe('MenuItem', () => {
   const subMenuIconText = 'SubMenuIcon';
   const menuItemIconText = 'MenuItemIcon';
-  function itemIcon({ isSubMenu }) {
-    if (isSubMenu) {
-      return <span>{subMenuIconText}</span>;
-    }
+  function itemIcon() {
     return <span>{menuItemIconText}</span>;
+  }
+
+  function expandIcon() {
+    return <span>{subMenuIconText}</span>;
   }
 
   describe('custom icon', () => {
     it('should render custom arrow icon correctly.', () => {
       const wrapper = mount(
-        <Menu mode="vertical" itemIcon={itemIcon}>
+        <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
           <MenuItem key="1">1</MenuItem>
         </Menu>
       );
@@ -30,7 +31,7 @@ describe('MenuItem', () => {
     it('should render custom arrow icon correctly (with children props).', () => {
       const targetText = 'target';
       const wrapper = mount(
-        <Menu mode="vertical" itemIcon={itemIcon}>
+        <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
           <MenuItem key="1" itemIcon={() => <span>{targetText}</span>}>1</MenuItem>
           <MenuItem key="2">2</MenuItem>
         </Menu>

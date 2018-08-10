@@ -29,11 +29,12 @@ describe('SubMenu', () => {
     );
   }
 
-  function itemIcon({ isSubMenu }) {
-    if (isSubMenu) {
-      return <span>SubMenuIcon</span>;
-    }
+  function itemIcon() {
     return <span>MenuItemIcon</span>;
+  }
+
+  function expandIcon() {
+    return <span>SubMenuIcon</span>;
   }
 
   it('don\'t show submenu when disabled', () => {
@@ -63,7 +64,7 @@ describe('SubMenu', () => {
 
   it('should render custom arrow icon correctly.', () => {
     const wrapper = mount(
-      <Menu mode="vertical" itemIcon={itemIcon}>
+      <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
         <SubMenu key="s" title="submenu">
           <MenuItem key="1">1</MenuItem>
           <MenuItem key="2">2</MenuItem>
@@ -78,7 +79,7 @@ describe('SubMenu', () => {
   it('should Not render custom arrow icon in horizontal mode.', () => {
     const wrapper = mount(
       <Menu mode="horizontal">
-        <SubMenu key="s" title="submenu" itemIcon={itemIcon}>
+        <SubMenu key="s" title="submenu" itemIcon={itemIcon} expandIcon={expandIcon}>
           <MenuItem key="1">1</MenuItem>
         </SubMenu>
       </Menu>

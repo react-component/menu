@@ -33,6 +33,7 @@ class Menu extends React.Component {
     prefixCls: PropTypes.string,
     builtinPlacements: PropTypes.object,
     itemIcon: PropTypes.func,
+    expandIcon: PropTypes.func,
   };
 
   static defaultProps = {
