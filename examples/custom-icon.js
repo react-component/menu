@@ -1,12 +1,19 @@
 /* eslint no-console:0 */
-
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-menu/assets/index.less';
 import animate from 'css-animation';
 
-const getSvgIcon = (style = {}) => {
+const getSvgIcon = (style = {}, text) => {
+  if (text) {
+    return (
+      <i style={style}>
+        {text}
+      </i>
+    );
+  }
   const path = 'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h' +
     '-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v' +
     '60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91' +
@@ -83,6 +90,34 @@ const animation = {
 
 class Demo extends React.Component {
 
+  static childContextTypes = {
+    expandIcon: PropTypes.func,
+    itemIcon: PropTypes.func,
+  }
+
+  state = {
+    useContext: false,
+  };
+
+  getChildContext() {
+    if (!this.state.useContext) {
+      return {};
+    }
+    return {
+      expandIcon: (props) => getSvgIcon({
+        position: 'absolute',
+        right: '1rem',
+        color: 'lightblue',
+        transform: `rotate(${props.isOpen ? 90 : 0}deg)`,
+      }, '>>'),
+      itemIcon: (props) => getSvgIcon({
+        position: 'absolute',
+        right: '1rem',
+        color: props.isSelected ? 'pink' : 'inherit',
+      }, '--'),
+    };
+  }
+
   onOpenChange = (value) => {
     console.log('onOpenChange', value);
   }
@@ -90,6 +125,12 @@ class Demo extends React.Component {
   handleClick = (info) => {
     console.log(`clicked ${info.key}`);
     console.log(info);
+  }
+
+  toggleContext = () => {
+    this.setState({
+      useContext: !this.state.useContext,
+    });
   }
 
   renderNestSubMenu = (props = {}) => {
@@ -155,11 +196,16 @@ class Demo extends React.Component {
       <div style={{ margin: 20 }}>
         <h2>Antd menu - custom icon</h2>
         <div>
+          <input
+            type="checkbox"
+            checked={this.state.useContext}
+            onChange={this.toggleContext}
+          /> use context
+        </div>
+        <div>
           <h3>vertical</h3>
-
           <div style={{ margin: 20, width: 200 }}>{verticalMenu}</div>
           <h3>inline</h3>
-
           <div style={{ margin: 20, width: 400 }}>{inlineMenu}</div>
         </div>
       </div>

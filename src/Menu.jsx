@@ -36,6 +36,11 @@ class Menu extends React.Component {
     expandIcon: PropTypes.func,
   };
 
+  static contextTypes = {
+    itemIcon: PropTypes.func,
+    expandIcon: PropTypes.func,
+  }
+
   static defaultProps = {
     selectable: true,
     onClick: noop,
@@ -197,6 +202,10 @@ class Menu extends React.Component {
 
   render() {
     let { ...props } = this.props;
+    const {
+      itemIcon: itemIconFromCtx,
+      expandIcon: expandIconFromCtx,
+    } = this.context;
     props.className += ` ${props.prefixCls}-root`;
     props = {
       ...props,
@@ -206,6 +215,8 @@ class Menu extends React.Component {
       onSelect: this.onSelect,
       openTransitionName: this.getOpenTransitionName(),
       parentMenu: this,
+      itemIcon: itemIconFromCtx || props.itemIcon,
+      expandIcon: expandIconFromCtx || props.expandIcon,
     };
     return (
       <Provider store={this.store}>
