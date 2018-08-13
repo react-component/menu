@@ -46,7 +46,7 @@ describe('MenuItem', () => {
       const wrapper = mount(
         <Menu activeKey="1">
           <MenuItem key="1">1</MenuItem>
-          <MenuItem disabled />
+          <MenuItem disabled/>
           <MenuItem key="2">2</MenuItem>
         </Menu>
       );

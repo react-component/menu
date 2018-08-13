@@ -1,7 +1,6 @@
 /* eslint no-console:0 */
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-menu/assets/index.less';
 import animate from 'css-animation';
@@ -90,34 +89,6 @@ const animation = {
 
 class Demo extends React.Component {
 
-  static childContextTypes = {
-    expandIcon: PropTypes.func,
-    itemIcon: PropTypes.func,
-  }
-
-  state = {
-    useContext: false,
-  };
-
-  getChildContext() {
-    if (!this.state.useContext) {
-      return {};
-    }
-    return {
-      expandIcon: (props) => getSvgIcon({
-        position: 'absolute',
-        right: '1rem',
-        color: 'lightblue',
-        transform: `rotate(${props.isOpen ? 90 : 0}deg)`,
-      }, '>>'),
-      itemIcon: (props) => getSvgIcon({
-        position: 'absolute',
-        right: '1rem',
-        color: props.isSelected ? 'pink' : 'inherit',
-      }, '--'),
-    };
-  }
-
   onOpenChange = (value) => {
     console.log('onOpenChange', value);
   }
@@ -125,12 +96,6 @@ class Demo extends React.Component {
   handleClick = (info) => {
     console.log(`clicked ${info.key}`);
     console.log(info);
-  }
-
-  toggleContext = () => {
-    this.setState({
-      useContext: !this.state.useContext,
-    });
   }
 
   renderNestSubMenu = (props = {}) => {
@@ -195,13 +160,6 @@ class Demo extends React.Component {
     return (
       <div style={{ margin: 20 }}>
         <h2>Antd menu - custom icon</h2>
-        <div>
-          <input
-            type="checkbox"
-            checked={this.state.useContext}
-            onChange={this.toggleContext}
-          /> use context
-        </div>
         <div>
           <h3>vertical</h3>
           <div style={{ margin: 20, width: 200 }}>{verticalMenu}</div>

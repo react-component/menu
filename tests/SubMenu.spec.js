@@ -33,10 +33,6 @@ describe('SubMenu', () => {
     return <span>MenuItemIcon</span>;
   }
 
-  function expandIcon() {
-    return <span>SubMenuIcon</span>;
-  }
-
   it('don\'t show submenu when disabled', () => {
     const wrapper = mount(
       <Menu mode="vertical">
@@ -64,7 +60,11 @@ describe('SubMenu', () => {
 
   it('should render custom arrow icon correctly.', () => {
     const wrapper = mount(
-      <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
+      <Menu
+        mode="vertical"
+        itemIcon={itemIcon}
+        expandIcon={<span>SubMenuIconNode</span>}
+      >
         <SubMenu key="s" title="submenu">
           <MenuItem key="1">1</MenuItem>
           <MenuItem key="2">2</MenuItem>
@@ -73,13 +73,18 @@ describe('SubMenu', () => {
     );
 
     const subMenuText = wrapper.find('.rc-menu-submenu-title').first().text();
-    expect(subMenuText).toEqual('submenuSubMenuIcon');
+    expect(subMenuText).toEqual('submenuSubMenuIconNode');
   });
 
   it('should Not render custom arrow icon in horizontal mode.', () => {
     const wrapper = mount(
       <Menu mode="horizontal">
-        <SubMenu key="s" title="submenu" itemIcon={itemIcon} expandIcon={expandIcon}>
+        <SubMenu
+          key="s"
+          title="submenu"
+          itemIcon={itemIcon}
+          expandIcon={<span>SubMenuIconNode</span>}
+        >
           <MenuItem key="1">1</MenuItem>
         </SubMenu>
       </Menu>
@@ -230,8 +235,8 @@ describe('SubMenu', () => {
       const titles = wrapper.find('.rc-menu-submenu-title');
 
       titles.first().simulate('mouseEnter')
-        .simulate('keyDown', { keyCode: KeyCode.LEFT })
-        .simulate('keyDown', { keyCode: KeyCode.DOWN });
+                    .simulate('keyDown', { keyCode: KeyCode.LEFT })
+                    .simulate('keyDown', { keyCode: KeyCode.DOWN });
       expect(wrapper.find('.rc-menu-submenu').last().is('.rc-menu-submenu-active')).toBe(true);
 
       titles.last().simulate('keyDown', { keyCode: KeyCode.UP });
@@ -245,12 +250,12 @@ describe('SubMenu', () => {
 
       // testing keydown event after submenu is closed and then opened again
       firstItem.simulate('mouseEnter')
-        .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-        .simulate('keyDown', { keyCode: KeyCode.LEFT })
-        .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-        .simulate('keyDown', { keyCode: KeyCode.DOWN })
-        .simulate('keyDown', { keyCode: KeyCode.DOWN })
-        .simulate('keyDown', { keyCode: KeyCode.DOWN });
+                    .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+                    .simulate('keyDown', { keyCode: KeyCode.LEFT })
+                    .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+                    .simulate('keyDown', { keyCode: KeyCode.DOWN })
+                    .simulate('keyDown', { keyCode: KeyCode.DOWN })
+                    .simulate('keyDown', { keyCode: KeyCode.DOWN });
 
       expect(
         wrapper

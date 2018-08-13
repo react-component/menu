@@ -194,13 +194,13 @@ ReactDOM.render(<Menu>
         </tr>
         <tr>
             <td>itemIcon</td>
-            <td>(props: MenuItemProps) => ReactNode</td>
+            <td>ReactNode | (props: MenuItemProps) => ReactNode</td>
             <th></th>
             <td>specific the menu item icon.</td>
         </tr>
         <tr>
             <td>expandIcon</td>
-            <td>(props: SubMenuProps) => ReactNode</td>
+            <td>ReactNode | (props: SubMenuProps) => ReactNode</td>
             <th></th>
             <td>specific the menu item icon.</td>
         </tr>
