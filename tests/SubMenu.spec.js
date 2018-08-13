@@ -333,7 +333,7 @@ describe('SubMenu', () => {
   });
 
   describe('submenu animation', () => {
-    const appear = () => { };
+    const appear = () => {};
 
     it('should animate with transition class', () => {
       const wrapper = mount(createMenu({
