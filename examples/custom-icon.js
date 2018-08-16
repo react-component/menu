@@ -159,7 +159,7 @@ class Demo extends React.Component {
 
     return (
       <div style={{ margin: 20 }}>
-        <h2>Antd menu - custom icon</h2>
+        <h2>Antd menu - Custom icon</h2>
         <div>
           <h3>vertical</h3>
           <div style={{ margin: 20, width: 200 }}>{verticalMenu}</div>
