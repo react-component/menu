@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import SubMenu from './SubMenu';
 import { getWidth } from './util';
+import 'mutationobserver-shim';
 
 class DOMWrap extends React.Component {
   state = {
@@ -13,8 +14,14 @@ class DOMWrap extends React.Component {
   componentDidMount() {
     this.setChildrenWidthAndResize();
     window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
+    if (this.props.level === 1 && this.props.mode === 'horizontal') {
+      const menuUl = ReactDOM.findDOMNode(this);
+      this.mutationObserver = new MutationObserver(this.setChildrenWidthAndResize);
+      this.mutationObserver.observe(menuUl, { attributes: true, childList: true, characterData: false });
+    }
   }
 
+  /*
   componentDidUpdate(prevProps) {
     if (prevProps.children !== this.props.children
       || prevProps.overflowedIndicator !== this.props.overflowedIndicator
@@ -22,10 +29,16 @@ class DOMWrap extends React.Component {
       this.setChildrenWidthAndResize();
     }
   }
+  */
 
   componentWillUnmount() {
     this.debouncedHandleResize.cancel();
+
+    console.log('unmount');
     window.removeEventListener('resize', this.debouncedHandleResize);
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+    }
   }
 
   getOverflowedSubMenuItem = (keyPrefix, overflowedItems, renderPlaceholder) => {
@@ -73,7 +86,7 @@ class DOMWrap extends React.Component {
   }
 
   // memorize rendered menuSize
-  setChildrenWidthAndResize() {
+  setChildrenWidthAndResize = () => {
     if (this.props.mode !== 'horizontal') {
       return;
     }
