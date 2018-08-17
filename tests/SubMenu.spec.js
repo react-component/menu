@@ -72,8 +72,23 @@ describe('SubMenu', () => {
       </Menu>
     );
 
+    const wrapperWithExpandIconFunction = mount(
+      <Menu
+        mode="vertical"
+        itemIcon={itemIcon}
+        expandIcon={() => <span>SubMenuIconNode</span>}
+      >
+        <SubMenu key="s" title="submenu">
+          <MenuItem key="1">1</MenuItem>
+          <MenuItem key="2">2</MenuItem>
+        </SubMenu>
+      </Menu>
+    );
+
     const subMenuText = wrapper.find('.rc-menu-submenu-title').first().text();
+    const subMenuTextWithExpandIconFunction = wrapperWithExpandIconFunction.find('.rc-menu-submenu-title').first().text();
     expect(subMenuText).toEqual('submenuSubMenuIconNode');
+    expect(subMenuTextWithExpandIconFunction).toEqual('submenuSubMenuIconNode');
   });
 
   it('should Not render custom arrow icon in horizontal mode.', () => {
