@@ -472,7 +472,7 @@ export class SubMenu extends React.Component {
       if (typeof this.props.expandIcon === 'function') {
         icon = React.createElement(
           this.props.expandIcon,
-          { ...this.props, isSubMenu: true }
+          { ...this.props }
         );
       }
     }
