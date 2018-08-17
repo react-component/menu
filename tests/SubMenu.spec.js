@@ -288,7 +288,7 @@ describe('SubMenu', () => {
 
       jest.runAllTimers();
 
-      expect(adjustWidthSpy).toHaveBeenCalledTimes(2);
+      expect(adjustWidthSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -309,14 +309,14 @@ describe('SubMenu', () => {
       expect(wrapper.find('Animate').prop('transitionName')).toEqual('fade');
     });
 
-    it('should animate on initially opened menu', () => {
+    it('should not animate initially opened menu', () => {
       const wrapper = mount(createMenu({
         openAnimation: { appear },
         mode: 'inline',
         openKeys: ['s1'],
       }));
 
-      expect(wrapper.find('Animate').first().prop('animation')).toEqual({ appear });
+      expect(wrapper.find('Animate').first().prop('animation')).toEqual({});
     });
 
     it('should animate with config', () => {
