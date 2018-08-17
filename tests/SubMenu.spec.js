@@ -86,7 +86,8 @@ describe('SubMenu', () => {
     );
 
     const subMenuText = wrapper.find('.rc-menu-submenu-title').first().text();
-    const subMenuTextWithExpandIconFunction = wrapperWithExpandIconFunction.find('.rc-menu-submenu-title').first().text();
+    const subMenuTextWithExpandIconFunction =
+      wrapperWithExpandIconFunction.find('.rc-menu-submenu-title').first().text();
     expect(subMenuText).toEqual('submenuSubMenuIconNode');
     expect(subMenuTextWithExpandIconFunction).toEqual('submenuSubMenuIconNode');
   });
