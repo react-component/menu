@@ -1,3 +1,5 @@
+jest.mock('mutationobserver-shim');
+
 const mockedUtil = require('../src/util');
 
 /* eslint-disable no-undef, react/no-multi-comp */
@@ -414,40 +416,6 @@ describe('Menu', () => {
         expect(wrapper.find(overflowIndicatorSelector).at(0).prop('style')).toEqual({
           display: 'none',
         });
-      });
-
-      it('should recalculate overflow on overflow indicator changes', () => {
-        const liWidths = [50, 50, 50, 50];
-        const availableWidth = 145;
-        let indicatorWidth = 45;
-        let widths = [...liWidths, indicatorWidth, availableWidth];
-        let i = 0;
-
-        mockedUtil.getWidth = () => {
-          return widths[i++];
-        };
-
-        wrapper = mount(createMenu());
-
-        expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
-        expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-
-        const overflowedSubmenu = wrapper.find(overflowIndicatorSelector);
-        expect(overflowedSubmenu.at(1).prop('style')).toEqual({ display: 'none' });
-        expect(overflowedSubmenu.at(2).prop('style')).toEqual({});
-
-        expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
-
-        indicatorWidth = 60;
-        widths = [...liWidths, indicatorWidth, availableWidth];
-
-        i = 0;
-        wrapper.setProps({ overflowedIndicator: <span>add more</span> });
-        wrapper.update();
-
-        expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
-        expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({ visibility: 'hidden' });
-        expect(wrapper.find(overflowIndicatorSelector).at(1).prop('style')).toEqual({});
       });
     });
   });

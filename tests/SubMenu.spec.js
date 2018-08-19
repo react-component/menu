@@ -367,7 +367,7 @@ describe('SubMenu', () => {
       expect(wrapper.find('Animate').prop('transitionName')).toEqual('fade');
     });
 
-    it('should not animate initially opened menu', () => {
+    it('should not animate on initially opened menu', () => {
       const wrapper = mount(createMenu({
         openAnimation: { appear },
         mode: 'inline',

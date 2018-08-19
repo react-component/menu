@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import SubMenu from './SubMenu';
 import { getWidth } from './util';
 import ResizeObserver from 'resize-observer-polyfill';
+import 'mutationobserver-shim';
 
 class DOMWrap extends React.Component {
   state = {
@@ -11,6 +12,7 @@ class DOMWrap extends React.Component {
   };
 
   resizeObserver = null;
+  mutationObserver = null;
 
   componentDidMount() {
     this.setChildrenWidthAndResize();
@@ -19,22 +21,21 @@ class DOMWrap extends React.Component {
       this.resizeObserver = new ResizeObserver(entries => {
         entries.forEach(this.setChildrenWidthAndResize);
       });
-      this.resizeObserver.observe(menuUl);
-    }
-  }
 
-  /*
-  componentDidUpdate(prevProps) {
-    if (prevProps.children !== this.props.children
-      || prevProps.overflowedIndicator !== this.props.overflowedIndicator
-    ) {
-      this.setChildrenWidthAndResize();
+      [].slice.call(menuUl.children).concat(menuUl).forEach(el => {
+        this.resizeObserver.observe(el);
+      });
+
+      this.mutationObserver = new MutationObserver(this.setChildrenWidthAndResize);
+      this.mutationObserver.observe(menuUl, { attributes: false, childList: true, subTree: false });
     }
   }
-  */
 
   componentWillUnmount() {
     if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+    if (this.mutationObserver) {
       this.resizeObserver.disconnect();
     }
   }
