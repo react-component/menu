@@ -1,23 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 import SubMenu from './SubMenu';
 import { getWidth } from './util';
-import 'mutationobserver-shim';
+import ResizeObserver from 'resize-observer-polyfill';
 
 class DOMWrap extends React.Component {
   state = {
     lastVisibleIndex: undefined,
   };
 
+  resizeObserver = null;
+
   componentDidMount() {
     this.setChildrenWidthAndResize();
-    window.addEventListener('resize', this.debouncedHandleResize, { passive: true });
     if (this.props.level === 1 && this.props.mode === 'horizontal') {
       const menuUl = ReactDOM.findDOMNode(this);
-      this.mutationObserver = new MutationObserver(this.setChildrenWidthAndResize);
-      this.mutationObserver.observe(menuUl, { attributes: true, childList: true, characterData: false });
+      this.resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(this.setChildrenWidthAndResize);
+      });
+      this.resizeObserver.observe(menuUl);
     }
   }
 
@@ -32,12 +34,8 @@ class DOMWrap extends React.Component {
   */
 
   componentWillUnmount() {
-    this.debouncedHandleResize.cancel();
-
-    console.log('unmount');
-    window.removeEventListener('resize', this.debouncedHandleResize);
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
     }
   }
 
@@ -152,8 +150,6 @@ class DOMWrap extends React.Component {
 
     this.setState({ lastVisibleIndex });
   }
-
-  debouncedHandleResize = debounce(this.handleResize, 150);
 
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
