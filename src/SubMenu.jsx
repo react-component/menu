@@ -63,6 +63,8 @@ export class SubMenu extends React.Component {
     store: PropTypes.object,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
     manualRef: PropTypes.func,
+    itemIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    expandIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   };
 
   static defaultProps = {
@@ -366,6 +368,8 @@ export class SubMenu extends React.Component {
       prefixCls: props.rootPrefixCls,
       id: this._menuId,
       manualRef: this.saveMenuInstance,
+      itemIcon: props.itemIcon,
+      expandIcon: props.expandIcon,
     };
 
     const haveRendered = this.haveRendered;
@@ -461,6 +465,18 @@ export class SubMenu extends React.Component {
       };
     }
 
+    // expand custom icon should NOT be displayed in menu with horizontal mode.
+    let icon = null;
+    if (props.mode !== 'horizontal') {
+      icon = this.props.expandIcon; // ReactNode
+      if (typeof this.props.expandIcon === 'function') {
+        icon = React.createElement(
+          this.props.expandIcon,
+          { ...this.props }
+        );
+      }
+    }
+
     const title = (
       <div
         ref={this.saveSubMenuTitle}
@@ -474,7 +490,7 @@ export class SubMenu extends React.Component {
         title={typeof props.title === 'string' ? props.title : undefined}
       >
         {props.title}
-        <i className={`${prefixCls}-arrow`} />
+        {icon || <i className={`${prefixCls}-arrow`} />}
       </div>
     );
     const children = this.renderChildren(props.children);

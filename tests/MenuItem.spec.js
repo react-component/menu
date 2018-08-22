@@ -7,6 +7,40 @@ import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { MenuItem as NakedMenuItem } from '../src/MenuItem';
 
 describe('MenuItem', () => {
+  const subMenuIconText = 'SubMenuIcon';
+  const menuItemIconText = 'MenuItemIcon';
+  function itemIcon() {
+    return <span>{menuItemIconText}</span>;
+  }
+
+  function expandIcon() {
+    return <span>{subMenuIconText}</span>;
+  }
+
+  describe('custom icon', () => {
+    it('should render custom arrow icon correctly.', () => {
+      const wrapper = mount(
+        <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
+          <MenuItem key="1">1</MenuItem>
+        </Menu>
+      );
+      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      expect(menuItemText).toEqual(`1${menuItemIconText}`);
+    });
+
+    it('should render custom arrow icon correctly (with children props).', () => {
+      const targetText = 'target';
+      const wrapper = mount(
+        <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
+          <MenuItem key="1" itemIcon={() => <span>{targetText}</span>}>1</MenuItem>
+          <MenuItem key="2">2</MenuItem>
+        </Menu>
+      );
+      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      expect(menuItemText).toEqual(`1${targetText}`);
+    });
+  });
+
   describe('disabled', () => {
     it('can not be active by key down', () => {
       const wrapper = mount(

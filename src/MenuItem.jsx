@@ -30,6 +30,7 @@ export class MenuItem extends React.Component {
     multiple: PropTypes.bool,
     isSelected: PropTypes.bool,
     manualRef: PropTypes.func,
+    itemIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   };
 
   static defaultProps = {
@@ -182,6 +183,10 @@ export class MenuItem extends React.Component {
       style.paddingLeft = props.inlineIndent * props.level;
     }
     menuAllProps.forEach(key => delete props[key]);
+    let icon = this.props.itemIcon;
+    if (typeof this.props.itemIcon === 'function') {
+      icon = React.createElement(this.props.itemIcon, this.props);
+    }
     return (
       <li
         {...props}
@@ -190,6 +195,7 @@ export class MenuItem extends React.Component {
         style={style}
       >
         {props.children}
+        {icon}
       </li>
     );
   }

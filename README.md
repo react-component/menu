@@ -192,6 +192,18 @@ ReactDOM.render(<Menu>
             <th>see <a href="./src/placements.jsx">placements.jsx</a></th>
             <td>Describes how the popup menus should be positioned</td>
         </tr>
+        <tr>
+            <td>itemIcon</td>
+            <td>ReactNode | (props: MenuItemProps) => ReactNode</td>
+            <th></th>
+            <td>Specify the menu item icon.</td>
+        </tr>
+        <tr>
+            <td>expandIcon</td>
+            <td>ReactNode | (props: SubMenuProps & { isSubMenu: boolean }) => ReactNode</td>
+            <th></th>
+            <td>Specify the menu item icon.</td>
+        </tr>
     </tbody>
 </table>
 
@@ -236,6 +248,12 @@ ReactDOM.render(<Menu>
             <td>Function({eventKey, domEvent})</td>
             <th></th>
             <td></td>
+        </tr>
+        <tr>
+            <td>itemIcon</td>
+            <td>ReactNode | (props: MenuItemProps) => ReactNode</td>
+            <th></th>
+            <td>Specify the menu item icon.</td>
         </tr>
     </tbody>
 </table>
@@ -312,6 +330,18 @@ ReactDOM.render(<Menu>
             <td>Array</td>
             <th></th>
             <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: `[0,15]`</td>
+        </tr>
+        <tr>
+            <td>expandIcon</td>
+            <td>ReactNode | (props: SubMenuProps) => ReactNode</td>
+            <th></th>
+            <td>Specify the menu item icon.</td>
+        </tr>
+        <tr>
+            <td>itemIcon</td>
+            <td>ReactNode | (props: SubMenuProps & { isSubMenu: boolean }) => ReactNode</td>
+            <th></th>
+            <td>Specify the menu item icon.</td>
         </tr>
     </tbody>
 </table>

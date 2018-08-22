@@ -32,6 +32,8 @@ class Menu extends React.Component {
     activeKey: PropTypes.string,
     prefixCls: PropTypes.string,
     builtinPlacements: PropTypes.object,
+    itemIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    expandIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   };
 
   static defaultProps = {
