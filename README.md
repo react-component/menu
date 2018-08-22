@@ -196,13 +196,13 @@ ReactDOM.render(<Menu>
             <td>itemIcon</td>
             <td>ReactNode | (props: MenuItemProps) => ReactNode</td>
             <th></th>
-            <td>specific the menu item icon.</td>
+            <td>Specify the menu item icon.</td>
         </tr>
         <tr>
             <td>expandIcon</td>
             <td>ReactNode | (props: SubMenuProps & { isSubMenu: boolean }) => ReactNode</td>
             <th></th>
-            <td>specific the menu item icon.</td>
+            <td>Specify the menu item icon.</td>
         </tr>
     </tbody>
 </table>
@@ -253,7 +253,7 @@ ReactDOM.render(<Menu>
             <td>itemIcon</td>
             <td>ReactNode | (props: MenuItemProps) => ReactNode</td>
             <th></th>
-            <td>specific the menu item icon.</td>
+            <td>Specify the menu item icon.</td>
         </tr>
     </tbody>
 </table>
@@ -335,13 +335,13 @@ ReactDOM.render(<Menu>
             <td>expandIcon</td>
             <td>ReactNode | (props: SubMenuProps) => ReactNode</td>
             <th></th>
-            <td>specific the menu item icon.</td>
+            <td>Specify the menu item icon.</td>
         </tr>
         <tr>
             <td>itemIcon</td>
             <td>ReactNode | (props: SubMenuProps & { isSubMenu: boolean }) => ReactNode</td>
             <th></th>
-            <td>specific the menu item icon.</td>
+            <td>Specify the menu item icon.</td>
         </tr>
     </tbody>
 </table>
