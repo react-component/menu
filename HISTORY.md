@@ -1,5 +1,10 @@
 # History
 ----
+
+## 7.3.0 / 2018-08-23
+
+- Add `expandIcon` and `itemIcon`. [#182](https://github.com/react-component/menu/pull/182)
+
 ## 7.0.2 / 2018-05-03
 
 - Better aria-* attributes support.
