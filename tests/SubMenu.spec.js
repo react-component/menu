@@ -106,7 +106,7 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const childText = wrapper.find('.rc-menu-submenu-title').first().text();
+    const childText = wrapper.find('.rc-menu-submenu-title').at(1).text();
     expect(childText).toEqual('submenu');
   });
 

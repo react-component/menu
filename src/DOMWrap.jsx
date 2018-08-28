@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
 import { getWidth } from './util';
-import ResizeObserver from 'resize-observer-polyfill';
 import 'mutationobserver-shim';
 
 class DOMWrap extends React.Component {
   state = {
     lastVisibleIndex: undefined,
   };
-
-  resizeObserver = null;
-  mutationObserver = null;
 
   componentDidMount() {
     this.setChildrenWidthAndResize();
@@ -110,6 +107,9 @@ class DOMWrap extends React.Component {
     this.originalTotalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
     this.handleResize();
   }
+
+  resizeObserver = null;
+  mutationObserver = null;
 
   // original scroll size of the list
   originalTotalWidth = 0;
