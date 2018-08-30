@@ -261,7 +261,7 @@ export class SubPopupMenu extends React.Component {
     const childProps = child.props;
     const isActive = key === state.activeKey;
     const newChildProps = {
-      mode: props.mode,
+      mode: childProps.mode || props.mode,
       level: props.level,
       inlineIndent: props.inlineIndent,
       renderMenuItem: this.renderMenuItem,
@@ -333,19 +333,25 @@ export class SubPopupMenu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
-    const { prefixCls, eventKey, visible } = props;
+    const { prefixCls, eventKey, visible, level, mode, overflowedIndicator, theme } = props;
     menuAllProps.forEach(key => delete props[key]);
 
     // Otherwise, the propagated click event will trigger another onClick
     delete props.onClick;
+
     return (
       // ESLint is not smart enough to know that the type of `children` was checked.
       /* eslint-disable */
       <DOMWrap
         {...props}
+        prefixCls={prefixCls}
+        mode={mode}
         tag="ul"
+        level={level}
+        theme={theme}
         hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}
+        overflowedIndicator={overflowedIndicator}
         {...domProps}
       >
         {React.Children.map(
@@ -357,5 +363,6 @@ export class SubPopupMenu extends React.Component {
     );
   }
 }
+const connected = connect()(SubPopupMenu);
 
-export default connect()(SubPopupMenu);
+export default connected;

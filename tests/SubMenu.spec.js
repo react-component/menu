@@ -54,7 +54,7 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const popupAlign = wrapper.find('Trigger').prop('popupAlign');
+    const popupAlign = wrapper.find('Trigger').first().prop('popupAlign');
     expect(popupAlign).toEqual({ offset: [0, 15] });
   });
 
@@ -106,7 +106,7 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const childText = wrapper.find('.rc-menu-submenu-title').first().text();
+    const childText = wrapper.find('.rc-menu-submenu-title').at(1).text();
     expect(childText).toEqual('submenu');
   });
 
@@ -339,7 +339,9 @@ describe('SubMenu', () => {
         </Menu>
       );
 
-      const subMenuInstance = wrapper.find('SubMenu').first().instance();
+      // every item has a prefixed overflow indicator as a submenu
+      // so we have to get the 3rd submenu
+      const subMenuInstance = wrapper.find('SubMenu').at(2).instance();
       const adjustWidthSpy = jest.spyOn(subMenuInstance, 'adjustWidth');
 
       jest.runAllTimers();
@@ -365,7 +367,7 @@ describe('SubMenu', () => {
       expect(wrapper.find('Animate').prop('transitionName')).toEqual('fade');
     });
 
-    it('should not animate initially opened menu', () => {
+    it('should not animate on initially opened menu', () => {
       const wrapper = mount(createMenu({
         openAnimation: { appear },
         mode: 'inline',
@@ -410,6 +412,23 @@ describe('SubMenu', () => {
       wrapper.setProps({ show: false });
 
       expect(onDestroy).toHaveBeenCalledWith('s1');
+    });
+  });
+
+  describe('customizing style', () => {
+    it('should take style prop', () => {
+      const App = () => (
+        <Menu style={{ backgroundColor: 'black' }}>
+          <SubMenu key="s1" title="submenu1">
+            <MenuItem key="s1-1">1</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
+
+      const wrapper = mount(<App show />);
+      expect(wrapper.find('Menu ul').prop('style')).toEqual({
+        backgroundColor: 'black',
+      });
     });
   });
 });

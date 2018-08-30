@@ -92,6 +92,10 @@
   &-submenu {
     &-popup {
       position: absolute;
+
+      .submenu-title-wrapper {
+        padding-right: 20px;
+      }
     }
     > .@{menuPrefixCls} {
       background-color: #fff;
@@ -112,14 +116,16 @@
     border: none;
     border-bottom: 1px solid #d9d9d9;
     box-shadow: none;
+    white-space: nowrap;
+    overflow: hidden;
 
     & > .@{menuPrefixCls}-item, & > .@{menuPrefixCls}-submenu > .@{menuPrefixCls}-submenu-title {
       padding: 15px 20px;
     }
 
     & > .@{menuPrefixCls}-submenu, & > .@{menuPrefixCls}-item {
-      float: left;
       border-bottom: 2px solid transparent;
+      display: inline-block;
 
       &-active {
         border-bottom: 2px solid #2db7f5;

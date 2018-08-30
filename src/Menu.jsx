@@ -34,6 +34,7 @@ class Menu extends React.Component {
     builtinPlacements: PropTypes.object,
     itemIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     expandIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    overflowedIndicator: PropTypes.node,
   };
 
   static defaultProps = {
@@ -52,6 +53,7 @@ class Menu extends React.Component {
     mode: 'vertical',
     style: {},
     builtinPlacements: {},
+    overflowedIndicator: <span>···</span>,
   };
 
   constructor(props) {

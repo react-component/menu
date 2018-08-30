@@ -413,6 +413,7 @@ export class SubMenu extends React.Component {
   render() {
     const props = { ...this.props };
     const isOpen = props.isOpen;
+    const level = props.level;
     const prefixCls = this.getPrefixCls();
     const isInlineMode = props.mode === 'inline';
     const className = classNames(prefixCls, `${prefixCls}-${props.mode}`, {
@@ -536,6 +537,7 @@ export class SubMenu extends React.Component {
             mouseLeaveDelay={subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
             forceRender={forceSubMenuRender}
+            zIndex={level}
           >
             {title}
           </Trigger>
