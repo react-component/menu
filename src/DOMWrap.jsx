@@ -15,6 +15,9 @@ class DOMWrap extends React.Component {
     this.setChildrenWidthAndResize();
     if (this.props.level === 1 && this.props.mode === 'horizontal') {
       const menuUl = ReactDOM.findDOMNode(this);
+      if (!menuUl) {
+        return;
+      }
       this.resizeObserver = new ResizeObserver(entries => {
         entries.forEach(this.setChildrenWidthAndResize);
       });
@@ -126,6 +129,9 @@ class DOMWrap extends React.Component {
     }
 
     const ul = ReactDOM.findDOMNode(this);
+    if (!ul) {
+      return;
+    }
     const width = getWidth(ul);
 
     this.overflowedItems = [];
