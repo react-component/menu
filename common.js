@@ -27209,6 +27209,9 @@ var DOMWrap = function (_React$Component) {
       }
 
       var ul = __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.findDOMNode(_this);
+      if (!ul) {
+        return;
+      }
       var width = Object(__WEBPACK_IMPORTED_MODULE_10__util__["c" /* getWidth */])(ul);
 
       _this.overflowedItems = [];
@@ -27245,6 +27248,9 @@ var DOMWrap = function (_React$Component) {
     this.setChildrenWidthAndResize();
     if (this.props.level === 1 && this.props.mode === 'horizontal') {
       var menuUl = __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.findDOMNode(this);
+      if (!menuUl) {
+        return;
+      }
       this.resizeObserver = new __WEBPACK_IMPORTED_MODULE_8_resize_observer_polyfill__["a" /* default */](function (entries) {
         entries.forEach(_this2.setChildrenWidthAndResize);
       });
