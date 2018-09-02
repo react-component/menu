@@ -27099,8 +27099,6 @@ function createChainedFunction() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_resize_observer_polyfill__ = __webpack_require__(145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SubMenu__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__util__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_mutationobserver_shim__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_mutationobserver_shim___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_mutationobserver_shim__);
 
 
 
@@ -27113,6 +27111,10 @@ function createChainedFunction() {
 
 
 
+// Fix ssr
+if (typeof window !== 'undefined') {
+  __webpack_require__(175);
+}
 
 var DOMWrap = function (_React$Component) {
   __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(DOMWrap, _React$Component);
