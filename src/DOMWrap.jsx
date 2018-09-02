@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
 import { getWidth } from './util';
-import 'mutationobserver-shim';
+
+// Fix ssr
+if (typeof window !== 'undefined') {
+  require('mutationobserver-shim');
+}
 
 class DOMWrap extends React.Component {
   state = {
