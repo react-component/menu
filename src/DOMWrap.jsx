@@ -107,7 +107,7 @@ class DOMWrap extends React.Component {
 
     const ulChildrenNodes = ul.children;
 
-    if (!ulChildrenNodes || !ulChildrenNodes.length === 0) {
+    if (!ulChildrenNodes || ulChildrenNodes.length === 0) {
       return;
     }
 
