@@ -105,14 +105,27 @@ class DOMWrap extends React.Component {
       return;
     }
 
+    const ulChildrenNodes = ul.children;
+
+    if (!ulChildrenNodes || !ulChildrenNodes.length === 0) {
+      return;
+    }
+
     this.childrenSizes = [];
     const { children } = this.props;
 
+    const lastOverflowedIndicatorPlaceholder = ul.children[ulChildrenNodes.length - 1];
+
+    // need last overflowed indicator for calculating length;
+    lastOverflowedIndicatorPlaceholder.style.width = 'auto';
     this.childrenSizes = children.map((c, i) => getWidth(ul.children[2 * i + 1]));
 
     this.overflowedIndicatorWidth = getWidth(ul.children[ul.children.length - 1]);
     this.originalTotalWidth = this.childrenSizes.reduce((acc, cur) => acc + cur, 0);
     this.handleResize();
+
+    // prevent the overflowed indicator from taking space;
+    lastOverflowedIndicatorPlaceholder.style.width = 0;
   }
 
   resizeObserver = null;
