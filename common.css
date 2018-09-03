@@ -109,6 +109,7 @@
 .rc-menu-horizontal > .rc-menu-item {
   border-bottom: 2px solid transparent;
   display: inline-block;
+  vertical-align: bottom;
 }
 .rc-menu-horizontal > .rc-menu-submenu-active,
 .rc-menu-horizontal > .rc-menu-item-active {
