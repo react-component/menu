@@ -27194,7 +27194,7 @@ var DOMWrap = function (_React$Component) {
 
       var ulChildrenNodes = ul.children;
 
-      if (!ulChildrenNodes || !ulChildrenNodes.length === 0) {
+      if (!ulChildrenNodes || ulChildrenNodes.length === 0) {
         return;
       }
 
