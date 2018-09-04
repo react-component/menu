@@ -43,6 +43,32 @@ describe('Menu', () => {
     });
   });
 
+  describe('render empty children', () => {
+    it('empty array as children should not throw errors', () => {
+      try {
+        render(<Menu>{[]}</Menu>);
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it('null/undefined children should not throw errors', () => {
+      try {
+        render(<Menu />);
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it('null children inside SubMenu should not throw errors', () => {
+      try {
+        render(<Menu><SubMenu /></Menu>);
+      } catch (e) {
+        throw e;
+      }
+    });
+  });
+
   describe('render role listbox', () => {
     function createMenu() {
       return (

@@ -184,7 +184,7 @@ class DOMWrap extends React.Component {
   renderChildren(children) {
     // need to take care of overflowed items in horizontal mode
     const { lastVisibleIndex } = this.state;
-    return children.reduce((acc, childNode, index) => {
+    return (children || []).reduce((acc, childNode, index) => {
       let item = childNode;
       if (this.props.mode === 'horizontal') {
         let overflowed = this.getOverflowedSubMenuItem(childNode.props.eventKey, []);
