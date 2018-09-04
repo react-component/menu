@@ -27312,7 +27312,7 @@ var DOMWrap = function (_React$Component) {
     // need to take care of overflowed items in horizontal mode
     var lastVisibleIndex = this.state.lastVisibleIndex;
 
-    return children.reduce(function (acc, childNode, index) {
+    return (children || []).reduce(function (acc, childNode, index) {
       var item = childNode;
       if (_this3.props.mode === 'horizontal') {
         var overflowed = _this3.getOverflowedSubMenuItem(childNode.props.eventKey, []);
