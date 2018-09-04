@@ -10,7 +10,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
 
 describe('Menu', () => {
-  describe('render', () => {
+  describe('should render', () => {
     function createMenu(props) {
       return (
         <Menu
@@ -36,36 +36,22 @@ describe('Menu', () => {
     }
 
     ['vertical', 'horizontal', 'inline'].forEach((mode) => {
-      it(`renders ${mode} menu correctly`, () => {
+      it(`${mode} menu correctly`, () => {
         const wrapper = render(createMenu({ mode }));
         expect(renderToJson(wrapper)).toMatchSnapshot();
       });
-    });
-  });
 
-  describe('render empty children', () => {
-    it('empty array as children should not throw errors', () => {
-      try {
-        render(<Menu>{[]}</Menu>);
-      } catch (e) {
-        throw e;
-      }
-    });
+      it(`${mode} menu with empty children without error`, () => {
+        expect(() => render(<Menu mode={mode}>{[]}</Menu>)).not.toThrow();
+      });
 
-    it('null/undefined children should not throw errors', () => {
-      try {
-        render(<Menu />);
-      } catch (e) {
-        throw e;
-      }
-    });
+      it(`${mode} menu with undefined children without error`, () => {
+        expect(() => render(<Menu mode={mode} />)).not.toThrow();
+      });
 
-    it('null children inside SubMenu should not throw errors', () => {
-      try {
-        render(<Menu><SubMenu /></Menu>);
-      } catch (e) {
-        throw e;
-      }
+      it(`${mode} menu that has a submenu with undefined children without error`, () => {
+        expect(() => render(<Menu mode={mode}><SubMenu /></Menu>)).not.toThrow();
+      });
     });
   });
 
