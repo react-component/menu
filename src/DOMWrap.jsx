@@ -38,7 +38,10 @@ class DOMWrap extends React.Component {
           });
           this.setChildrenWidthAndResize();
         });
-        this.mutationObserver.observe(menuUl, { attributes: false, childList: true, subTree: false });
+        this.mutationObserver.observe(
+          menuUl,
+          { attributes: false, childList: true, subTree: false }
+        );
       }
     }
   }
