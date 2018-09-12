@@ -6,7 +6,7 @@ import SubMenu from './SubMenu';
 import { getWidth } from './util';
 
 // Fix ssr
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && typeof process === 'undefined') {
   require('mutationobserver-shim');
 }
 
