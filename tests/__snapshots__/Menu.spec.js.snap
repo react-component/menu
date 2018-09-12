@@ -1,6 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Menu render renders horizontal menu correctly 1`] = `
+exports[`Menu render role listbox renders menu correctly 1`] = `
+<ul
+  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
+  role="listbox"
+  tabindex="0"
+>
+  <li
+    aria-selected="false"
+    class="rc-menu-item"
+    role="option"
+  >
+    1
+  </li>
+  <li
+    aria-selected="false"
+    class="rc-menu-item"
+    role="option"
+  >
+    2
+  </li>
+  <li
+    aria-selected="false"
+    class="rc-menu-item"
+    role="option"
+  >
+    3
+  </li>
+</ul>
+`;
+
+exports[`Menu should render horizontal menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-horizontal"
   role="menu"
@@ -177,7 +207,7 @@ exports[`Menu render renders horizontal menu correctly 1`] = `
 </ul>
 `;
 
-exports[`Menu render renders inline menu correctly 1`] = `
+exports[`Menu should render inline menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-inline"
   role="menu"
@@ -271,7 +301,7 @@ exports[`Menu render renders inline menu correctly 1`] = `
 </ul>
 `;
 
-exports[`Menu render renders vertical menu correctly 1`] = `
+exports[`Menu should render vertical menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
   role="menu"
@@ -354,36 +384,6 @@ exports[`Menu render renders vertical menu correctly 1`] = `
         class="rc-menu-submenu-arrow"
       />
     </div>
-  </li>
-</ul>
-`;
-
-exports[`Menu render role listbox renders menu correctly 1`] = `
-<ul
-  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
-  role="listbox"
-  tabindex="0"
->
-  <li
-    aria-selected="false"
-    class="rc-menu-item"
-    role="option"
-  >
-    1
-  </li>
-  <li
-    aria-selected="false"
-    class="rc-menu-item"
-    role="option"
-  >
-    2
-  </li>
-  <li
-    aria-selected="false"
-    class="rc-menu-item"
-    role="option"
-  >
-    3
   </li>
 </ul>
 `;

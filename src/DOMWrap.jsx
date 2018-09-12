@@ -30,14 +30,16 @@ class DOMWrap extends React.Component {
         this.resizeObserver.observe(el);
       });
 
-      this.mutationObserver = new MutationObserver(() => {
-        this.resizeObserver.disconnect();
-        [].slice.call(menuUl.children).concat(menuUl).forEach(el => {
-          this.resizeObserver.observe(el);
+      if (typeof MutationObserver !== 'undefined') {
+        this.mutationObserver = new MutationObserver(() => {
+          this.resizeObserver.disconnect();
+          [].slice.call(menuUl.children).concat(menuUl).forEach(el => {
+            this.resizeObserver.observe(el);
+          });
+          this.setChildrenWidthAndResize();
         });
-        this.setChildrenWidthAndResize();
-      });
-      this.mutationObserver.observe(menuUl, { attributes: false, childList: true, subTree: false });
+        this.mutationObserver.observe(menuUl, { attributes: false, childList: true, subTree: false });
+      }
     }
   }
 
