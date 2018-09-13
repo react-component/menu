@@ -158,7 +158,6 @@ class DOMWrap extends React.Component {
 
     this.overflowedItems = [];
     let currentSumWidth = 0;
-    const children = this.props.children;
 
     // index for last visible child in horizontal mode
     let lastVisibleIndex = undefined;
@@ -171,15 +170,6 @@ class DOMWrap extends React.Component {
         if (currentSumWidth + this.overflowedIndicatorWidth <= width) {
           lastVisibleIndex++;
         }
-      });
-
-      children.slice(lastVisibleIndex + 1).forEach(c => {
-        // children[index].key will become '.$key' in clone by default,
-        // we have to overwrite with the correct key explicitly
-        this.overflowedItems.push(React.cloneElement(
-          c,
-          { key: c.props.eventKey, mode: 'vertical-left' },
-        ));
       });
     }
 
@@ -206,7 +196,12 @@ class DOMWrap extends React.Component {
           }
           if (index === lastVisibleIndex + 1) {
             this.overflowedItems = children.slice(lastVisibleIndex + 1).map(c => {
-              return React.cloneElement(c);
+              return React.cloneElement(
+                c,
+                // children[index].key will become '.$key' in clone by default,
+                // we have to overwrite with the correct key explicitly
+                { key: c.props.eventKey, mode: 'vertical-left' },
+              );
             });
 
             overflowed = this.getOverflowedSubMenuItem(
