@@ -205,6 +205,10 @@ class DOMWrap extends React.Component {
             );
           }
           if (index === lastVisibleIndex + 1) {
+            this.overflowedItems = children.slice(lastVisibleIndex + 1).map(c => {
+              return React.cloneElement(c);
+            });
+
             overflowed = this.getOverflowedSubMenuItem(
               childNode.props.eventKey,
               this.overflowedItems,
