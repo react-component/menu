@@ -5,8 +5,14 @@ import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
 import { getWidth } from './util';
 
+const canUseDOM = !!(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
+
 // Fix ssr
-if (typeof window !== 'undefined' && typeof process === 'undefined') {
+if (canUseDOM) {
   require('mutationobserver-shim');
 }
 
