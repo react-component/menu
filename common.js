@@ -28263,7 +28263,7 @@ function createChainedFunction() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_objectWithoutProperties__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_objectWithoutProperties___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_objectWithoutProperties__);
@@ -28294,8 +28294,10 @@ function createChainedFunction() {
 
 
 
+var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
 // Fix ssr
-if (typeof window !== 'undefined' && typeof process === 'undefined') {
+if (canUseDOM) {
   __webpack_require__(167);
 }
 
@@ -28414,7 +28416,6 @@ var DOMWrap = function (_React$Component) {
 
       _this.overflowedItems = [];
       var currentSumWidth = 0;
-      var children = _this.props.children;
 
       // index for last visible child in horizontal mode
       var lastVisibleIndex = undefined;
@@ -28427,12 +28428,6 @@ var DOMWrap = function (_React$Component) {
           if (currentSumWidth + _this.overflowedIndicatorWidth <= width) {
             lastVisibleIndex++;
           }
-        });
-
-        children.slice(lastVisibleIndex + 1).forEach(function (c) {
-          // children[index].key will become '.$key' in clone by default,
-          // we have to overwrite with the correct key explicitly
-          _this.overflowedItems.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.cloneElement(c, { key: c.props.eventKey, mode: 'vertical-left' }));
         });
       }
 
@@ -28508,6 +28503,13 @@ var DOMWrap = function (_React$Component) {
             { style: { visibility: 'hidden' }, eventKey: childNode.props.eventKey + '-hidden' });
           }
           if (index === lastVisibleIndex + 1) {
+            _this3.overflowedItems = children.slice(lastVisibleIndex + 1).map(function (c) {
+              return __WEBPACK_IMPORTED_MODULE_5_react___default.a.cloneElement(c,
+              // children[index].key will become '.$key' in clone by default,
+              // we have to overwrite with the correct key explicitly
+              { key: c.props.eventKey, mode: 'vertical-left' });
+            });
+
             overflowed = _this3.getOverflowedSubMenuItem(childNode.props.eventKey, _this3.overflowedItems);
           }
         }
@@ -28571,7 +28573,6 @@ DOMWrap.defaultProps = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (DOMWrap);
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
 
 /***/ }),
 /* 137 */
