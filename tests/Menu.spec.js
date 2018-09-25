@@ -366,6 +366,7 @@ describe('Menu', () => {
       // overflow indicator placeholder
       expect(wrapper.find(overflowIndicatorSelector).at(4).prop('style')).toEqual({
         visibility: 'hidden',
+        position: 'absolute',
       });
 
       // last overflow indicator should be hidden
