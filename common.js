@@ -28346,7 +28346,9 @@ var DOMWrap = function (_React$Component) {
         });
       } else if (renderPlaceholder) {
         style = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, style, {
-          visibility: 'hidden'
+          visibility: 'hidden',
+          // prevent from taking normal dom space
+          position: 'absolute'
         });
         key = key + '-placeholder';
       }
