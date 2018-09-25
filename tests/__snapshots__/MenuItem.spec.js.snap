@@ -78,6 +78,7 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
   >
     <div
       class="rc-menu-item-group-title"
+      style="padding-left: 24px;"
       title="title"
     >
       title
