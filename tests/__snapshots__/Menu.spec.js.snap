@@ -189,7 +189,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
   <li
     class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
     role="menuitem"
-    style="visibility:hidden"
+    style="visibility:hidden;position:absolute"
   >
     <div
       aria-expanded="false"

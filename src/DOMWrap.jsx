@@ -83,6 +83,8 @@ class DOMWrap extends React.Component {
       style = {
         ...style,
         visibility: 'hidden',
+        // prevent from taking normal dom space
+        position: 'absolute',
       };
       key = `${key}-placeholder`;
     }
