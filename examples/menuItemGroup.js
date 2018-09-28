@@ -39,7 +39,12 @@ __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
   ),
   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     __WEBPACK_IMPORTED_MODULE_2_rc_menu___default.a,
-    { style: { margin: 20, width: 300 } },
+    { style: { margin: 20, width: 300 }, mode: 'inline' },
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
+      { key: '11' },
+      '1'
+    ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_2_rc_menu__["ItemGroup"],
       { title: 'group 1', key: '2' },
@@ -66,6 +71,48 @@ __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
         __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
         { key: '32' },
         '5'
+      )
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      __WEBPACK_IMPORTED_MODULE_2_rc_menu__["SubMenu"],
+      { title: '6' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
+        { key: '61' },
+        '6.1'
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["ItemGroup"],
+        { title: '6.2', key: '6.2' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
+          { key: '621' },
+          '6.2.1'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
+          { key: '622' },
+          '6.2.2'
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["ItemGroup"],
+        { title: '6.3', key: '6.3' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
+          { key: '631' },
+          '6.3.1'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
+          { key: '632' },
+          '6.3.2'
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_2_rc_menu__["Item"],
+        { key: '64' },
+        '6.4'
       )
     )
   )

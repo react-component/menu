@@ -33569,6 +33569,9 @@ var MenuItemGroup = function (_React$Component) {
     var _props$className = props.className,
         className = _props$className === undefined ? '' : _props$className,
         rootPrefixCls = props.rootPrefixCls;
+    var mode = props.mode,
+        inlineIndent = props.inlineIndent,
+        level = props.level;
 
     var titleClassName = rootPrefixCls + '-item-group-title';
     var listClassName = rootPrefixCls + '-item-group-list';
@@ -33582,6 +33585,11 @@ var MenuItemGroup = function (_React$Component) {
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
 
+    var titleStyle = {};
+    if (mode === 'inline') {
+      titleStyle.paddingLeft = inlineIndent * level;
+    }
+
     return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
       'li',
       __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, props, { className: className + ' ' + rootPrefixCls + '-item-group' }),
@@ -33589,6 +33597,7 @@ var MenuItemGroup = function (_React$Component) {
         'div',
         {
           className: titleClassName,
+          style: titleStyle,
           title: typeof title === 'string' ? title : undefined
         },
         title
