@@ -1383,6 +1383,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /* harmony export (immutable) */ __webpack_exports__["e"] = loopMenuItemRecursively;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return menuAllProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getWidth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return setWidth; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
@@ -1439,7 +1440,13 @@ var menuAllProps = ['defaultSelectedKeys', 'selectedKeys', 'defaultOpenKeys', 'o
 'attribute', 'value', 'popupClassName', 'inlineCollapsed', 'menu', 'theme', 'itemIcon', 'expandIcon'];
 
 var getWidth = function getWidth(elem) {
-  return elem.getBoundingClientRect().width;
+  return elem && elem.getBoundingClientRect().width || 0;
+};
+
+var setWidth = function setWidth(elem, width) {
+  if (elem && typeof elem.style === 'object') {
+    elem.style.width = width;
+  }
 };
 
 /***/ }),
@@ -28392,7 +28399,7 @@ var DOMWrap = function (_React$Component) {
       var lastOverflowedIndicatorPlaceholder = ul.children[ulChildrenNodes.length - 1];
 
       // need last overflowed indicator for calculating length;
-      lastOverflowedIndicatorPlaceholder.style.width = 'auto';
+      Object(__WEBPACK_IMPORTED_MODULE_10__util__["h" /* setWidth */])(lastOverflowedIndicatorPlaceholder, 'auto');
       _this.childrenSizes = children.map(function (c, i) {
         return Object(__WEBPACK_IMPORTED_MODULE_10__util__["c" /* getWidth */])(ul.children[2 * i + 1]);
       });
@@ -28404,7 +28411,7 @@ var DOMWrap = function (_React$Component) {
       _this.handleResize();
 
       // prevent the overflowed indicator from taking space;
-      lastOverflowedIndicatorPlaceholder.style.width = 0;
+      Object(__WEBPACK_IMPORTED_MODULE_10__util__["h" /* setWidth */])(lastOverflowedIndicatorPlaceholder, 0);
     }, _this.resizeObserver = null, _this.mutationObserver = null, _this.originalTotalWidth = 0, _this.overflowedItems = [], _this.childrenSizes = [], _this.handleResize = function () {
       if (_this.props.mode !== 'horizontal') {
         return;
