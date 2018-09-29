@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
-import { getWidth } from './util';
+import { getWidth, setWidth } from './util';
 
 const canUseDOM = !!(
   typeof window !== 'undefined' &&
@@ -130,7 +130,7 @@ class DOMWrap extends React.Component {
     const lastOverflowedIndicatorPlaceholder = ul.children[ulChildrenNodes.length - 1];
 
     // need last overflowed indicator for calculating length;
-    lastOverflowedIndicatorPlaceholder.style.width = 'auto';
+    setWidth(lastOverflowedIndicatorPlaceholder, 'auto');
     this.childrenSizes = children.map((c, i) => getWidth(ul.children[2 * i + 1]));
 
     this.overflowedIndicatorWidth = getWidth(ul.children[ul.children.length - 1]);
@@ -138,7 +138,7 @@ class DOMWrap extends React.Component {
     this.handleResize();
 
     // prevent the overflowed indicator from taking space;
-    lastOverflowedIndicatorPlaceholder.style.width = 0;
+    setWidth(lastOverflowedIndicatorPlaceholder, 0);
   }
 
   resizeObserver = null;

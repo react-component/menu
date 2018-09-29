@@ -109,4 +109,10 @@ export const menuAllProps = [
   'expandIcon',
 ];
 
-export const getWidth = (elem) => elem.getBoundingClientRect().width;
+export const getWidth = (elem) => (elem && elem.getBoundingClientRect().width) || 0;
+
+export const setWidth = (elem, width) => {
+  if (elem && typeof elem.style === 'object') {
+    elem.style.width = width;
+  }
+};
