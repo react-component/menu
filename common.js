@@ -1440,7 +1440,7 @@ var menuAllProps = ['defaultSelectedKeys', 'selectedKeys', 'defaultOpenKeys', 'o
 'attribute', 'value', 'popupClassName', 'inlineCollapsed', 'menu', 'theme', 'itemIcon', 'expandIcon'];
 
 var getWidth = function getWidth(elem) {
-  return elem && elem.getBoundingClientRect().width || 0;
+  return elem && typeof elem.getBoundingClientRect === 'function' && elem.getBoundingClientRect().width || 0;
 };
 
 var setWidth = function setWidth(elem, width) {
@@ -3602,7 +3602,6 @@ var SubMenu = function (_React$Component) {
 
     var props = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_extends___default()({}, this.props);
     var isOpen = props.isOpen;
-    var level = props.level;
     var prefixCls = this.getPrefixCls();
     var isInlineMode = props.mode === 'inline';
     var className = __WEBPACK_IMPORTED_MODULE_9_classnames___default()(prefixCls, prefixCls + '-' + props.mode, (_classNames = {}, _classNames[props.className] = !!props.className, _classNames[this.getOpenClassName()] = isOpen, _classNames[this.getActiveClassName()] = props.active || isOpen && !isInlineMode, _classNames[this.getDisabledClassName()] = props.disabled, _classNames[this.getSelectedClassName()] = this.isChildrenSelected(), _classNames));
@@ -3717,8 +3716,7 @@ var SubMenu = function (_React$Component) {
           mouseEnterDelay: subMenuOpenDelay,
           mouseLeaveDelay: subMenuCloseDelay,
           onPopupVisibleChange: this.onPopupVisibleChange,
-          forceRender: forceSubMenuRender,
-          zIndex: level
+          forceRender: forceSubMenuRender
         },
         title
       )
