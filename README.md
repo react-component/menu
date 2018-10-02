@@ -272,7 +272,7 @@ ReactDOM.render(<Menu>
     </thead>
     <tbody>
         <tr>
-          <td>className</td>
+          <td>popupClassName</td>
           <td>String</td>
           <td></td>
           <td>additional css class of root dom node</td>
