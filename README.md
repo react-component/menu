@@ -69,7 +69,7 @@ ReactDOM.render(<Menu>
         <tr>
           <td>mode</td>
           <td>String</td>
-          <td>vertical</td>
+          <th>vertical</th>
           <td>one of ["horizontal","inline","vertical-left","vertical-right"]</td>
         </tr>
         <tr>
