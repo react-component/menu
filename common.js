@@ -27814,9 +27814,7 @@ function connect(mapStateToProps) {
             return;
           }
           var nextState = finnalMapStateToProps(_this.store.getState(), _this.props);
-          if (!(0, _shallowequal2.default)(_this.state.subscribed, nextState)) {
-            _this.setState({ subscribed: nextState });
-          }
+          _this.setState({ subscribed: nextState });
         };
 
         _this.store = context.miniStore;
@@ -27837,6 +27835,11 @@ function connect(mapStateToProps) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
           this.tryUnsubscribe();
+        }
+      }, {
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+          return !(0, _shallowequal2.default)(this.props, nextProps) || !(0, _shallowequal2.default)(this.state.subscribed, nextState.subscribed);
         }
       }, {
         key: 'trySubscribe',
