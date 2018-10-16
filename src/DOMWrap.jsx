@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
-import { getWidth, setWidth } from './util';
+import { getWidth, setWidth, menuAllProps } from './util';
 
 const canUseDOM = !!(
   typeof window !== 'undefined' &&
@@ -90,13 +90,19 @@ class DOMWrap extends React.Component {
     }
 
     const popupClassName = theme ? `${prefixCls}-${theme}` : '';
+    const props = {};
+    menuAllProps.forEach(k => {
+      if (rest[k] !== undefined) {
+        props[k] = rest[k];
+      }
+    });
 
     return (
       <SubMenu
         title={overflowedIndicator}
         className={`${prefixCls}-overflowed-submenu`}
         popupClassName={popupClassName}
-        {...rest}
+        {...props}
         key={key}
         eventKey={`${keyPrefix}-overflowed-indicator`}
         disabled={false}
