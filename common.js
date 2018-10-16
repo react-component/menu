@@ -28362,6 +28362,12 @@ var DOMWrap = function (_React$Component) {
       }
 
       var popupClassName = theme ? prefixCls + '-' + theme : '';
+      var props = {};
+      __WEBPACK_IMPORTED_MODULE_10__util__["f" /* menuAllProps */].forEach(function (k) {
+        if (rest[k] !== undefined) {
+          props[k] = rest[k];
+        }
+      });
 
       return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
         __WEBPACK_IMPORTED_MODULE_9__SubMenu__["a" /* default */],
@@ -28369,7 +28375,7 @@ var DOMWrap = function (_React$Component) {
           title: overflowedIndicator,
           className: prefixCls + '-overflowed-submenu',
           popupClassName: popupClassName
-        }, rest, {
+        }, props, {
           key: key,
           eventKey: keyPrefix + '-overflowed-indicator',
           disabled: false,
