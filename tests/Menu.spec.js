@@ -393,8 +393,8 @@ describe('Menu', () => {
 
       expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
       expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-      expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ visibility: 'hidden' });
-      expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({ visibility: 'hidden' });
+      expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ display: 'none' });
+      expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({ display: 'none' });
 
       expect(wrapper.find(overflowIndicatorSelector).at(2).prop('style')).toEqual({});
       expect(wrapper.find(overflowIndicatorSelector).at(3).prop('style')).toEqual({
