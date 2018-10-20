@@ -28323,6 +28323,18 @@ var DOMWrap = function (_React$Component) {
 
     return _ret = (_temp = (_this = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.state = {
       lastVisibleIndex: undefined
+    }, _this.getMenuItemNodes = function () {
+      var prefixCls = _this.props.prefixCls;
+
+      var ul = __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.findDOMNode(_this);
+      if (!ul) {
+        return [];
+      }
+
+      // filter out all overflowed indicator placeholder
+      return [].slice.call(ul.children).filter(function (node) {
+        return node.className.split(' ').indexOf(prefixCls + '-overflowed-submenu') < 0;
+      });
     }, _this.getOverflowedSubMenuItem = function (keyPrefix, overflowedItems, renderPlaceholder) {
       var _this$props = _this.props,
           overflowedIndicator = _this$props.overflowedIndicator,
@@ -28399,27 +28411,39 @@ var DOMWrap = function (_React$Component) {
         return;
       }
 
-      _this.childrenSizes = [];
-      var children = _this.props.children;
-
-
       var lastOverflowedIndicatorPlaceholder = ul.children[ulChildrenNodes.length - 1];
 
       // need last overflowed indicator for calculating length;
       Object(__WEBPACK_IMPORTED_MODULE_10__util__["h" /* setWidth */])(lastOverflowedIndicatorPlaceholder, 'auto');
-      _this.childrenSizes = children.map(function (c, i) {
-        return Object(__WEBPACK_IMPORTED_MODULE_10__util__["c" /* getWidth */])(ul.children[2 * i + 1]);
+
+      var menuItemNodes = _this.getMenuItemNodes();
+
+      // reset display attribute for all li elements to calculate updated width
+      // and then reset to original state after width calculation
+      var displayValueCaches = [];
+
+      menuItemNodes.forEach(function (c) {
+        displayValueCaches.push(c.style.display);
+        c.style.display = 'inline-block';
+      });
+
+      _this.menuItemSizes = menuItemNodes.map(function (c) {
+        return Object(__WEBPACK_IMPORTED_MODULE_10__util__["c" /* getWidth */])(c);
+      });
+
+      menuItemNodes.forEach(function (c, i) {
+        c.style.display = displayValueCaches[i];
       });
 
       _this.overflowedIndicatorWidth = Object(__WEBPACK_IMPORTED_MODULE_10__util__["c" /* getWidth */])(ul.children[ul.children.length - 1]);
-      _this.originalTotalWidth = _this.childrenSizes.reduce(function (acc, cur) {
+      _this.originalTotalWidth = _this.menuItemSizes.reduce(function (acc, cur) {
         return acc + cur;
       }, 0);
       _this.handleResize();
 
       // prevent the overflowed indicator from taking space;
       Object(__WEBPACK_IMPORTED_MODULE_10__util__["h" /* setWidth */])(lastOverflowedIndicatorPlaceholder, 0);
-    }, _this.resizeObserver = null, _this.mutationObserver = null, _this.originalTotalWidth = 0, _this.overflowedItems = [], _this.childrenSizes = [], _this.handleResize = function () {
+    }, _this.resizeObserver = null, _this.mutationObserver = null, _this.originalTotalWidth = 0, _this.overflowedItems = [], _this.menuItemSizes = [], _this.handleResize = function () {
       if (_this.props.mode !== 'horizontal') {
         return;
       }
@@ -28439,7 +28463,7 @@ var DOMWrap = function (_React$Component) {
       if (_this.originalTotalWidth > width) {
         lastVisibleIndex = -1;
 
-        _this.childrenSizes.forEach(function (liWidth) {
+        _this.menuItemSizes.forEach(function (liWidth) {
           currentSumWidth += liWidth;
           if (currentSumWidth + _this.overflowedIndicatorWidth <= width) {
             lastVisibleIndex++;
@@ -28490,6 +28514,9 @@ var DOMWrap = function (_React$Component) {
     }
   };
 
+  // get all valid menuItem nodes
+
+
   // memorize rendered menuSize
 
 
@@ -28516,7 +28543,7 @@ var DOMWrap = function (_React$Component) {
           if (index > lastVisibleIndex) {
             item = __WEBPACK_IMPORTED_MODULE_5_react___default.a.cloneElement(childNode,
             // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
-            { style: { visibility: 'hidden' }, eventKey: childNode.props.eventKey + '-hidden' });
+            { style: { display: 'none' }, eventKey: childNode.props.eventKey + '-hidden' });
           }
           if (index === lastVisibleIndex + 1) {
             _this3.overflowedItems = children.slice(lastVisibleIndex + 1).map(function (c) {
