@@ -23,7 +23,6 @@ class MenuItemGroup extends React.Component {
   render() {
     const { ...props } = this.props;
     const { className = '', rootPrefixCls } = props;
-    const { mode, inlineIndent, level } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
     const { title, children } = props;
@@ -32,16 +31,10 @@ class MenuItemGroup extends React.Component {
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
 
-    const titleStyle = {};
-    if (mode === 'inline') {
-      titleStyle.paddingLeft = inlineIndent * level;
-    }
-
     return (
       <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
         <div
           className={titleClassName}
-          style={titleStyle}
           title={typeof title === 'string' ? title : undefined}
         >
           {title}
