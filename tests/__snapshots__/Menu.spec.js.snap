@@ -218,7 +218,6 @@ exports[`Menu should render inline menu correctly 1`] = `
   >
     <div
       class="rc-menu-item-group-title"
-      style="padding-left:24px"
       title="g1"
     >
       g1
@@ -257,7 +256,6 @@ exports[`Menu should render inline menu correctly 1`] = `
   >
     <div
       class="rc-menu-item-group-title"
-      style="padding-left:24px"
       title="g2"
     >
       g2
