@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
-import { getWidth, setWidth, menuAllProps } from './util';
+import { getWidth, setStyle, menuAllProps } from './util';
 
 const canUseDOM = !!(
   typeof window !== 'undefined' &&
@@ -148,7 +148,7 @@ class DOMWrap extends React.Component {
     const lastOverflowedIndicatorPlaceholder = ul.children[ulChildrenNodes.length - 1];
 
     // need last overflowed indicator for calculating length;
-    setWidth(lastOverflowedIndicatorPlaceholder, 'auto');
+    setStyle(lastOverflowedIndicatorPlaceholder, 'display', 'inline-block');
 
     const menuItemNodes = this.getMenuItemNodes();
 
@@ -158,21 +158,20 @@ class DOMWrap extends React.Component {
 
     menuItemNodes.forEach(c => {
       displayValueCaches.push(c.style.display);
-      c.style.display = 'inline-block';
+      setStyle(c, 'display', 'inline-block');
     });
 
     this.menuItemSizes = menuItemNodes.map(c => getWidth(c));
 
     menuItemNodes.forEach((c, i) => {
-      c.style.display = displayValueCaches[i];
+      setStyle(c, 'display', displayValueCaches[i]);
     });
 
     this.overflowedIndicatorWidth = getWidth(ul.children[ul.children.length - 1]);
     this.originalTotalWidth = this.menuItemSizes.reduce((acc, cur) => acc + cur, 0);
     this.handleResize();
-
     // prevent the overflowed indicator from taking space;
-    setWidth(lastOverflowedIndicatorPlaceholder, 0);
+    setStyle(lastOverflowedIndicatorPlaceholder, 'display', 'none');
   }
 
   resizeObserver = null;

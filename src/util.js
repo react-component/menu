@@ -115,8 +115,8 @@ export const getWidth = (elem) => (
   elem.getBoundingClientRect().width
 ) || 0;
 
-export const setWidth = (elem, width) => {
+export const setStyle = (elem, styleProperty, value) => {
   if (elem && typeof elem.style === 'object') {
-    elem.style.width = width;
+    elem.style[styleProperty] = value;
   }
 };
