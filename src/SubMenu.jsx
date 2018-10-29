@@ -247,7 +247,11 @@ export class SubMenu extends React.Component {
   };
 
   onSubMenuClick = (info) => {
-    this.props.onClick(this.addKeyPath(info));
+    // in the case of overflowed submenu
+    // onClick is not copied over
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(this.addKeyPath(info));
+    }
   };
 
   onSelect = (info) => {
