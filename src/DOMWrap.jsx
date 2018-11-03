@@ -11,6 +11,8 @@ const canUseDOM = !!(
   window.document.createElement
 );
 
+const MENUITEM_OVERFLOWED_CLASSNAME = 'menuitem-overflowed';
+
 // Fix ssr
 if (canUseDOM) {
   require('mutationobserver-shim');
@@ -152,21 +154,21 @@ class DOMWrap extends React.Component {
 
     const menuItemNodes = this.getMenuItemNodes();
 
-    // reset display attribute for all li elements to calculate updated width
+    // reset display attribute for all hidden elements caused by overflow to calculate updated width
     // and then reset to original state after width calculation
-    const displayValueCaches = [];
 
-    menuItemNodes.forEach(c => {
-      displayValueCaches.push(c.style.display);
+    const overflowedItems = menuItemNodes
+      .filter(c => c.className.split(' ').indexOf(MENUITEM_OVERFLOWED_CLASSNAME) >= 0);
+
+    overflowedItems.forEach(c => {
       setStyle(c, 'display', 'inline-block');
     });
 
     this.menuItemSizes = menuItemNodes.map(c => getWidth(c));
 
-    menuItemNodes.forEach((c, i) => {
-      setStyle(c, 'display', displayValueCaches[i]);
+    overflowedItems.forEach(c => {
+      setStyle(c, 'display', 'none');
     });
-
     this.overflowedIndicatorWidth = getWidth(ul.children[ul.children.length - 1]);
     this.originalTotalWidth = this.menuItemSizes.reduce((acc, cur) => acc + cur, 0);
     this.handleResize();
@@ -232,7 +234,11 @@ class DOMWrap extends React.Component {
             item = React.cloneElement(
               childNode,
               // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
-              { style: { display: 'none' }, eventKey: `${childNode.props.eventKey}-hidden` },
+              {
+                style: { display: 'none' },
+                eventKey: `${childNode.props.eventKey}-hidden`,
+                className: `${childNode.className} ${MENUITEM_OVERFLOWED_CLASSNAME}`,
+              },
             );
           }
           if (index === lastVisibleIndex + 1) {
