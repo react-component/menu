@@ -29463,6 +29463,8 @@ function createChainedFunction() {
 
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
+var MENUITEM_OVERFLOWED_CLASSNAME = 'menuitem-overflowed';
+
 // Fix ssr
 if (canUseDOM) {
   __webpack_require__(171);
@@ -29577,12 +29579,14 @@ var DOMWrap = function (_React$Component) {
 
       var menuItemNodes = _this.getMenuItemNodes();
 
-      // reset display attribute for all li elements to calculate updated width
+      // reset display attribute for all hidden elements caused by overflow to calculate updated width
       // and then reset to original state after width calculation
-      var displayValueCaches = [];
 
-      menuItemNodes.forEach(function (c) {
-        displayValueCaches.push(c.style.display);
+      var overflowedItems = menuItemNodes.filter(function (c) {
+        return c.className.split(' ').indexOf(MENUITEM_OVERFLOWED_CLASSNAME) >= 0;
+      });
+
+      overflowedItems.forEach(function (c) {
         Object(__WEBPACK_IMPORTED_MODULE_10__util__["h" /* setStyle */])(c, 'display', 'inline-block');
       });
 
@@ -29590,10 +29594,9 @@ var DOMWrap = function (_React$Component) {
         return Object(__WEBPACK_IMPORTED_MODULE_10__util__["c" /* getWidth */])(c);
       });
 
-      menuItemNodes.forEach(function (c, i) {
-        Object(__WEBPACK_IMPORTED_MODULE_10__util__["h" /* setStyle */])(c, 'display', displayValueCaches[i]);
+      overflowedItems.forEach(function (c) {
+        Object(__WEBPACK_IMPORTED_MODULE_10__util__["h" /* setStyle */])(c, 'display', 'none');
       });
-
       _this.overflowedIndicatorWidth = Object(__WEBPACK_IMPORTED_MODULE_10__util__["c" /* getWidth */])(ul.children[ul.children.length - 1]);
       _this.originalTotalWidth = _this.menuItemSizes.reduce(function (acc, cur) {
         return acc + cur;
@@ -29701,7 +29704,11 @@ var DOMWrap = function (_React$Component) {
           if (index > lastVisibleIndex) {
             item = __WEBPACK_IMPORTED_MODULE_5_react___default.a.cloneElement(childNode,
             // 这里修改 eventKey 是为了防止隐藏状态下还会触发 openkeys 事件
-            { style: { display: 'none' }, eventKey: childNode.props.eventKey + '-hidden' });
+            {
+              style: { display: 'none' },
+              eventKey: childNode.props.eventKey + '-hidden',
+              className: childNode.className + ' ' + MENUITEM_OVERFLOWED_CLASSNAME
+            });
           }
           if (index === lastVisibleIndex + 1) {
             _this3.overflowedItems = children.slice(lastVisibleIndex + 1).map(function (c) {
