@@ -141,13 +141,20 @@ export class SubPopupMenu extends React.Component {
     return this.props.visible || nextProps.visible;
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const props = this.props;
     const originalActiveKey = 'activeKey' in props ? props.activeKey :
       props.store.getState().activeKey[getEventKey(props)];
     const activeKey = getActiveKey(props, originalActiveKey);
     if (activeKey !== originalActiveKey) {
       updateActiveKey(props.store, getEventKey(props), activeKey);
+    } else if ('activeKey' in prevProps) {
+      // If prev activeKey is not same as current activeKey,
+      // we should set it.
+      const prevActiveKey = getActiveKey(prevProps, prevProps.activeKey);
+      if (activeKey !== prevActiveKey) {
+        updateActiveKey(props.store, getEventKey(props), activeKey);
+      }
     }
   }
 
