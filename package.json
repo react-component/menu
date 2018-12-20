@@ -70,7 +70,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-test-renderer": "^16.0.0",
-    "rmc-tools": "^0.0.2"
+    "rmc-tools": "^0.0.4"
   },
   "dependencies": {
     "babel-runtime": "6.x",
