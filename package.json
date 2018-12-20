@@ -60,7 +60,7 @@
     }
   },
   "devDependencies": {
-    "coveralls": "^2.11.15",
+    "coveralls": "^3.0.2",
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.0.2",
     "enzyme-to-json": "^3.0.1",
