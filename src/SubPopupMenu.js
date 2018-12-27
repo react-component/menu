@@ -299,6 +299,7 @@ export class SubPopupMenu extends React.Component {
       expandIcon: childProps.expandIcon || this.props.expandIcon,
       ...extraProps,
     };
+    // ref: https://github.com/ant-design/ant-design/issues/13943
     if (props.mode === 'inline' || isMobileDevice()) {
       newChildProps.triggerSubMenuAction = 'click';
     }
