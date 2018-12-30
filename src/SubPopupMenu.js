@@ -4,7 +4,7 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps } from './util';
+import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps, isMobileDevice } from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -299,7 +299,8 @@ export class SubPopupMenu extends React.Component {
       expandIcon: childProps.expandIcon || this.props.expandIcon,
       ...extraProps,
     };
-    if (props.mode === 'inline') {
+    // ref: https://github.com/ant-design/ant-design/issues/13943
+    if (props.mode === 'inline' || isMobileDevice()) {
       newChildProps.triggerSubMenuAction = 'click';
     }
     return React.cloneElement(child, newChildProps);

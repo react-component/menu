@@ -76,6 +76,7 @@
     "babel-runtime": "6.x",
     "classnames": "2.x",
     "dom-scroll-into-view": "1.x",
+    "ismobilejs": "^0.5.1",
     "mini-store": "^2.0.0",
     "mutationobserver-shim": "^0.3.2",
     "prop-types": "^15.5.6",
