@@ -12,6 +12,7 @@ const canUseDOM = !!(
 );
 
 const MENUITEM_OVERFLOWED_CLASSNAME = 'menuitem-overflowed';
+const FLOAT_PRECISION_ADJUST = 0.5;
 
 // Fix ssr
 if (canUseDOM) {
@@ -205,7 +206,10 @@ class DOMWrap extends React.Component {
     // index for last visible child in horizontal mode
     let lastVisibleIndex = undefined;
 
-    if (this.originalTotalWidth > width) {
+    // float number comparison could be problematic
+    // e.g. 0.1 + 0.2 > 0.3 =====> true
+    // thus using FLOAT_PRECISION_ADJUST as buffer to help the situation
+    if (this.originalTotalWidth > width + FLOAT_PRECISION_ADJUST) {
       lastVisibleIndex = -1;
 
       this.menuItemSizes.forEach(liWidth => {
