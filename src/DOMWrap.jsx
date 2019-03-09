@@ -87,10 +87,11 @@ class DOMWrap extends React.Component {
     // put all the overflowed item inside a submenu
     // with a title of overflow indicator ('...')
     const copy = this.props.children[0];
-    const { children: throwAway, title, eventKey, ...rest } = copy.props;
+    const { children: throwAway, title, ...rest } = copy.props;
 
     let style = { ...propStyle };
     let key = `${keyPrefix}-overflowed-indicator`;
+    let eventKey = `${keyPrefix}-overflowed-indicator`;
 
     if (overflowedItems.length === 0 && renderPlaceholder !== true) {
       style = {
@@ -105,6 +106,7 @@ class DOMWrap extends React.Component {
         position: 'absolute',
       };
       key = `${key}-placeholder`;
+      eventKey = `${eventKey}-placeholder`;
     }
 
     const popupClassName = theme ? `${prefixCls}-${theme}` : '';
@@ -122,7 +124,7 @@ class DOMWrap extends React.Component {
         popupClassName={popupClassName}
         {...props}
         key={key}
-        eventKey={`${keyPrefix}-overflowed-indicator`}
+        eventKey={eventKey}
         disabled={false}
         style={style}
       >
