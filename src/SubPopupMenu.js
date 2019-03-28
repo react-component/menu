@@ -35,7 +35,12 @@ export function getActiveKey(props, originalActiveKey) {
   if (activeKey) {
     let found;
     loopMenuItem(children, (c, i) => {
-      if (c && !c.props.disabled && activeKey === getKeyFromChildrenIndex(c, eventKey, i)) {
+      if (
+        c &&
+        c.props &&
+        !c.props.disabled &&
+        activeKey === getKeyFromChildrenIndex(c, eventKey, i)
+      ) {
         found = true;
       }
     });
@@ -266,6 +271,10 @@ export class SubPopupMenu extends React.Component {
     const props = this.props;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
     const childProps = child.props;
+    // https://github.com/ant-design/ant-design/issues/11517#issuecomment-477403055
+    if (!childProps || typeof child.type === 'string') {
+      return child;
+    }
     const isActive = key === state.activeKey;
     const newChildProps = {
       mode: childProps.mode || props.mode,
@@ -348,8 +357,6 @@ export class SubPopupMenu extends React.Component {
     delete props.onClick;
 
     return (
-      // ESLint is not smart enough to know that the type of `children` was checked.
-      /* eslint-disable */
       <DOMWrap
         {...props}
         prefixCls={prefixCls}
@@ -367,7 +374,6 @@ export class SubPopupMenu extends React.Component {
           (c, i) => this.renderMenuItem(c, i, eventKey || '0-menu-'),
         )}
       </DOMWrap>
-      /*eslint-enable */
     );
   }
 }

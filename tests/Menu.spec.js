@@ -97,6 +97,24 @@ describe('Menu', () => {
     expect(wrapper.find('MenuItem').first().props().active).toBe(true);
   });
 
+  it('should render none menu item children', () => {
+    expect(() => {
+      mount(
+        <Menu activeKey="1">
+          <MenuItem key="1">1</MenuItem>
+          <MenuItem key="2">2</MenuItem>
+          string
+          {'string'}
+          {null}
+          {undefined}
+          {12345}
+          <div />
+          <input />
+        </Menu>
+      );
+    }).not.toThrow();
+  });
+
   it('select multiple items', () => {
     const wrapper = mount(
       <Menu multiple>
