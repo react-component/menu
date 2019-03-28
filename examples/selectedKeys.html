@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>selectedKeys.js - example - rc-menu@7.4.21</title>
+  <title>selectedKeys.js - example - rc-menu@7.4.22</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-menu@7.4.21</h1>
+      <h1>rc-menu@7.4.22</h1>
 
       <p>menu ui component for react</p>
     </div>
@@ -305,9 +305,9 @@ class Test extends React.Component {
   onCheck = (e) =&gt; {
     const value = e.target.value;
     if (e.target.checked) {
-      this.setState({
-        selectedKeys: this.state.selectedKeys.concat(value),
-      });
+      this.setState(state =&gt; ({
+        selectedKeys: state.selectedKeys.concat(value),
+      }));
     } else {
       const selectedKeys = this.state.selectedKeys.concat();
       const index = selectedKeys.indexOf(value);
@@ -323,9 +323,9 @@ class Test extends React.Component {
   onOpenCheck = (e) =&gt; {
     const value = e.target.value;
     if (e.target.checked) {
-      this.setState({
-        openKeys: this.state.openKeys.concat(value),
-      });
+      this.setState(state =&gt; ({
+        openKeys: state.openKeys.concat(value),
+      }));
     } else {
       const openKeys = this.state.openKeys.concat();
       const index = openKeys.indexOf(value);

@@ -1,14 +1,14 @@
 webpackJsonp([1],{
 
-/***/ 191:
+/***/ 190:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(192);
+module.exports = __webpack_require__(191);
 
 
 /***/ }),
 
-/***/ 192:
+/***/ 191:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67,8 +67,10 @@ var Test = function (_React$Component) {
     }, _this.onCheck = function (e) {
       var value = e.target.value;
       if (e.target.checked) {
-        _this.setState({
-          selectedKeys: _this.state.selectedKeys.concat(value)
+        _this.setState(function (state) {
+          return {
+            selectedKeys: state.selectedKeys.concat(value)
+          };
         });
       } else {
         var selectedKeys = _this.state.selectedKeys.concat();
@@ -83,8 +85,10 @@ var Test = function (_React$Component) {
     }, _this.onOpenCheck = function (e) {
       var value = e.target.value;
       if (e.target.checked) {
-        _this.setState({
-          openKeys: _this.state.openKeys.concat(value)
+        _this.setState(function (state) {
+          return {
+            openKeys: state.openKeys.concat(value)
+          };
         });
       } else {
         var openKeys = _this.state.openKeys.concat();
@@ -227,5 +231,5 @@ __WEBPACK_IMPORTED_MODULE_4_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ })
 
-},[191]);
+},[190]);
 //# sourceMappingURL=selectedKeys.js.map
