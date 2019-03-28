@@ -388,7 +388,7 @@ export class SubMenu extends React.Component {
     // don't show transition on first rendering (no animation for opened menu)
     // show appear transition if it's not visible (not sure why)
     // show appear transition if it's not inline mode
-    const transitionAppear = haveRendered || !baseProps.visible || !baseProps.mode === 'inline';
+    const transitionAppear = haveRendered || !baseProps.visible || baseProps.mode !== 'inline';
 
     baseProps.className = ` ${baseProps.prefixCls}-sub`;
     const animProps = {};
