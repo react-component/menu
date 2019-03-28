@@ -34,9 +34,9 @@ class Test extends React.Component {
   onCheck = (e) => {
     const value = e.target.value;
     if (e.target.checked) {
-      this.setState({
-        selectedKeys: this.state.selectedKeys.concat(value),
-      });
+      this.setState(state => ({
+        selectedKeys: state.selectedKeys.concat(value),
+      }));
     } else {
       const selectedKeys = this.state.selectedKeys.concat();
       const index = selectedKeys.indexOf(value);
@@ -52,9 +52,9 @@ class Test extends React.Component {
   onOpenCheck = (e) => {
     const value = e.target.value;
     if (e.target.checked) {
-      this.setState({
-        openKeys: this.state.openKeys.concat(value),
-      });
+      this.setState(state => ({
+        openKeys: state.openKeys.concat(value),
+      }));
     } else {
       const openKeys = this.state.openKeys.concat();
       const index = openKeys.indexOf(value);
