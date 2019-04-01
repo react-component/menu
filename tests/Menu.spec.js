@@ -24,11 +24,22 @@ describe('Menu', () => {
             <MenuItem key="2">2</MenuItem>
           </MenuItemGroup>
           <MenuItem key="3">3</MenuItem>
-          <MenuItemGroup title="g2">
+          <MenuItemGroup title="g2"
+            titleNode={(
+              <span>
+                <span style={{ fontWeight: 600, fontStyle: 'italic' }}>g2</span>
+              </span>
+            )}
+          >
             <MenuItem key="4">4</MenuItem>
             <MenuItem key="5" disabled>5</MenuItem>
           </MenuItemGroup>
-          <SubMenu title="submenu">
+          <SubMenu titleNode={(
+              <span>
+                <span style={{ fontWeight: 600, fontStyle: 'italic' }}>submenu</span>
+              </span>
+            )}
+          >
             <MenuItem key="6">6</MenuItem>
           </SubMenu>
         </Menu>

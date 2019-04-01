@@ -13,7 +13,13 @@ ReactDOM.render(<div>
       <MenuItem key="21">2</MenuItem>
       <MenuItem key="22">3</MenuItem>
     </MenuItemGroup>
-    <MenuItemGroup title="group 2" key="3">
+    <MenuItemGroup title="group 2" key="3"
+      titleNode={(
+        <span>
+          <span style={{ fontWeight: 600, fontStyle: 'italic' }}>group</span> 2
+        </span>
+      )}
+    >
       <MenuItem key="31">4</MenuItem>
       <MenuItem key="32">5</MenuItem>
     </MenuItemGroup>

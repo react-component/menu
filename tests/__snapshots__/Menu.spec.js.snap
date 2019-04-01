@@ -127,12 +127,19 @@ exports[`Menu should render horizontal menu correctly 1`] = `
   </li>
   <li
     class=" rc-menu-item-group"
+    titlenode="[object Object]"
   >
     <div
       class="rc-menu-item-group-title"
       title="g2"
     >
-      g2
+      <span>
+        <span
+          style="font-weight:600;font-style:italic"
+        >
+          g2
+        </span>
+      </span>
     </div>
     <ul
       class="rc-menu-item-group-list"
@@ -173,14 +180,14 @@ exports[`Menu should render horizontal menu correctly 1`] = `
   <li
     class="rc-menu-submenu rc-menu-submenu-horizontal"
     role="menuitem"
+    titlenode="[object Object]"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
-      title="submenu"
+      title=""
     >
-      submenu
       <i
         class="rc-menu-submenu-arrow"
       />
@@ -253,12 +260,19 @@ exports[`Menu should render inline menu correctly 1`] = `
   </li>
   <li
     class=" rc-menu-item-group"
+    titlenode="[object Object]"
   >
     <div
       class="rc-menu-item-group-title"
       title="g2"
     >
-      g2
+      <span>
+        <span
+          style="font-weight:600;font-style:italic"
+        >
+          g2
+        </span>
+      </span>
     </div>
     <ul
       class="rc-menu-item-group-list"
@@ -283,15 +297,15 @@ exports[`Menu should render inline menu correctly 1`] = `
   <li
     class="rc-menu-submenu rc-menu-submenu-inline"
     role="menuitem"
+    titlenode="[object Object]"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
       style="padding-left:24px"
-      title="submenu"
+      title=""
     >
-      submenu
       <i
         class="rc-menu-submenu-arrow"
       />
@@ -344,12 +358,19 @@ exports[`Menu should render vertical menu correctly 1`] = `
   </li>
   <li
     class=" rc-menu-item-group"
+    titlenode="[object Object]"
   >
     <div
       class="rc-menu-item-group-title"
       title="g2"
     >
-      g2
+      <span>
+        <span
+          style="font-weight:600;font-style:italic"
+        >
+          g2
+        </span>
+      </span>
     </div>
     <ul
       class="rc-menu-item-group-list"
@@ -372,14 +393,14 @@ exports[`Menu should render vertical menu correctly 1`] = `
   <li
     class="rc-menu-submenu rc-menu-submenu-vertical"
     role="menuitem"
+    titlenode="[object Object]"
   >
     <div
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
-      title="submenu"
+      title=""
     >
-      submenu
       <i
         class="rc-menu-submenu-arrow"
       />

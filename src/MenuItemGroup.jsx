@@ -9,6 +9,7 @@ class MenuItemGroup extends React.Component {
     className: PropTypes.string,
     subMenuKey: PropTypes.string,
     rootPrefixCls: PropTypes.string,
+    titleNode: PropTypes.node,
   };
 
   static defaultProps = {
@@ -25,7 +26,7 @@ class MenuItemGroup extends React.Component {
     const { className = '', rootPrefixCls } = props;
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
-    const { title, children } = props;
+    const { title, titleNode, children } = props;
     menuAllProps.forEach(key => delete props[key]);
 
     // Set onClick to null, to ignore propagated onClick event
@@ -37,7 +38,7 @@ class MenuItemGroup extends React.Component {
           className={titleClassName}
           title={typeof title === 'string' ? title : undefined}
         >
-          {title}
+          {titleNode || title}
         </div>
         <ul className={listClassName}>
           {React.Children.map(children, this.renderInnerMenuItem)}
