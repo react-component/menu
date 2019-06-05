@@ -3,9 +3,8 @@ import { mount } from 'enzyme';
 import { saveRef } from '../src/SubPopupMenu';
 import Menu, { MenuItem } from '../src';
 
-describe('SubPopupMenu saveRef', () => {
+describe('SubPopupMenu', () => {
   let subPopupMenu;
-
 
   beforeEach(() => {
     subPopupMenu = { instanceArray: [] };
@@ -30,11 +29,14 @@ describe('SubPopupMenu saveRef', () => {
       <Menu activeKey="1">
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
 
     function getItemActive(index) {
-      return wrapper.find('MenuItem').at(index).instance().props.active;
+      return wrapper
+        .find('MenuItem')
+        .at(index)
+        .instance().props.active;
     }
     expect(getItemActive(0)).toBe(true);
     expect(getItemActive(1)).toBe(false);
@@ -43,5 +45,29 @@ describe('SubPopupMenu saveRef', () => {
 
     expect(getItemActive(0)).toBe(false);
     expect(getItemActive(1)).toBe(true);
+  });
+
+  it('not pass style into sub menu item', () => {
+    const wrapper = mount(
+      <Menu mode="horizontal" style={{ background: 'green' }}>
+        <MenuItem style={{ color: 'red' }} key="1">
+          1
+        </MenuItem>
+      </Menu>,
+    );
+
+    expect(
+      wrapper
+        .find('li.rc-menu-overflowed-submenu')
+        .at(0)
+        .props().style,
+    ).toEqual({ color: 'red', display: 'none' });
+
+    expect(
+      wrapper
+        .find('li.rc-menu-item')
+        .at(0)
+        .props().style,
+    ).toEqual({ color: 'red' });
   });
 });

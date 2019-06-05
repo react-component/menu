@@ -80,14 +80,14 @@ class DOMWrap extends React.Component {
   }
 
   getOverflowedSubMenuItem = (keyPrefix, overflowedItems, renderPlaceholder) => {
-    const { overflowedIndicator, level, mode, prefixCls, theme, style: propStyle } = this.props;
+    const { overflowedIndicator, level, mode, prefixCls, theme } = this.props;
     if (level !== 1 || mode !== 'horizontal') {
       return null;
     }
     // put all the overflowed item inside a submenu
     // with a title of overflow indicator ('...')
     const copy = this.props.children[0];
-    const { children: throwAway, title, ...rest } = copy.props;
+    const { children: throwAway, title, style: propStyle, ...rest } = copy.props;
 
     let style = { ...propStyle };
     let key = `${keyPrefix}-overflowed-indicator`;
