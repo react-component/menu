@@ -398,6 +398,36 @@ describe('Menu', () => {
       expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({});
     });
 
+    it('should not include overflow indicator when it set to false and not having enough width', () => {
+      const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
+      const liWidths = [50, 50, 50, 50];
+      const availableWidth = 145;
+      const widths = [...liWidths, indicatorWidth, availableWidth];
+      let i = 0;
+      mockedUtil.getWidth = () => {
+        return widths[i++];
+      };
+      wrapper = mount(createMenu({overflowedIndicator: false}));
+
+      // overflow indicator placeholder
+      expect(wrapper.find(overflowIndicatorSelector).at(4).prop('style')).toEqual({
+        visibility: 'hidden',
+        position: 'absolute',
+      });
+
+      // last overflow indicator should be hidden
+      expect(wrapper.find(overflowIndicatorSelector).at(3).prop('style')).toEqual({
+        display: 'none',
+      });
+
+      // all menu will be shown
+      expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
+      expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
+      expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({});
+      expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({});
+
+    });
+
     it('should include overflow indicator when having not enough width', () => {
       const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
       const liWidths = [50, 50, 50, 50];
