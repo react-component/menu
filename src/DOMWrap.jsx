@@ -135,7 +135,7 @@ class DOMWrap extends React.Component {
 
   // memorize rendered menuSize
   setChildrenWidthAndResize = () => {
-    const {mode, overflowedIndicator} = this.props;
+    const { mode, overflowedIndicator } = this.props;
     if (mode !== 'horizontal' || overflowedIndicator === false) {
       return;
     }
