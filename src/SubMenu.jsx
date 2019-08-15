@@ -59,6 +59,7 @@ export class SubMenu extends React.Component {
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
     popupOffset: PropTypes.array,
+    subProps: PropTypes.object,
     isOpen: PropTypes.bool,
     store: PropTypes.object,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
@@ -76,6 +77,7 @@ export class SubMenu extends React.Component {
     manualRef: noop,
     mode: 'vertical',
     title: '',
+    subProps: {},
   };
 
   constructor(props) {
@@ -345,6 +347,7 @@ export class SubMenu extends React.Component {
   renderChildren(children) {
     const props = this.props;
     const baseProps = {
+      ...props.subProps,
       mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
       visible: this.props.isOpen,
       level: props.level + 1,
@@ -390,7 +393,7 @@ export class SubMenu extends React.Component {
     // show appear transition if it's not inline mode
     const transitionAppear = haveRendered || !baseProps.visible || baseProps.mode !== 'inline';
 
-    baseProps.className = ` ${baseProps.prefixCls}-sub`;
+    baseProps.className = classNames(`${baseProps.prefixCls}-sub`, baseProps.className);
     const animProps = {};
 
     if (baseProps.openTransitionName) {
@@ -415,7 +418,7 @@ export class SubMenu extends React.Component {
   }
 
   render() {
-    const props = { ...this.props };
+    const { subProps, ...props } = this.props;
     const isOpen = props.isOpen;
     const prefixCls = this.getPrefixCls();
     const isInlineMode = props.mode === 'inline';
