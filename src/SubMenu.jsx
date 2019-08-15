@@ -390,7 +390,7 @@ export class SubMenu extends React.Component {
     // show appear transition if it's not inline mode
     const transitionAppear = haveRendered || !baseProps.visible || baseProps.mode !== 'inline';
 
-    baseProps.className = classNames(`${baseProps.prefixCls}-sub`, baseProps.className);
+    baseProps.className = `${baseProps.prefixCls}-sub`;
     const animProps = {};
 
     if (baseProps.openTransitionName) {
