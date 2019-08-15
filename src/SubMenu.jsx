@@ -59,7 +59,6 @@ export class SubMenu extends React.Component {
     onTitleMouseLeave: PropTypes.func,
     onTitleClick: PropTypes.func,
     popupOffset: PropTypes.array,
-    subProps: PropTypes.object,
     isOpen: PropTypes.bool,
     store: PropTypes.object,
     mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
@@ -77,7 +76,6 @@ export class SubMenu extends React.Component {
     manualRef: noop,
     mode: 'vertical',
     title: '',
-    subProps: {},
   };
 
   constructor(props) {
@@ -347,7 +345,6 @@ export class SubMenu extends React.Component {
   renderChildren(children) {
     const props = this.props;
     const baseProps = {
-      ...props.subProps,
       mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
       visible: this.props.isOpen,
       level: props.level + 1,
@@ -405,6 +402,15 @@ export class SubMenu extends React.Component {
       }
     }
 
+    Object.keys(props).forEach(key => {
+      if (
+        Object.prototype.hasOwnProperty.call(props, key) &&
+        (key.substr(0, 5) === 'data-' || key.substr(0, 5) === 'aria-' || key === 'role')
+      ) {
+        baseProps[key] = props[key];
+      }
+    });
+
     return (
       <Animate
         {...animProps}
@@ -418,7 +424,7 @@ export class SubMenu extends React.Component {
   }
 
   render() {
-    const { subProps, ...props } = this.props;
+    const { ...props } = this.props;
     const isOpen = props.isOpen;
     const prefixCls = this.getPrefixCls();
     const isInlineMode = props.mode === 'inline';
