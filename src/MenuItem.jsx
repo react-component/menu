@@ -49,12 +49,19 @@ export class MenuItem extends React.Component {
     this.callRef();
   }
 
-  componentDidUpdate() {
-    const { active, parentMenu } = this.props;
-    if (active && this.node) {
-      scrollIntoView(this.node, ReactDOM.findDOMNode(parentMenu), {
-        onlyScrollIfNeeded: true,
-      });
+  componentDidUpdate(prevProps) {
+    const { active, parentMenu, eventKey } = this.props;
+    // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
+    // https://github.com/ant-design/ant-design/issues/16181
+    if (!prevProps.active && active && !parentMenu[`scrolled-${eventKey}`]) {
+      if (this.node) {
+        scrollIntoView(this.node, ReactDOM.findDOMNode(parentMenu), {
+          onlyScrollIfNeeded: true,
+        });
+        parentMenu[`scrolled-${eventKey}`] = true;
+      }
+    } else if (parentMenu[`scrolled-${eventKey}`]) {
+      delete parentMenu[`scrolled-${eventKey}`];
     }
     this.callRef();
   }
