@@ -1,14 +1,14 @@
 webpackJsonp([7],{
 
-/***/ 167:
+/***/ 165:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(168);
+module.exports = __webpack_require__(166);
 
 
 /***/ }),
 
-/***/ 168:
+/***/ 166:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -326,5 +326,5 @@ __WEBPACK_IMPORTED_MODULE_5_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ })
 
-},[167]);
+},[165]);
 //# sourceMappingURL=custom-icon.js.map
