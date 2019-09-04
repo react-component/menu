@@ -1,5 +1,5 @@
 import React from 'react';
-const isMobile = require('ismobilejs');
+const isMobile = require('ismobilejs/dist/dist/isMobile.min');
 
 export function noop() {
 }
