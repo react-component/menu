@@ -50,8 +50,9 @@ export class MenuItem extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.active) {
-      scrollIntoView(ReactDOM.findDOMNode(this), ReactDOM.findDOMNode(this.props.parentMenu), {
+    const { active, parentMenu } = this.props;
+    if (active && this.node) {
+      scrollIntoView(this.node, ReactDOM.findDOMNode(parentMenu), {
         onlyScrollIfNeeded: true,
       });
     }
@@ -133,6 +134,10 @@ export class MenuItem extends React.Component {
     return `${this.getPrefixCls()}-disabled`;
   }
 
+  saveNode = (node) => {
+    this.node = node;
+  }
+
   callRef() {
     if (this.props.manualRef) {
       this.props.manualRef(this);
@@ -193,6 +198,7 @@ export class MenuItem extends React.Component {
         {...attrs}
         {...mouseEvent}
         style={style}
+        ref={this.saveNode}
       >
         {props.children}
         {icon}
