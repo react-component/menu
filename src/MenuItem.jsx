@@ -53,14 +53,14 @@ export class MenuItem extends React.Component {
     const { active, parentMenu, eventKey } = this.props;
     // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
     // https://github.com/ant-design/ant-design/issues/16181
-    if (!prevProps.active && active && !parentMenu[`scrolled-${eventKey}`]) {
+    if (!prevProps.active && active && (!parentMenu && !parentMenu[`scrolled-${eventKey}`])) {
       if (this.node) {
         scrollIntoView(this.node, ReactDOM.findDOMNode(parentMenu), {
           onlyScrollIfNeeded: true,
         });
         parentMenu[`scrolled-${eventKey}`] = true;
       }
-    } else if (parentMenu[`scrolled-${eventKey}`]) {
+    } else if (parentMenu && parentMenu[`scrolled-${eventKey}`]) {
       delete parentMenu[`scrolled-${eventKey}`];
     }
     this.callRef();
@@ -73,7 +73,7 @@ export class MenuItem extends React.Component {
     }
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     const keyCode = e.keyCode;
     if (keyCode === KeyCode.ENTER) {
       this.onClick(e);
@@ -81,7 +81,7 @@ export class MenuItem extends React.Component {
     }
   };
 
-  onMouseLeave = (e) => {
+  onMouseLeave = e => {
     const { eventKey, onItemHover, onMouseLeave } = this.props;
     onItemHover({
       key: eventKey,
@@ -93,7 +93,7 @@ export class MenuItem extends React.Component {
     });
   };
 
-  onMouseEnter = (e) => {
+  onMouseEnter = e => {
     const { eventKey, onItemHover, onMouseEnter } = this.props;
     onItemHover({
       key: eventKey,
@@ -105,7 +105,7 @@ export class MenuItem extends React.Component {
     });
   };
 
-  onClick = (e) => {
+  onClick = e => {
     const { eventKey, multiple, onClick, onSelect, onDeselect, isSelected } = this.props;
     const info = {
       key: eventKey,
@@ -141,9 +141,9 @@ export class MenuItem extends React.Component {
     return `${this.getPrefixCls()}-disabled`;
   }
 
-  saveNode = (node) => {
+  saveNode = node => {
     this.node = node;
-  }
+  };
 
   callRef() {
     if (this.props.manualRef) {
@@ -200,13 +200,7 @@ export class MenuItem extends React.Component {
       icon = React.createElement(this.props.itemIcon, this.props);
     }
     return (
-      <li
-        {...props}
-        {...attrs}
-        {...mouseEvent}
-        style={style}
-        ref={this.saveNode}
-      >
+      <li {...props} {...attrs} {...mouseEvent} style={style} ref={this.saveNode}>
         {props.children}
         {icon}
       </li>
