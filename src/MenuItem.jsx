@@ -185,8 +185,8 @@ export class MenuItem extends React.Component {
     // In case that onClick/onMouseLeave/onMouseEnter is passed down from owner
     const mouseEvent = {
       onClick: props.disabled ? null : this.onClick,
-      onMouseLeave: props.disabled ? null : this.onMouseLeave,
-      onMouseEnter: props.disabled ? null : this.onMouseEnter,
+      onMouseLeave: this.onMouseLeave,
+      onMouseEnter: this.onMouseEnter,
     };
     const style = {
       ...props.style,
