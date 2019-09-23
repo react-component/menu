@@ -41780,7 +41780,7 @@ var MenuItem = function (_React$Component) {
     // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
     // https://github.com/ant-design/ant-design/issues/16181
 
-    if (!prevProps.active && active && !parentMenu && !parentMenu['scrolled-' + eventKey]) {
+    if (!prevProps.active && active && (!parentMenu || !parentMenu['scrolled-' + eventKey])) {
       if (this.node) {
         __WEBPACK_IMPORTED_MODULE_9_dom_scroll_into_view___default()(this.node, __WEBPACK_IMPORTED_MODULE_5_react_dom___default.a.findDOMNode(parentMenu), {
           onlyScrollIfNeeded: true
