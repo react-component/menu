@@ -53,7 +53,7 @@ export class MenuItem extends React.Component {
     const { active, parentMenu, eventKey } = this.props;
     // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
     // https://github.com/ant-design/ant-design/issues/16181
-    if (!prevProps.active && active && (!parentMenu && !parentMenu[`scrolled-${eventKey}`])) {
+    if (!prevProps.active && active && (!parentMenu || !parentMenu[`scrolled-${eventKey}`])) {
       if (this.node) {
         scrollIntoView(this.node, ReactDOM.findDOMNode(parentMenu), {
           onlyScrollIfNeeded: true,
