@@ -4,6 +4,7 @@ import { menuAllProps } from './util';
 
 class MenuItemGroup extends React.Component {
   static propTypes = {
+    disabled: PropTypes.bool,
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,
     className: PropTypes.string,

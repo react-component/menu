@@ -99,9 +99,11 @@ export class SubPopupMenu extends React.Component {
     }),
 
     // adding in refactor
+    prefixCls: PropTypes.string,
     focusable: PropTypes.bool,
     multiple: PropTypes.bool,
     style: PropTypes.object,
+    className: PropTypes.string,
     defaultActiveFirst: PropTypes.bool,
     activeKey: PropTypes.string,
     selectedKeys: PropTypes.arrayOf(PropTypes.string),
@@ -159,7 +161,7 @@ export class SubPopupMenu extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const props = this.props;
+    const { props } = this;
     const originalActiveKey =
       'activeKey' in props
         ? props.activeKey
@@ -177,9 +179,15 @@ export class SubPopupMenu extends React.Component {
     }
   }
 
-  // all keyboard events callbacks run from here at first
+  /**
+   * all keyboard events callbacks run from here at first
+   *
+   * note:
+   *  This legacy code that `onKeyDown` is called by parent instead of dom self.
+   *  which need return code to check if this event is handled
+   */
   onKeyDown = (e, callback) => {
-    const keyCode = e.keyCode;
+    const { keyCode } = e;
     let handled;
     this.getFlatInstanceArray().forEach(obj => {
       if (obj && obj.props.active && obj.onKeyDown) {
@@ -207,6 +215,7 @@ export class SubPopupMenu extends React.Component {
 
       return 1;
     }
+    return undefined;
   };
 
   onItemHover = e => {
@@ -239,13 +248,9 @@ export class SubPopupMenu extends React.Component {
     this.props.onDestroy(key);
   };
 
-  getFlatInstanceArray = () => {
-    return this.instanceArray;
-  };
+  getFlatInstanceArray = () => this.instanceArray;
 
-  getOpenTransitionName = () => {
-    return this.props.openTransitionName;
-  };
+  getOpenTransitionName = () => this.props.openTransitionName;
 
   step = direction => {
     let children = this.getFlatInstanceArray();
@@ -292,7 +297,7 @@ export class SubPopupMenu extends React.Component {
 
   renderCommonMenuItem = (child, i, extraProps) => {
     const state = this.props.store.getState();
-    const props = this.props;
+    const { props } = this;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
     const childProps = child.props;
     // https://github.com/ant-design/ant-design/issues/11517#issuecomment-477403055

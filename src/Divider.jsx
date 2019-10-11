@@ -1,27 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Divider extends React.Component {
-  static propTypes = {
-    className: PropTypes.string,
-    rootPrefixCls: PropTypes.string,
-    style: PropTypes.object,
-  };
+const Divider = ({ className, rootPrefixCls, style }) => (
+  <li className={`${className} ${rootPrefixCls}-item-divider`} style={style} />
+);
 
-  static defaultProps = {
-    // To fix keyboard UX.
-    disabled: true,
-    className: '',
-    style: {},
-  };
+Divider.propTypes = {
+  className: PropTypes.string,
+  rootPrefixCls: PropTypes.string,
+  style: PropTypes.object,
+  // eslint-disable-next-line react/no-unused-prop-types
+  disabled: PropTypes.bool,
+};
 
-  render() {
-    const { className, rootPrefixCls, style } = this.props;
-    return (
-      <li
-        className={`${className} ${rootPrefixCls}-item-divider`}
-        style={style}
-      />
-    );
-  }
-}
+Divider.defaultProps = {
+  // To fix keyboard UX.
+  disabled: true,
+  className: '',
+  style: {},
+};
+
+export default Divider;

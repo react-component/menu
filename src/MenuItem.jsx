@@ -40,10 +40,6 @@ export class MenuItem extends React.Component {
     manualRef: noop,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     // invoke customized ref to expose component to mixin
     this.callRef();
@@ -71,18 +67,19 @@ export class MenuItem extends React.Component {
   }
 
   componentWillUnmount() {
-    const props = this.props;
+    const { props } = this;
     if (props.onDestroy) {
       props.onDestroy(props.eventKey);
     }
   }
 
   onKeyDown = e => {
-    const keyCode = e.keyCode;
+    const { keyCode } = e;
     if (keyCode === KeyCode.ENTER) {
       this.onClick(e);
       return true;
     }
+    return undefined;
   };
 
   onMouseLeave = e => {

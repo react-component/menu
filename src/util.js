@@ -1,5 +1,5 @@
 import React from 'react';
-const isMobile = require('ismobilejs');
+import isMobile from './utils/isMobile';
 
 export function noop() {}
 
@@ -15,10 +15,10 @@ export function getMenuIdFromSubMenuEventKey(eventKey) {
 export function loopMenuItem(children, cb) {
   let index = -1;
   React.Children.forEach(children, c => {
-    index++;
+    index += 1;
     if (c && c.type && c.type.isMenuItemGroup) {
       React.Children.forEach(c.props.children, c2 => {
-        index++;
+        index += 1;
         cb(c2, index);
       });
     } else {
@@ -135,6 +135,4 @@ export const setStyle = (elem, styleProperty, value) => {
   }
 };
 
-export const isMobileDevice = () => {
-  return isMobile.any;
-};
+export const isMobileDevice = () => isMobile.any;
