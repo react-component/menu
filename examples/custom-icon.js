@@ -1,8 +1,8 @@
 /* eslint no-console:0 */
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
-import 'rc-menu/assets/index.less';
+import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
+import '../assets/index.less';
 import animate from 'css-animation';
 
 const getSvgIcon = (style = {}, text) => {

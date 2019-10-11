@@ -2,9 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, { Item as MenuItem, ItemGroup as MenuItemGroup } from 'rc-menu';
+import Menu, { Item as MenuItem, ItemGroup as MenuItemGroup } from '../src';
 
-import 'rc-menu/assets/index.less';
+import '../assets/index.less';
 
 ReactDOM.render(<div>
   <h2>menu item group</h2>

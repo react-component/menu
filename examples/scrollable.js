@@ -2,9 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu, { Item as MenuItem } from 'rc-menu';
+import Menu, { Item as MenuItem } from '../src';
 
-import 'rc-menu/assets/index.less';
+import '../assets/index.less';
 
 const children = [];
 for (let i = 0; i < 20; i++) {

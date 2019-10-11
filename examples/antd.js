@@ -3,8 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
-import 'rc-menu/assets/index.less';
+import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
+import '../assets/index.less';
 import animate from 'css-animation';
 
 function handleClick(info) {
