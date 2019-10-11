@@ -1,7 +1,6 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Menu, { Item as MenuItem } from '../src';
 
 import '../assets/index.less';
@@ -16,7 +15,10 @@ const menuStyle = {
   height: 200,
   overflow: 'auto',
 };
-ReactDOM.render(<div>
-  <h2>keyboard scrollable menu</h2>
-  <Menu style={menuStyle}>{children}</Menu>
-</div>, document.getElementById('__react-content'));
+
+export default () => (
+  <div>
+    <h2>keyboard scrollable menu</h2>
+    <Menu style={menuStyle}>{children}</Menu>
+  </div>
+);

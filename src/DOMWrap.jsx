@@ -103,7 +103,7 @@ class DOMWrap extends React.Component {
       children: throwAway,
       title,
       style: propStyle,
-      ...rest,
+      ...rest
     } = copy.props;
 
     let style = { ...propStyle };
@@ -318,7 +318,7 @@ class DOMWrap extends React.Component {
       tag: Tag,
       children,
       theme,
-      ...rest,
+      ...rest
     } = this.props;
 
     if (!visible) {
