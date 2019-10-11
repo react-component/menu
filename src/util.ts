@@ -1,23 +1,33 @@
 import React from 'react';
 import isMobile from './utils/isMobile';
+import MenuItemGroup from './MenuItemGroup';
+import SubMenu from './SubMenu';
+import MenuItem from './MenuItem';
 
 export function noop() {}
 
-export function getKeyFromChildrenIndex(child, menuEventKey, index) {
+export function getKeyFromChildrenIndex(
+  child: React.ReactElement,
+  menuEventKey: string,
+  index: number,
+) {
   const prefix = menuEventKey || '';
   return child.key || `${prefix}item_${index}`;
 }
 
-export function getMenuIdFromSubMenuEventKey(eventKey) {
+export function getMenuIdFromSubMenuEventKey(eventKey: string): React.Key {
   return `${eventKey}-menu-`;
 }
 
-export function loopMenuItem(children, cb) {
+export function loopMenuItem(
+  children: React.ReactNode,
+  cb: (node: React.ReactElement, index: number) => void,
+) {
   let index = -1;
-  React.Children.forEach(children, c => {
+  React.Children.forEach(children, (c: React.ReactElement) => {
     index += 1;
-    if (c && c.type && c.type.isMenuItemGroup) {
-      React.Children.forEach(c.props.children, c2 => {
+    if (c && c.type && (c.type as typeof MenuItemGroup).isMenuItemGroup) {
+      React.Children.forEach(c.props.children, (c2: React.ReactElement) => {
         index += 1;
         cb(c2, index);
       });
@@ -27,14 +37,21 @@ export function loopMenuItem(children, cb) {
   });
 }
 
-export function loopMenuItemRecursively(children, keys, ret) {
+export function loopMenuItemRecursively(
+  children: React.ReactNode,
+  keys: string[],
+  ret: { find: boolean },
+) {
   /* istanbul ignore if */
   if (!children || ret.find) {
     return;
   }
-  React.Children.forEach(children, c => {
+  React.Children.forEach(children, (c: React.ReactElement) => {
     if (c) {
-      const construct = c.type;
+      const construct = c.type as (
+        | typeof MenuItemGroup
+        | typeof MenuItem
+        | typeof SubMenu);
       if (
         !construct ||
         !(
@@ -45,7 +62,7 @@ export function loopMenuItemRecursively(children, keys, ret) {
       ) {
         return;
       }
-      if (keys.indexOf(c.key) !== -1) {
+      if (keys.indexOf((c as any).key) !== -1) {
         ret.find = true;
       } else if (c.props.children) {
         loopMenuItemRecursively(c.props.children, keys, ret);
@@ -118,7 +135,7 @@ export const menuAllProps = [
 // getBoundingClientRect return the full precision value, which is
 // not the same behavior as on chrome. Set the precision to 6 to
 // unify their behavior
-export const getWidth = elem => {
+export const getWidth = (elem: HTMLElement) => {
   let width =
     elem &&
     typeof elem.getBoundingClientRect === 'function' &&
@@ -129,10 +146,14 @@ export const getWidth = elem => {
   return width || 0;
 };
 
-export const setStyle = (elem, styleProperty, value) => {
+export const setStyle = (
+  elem: HTMLElement,
+  styleProperty: keyof React.CSSProperties,
+  value: string | number,
+) => {
   if (elem && typeof elem.style === 'object') {
     elem.style[styleProperty] = value;
   }
 };
 
-export const isMobileDevice = () => isMobile.any;
+export const isMobileDevice = (): boolean => isMobile.any;

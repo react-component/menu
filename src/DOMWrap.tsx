@@ -212,8 +212,9 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       return;
     }
 
-    const lastOverflowedIndicatorPlaceholder =
-      ul.children[ulChildrenNodes.length - 1];
+    const lastOverflowedIndicatorPlaceholder = ul.children[
+      ulChildrenNodes.length - 1
+    ] as HTMLElement;
 
     // need last overflowed indicator for calculating length;
     setStyle(lastOverflowedIndicatorPlaceholder, 'display', 'inline-block');
@@ -236,9 +237,9 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     overflowedItems.forEach(c => {
       setStyle(c, 'display', 'none');
     });
-    this.overflowedIndicatorWidth = getWidth(
-      ul.children[ul.children.length - 1],
-    );
+    this.overflowedIndicatorWidth = getWidth(ul.children[
+      ul.children.length - 1
+    ] as HTMLElement);
     this.originalTotalWidth = this.menuItemSizes.reduce(
       (acc, cur) => acc + cur,
       0,
@@ -253,7 +254,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       return;
     }
 
-    const ul = ReactDOM.findDOMNode(this);
+    const ul = ReactDOM.findDOMNode(this) as HTMLElement;
     if (!ul) {
       return;
     }
@@ -286,7 +287,11 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     // need to take care of overflowed items in horizontal mode
     const { lastVisibleIndex } = this.state;
     return (children || []).reduce(
-      (acc, childNode: React.ReactElement, index) => {
+      (
+        acc: React.ReactElement[],
+        childNode: React.ReactElement,
+        index: number,
+      ) => {
         let item = childNode;
         if (this.props.mode === 'horizontal') {
           let overflowed = this.getOverflowedSubMenuItem(
@@ -331,7 +336,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
             }
           }
 
-          const ret = [...acc, overflowed, item];
+          const ret: React.ReactElement[] = [...acc, overflowed, item];
 
           if (index === children.length - 1) {
             // need a placeholder for calculating overflowed indicator width
