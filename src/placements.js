@@ -3,7 +3,7 @@ const autoAdjustOverflow = {
   adjustY: 1,
 };
 
-const placements = {
+export const placements = {
   topLeft: {
     points: ['bl', 'tl'],
     overflow: autoAdjustOverflow,
