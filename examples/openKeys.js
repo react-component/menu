@@ -10,9 +10,9 @@ class Test extends React.Component {
     openKeys: [],
   };
 
-  onClick(info) {
+  onClick = info => {
     console.log('click ', info);
-  }
+  };
 
   onOpenChange = openKeys => {
     console.log('onOpenChange', openKeys);

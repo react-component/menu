@@ -33,7 +33,7 @@ function Demo() {
         <MenuItem key="1-2">0-2</MenuItem>
       </SubMenu>
       <MenuItem key="2" disabled>
-        can not deselect me,i'm disabled
+        can not deselect me, i am disabled
       </MenuItem>
       <MenuItem key="3">outer</MenuItem>
       <SubMenu title={titleRight1} key="4">

@@ -1,8 +1,8 @@
-/* eslint no-console:0 */
+/* eslint-disable no-console, no-param-reassign */
 import * as React from 'react';
+import animate from 'css-animation';
 import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
 import '../assets/index.less';
-import animate from 'css-animation';
 
 const getSvgIcon = (style = {}, text) => {
   if (text) {
@@ -63,8 +63,8 @@ const animation = {
     });
   },
 
-  appear() {
-    return this.enter.apply(this, arguments);
+  appear(...args) {
+    return this.enter(...args);
   },
 
   leave(node, done) {
@@ -94,49 +94,49 @@ class Demo extends React.Component {
   };
 
   renderNestSubMenu = (props = {}) => (
-      <SubMenu
-        title={<span>offset sub menu 2</span>}
-        key="4"
-        popupOffset={[10, 15]}
-        {...props}
-      >
-        <MenuItem key="4-1">inner inner</MenuItem>
-        <Divider />
-        <SubMenu key="4-2" title={<span>sub menu 3</span>}>
-          <SubMenu title="sub 4-2-0" key="4-2-0">
-            <MenuItem key="4-2-0-1">inner inner</MenuItem>
-            <MenuItem key="4-2-0-2">inner inner2</MenuItem>
-          </SubMenu>
-          <MenuItem key="4-2-1">inn</MenuItem>
-          <SubMenu title={<span>sub menu 4</span>} key="4-2-2">
-            <MenuItem key="4-2-2-1">inner inner</MenuItem>
-            <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-          </SubMenu>
-          <SubMenu title="sub 4-2-3" key="4-2-3">
-            <MenuItem key="4-2-3-1">inner inner</MenuItem>
-            <MenuItem key="4-2-3-2">inner inner2</MenuItem>
-          </SubMenu>
+    <SubMenu
+      title={<span>offset sub menu 2</span>}
+      key="4"
+      popupOffset={[10, 15]}
+      {...props}
+    >
+      <MenuItem key="4-1">inner inner</MenuItem>
+      <Divider />
+      <SubMenu key="4-2" title={<span>sub menu 3</span>}>
+        <SubMenu title="sub 4-2-0" key="4-2-0">
+          <MenuItem key="4-2-0-1">inner inner</MenuItem>
+          <MenuItem key="4-2-0-2">inner inner2</MenuItem>
+        </SubMenu>
+        <MenuItem key="4-2-1">inn</MenuItem>
+        <SubMenu title={<span>sub menu 4</span>} key="4-2-2">
+          <MenuItem key="4-2-2-1">inner inner</MenuItem>
+          <MenuItem key="4-2-2-2">inner inner2</MenuItem>
+        </SubMenu>
+        <SubMenu title="sub 4-2-3" key="4-2-3">
+          <MenuItem key="4-2-3-1">inner inner</MenuItem>
+          <MenuItem key="4-2-3-2">inner inner2</MenuItem>
         </SubMenu>
       </SubMenu>
-    );
+    </SubMenu>
+  );
 
   renderCommonMenu = (props = {}) => (
-      <Menu
-        onClick={this.handleClick}
-        onOpenChange={this.onOpenChange}
-        {...props}
-      >
-        <SubMenu title={<span>sub menu</span>} key="1">
-          <MenuItem key="1-1">0-1</MenuItem>
-          <MenuItem key="1-2">0-2</MenuItem>
-        </SubMenu>
-        {this.renderNestSubMenu()}
-        <MenuItem key="2">1</MenuItem>
-        <MenuItem key="3">outer</MenuItem>
-        <MenuItem disabled>disabled</MenuItem>
-        <MenuItem key="5">outer3</MenuItem>
-      </Menu>
-    );
+    <Menu
+      onClick={this.handleClick}
+      onOpenChange={this.onOpenChange}
+      {...props}
+    >
+      <SubMenu title={<span>sub menu</span>} key="1">
+        <MenuItem key="1-1">0-1</MenuItem>
+        <MenuItem key="1-2">0-2</MenuItem>
+      </SubMenu>
+      {this.renderNestSubMenu()}
+      <MenuItem key="2">1</MenuItem>
+      <MenuItem key="3">outer</MenuItem>
+      <MenuItem disabled>disabled</MenuItem>
+      <MenuItem key="5">outer3</MenuItem>
+    </Menu>
+  );
 
   render() {
     const verticalMenu = this.renderCommonMenu({
@@ -169,3 +169,4 @@ class Demo extends React.Component {
 }
 
 export default Demo;
+/* eslint-enable */

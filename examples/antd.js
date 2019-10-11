@@ -1,10 +1,10 @@
-/* eslint no-console:0 */
+/* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
+import animate from 'css-animation';
 import PropTypes from 'prop-types';
 import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
 import '../assets/index.less';
-import animate from 'css-animation';
 
 function handleClick(info) {
   console.log(`clicked ${info.key}`);
@@ -29,8 +29,8 @@ const animation = {
     });
   },
 
-  appear() {
-    return this.enter.apply(this, arguments);
+  appear(...args) {
+    return this.enter(...args);
   },
 
   leave(node, done) {
@@ -48,8 +48,6 @@ const animation = {
     });
   },
 };
-
-const reactContainer = document.getElementById('__react-content');
 
 const nestSubMenu = (
   <SubMenu
@@ -131,18 +129,16 @@ class CommonMenu extends React.Component {
   };
 
   toggleChildren = () => {
-    this.setState({
-      children: this.state.children === children1 ? children2 : children1,
-    });
+    this.setState(({ children }) => ({
+      children: children === children1 ? children2 : children1,
+    }));
   };
 
   toggleOverflowedIndicator = () => {
-    this.setState({
+    this.setState(({ overflowedIndicator }) => ({
       overflowedIndicator:
-        this.state.overflowedIndicator === undefined
-          ? customizeIndicator
-          : undefined,
-    });
+        overflowedIndicator === undefined ? customizeIndicator : undefined,
+    }));
   };
 
   render() {
@@ -152,8 +148,10 @@ class CommonMenu extends React.Component {
       <div>
         {this.props.updateChildrenAndOverflowedIndicator && (
           <div>
-            <button onClick={this.toggleChildren}>toggle children</button>
-            <button onClick={this.toggleOverflowedIndicator}>
+            <button type="button" onClick={this.toggleChildren}>
+              toggle children
+            </button>
+            <button type="button" onClick={this.toggleOverflowedIndicator}>
               toggle overflowedIndicator
             </button>
           </div>
@@ -234,3 +232,4 @@ function Demo() {
 }
 
 export default Demo;
+/* eslint-enable */

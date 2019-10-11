@@ -6,9 +6,9 @@ import Menu, { SubMenu, Item as MenuItem } from '../src';
 import '../assets/index.less';
 
 class Test extends React.Component {
-  onClick(info) {
+  onClick = info => {
     console.log('click ', info);
-  }
+  };
 
   getMenu() {
     return (

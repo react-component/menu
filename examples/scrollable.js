@@ -6,7 +6,7 @@ import Menu, { Item as MenuItem } from '../src';
 import '../assets/index.less';
 
 const children = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 20; i += 1) {
   children.push(<MenuItem key={String(i)}>{i}</MenuItem>);
 }
 
