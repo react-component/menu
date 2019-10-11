@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
+import Animate from 'rc-animate';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
 import SubPopupMenu from './SubPopupMenu';
 import placements from './placements';
-import Animate from 'rc-animate';
 import {
   noop,
   loopMenuItemRecursively,
@@ -142,7 +142,7 @@ export class SubMenu extends React.Component {
   };
 
   onKeyDown = e => {
-    const keyCode = e.keyCode;
+    const { keyCode } = e;
     const menu = this.menuInstance;
     const { isOpen, store } = this.props;
 
@@ -261,37 +261,25 @@ export class SubMenu extends React.Component {
     this.props.onDeselect(info);
   };
 
-  getPrefixCls = () => {
-    return `${this.props.rootPrefixCls}-submenu`;
-  };
+  getPrefixCls = () => `${this.props.rootPrefixCls}-submenu`;
 
-  getActiveClassName = () => {
-    return `${this.getPrefixCls()}-active`;
-  };
+  getActiveClassName = () => `${this.getPrefixCls()}-active`;
 
-  getDisabledClassName = () => {
-    return `${this.getPrefixCls()}-disabled`;
-  };
+  getDisabledClassName = () => `${this.getPrefixCls()}-disabled`;
 
-  getSelectedClassName = () => {
-    return `${this.getPrefixCls()}-selected`;
-  };
+  getSelectedClassName = () => `${this.getPrefixCls()}-selected`;
 
-  getOpenClassName = () => {
-    return `${this.props.rootPrefixCls}-submenu-open`;
-  };
+  getOpenClassName = () => `${this.props.rootPrefixCls}-submenu-open`;
 
   saveMenuInstance = c => {
     // children menu instance
     this.menuInstance = c;
   };
 
-  addKeyPath = info => {
-    return {
-      ...info,
-      keyPath: (info.keyPath || []).concat(this.props.eventKey),
-    };
-  };
+  addKeyPath = info => ({
+    ...info,
+    keyPath: (info.keyPath || []).concat(this.props.eventKey),
+  });
 
   triggerOpenChange = (open, type) => {
     const key = this.props.eventKey;
@@ -319,9 +307,7 @@ export class SubMenu extends React.Component {
     return ret.find;
   };
 
-  isOpen = () => {
-    return this.props.openKeys.indexOf(this.props.eventKey) !== -1;
-  };
+  isOpen = () => this.props.openKeys.indexOf(this.props.eventKey) !== -1;
 
   adjustWidth = () => {
     /* istanbul ignore if */
@@ -342,7 +328,7 @@ export class SubMenu extends React.Component {
   };
 
   renderChildren(children) {
-    const props = this.props;
+    const { props } = this;
     const baseProps = {
       mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
       visible: this.props.isOpen,
@@ -370,13 +356,13 @@ export class SubMenu extends React.Component {
       ],
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
-      id: this._menuId,
+      id: this.internalMenuId,
       manualRef: this.saveMenuInstance,
       itemIcon: props.itemIcon,
       expandIcon: props.expandIcon,
     };
 
-    const haveRendered = this.haveRendered;
+    const { haveRendered } = this;
     this.haveRendered = true;
 
     this.haveOpened =
@@ -411,7 +397,7 @@ export class SubMenu extends React.Component {
         component=""
         transitionAppear={transitionAppear}
       >
-        <SubPopupMenu {...baseProps} id={this._menuId}>
+        <SubPopupMenu {...baseProps} id={this.internalMenuId}>
           {children}
         </SubPopupMenu>
       </Animate>
@@ -420,7 +406,7 @@ export class SubMenu extends React.Component {
 
   render() {
     const props = { ...this.props };
-    const isOpen = props.isOpen;
+    const { isOpen } = props;
     const prefixCls = this.getPrefixCls();
     const isInlineMode = props.mode === 'inline';
     const className = classNames(prefixCls, `${prefixCls}-${props.mode}`, {
@@ -431,11 +417,12 @@ export class SubMenu extends React.Component {
       [this.getSelectedClassName()]: this.isChildrenSelected(),
     });
 
-    if (!this._menuId) {
+    if (!this.internalMenuId) {
       if (props.eventKey) {
-        this._menuId = `${props.eventKey}$Menu`;
+        this.internalMenuId = `${props.eventKey}$Menu`;
       } else {
-        this._menuId = `$__$${++guid}$Menu`;
+        guid += 1;
+        this.internalMenuId = `$__$${guid}$Menu`;
       }
     }
 
@@ -469,7 +456,7 @@ export class SubMenu extends React.Component {
     // since corresponding node cannot be found
     if (this.props.isOpen) {
       ariaOwns = {
-        'aria-owns': this._menuId,
+        'aria-owns': this.internal,
       };
     }
 

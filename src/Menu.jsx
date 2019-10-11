@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, create } from 'mini-store';
-import { default as SubPopupMenu, getActiveKey } from './SubPopupMenu';
+import SubPopupMenu, { getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
 
 class Menu extends React.Component {
@@ -21,6 +21,7 @@ class Menu extends React.Component {
     getPopupContainer: PropTypes.func,
     onClick: PropTypes.func,
     onSelect: PropTypes.func,
+    onOpenChange: PropTypes.func,
     onDeselect: PropTypes.func,
     onDestroy: PropTypes.func,
     openTransitionName: PropTypes.string,
@@ -92,10 +93,10 @@ class Menu extends React.Component {
   }
 
   onSelect = selectInfo => {
-    const props = this.props;
+    const { props } = this;
     if (props.selectable) {
       // root menu
-      let selectedKeys = this.store.getState().selectedKeys;
+      let { selectedKeys } = this.store.getState();
       const selectedKey = selectInfo.key;
       if (props.multiple) {
         selectedKeys = selectedKeys.concat([selectedKey]);
@@ -126,7 +127,7 @@ class Menu extends React.Component {
   };
 
   onOpenChange = event => {
-    const props = this.props;
+    const { props } = this;
     const openKeys = this.store.getState().openKeys.concat();
     let changed = false;
     const processSingle = e => {
@@ -160,7 +161,7 @@ class Menu extends React.Component {
   };
 
   onDeselect = selectInfo => {
-    const props = this.props;
+    const { props } = this;
     if (props.selectable) {
       const selectedKeys = this.store.getState().selectedKeys.concat();
       const selectedKey = selectInfo.key;
@@ -181,7 +182,7 @@ class Menu extends React.Component {
   };
 
   getOpenTransitionName = () => {
-    const props = this.props;
+    const { props } = this;
     let transitionName = props.openTransitionName;
     const animationName = props.openAnimation;
     if (!transitionName && typeof animationName === 'string') {

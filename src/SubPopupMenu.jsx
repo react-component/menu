@@ -79,7 +79,7 @@ export function saveRef(c) {
   }
 }
 
-export class SubPopupMenu extends React.Component {
+class SubPopupMenu extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func,
     onClick: PropTypes.func,
