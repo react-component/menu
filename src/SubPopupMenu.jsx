@@ -79,7 +79,7 @@ export function saveRef(c) {
   }
 }
 
-class SubPopupMenu extends React.Component {
+export class SubPopupMenu extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func,
     onClick: PropTypes.func,
@@ -179,7 +179,13 @@ class SubPopupMenu extends React.Component {
     }
   }
 
-  // all keyboard events callbacks run from here at first
+  /**
+   * all keyboard events callbacks run from here at first
+   *
+   * note:
+   *  This legacy code that `onKeyDown` is called by parent instead of dom self.
+   *  which need return code to check if this event is handled
+   */
   onKeyDown = (e, callback) => {
     const { keyCode } = e;
     let handled;
@@ -189,7 +195,7 @@ class SubPopupMenu extends React.Component {
       }
     });
     if (handled) {
-      return;
+      return 1;
     }
     let activeItem = null;
     if (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN) {
@@ -206,7 +212,10 @@ class SubPopupMenu extends React.Component {
       if (typeof callback === 'function') {
         callback(activeItem);
       }
+
+      return 1;
     }
+    return undefined;
   };
 
   onItemHover = e => {

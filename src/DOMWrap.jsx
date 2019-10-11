@@ -16,6 +16,7 @@ const FLOAT_PRECISION_ADJUST = 0.5;
 
 // Fix ssr
 if (canUseDOM) {
+  // eslint-disable-next-line global-require
   require('mutationobserver-shim');
 }
 
@@ -80,9 +81,13 @@ class DOMWrap extends React.Component {
     }
 
     // filter out all overflowed indicator placeholder
-    return [].slice.call(ul.children).filter(node => (
-        node.className.split(' ').indexOf(`${prefixCls}-overflowed-submenu`) < 0
-      ));
+    return [].slice
+      .call(ul.children)
+      .filter(
+        node =>
+          node.className.split(' ').indexOf(`${prefixCls}-overflowed-submenu`) <
+          0,
+      );
   };
 
   getOverflowedSubMenuItem = (
@@ -240,7 +245,7 @@ class DOMWrap extends React.Component {
       this.menuItemSizes.forEach(liWidth => {
         currentSumWidth += liWidth;
         if (currentSumWidth + this.overflowedIndicatorWidth <= width) {
-          lastVisibleIndex++;
+          lastVisibleIndex += 1;
         }
       });
     }
@@ -274,14 +279,14 @@ class DOMWrap extends React.Component {
             );
           }
           if (index === lastVisibleIndex + 1) {
-            this.overflowedItems = children
-              .slice(lastVisibleIndex + 1)
-              .map(c => React.cloneElement(
-                  c,
-                  // children[index].key will become '.$key' in clone by default,
-                  // we have to overwrite with the correct key explicitly
-                  { key: c.props.eventKey, mode: 'vertical-left' },
-                ));
+            this.overflowedItems = children.slice(lastVisibleIndex + 1).map(c =>
+              React.cloneElement(
+                c,
+                // children[index].key will become '.$key' in clone by default,
+                // we have to overwrite with the correct key explicitly
+                { key: c.props.eventKey, mode: 'vertical-left' },
+              ),
+            );
 
             overflowed = this.getOverflowedSubMenuItem(
               childNode.props.eventKey,

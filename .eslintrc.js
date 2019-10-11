@@ -4,6 +4,8 @@ module.exports = {
   ...base,
   rules: {
     ...base.rules,
+    'findDOMNode': 1,
+    'import/no-named-as-default': 0,
     'no-template-curly-in-string': 0,
     'prefer-promise-reject-errors': 0,
     'react/no-array-index-key': 0,

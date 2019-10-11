@@ -191,6 +191,10 @@ class Menu extends React.Component {
     return transitionName;
   };
 
+  setInnerMenu = node => {
+    this.innerMenu = node;
+  };
+
   updateMiniStore() {
     if ('selectedKeys' in this.props) {
       this.store.setState({
@@ -218,7 +222,7 @@ class Menu extends React.Component {
     };
     return (
       <Provider store={this.store}>
-        <SubPopupMenu {...props} ref={c => (this.innerMenu = c)}>
+        <SubPopupMenu {...props} ref={this.setInnerMenu}>
           {this.props.children}
         </SubPopupMenu>
       </Provider>

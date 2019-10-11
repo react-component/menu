@@ -86,9 +86,8 @@ export class SubMenu extends React.Component {
 
   constructor(props) {
     super(props);
-    const store = props.store;
-    const eventKey = props.eventKey;
-    const defaultActiveFirst = store.getState().defaultActiveFirst;
+    const { store, eventKey } = props;
+    const { defaultActiveFirst } = store.getState();
 
     this.isRootMenu = false;
 
@@ -141,6 +140,11 @@ export class SubMenu extends React.Component {
     this.props.onDestroy(key);
   };
 
+  /**
+   * note:
+   *  This legacy code that `onKeyDown` is called by parent instead of dom self.
+   *  which need return code to check if this event is handled
+   */
   onKeyDown = e => {
     const { keyCode } = e;
     const menu = this.menuInstance;
@@ -179,6 +183,8 @@ export class SubMenu extends React.Component {
     if (isOpen && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
       return menu.onKeyDown(e);
     }
+
+    return undefined;
   };
 
   onOpenChange = e => {
