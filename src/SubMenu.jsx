@@ -462,7 +462,7 @@ export class SubMenu extends React.Component {
     // since corresponding node cannot be found
     if (this.props.isOpen) {
       ariaOwns = {
-        'aria-owns': this.internal,
+        'aria-owns': this.internalMenuId,
       };
     }
 
