@@ -129,11 +129,13 @@ class CommonMenu extends React.Component {
     children: children1,
     overflowedIndicator: undefined,
   };
+
   toggleChildren = () => {
     this.setState({
       children: this.state.children === children1 ? children2 : children1,
     });
   };
+
   toggleOverflowedIndicator = () => {
     this.setState({
       overflowedIndicator:
@@ -142,6 +144,7 @@ class CommonMenu extends React.Component {
           : undefined,
     });
   };
+
   render() {
     const { triggerSubMenuAction } = this.props;
     const { children, overflowedIndicator } = this.state;

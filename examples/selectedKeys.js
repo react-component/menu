@@ -19,9 +19,9 @@ class Test extends React.Component {
     });
   };
 
-  onDeselect(info) {
+  onDeselect = info => {
     console.log('deselect ', info);
-  }
+  };
 
   onOpenChange = openKeys => {
     console.log('onOpenChange ', openKeys);
@@ -31,37 +31,42 @@ class Test extends React.Component {
   };
 
   onCheck = e => {
-    const value = e.target.value;
+    const { value } = e.target;
     if (e.target.checked) {
       this.setState(state => ({
         selectedKeys: state.selectedKeys.concat(value),
       }));
     } else {
-      const selectedKeys = this.state.selectedKeys.concat();
-      const index = selectedKeys.indexOf(value);
-      if (value !== -1) {
-        selectedKeys.splice(index, 1);
-      }
-      this.setState({
-        selectedKeys,
+      this.setState(({ selectedKeys }) => {
+        const newSelectedKeys = selectedKeys.concat();
+        const index = newSelectedKeys.indexOf(value);
+        if (value !== -1) {
+          newSelectedKeys.splice(index, 1);
+        }
+
+        return {
+          selectedKeys: newSelectedKeys,
+        };
       });
     }
   };
 
   onOpenCheck = e => {
-    const value = e.target.value;
+    const { value } = e.target;
     if (e.target.checked) {
       this.setState(state => ({
         openKeys: state.openKeys.concat(value),
       }));
     } else {
-      const openKeys = this.state.openKeys.concat();
-      const index = openKeys.indexOf(value);
-      if (value !== -1) {
-        openKeys.splice(index, 1);
-      }
-      this.setState({
-        openKeys,
+      this.setState(({ openKeys }) => {
+        const newOpenKeys = openKeys.concat();
+        const index = newOpenKeys.indexOf(value);
+        if (value !== -1) {
+          newOpenKeys.splice(index, 1);
+        }
+        return {
+          openKeys: newOpenKeys,
+        };
       });
     }
   };
@@ -101,8 +106,8 @@ class Test extends React.Component {
     }
     const allSelectedKeys = ['1-1', '1-2', '2-1', '2-2', '3'];
     const allOpenKeys = ['1', '2'];
-    const selectedKeys = this.state.selectedKeys;
-    const openKeys = this.state.openKeys;
+    const { selectedKeys } = this.state;
+    const { openKeys } = this.state;
 
     return (
       <div>
@@ -110,37 +115,33 @@ class Test extends React.Component {
 
         <p>
           selectedKeys: &nbsp;&nbsp;&nbsp;
-          {allSelectedKeys.map(k => {
-            return (
-              <label key={k}>
-                {k}
-                <input
-                  value={k}
-                  key={k}
-                  type="checkbox"
-                  onChange={this.onCheck}
-                  checked={selectedKeys.indexOf(k) !== -1}
-                />
-              </label>
-            );
-          })}
+          {allSelectedKeys.map(k => (
+            <label key={k}>
+              {k}
+              <input
+                value={k}
+                key={k}
+                type="checkbox"
+                onChange={this.onCheck}
+                checked={selectedKeys.indexOf(k) !== -1}
+              />
+            </label>
+          ))}
         </p>
 
         <p>
           openKeys: &nbsp;&nbsp;&nbsp;
-          {allOpenKeys.map(k => {
-            return (
-              <label key={k}>
-                {k}
-                <input
-                  value={k}
-                  type="checkbox"
-                  onChange={this.onOpenCheck}
-                  checked={openKeys.indexOf(k) !== -1}
-                />
-              </label>
-            );
-          })}
+          {allOpenKeys.map(k => (
+            <label key={k}>
+              {k}
+              <input
+                value={k}
+                type="checkbox"
+                onChange={this.onOpenCheck}
+                checked={openKeys.indexOf(k) !== -1}
+              />
+            </label>
+          ))}
         </p>
 
         <div style={{ width: 400 }}>{this.getMenu()}</div>

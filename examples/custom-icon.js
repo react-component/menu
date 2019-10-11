@@ -93,8 +93,7 @@ class Demo extends React.Component {
     console.log(info);
   };
 
-  renderNestSubMenu = (props = {}) => {
-    return (
+  renderNestSubMenu = (props = {}) => (
       <SubMenu
         title={<span>offset sub menu 2</span>}
         key="4"
@@ -120,10 +119,8 @@ class Demo extends React.Component {
         </SubMenu>
       </SubMenu>
     );
-  };
 
-  renderCommonMenu = (props = {}) => {
-    return (
+  renderCommonMenu = (props = {}) => (
       <Menu
         onClick={this.handleClick}
         onOpenChange={this.onOpenChange}
@@ -140,7 +137,6 @@ class Demo extends React.Component {
         <MenuItem key="5">outer3</MenuItem>
       </Menu>
     );
-  };
 
   render() {
     const verticalMenu = this.renderCommonMenu({
