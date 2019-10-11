@@ -22,9 +22,12 @@ describe('MenuItem', () => {
       const wrapper = mount(
         <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
           <MenuItem key="1">1</MenuItem>
-        </Menu>
+        </Menu>,
       );
-      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      const menuItemText = wrapper
+        .find('.rc-menu-item')
+        .first()
+        .text();
       expect(menuItemText).toEqual(`1${menuItemIconText}`);
     });
 
@@ -32,11 +35,16 @@ describe('MenuItem', () => {
       const targetText = 'target';
       const wrapper = mount(
         <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
-          <MenuItem key="1" itemIcon={() => <span>{targetText}</span>}>1</MenuItem>
+          <MenuItem key="1" itemIcon={() => <span>{targetText}</span>}>
+            1
+          </MenuItem>
           <MenuItem key="2">2</MenuItem>
-        </Menu>
+        </Menu>,
       );
-      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      const menuItemText = wrapper
+        .find('.rc-menu-item')
+        .first()
+        .text();
       expect(menuItemText).toEqual(`1${targetText}`);
     });
   });
@@ -46,13 +54,18 @@ describe('MenuItem', () => {
       const wrapper = mount(
         <Menu activeKey="1">
           <MenuItem key="1">1</MenuItem>
-          <MenuItem disabled/>
+          <MenuItem disabled />
           <MenuItem key="2">2</MenuItem>
-        </Menu>
+        </Menu>,
       );
 
       wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
-      expect(wrapper.find('MenuItem').at(1).props().active).toBe(false);
+      expect(
+        wrapper
+          .find('MenuItem')
+          .at(1)
+          .props().active,
+      ).toBe(false);
     });
 
     it('not fires select event when selected', () => {
@@ -62,7 +75,7 @@ describe('MenuItem', () => {
           <MenuItem disabled onSelect={handleSelect}>
             <span className="xx">Item content</span>
           </MenuItem>
-        </Menu>
+        </Menu>,
       );
 
       wrapper.find('.xx').simulate('click');
@@ -90,7 +103,10 @@ describe('MenuItem', () => {
           onMouseEnter={onMouseEnter}
           onItemHover={onItemHover}
           onMouseLeave={onMouseLeave}
-        >1</NakedMenuItem>);
+        >
+          1
+        </NakedMenuItem>,
+      );
       instance = wrapper.instance();
     });
 
@@ -128,24 +144,39 @@ describe('MenuItem', () => {
       };
       const wrapper = mount(
         <Menu mode="inline" activeKey="1">
-          <MenuItem key="1" {...restProps}>1</MenuItem>
+          <MenuItem key="1" {...restProps}>
+            1
+          </MenuItem>
           <SubMenu {...restProps}>
-            <MenuItem key="2" {...restProps}>3</MenuItem>
+            <MenuItem key="2" {...restProps}>
+              3
+            </MenuItem>
           </SubMenu>
           <MenuItemGroup {...restProps}>
-            <MenuItem key="3" {...restProps}>4</MenuItem>
+            <MenuItem key="3" {...restProps}>
+              4
+            </MenuItem>
           </MenuItemGroup>
-        </Menu>
+        </Menu>,
       );
 
       expect(wrapper.render()).toMatchSnapshot();
-      wrapper.find('MenuItem').at(0).simulate('click');
+      wrapper
+        .find('MenuItem')
+        .at(0)
+        .simulate('click');
       expect(onClick).toHaveBeenCalledTimes(1);
 
-      wrapper.find('SubMenu').at(0).simulate('click');
+      wrapper
+        .find('SubMenu')
+        .at(0)
+        .simulate('click');
       expect(onClick).toHaveBeenCalledTimes(1);
 
-      wrapper.find('MenuItemGroup').at(0).simulate('click');
+      wrapper
+        .find('MenuItemGroup')
+        .at(0)
+        .simulate('click');
       expect(onClick).toHaveBeenCalledTimes(1);
     });
   });
@@ -164,13 +195,17 @@ describe('MenuItem', () => {
     });
 
     it('should set role to listitem', () => {
-      const wrapper = shallow(<NakedMenuItem role="listitem">test</NakedMenuItem>);
+      const wrapper = shallow(
+        <NakedMenuItem role="listitem">test</NakedMenuItem>,
+      );
 
       expect(wrapper.render()).toMatchSnapshot();
     });
 
     it('should set role to option', () => {
-      const wrapper = shallow(<NakedMenuItem role="option">test</NakedMenuItem>);
+      const wrapper = shallow(
+        <NakedMenuItem role="option">test</NakedMenuItem>,
+      );
 
       expect(wrapper.render()).toMatchSnapshot();
     });

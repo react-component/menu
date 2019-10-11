@@ -15,10 +15,10 @@ class MenuItemGroup extends React.Component {
     disabled: true,
   };
 
-  renderInnerMenuItem = (item) => {
+  renderInnerMenuItem = item => {
     const { renderMenuItem, index } = this.props;
     return renderMenuItem(item, index, this.props.subMenuKey);
-  }
+  };
 
   render() {
     const { ...props } = this.props;

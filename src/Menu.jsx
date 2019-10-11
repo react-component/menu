@@ -11,7 +11,13 @@ class Menu extends React.Component {
     selectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
     openKeys: PropTypes.arrayOf(PropTypes.string),
-    mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
+    mode: PropTypes.oneOf([
+      'horizontal',
+      'vertical',
+      'vertical-left',
+      'vertical-right',
+      'inline',
+    ]),
     getPopupContainer: PropTypes.func,
     onClick: PropTypes.func,
     onSelect: PropTypes.func,
@@ -85,7 +91,7 @@ class Menu extends React.Component {
     this.updateMiniStore();
   }
 
-  onSelect = (selectInfo) => {
+  onSelect = selectInfo => {
     const props = this.props;
     if (props.selectable) {
       // root menu
@@ -106,24 +112,24 @@ class Menu extends React.Component {
         selectedKeys,
       });
     }
-  }
+  };
 
-  onClick = (e) => {
+  onClick = e => {
     this.props.onClick(e);
-  }
+  };
 
   // onKeyDown needs to be exposed as a instance method
   // e.g., in rc-select, we need to navigate menu item while
   // current active item is rc-select input box rather than the menu itself
   onKeyDown = (e, callback) => {
     this.innerMenu.getWrappedInstance().onKeyDown(e, callback);
-  }
+  };
 
-  onOpenChange = (event) => {
+  onOpenChange = event => {
     const props = this.props;
     const openKeys = this.store.getState().openKeys.concat();
     let changed = false;
-    const processSingle = (e) => {
+    const processSingle = e => {
       let oneChanged = false;
       if (e.open) {
         oneChanged = openKeys.indexOf(e.key) === -1;
@@ -151,9 +157,9 @@ class Menu extends React.Component {
       }
       props.onOpenChange(openKeys);
     }
-  }
+  };
 
-  onDeselect = (selectInfo) => {
+  onDeselect = selectInfo => {
     const props = this.props;
     if (props.selectable) {
       const selectedKeys = this.store.getState().selectedKeys.concat();
@@ -172,7 +178,7 @@ class Menu extends React.Component {
         selectedKeys,
       });
     }
-  }
+  };
 
   getOpenTransitionName = () => {
     const props = this.props;
@@ -182,7 +188,7 @@ class Menu extends React.Component {
       transitionName = `${props.prefixCls}-open-${animationName}`;
     }
     return transitionName;
-  }
+  };
 
   updateMiniStore() {
     if ('selectedKeys' in this.props) {
@@ -211,7 +217,9 @@ class Menu extends React.Component {
     };
     return (
       <Provider store={this.store}>
-        <SubPopupMenu {...props} ref={c => this.innerMenu = c}>{this.props.children}</SubPopupMenu>
+        <SubPopupMenu {...props} ref={c => (this.innerMenu = c)}>
+          {this.props.children}
+        </SubPopupMenu>
       </Provider>
     );
   }

@@ -13,20 +13,18 @@ describe('Menu', () => {
   describe('should render', () => {
     function createMenu(props) {
       return (
-        <Menu
-          className="myMenu"
-          openAnimation="fade"
-          {...props}
-        >
+        <Menu className="myMenu" openAnimation="fade" {...props}>
           <MenuItemGroup title="g1">
             <MenuItem key="1">1</MenuItem>
-            <Divider/>
+            <Divider />
             <MenuItem key="2">2</MenuItem>
           </MenuItemGroup>
           <MenuItem key="3">3</MenuItem>
           <MenuItemGroup title="g2">
             <MenuItem key="4">4</MenuItem>
-            <MenuItem key="5" disabled>5</MenuItem>
+            <MenuItem key="5" disabled>
+              5
+            </MenuItem>
           </MenuItemGroup>
           <SubMenu title="submenu">
             <MenuItem key="6">6</MenuItem>
@@ -35,7 +33,7 @@ describe('Menu', () => {
       );
     }
 
-    ['vertical', 'horizontal', 'inline'].forEach((mode) => {
+    ['vertical', 'horizontal', 'inline'].forEach(mode => {
       it(`${mode} menu correctly`, () => {
         const wrapper = render(createMenu({ mode }));
         expect(renderToJson(wrapper)).toMatchSnapshot();
@@ -50,7 +48,13 @@ describe('Menu', () => {
       });
 
       it(`${mode} menu that has a submenu with undefined children without error`, () => {
-        expect(() => render(<Menu mode={mode}><SubMenu /></Menu>)).not.toThrow();
+        expect(() =>
+          render(
+            <Menu mode={mode}>
+              <SubMenu />
+            </Menu>,
+          ),
+        ).not.toThrow();
       });
     });
   });
@@ -58,14 +62,16 @@ describe('Menu', () => {
   describe('render role listbox', () => {
     function createMenu() {
       return (
-        <Menu
-          className="myMenu"
-          openAnimation="fade"
-          role="listbox"
-        >
-          <MenuItem key="1" role="option">1</MenuItem>
-          <MenuItem key="2" role="option">2</MenuItem>
-          <MenuItem key="3" role="option">3</MenuItem>
+        <Menu className="myMenu" openAnimation="fade" role="listbox">
+          <MenuItem key="1" role="option">
+            1
+          </MenuItem>
+          <MenuItem key="2" role="option">
+            2
+          </MenuItem>
+          <MenuItem key="3" role="option">
+            3
+          </MenuItem>
         </Menu>
       );
     }
@@ -81,10 +87,20 @@ describe('Menu', () => {
       <Menu activeKey="1">
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    expect(wrapper.find('MenuItem').first().props().active).toBe(true);
-    expect(wrapper.find('MenuItem').last().props().active).toBe(false);
+    expect(
+      wrapper
+        .find('MenuItem')
+        .first()
+        .props().active,
+    ).toBe(true);
+    expect(
+      wrapper
+        .find('MenuItem')
+        .last()
+        .props().active,
+    ).toBe(false);
   });
 
   it('active first item', () => {
@@ -92,9 +108,14 @@ describe('Menu', () => {
       <Menu defaultActiveFirst>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    expect(wrapper.find('MenuItem').first().props().active).toBe(true);
+    expect(
+      wrapper
+        .find('MenuItem')
+        .first()
+        .props().active,
+    ).toBe(true);
   });
 
   it('should render none menu item children', () => {
@@ -110,7 +131,7 @@ describe('Menu', () => {
           {12345}
           <div />
           <input />
-        </Menu>
+        </Menu>,
       );
     }).not.toThrow();
   });
@@ -120,10 +141,16 @@ describe('Menu', () => {
       <Menu multiple>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    wrapper.find('MenuItem').first().simulate('click');
-    wrapper.find('MenuItem').last().simulate('click');
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click');
+    wrapper
+      .find('MenuItem')
+      .last()
+      .simulate('click');
 
     expect(wrapper.find('.rc-menu-item-selected').length).toBe(2);
   });
@@ -133,12 +160,22 @@ describe('Menu', () => {
       <Menu selectedKeys={['1']}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    expect(wrapper.find('li').first().props().className).toContain('-selected');
+    expect(
+      wrapper
+        .find('li')
+        .first()
+        .props().className,
+    ).toContain('-selected');
     wrapper.setProps({ selectedKeys: ['2'] });
     wrapper.update();
-    expect(wrapper.find('li').last().props().className).toContain('-selected');
+    expect(
+      wrapper
+        .find('li')
+        .last()
+        .props().className,
+    ).toContain('-selected');
   });
 
   it('select default item', () => {
@@ -146,9 +183,14 @@ describe('Menu', () => {
       <Menu defaultSelectedKeys={['1']}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    expect(wrapper.find('li').first().props().className).toContain('-selected');
+    expect(
+      wrapper
+        .find('li')
+        .first()
+        .props().className,
+    ).toContain('-selected');
   });
 
   it('can be controlled by openKeys', () => {
@@ -160,11 +202,21 @@ describe('Menu', () => {
         <MenuItemGroup key="g2">
           <MenuItem key="2">2</MenuItem>
         </MenuItemGroup>
-      </Menu>
+      </Menu>,
     );
-    expect(wrapper.find('ul').first().props().className).not.toContain('-hidden');
+    expect(
+      wrapper
+        .find('ul')
+        .first()
+        .props().className,
+    ).not.toContain('-hidden');
     wrapper.setProps({ openKeys: ['g2'] });
-    expect(wrapper.find('ul').last().props().className).not.toContain('-hidden');
+    expect(
+      wrapper
+        .find('ul')
+        .last()
+        .props().className,
+    ).not.toContain('-hidden');
   });
 
   it('open default submenu', () => {
@@ -176,9 +228,14 @@ describe('Menu', () => {
         <MenuItemGroup key="g2">
           <MenuItem key="2">2</MenuItem>
         </MenuItemGroup>
-      </Menu>
+      </Menu>,
     );
-    expect(wrapper.find('ul').first().props().className).not.toContain('-hidden');
+    expect(
+      wrapper
+        .find('ul')
+        .first()
+        .props().className,
+    ).not.toContain('-hidden');
   });
 
   it('fires select event', () => {
@@ -187,9 +244,12 @@ describe('Menu', () => {
       <Menu onSelect={handleSelect}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    wrapper.find('MenuItem').first().simulate('click');
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click');
     expect(handleSelect.mock.calls[0][0].key).toBe('1');
   });
 
@@ -199,9 +259,12 @@ describe('Menu', () => {
       <Menu onClick={handleClick}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    wrapper.find('MenuItem').first().simulate('click');
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click');
     expect(handleClick.mock.calls[0][0].key).toBe('1');
   });
 
@@ -211,9 +274,13 @@ describe('Menu', () => {
       <Menu multiple onDeselect={handleDeselect}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
-    wrapper.find('MenuItem').first().simulate('click').simulate('click');
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click')
+      .simulate('click');
     expect(handleDeselect.mock.calls[0][0].key).toBe('1');
   });
 
@@ -223,7 +290,7 @@ describe('Menu', () => {
         <MenuItem key="item1">item</MenuItem>
         <MenuItem disabled>disabled</MenuItem>
         <MenuItem key="item2">item2</MenuItem>
-      </Menu>
+      </Menu>,
     );
     let menuItem = wrapper.find('MenuItem').last();
     menuItem.simulate('mouseEnter');
@@ -236,25 +303,30 @@ describe('Menu', () => {
       <Menu activeKey="1">
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
-      </Menu>
+      </Menu>,
     );
 
     wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
-    expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
+    expect(
+      wrapper
+        .find('MenuItem')
+        .at(1)
+        .props().active,
+    ).toBe(true);
   });
 
   it('keydown works when children change', () => {
     class App extends React.Component {
       state = {
         items: [1, 2, 3],
-      }
+      };
 
       render() {
         return (
           <Menu>
-            {this.state.items.map(i =>
+            {this.state.items.map(i => (
               <MenuItem key={i}>{i}</MenuItem>
-            )}
+            ))}
           </Menu>
         );
       }
@@ -265,24 +337,34 @@ describe('Menu', () => {
     wrapper.setState({ items: [0, 1] });
 
     wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
-    expect(wrapper.find('MenuItem').at(0).props().active).toBe(true);
+    expect(
+      wrapper
+        .find('MenuItem')
+        .at(0)
+        .props().active,
+    ).toBe(true);
 
     wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
-    expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
+    expect(
+      wrapper
+        .find('MenuItem')
+        .at(1)
+        .props().active,
+    ).toBe(true);
   });
 
   it('active first item when children changes', () => {
     class App extends React.Component {
       state = {
         items: ['foo'],
-      }
+      };
 
       render() {
         return (
           <Menu defaultActiveFirst activeKey="" selectedKeys={['foo']}>
-            {this.state.items.map(item =>
+            {this.state.items.map(item => (
               <MenuItem key={item}>{item}</MenuItem>
-            )}
+            ))}
           </Menu>
         );
       }
@@ -294,7 +376,10 @@ describe('Menu', () => {
     wrapper.update();
 
     expect(
-      wrapper.find('li').first().hasClass('rc-menu-item-active')
+      wrapper
+        .find('li')
+        .first()
+        .hasClass('rc-menu-item-active'),
     ).toBe(true);
   });
 
@@ -316,11 +401,12 @@ describe('Menu', () => {
         <SubMenu title="submenu">
           <MenuItem>menuItem</MenuItem>
         </SubMenu>
-      </Menu>
+      </Menu>,
     );
 
-    expect(wrapper.find('Trigger').prop('builtinPlacements').leftTop)
-      .toEqual(builtinPlacements.leftTop);
+    expect(wrapper.find('Trigger').prop('builtinPlacements').leftTop).toEqual(
+      builtinPlacements.leftTop,
+    );
   });
 
   describe('submenu mode', () => {
@@ -330,10 +416,15 @@ describe('Menu', () => {
           <SubMenu title="submenu">
             <MenuItem>menuItem</MenuItem>
           </SubMenu>
-        </Menu>
+        </Menu>,
       );
 
-      expect(wrapper.find('SubMenu').first().prop('mode')).toEqual('horizontal');
+      expect(
+        wrapper
+          .find('SubMenu')
+          .first()
+          .prop('mode'),
+      ).toEqual('horizontal');
     });
 
     it('should be able to customize SubMenu mode', () => {
@@ -342,10 +433,15 @@ describe('Menu', () => {
           <SubMenu title="submenu" mode="vertical-right">
             <MenuItem>menuItem</MenuItem>
           </SubMenu>
-        </Menu>
+        </Menu>,
       );
 
-      expect(wrapper.find('SubMenu').first().prop('mode')).toEqual('vertical-right');
+      expect(
+        wrapper
+          .find('SubMenu')
+          .first()
+          .prop('mode'),
+      ).toEqual('vertical-right');
     });
   });
 
@@ -357,11 +453,15 @@ describe('Menu', () => {
           mode="horizontal"
           className="myMenu"
           openAnimation="fade"
-          overflowedIndicator={<div className="test-overflow-indicator">...</div>}
+          overflowedIndicator={
+            <div className="test-overflow-indicator">...</div>
+          }
           {...props}
         >
           <MenuItem key="1">1</MenuItem>
-          <MenuItem key="2" disabled>2</MenuItem>
+          <MenuItem key="2" disabled>
+            2
+          </MenuItem>
           <MenuItem key="3">3</MenuItem>
           <MenuItem key="4">4</MenuItem>
         </Menu>
@@ -382,20 +482,50 @@ describe('Menu', () => {
       wrapper = mount(createMenu());
 
       // overflow indicator placeholder
-      expect(wrapper.find(overflowIndicatorSelector).at(4).prop('style')).toEqual({
+      expect(
+        wrapper
+          .find(overflowIndicatorSelector)
+          .at(4)
+          .prop('style'),
+      ).toEqual({
         visibility: 'hidden',
         position: 'absolute',
       });
 
       // last overflow indicator should be hidden
-      expect(wrapper.find(overflowIndicatorSelector).at(3).prop('style')).toEqual({
+      expect(
+        wrapper
+          .find(overflowIndicatorSelector)
+          .at(3)
+          .prop('style'),
+      ).toEqual({
         display: 'none',
       });
 
-      expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
-      expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-      expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({});
-      expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({});
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(0)
+          .prop('style'),
+      ).toEqual({});
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(1)
+          .prop('style'),
+      ).toEqual({});
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(2)
+          .prop('style'),
+      ).toEqual({});
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(3)
+          .prop('style'),
+      ).toEqual({});
     });
 
     it('should include overflow indicator when having not enough width', () => {
@@ -409,13 +539,43 @@ describe('Menu', () => {
       };
       wrapper = mount(createMenu());
 
-      expect(wrapper.find('MenuItem li').at(0).prop('style')).toEqual({});
-      expect(wrapper.find('MenuItem li').at(1).prop('style')).toEqual({});
-      expect(wrapper.find('MenuItem li').at(2).prop('style')).toEqual({ display: 'none' });
-      expect(wrapper.find('MenuItem li').at(3).prop('style')).toEqual({ display: 'none' });
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(0)
+          .prop('style'),
+      ).toEqual({});
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(1)
+          .prop('style'),
+      ).toEqual({});
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(2)
+          .prop('style'),
+      ).toEqual({ display: 'none' });
+      expect(
+        wrapper
+          .find('MenuItem li')
+          .at(3)
+          .prop('style'),
+      ).toEqual({ display: 'none' });
 
-      expect(wrapper.find(overflowIndicatorSelector).at(2).prop('style')).toEqual({});
-      expect(wrapper.find(overflowIndicatorSelector).at(3).prop('style')).toEqual({
+      expect(
+        wrapper
+          .find(overflowIndicatorSelector)
+          .at(2)
+          .prop('style'),
+      ).toEqual({});
+      expect(
+        wrapper
+          .find(overflowIndicatorSelector)
+          .at(3)
+          .prop('style'),
+      ).toEqual({
         display: 'none',
       });
     });
@@ -435,16 +595,31 @@ describe('Menu', () => {
         wrapper = mount(createMenu());
 
         expect(wrapper.find(overflowIndicatorSelector).length).toEqual(5);
-        expect(wrapper.find(overflowIndicatorSelector).at(1).prop('style')).toEqual({
+        expect(
+          wrapper
+            .find(overflowIndicatorSelector)
+            .at(1)
+            .prop('style'),
+        ).toEqual({
           display: 'none',
         });
-        expect(wrapper.find(overflowIndicatorSelector).at(2).prop('style')).toEqual({});
+        expect(
+          wrapper
+            .find(overflowIndicatorSelector)
+            .at(2)
+            .prop('style'),
+        ).toEqual({});
 
         wrapper.setProps({ children: <MenuItem>child</MenuItem> });
         wrapper.update();
 
         expect(wrapper.find(overflowIndicatorSelector).length).toEqual(2);
-        expect(wrapper.find(overflowIndicatorSelector).at(0).prop('style')).toEqual({
+        expect(
+          wrapper
+            .find(overflowIndicatorSelector)
+            .at(0)
+            .prop('style'),
+        ).toEqual({
           display: 'none',
         });
       });

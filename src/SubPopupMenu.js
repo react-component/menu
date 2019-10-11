@@ -4,7 +4,13 @@ import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import classNames from 'classnames';
-import { getKeyFromChildrenIndex, loopMenuItem, noop, menuAllProps, isMobileDevice } from './util';
+import {
+  getKeyFromChildrenIndex,
+  loopMenuItem,
+  noop,
+  menuAllProps,
+  isMobileDevice,
+} from './util';
 import DOMWrap from './DOMWrap';
 
 function allDisabled(arr) {
@@ -102,7 +108,13 @@ export class SubPopupMenu extends React.Component {
     defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
     defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
     level: PropTypes.number,
-    mode: PropTypes.oneOf(['horizontal', 'vertical', 'vertical-left', 'vertical-right', 'inline']),
+    mode: PropTypes.oneOf([
+      'horizontal',
+      'vertical',
+      'vertical-left',
+      'vertical-right',
+      'inline',
+    ]),
     triggerSubMenuAction: PropTypes.oneOf(['click', 'hover']),
     inlineIndent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     manualRef: PropTypes.func,
@@ -148,8 +160,10 @@ export class SubPopupMenu extends React.Component {
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    const originalActiveKey = 'activeKey' in props ? props.activeKey :
-      props.store.getState().activeKey[getEventKey(props)];
+    const originalActiveKey =
+      'activeKey' in props
+        ? props.activeKey
+        : props.store.getState().activeKey[getEventKey(props)];
     const activeKey = getActiveKey(props, originalActiveKey);
     if (activeKey !== originalActiveKey) {
       updateActiveKey(props.store, getEventKey(props), activeKey);
@@ -167,7 +181,7 @@ export class SubPopupMenu extends React.Component {
   onKeyDown = (e, callback) => {
     const keyCode = e.keyCode;
     let handled;
-    this.getFlatInstanceArray().forEach((obj) => {
+    this.getFlatInstanceArray().forEach(obj => {
       if (obj && obj.props.active && obj.onKeyDown) {
         handled = obj.onKeyDown(e);
       }
@@ -181,7 +195,11 @@ export class SubPopupMenu extends React.Component {
     }
     if (activeItem) {
       e.preventDefault();
-      updateActiveKey(this.props.store, getEventKey(this.props), activeItem.props.eventKey);
+      updateActiveKey(
+        this.props.store,
+        getEventKey(this.props),
+        activeItem.props.eventKey,
+      );
 
       if (typeof callback === 'function') {
         callback(activeItem);
@@ -191,28 +209,32 @@ export class SubPopupMenu extends React.Component {
     }
   };
 
-  onItemHover = (e) => {
+  onItemHover = e => {
     const { key, hover } = e;
-    updateActiveKey(this.props.store, getEventKey(this.props), hover ? key : null);
+    updateActiveKey(
+      this.props.store,
+      getEventKey(this.props),
+      hover ? key : null,
+    );
   };
 
-  onDeselect = (selectInfo) => {
+  onDeselect = selectInfo => {
     this.props.onDeselect(selectInfo);
   };
 
-  onSelect = (selectInfo) => {
+  onSelect = selectInfo => {
     this.props.onSelect(selectInfo);
   };
 
-  onClick = (e) => {
+  onClick = e => {
     this.props.onClick(e);
   };
 
-  onOpenChange = (e) => {
+  onOpenChange = e => {
     this.props.onOpenChange(e);
   };
 
-  onDestroy = (key) => {
+  onDestroy = key => {
     /* istanbul ignore next */
     this.props.onDestroy(key);
   };
@@ -225,9 +247,11 @@ export class SubPopupMenu extends React.Component {
     return this.props.openTransitionName;
   };
 
-  step = (direction) => {
+  step = direction => {
     let children = this.getFlatInstanceArray();
-    const activeKey = this.props.store.getState().activeKey[getEventKey(this.props)];
+    const activeKey = this.props.store.getState().activeKey[
+      getEventKey(this.props)
+    ];
     const len = children.length;
     if (!len) {
       return null;
@@ -245,8 +269,8 @@ export class SubPopupMenu extends React.Component {
       return true;
     });
     if (
-      !this.props.defaultActiveFirst && activeIndex !== -1
-      &&
+      !this.props.defaultActiveFirst &&
+      activeIndex !== -1 &&
       allDisabled(children.slice(activeIndex, len - 1))
     ) {
       return undefined;
@@ -285,12 +309,13 @@ export class SubPopupMenu extends React.Component {
       index: i,
       parentMenu: props.parentMenu,
       // customized ref function, need to be invoked manually in child's componentDidMount
-      manualRef: childProps.disabled ? undefined :
-        createChainedFunction(child.ref, saveRef.bind(this)),
+      manualRef: childProps.disabled
+        ? undefined
+        : createChainedFunction(child.ref, saveRef.bind(this)),
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
-      onClick: (e) => {
+      onClick: e => {
         (childProps.onClick || noop)(e);
         this.onClick(e);
       },
@@ -350,7 +375,15 @@ export class SubPopupMenu extends React.Component {
       domProps.tabIndex = '0';
       domProps.onKeyDown = this.onKeyDown;
     }
-    const { prefixCls, eventKey, visible, level, mode, overflowedIndicator, theme } = props;
+    const {
+      prefixCls,
+      eventKey,
+      visible,
+      level,
+      mode,
+      overflowedIndicator,
+      theme,
+    } = props;
     menuAllProps.forEach(key => delete props[key]);
 
     // Otherwise, the propagated click event will trigger another onClick
@@ -369,9 +402,8 @@ export class SubPopupMenu extends React.Component {
         overflowedIndicator={overflowedIndicator}
         {...domProps}
       >
-        {React.Children.map(
-          props.children,
-          (c, i) => this.renderMenuItem(c, i, eventKey || '0-menu-'),
+        {React.Children.map(props.children, (c, i) =>
+          this.renderMenuItem(c, i, eventKey || '0-menu-'),
         )}
       </DOMWrap>
     );

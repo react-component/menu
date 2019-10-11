@@ -1,8 +1,7 @@
 import React from 'react';
 const isMobile = require('ismobilejs');
 
-export function noop() {
-}
+export function noop() {}
 
 export function getKeyFromChildrenIndex(child, menuEventKey, index) {
   const prefix = menuEventKey || '';
@@ -15,10 +14,10 @@ export function getMenuIdFromSubMenuEventKey(eventKey) {
 
 export function loopMenuItem(children, cb) {
   let index = -1;
-  React.Children.forEach(children, (c) => {
+  React.Children.forEach(children, c => {
     index++;
     if (c && c.type && c.type.isMenuItemGroup) {
-      React.Children.forEach(c.props.children, (c2) => {
+      React.Children.forEach(c.props.children, c2 => {
         index++;
         cb(c2, index);
       });
@@ -33,12 +32,16 @@ export function loopMenuItemRecursively(children, keys, ret) {
   if (!children || ret.find) {
     return;
   }
-  React.Children.forEach(children, (c) => {
+  React.Children.forEach(children, c => {
     if (c) {
       const construct = c.type;
-      if (!construct
-        ||
-        !(construct.isSubMenu || construct.isMenuItem || construct.isMenuItemGroup)
+      if (
+        !construct ||
+        !(
+          construct.isSubMenu ||
+          construct.isMenuItem ||
+          construct.isMenuItemGroup
+        )
       ) {
         return;
       }
@@ -110,14 +113,14 @@ export const menuAllProps = [
   'expandIcon',
 ];
 
-
 // ref: https://github.com/ant-design/ant-design/issues/14007
 // ref: https://bugs.chromium.org/p/chromium/issues/detail?id=360889
 // getBoundingClientRect return the full precision value, which is
 // not the same behavior as on chrome. Set the precision to 6 to
 // unify their behavior
-export const getWidth = (elem) => {
-  let width = elem &&
+export const getWidth = elem => {
+  let width =
+    elem &&
     typeof elem.getBoundingClientRect === 'function' &&
     elem.getBoundingClientRect().width;
   if (width) {

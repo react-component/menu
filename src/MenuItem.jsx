@@ -53,7 +53,11 @@ export class MenuItem extends React.Component {
     const { active, parentMenu, eventKey } = this.props;
     // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
     // https://github.com/ant-design/ant-design/issues/16181
-    if (!prevProps.active && active && (!parentMenu || !parentMenu[`scrolled-${eventKey}`])) {
+    if (
+      !prevProps.active &&
+      active &&
+      (!parentMenu || !parentMenu[`scrolled-${eventKey}`])
+    ) {
       if (this.node) {
         scrollIntoView(this.node, ReactDOM.findDOMNode(parentMenu), {
           onlyScrollIfNeeded: true,
@@ -106,7 +110,14 @@ export class MenuItem extends React.Component {
   };
 
   onClick = e => {
-    const { eventKey, multiple, onClick, onSelect, onDeselect, isSelected } = this.props;
+    const {
+      eventKey,
+      multiple,
+      onClick,
+      onSelect,
+      onDeselect,
+      isSelected,
+    } = this.props;
     const info = {
       key: eventKey,
       keyPath: [eventKey],
@@ -200,7 +211,13 @@ export class MenuItem extends React.Component {
       icon = React.createElement(this.props.itemIcon, this.props);
     }
     return (
-      <li {...props} {...attrs} {...mouseEvent} style={style} ref={this.saveNode}>
+      <li
+        {...props}
+        {...attrs}
+        {...mouseEvent}
+        style={style}
+        ref={this.saveNode}
+      >
         {props.children}
         {icon}
       </li>
@@ -210,9 +227,11 @@ export class MenuItem extends React.Component {
 
 MenuItem.isMenuItem = true;
 
-const connected = connect(({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
-  active: activeKey[subMenuKey] === eventKey,
-  isSelected: selectedKeys.indexOf(eventKey) !== -1,
-}))(MenuItem);
+const connected = connect(
+  ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+    active: activeKey[subMenuKey] === eventKey,
+    isSelected: selectedKeys.indexOf(eventKey) !== -1,
+  }),
+)(MenuItem);
 
 export default connected;
