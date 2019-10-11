@@ -1,5 +1,5 @@
 import React from 'react';
-import isMobile from 'ismobilejs';
+import isMobile from './utils/isMobile';
 
 export function noop() {}
 
