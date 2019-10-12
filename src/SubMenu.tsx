@@ -443,6 +443,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     const mergedMotion: MotionType = {
       motionAppear:
         haveRendered || !baseProps.visible || baseProps.mode !== 'inline',
+      leavedClassName: `${props.rootPrefixCls}-hidden`,
       ...props.motion,
     };
 

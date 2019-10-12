@@ -190,7 +190,11 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
   }
 
   shouldComponentUpdate(nextProps: SubPopupMenuProps) {
-    return this.props.visible || nextProps.visible;
+    return (
+      this.props.visible ||
+      nextProps.visible ||
+      this.props.className !== nextProps.className
+    );
   }
 
   componentDidUpdate(prevProps: SubPopupMenuProps) {

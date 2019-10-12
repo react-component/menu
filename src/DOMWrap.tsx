@@ -362,9 +362,9 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       ...rest
     } = this.props;
 
-    if (!visible) {
-      rest.className += ` ${hiddenClassName}`;
-    }
+    // if (!visible) {
+    //   rest.className += ` ${hiddenClassName}`;
+    // }
 
     const Tag = tag as any;
 
