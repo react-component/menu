@@ -3,31 +3,34 @@ export type RenderIconType =
   | ((props: any) => React.ReactNode);
 
 export interface MenuInfo {
-  key: string;
-  keyPath: string[];
+  key: React.Key;
+  keyPath: React.Key[];
   item: React.ReactInstance;
   domEvent: React.MouseEvent<HTMLElement>;
 }
 export interface SelectInfo extends MenuInfo {
-  selectedKeys?: string[];
+  selectedKeys?: React.Key[];
 }
 
 export type SelectEventHandler = (info: SelectInfo) => void;
 
-export type HoverEventHandler = (info: { key: string; hover: boolean }) => void;
+export type HoverEventHandler = (info: {
+  key: React.Key;
+  hover: boolean;
+}) => void;
 
 export type MenuHoverEventHandler = (info: {
-  key: string;
+  key: React.Key;
   domEvent: React.MouseEvent<HTMLElement>;
 }) => void;
 
 export type MenuClickEventHandler = (info: MenuInfo) => void;
 
-export type DestroyEventHandler = (key: string) => void;
+export type DestroyEventHandler = (key: React.Key) => void;
 
 export type OpenEventHandler = (
   keys:
-    | string[]
+    | React.Key[]
     | {
         key: React.Key;
         item: React.ReactInstance;

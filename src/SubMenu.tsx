@@ -28,6 +28,7 @@ import {
   OpenAnimation,
   BuiltinPlacements,
   TriggerSubMenuAction,
+  HoverEventHandler,
 } from './interface';
 import { MenuItem } from './MenuItem';
 
@@ -70,7 +71,7 @@ export interface SubMenuProps {
   eventKey?: string;
   multiple?: boolean;
   active?: boolean; // TODO: remove
-  onItemHover?: PropTypes.func;
+  onItemHover?: HoverEventHandler;
   onSelect?: SelectEventHandler;
   triggerSubMenuAction?: TriggerSubMenuAction;
   onDeselect?: SelectEventHandler;
