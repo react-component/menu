@@ -25,6 +25,7 @@ import {
   MenuClickEventHandler,
   MenuInfo,
   TriggerSubMenuAction,
+  MotionType,
 } from './interface';
 import { MenuItem, MenuItemProps } from './MenuItem';
 import { MenuItemGroupProps } from './MenuItemGroup';
@@ -112,8 +113,6 @@ export interface SubPopupMenuProps {
   onDeselect?: SelectEventHandler;
   onOpenChange?: OpenEventHandler;
   onDestroy?: DestroyEventHandler;
-  openTransitionName?: string;
-  openAnimation?: OpenAnimation;
   openKeys?: string[];
   visible?: boolean;
   children?: React.ReactNode;
@@ -148,6 +147,11 @@ export interface SubPopupMenuProps {
   id?: string;
   overflowedIndicator?: React.ReactNode;
   theme?: string;
+
+  // [Legacy]
+  // openTransitionName?: string;
+  // openAnimation?: OpenAnimation;
+  motion?: MotionType;
 }
 
 export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
@@ -282,8 +286,6 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
 
   getFlatInstanceArray = () => this.instanceArray;
 
-  getOpenTransitionName = () => this.props.openTransitionName;
-
   step = (direction: number) => {
     let children = this.getFlatInstanceArray();
     const activeKey = this.props.store.getState().activeKey[
@@ -354,7 +356,10 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       // customized ref function, need to be invoked manually in child's componentDidMount
       manualRef: childProps.disabled
         ? undefined
-        : createChainedFunction((child as any).ref, saveRef.bind(this)),
+        : (createChainedFunction(
+            (child as any).ref,
+            saveRef.bind(this),
+          ) as LegacyFunctionRef),
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
@@ -363,8 +368,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
         this.onClick(e);
       },
       onItemHover: this.onItemHover,
-      openTransitionName: this.getOpenTransitionName(),
-      openAnimation: props.openAnimation,
+      motion: props.motion,
       subMenuOpenDelay: props.subMenuOpenDelay,
       subMenuCloseDelay: props.subMenuCloseDelay,
       forceSubMenuRender: props.forceSubMenuRender,

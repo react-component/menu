@@ -14,7 +14,9 @@ import {
   BuiltinPlacements,
   TriggerSubMenuAction,
   MenuClickEventHandler,
+  MotionType,
 } from './interface';
+import { getMotion } from './utils/legacyUtil';
 
 export interface MenuProps {
   defaultSelectedKeys?: string[];
@@ -29,8 +31,6 @@ export interface MenuProps {
   onOpenChange?: OpenEventHandler;
   onDeselect?: SelectEventHandler;
   onDestroy?: DestroyEventHandler;
-  openTransitionName?: string;
-  openAnimation?: OpenAnimation;
   subMenuOpenDelay?: number;
   subMenuCloseDelay?: number;
   forceSubMenuRender?: boolean;
@@ -47,6 +47,14 @@ export interface MenuProps {
   itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
   overflowedIndicator?: React.ReactNode;
+
+  /** Menu motion define */
+  motion?: MotionType;
+
+  /** @deprecated Please use `motion` instead */
+  openTransitionName?: string;
+  /** @deprecated Please use `motion` instead */
+  openAnimation?: OpenAnimation;
 }
 
 class Menu extends React.Component<MenuProps> {
@@ -229,9 +237,13 @@ class Menu extends React.Component<MenuProps> {
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,
       onSelect: this.onSelect,
-      openTransitionName: this.getOpenTransitionName(),
       parentMenu: this,
+      motion: getMotion(this.props),
     };
+
+    delete props.openAnimation;
+    delete props.openTransitionName;
+
     return (
       <Provider store={this.store}>
         <SubPopupMenu {...props} ref={this.setInnerMenu}>
