@@ -444,6 +444,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       motionAppear:
         haveRendered || !baseProps.visible || baseProps.mode !== 'inline',
       leavedClassName: `${props.rootPrefixCls}-hidden`,
+      removeOnLeave: false,
       ...props.motion,
     };
 
