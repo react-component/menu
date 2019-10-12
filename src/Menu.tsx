@@ -1,49 +1,48 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Provider, create } from 'mini-store';
 import SubPopupMenu, { getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
+import { RenderIconType, SelectInfo } from './interface';
 
-class Menu extends React.Component {
-  static propTypes = {
-    defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
-    defaultActiveFirst: PropTypes.bool,
-    selectedKeys: PropTypes.arrayOf(PropTypes.string),
-    defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
-    openKeys: PropTypes.arrayOf(PropTypes.string),
-    mode: PropTypes.oneOf([
-      'horizontal',
-      'vertical',
-      'vertical-left',
-      'vertical-right',
-      'inline',
-    ]),
-    getPopupContainer: PropTypes.func,
-    onClick: PropTypes.func,
-    onSelect: PropTypes.func,
-    onOpenChange: PropTypes.func,
-    onDeselect: PropTypes.func,
-    onDestroy: PropTypes.func,
-    openTransitionName: PropTypes.string,
-    openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    subMenuOpenDelay: PropTypes.number,
-    subMenuCloseDelay: PropTypes.number,
-    forceSubMenuRender: PropTypes.bool,
-    triggerSubMenuAction: PropTypes.string,
-    level: PropTypes.number,
-    selectable: PropTypes.bool,
-    multiple: PropTypes.bool,
-    children: PropTypes.any,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    activeKey: PropTypes.string,
-    prefixCls: PropTypes.string,
-    builtinPlacements: PropTypes.object,
-    itemIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    expandIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    overflowedIndicator: PropTypes.node,
-  };
+export interface MenuProps {
+  defaultSelectedKeys?: string[];
+  defaultActiveFirst?: boolean;
+  selectedKeys?: string[];
+  defaultOpenKeys?: string[];
+  openKeys?: string[];
+  mode?:
+    | 'horizontal'
+    | 'vertical'
+    | 'vertical-left'
+    | 'vertical-right'
+    | 'inline';
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+  onSelect?: (info: SelectInfo) => void;
+  onOpenChange?: (openKeys: string[]) => void;
+  onDeselect?: (info: SelectInfo) => void;
+  onDestroy?: (eventKey: string) => void;
+  openTransitionName?: string;
+  openAnimation?: string | Object;
+  subMenuOpenDelay?: number;
+  subMenuCloseDelay?: number;
+  forceSubMenuRender?: boolean;
+  triggerSubMenuAction?: string;
+  level?: number;
+  selectable?: boolean;
+  multiple?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  activeKey?: string;
+  prefixCls?: string;
+  builtinPlacements: Object;
+  itemIcon: RenderIconType;
+  expandIcon: RenderIconType;
+  overflowedIndicator: React.ReactNode;
+}
 
+class Menu extends React.Component<MenuProps> {
   static defaultProps = {
     selectable: true,
     onClick: noop,
@@ -63,7 +62,7 @@ class Menu extends React.Component {
     overflowedIndicator: <span>···</span>,
   };
 
-  constructor(props) {
+  constructor(props: MenuProps) {
     super(props);
 
     this.isRootMenu = true;
@@ -84,6 +83,12 @@ class Menu extends React.Component {
     });
   }
 
+  isRootMenu: boolean;
+
+  store: any;
+
+  innerMenu: React.ReactElement;
+
   componentDidMount() {
     this.updateMiniStore();
   }
@@ -92,7 +97,7 @@ class Menu extends React.Component {
     this.updateMiniStore();
   }
 
-  onSelect = selectInfo => {
+  onSelect = (selectInfo: SelectInfo) => {
     const { props } = this;
     if (props.selectable) {
       // root menu
@@ -115,14 +120,14 @@ class Menu extends React.Component {
     }
   };
 
-  onClick = e => {
+  onClick: React.MouseEventHandler<HTMLElement> = e => {
     this.props.onClick(e);
   };
 
   // onKeyDown needs to be exposed as a instance method
   // e.g., in rc-select, we need to navigate menu item while
   // current active item is rc-select input box rather than the menu itself
-  onKeyDown = (e, callback) => {
+  onKeyDown = (e: React.KeyboardEvent<HTMLElement>, callback) => {
     this.innerMenu.getWrappedInstance().onKeyDown(e, callback);
   };
 
@@ -160,7 +165,7 @@ class Menu extends React.Component {
     }
   };
 
-  onDeselect = selectInfo => {
+  onDeselect = (selectInfo: SelectInfo) => {
     const { props } = this;
     if (props.selectable) {
       const selectedKeys = this.store.getState().selectedKeys.concat();
