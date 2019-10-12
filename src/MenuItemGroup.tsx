@@ -1,22 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { menuAllProps } from './util';
+import { MenuClickEventHandler } from './interface';
 
-class MenuItemGroup extends React.Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    renderMenuItem: PropTypes.func,
-    index: PropTypes.number,
-    className: PropTypes.string,
-    subMenuKey: PropTypes.string,
-    rootPrefixCls: PropTypes.string,
-  };
+export interface MenuItemGroupProps {
+  disabled?: boolean;
+  renderMenuItem: (
+    item: React.ReactElement,
+    index: number,
+    key: string,
+  ) => React.ReactElement;
+  index?: number;
+  className?: string;
+  subMenuKey?: string;
+  rootPrefixCls?: string;
+  title?: string;
+  onClick?: MenuClickEventHandler;
+}
+
+class MenuItemGroup extends React.Component<MenuItemGroupProps> {
+  static isMenuItemGroup = true;
 
   static defaultProps = {
     disabled: true,
   };
 
-  renderInnerMenuItem = item => {
+  renderInnerMenuItem = (item: React.ReactElement) => {
     const { renderMenuItem, index } = this.props;
     return renderMenuItem(item, index, this.props.subMenuKey);
   };
@@ -33,7 +41,10 @@ class MenuItemGroup extends React.Component {
     delete props.onClick;
 
     return (
-      <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
+      <li
+        {...(props as any)}
+        className={`${className} ${rootPrefixCls}-item-group`}
+      >
         <div
           className={titleClassName}
           title={typeof title === 'string' ? title : undefined}
@@ -47,7 +58,5 @@ class MenuItemGroup extends React.Component {
     );
   }
 }
-
-MenuItemGroup.isMenuItemGroup = true;
 
 export default MenuItemGroup;

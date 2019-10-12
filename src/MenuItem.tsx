@@ -1,37 +1,55 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
+import {
+  SelectEventHandler,
+  HoverEventHandler,
+  DestroyEventHandler,
+  RenderIconType,
+  MenuHoverEventHandler,
+  MenuClickEventHandler,
+  MenuMode,
+  LegacyFunctionRef,
+} from './interface';
 
 /* eslint react/no-is-mounted:0 */
 
-export class MenuItem extends React.Component {
-  static propTypes = {
-    attribute: PropTypes.object,
-    rootPrefixCls: PropTypes.string,
-    eventKey: PropTypes.string,
-    active: PropTypes.bool,
-    children: PropTypes.any,
-    selectedKeys: PropTypes.array,
-    disabled: PropTypes.bool,
-    title: PropTypes.string,
-    onItemHover: PropTypes.func,
-    onSelect: PropTypes.func,
-    onClick: PropTypes.func,
-    onDeselect: PropTypes.func,
-    parentMenu: PropTypes.object,
-    onDestroy: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    multiple: PropTypes.bool,
-    isSelected: PropTypes.bool,
-    manualRef: PropTypes.func,
-    itemIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  };
+export interface MenuItemProps {
+  /** @deprecated No place to use this. Should remove */
+  attribute?: Record<string, string>;
+  rootPrefixCls?: string;
+  eventKey?: React.Key;
+  className?: string;
+  style?: React.CSSProperties;
+  active?: boolean;
+  children?: React.ReactNode;
+  selectedKeys?: string[];
+  disabled?: boolean;
+  title?: string;
+  onItemHover?: HoverEventHandler;
+  onSelect?: SelectEventHandler;
+  onClick?: MenuClickEventHandler;
+  onDeselect?: SelectEventHandler;
+  parentMenu?: React.ReactInstance;
+  onDestroy?: DestroyEventHandler;
+  onMouseEnter?: MenuHoverEventHandler;
+  onMouseLeave?: MenuHoverEventHandler;
+  multiple?: boolean;
+  isSelected?: boolean;
+  manualRef?: LegacyFunctionRef;
+  itemIcon?: RenderIconType;
+  role?: string;
+  mode?: MenuMode;
+  inlineIndent?: number;
+  level?: number;
+}
+
+export class MenuItem extends React.Component<MenuItemProps> {
+  static isMenuItem = true;
 
   static defaultProps = {
     onSelect: noop,
@@ -40,12 +58,14 @@ export class MenuItem extends React.Component {
     manualRef: noop,
   };
 
+  node: HTMLLIElement;
+
   componentDidMount() {
     // invoke customized ref to expose component to mixin
     this.callRef();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: MenuItemProps) {
     const { active, parentMenu, eventKey } = this.props;
     // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
     // https://github.com/ant-design/ant-design/issues/16181
@@ -73,16 +93,18 @@ export class MenuItem extends React.Component {
     }
   }
 
-  onKeyDown = e => {
+  public onKeyDown = (
+    e: React.KeyboardEvent<HTMLElement>,
+  ): boolean | undefined => {
     const { keyCode } = e;
     if (keyCode === KeyCode.ENTER) {
-      this.onClick(e);
+      this.onClick(e as any);
       return true;
     }
     return undefined;
   };
 
-  onMouseLeave = e => {
+  onMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
     const { eventKey, onItemHover, onMouseLeave } = this.props;
     onItemHover({
       key: eventKey,
@@ -94,7 +116,7 @@ export class MenuItem extends React.Component {
     });
   };
 
-  onMouseEnter = e => {
+  onMouseEnter: React.MouseEventHandler<HTMLElement> = e => {
     const { eventKey, onItemHover, onMouseEnter } = this.props;
     onItemHover({
       key: eventKey,
@@ -106,7 +128,7 @@ export class MenuItem extends React.Component {
     });
   };
 
-  onClick = e => {
+  onClick: React.MouseEventHandler<HTMLElement> = e => {
     const {
       eventKey,
       multiple,
@@ -149,7 +171,7 @@ export class MenuItem extends React.Component {
     return `${this.getPrefixCls()}-disabled`;
   }
 
-  saveNode = node => {
+  saveNode = (node: HTMLLIElement) => {
     this.node = node;
   };
 
@@ -166,7 +188,13 @@ export class MenuItem extends React.Component {
       [this.getSelectedClassName()]: props.isSelected,
       [this.getDisabledClassName()]: props.disabled,
     });
-    let attrs = {
+    let attrs: {
+      title?: string;
+      className?: string;
+      role?: string;
+      'aria-disabled'?: boolean;
+      'aria-selected'?: boolean;
+    } = {
       ...props.attribute,
       title: props.title,
       className,
@@ -205,11 +233,12 @@ export class MenuItem extends React.Component {
     menuAllProps.forEach(key => delete props[key]);
     let icon = this.props.itemIcon;
     if (typeof this.props.itemIcon === 'function') {
-      icon = React.createElement(this.props.itemIcon, this.props);
+      // TODO: This is a bug which should fixed after TS refactor
+      icon = React.createElement(this.props.itemIcon as any, this.props);
     }
     return (
       <li
-        {...props}
+        {...(props as any)}
         {...attrs}
         {...mouseEvent}
         style={style}
@@ -221,8 +250,6 @@ export class MenuItem extends React.Component {
     );
   }
 }
-
-MenuItem.isMenuItem = true;
 
 const connected = connect(
   ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
