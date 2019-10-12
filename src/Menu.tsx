@@ -8,6 +8,10 @@ import {
   SelectEventHandler,
   DestroyEventHandler,
   MenuMode,
+  OpenEventHandler,
+  OpenAnimation,
+  MiniStore,
+  BuiltinPlacements,
 } from './interface';
 
 export interface MenuProps {
@@ -20,11 +24,11 @@ export interface MenuProps {
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   onClick?: React.MouseEventHandler<HTMLElement>;
   onSelect?: SelectEventHandler;
-  onOpenChange?: (openKeys: string[]) => void;
+  onOpenChange?: OpenEventHandler;
   onDeselect?: SelectEventHandler;
   onDestroy?: DestroyEventHandler;
   openTransitionName?: string;
-  openAnimation?: string | Record<string, any>;
+  openAnimation?: OpenAnimation;
   subMenuOpenDelay?: number;
   subMenuCloseDelay?: number;
   forceSubMenuRender?: boolean;
@@ -37,7 +41,7 @@ export interface MenuProps {
   style?: React.CSSProperties;
   activeKey?: string;
   prefixCls?: string;
-  builtinPlacements?: Record<string, any>;
+  builtinPlacements?: BuiltinPlacements;
   itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
   overflowedIndicator?: React.ReactNode;
@@ -86,7 +90,7 @@ class Menu extends React.Component<MenuProps> {
 
   isRootMenu: boolean;
 
-  store: any;
+  store: MiniStore;
 
   innerMenu: React.ReactElement;
 

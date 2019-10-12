@@ -25,9 +25,22 @@ export type MenuClickEventHandler = (info: MenuInfo) => void;
 
 export type DestroyEventHandler = (key: string) => void;
 
+export type OpenEventHandler = (keys: string[]) => void;
+
 export type MenuMode =
   | 'horizontal'
   | 'vertical'
   | 'vertical-left'
   | 'vertical-right'
   | 'inline';
+
+export type OpenAnimation = string | Record<string, any>;
+
+export interface MiniStore {
+  getState: () => any;
+  setState: (state: any) => void;
+}
+
+export type LegacyFunctionRef = (node: React.ReactInstance) => void;
+
+export type BuiltinPlacements = Record<string, any>;

@@ -13,6 +13,7 @@ import {
   MenuHoverEventHandler,
   MenuClickEventHandler,
   MenuMode,
+  LegacyFunctionRef,
 } from './interface';
 
 /* eslint react/no-is-mounted:0 */
@@ -39,7 +40,7 @@ export interface MenuItemProps {
   onMouseLeave?: MenuHoverEventHandler;
   multiple?: boolean;
   isSelected?: boolean;
-  manualRef?: (node: MenuItem) => void;
+  manualRef?: LegacyFunctionRef;
   itemIcon?: RenderIconType;
   role?: string;
   mode?: MenuMode;
@@ -92,7 +93,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
-  onKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
+  public onKeyDown = (
+    e: React.KeyboardEvent<HTMLElement>,
+  ): boolean | undefined => {
     const { keyCode } = e;
     if (keyCode === KeyCode.ENTER) {
       this.onClick(e as any);

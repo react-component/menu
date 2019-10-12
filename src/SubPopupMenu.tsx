@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
@@ -12,15 +11,28 @@ import {
   isMobileDevice,
 } from './util';
 import DOMWrap from './DOMWrap';
+import {
+  SelectEventHandler,
+  OpenEventHandler,
+  DestroyEventHandler,
+  OpenAnimation,
+  MiniStore,
+  MenuMode,
+  LegacyFunctionRef,
+  RenderIconType,
+  HoverEventHandler,
+  BuiltinPlacements,
+} from './interface';
+import { MenuItem } from './MenuItem';
 
-function allDisabled(arr) {
+function allDisabled(arr: MenuItem[]) {
   if (!arr.length) {
     return true;
   }
   return arr.every(c => !!c.props.disabled);
 }
 
-function updateActiveKey(store, menuId, activeKey) {
+function updateActiveKey(store: MiniStore, menuId: string, activeKey: string) {
   const state = store.getState();
   store.setState({
     activeKey: {
@@ -79,51 +91,51 @@ export function saveRef(c) {
   }
 }
 
-export class SubPopupMenu extends React.Component {
-  static propTypes = {
-    onSelect: PropTypes.func,
-    onClick: PropTypes.func,
-    onDeselect: PropTypes.func,
-    onOpenChange: PropTypes.func,
-    onDestroy: PropTypes.func,
-    openTransitionName: PropTypes.string,
-    openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    openKeys: PropTypes.arrayOf(PropTypes.string),
-    visible: PropTypes.bool,
-    children: PropTypes.any,
-    parentMenu: PropTypes.object,
-    eventKey: PropTypes.string,
-    store: PropTypes.shape({
-      getState: PropTypes.func,
-      setState: PropTypes.func,
-    }),
+export interface SubPopupMenuProps {
+  onSelect?: SelectEventHandler;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+  onDeselect?: SelectEventHandler;
+  onOpenChange?: OpenEventHandler;
+  onDestroy?: DestroyEventHandler;
+  openTransitionName?: string;
+  openAnimation?: OpenAnimation;
+  openKeys?: string[];
+  visible?: boolean;
+  children?: React.ReactNode;
+  parentMenu?: React.ReactInstance;
+  eventKey?: string;
+  store?: MiniStore;
 
-    // adding in refactor
-    prefixCls: PropTypes.string,
-    focusable: PropTypes.bool,
-    multiple: PropTypes.bool,
-    style: PropTypes.object,
-    className: PropTypes.string,
-    defaultActiveFirst: PropTypes.bool,
-    activeKey: PropTypes.string,
-    selectedKeys: PropTypes.arrayOf(PropTypes.string),
-    defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
-    defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
-    level: PropTypes.number,
-    mode: PropTypes.oneOf([
-      'horizontal',
-      'vertical',
-      'vertical-left',
-      'vertical-right',
-      'inline',
-    ]),
-    triggerSubMenuAction: PropTypes.oneOf(['click', 'hover']),
-    inlineIndent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    manualRef: PropTypes.func,
-    itemIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    expandIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  };
+  // adding in refactor
+  prefixCls?: string;
+  focusable?: boolean;
+  multiple?: boolean;
+  style?: React.CSSProperties;
+  className?: string;
+  defaultActiveFirst?: boolean;
+  activeKey?: string;
+  selectedKeys?: string[];
+  defaultSelectedKeys?: string[];
+  defaultOpenKeys?: string[];
+  level?: number;
+  mode?: MenuMode;
+  triggerSubMenuAction?: 'click' | 'hover';
+  inlineIndent?: number;
+  manualRef?: LegacyFunctionRef;
+  itemIcon?: RenderIconType;
+  expandIcon?: RenderIconType;
 
+  subMenuOpenDelay?: number;
+  subMenuCloseDelay?: number;
+  forceSubMenuRender?: boolean;
+  builtinPlacements?: BuiltinPlacements;
+  role?: string;
+  id?: string;
+  overflowedIndicator?: React.ReactNode;
+  theme?: string;
+}
+
+export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
   static defaultProps = {
     prefixCls: 'rc-menu',
     className: '',
@@ -136,7 +148,7 @@ export class SubPopupMenu extends React.Component {
     manualRef: noop,
   };
 
-  constructor(props) {
+  constructor(props: SubPopupMenuProps) {
     super(props);
 
     props.store.setState({
@@ -148,6 +160,8 @@ export class SubPopupMenu extends React.Component {
 
     this.instanceArray = [];
   }
+
+  instanceArray: MenuItem[];
 
   componentDidMount() {
     // invoke customized ref to expose component to mixin
@@ -186,10 +200,13 @@ export class SubPopupMenu extends React.Component {
    *  This legacy code that `onKeyDown` is called by parent instead of dom self.
    *  which need return code to check if this event is handled
    */
-  onKeyDown = (e, callback) => {
+  onKeyDown = (
+    e: React.KeyboardEvent<HTMLElement>,
+    callback: (item: MenuItem) => void,
+  ) => {
     const { keyCode } = e;
-    let handled;
-    this.getFlatInstanceArray().forEach(obj => {
+    let handled: boolean;
+    this.getFlatInstanceArray().forEach((obj: MenuItem) => {
       if (obj && obj.props.active && obj.onKeyDown) {
         handled = obj.onKeyDown(e);
       }
@@ -197,7 +214,7 @@ export class SubPopupMenu extends React.Component {
     if (handled) {
       return 1;
     }
-    let activeItem = null;
+    let activeItem: MenuItem = null;
     if (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN) {
       activeItem = this.step(keyCode === KeyCode.UP ? -1 : 1);
     }
@@ -218,7 +235,7 @@ export class SubPopupMenu extends React.Component {
     return undefined;
   };
 
-  onItemHover = e => {
+  onItemHover: HoverEventHandler = e => {
     const { key, hover } = e;
     updateActiveKey(
       this.props.store,
@@ -227,23 +244,23 @@ export class SubPopupMenu extends React.Component {
     );
   };
 
-  onDeselect = selectInfo => {
+  onDeselect: SelectEventHandler = selectInfo => {
     this.props.onDeselect(selectInfo);
   };
 
-  onSelect = selectInfo => {
+  onSelect: SelectEventHandler = selectInfo => {
     this.props.onSelect(selectInfo);
   };
 
-  onClick = e => {
+  onClick: React.MouseEventHandler<HTMLElement> = e => {
     this.props.onClick(e);
   };
 
-  onOpenChange = e => {
+  onOpenChange: OpenEventHandler = e => {
     this.props.onOpenChange(e);
   };
 
-  onDestroy = key => {
+  onDestroy: DestroyEventHandler = key => {
     /* istanbul ignore next */
     this.props.onDestroy(key);
   };
@@ -252,7 +269,7 @@ export class SubPopupMenu extends React.Component {
 
   getOpenTransitionName = () => this.props.openTransitionName;
 
-  step = direction => {
+  step = (direction: number) => {
     let children = this.getFlatInstanceArray();
     const activeKey = this.props.store.getState().activeKey[
       getEventKey(this.props)
@@ -368,7 +385,7 @@ export class SubPopupMenu extends React.Component {
       props.className,
       `${props.prefixCls}-${props.mode}`,
     );
-    const domProps = {
+    const domProps: React.HTMLAttributes<HTMLElement> = {
       className,
       // role could be 'select' and by default set to menu
       role: props.role || 'menu',
@@ -377,8 +394,8 @@ export class SubPopupMenu extends React.Component {
       domProps.id = props.id;
     }
     if (props.focusable) {
-      domProps.tabIndex = '0';
-      domProps.onKeyDown = this.onKeyDown;
+      domProps.tabIndex = 0;
+      domProps.onKeyDown = this.onKeyDown as any;
     }
     const {
       prefixCls,
