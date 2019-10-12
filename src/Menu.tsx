@@ -2,7 +2,13 @@ import React from 'react';
 import { Provider, create } from 'mini-store';
 import SubPopupMenu, { getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
-import { RenderIconType, SelectInfo } from './interface';
+import {
+  RenderIconType,
+  SelectInfo,
+  SelectEventHandler,
+  DestroyEventHandler,
+  MenuMode,
+} from './interface';
 
 export interface MenuProps {
   defaultSelectedKeys?: string[];
@@ -10,20 +16,15 @@ export interface MenuProps {
   selectedKeys?: string[];
   defaultOpenKeys?: string[];
   openKeys?: string[];
-  mode?:
-    | 'horizontal'
-    | 'vertical'
-    | 'vertical-left'
-    | 'vertical-right'
-    | 'inline';
+  mode?: MenuMode;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   onClick?: React.MouseEventHandler<HTMLElement>;
-  onSelect?: (info: SelectInfo) => void;
+  onSelect?: SelectEventHandler;
   onOpenChange?: (openKeys: string[]) => void;
-  onDeselect?: (info: SelectInfo) => void;
-  onDestroy?: (eventKey: string) => void;
+  onDeselect?: SelectEventHandler;
+  onDestroy?: DestroyEventHandler;
   openTransitionName?: string;
-  openAnimation?: string | Object;
+  openAnimation?: string | Record<string, any>;
   subMenuOpenDelay?: number;
   subMenuCloseDelay?: number;
   forceSubMenuRender?: boolean;
@@ -36,10 +37,10 @@ export interface MenuProps {
   style?: React.CSSProperties;
   activeKey?: string;
   prefixCls?: string;
-  builtinPlacements: Object;
-  itemIcon: RenderIconType;
-  expandIcon: RenderIconType;
-  overflowedIndicator: React.ReactNode;
+  builtinPlacements?: Record<string, any>;
+  itemIcon?: RenderIconType;
+  expandIcon?: RenderIconType;
+  overflowedIndicator?: React.ReactNode;
 }
 
 class Menu extends React.Component<MenuProps> {

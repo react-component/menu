@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
 import { getWidth, setStyle, menuAllProps } from './util';
+import { MenuMode } from './interface';
 
 const canUseDOM = !!(
   typeof window !== 'undefined' &&
@@ -22,12 +23,7 @@ if (canUseDOM) {
 interface DOMWrapProps {
   className?: string;
   children?: React.ReactElement[];
-  mode?:
-    | 'horizontal'
-    | 'vertical'
-    | 'vertical-left'
-    | 'vertical-right'
-    | 'inline';
+  mode?: MenuMode;
   prefixCls?: string;
   level?: number;
   theme?: string;
