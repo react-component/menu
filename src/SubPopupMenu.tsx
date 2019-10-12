@@ -452,7 +452,6 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
         tag="ul"
         level={level}
         theme={theme}
-        hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}
         overflowedIndicator={overflowedIndicator}
         {...domProps}

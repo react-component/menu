@@ -219,10 +219,10 @@ function Demo() {
         <div style={{ margin: 20 }}>{horizontalMenu}</div>
         <h3>horizontal and click</h3>
 
-        {/* <div style={{ margin: 20 }}>{horizontalMenu2}</div>
+        <div style={{ margin: 20 }}>{horizontalMenu2}</div>
         <h3>vertical</h3>
 
-        <div style={{ margin: 20, width: 200 }}>{verticalMenu}</div>
+        {/* <div style={{ margin: 20, width: 200 }}>{verticalMenu}</div>
         <h3>inline</h3>
 
         <div style={{ margin: 20, width: 400 }}>{inlineMenu}</div> */}
