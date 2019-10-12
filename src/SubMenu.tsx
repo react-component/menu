@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Animate from 'rc-animate';
