@@ -22,8 +22,12 @@ import {
   RenderIconType,
   HoverEventHandler,
   BuiltinPlacements,
+  MenuClickEventHandler,
+  MenuInfo,
+  TriggerSubMenuAction,
 } from './interface';
-import { MenuItem } from './MenuItem';
+import { MenuItem, MenuItemProps } from './MenuItem';
+import { MenuItemGroupProps } from './MenuItemGroup';
 
 function allDisabled(arr: MenuItem[]) {
   if (!arr.length) {
@@ -32,7 +36,11 @@ function allDisabled(arr: MenuItem[]) {
   return arr.every(c => !!c.props.disabled);
 }
 
-function updateActiveKey(store: MiniStore, menuId: string, activeKey: string) {
+function updateActiveKey(
+  store: MiniStore,
+  menuId: React.Key,
+  activeKey: React.Key,
+) {
   const state = store.getState();
   store.setState({
     activeKey: {
@@ -42,16 +50,23 @@ function updateActiveKey(store: MiniStore, menuId: string, activeKey: string) {
   });
 }
 
-function getEventKey(props) {
+function getEventKey(props: SubPopupMenuProps): React.Key {
   // when eventKey not available ,it's menu and return menu id '0-menu-'
   return props.eventKey || '0-menu-';
 }
 
-export function getActiveKey(props, originalActiveKey) {
-  let activeKey = originalActiveKey;
+export function getActiveKey(
+  props: {
+    children?: React.ReactNode;
+    eventKey?: React.Key;
+    defaultActiveFirst?: boolean;
+  },
+  originalActiveKey: string,
+) {
+  let activeKey: React.Key = originalActiveKey;
   const { children, eventKey } = props;
   if (activeKey) {
-    let found;
+    let found: boolean;
     loopMenuItem(children, (c, i) => {
       if (
         c &&
@@ -78,7 +93,7 @@ export function getActiveKey(props, originalActiveKey) {
   return activeKey;
 }
 
-export function saveRef(c) {
+export function saveRef(c: React.ReactInstance) {
   if (c) {
     const index = this.instanceArray.indexOf(c);
     if (index !== -1) {
@@ -93,7 +108,7 @@ export function saveRef(c) {
 
 export interface SubPopupMenuProps {
   onSelect?: SelectEventHandler;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  onClick?: MenuClickEventHandler;
   onDeselect?: SelectEventHandler;
   onOpenChange?: OpenEventHandler;
   onDestroy?: DestroyEventHandler;
@@ -103,7 +118,7 @@ export interface SubPopupMenuProps {
   visible?: boolean;
   children?: React.ReactNode;
   parentMenu?: React.ReactInstance;
-  eventKey?: string;
+  eventKey?: React.Key;
   store?: MiniStore;
 
   // adding in refactor
@@ -119,7 +134,7 @@ export interface SubPopupMenuProps {
   defaultOpenKeys?: string[];
   level?: number;
   mode?: MenuMode;
-  triggerSubMenuAction?: 'click' | 'hover';
+  triggerSubMenuAction?: TriggerSubMenuAction;
   inlineIndent?: number;
   manualRef?: LegacyFunctionRef;
   itemIcon?: RenderIconType;
@@ -170,11 +185,11 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: SubPopupMenuProps) {
     return this.props.visible || nextProps.visible;
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: SubPopupMenuProps) {
     const { props } = this;
     const originalActiveKey =
       'activeKey' in props
@@ -252,7 +267,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     this.props.onSelect(selectInfo);
   };
 
-  onClick: React.MouseEventHandler<HTMLElement> = e => {
+  onClick: MenuClickEventHandler = e => {
     this.props.onClick(e);
   };
 
@@ -312,7 +327,11 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     return null;
   };
 
-  renderCommonMenuItem = (child, i, extraProps) => {
+  renderCommonMenuItem = (
+    child: React.ReactElement,
+    i: number,
+    extraProps: MenuItemProps,
+  ) => {
     const state = this.props.store.getState();
     const { props } = this;
     const key = getKeyFromChildrenIndex(child, props.eventKey, i);
@@ -322,7 +341,9 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       return child;
     }
     const isActive = key === state.activeKey;
-    const newChildProps = {
+    const newChildProps: MenuItemProps &
+      MenuItemGroupProps &
+      SubPopupMenuProps = {
       mode: childProps.mode || props.mode,
       level: props.level,
       inlineIndent: props.inlineIndent,
@@ -333,11 +354,11 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       // customized ref function, need to be invoked manually in child's componentDidMount
       manualRef: childProps.disabled
         ? undefined
-        : createChainedFunction(child.ref, saveRef.bind(this)),
+        : createChainedFunction((child as any).ref, saveRef.bind(this)),
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
-      onClick: e => {
+      onClick: (e: MenuInfo) => {
         (childProps.onClick || noop)(e);
         this.onClick(e);
       },
@@ -362,7 +383,11 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     return React.cloneElement(child, newChildProps);
   };
 
-  renderMenuItem = (c, i, subMenuKey) => {
+  renderMenuItem = (
+    c: React.ReactElement,
+    i: number,
+    subMenuKey: React.Key,
+  ) => {
     /* istanbul ignore if */
     if (!c) {
       return null;
@@ -424,13 +449,17 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
         overflowedIndicator={overflowedIndicator}
         {...domProps}
       >
-        {React.Children.map(props.children, (c, i) =>
+        {React.Children.map(props.children, (c: React.ReactElement, i) =>
           this.renderMenuItem(c, i, eventKey || '0-menu-'),
         )}
       </DOMWrap>
     );
   }
 }
-const connected = connect()(SubPopupMenu);
+const connected = connect()(SubPopupMenu) as (React.ComponentClass<
+  SubPopupMenuProps
+> & {
+  getWrappedInstance: () => SubPopupMenu;
+});
 
 export default connected;

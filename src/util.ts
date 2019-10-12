@@ -8,9 +8,9 @@ export function noop() {}
 
 export function getKeyFromChildrenIndex(
   child: React.ReactElement,
-  menuEventKey: string,
+  menuEventKey: React.Key,
   index: number,
-) {
+): React.Key {
   const prefix = menuEventKey || '';
   return child.key || `${prefix}item_${index}`;
 }

@@ -25,7 +25,16 @@ export type MenuClickEventHandler = (info: MenuInfo) => void;
 
 export type DestroyEventHandler = (key: string) => void;
 
-export type OpenEventHandler = (keys: string[]) => void;
+export type OpenEventHandler = (
+  keys:
+    | string[]
+    | {
+        key: React.Key;
+        item: React.ReactInstance;
+        trigger: string;
+        open: boolean;
+      },
+) => void;
 
 export type MenuMode =
   | 'horizontal'
@@ -44,3 +53,5 @@ export interface MiniStore {
 export type LegacyFunctionRef = (node: React.ReactInstance) => void;
 
 export type BuiltinPlacements = Record<string, any>;
+
+export type TriggerSubMenuAction = 'click' | 'hover';

@@ -1,5 +1,6 @@
 import React from 'react';
 import { menuAllProps } from './util';
+import { MenuClickEventHandler } from './interface';
 
 export interface MenuItemGroupProps {
   disabled?: boolean;
@@ -13,7 +14,7 @@ export interface MenuItemGroupProps {
   subMenuKey?: string;
   rootPrefixCls?: string;
   title?: string;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  onClick?: MenuClickEventHandler;
 }
 
 class MenuItemGroup extends React.Component<MenuItemGroupProps> {
@@ -40,7 +41,10 @@ class MenuItemGroup extends React.Component<MenuItemGroupProps> {
     delete props.onClick;
 
     return (
-      <li {...props} className={`${className} ${rootPrefixCls}-item-group`}>
+      <li
+        {...(props as any)}
+        className={`${className} ${rootPrefixCls}-item-group`}
+      >
         <div
           className={titleClassName}
           title={typeof title === 'string' ? title : undefined}

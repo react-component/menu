@@ -22,7 +22,7 @@ export interface MenuItemProps {
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
   rootPrefixCls?: string;
-  eventKey?: string;
+  eventKey?: React.Key;
   className?: string;
   style?: React.CSSProperties;
   active?: boolean;

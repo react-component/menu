@@ -12,6 +12,8 @@ import {
   OpenAnimation,
   MiniStore,
   BuiltinPlacements,
+  TriggerSubMenuAction,
+  MenuClickEventHandler,
 } from './interface';
 
 export interface MenuProps {
@@ -22,7 +24,7 @@ export interface MenuProps {
   openKeys?: string[];
   mode?: MenuMode;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  onClick?: MenuClickEventHandler;
   onSelect?: SelectEventHandler;
   onOpenChange?: OpenEventHandler;
   onDeselect?: SelectEventHandler;
@@ -32,7 +34,7 @@ export interface MenuProps {
   subMenuOpenDelay?: number;
   subMenuCloseDelay?: number;
   forceSubMenuRender?: boolean;
-  triggerSubMenuAction?: string;
+  triggerSubMenuAction?: TriggerSubMenuAction;
   level?: number;
   selectable?: boolean;
   multiple?: boolean;
@@ -92,7 +94,7 @@ class Menu extends React.Component<MenuProps> {
 
   store: MiniStore;
 
-  innerMenu: React.ReactElement;
+  innerMenu: typeof SubPopupMenu;
 
   componentDidMount() {
     this.updateMiniStore();
@@ -125,7 +127,7 @@ class Menu extends React.Component<MenuProps> {
     }
   };
 
-  onClick: React.MouseEventHandler<HTMLElement> = e => {
+  onClick: MenuClickEventHandler = e => {
     this.props.onClick(e);
   };
 
@@ -219,7 +221,7 @@ class Menu extends React.Component<MenuProps> {
   }
 
   render() {
-    let { ...props } = this.props;
+    let props: MenuProps & { parentMenu?: Menu } = { ...this.props };
     props.className += ` ${props.prefixCls}-root`;
     props = {
       ...props,
