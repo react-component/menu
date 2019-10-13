@@ -25,7 +25,6 @@ import {
   MenuHoverEventHandler,
   MenuClickEventHandler,
   MenuInfo,
-  OpenAnimation,
   BuiltinPlacements,
   TriggerSubMenuAction,
   HoverEventHandler,
