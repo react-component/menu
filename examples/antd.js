@@ -1,7 +1,6 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
-import animate from 'css-animation';
 import PropTypes from 'prop-types';
 import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
 import '../assets/index.less';
@@ -11,42 +10,17 @@ function handleClick(info) {
   console.log(info);
 }
 
-const animation = {
-  enter(node, done) {
-    let height;
-    return animate(node, 'rc-menu-collapse', {
-      start() {
-        height = node.offsetHeight;
-        node.style.height = 0;
-      },
-      active() {
-        node.style.height = `${height}px`;
-      },
-      end() {
-        node.style.height = '';
-        done();
-      },
-    });
-  },
+const collapseNode = () => ({ height: 0 });
+const expandNode = node => ({ height: node.scrollHeight });
 
-  appear(...args) {
-    return this.enter(...args);
-  },
-
-  leave(node, done) {
-    return animate(node, 'rc-menu-collapse', {
-      start() {
-        node.style.height = `${node.offsetHeight}px`;
-      },
-      active() {
-        node.style.height = 0;
-      },
-      end() {
-        node.style.height = '';
-        done();
-      },
-    });
-  },
+const inlineMotion = {
+  motionName: 'rc-menu-collapse',
+  onAppearStart: collapseNode,
+  onAppearActive: expandNode,
+  onEnterStart: collapseNode,
+  onEnterActive: expandNode,
+  onLeaveStart: expandNode,
+  onLeaveActive: collapseNode,
 };
 
 const nestSubMenu = (
@@ -165,6 +139,7 @@ class CommonMenu extends React.Component {
           openAnimation={this.props.openAnimation}
           defaultOpenKeys={this.props.defaultOpenKeys}
           overflowedIndicator={overflowedIndicator}
+          motion={this.props.motion}
         >
           {children}
         </Menu>
@@ -176,6 +151,7 @@ class CommonMenu extends React.Component {
 CommonMenu.propTypes = {
   mode: PropTypes.string,
   openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  motion: PropTypes.object,
   triggerSubMenuAction: PropTypes.string,
   defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
   updateChildrenAndOverflowedIndicator: PropTypes.bool,
@@ -203,11 +179,7 @@ function Demo() {
   const verticalMenu = <CommonMenu mode="vertical" openAnimation="zoom" />;
 
   const inlineMenu = (
-    <CommonMenu
-      mode="inline"
-      defaultOpenKeys={['1']}
-      openAnimation={animation}
-    />
+    <CommonMenu mode="inline" defaultOpenKeys={['1']} motion={inlineMotion} />
   );
 
   return (

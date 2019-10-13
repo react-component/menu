@@ -441,11 +441,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
     // show appear transition if it's not visible (not sure why)
     // show appear transition if it's not inline mode
     const mergedMotion: MotionType = {
-      motionAppear:
-        haveRendered || !baseProps.visible || baseProps.mode !== 'inline',
+      ...props.motion,
       leavedClassName: `${props.rootPrefixCls}-hidden`,
       removeOnLeave: false,
-      ...props.motion,
+      motionAppear:
+        haveRendered || !baseProps.visible || baseProps.mode !== 'inline',
     };
 
     return (
