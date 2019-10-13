@@ -469,37 +469,6 @@ export class SubMenu extends React.Component<SubMenuProps> {
         }}
       </CSSMotion>
     );
-
-    // don't show transition on first rendering (no animation for opened menu)
-    // show appear transition if it's not visible (not sure why)
-    // show appear transition if it's not inline mode
-    // const transitionAppear =
-    //   haveRendered || !baseProps.visible || baseProps.mode !== 'inline';
-
-    // baseProps.className = ` ${baseProps.prefixCls}-sub`;
-    // const animProps: { transitionName?: string; animation?: any } = {};
-
-    // if (baseProps.openTransitionName) {
-    //   animProps.transitionName = baseProps.openTransitionName;
-    // } else if (typeof baseProps.openAnimation === 'object') {
-    //   animProps.animation = { ...baseProps.openAnimation };
-    //   if (!transitionAppear) {
-    //     delete animProps.animation.appear;
-    //   }
-    // }
-
-    // return (
-    //   <Animate
-    //     {...animProps}
-    //     showProp="visible"
-    //     component=""
-    //     transitionAppear={transitionAppear}
-    //   >
-    //     <SubPopupMenu {...baseProps} id={this.internalMenuId}>
-    //       {children}
-    //     </SubPopupMenu>
-    //   </Animate>
-    // );
   }
 
   render() {
