@@ -102,9 +102,6 @@ export interface SubMenuProps {
   className?: string;
   popupClassName?: string;
 
-  // [Legacy]
-  // openTransitionName?: string;
-  // openAnimation?: OpenAnimation;
   motion?: MotionType;
 }
 

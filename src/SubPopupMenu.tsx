@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
+import shallowEqual from 'shallowequal';
 import classNames from 'classnames';
 import {
   getKeyFromChildrenIndex,
@@ -15,7 +16,6 @@ import {
   SelectEventHandler,
   OpenEventHandler,
   DestroyEventHandler,
-  OpenAnimation,
   MiniStore,
   MenuMode,
   LegacyFunctionRef,
@@ -193,7 +193,8 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     return (
       this.props.visible ||
       nextProps.visible ||
-      this.props.className !== nextProps.className
+      this.props.className !== nextProps.className ||
+      !shallowEqual(this.props.style, nextProps.style)
     );
   }
 

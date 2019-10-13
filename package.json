@@ -52,7 +52,8 @@
     "rc-animate": "^2.10.1",
     "rc-trigger": "^2.3.0",
     "rc-util": "^4.13.0",
-    "resize-observer-polyfill": "^1.5.0"
+    "resize-observer-polyfill": "^1.5.0",
+    "shallowequal": "^1.1.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
