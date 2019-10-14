@@ -1,6 +1,14 @@
 # History
 ----
 
+## 7.5.0 / 2019-10-14
+
+- Use CSSMotion instead of Animate
+
+## 7.4.0 / 2019-08-31
+
+- Support overflow collapse menu
+
 ## 7.3.0 / 2018-08-23
 
 - Add `expandIcon` and `itemIcon`. [#182](https://github.com/react-component/menu/pull/182)
