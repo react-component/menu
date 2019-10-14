@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface DividerProps {
+export interface DividerProps {
   className?: string;
   rootPrefixCls?: string;
   style?: React.CSSProperties;
