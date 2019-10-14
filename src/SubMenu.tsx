@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
-// import Animate from 'rc-animate';
 import CSSMotion from 'rc-animate/lib/CSSMotion';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
@@ -388,9 +387,9 @@ export class SubMenu extends React.Component<SubMenuProps> {
     this.subMenuTitle = subMenuTitle;
   };
 
-  renderChildren(children: React.ReactNode) {
+  getBaseProps = (): SubPopupMenuProps => {
     const { props } = this;
-    const baseProps: SubPopupMenuProps = {
+    return {
       mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
       visible: this.props.isOpen,
       level: props.level + 1,
@@ -421,8 +420,31 @@ export class SubMenu extends React.Component<SubMenuProps> {
       itemIcon: props.itemIcon,
       expandIcon: props.expandIcon,
     };
+  };
 
+  getMotion = (mode: MenuMode, visible: boolean) => {
     const { haveRendered } = this;
+    const { motion, rootPrefixCls } = this.props;
+
+    // don't show transition on first rendering (no animation for opened menu)
+    // show appear transition if it's not visible (not sure why)
+    // show appear transition if it's not inline mode
+    const mergedMotion: MotionType = {
+      ...motion,
+      leavedClassName: `${rootPrefixCls}-hidden`,
+      removeOnLeave: false,
+      motionAppear: haveRendered || !visible || mode !== 'inline',
+    };
+
+    return mergedMotion;
+  };
+
+  renderChildren(children: React.ReactNode) {
+    const baseProps = this.getBaseProps();
+
+    // [Legacy] getMotion must be called before `haveRendered`
+    const mergedMotion = this.getMotion(baseProps.mode, baseProps.visible);
+
     this.haveRendered = true;
 
     this.haveOpened =
@@ -431,18 +453,6 @@ export class SubMenu extends React.Component<SubMenuProps> {
     if (!this.haveOpened) {
       return <div />;
     }
-
-    // ================== Motion ==================
-    // don't show transition on first rendering (no animation for opened menu)
-    // show appear transition if it's not visible (not sure why)
-    // show appear transition if it's not inline mode
-    const mergedMotion: MotionType = {
-      ...props.motion,
-      leavedClassName: `${props.rootPrefixCls}-hidden`,
-      removeOnLeave: false,
-      motionAppear:
-        haveRendered || !baseProps.visible || baseProps.mode !== 'inline',
-    };
 
     return (
       <CSSMotion visible={baseProps.visible} {...mergedMotion}>
@@ -550,6 +560,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
         {icon || <i className={`${prefixCls}-arrow`} />}
       </div>
     );
+
+    // [Legacy] `getMotion` should call before `renderChildren`
+    const baseProps = this.getBaseProps();
+    const motion = this.getMotion(baseProps.mode, baseProps.visible);
+
     const children = this.renderChildren(props.children);
 
     const getPopupContainer = props.parentMenu.isRootMenu
@@ -594,6 +609,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
             mouseLeaveDelay={subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
             forceRender={forceSubMenuRender}
+            popupMotion={motion}
           >
             {title}
           </Trigger>
