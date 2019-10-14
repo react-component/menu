@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'mini-store';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
+import shallowEqual from 'shallowequal';
 import classNames from 'classnames';
 import {
   getKeyFromChildrenIndex,
@@ -15,7 +16,6 @@ import {
   SelectEventHandler,
   OpenEventHandler,
   DestroyEventHandler,
-  OpenAnimation,
   MiniStore,
   MenuMode,
   LegacyFunctionRef,
@@ -25,6 +25,7 @@ import {
   MenuClickEventHandler,
   MenuInfo,
   TriggerSubMenuAction,
+  MotionType,
 } from './interface';
 import { MenuItem, MenuItemProps } from './MenuItem';
 import { MenuItemGroupProps } from './MenuItemGroup';
@@ -112,8 +113,6 @@ export interface SubPopupMenuProps {
   onDeselect?: SelectEventHandler;
   onOpenChange?: OpenEventHandler;
   onDestroy?: DestroyEventHandler;
-  openTransitionName?: string;
-  openAnimation?: OpenAnimation;
   openKeys?: string[];
   visible?: boolean;
   children?: React.ReactNode;
@@ -148,6 +147,11 @@ export interface SubPopupMenuProps {
   id?: string;
   overflowedIndicator?: React.ReactNode;
   theme?: string;
+
+  // [Legacy]
+  // openTransitionName?: string;
+  // openAnimation?: OpenAnimation;
+  motion?: MotionType;
 }
 
 export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
@@ -186,7 +190,12 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
   }
 
   shouldComponentUpdate(nextProps: SubPopupMenuProps) {
-    return this.props.visible || nextProps.visible;
+    return (
+      this.props.visible ||
+      nextProps.visible ||
+      this.props.className !== nextProps.className ||
+      !shallowEqual(this.props.style, nextProps.style)
+    );
   }
 
   componentDidUpdate(prevProps: SubPopupMenuProps) {
@@ -282,8 +291,6 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
 
   getFlatInstanceArray = () => this.instanceArray;
 
-  getOpenTransitionName = () => this.props.openTransitionName;
-
   step = (direction: number) => {
     let children = this.getFlatInstanceArray();
     const activeKey = this.props.store.getState().activeKey[
@@ -354,7 +361,10 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       // customized ref function, need to be invoked manually in child's componentDidMount
       manualRef: childProps.disabled
         ? undefined
-        : createChainedFunction((child as any).ref, saveRef.bind(this)),
+        : (createChainedFunction(
+            (child as any).ref,
+            saveRef.bind(this),
+          ) as LegacyFunctionRef),
       eventKey: key,
       active: !childProps.disabled && isActive,
       multiple: props.multiple,
@@ -363,8 +373,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
         this.onClick(e);
       },
       onItemHover: this.onItemHover,
-      openTransitionName: this.getOpenTransitionName(),
-      openAnimation: props.openAnimation,
+      motion: props.motion,
       subMenuOpenDelay: props.subMenuOpenDelay,
       subMenuCloseDelay: props.subMenuCloseDelay,
       forceSubMenuRender: props.forceSubMenuRender,
@@ -444,7 +453,6 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
         tag="ul"
         level={level}
         theme={theme}
-        hiddenClassName={`${prefixCls}-hidden`}
         visible={visible}
         overflowedIndicator={overflowedIndicator}
         {...domProps}

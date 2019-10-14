@@ -29,7 +29,6 @@ interface DOMWrapProps {
   theme?: string;
   overflowedIndicator?: React.ReactNode;
   visible?: boolean;
-  hiddenClassName?: string;
   tag?: string;
   style?: React.CSSProperties;
 }
@@ -350,7 +349,6 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
 
   render() {
     const {
-      hiddenClassName,
       visible,
       prefixCls,
       overflowedIndicator,
@@ -361,10 +359,6 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       theme,
       ...rest
     } = this.props;
-
-    if (!visible) {
-      rest.className += ` ${hiddenClassName}`;
-    }
 
     const Tag = tag as any;
 

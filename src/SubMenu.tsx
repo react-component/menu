@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
-import Animate from 'rc-animate';
+// import Animate from 'rc-animate';
+import CSSMotion from 'rc-animate/lib/CSSMotion';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
 import SubPopupMenu, { SubPopupMenuProps } from './SubPopupMenu';
@@ -24,10 +25,10 @@ import {
   MenuHoverEventHandler,
   MenuClickEventHandler,
   MenuInfo,
-  OpenAnimation,
   BuiltinPlacements,
   TriggerSubMenuAction,
   HoverEventHandler,
+  MotionType,
 } from './interface';
 import { MenuItem } from './MenuItem';
 
@@ -92,8 +93,6 @@ export interface SubMenuProps {
   expandIcon?: RenderIconType;
   inlineIndent?: number;
   level?: number;
-  openTransitionName?: string;
-  openAnimation?: OpenAnimation;
   subMenuOpenDelay?: number;
   subMenuCloseDelay?: number;
   forceSubMenuRender?: boolean;
@@ -101,6 +100,8 @@ export interface SubMenuProps {
   disabled?: boolean;
   className?: string;
   popupClassName?: string;
+
+  motion?: MotionType;
 }
 
 export class SubMenu extends React.Component<SubMenuProps> {
@@ -402,8 +403,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       selectedKeys: props.selectedKeys,
       eventKey: `${props.eventKey}-menu-`,
       openKeys: props.openKeys,
-      openTransitionName: props.openTransitionName,
-      openAnimation: props.openAnimation,
+      motion: props.motion,
       onOpenChange: this.onOpenChange,
       subMenuOpenDelay: props.subMenuOpenDelay,
       parentMenu: this,
@@ -432,35 +432,38 @@ export class SubMenu extends React.Component<SubMenuProps> {
       return <div />;
     }
 
+    // ================== Motion ==================
     // don't show transition on first rendering (no animation for opened menu)
     // show appear transition if it's not visible (not sure why)
     // show appear transition if it's not inline mode
-    const transitionAppear =
-      haveRendered || !baseProps.visible || baseProps.mode !== 'inline';
-
-    baseProps.className = ` ${baseProps.prefixCls}-sub`;
-    const animProps: { transitionName?: string; animation?: any } = {};
-
-    if (baseProps.openTransitionName) {
-      animProps.transitionName = baseProps.openTransitionName;
-    } else if (typeof baseProps.openAnimation === 'object') {
-      animProps.animation = { ...baseProps.openAnimation };
-      if (!transitionAppear) {
-        delete animProps.animation.appear;
-      }
-    }
+    const mergedMotion: MotionType = {
+      ...props.motion,
+      leavedClassName: `${props.rootPrefixCls}-hidden`,
+      removeOnLeave: false,
+      motionAppear:
+        haveRendered || !baseProps.visible || baseProps.mode !== 'inline',
+    };
 
     return (
-      <Animate
-        {...animProps}
-        showProp="visible"
-        component=""
-        transitionAppear={transitionAppear}
-      >
-        <SubPopupMenu {...baseProps} id={this.internalMenuId}>
-          {children}
-        </SubPopupMenu>
-      </Animate>
+      <CSSMotion visible={baseProps.visible} {...mergedMotion}>
+        {({ className, style }) => {
+          const mergedClassName = classNames(
+            `${baseProps.prefixCls}-sub`,
+            className,
+          );
+
+          return (
+            <SubPopupMenu
+              {...baseProps}
+              id={this.internalMenuId}
+              className={mergedClassName}
+              style={style}
+            >
+              {children}
+            </SubPopupMenu>
+          );
+        }}
+      </CSSMotion>
     );
   }
 

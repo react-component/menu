@@ -188,7 +188,7 @@ describe('SubMenu', () => {
       .at(0)
       .simulate('mouseEnter');
     jest.runAllTimers();
-    expect(handleOpenChange).toBeCalledWith(['item_1']);
+    expect(handleOpenChange).toHaveBeenCalledWith(['item_1']);
 
     wrapper.update();
 
@@ -197,7 +197,10 @@ describe('SubMenu', () => {
       .at(1)
       .simulate('mouseEnter');
     jest.runAllTimers();
-    expect(handleOpenChange).toBeCalledWith(['item_1', 'item_1-menu-item_1']);
+    expect(handleOpenChange).toHaveBeenCalledWith([
+      'item_1',
+      'item_1-menu-item_1',
+    ]);
   });
 
   describe('mouse events', () => {
@@ -386,7 +389,7 @@ describe('SubMenu', () => {
     expect(handleSelect.mock.calls[0][0].key).toBe('s1-1');
   });
 
-  it('fires select event', () => {
+  it('fires select event with className', () => {
     const wrapper = mount(createMenu());
     wrapper
       .find('.rc-menu-submenu-title')
@@ -482,7 +485,7 @@ describe('SubMenu', () => {
       title.simulate('click');
       jest.runAllTimers();
 
-      expect(wrapper.find('Animate').prop('transitionName')).toEqual('fade');
+      expect(wrapper.find('CSSMotion').prop('motionName')).toEqual('fade');
     });
 
     it('should not animate on initially opened menu', () => {
@@ -496,10 +499,10 @@ describe('SubMenu', () => {
 
       expect(
         wrapper
-          .find('Animate')
+          .find('CSSMotion')
           .first()
-          .prop('animation'),
-      ).toEqual({});
+          .prop('motionAppear'),
+      ).toBeFalsy();
     });
 
     it('should animate with config', () => {
@@ -517,10 +520,10 @@ describe('SubMenu', () => {
 
       expect(
         wrapper
-          .find('Animate')
+          .find('CSSMotion')
           .first()
-          .prop('animation'),
-      ).toEqual({ appear });
+          .prop('motionAppear'),
+      ).toBeTruthy();
     });
   });
 
@@ -566,3 +569,4 @@ describe('SubMenu', () => {
     });
   });
 });
+/* eslint-enable */

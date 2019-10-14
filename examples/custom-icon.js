@@ -1,6 +1,5 @@
 /* eslint-disable no-console, no-param-reassign */
 import * as React from 'react';
-import animate from 'css-animation';
 import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
 import '../assets/index.less';
 
@@ -45,42 +44,17 @@ function expandIcon(props) {
   });
 }
 
-const animation = {
-  enter(node, done) {
-    let height;
-    return animate(node, 'rc-menu-collapse', {
-      start() {
-        height = node.offsetHeight;
-        node.style.height = 0;
-      },
-      active() {
-        node.style.height = `${height}px`;
-      },
-      end() {
-        node.style.height = '';
-        done();
-      },
-    });
-  },
+const collapseNode = () => ({ height: 0 });
+const expandNode = node => ({ height: node.scrollHeight });
 
-  appear(...args) {
-    return this.enter(...args);
-  },
-
-  leave(node, done) {
-    return animate(node, 'rc-menu-collapse', {
-      start() {
-        node.style.height = `${node.offsetHeight}px`;
-      },
-      active() {
-        node.style.height = 0;
-      },
-      end() {
-        node.style.height = '';
-        done();
-      },
-    });
-  },
+const inlineMotion = {
+  motionName: 'rc-menu-collapse',
+  onAppearStart: collapseNode,
+  onAppearActive: expandNode,
+  onEnterStart: collapseNode,
+  onEnterActive: expandNode,
+  onLeaveStart: expandNode,
+  onLeaveActive: collapseNode,
 };
 
 class Demo extends React.Component {
@@ -149,7 +123,7 @@ class Demo extends React.Component {
     const inlineMenu = this.renderCommonMenu({
       mode: 'inline',
       defaultOpenKeys: ['1'],
-      openAnimation: animation,
+      motion: inlineMotion,
       itemIcon,
       expandIcon,
     });
