@@ -5,12 +5,6 @@ import SubMenu from './SubMenu';
 import { getWidth, setStyle, menuAllProps } from './util';
 import { MenuMode } from './interface';
 
-const canUseDOM = !!(
-  typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
-);
-
 const MENUITEM_OVERFLOWED_CLASSNAME = 'menuitem-overflowed';
 const FLOAT_PRECISION_ADJUST = 0.5;
 
