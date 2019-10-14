@@ -1,13 +1,10 @@
-jest.mock('mutationobserver-shim');
-
-const mockedUtil = require('../src/util');
-
-/* eslint-disable no-undef, react/no-multi-comp */
+/* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence */
 import React from 'react';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
+import * as mockedUtil from '../src/util';
 
 describe('Menu', () => {
   describe('should render', () => {
@@ -76,7 +73,7 @@ describe('Menu', () => {
       );
     }
 
-    it(`renders menu correctly`, () => {
+    it('renders menu correctly', () => {
       const wrapper = render(createMenu());
       expect(renderToJson(wrapper)).toMatchSnapshot();
     });
@@ -477,7 +474,9 @@ describe('Menu', () => {
       const widths = [...liWidths, indicatorWidth, availableWidth];
       let i = 0;
       mockedUtil.getWidth = () => {
-        return widths[i++];
+        const id = i;
+        i += 1;
+        return widths[id];
       };
       wrapper = mount(createMenu());
 
@@ -535,7 +534,9 @@ describe('Menu', () => {
       const widths = [...liWidths, indicatorWidth, availableWidth];
       let i = 0;
       mockedUtil.getWidth = () => {
-        return widths[i++];
+        const id = i;
+        i += 1;
+        return widths[id];
       };
       wrapper = mount(createMenu());
 
@@ -589,7 +590,9 @@ describe('Menu', () => {
         let i = 0;
 
         mockedUtil.getWidth = () => {
-          return widths[i++];
+          const id = i;
+          i += 1;
+          return widths[id];
         };
 
         wrapper = mount(createMenu());
@@ -626,3 +629,4 @@ describe('Menu', () => {
     });
   });
 });
+/* eslint-enable */
