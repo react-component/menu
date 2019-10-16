@@ -4,7 +4,7 @@ import { MenuClickEventHandler } from './interface';
 
 export interface MenuItemGroupProps {
   disabled?: boolean;
-  renderMenuItem: (
+  renderMenuItem?: (
     item: React.ReactElement,
     index: number,
     key: string,
