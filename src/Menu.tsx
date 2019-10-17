@@ -18,7 +18,8 @@ import {
 } from './interface';
 import { getMotion } from './utils/legacyUtil';
 
-export interface MenuProps {
+export interface MenuProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'onSelect'> {
   defaultSelectedKeys?: string[];
   defaultActiveFirst?: boolean;
   selectedKeys?: string[];
@@ -38,9 +39,6 @@ export interface MenuProps {
   level?: number;
   selectable?: boolean;
   multiple?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
   activeKey?: string;
   prefixCls?: string;
   builtinPlacements?: BuiltinPlacements;
