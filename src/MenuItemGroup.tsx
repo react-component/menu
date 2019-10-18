@@ -13,7 +13,7 @@ export interface MenuItemGroupProps {
   className?: string;
   subMenuKey?: string;
   rootPrefixCls?: string;
-  title?: string | React.ReactElement;
+  title?: string | React.ReactNode;
   onClick?: MenuClickEventHandler;
 }
 
