@@ -207,6 +207,8 @@ exports[`Menu should render horizontal menu correctly 1`] = `
 </ul>
 `;
 
+exports[`Menu should render horizontal menu with rtl direction 1`] = `[Function]`;
+
 exports[`Menu should render inline menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-inline"
@@ -301,6 +303,8 @@ exports[`Menu should render inline menu correctly 1`] = `
 </ul>
 `;
 
+exports[`Menu should render inline menu with rtl direction 1`] = `[Function]`;
+
 exports[`Menu should render vertical menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
@@ -387,3 +391,5 @@ exports[`Menu should render vertical menu correctly 1`] = `
   </li>
 </ul>
 `;
+
+exports[`Menu should render vertical menu with rtl direction 1`] = `[Function]`;

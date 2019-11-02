@@ -53,6 +53,12 @@ describe('Menu', () => {
           ),
         ).not.toThrow();
       });
+
+      it(`${mode} menu with rtl direction`, () => {
+        expect(() =>
+          render(<Menu mode={mode} direction="rtl" />),
+        ).toMatchSnapshot();
+      });
     });
   });
 
