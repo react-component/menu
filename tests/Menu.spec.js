@@ -54,10 +54,16 @@ describe('Menu', () => {
         ).not.toThrow();
       });
 
-      it(`${mode} menu with rtl direction`, () => {
-        expect(() =>
-          render(<Menu mode={mode} direction="rtl" />),
-        ).toMatchSnapshot();
+      it(`${mode} menu with rtl direction correctly`, () => {
+        const wrapper = mount(createMenu({ mode, direction: 'rtl' }));
+        expect(renderToJson(render(wrapper))).toMatchSnapshot();
+
+        expect(
+          wrapper
+            .find('ul')
+            .first()
+            .props().className,
+        ).toContain('-rtl');
       });
     });
   });
