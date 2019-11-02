@@ -1,8 +1,8 @@
 # rc-menu
+
 ---
 
 react menu component. port from https://github.com/kissyteam/menu
-
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -24,22 +24,23 @@ react menu component. port from https://github.com/kissyteam/menu
 [download-image]: https://img.shields.io/npm/dm/rc-menu.svg?style=flat-square
 [download-url]: https://npmjs.org/package/rc-menu
 
-
 ## Screenshot
 
 ![alt](https://tfsimg.alipay.com/images/T19vReXg0oXXXXXXXX.png)
 
-
 ## Usage
 
 ```jsx
-import Menu, {SubMenu, MenuItem} from 'rc-menu';
-ReactDOM.render(<Menu>
-  <MenuItem>1</MenuItem>
-  <SubMenu title="2">
-  <MenuItem>2-1</MenuItem>
-  </SubMenu>
-</Menu>, container);
+import Menu, { SubMenu, MenuItem } from 'rc-menu';
+ReactDOM.render(
+  <Menu>
+    <MenuItem>1</MenuItem>
+    <SubMenu title="2">
+      <MenuItem>2-1</MenuItem>
+    </SubMenu>
+  </Menu>,
+  container,
+);
 ```
 
 ## install
@@ -204,6 +205,12 @@ ReactDOM.render(<Menu>
             <th></th>
             <td>Specify the menu item icon.</td>
         </tr>
+        <tr>
+            <td>direction</td>
+            <td>String</td>
+            <th></th>
+            <td>Layout direction of menu component, it supports RTL direction too.</td>
+        </tr>
     </tbody>
 </table>
 
@@ -257,7 +264,6 @@ ReactDOM.render(<Menu>
         </tr>
     </tbody>
 </table>
-
 
 ### Menu.SubMenu props
 
@@ -396,7 +402,6 @@ http://localhost:8001/examples/index.md
 
 online example: http://react-component.github.io/menu/examples/
 
-
 ## Test Case
 
 ```
@@ -411,7 +416,6 @@ npm run coverage
 ```
 
 open coverage/ dir
-
 
 ## License
 
