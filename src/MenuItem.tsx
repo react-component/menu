@@ -46,6 +46,7 @@ export interface MenuItemProps {
   mode?: MenuMode;
   inlineIndent?: number;
   level?: number;
+  direction?: 'ltr' | 'rtl' | 'auto';
 }
 
 export class MenuItem extends React.Component<MenuItemProps> {
@@ -228,7 +229,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...props.style,
     };
     if (props.mode === 'inline') {
-      style.paddingLeft = props.inlineIndent * props.level;
+      const { direction } = props.store.getState();
+      if (direction === 'rtl') {
+        style.paddingRight = props.inlineIndent * props.level;
+      } else {
+        style.paddingLeft = props.inlineIndent * props.level;
+      }
     }
     menuAllProps.forEach(key => delete props[key]);
     let icon = this.props.itemIcon;
@@ -252,9 +258,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
 }
 
 const connected = connect(
-  ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+  ({ activeKey, selectedKeys, direction }, { eventKey, subMenuKey }) => ({
     active: activeKey[subMenuKey] === eventKey,
     isSelected: selectedKeys.indexOf(eventKey) !== -1,
+    direction,
   }),
 )(MenuItem);
 

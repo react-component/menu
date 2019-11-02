@@ -152,6 +152,8 @@ export interface SubPopupMenuProps {
   // openTransitionName?: string;
   // openAnimation?: OpenAnimation;
   motion?: MotionType;
+
+  direction?: 'ltr' | 'rtl' | 'auto';
 }
 
 export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
