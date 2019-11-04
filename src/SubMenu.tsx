@@ -594,7 +594,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
             prefixCls={prefixCls}
             popupClassName={classNames(`${prefixCls}-popup`, {
               [props.popupClassName]:
-                props.mode === 'inline' && props.popupClassName,
+                props.mode !== 'inline' && props.popupClassName,
             })}
             getPopupContainer={getPopupContainer}
             builtinPlacements={Object.assign({}, placements, builtinPlacements)}
