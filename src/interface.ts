@@ -1,8 +1,4 @@
-import {
-  AnimationType,
-  TransitionNameType,
-  MotionType,
-} from 'rc-trigger/lib/interface';
+import { TransitionNameType, MotionType } from 'rc-trigger/lib/interface';
 
 export type RenderIconType =
   | React.ReactNode
@@ -66,4 +62,4 @@ export type BuiltinPlacements = Record<string, any>;
 export type TriggerSubMenuAction = 'click' | 'hover';
 
 // =================================== Motion ===================================
-export { AnimationType, TransitionNameType, MotionType };
+export { TransitionNameType, MotionType };
