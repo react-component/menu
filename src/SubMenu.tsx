@@ -568,6 +568,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
     const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
+    const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
     const {
       disabled,
       triggerSubMenuAction,
@@ -592,10 +593,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
         {!isInlineMode && (
           <Trigger
             prefixCls={prefixCls}
-            popupClassName={classNames(`${prefixCls}-popup`, {
-              [props.popupClassName]:
-                props.mode !== 'inline' && props.popupClassName,
-            })}
+            popupClassName={classNames(`${prefixCls}-popup`, popupClassName)}
             getPopupContainer={getPopupContainer}
             builtinPlacements={Object.assign({}, placements, builtinPlacements)}
             popupPlacement={popupPlacement}
