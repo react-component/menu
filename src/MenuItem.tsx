@@ -46,7 +46,7 @@ export interface MenuItemProps {
   mode?: MenuMode;
   inlineIndent?: number;
   level?: number;
-  direction?: 'ltr' | 'rtl' | 'auto';
+  direction?: 'ltr' | 'rtl';
 }
 
 export class MenuItem extends React.Component<MenuItemProps> {

@@ -337,6 +337,15 @@
       animation-play-state: running;
     }
 
+    &-zoom-enter,
+    &-zoom-appear,
+    &-zoom-leave {
+      .@{menuPrefixCls}-submenu-rtl&,
+      .@{menuPrefixCls}-submenu-rtl & {
+        transform-origin: top right !important;
+      }
+    }
+
     @keyframes rcMenuOpenZoomIn {
       0% {
         opacity: 0;

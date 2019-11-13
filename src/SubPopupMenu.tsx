@@ -153,7 +153,7 @@ export interface SubPopupMenuProps {
   // openAnimation?: OpenAnimation;
   motion?: MotionType;
 
-  direction?: 'ltr' | 'rtl' | 'auto';
+  direction?: 'ltr' | 'rtl';
 }
 
 export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
@@ -466,10 +466,10 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     );
   }
 }
-const connected = connect()(SubPopupMenu) as (React.ComponentClass<
+const connected = connect()(SubPopupMenu) as React.ComponentClass<
   SubPopupMenuProps
 > & {
   getWrappedInstance: () => SubPopupMenu;
-});
+};
 
 export default connected;

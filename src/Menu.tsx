@@ -54,7 +54,7 @@ export interface MenuProps
   openAnimation?: OpenAnimation;
 
   /** direction of menu */
-  direction?: 'ltr' | 'rtl' | 'auto';
+  direction?: 'ltr' | 'rtl';
 }
 
 class Menu extends React.Component<MenuProps> {
