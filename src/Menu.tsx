@@ -95,7 +95,6 @@ class Menu extends React.Component<MenuProps> {
       selectedKeys,
       openKeys,
       activeKey: { '0-menu-': getActiveKey(props, props.activeKey) },
-      direction: props.direction,
     });
   }
 
