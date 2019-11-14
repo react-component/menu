@@ -6,7 +6,7 @@ import CSSMotion from 'rc-animate/lib/CSSMotion';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
 import SubPopupMenu, { SubPopupMenuProps } from './SubPopupMenu';
-import placements from './placements';
+import { placements, placementsRtl } from './placements';
 import {
   noop,
   loopMenuItemRecursively,
@@ -419,6 +419,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       manualRef: this.saveMenuInstance,
       itemIcon: props.itemIcon,
       expandIcon: props.expandIcon,
+      direction: props.store.getState().direction,
     };
   };
 
@@ -454,12 +455,16 @@ export class SubMenu extends React.Component<SubMenuProps> {
       return <div />;
     }
 
+    const { direction } = baseProps;
     return (
       <CSSMotion visible={baseProps.visible} {...mergedMotion}>
         {({ className, style }) => {
           const mergedClassName = classNames(
             `${baseProps.prefixCls}-sub`,
             className,
+            {
+              [`${baseProps.prefixCls}-rtl`]: direction && direction === 'rtl',
+            },
           );
 
           return (
@@ -519,8 +524,15 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
 
     const style: React.CSSProperties = {};
+
+    const { direction } = props.store.getState();
+
     if (isInlineMode) {
-      style.paddingLeft = props.inlineIndent * props.level;
+      if (direction === 'rtl') {
+        style.paddingRight = props.inlineIndent * props.level;
+      } else {
+        style.paddingLeft = props.inlineIndent * props.level;
+      }
     }
 
     let ariaOwns = {};
@@ -568,7 +580,8 @@ export class SubMenu extends React.Component<SubMenuProps> {
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
     const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
-    const popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
+    let popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
+    popupClassName += direction === 'rtl' ? ` ${prefixCls}-rtl` : '';
     const {
       disabled,
       triggerSubMenuAction,
@@ -580,7 +593,10 @@ export class SubMenu extends React.Component<SubMenuProps> {
     menuAllProps.forEach(key => delete props[key]);
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
-
+    const placement =
+      direction === 'rtl'
+        ? Object.assign({}, placementsRtl, builtinPlacements)
+        : Object.assign({}, placements, builtinPlacements);
     return (
       <li
         {...(props as any)}
@@ -595,7 +611,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
             prefixCls={prefixCls}
             popupClassName={classNames(`${prefixCls}-popup`, popupClassName)}
             getPopupContainer={getPopupContainer}
-            builtinPlacements={Object.assign({}, placements, builtinPlacements)}
+            builtinPlacements={placement}
             popupPlacement={popupPlacement}
             popupVisible={isOpen}
             popupAlign={popupAlign}

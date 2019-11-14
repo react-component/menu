@@ -207,6 +207,189 @@ exports[`Menu should render horizontal menu correctly 1`] = `
 </ul>
 `;
 
+exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
+<ul
+  class="rc-menu myMenu rc-menu-root rc-menu-rtl rc-menu-horizontal"
+  direction="rtl"
+  role="menu"
+  tabindex="0"
+>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    class=" rc-menu-item-group"
+  >
+    <div
+      class="rc-menu-item-group-title"
+      title="g1"
+    >
+      g1
+    </div>
+    <ul
+      class="rc-menu-item-group-list"
+    >
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+      >
+        1
+      </li>
+      <li
+        class=" rc-menu-item-divider"
+      />
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+      >
+        2
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    class="rc-menu-item"
+    direction="rtl"
+    role="menuitem"
+  >
+    3
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    class=" rc-menu-item-group"
+  >
+    <div
+      class="rc-menu-item-group-title"
+      title="g2"
+    >
+      g2
+    </div>
+    <ul
+      class="rc-menu-item-group-list"
+    >
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+      >
+        4
+      </li>
+      <li
+        aria-disabled="true"
+        class="rc-menu-item rc-menu-item-disabled"
+        direction="rtl"
+        role="menuitem"
+      >
+        5
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="display:none"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal"
+    role="menuitem"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+      title="submenu"
+    >
+      submenu
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
+    role="menuitem"
+    style="visibility:hidden;position:absolute"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+    >
+      <span>
+        ···
+      </span>
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+</ul>
+`;
+
 exports[`Menu should render inline menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-inline"
@@ -301,6 +484,106 @@ exports[`Menu should render inline menu correctly 1`] = `
 </ul>
 `;
 
+exports[`Menu should render inline menu with rtl direction correctly 1`] = `
+<ul
+  class="rc-menu myMenu rc-menu-root rc-menu-rtl rc-menu-inline"
+  direction="rtl"
+  role="menu"
+  tabindex="0"
+>
+  <li
+    class=" rc-menu-item-group"
+  >
+    <div
+      class="rc-menu-item-group-title"
+      title="g1"
+    >
+      g1
+    </div>
+    <ul
+      class="rc-menu-item-group-list"
+    >
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+        style="padding-right:24px"
+      >
+        1
+      </li>
+      <li
+        class=" rc-menu-item-divider"
+      />
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+        style="padding-right:24px"
+      >
+        2
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-item"
+    direction="rtl"
+    role="menuitem"
+    style="padding-right:24px"
+  >
+    3
+  </li>
+  <li
+    class=" rc-menu-item-group"
+  >
+    <div
+      class="rc-menu-item-group-title"
+      title="g2"
+    >
+      g2
+    </div>
+    <ul
+      class="rc-menu-item-group-list"
+    >
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+        style="padding-right:24px"
+      >
+        4
+      </li>
+      <li
+        aria-disabled="true"
+        class="rc-menu-item rc-menu-item-disabled"
+        direction="rtl"
+        role="menuitem"
+        style="padding-right:24px"
+      >
+        5
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-inline"
+    role="menuitem"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+      style="padding-right:24px"
+      title="submenu"
+    >
+      submenu
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+    <div />
+  </li>
+</ul>
+`;
+
 exports[`Menu should render vertical menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"
@@ -363,6 +646,99 @@ exports[`Menu should render vertical menu correctly 1`] = `
       <li
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
+        role="menuitem"
+      >
+        5
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="menuitem"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+      title="submenu"
+    >
+      submenu
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+</ul>
+`;
+
+exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
+<ul
+  class="rc-menu myMenu rc-menu-root rc-menu-rtl rc-menu-vertical"
+  direction="rtl"
+  role="menu"
+  tabindex="0"
+>
+  <li
+    class=" rc-menu-item-group"
+  >
+    <div
+      class="rc-menu-item-group-title"
+      title="g1"
+    >
+      g1
+    </div>
+    <ul
+      class="rc-menu-item-group-list"
+    >
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+      >
+        1
+      </li>
+      <li
+        class=" rc-menu-item-divider"
+      />
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+      >
+        2
+      </li>
+    </ul>
+  </li>
+  <li
+    class="rc-menu-item"
+    direction="rtl"
+    role="menuitem"
+  >
+    3
+  </li>
+  <li
+    class=" rc-menu-item-group"
+  >
+    <div
+      class="rc-menu-item-group-title"
+      title="g2"
+    >
+      g2
+    </div>
+    <ul
+      class="rc-menu-item-group-list"
+    >
+      <li
+        class="rc-menu-item"
+        direction="rtl"
+        role="menuitem"
+      >
+        4
+      </li>
+      <li
+        aria-disabled="true"
+        class="rc-menu-item rc-menu-item-disabled"
+        direction="rtl"
         role="menuitem"
       >
         5
