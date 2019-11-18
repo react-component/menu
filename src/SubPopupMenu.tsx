@@ -386,6 +386,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       itemIcon: childProps.itemIcon || this.props.itemIcon,
       expandIcon: childProps.expandIcon || this.props.expandIcon,
       ...extraProps,
+      direction: props.direction,
     };
     // ref: https://github.com/ant-design/ant-design/issues/13943
     if (props.mode === 'inline' || isMobileDevice()) {

@@ -15,6 +15,7 @@ export interface MenuItemGroupProps {
   rootPrefixCls?: string;
   title?: React.ReactNode;
   onClick?: MenuClickEventHandler;
+  direction?: 'ltr' | 'rtl';
 }
 
 class MenuItemGroup extends React.Component<MenuItemGroupProps> {
@@ -39,6 +40,7 @@ class MenuItemGroup extends React.Component<MenuItemGroupProps> {
 
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
+    delete props.direction;
 
     return (
       <li

@@ -229,14 +229,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...props.style,
     };
     if (props.mode === 'inline') {
-      const { direction } = props.store.getState();
-      if (direction === 'rtl') {
+      if (props.direction === 'rtl') {
         style.paddingRight = props.inlineIndent * props.level;
       } else {
         style.paddingLeft = props.inlineIndent * props.level;
       }
     }
     menuAllProps.forEach(key => delete props[key]);
+    delete props.direction;
     let icon = this.props.itemIcon;
     if (typeof this.props.itemIcon === 'function') {
       // TODO: This is a bug which should fixed after TS refactor
@@ -258,10 +258,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
 }
 
 const connected = connect(
-  ({ activeKey, selectedKeys, direction }, { eventKey, subMenuKey }) => ({
+  ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
     active: activeKey[subMenuKey] === eventKey,
     isSelected: selectedKeys.indexOf(eventKey) !== -1,
-    direction,
   }),
 )(MenuItem);
 

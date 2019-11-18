@@ -101,6 +101,7 @@ export interface SubMenuProps {
   popupClassName?: string;
 
   motion?: MotionType;
+  direction?: 'ltr' | 'rtl';
 }
 
 export class SubMenu extends React.Component<SubMenuProps> {
@@ -419,7 +420,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       manualRef: this.saveMenuInstance,
       itemIcon: props.itemIcon,
       expandIcon: props.expandIcon,
-      direction: props.store.getState().direction,
+      direction: props.direction,
     };
   };
 
@@ -463,7 +464,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
             `${baseProps.prefixCls}-sub`,
             className,
             {
-              [`${baseProps.prefixCls}-rtl`]: direction && direction === 'rtl',
+              [`${baseProps.prefixCls}-rtl`]: direction === 'rtl',
             },
           );
 
@@ -525,7 +526,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
 
     const style: React.CSSProperties = {};
 
-    const { direction } = props.store.getState();
+    const { direction } = props;
 
     if (isInlineMode) {
       if (direction === 'rtl') {
@@ -597,6 +598,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       direction === 'rtl'
         ? Object.assign({}, placementsRtl, builtinPlacements)
         : Object.assign({}, placements, builtinPlacements);
+    delete props.direction;
     return (
       <li
         {...(props as any)}
