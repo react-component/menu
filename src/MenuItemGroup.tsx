@@ -15,6 +15,7 @@ export interface MenuItemGroupProps {
   rootPrefixCls?: string;
   title?: React.ReactNode;
   onClick?: MenuClickEventHandler;
+  direction?: 'ltr' | 'rtl';
 }
 
 class MenuItemGroup extends React.Component<MenuItemGroupProps> {
