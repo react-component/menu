@@ -78,7 +78,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
       if (this.node) {
         scrollIntoView(this.node, {
           scrollMode: 'if-needed',
+          // eslint-disable-next-line react/no-find-dom-node
           boundary: ReactDOM.findDOMNode(parentMenu) as Element,
+          block: 'nearest',
         });
         parentMenu[`scrolled-${eventKey}`] = true;
       }
