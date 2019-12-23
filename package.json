@@ -46,12 +46,12 @@
   },
   "dependencies": {
     "classnames": "2.x",
-    "dom-scroll-into-view": "1.x",
     "mini-store": "^2.0.0",
     "rc-animate": "^2.10.1",
     "rc-trigger": "^4.0.0-alpha.4",
     "rc-util": "^4.13.0",
     "resize-observer-polyfill": "^1.5.0",
+    "scroll-into-view-if-needed": "^2.2.20",
     "shallowequal": "^1.1.0"
   },
   "devDependencies": {

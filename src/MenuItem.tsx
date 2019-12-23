@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
-import scrollIntoView from 'dom-scroll-into-view';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
 import {
@@ -76,8 +76,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
       (!parentMenu || !parentMenu[`scrolled-${eventKey}`])
     ) {
       if (this.node) {
-        scrollIntoView(this.node, ReactDOM.findDOMNode(parentMenu), {
-          onlyScrollIfNeeded: true,
+        scrollIntoView(this.node, {
+          scrollMode: 'if-needed',
+          boundary: ReactDOM.findDOMNode(parentMenu) as Element,
         });
         parentMenu[`scrolled-${eventKey}`] = true;
       }
