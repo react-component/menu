@@ -47,6 +47,7 @@ export interface MenuProps {
   itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
   overflowedIndicator?: React.ReactNode;
+  role?: string;
 
   /** Menu motion define */
   motion?: MotionType;
