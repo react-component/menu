@@ -93,7 +93,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       this.resizeObserver.disconnect();
     }
     if (this.mutationObserver) {
-      this.resizeObserver.disconnect();
+      this.mutationObserver.disconnect();
     }
   }
 
