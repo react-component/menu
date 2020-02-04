@@ -562,6 +562,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
         ref={this.saveSubMenuTitle}
         style={style}
         className={`${prefixCls}-title`}
+        role="button"
         {...titleMouseEvents}
         {...titleClickEvents}
         aria-expanded={isOpen}
