@@ -61,6 +61,7 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
       style="padding-left: 24px;"
       title="title"
     >

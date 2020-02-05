@@ -45,6 +45,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -92,6 +93,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -116,6 +118,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -161,6 +164,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -178,6 +182,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
       title="submenu"
     >
       submenu
@@ -195,6 +200,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -223,6 +229,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -270,6 +277,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -294,6 +302,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -339,6 +348,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -356,6 +366,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
       title="submenu"
     >
       submenu
@@ -373,6 +384,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
     >
       <span>
         ···
@@ -466,6 +478,7 @@ exports[`Menu should render inline menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
       style="padding-left:24px"
       title="submenu"
     >
@@ -561,6 +574,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
       style="padding-right:24px"
       title="submenu"
     >
@@ -650,6 +664,7 @@ exports[`Menu should render vertical menu correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
       title="submenu"
     >
       submenu
@@ -738,6 +753,7 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      role="button"
       title="submenu"
     >
       submenu
