@@ -108,8 +108,8 @@ class Menu extends React.Component<MenuProps> {
     this.updateMiniStore();
   }
 
-  componentDidUpdate() {
-    this.updateMiniStore();
+  componentDidUpdate(prevProps: MenuProps) {
+    this.updateMiniStore(prevProps);
   }
 
   onSelect = (selectInfo: SelectInfo) => {
@@ -215,16 +215,20 @@ class Menu extends React.Component<MenuProps> {
     this.innerMenu = node;
   };
 
-  updateMiniStore() {
+  updateMiniStore(prevProps?: MenuProps) {
     if ('selectedKeys' in this.props) {
-      this.store.setState({
-        selectedKeys: this.props.selectedKeys || [],
-      });
+      if (!prevProps || this.props.selectedKeys !== prevProps.selectedKeys) {
+        this.store.setState({
+          selectedKeys: this.props.selectedKeys || [],
+        });
+      }
     }
-    if ('openKeys' in this.props) {
-      this.store.setState({
-        openKeys: this.props.openKeys || [],
-      });
+    if ('openKeys' in this.props && this.props.openKeys.length) {
+      if (!prevProps || this.props.openKeys !== prevProps.openKeys) {
+        this.store.setState({
+          openKeys: this.props.openKeys || [],
+        });
+      }
     }
   }
 
