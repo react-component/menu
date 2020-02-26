@@ -190,7 +190,7 @@ ReactDOM.render(
         <tr>
             <td>builtinPlacements</td>
             <td>Object of alignConfigs for <a href="https://github.com/yiminghe/dom-align">dom-align</a></td>
-            <th>see <a href="./src/placements.jsx">placements.jsx</a></th>
+            <th>see <a href="./src/placements.ts">placements.ts</a></th>
             <td>Describes how the popup menus should be positioned</td>
         </tr>
         <tr>
