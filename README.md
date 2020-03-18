@@ -75,7 +75,7 @@ ReactDOM.render(
         </tr>
         <tr>
             <td>activeKey</td>
-            <td>Object</td>
+            <td>String</td>
             <th></th>
             <td>initial and current active menu item's key.</td>
         </tr>
