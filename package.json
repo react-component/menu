@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "classnames": "2.x",
-    "mini-store": "^3.0.0",
+    "mini-store": "^3.0.1",
     "rc-animate": "^2.10.1",
     "rc-trigger": "^4.0.0",
     "rc-util": "^4.13.0",
