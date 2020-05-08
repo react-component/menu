@@ -47,7 +47,7 @@
   "dependencies": {
     "classnames": "2.x",
     "mini-store": "^3.0.1",
-    "rc-animate": "^2.10.1",
+    "rc-animate": "^3.0.0",
     "rc-trigger": "^4.0.0",
     "rc-util": "^4.13.0",
     "resize-observer-polyfill": "^1.5.0",
@@ -60,7 +60,6 @@
     "@types/react-dom": "^16.8.4",
     "@types/warning": "^3.0.0",
     "cross-env": "^7.0.0",
-    "css-animation": "^2.0.4",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.0.2",
     "enzyme-to-json": "^3.4.0",
@@ -68,7 +67,6 @@
     "father": "^2.22.0",
     "less": "^3.10.3",
     "np": "^6.0.0",
-    "prop-types": "^15.5.6",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "typescript": "^3.5.2"

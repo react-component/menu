@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, SubMenu } from '../src';
@@ -539,10 +538,6 @@ describe('SubMenu', () => {
           )}
         </Menu>
       );
-
-      App.propTypes = {
-        show: PropTypes.bool,
-      };
 
       const wrapper = mount(<App show />);
 
