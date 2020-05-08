@@ -2,36 +2,42 @@
 
 ---
 
-react menu component. port from https://github.com/kissyteam/menu
+React Menu Component. port from https://github.com/kissyteam/menu
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
-[![gemnasium deps][gemnasium-image]][gemnasium-url]
-[![node version][node-image]][node-url]
+[![Dependencies][david-image]][david-url]
+[![DevDependencies][david-dev-image]][david-dev-url]
 [![npm download][download-image]][download-url]
+[![bundle size][bundlephobia-image]][bundlephobia-url]
 
 [npm-image]: http://img.shields.io/npm/v/rc-menu.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-menu
-[travis-image]: https://img.shields.io/travis/react-component/menu.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/react-component/menu/master?style=flat-square
 [travis-url]: https://travis-ci.org/react-component/menu
+[circleci-image]: https://img.shields.io/circleci/react-component/menu/master?style=flat-square
+[circleci-url]: https://circleci.com/gh/react-component/menu
 [coveralls-image]: https://img.shields.io/coveralls/react-component/menu.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/react-component/menu?branch=master
-[gemnasium-image]: http://img.shields.io/gemnasium/react-component/menu.svg?style=flat-square
-[gemnasium-url]: https://gemnasium.com/react-component/menu
-[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
-[node-url]: http://nodejs.org/download/
+[david-url]: https://david-dm.org/react-component/menu
+[david-image]: https://david-dm.org/react-component/menu/status.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/react-component/menu?type=dev
+[david-dev-image]: https://david-dm.org/react-component/menu/dev-status.svg?style=flat-square
 [download-image]: https://img.shields.io/npm/dm/rc-menu.svg?style=flat-square
 [download-url]: https://npmjs.org/package/rc-menu
+[bundlephobia-url]: https://bundlephobia.com/result?p=rc-menu
+[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-menu
 
-## Screenshot
+## Install
 
-![alt](https://tfsimg.alipay.com/images/T19vReXg0oXXXXXXXX.png)
+[![rc-menu](https://nodei.co/npm/rc-menu.png)](https://npmjs.org/package/rc-menu)
 
 ## Usage
 
-```jsx
+```js
 import Menu, { SubMenu, MenuItem } from 'rc-menu';
+
 ReactDOM.render(
   <Menu>
     <MenuItem>1</MenuItem>
@@ -43,9 +49,11 @@ ReactDOM.render(
 );
 ```
 
-## install
+## Compatibility
 
-[![rc-menu](https://nodei.co/npm/rc-menu.png)](https://npmjs.org/package/rc-menu)
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Electron |
+| --- | --- | --- | --- | --- |
+| IE11, Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
 ## API
 
