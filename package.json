@@ -51,7 +51,6 @@
     "rc-trigger": "^4.0.0",
     "rc-util": "^4.13.0",
     "resize-observer-polyfill": "^1.5.0",
-    "scroll-into-view-if-needed": "^2.2.20",
     "shallowequal": "^1.1.0"
   },
   "devDependencies": {
