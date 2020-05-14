@@ -46,6 +46,8 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
   // cache item of the original items (so we can track the size and order)
   menuItemSizes: number[] = [];
 
+  cancelFrameId: number = null;
+
   state: DOMWrapState = {
     lastVisibleIndex: undefined,
   };
@@ -58,7 +60,13 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
         return;
       }
       this.resizeObserver = new ResizeObserver(entries => {
-        entries.forEach(this.setChildrenWidthAndResize);
+        entries.forEach(() => {
+          const { cancelFrameId } = this;
+          cancelAnimationFrame(cancelFrameId);
+          this.cancelFrameId = requestAnimationFrame(
+            this.setChildrenWidthAndResize,
+          );
+        });
       });
 
       [].slice
@@ -95,6 +103,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     if (this.mutationObserver) {
       this.mutationObserver.disconnect();
     }
+    cancelAnimationFrame(this.cancelFrameId);
   }
 
   // get all valid menuItem nodes
