@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
-import scrollIntoView from 'scroll-into-view-if-needed';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
 import {
@@ -66,27 +64,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     this.callRef();
   }
 
-  componentDidUpdate(prevProps: MenuItemProps) {
-    const { active, parentMenu, eventKey } = this.props;
-    // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
-    // https://github.com/ant-design/ant-design/issues/16181
-    if (
-      !prevProps.active &&
-      active &&
-      (!parentMenu || !parentMenu[`scrolled-${eventKey}`])
-    ) {
-      if (this.node) {
-        scrollIntoView(this.node, {
-          scrollMode: 'if-needed',
-          // eslint-disable-next-line react/no-find-dom-node
-          boundary: ReactDOM.findDOMNode(parentMenu) as Element,
-          block: 'nearest',
-        });
-        parentMenu[`scrolled-${eventKey}`] = true;
-      }
-    } else if (parentMenu && parentMenu[`scrolled-${eventKey}`]) {
-      delete parentMenu[`scrolled-${eventKey}`];
-    }
+  componentDidUpdate() {
     this.callRef();
   }
 

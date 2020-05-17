@@ -209,5 +209,21 @@ describe('MenuItem', () => {
 
       expect(wrapper.render()).toMatchSnapshot();
     });
+
+    it('should call onDestroy before unmount', () => {
+      const callback = jest.fn();
+
+      const wrapper = mount(
+        <Menu>
+          <MenuItem role="option" key="item" onDestroy={callback}>
+            <span>Item content</span>
+          </MenuItem>
+        </Menu>,
+      );
+
+      wrapper.unmount();
+
+      expect(callback).toHaveBeenCalled();
+    });
   });
 });
