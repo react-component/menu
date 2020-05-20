@@ -217,7 +217,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
       }
     }
     menuAllProps.forEach(key => delete props[key]);
-    delete props.direction;
     let icon = this.props.itemIcon;
     if (typeof this.props.itemIcon === 'function') {
       // TODO: This is a bug which should fixed after TS refactor

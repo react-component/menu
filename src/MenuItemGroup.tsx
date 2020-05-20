@@ -40,7 +40,6 @@ class MenuItemGroup extends React.Component<MenuItemGroupProps> {
 
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
-    delete props.direction;
 
     return (
       <li

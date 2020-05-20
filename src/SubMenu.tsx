@@ -592,14 +592,13 @@ export class SubMenu extends React.Component<SubMenuProps> {
       subMenuCloseDelay,
       builtinPlacements,
     } = props;
-    menuAllProps.forEach(key => delete props[key]);
-    // Set onClick to null, to ignore propagated onClick event
-    delete props.onClick;
     const placement =
       direction === 'rtl'
         ? Object.assign({}, placementsRtl, builtinPlacements)
         : Object.assign({}, placements, builtinPlacements);
-    delete props.direction;
+    menuAllProps.forEach(key => delete props[key]);
+    // Set onClick to null, to ignore propagated onClick event
+    delete props.onClick;
     return (
       <li
         {...(props as any)}
