@@ -40,10 +40,6 @@
     "coverage": "father test --coverage",
     "now-build": "npm run build"
   },
-  "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
-  },
   "dependencies": {
     "classnames": "2.x",
     "mini-store": "^3.0.1",
