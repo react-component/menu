@@ -230,7 +230,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {...mouseEvent}
         style={style}
         ref={this.saveNode}
-        title={typeof props.title === 'string' ? props.title : undefined}
+        title={typeof attrs.title === 'string' ? attrs.title : undefined}
       >
         {props.children}
         {icon}
