@@ -178,7 +178,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       'aria-selected'?: boolean;
     } = {
       ...props.attribute,
-      title: props.title,
+      title: typeof props.title === 'string' ? props.title : undefined,
       className,
       // set to menuitem by default
       role: props.role || 'menuitem',
@@ -230,7 +230,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {...mouseEvent}
         style={style}
         ref={this.saveNode}
-        title={typeof attrs.title === 'string' ? attrs.title : undefined}
       >
         {props.children}
         {icon}
