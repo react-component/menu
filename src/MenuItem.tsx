@@ -178,7 +178,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       'aria-selected'?: boolean;
     } = {
       ...props.attribute,
-      title: props.title,
+      title: typeof props.title === 'string' ? props.title : undefined,
       className,
       // set to menuitem by default
       role: props.role || 'menuitem',

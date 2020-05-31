@@ -4,6 +4,7 @@ module.exports = {
   ...base,
   rules: {
     ...base.rules,
+    'import/no-extraneous-dependencies': 0,
     'import/no-named-as-default': 0,
     'no-template-curly-in-string': 0,
     'prefer-promise-reject-errors': 0,
