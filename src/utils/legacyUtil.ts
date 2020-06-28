@@ -3,17 +3,26 @@ import { MotionType, TransitionNameType, OpenAnimation } from '../interface';
 
 interface GetMotionProps {
   motion?: MotionType;
+  defaultMotion?: MotionType;
   openAnimation?: OpenAnimation;
   openTransitionName?: TransitionNameType;
   prefixCls?: string;
 }
 
-export function getMotion({
-  prefixCls,
-  motion,
-  openAnimation,
-  openTransitionName,
-}: GetMotionProps): MotionType {
+interface GetMotionState {
+  switchingModeFromInline: boolean;
+}
+
+export function getMotion(
+  {
+    prefixCls,
+    motion,
+    defaultMotion,
+    openAnimation,
+    openTransitionName,
+  }: GetMotionProps,
+  { switchingModeFromInline }: GetMotionState,
+): MotionType {
   if (motion) {
     return motion;
   }
@@ -35,5 +44,7 @@ export function getMotion({
     };
   }
 
-  return null;
+  // When mode switch from inline
+  // submenu should hide without animation
+  return switchingModeFromInline ? null : defaultMotion;
 }
