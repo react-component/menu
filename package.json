@@ -44,6 +44,7 @@
     "@babel/runtime": "^7.10.1",
     "classnames": "2.x",
     "mini-store": "^3.0.1",
+    "omit.js": "^1.0.2",
     "rc-animate": "^3.1.0",
     "rc-trigger": "^4.2.0",
     "rc-util": "^5.0.1",
