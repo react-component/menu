@@ -1,7 +1,7 @@
-import Menu from './Menu';
+import Menu, { MenuProps } from './Menu';
 import SubMenu from './SubMenu';
 import MenuItem from './MenuItem';
-import MenuItemGroup from './MenuItemGroup';
+import MenuItemGroup, { MenuItemGroupProps } from './MenuItemGroup';
 import Divider from './Divider';
 
 export {
@@ -11,6 +11,8 @@ export {
   MenuItemGroup,
   MenuItemGroup as ItemGroup,
   Divider,
+  MenuProps,
+  MenuItemGroupProps,
 };
 
 export default Menu;

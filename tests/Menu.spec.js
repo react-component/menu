@@ -643,12 +643,25 @@ describe('Menu', () => {
   });
 
   describe('motion', () => {
-    it('defaultMotion should work correctly', () => {
+    it('defaultMotions should work correctly', () => {
+      const defaultMotions = {
+        inline: { motionName: 'inlineMotion' },
+        horizontal: { motionName: 'horizontalMotion' },
+        other: { motionName: 'defaultMotion' },
+      };
       const wrapper = mount(
-        <Menu mode="inline" defaultMotion={{ motionName: 'defaultMotion1' }} />,
+        <Menu mode="inline" defaultMotions={defaultMotions} />,
       );
-      expect(getMotion(wrapper.props(), wrapper.state())).toEqual({
-        motionName: 'defaultMotion1',
+      expect(getMotion(wrapper.props(), wrapper.state(), 'inline')).toEqual({
+        motionName: 'inlineMotion',
+      });
+      expect(getMotion(wrapper.props(), wrapper.state(), 'horizontal')).toEqual(
+        {
+          motionName: 'horizontalMotion',
+        },
+      );
+      expect(getMotion(wrapper.props(), wrapper.state(), 'vertical')).toEqual({
+        motionName: 'defaultMotion',
       });
     });
 
