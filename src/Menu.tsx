@@ -48,8 +48,9 @@ export interface MenuProps
   overflowedIndicator?: React.ReactNode;
   /** Menu motion define */
   motion?: MotionType;
-  /** Default menu motion */
-  defaultMotion?: MotionType;
+
+  /** Default menu motion of each mode */
+  defaultMotions?: Partial<{ [key in MenuMode | 'other']: MotionType }>;
 
   /** @deprecated Please use `motion` instead */
   openTransitionName?: string;
@@ -395,7 +396,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       ...omit(this.props, [
         'collapsedWidth',
         'siderCollapsed',
-        'defaultMotion',
+        'defaultMotions',
       ]),
     };
     const mode = this.getRealMenuMode();
@@ -413,7 +414,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       onMouseEnter: this.onMouseEnter,
       onTransitionEnd: this.onTransitionEnd,
       parentMenu: this,
-      motion: getMotion(this.props, this.state),
+      motion: getMotion(this.props, this.state, mode),
     };
 
     delete props.openAnimation;

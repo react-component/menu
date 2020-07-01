@@ -1,9 +1,14 @@
 import warning from 'rc-util/lib/warning';
-import { MotionType, TransitionNameType, OpenAnimation } from '../interface';
+import {
+  MotionType,
+  TransitionNameType,
+  OpenAnimation,
+  MenuMode,
+} from '../interface';
 
 interface GetMotionProps {
   motion?: MotionType;
-  defaultMotion?: MotionType;
+  defaultMotions?: Partial<{ [key in MenuMode | 'other']: MotionType }>;
   openAnimation?: OpenAnimation;
   openTransitionName?: TransitionNameType;
   prefixCls?: string;
@@ -17,11 +22,12 @@ export function getMotion(
   {
     prefixCls,
     motion,
-    defaultMotion,
+    defaultMotions = {},
     openAnimation,
     openTransitionName,
   }: GetMotionProps,
   { switchingModeFromInline }: GetMotionState,
+  menuMode: MenuMode,
 ): MotionType {
   if (motion) {
     return motion;
@@ -43,8 +49,14 @@ export function getMotion(
       motionName: openTransitionName,
     };
   }
+  // Default logic
+  const defaultMotion = defaultMotions[menuMode];
+
+  if (defaultMotion) {
+    return defaultMotion;
+  }
 
   // When mode switch from inline
   // submenu should hide without animation
-  return switchingModeFromInline ? null : defaultMotion;
+  return switchingModeFromInline ? null : defaultMotions.other;
 }
