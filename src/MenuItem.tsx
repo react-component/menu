@@ -1,6 +1,7 @@
 import React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
+import omit from 'omit.js';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
 import {
@@ -16,7 +17,11 @@ import {
 
 /* eslint react/no-is-mounted:0 */
 
-export interface MenuItemProps {
+export interface MenuItemProps
+  extends Omit<
+    React.HTMLAttributes<HTMLLIElement>,
+    'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
+  > {
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
   rootPrefixCls?: string;
@@ -225,7 +230,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
     return (
       <li
-        {...(props as any)}
+        {...omit(props, [
+          'onClick',
+          'onMouseEnter',
+          'onMouseLeave',
+          'onSelect',
+        ])}
         {...attrs}
         {...mouseEvent}
         style={style}
