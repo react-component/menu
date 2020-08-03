@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
 import { getWidth, setStyle, menuAllProps } from './util';

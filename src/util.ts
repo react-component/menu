@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import isMobile from './utils/isMobile';
 import MenuItemGroup from './MenuItemGroup';
 import SubMenu from './SubMenu';

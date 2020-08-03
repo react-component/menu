@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Provider, create } from 'mini-store';
 import omit from 'omit.js';
 import SubPopupMenu, { getActiveKey } from './SubPopupMenu';

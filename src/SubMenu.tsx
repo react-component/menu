@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
 import CSSMotion from 'rc-animate/lib/CSSMotion';
