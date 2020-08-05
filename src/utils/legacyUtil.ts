@@ -1,16 +1,12 @@
 import warning from 'rc-util/lib/warning';
-import {
-  MotionType,
-  TransitionNameType,
-  OpenAnimation,
-  MenuMode,
-} from '../interface';
+import { CSSMotionProps } from 'rc-motion';
+import { OpenAnimation, MenuMode } from '../interface';
 
 interface GetMotionProps {
-  motion?: MotionType;
-  defaultMotions?: Partial<{ [key in MenuMode | 'other']: MotionType }>;
+  motion?: CSSMotionProps;
+  defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
   openAnimation?: OpenAnimation;
-  openTransitionName?: TransitionNameType;
+  openTransitionName?: string;
   prefixCls?: string;
 }
 
@@ -28,7 +24,7 @@ export function getMotion(
   }: GetMotionProps,
   { switchingModeFromInline }: GetMotionState,
   menuMode: MenuMode,
-): MotionType {
+): CSSMotionProps {
   if (motion) {
     return motion;
   }

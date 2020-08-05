@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Provider, create } from 'mini-store';
 import omit from 'omit.js';
+import { CSSMotionProps } from 'rc-motion';
 import SubPopupMenu, { getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
 import {
@@ -15,7 +16,6 @@ import {
   BuiltinPlacements,
   TriggerSubMenuAction,
   MenuClickEventHandler,
-  MotionType,
 } from './interface';
 import { getMotion } from './utils/legacyUtil';
 
@@ -47,10 +47,10 @@ export interface MenuProps
   expandIcon?: RenderIconType;
   overflowedIndicator?: React.ReactNode;
   /** Menu motion define */
-  motion?: MotionType;
+  motion?: CSSMotionProps;
 
   /** Default menu motion of each mode */
-  defaultMotions?: Partial<{ [key in MenuMode | 'other']: MotionType }>;
+  defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
 
   /** @deprecated Please use `motion` instead */
   openTransitionName?: string;

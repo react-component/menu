@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
-import CSSMotion from 'rc-animate/lib/CSSMotion';
+import CSSMotion, { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
 import SubPopupMenu, { SubPopupMenuProps } from './SubPopupMenu';
@@ -27,7 +27,6 @@ import {
   BuiltinPlacements,
   TriggerSubMenuAction,
   HoverEventHandler,
-  MotionType,
 } from './interface';
 import { MenuItem } from './MenuItem';
 
@@ -100,7 +99,7 @@ export interface SubMenuProps {
   className?: string;
   popupClassName?: string;
 
-  motion?: MotionType;
+  motion?: CSSMotionProps;
   direction?: 'ltr' | 'rtl';
 }
 
@@ -431,7 +430,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     // don't show transition on first rendering (no animation for opened menu)
     // show appear transition if it's not visible (not sure why)
     // show appear transition if it's not inline mode
-    const mergedMotion: MotionType = {
+    const mergedMotion: CSSMotionProps = {
       ...motion,
       leavedClassName: `${rootPrefixCls}-hidden`,
       removeOnLeave: false,

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'mini-store';
+import { CSSMotionProps } from 'rc-motion';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import shallowEqual from 'shallowequal';
@@ -25,7 +26,6 @@ import {
   MenuClickEventHandler,
   MenuInfo,
   TriggerSubMenuAction,
-  MotionType,
 } from './interface';
 import { MenuItem, MenuItemProps } from './MenuItem';
 import { MenuItemGroupProps } from './MenuItemGroup';
@@ -151,7 +151,7 @@ export interface SubPopupMenuProps {
   // [Legacy]
   // openTransitionName?: string;
   // openAnimation?: OpenAnimation;
-  motion?: MotionType;
+  motion?: CSSMotionProps;
 
   direction?: 'ltr' | 'rtl';
 }

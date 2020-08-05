@@ -163,7 +163,7 @@ ReactDOM.render(
             <td>openAnimation</td>
             <td>{enter:function,leave:function}|String</td>
             <th></th>
-            <td>animate when sub menu open or close. see rc-animate for object type.</td>
+            <td>animate when sub menu open or close. see rc-motion for object type.</td>
         </tr>
         <tr>
             <td>openTransition</td>
