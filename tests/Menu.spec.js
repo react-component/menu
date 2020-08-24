@@ -480,12 +480,24 @@ describe('Menu', () => {
 
     let wrapper;
 
-    it('width should contain margin when get margin is set to true', () => {
-      const memorizedGetComputedStyle = window.getComputedStyle
-      window.getComputedStyle = () => ({ marginLeft: '10px', marginRight: '10px' })
-      expect(mockedUtil.getWidth({ getBoundingClientRect () { return { width: 10 } } }, true)).toEqual(30)
-      window.getComputedStyle = memorizedGetComputedStyle
-    })
+    it('getWidth should contain margin when includeMargin is set to true', () => {
+      const memorizedGetComputedStyle = window.getComputedStyle;
+      window.getComputedStyle = () => ({
+        marginLeft: '10px',
+        marginRight: '10px',
+      });
+      expect(
+        mockedUtil.getWidth(
+          {
+            getBoundingClientRect() {
+              return { width: 10 };
+            },
+          },
+          true,
+        ),
+      ).toEqual(30);
+      window.getComputedStyle = memorizedGetComputedStyle;
+    });
 
     it('should not include overflow indicator when having enough width', () => {
       const indicatorWidth = 50; // actual width including 40 px padding, which will be 50;
