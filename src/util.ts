@@ -136,13 +136,13 @@ export const menuAllProps = [
 // getBoundingClientRect return the full precision value, which is
 // not the same behavior as on chrome. Set the precision to 6 to
 // unify their behavior
-export const getWidth = (elem: HTMLElement, withMargin: boolean = false) => {
+export const getWidth = (elem: HTMLElement, includeMargin: boolean = false) => {
   let width =
     elem &&
     typeof elem.getBoundingClientRect === 'function' &&
     elem.getBoundingClientRect().width;
   if (width) {
-    if (withMargin) {
+    if (includeMargin) {
       const { marginLeft, marginRight } = getComputedStyle(elem);
       width += +marginLeft.replace('px', '') + +marginRight.replace('px', '');
     }
