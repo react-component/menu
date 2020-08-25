@@ -224,14 +224,15 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       setStyle(c, 'display', 'inline-block');
     });
 
-    this.menuItemSizes = menuItemNodes.map(c => getWidth(c));
+    this.menuItemSizes = menuItemNodes.map(c => getWidth(c, true));
 
     overflowedItems.forEach(c => {
       setStyle(c, 'display', 'none');
     });
-    this.overflowedIndicatorWidth = getWidth(ul.children[
-      ul.children.length - 1
-    ] as HTMLElement);
+    this.overflowedIndicatorWidth = getWidth(
+      ul.children[ul.children.length - 1] as HTMLElement,
+      true,
+    );
     this.originalTotalWidth = this.menuItemSizes.reduce(
       (acc, cur) => acc + cur,
       0,
