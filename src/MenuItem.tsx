@@ -248,7 +248,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 }
 
-const connected = connect(
+const connected = connect<any, any, any>(
   ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
     active: activeKey[subMenuKey] === eventKey,
     isSelected: selectedKeys.indexOf(eventKey) !== -1,

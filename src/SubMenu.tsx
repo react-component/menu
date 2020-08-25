@@ -632,13 +632,13 @@ export class SubMenu extends React.Component<SubMenuProps> {
   }
 }
 
-const connected = connect(
+const connected = connect<any, any, any>(
   ({ openKeys, activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
     isOpen: openKeys.indexOf(eventKey) > -1,
     active: activeKey[subMenuKey] === eventKey,
     selectedKeys,
   }),
-)(SubMenu);
+)(SubMenu as any);
 
 connected.isSubMenu = true;
 

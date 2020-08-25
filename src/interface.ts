@@ -51,6 +51,7 @@ export type OpenAnimation = string | Record<string, any>;
 export interface MiniStore {
   getState: () => any;
   setState: (state: any) => void;
+  subscribe: (listener: () => void) => () => void;
 }
 
 export type LegacyFunctionRef = (node: React.ReactInstance) => void;
