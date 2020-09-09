@@ -157,14 +157,14 @@ export class SubMenu extends React.Component<SubMenuProps> {
   }
 
   componentDidUpdate() {
-    const { mode, parentMenu, manualRef } = this.props;
+    const { mode, parentMenu, manualRef, isOpen } = this.props;
 
     // invoke customized ref to expose component to mixin
     if (manualRef) {
       manualRef(this);
     }
 
-    if (mode !== 'horizontal' || !parentMenu.isRootMenu || !this.props.isOpen) {
+    if (mode !== 'horizontal' || !parentMenu?.isRootMenu || !isOpen) {
       return;
     }
 
@@ -576,7 +576,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
 
     const children = this.renderChildren(props.children);
 
-    const getPopupContainer = props.parentMenu.isRootMenu
+    const getPopupContainer = props.parentMenu?.isRootMenu
       ? props.parentMenu.props.getPopupContainer
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
