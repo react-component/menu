@@ -393,7 +393,10 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     if (props.mode === 'inline' || isMobileDevice()) {
       newChildProps.triggerSubMenuAction = 'click';
     }
-    return React.cloneElement(child, newChildProps);
+    return React.cloneElement(child, {
+      ...newChildProps,
+      key: key || i,
+    });
   };
 
   renderMenuItem = (

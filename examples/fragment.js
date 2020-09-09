@@ -8,12 +8,10 @@ export default () => (
       <MenuItem key="1-1">0-1</MenuItem>
       <MenuItem key="1-2">0-2</MenuItem>
     </SubMenu>
-    <MenuItem key="2">
-      Menu Item
-    </MenuItem>
+    <MenuItem key="2">Menu Item</MenuItem>
     <MenuItem key="3">outer</MenuItem>
     <>
-      <SubMenu title="sub menu" key="4">
+      <SubMenu key="4" title="sub menu">
         <MenuItem key="4-1">inner inner</MenuItem>
         <Divider />
         <SubMenu key="4-2" title="sub menu">
