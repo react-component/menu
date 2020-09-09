@@ -67,6 +67,24 @@ describe('Menu', () => {
         ).toContain('-rtl');
       });
     });
+
+    it('should support Fragment', () => {
+      const wrapper = mount(
+        <Menu>
+          <SubMenu title="submenu">
+            <MenuItem key="6">6</MenuItem>
+          </SubMenu>
+          <MenuItem key="6">6</MenuItem>
+          <>
+            <SubMenu title="submenu">
+              <MenuItem key="6">6</MenuItem>
+            </SubMenu>
+            <MenuItem key="6">6</MenuItem>
+          </>
+        </Menu>,
+      );
+      expect(render(wrapper)).toMatchSnapshot();
+    });
   });
 
   describe('render role listbox', () => {

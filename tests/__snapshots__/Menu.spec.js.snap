@@ -588,6 +588,61 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
 </ul>
 `;
 
+exports[`Menu should render should support Fragment 1`] = `
+<ul
+  class="rc-menu  rc-menu-root rc-menu-vertical"
+  role="menu"
+  tabindex="0"
+>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="menuitem"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+      role="button"
+      title="submenu"
+    >
+      submenu
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    class="rc-menu-item"
+    role="menuitem"
+  >
+    6
+  </li>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="menuitem"
+  >
+    <div
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+      role="button"
+      title="submenu"
+    >
+      submenu
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    class="rc-menu-item"
+    role="menuitem"
+  >
+    6
+  </li>
+</ul>
+`;
+
 exports[`Menu should render vertical menu correctly 1`] = `
 <ul
   class="rc-menu myMenu rc-menu-root rc-menu-vertical"

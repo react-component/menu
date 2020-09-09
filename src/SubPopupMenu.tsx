@@ -3,6 +3,7 @@ import { connect } from 'mini-store';
 import { CSSMotionProps } from 'rc-motion';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
+import toArray from 'rc-util/lib/Children/toArray';
 import shallowEqual from 'shallowequal';
 import classNames from 'classnames';
 import {
@@ -460,7 +461,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
         overflowedIndicator={overflowedIndicator}
         {...domProps}
       >
-        {React.Children.map(props.children, (c: React.ReactElement, i) =>
+        {toArray(props.children).map((c: React.ReactElement, i) =>
           this.renderMenuItem(c, i, eventKey || '0-menu-'),
         )}
       </DOMWrap>
