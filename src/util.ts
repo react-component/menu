@@ -63,6 +63,7 @@ export function loopMenuItemRecursively(
         return;
       }
       if (keys.indexOf((c as any).key) !== -1) {
+        // eslint-disable-next-line no-param-reassign
         ret.find = true;
       } else if (c.props.children) {
         loopMenuItemRecursively(c.props.children, keys, ret);
@@ -157,6 +158,7 @@ export const setStyle = (
   value: string | number,
 ) => {
   if (elem && typeof elem.style === 'object') {
+    // eslint-disable-next-line no-param-reassign
     elem.style[styleProperty] = value;
   }
 };
