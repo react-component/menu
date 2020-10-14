@@ -613,7 +613,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
           getPopupContainer={getPopupContainer}
           builtinPlacements={placement}
           popupPlacement={popupPlacement}
-          popupVisible={isOpen}
+          popupVisible={isInlineMode ? false : isOpen}
           popupAlign={popupAlign}
           popup={isInlineMode ? null : children}
           action={(disabled || isInlineMode) ? [] : [triggerSubMenuAction]}

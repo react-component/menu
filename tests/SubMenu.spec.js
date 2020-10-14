@@ -483,7 +483,7 @@ describe('SubMenu', () => {
 
       title.simulate('click');
       jest.runAllTimers();
-      expect(wrapper.find('CSSMotion').at(1).prop('motionName')).toEqual('fade');
+      expect(wrapper.find('CSSMotion').prop('motionName')).toEqual('fade');
     });
 
     it('should not animate on initially opened menu', () => {
@@ -516,12 +516,7 @@ describe('SubMenu', () => {
       title.simulate('click');
       jest.runAllTimers();
 
-      expect(
-        wrapper
-          .find('CSSMotion')
-          .at(1)
-          .prop('motionAppear'),
-      ).toBeTruthy();
+      expect(wrapper.find('CSSMotion').prop('motionAppear')).toBeTruthy();
     });
   });
 
