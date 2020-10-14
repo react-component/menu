@@ -74,12 +74,12 @@ describe('Menu', () => {
           <SubMenu title="submenu">
             <MenuItem key="6">6</MenuItem>
           </SubMenu>
-          <MenuItem key="6">6</MenuItem>
+          <MenuItem key="7">6</MenuItem>
           <>
             <SubMenu title="submenu">
-              <MenuItem key="6">6</MenuItem>
+              <MenuItem key="8">6</MenuItem>
             </SubMenu>
-            <MenuItem key="6">6</MenuItem>
+            <MenuItem key="9">6</MenuItem>
           </>
         </Menu>,
       );
