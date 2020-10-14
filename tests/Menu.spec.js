@@ -74,12 +74,12 @@ describe('Menu', () => {
           <SubMenu title="submenu">
             <MenuItem key="6">6</MenuItem>
           </SubMenu>
-          <MenuItem key="6">6</MenuItem>
+          <MenuItem key="7">6</MenuItem>
           <>
             <SubMenu title="submenu">
-              <MenuItem key="6">6</MenuItem>
+              <MenuItem key="8">6</MenuItem>
             </SubMenu>
-            <MenuItem key="6">6</MenuItem>
+            <MenuItem key="9">6</MenuItem>
           </>
         </Menu>,
       );
@@ -817,14 +817,13 @@ describe('Menu', () => {
       jest.runAllTimers();
       wrapper.update();
       wrapper.simulate('transitionEnd', { propertyName: 'width' });
-
       expect(
         wrapper
           .find('ul.rc-menu-root')
           .at(0)
           .hasClass('rc-menu-vertical'),
       ).toBe(true);
-      expect(wrapper.find('ul.rc-menu-sub').length).toBe(0);
+      expect(wrapper.find('ul.rc-menu-sub.rc-menu-hidden').length).toBe(1);
 
       wrapper.setProps({ inlineCollapsed: false });
       jest.runAllTimers();

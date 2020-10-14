@@ -599,6 +599,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
         ? Object.assign({}, placementsRtl, builtinPlacements)
         : Object.assign({}, placements, builtinPlacements);
     delete props.direction;
+
     return (
       <li
         {...(props as any)}
@@ -606,27 +607,24 @@ export class SubMenu extends React.Component<SubMenuProps> {
         className={className}
         role="menuitem"
       >
-        {isInlineMode && title}
-        {isInlineMode && children}
-        {!isInlineMode && (
-          <Trigger
-            prefixCls={prefixCls}
-            popupClassName={classNames(`${prefixCls}-popup`, popupClassName)}
-            getPopupContainer={getPopupContainer}
-            builtinPlacements={placement}
-            popupPlacement={popupPlacement}
-            popupVisible={isOpen}
-            popupAlign={popupAlign}
-            popup={children}
-            action={disabled ? [] : [triggerSubMenuAction]}
-            mouseEnterDelay={subMenuOpenDelay}
-            mouseLeaveDelay={subMenuCloseDelay}
-            onPopupVisibleChange={this.onPopupVisibleChange}
-            forceRender={forceSubMenuRender}
-          >
-            {title}
-          </Trigger>
-        )}
+        <Trigger
+          prefixCls={prefixCls}
+          popupClassName={classNames(`${prefixCls}-popup`, popupClassName)}
+          getPopupContainer={getPopupContainer}
+          builtinPlacements={placement}
+          popupPlacement={popupPlacement}
+          popupVisible={isOpen}
+          popupAlign={popupAlign}
+          popup={isInlineMode ? null : children}
+          action={(disabled || isInlineMode) ? [] : [triggerSubMenuAction]}
+          mouseEnterDelay={subMenuOpenDelay}
+          mouseLeaveDelay={subMenuCloseDelay}
+          onPopupVisibleChange={this.onPopupVisibleChange}
+          forceRender={forceSubMenuRender}
+        >
+          {title}
+        </Trigger>
+        {isInlineMode ? children : null}
       </li>
     );
   }
