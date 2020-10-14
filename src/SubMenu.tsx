@@ -616,7 +616,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
           popupVisible={isOpen}
           popupAlign={popupAlign}
           popup={isInlineMode ? null : children}
-          action={(disabled && !isInlineMode) ? [] : [triggerSubMenuAction]}
+          action={(disabled || isInlineMode) ? [] : [triggerSubMenuAction]}
           mouseEnterDelay={subMenuOpenDelay}
           mouseLeaveDelay={subMenuCloseDelay}
           onPopupVisibleChange={this.onPopupVisibleChange}
