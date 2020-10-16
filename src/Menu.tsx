@@ -29,7 +29,7 @@ export interface MenuProps
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   onClick?: MenuClickEventHandler;
   onSelect?: SelectEventHandler;
-  onOpenChange?: (openKeys: string[]) => void;
+  onOpenChange?: (openKeys: React.Key[]) => void;
   onDeselect?: SelectEventHandler;
   onDestroy?: DestroyEventHandler;
   subMenuOpenDelay?: number;
