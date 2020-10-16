@@ -10,7 +10,6 @@ import {
   SelectEventHandler,
   DestroyEventHandler,
   MenuMode,
-  OpenEventHandler,
   OpenAnimation,
   MiniStore,
   BuiltinPlacements,
@@ -30,7 +29,7 @@ export interface MenuProps
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   onClick?: MenuClickEventHandler;
   onSelect?: SelectEventHandler;
-  onOpenChange?: OpenEventHandler;
+  onOpenChange?: (openKeys: string[]) => void;
   onDeselect?: SelectEventHandler;
   onDestroy?: DestroyEventHandler;
   subMenuOpenDelay?: number;
