@@ -10,7 +10,6 @@ import {
   SelectEventHandler,
   DestroyEventHandler,
   MenuMode,
-  OpenEventHandler,
   OpenAnimation,
   MiniStore,
   BuiltinPlacements,
