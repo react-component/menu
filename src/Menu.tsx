@@ -68,6 +68,9 @@ export interface MenuProps
 
 export interface MenuState {
   switchingModeFromInline: boolean;
+  prevProps: MenuProps;
+  inlineOpenKeys: Array<string>;
+  store: MiniStore;
 }
 
 class Menu extends React.Component<MenuProps, MenuState> {
@@ -112,6 +115,9 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
     this.state = {
       switchingModeFromInline: false,
+      prevProps: props,
+      inlineOpenKeys: [],
+      store: this.store,
     };
   }
 
@@ -121,9 +127,48 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
   innerMenu: typeof SubPopupMenu;
 
-  inlineOpenKeys: string[] = [];
-
   prevOpenKeys: string[];
+
+  static getDerivedStateFromProps(nextProps: MenuProps, prevState: MenuState) {
+    const { prevProps, store } = prevState;
+    const prevStoreState = store.getState();
+    const newStoreState: any = {};
+    const newState: Partial<MenuState> = {
+      prevProps: nextProps,
+    };
+    if (prevProps.mode === 'inline' && nextProps.mode !== 'inline') {
+      newState.switchingModeFromInline = true;
+    }
+
+    if ('openKeys' in nextProps) {
+      newStoreState.openKeys = nextProps.openKeys;
+    } else {
+      // [Legacy] Old code will return after `openKeys` changed.
+      // Not sure the reason, we should keep this logic still.
+      if (
+        (nextProps.inlineCollapsed && !prevProps.inlineCollapsed) ||
+        (nextProps.siderCollapsed && !prevProps.siderCollapsed)
+      ) {
+        newState.switchingModeFromInline = true;
+        newState.inlineOpenKeys = prevStoreState.openKeys;
+        newStoreState.openKeys = [];
+      }
+
+      if (
+        (!nextProps.inlineCollapsed && prevProps.inlineCollapsed) ||
+        (!nextProps.siderCollapsed && prevProps.siderCollapsed)
+      ) {
+        newStoreState.openKeys = prevState.inlineOpenKeys;
+        newState.inlineOpenKeys = [];
+      }
+    }
+
+    if (Object.keys(newStoreState).length) {
+      store.setState(newStoreState);
+    }
+
+    return newState;
+  }
 
   componentDidMount() {
     this.updateMiniStore();
@@ -131,8 +176,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   componentDidUpdate(prevProps: MenuProps) {
-    this.updateOpentKeysWhenSwitchMode(prevProps);
-    this.updateMiniStore();
     const { siderCollapsed, inlineCollapsed, onOpenChange } = this.props;
     if (
       (!prevProps.inlineCollapsed && inlineCollapsed) ||
@@ -140,45 +183,8 @@ class Menu extends React.Component<MenuProps, MenuState> {
     ) {
       onOpenChange([]);
     }
+    this.updateMiniStore();
     this.updateMenuDisplay();
-  }
-
-  updateOpentKeysWhenSwitchMode(prevProps: MenuProps) {
-    const { props: nextProps, store, inlineOpenKeys } = this;
-    const prevState = store.getState();
-    const newState: any = {};
-    if (prevProps.mode === 'inline' && nextProps.mode !== 'inline') {
-      this.setState({
-        switchingModeFromInline: true,
-      });
-    }
-
-    if (!('openKeys' in nextProps)) {
-      // [Legacy] Old code will return after `openKeys` changed.
-      // Not sure the reason, we should keep this logic still.
-      if (
-        (nextProps.inlineCollapsed && !prevProps.inlineCollapsed) ||
-        (nextProps.siderCollapsed && !prevProps.siderCollapsed)
-      ) {
-        this.setState({
-          switchingModeFromInline: true,
-        });
-        this.inlineOpenKeys = prevState.openKeys.concat();
-        newState.openKeys = [];
-      }
-
-      if (
-        (!nextProps.inlineCollapsed && prevProps.inlineCollapsed) ||
-        (!nextProps.siderCollapsed && prevProps.siderCollapsed)
-      ) {
-        newState.openKeys = inlineOpenKeys;
-        this.inlineOpenKeys = [];
-      }
-    }
-
-    if (Object.keys(newState).length) {
-      store.setState(newState);
-    }
   }
 
   updateMenuDisplay() {

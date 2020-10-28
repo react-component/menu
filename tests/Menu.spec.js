@@ -823,7 +823,7 @@ describe('Menu', () => {
           .at(0)
           .hasClass('rc-menu-vertical'),
       ).toBe(true);
-      expect(wrapper.find('ul.rc-menu-sub.rc-menu-hidden').length).toBe(1);
+      expect(wrapper.find('ul.rc-menu-sub').length).toBe(0);
 
       wrapper.setProps({ inlineCollapsed: false });
       jest.runAllTimers();
