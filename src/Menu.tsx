@@ -22,9 +22,9 @@ export interface MenuProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'onSelect'> {
   defaultSelectedKeys?: string[];
   defaultActiveFirst?: boolean;
-  selectedKeys?: string[];
-  defaultOpenKeys?: string[];
-  openKeys?: string[];
+  selectedKeys?: React.Key[];
+  defaultOpenKeys?: React.Key[];
+  openKeys?: React.Key[];
   mode?: MenuMode;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   onClick?: MenuClickEventHandler;
