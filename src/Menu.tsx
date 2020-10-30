@@ -20,7 +20,7 @@ import { getMotion } from './utils/legacyUtil';
 
 export interface MenuProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'onSelect'> {
-  defaultSelectedKeys?: string[];
+  defaultSelectedKeys?: React.Key[];
   defaultActiveFirst?: boolean;
   selectedKeys?: React.Key[];
   defaultOpenKeys?: React.Key[];
