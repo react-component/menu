@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 import KeyCode from 'rc-util/lib/KeyCode';
-import CSSMotion from 'rc-animate/lib/CSSMotion';
+import CSSMotion, { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
 import SubPopupMenu, { SubPopupMenuProps } from './SubPopupMenu';
@@ -27,7 +27,6 @@ import {
   BuiltinPlacements,
   TriggerSubMenuAction,
   HoverEventHandler,
-  MotionType,
 } from './interface';
 import { MenuItem } from './MenuItem';
 
@@ -100,7 +99,7 @@ export interface SubMenuProps {
   className?: string;
   popupClassName?: string;
 
-  motion?: MotionType;
+  motion?: CSSMotionProps;
   direction?: 'ltr' | 'rtl';
 }
 
@@ -158,14 +157,14 @@ export class SubMenu extends React.Component<SubMenuProps> {
   }
 
   componentDidUpdate() {
-    const { mode, parentMenu, manualRef } = this.props;
+    const { mode, parentMenu, manualRef, isOpen } = this.props;
 
     // invoke customized ref to expose component to mixin
     if (manualRef) {
       manualRef(this);
     }
 
-    if (mode !== 'horizontal' || !parentMenu.isRootMenu || !this.props.isOpen) {
+    if (mode !== 'horizontal' || !parentMenu?.isRootMenu || !isOpen) {
       return;
     }
 
@@ -431,7 +430,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     // don't show transition on first rendering (no animation for opened menu)
     // show appear transition if it's not visible (not sure why)
     // show appear transition if it's not inline mode
-    const mergedMotion: MotionType = {
+    const mergedMotion: CSSMotionProps = {
       ...motion,
       leavedClassName: `${rootPrefixCls}-hidden`,
       removeOnLeave: false,
@@ -577,7 +576,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
 
     const children = this.renderChildren(props.children);
 
-    const getPopupContainer = props.parentMenu.isRootMenu
+    const getPopupContainer = props.parentMenu?.isRootMenu
       ? props.parentMenu.props.getPopupContainer
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
@@ -600,6 +599,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
         ? Object.assign({}, placementsRtl, builtinPlacements)
         : Object.assign({}, placements, builtinPlacements);
     delete props.direction;
+
     return (
       <li
         {...(props as any)}
@@ -607,39 +607,36 @@ export class SubMenu extends React.Component<SubMenuProps> {
         className={className}
         role="menuitem"
       >
-        {isInlineMode && title}
-        {isInlineMode && children}
-        {!isInlineMode && (
-          <Trigger
-            prefixCls={prefixCls}
-            popupClassName={classNames(`${prefixCls}-popup`, popupClassName)}
-            getPopupContainer={getPopupContainer}
-            builtinPlacements={placement}
-            popupPlacement={popupPlacement}
-            popupVisible={isOpen}
-            popupAlign={popupAlign}
-            popup={children}
-            action={disabled ? [] : [triggerSubMenuAction]}
-            mouseEnterDelay={subMenuOpenDelay}
-            mouseLeaveDelay={subMenuCloseDelay}
-            onPopupVisibleChange={this.onPopupVisibleChange}
-            forceRender={forceSubMenuRender}
-          >
-            {title}
-          </Trigger>
-        )}
+        <Trigger
+          prefixCls={prefixCls}
+          popupClassName={classNames(`${prefixCls}-popup`, popupClassName)}
+          getPopupContainer={getPopupContainer}
+          builtinPlacements={placement}
+          popupPlacement={popupPlacement}
+          popupVisible={isInlineMode ? false : isOpen}
+          popupAlign={popupAlign}
+          popup={isInlineMode ? null : children}
+          action={(disabled || isInlineMode) ? [] : [triggerSubMenuAction]}
+          mouseEnterDelay={subMenuOpenDelay}
+          mouseLeaveDelay={subMenuCloseDelay}
+          onPopupVisibleChange={this.onPopupVisibleChange}
+          forceRender={forceSubMenuRender}
+        >
+          {title}
+        </Trigger>
+        {isInlineMode ? children : null}
       </li>
     );
   }
 }
 
-const connected = connect(
+const connected = connect<any, any, any>(
   ({ openKeys, activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
     isOpen: openKeys.indexOf(eventKey) > -1,
     active: activeKey[subMenuKey] === eventKey,
     selectedKeys,
   }),
-)(SubMenu);
+)(SubMenu as any);
 
 connected.isSubMenu = true;
 

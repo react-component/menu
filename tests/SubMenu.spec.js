@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, SubMenu } from '../src';
@@ -484,7 +483,6 @@ describe('SubMenu', () => {
 
       title.simulate('click');
       jest.runAllTimers();
-
       expect(wrapper.find('CSSMotion').prop('motionName')).toEqual('fade');
     });
 
@@ -518,12 +516,7 @@ describe('SubMenu', () => {
       title.simulate('click');
       jest.runAllTimers();
 
-      expect(
-        wrapper
-          .find('CSSMotion')
-          .first()
-          .prop('motionAppear'),
-      ).toBeTruthy();
+      expect(wrapper.find('CSSMotion').prop('motionAppear')).toBeTruthy();
     });
   });
 
@@ -539,10 +532,6 @@ describe('SubMenu', () => {
           )}
         </Menu>
       );
-
-      App.propTypes = {
-        show: PropTypes.bool,
-      };
 
       const wrapper = mount(<App show />);
 

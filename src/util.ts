@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import isMobile from './utils/isMobile';
 import MenuItemGroup from './MenuItemGroup';
 import SubMenu from './SubMenu';
@@ -63,6 +63,7 @@ export function loopMenuItemRecursively(
         return;
       }
       if (keys.indexOf((c as any).key) !== -1) {
+        // eslint-disable-next-line no-param-reassign
         ret.find = true;
       } else if (c.props.children) {
         loopMenuItemRecursively(c.props.children, keys, ret);
@@ -136,12 +137,16 @@ export const menuAllProps = [
 // getBoundingClientRect return the full precision value, which is
 // not the same behavior as on chrome. Set the precision to 6 to
 // unify their behavior
-export const getWidth = (elem: HTMLElement) => {
+export const getWidth = (elem: HTMLElement, includeMargin: boolean = false) => {
   let width =
     elem &&
     typeof elem.getBoundingClientRect === 'function' &&
     elem.getBoundingClientRect().width;
   if (width) {
+    if (includeMargin) {
+      const { marginLeft, marginRight } = getComputedStyle(elem);
+      width += +marginLeft.replace('px', '') + +marginRight.replace('px', '');
+    }
     width = +width.toFixed(6);
   }
   return width || 0;
@@ -153,6 +158,7 @@ export const setStyle = (
   value: string | number,
 ) => {
   if (elem && typeof elem.style === 'object') {
+    // eslint-disable-next-line no-param-reassign
     elem.style[styleProperty] = value;
   }
 };

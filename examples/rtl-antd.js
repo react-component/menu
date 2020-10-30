@@ -1,7 +1,6 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
 import '../assets/index.less';
 
@@ -148,15 +147,6 @@ class CommonMenu extends React.Component {
     );
   }
 }
-
-CommonMenu.propTypes = {
-  mode: PropTypes.string,
-  openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  motion: PropTypes.object,
-  triggerSubMenuAction: PropTypes.string,
-  defaultOpenKeys: PropTypes.arrayOf(PropTypes.string),
-  updateChildrenAndOverflowedIndicator: PropTypes.bool,
-};
 
 function Demo() {
   const horizontalMenu = (

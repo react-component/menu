@@ -1,6 +1,10 @@
 # History
 ----
 
+## 8.1.0 / 2020-05-08
+
+- Upgrade rc-animate to `3.x`
+
 ## 7.5.0 / 2019-10-14
 
 - Use CSSMotion instead of Animate

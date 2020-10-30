@@ -1,8 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
-import scrollIntoView from 'scroll-into-view-if-needed';
+import omit from 'omit.js';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
 import {
@@ -18,7 +17,11 @@ import {
 
 /* eslint react/no-is-mounted:0 */
 
-export interface MenuItemProps {
+export interface MenuItemProps
+  extends Omit<
+    React.HTMLAttributes<HTMLLIElement>,
+    'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
+  > {
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
   rootPrefixCls?: string;
@@ -66,27 +69,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     this.callRef();
   }
 
-  componentDidUpdate(prevProps: MenuItemProps) {
-    const { active, parentMenu, eventKey } = this.props;
-    // 在 parentMenu 上层保存滚动状态，避免重复的 MenuItem key 导致滚动跳动
-    // https://github.com/ant-design/ant-design/issues/16181
-    if (
-      !prevProps.active &&
-      active &&
-      (!parentMenu || !parentMenu[`scrolled-${eventKey}`])
-    ) {
-      if (this.node) {
-        scrollIntoView(this.node, {
-          scrollMode: 'if-needed',
-          // eslint-disable-next-line react/no-find-dom-node
-          boundary: ReactDOM.findDOMNode(parentMenu) as Element,
-          block: 'nearest',
-        });
-        parentMenu[`scrolled-${eventKey}`] = true;
-      }
-    } else if (parentMenu && parentMenu[`scrolled-${eventKey}`]) {
-      delete parentMenu[`scrolled-${eventKey}`];
-    }
+  componentDidUpdate() {
     this.callRef();
   }
 
@@ -200,7 +183,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       'aria-selected'?: boolean;
     } = {
       ...props.attribute,
-      title: props.title,
+      title: typeof props.title === 'string' ? props.title : undefined,
       className,
       // set to menuitem by default
       role: props.role || 'menuitem',
@@ -247,7 +230,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
     return (
       <li
-        {...(props as any)}
+        {...omit(props, [
+          'onClick',
+          'onMouseEnter',
+          'onMouseLeave',
+          'onSelect',
+        ])}
         {...attrs}
         {...mouseEvent}
         style={style}
@@ -260,7 +248,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 }
 
-const connected = connect(
+const connected = connect<any, any, any>(
   ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
     active: activeKey[subMenuKey] === eventKey,
     isSelected: selectedKeys.indexOf(eventKey) !== -1,
