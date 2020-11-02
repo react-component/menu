@@ -5,7 +5,7 @@
 React Menu Component. port from https://github.com/kissyteam/menu
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
+[![build status][github-actions-image]][github-actions-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 [![Dependencies][david-image]][david-url]
 [![DevDependencies][david-dev-image]][david-dev-url]
@@ -14,8 +14,8 @@ React Menu Component. port from https://github.com/kissyteam/menu
 
 [npm-image]: http://img.shields.io/npm/v/rc-menu.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-menu
-[travis-image]: https://img.shields.io/travis/react-component/menu/master?style=flat-square
-[travis-url]: https://travis-ci.org/react-component/menu
+[github-actions-image]: https://github.com/react-component/menu/workflows/CI/badge.svg
+[github-actions-url]: https://github.com/react-component/menu/actions
 [circleci-image]: https://img.shields.io/circleci/react-component/menu/master?style=flat-square
 [circleci-url]: https://circleci.com/gh/react-component/menu
 [coveralls-image]: https://img.shields.io/coveralls/react-component/menu.svg?style=flat-square
