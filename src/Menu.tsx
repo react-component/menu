@@ -177,13 +177,13 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
   componentDidUpdate(prevProps: MenuProps) {
     const { siderCollapsed, inlineCollapsed, onOpenChange } = this.props;
+    this.updateMiniStore();
     if (
       (!prevProps.inlineCollapsed && inlineCollapsed) ||
       (!prevProps.siderCollapsed && siderCollapsed)
     ) {
       onOpenChange([]);
     }
-    this.updateMiniStore();
     this.updateMenuDisplay();
   }
 
