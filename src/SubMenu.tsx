@@ -197,7 +197,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
    *  This legacy code that `onKeyDown` is called by parent instead of dom self.
    *  which need return code to check if this event is handled
    */
-  onKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
+  onKeyDown: React.KeyboardEventHandler<HTMLElement> = (e) => {
     const { keyCode } = e;
     const menu = this.menuInstance;
     const { isOpen, store } = this.props;
@@ -239,7 +239,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     return undefined;
   };
 
-  onOpenChange: OpenEventHandler = e => {
+  onOpenChange: OpenEventHandler = (e) => {
     this.props.onOpenChange(e);
   };
 
@@ -247,7 +247,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     this.triggerOpenChange(visible, visible ? 'mouseenter' : 'mouseleave');
   };
 
-  onMouseEnter: React.MouseEventHandler<HTMLElement> = e => {
+  onMouseEnter: React.MouseEventHandler<HTMLElement> = (e) => {
     const { eventKey: key, onMouseEnter, store } = this.props;
     updateDefaultActiveFirst(store, this.props.eventKey, false);
     onMouseEnter({
@@ -256,7 +256,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
+  onMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
     const { parentMenu, eventKey, onMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onMouseLeave({
@@ -265,7 +265,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = domEvent => {
+  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = (domEvent) => {
     const { eventKey: key, onItemHover, onTitleMouseEnter } = this.props;
     onItemHover({
       key,
@@ -277,7 +277,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
+  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
     const { parentMenu, eventKey, onItemHover, onTitleMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onItemHover({
@@ -313,11 +313,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
   };
 
-  onSelect: SelectEventHandler = info => {
+  onSelect: SelectEventHandler = (info) => {
     this.props.onSelect(info);
   };
 
-  onDeselect: SelectEventHandler = info => {
+  onDeselect: SelectEventHandler = (info) => {
     this.props.onDeselect(info);
   };
 
@@ -368,6 +368,8 @@ export class SubMenu extends React.Component<SubMenuProps> {
   };
 
   isOpen = () => this.props.openKeys.indexOf(this.props.eventKey) !== -1;
+
+  isInlineMode = () => this.props.mode === 'inline';
 
   adjustWidth = () => {
     /* istanbul ignore if */
@@ -440,43 +442,55 @@ export class SubMenu extends React.Component<SubMenuProps> {
     return mergedMotion;
   };
 
-  renderChildren(children: React.ReactNode) {
+  renderPopupMenu(className: string, style?: React.CSSProperties) {
     const baseProps = this.getBaseProps();
 
+    /**
+     * zombiej: Why SubPopupMenu here?
+     * Seems whatever popup or inline mode both will render SubPopupMenu.
+     * It's controlled by Trigger for popup or not.
+     */
+    return (
+      <SubPopupMenu
+        {...baseProps}
+        id={this.internalMenuId}
+        className={className}
+        style={style}
+      >
+        {this.props.children}
+      </SubPopupMenu>
+    );
+  }
+
+  renderChildren() {
+    const baseProps = this.getBaseProps();
+    const { mode, visible, forceSubMenuRender, direction } = baseProps;
+
     // [Legacy] getMotion must be called before `haveRendered`
-    const mergedMotion = this.getMotion(baseProps.mode, baseProps.visible);
+    const mergedMotion = this.getMotion(mode, visible);
 
     this.haveRendered = true;
 
-    this.haveOpened =
-      this.haveOpened || baseProps.visible || baseProps.forceSubMenuRender;
+    this.haveOpened = this.haveOpened || visible || forceSubMenuRender;
     // never rendered not planning to, don't render
     if (!this.haveOpened) {
       return <div />;
     }
 
-    const { direction } = baseProps;
+    const sharedClassName = classNames(`${baseProps.prefixCls}-sub`, {
+      [`${baseProps.prefixCls}-rtl`]: direction === 'rtl',
+    });
+
+    if (!this.isInlineMode()) {
+      return this.renderPopupMenu(sharedClassName);
+    }
+
     return (
       <CSSMotion visible={baseProps.visible} {...mergedMotion}>
         {({ className, style }) => {
-          const mergedClassName = classNames(
-            `${baseProps.prefixCls}-sub`,
-            className,
-            {
-              [`${baseProps.prefixCls}-rtl`]: direction === 'rtl',
-            },
-          );
+          const mergedClassName = classNames(sharedClassName, className);
 
-          return (
-            <SubPopupMenu
-              {...baseProps}
-              id={this.internalMenuId}
-              className={mergedClassName}
-              style={style}
-            >
-              {children}
-            </SubPopupMenu>
-          );
+          return this.renderPopupMenu(mergedClassName, style);
         }}
       </CSSMotion>
     );
@@ -486,11 +500,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
     const props = { ...this.props };
     const { isOpen } = props;
     const prefixCls = this.getPrefixCls();
-    const isInlineMode = props.mode === 'inline';
+    const inline = this.isInlineMode();
     const className = classNames(prefixCls, `${prefixCls}-${props.mode}`, {
       [props.className]: !!props.className,
       [this.getOpenClassName()]: isOpen,
-      [this.getActiveClassName()]: props.active || (isOpen && !isInlineMode),
+      [this.getActiveClassName()]: props.active || (isOpen && !inline),
       [this.getDisabledClassName()]: props.disabled,
       [this.getSelectedClassName()]: this.isChildrenSelected(),
     });
@@ -526,9 +540,10 @@ export class SubMenu extends React.Component<SubMenuProps> {
     const style: React.CSSProperties = {};
 
     const { direction } = props;
+    const isRTL = direction === 'rtl';
 
-    if (isInlineMode) {
-      if (direction === 'rtl') {
+    if (inline) {
+      if (isRTL) {
         style.paddingRight = props.inlineIndent * props.level;
       } else {
         style.paddingLeft = props.inlineIndent * props.level;
@@ -574,15 +589,17 @@ export class SubMenu extends React.Component<SubMenuProps> {
       </div>
     );
 
-    const children = this.renderChildren(props.children);
+    const children = this.renderChildren();
 
     const getPopupContainer = props.parentMenu?.isRootMenu
       ? props.parentMenu.props.getPopupContainer
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
     const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
-    let popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
-    popupClassName += direction === 'rtl' ? ` ${prefixCls}-rtl` : '';
+    const popupClassName = classNames({
+      [props.popupClassName]: props.popupClassName && !inline,
+      [`${prefixCls}-rtl`]: isRTL,
+    });
     const {
       disabled,
       triggerSubMenuAction,
@@ -591,14 +608,20 @@ export class SubMenu extends React.Component<SubMenuProps> {
       subMenuCloseDelay,
       builtinPlacements,
     } = props;
-    menuAllProps.forEach(key => delete props[key]);
+    menuAllProps.forEach((key) => delete props[key]);
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
-    const placement =
-      direction === 'rtl'
-        ? Object.assign({}, placementsRtl, builtinPlacements)
-        : Object.assign({}, placements, builtinPlacements);
+    const placement = isRTL
+      ? Object.assign({}, placementsRtl, builtinPlacements)
+      : Object.assign({}, placements, builtinPlacements);
     delete props.direction;
+
+    // [Legacy] It's a fast fix,
+    // but we should check if we can refactor this to make code more easy to understand
+    const baseProps = this.getBaseProps();
+    const mergedMotion = inline
+      ? null
+      : this.getMotion(baseProps.mode, baseProps.visible);
 
     return (
       <li
@@ -613,18 +636,19 @@ export class SubMenu extends React.Component<SubMenuProps> {
           getPopupContainer={getPopupContainer}
           builtinPlacements={placement}
           popupPlacement={popupPlacement}
-          popupVisible={isInlineMode ? false : isOpen}
+          popupVisible={inline ? false : isOpen}
           popupAlign={popupAlign}
-          popup={isInlineMode ? null : children}
-          action={(disabled || isInlineMode) ? [] : [triggerSubMenuAction]}
+          popup={inline ? null : children}
+          action={disabled || inline ? [] : [triggerSubMenuAction]}
           mouseEnterDelay={subMenuOpenDelay}
           mouseLeaveDelay={subMenuCloseDelay}
           onPopupVisibleChange={this.onPopupVisibleChange}
           forceRender={forceSubMenuRender}
+          popupMotion={mergedMotion}
         >
           {title}
         </Trigger>
-        {isInlineMode ? children : null}
+        {inline ? children : null}
       </li>
     );
   }
