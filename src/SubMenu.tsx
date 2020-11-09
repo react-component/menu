@@ -616,7 +616,8 @@ export class SubMenu extends React.Component<SubMenuProps> {
       : Object.assign({}, placements, builtinPlacements);
     delete props.direction;
 
-    // [Legacy] It's a fast fix, but we should check if we can refactor this to make code more easy to understand
+    // [Legacy] It's a fast fix,
+    // but we should check if we can refactor this to make code more easy to understand
     const baseProps = this.getBaseProps();
     const mergedMotion = inline
       ? null
