@@ -481,7 +481,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       [`${baseProps.prefixCls}-rtl`]: direction === 'rtl',
     });
 
-    if (this.isInlineMode()) {
+    if (!this.isInlineMode()) {
       return this.renderPopupMenu(sharedClassName);
     }
 
@@ -540,9 +540,10 @@ export class SubMenu extends React.Component<SubMenuProps> {
     const style: React.CSSProperties = {};
 
     const { direction } = props;
+    const isRTL = direction === 'rtl';
 
     if (inline) {
-      if (direction === 'rtl') {
+      if (isRTL) {
         style.paddingRight = props.inlineIndent * props.level;
       } else {
         style.paddingLeft = props.inlineIndent * props.level;
@@ -595,8 +596,10 @@ export class SubMenu extends React.Component<SubMenuProps> {
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
     const popupPlacement = popupPlacementMap[props.mode];
     const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
-    let popupClassName = props.mode === 'inline' ? '' : props.popupClassName;
-    popupClassName += direction === 'rtl' ? ` ${prefixCls}-rtl` : '';
+    const popupClassName = classNames({
+      [props.popupClassName]: props.popupClassName && !inline,
+      [`${prefixCls}-rtl`]: isRTL,
+    });
     const {
       disabled,
       triggerSubMenuAction,
@@ -608,10 +611,9 @@ export class SubMenu extends React.Component<SubMenuProps> {
     menuAllProps.forEach((key) => delete props[key]);
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
-    const placement =
-      direction === 'rtl'
-        ? Object.assign({}, placementsRtl, builtinPlacements)
-        : Object.assign({}, placements, builtinPlacements);
+    const placement = isRTL
+      ? Object.assign({}, placementsRtl, builtinPlacements)
+      : Object.assign({}, placements, builtinPlacements);
     delete props.direction;
 
     // [Legacy] It's a fast fix, but we should check if we can refactor this to make code more easy to understand
@@ -619,6 +621,8 @@ export class SubMenu extends React.Component<SubMenuProps> {
     const mergedMotion = inline
       ? null
       : this.getMotion(baseProps.mode, baseProps.visible);
+
+    console.log('>>>>>>', popupClassName, props.popupClassName);
 
     return (
       <li
