@@ -622,8 +622,6 @@ export class SubMenu extends React.Component<SubMenuProps> {
       ? null
       : this.getMotion(baseProps.mode, baseProps.visible);
 
-    console.log('>>>>>>', popupClassName, props.popupClassName);
-
     return (
       <li
         {...(props as any)}
