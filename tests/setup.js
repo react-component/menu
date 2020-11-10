@@ -1,8 +1,5 @@
-global.requestAnimationFrame =
-  global.requestAnimationFrame ||
-  function requestAnimationFrame(cb) {
-    return setTimeout(cb, 0);
-  };
+window.requestAnimationFrame = func => window.setTimeout(func, 16);
+window.cancelAnimationFrame = id => window.clearTimeout(id);
 
 const Enzyme = require('enzyme');
 const Adapter = require('enzyme-adapter-react-16');

@@ -1,5 +1,6 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence */
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
@@ -817,6 +818,13 @@ describe('Menu', () => {
       jest.runAllTimers();
       wrapper.update();
       wrapper.simulate('transitionEnd', { propertyName: 'width' });
+
+      // Flush SubMenu raf state update
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+
       expect(
         wrapper
           .find('ul.rc-menu-root')
@@ -856,16 +864,30 @@ describe('Menu', () => {
         </Menu>,
       );
       expect(wrapper.find('.rc-menu-sub').length).toBe(0);
+
+      // Do collapsed
       wrapper.setProps({ inlineCollapsed: true });
+
       jest.runAllTimers();
       wrapper.update();
+
       wrapper.simulate('transitionEnd', { propertyName: 'width' });
+
+      // Wait internal raf work
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+
+      // Hover to show
       wrapper
         .find('.rc-menu-submenu-title')
         .at(0)
         .simulate('mouseEnter');
+
       jest.runAllTimers();
       wrapper.update();
+
       expect(
         wrapper
           .find('.rc-menu-submenu')
