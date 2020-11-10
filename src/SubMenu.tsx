@@ -172,15 +172,24 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
   componentDidUpdate() {
     const { mode, parentMenu, manualRef, isOpen } = this.props;
 
-    if (mode !== this.state.mode || isOpen !== this.state.isOpen) {
+    const updateState = () => {
+      this.setState({
+        mode,
+        isOpen,
+      });
+    };
+
+    // Delay sync when mode changed in case openKeys change not sync
+    const isOpenChanged = isOpen !== this.state.isOpen;
+    const isModeChanged = mode !== this.state.mode;
+    if (isModeChanged || isOpenChanged) {
       raf.cancel(this.updateStateRaf);
 
-      this.updateStateRaf = raf(() => {
-        this.setState({
-          mode,
-          isOpen,
-        });
-      });
+      if (isModeChanged) {
+        this.updateStateRaf = raf(updateState);
+      } else {
+        updateState();
+      }
     }
 
     // invoke customized ref to expose component to mixin
