@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
+import raf from 'rc-util/lib/raf';
 import KeyCode from 'rc-util/lib/KeyCode';
 import CSSMotion, { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
@@ -104,9 +105,8 @@ export interface SubMenuProps {
 }
 
 interface SubMenuState {
-  showWhenPopup: boolean;
-  mode: string;
-  visible: boolean;
+  mode: MenuMode;
+  isOpen: boolean;
 }
 
 export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
@@ -137,9 +137,8 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     updateDefaultActiveFirst(store, eventKey, value);
 
     this.state = {
-      showWhenPopup: false,
       mode: props.mode,
-      visible: props.isOpen,
+      isOpen: props.isOpen,
     };
   }
 
@@ -155,6 +154,8 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
 
   haveOpened: boolean;
 
+  updateStateRaf: number;
+
   /**
    * Follow timeout should be `number`.
    * Current is only convert code into TS,
@@ -164,34 +165,23 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
 
   mouseenterTimeout: any;
 
-  static getDerivedStateFromProps(
-    nextProps: SubMenuProps,
-    prevState: SubMenuState,
-  ): Partial<SubMenuState> | null {
-    const newState: Partial<SubMenuState> = {
-      mode: nextProps.mode,
-      visible: nextProps.isOpen,
-    };
-
-    //
-    if (nextProps.isOpen && nextProps.isOpen !== prevState.visible) {
-      newState.showWhenPopup = true;
-    }
-
-    // Reset state when mode changed
-    if (nextProps.mode !== prevState.mode) {
-      newState.showWhenPopup = false;
-    }
-
-    return newState;
-  }
-
   componentDidMount() {
     this.componentDidUpdate();
   }
 
   componentDidUpdate() {
     const { mode, parentMenu, manualRef, isOpen } = this.props;
+
+    if (mode !== this.state.mode || isOpen !== this.state.isOpen) {
+      raf.cancel(this.updateStateRaf);
+
+      this.updateStateRaf = raf(() => {
+        this.setState({
+          mode,
+          isOpen,
+        });
+      });
+    }
 
     // invoke customized ref to expose component to mixin
     if (manualRef) {
@@ -220,6 +210,8 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     if (this.mouseenterTimeout) {
       clearTimeout(this.mouseenterTimeout);
     }
+
+    raf.cancel(this.updateStateRaf);
   }
 
   onDestroy = (key: string) => {
@@ -234,7 +226,8 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
   onKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
     const { keyCode } = e;
     const menu = this.menuInstance;
-    const { isOpen, store } = this.props;
+    const { store } = this.props;
+    const visible = this.getVisible();
 
     if (keyCode === KeyCode.ENTER) {
       this.onTitleClick(e);
@@ -243,7 +236,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     }
 
     if (keyCode === KeyCode.RIGHT) {
-      if (isOpen) {
+      if (visible) {
         menu.onKeyDown(e);
       } else {
         this.triggerOpenChange(true);
@@ -254,7 +247,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     }
     if (keyCode === KeyCode.LEFT) {
       let handled: boolean;
-      if (isOpen) {
+      if (visible) {
         handled = menu.onKeyDown(e);
       } else {
         return undefined;
@@ -266,7 +259,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
       return handled;
     }
 
-    if (isOpen && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
+    if (visible && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
       return menu.onKeyDown(e);
     }
 
@@ -335,7 +328,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     if (props.triggerSubMenuAction === 'hover') {
       return;
     }
-    this.triggerOpenChange(!props.isOpen, 'click');
+    this.triggerOpenChange(!this.getVisible(), 'click');
     updateDefaultActiveFirst(props.store, this.props.eventKey, false);
   };
 
@@ -364,6 +357,10 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
   getSelectedClassName = () => `${this.getPrefixCls()}-selected`;
 
   getOpenClassName = () => `${this.props.rootPrefixCls}-submenu-open`;
+
+  getVisible = () => this.state.isOpen;
+
+  getMode = () => this.state.mode;
 
   saveMenuInstance = (c: MenuItem) => {
     // children menu instance
@@ -401,9 +398,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     return ret.find;
   };
 
-  isOpen = () => this.props.openKeys.indexOf(this.props.eventKey) !== -1;
-
-  isInlineMode = () => this.props.mode === 'inline';
+  isInlineMode = () => this.getMode() === 'inline';
 
   adjustWidth = () => {
     /* istanbul ignore if */
@@ -425,9 +420,11 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
 
   getBaseProps = (): SubPopupMenuProps => {
     const { props } = this;
+    const mergedMode = this.getMode();
+
     return {
-      mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
-      visible: this.props.isOpen,
+      mode: mergedMode === 'horizontal' ? 'vertical' : mergedMode,
+      visible: this.getVisible(),
       level: props.level + 1,
       inlineIndent: props.inlineIndent,
       focusable: false,
@@ -516,9 +513,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     });
 
     if (!this.isInlineMode()) {
-      return this.state.showWhenPopup
-        ? this.renderPopupMenu(sharedClassName)
-        : null;
+      return this.renderPopupMenu(sharedClassName);
     }
 
     return (
@@ -534,13 +529,14 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
 
   render() {
     const props = { ...this.props };
-    const { isOpen } = props;
+    const visible = this.getVisible();
     const prefixCls = this.getPrefixCls();
     const inline = this.isInlineMode();
-    const className = classNames(prefixCls, `${prefixCls}-${props.mode}`, {
+    const mergedMode = this.getMode();
+    const className = classNames(prefixCls, `${prefixCls}-${mergedMode}`, {
       [props.className]: !!props.className,
-      [this.getOpenClassName()]: isOpen,
-      [this.getActiveClassName()]: props.active || (isOpen && !inline),
+      [this.getOpenClassName()]: visible,
+      [this.getActiveClassName()]: props.active || (visible && !inline),
       [this.getDisabledClassName()]: props.disabled,
       [this.getSelectedClassName()]: this.isChildrenSelected(),
     });
@@ -590,7 +586,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     // only set aria-owns when menu is open
     // otherwise it would be an invalid aria-owns value
     // since corresponding node cannot be found
-    if (this.props.isOpen) {
+    if (this.getVisible()) {
       ariaOwns = {
         'aria-owns': this.internalMenuId,
       };
@@ -598,7 +594,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
 
     // expand custom icon should NOT be displayed in menu with horizontal mode.
     let icon = null;
-    if (props.mode !== 'horizontal') {
+    if (mergedMode !== 'horizontal') {
       icon = this.props.expandIcon; // ReactNode
       if (typeof this.props.expandIcon === 'function') {
         icon = React.createElement(this.props.expandIcon as any, {
@@ -615,7 +611,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
         role="button"
         {...titleMouseEvents}
         {...titleClickEvents}
-        aria-expanded={isOpen}
+        aria-expanded={visible}
         {...ariaOwns}
         aria-haspopup="true"
         title={typeof props.title === 'string' ? props.title : undefined}
@@ -630,7 +626,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     const getPopupContainer = props.parentMenu?.isRootMenu
       ? props.parentMenu.props.getPopupContainer
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
-    const popupPlacement = popupPlacementMap[props.mode];
+    const popupPlacement = popupPlacementMap[mergedMode];
     const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
     const popupClassName = classNames({
       [props.popupClassName]: props.popupClassName && !inline,
@@ -672,7 +668,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
           getPopupContainer={getPopupContainer}
           builtinPlacements={placement}
           popupPlacement={popupPlacement}
-          popupVisible={inline ? false : isOpen}
+          popupVisible={inline ? false : visible}
           popupAlign={popupAlign}
           popup={inline ? null : children}
           action={disabled || inline ? [] : [triggerSubMenuAction]}
