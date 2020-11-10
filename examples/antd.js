@@ -12,7 +12,7 @@ function handleClick(info) {
 const collapseNode = () => ({ height: 0 });
 const expandNode = node => ({ height: node.scrollHeight });
 
-const inlineMotion = {
+export const inlineMotion = {
   motionName: 'rc-menu-collapse',
   onAppearStart: collapseNode,
   onAppearActive: expandNode,
@@ -95,7 +95,7 @@ const children2 = [
 
 const customizeIndicator = <span>Add More Items</span>;
 
-class CommonMenu extends React.Component {
+export class CommonMenu extends React.Component {
   state = {
     children: children1,
     overflowedIndicator: undefined,
@@ -134,11 +134,8 @@ class CommonMenu extends React.Component {
           triggerSubMenuAction={triggerSubMenuAction}
           onOpenChange={onOpenChange}
           selectedKeys={['3']}
-          mode={this.props.mode}
-          openAnimation={this.props.openAnimation}
-          defaultOpenKeys={this.props.defaultOpenKeys}
           overflowedIndicator={overflowedIndicator}
-          motion={this.props.motion}
+          {...this.props}
         >
           {children}
         </Menu>

@@ -103,7 +103,13 @@ export interface SubMenuProps {
   direction?: 'ltr' | 'rtl';
 }
 
-export class SubMenu extends React.Component<SubMenuProps> {
+interface SubMenuState {
+  showWhenPopup: boolean;
+  mode: string;
+  visible: boolean;
+}
+
+export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
   static defaultProps = {
     onMouseEnter: noop,
     onMouseLeave: noop,
@@ -129,6 +135,12 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
 
     updateDefaultActiveFirst(store, eventKey, value);
+
+    this.state = {
+      showWhenPopup: false,
+      mode: props.mode,
+      visible: props.isOpen,
+    };
   }
 
   isRootMenu: boolean;
@@ -151,6 +163,28 @@ export class SubMenu extends React.Component<SubMenuProps> {
   minWidthTimeout: any;
 
   mouseenterTimeout: any;
+
+  static getDerivedStateFromProps(
+    nextProps: SubMenuProps,
+    prevState: SubMenuState,
+  ): Partial<SubMenuState> | null {
+    const newState: Partial<SubMenuState> = {
+      mode: nextProps.mode,
+      visible: nextProps.isOpen,
+    };
+
+    //
+    if (nextProps.isOpen && nextProps.isOpen !== prevState.visible) {
+      newState.showWhenPopup = true;
+    }
+
+    // Reset state when mode changed
+    if (nextProps.mode !== prevState.mode) {
+      newState.showWhenPopup = false;
+    }
+
+    return newState;
+  }
 
   componentDidMount() {
     this.componentDidUpdate();
@@ -197,7 +231,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
    *  This legacy code that `onKeyDown` is called by parent instead of dom self.
    *  which need return code to check if this event is handled
    */
-  onKeyDown: React.KeyboardEventHandler<HTMLElement> = (e) => {
+  onKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
     const { keyCode } = e;
     const menu = this.menuInstance;
     const { isOpen, store } = this.props;
@@ -239,7 +273,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     return undefined;
   };
 
-  onOpenChange: OpenEventHandler = (e) => {
+  onOpenChange: OpenEventHandler = e => {
     this.props.onOpenChange(e);
   };
 
@@ -247,7 +281,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     this.triggerOpenChange(visible, visible ? 'mouseenter' : 'mouseleave');
   };
 
-  onMouseEnter: React.MouseEventHandler<HTMLElement> = (e) => {
+  onMouseEnter: React.MouseEventHandler<HTMLElement> = e => {
     const { eventKey: key, onMouseEnter, store } = this.props;
     updateDefaultActiveFirst(store, this.props.eventKey, false);
     onMouseEnter({
@@ -256,7 +290,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
+  onMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
     const { parentMenu, eventKey, onMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onMouseLeave({
@@ -265,7 +299,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = (domEvent) => {
+  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = domEvent => {
     const { eventKey: key, onItemHover, onTitleMouseEnter } = this.props;
     onItemHover({
       key,
@@ -277,7 +311,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
+  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
     const { parentMenu, eventKey, onItemHover, onTitleMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onItemHover({
@@ -313,11 +347,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
   };
 
-  onSelect: SelectEventHandler = (info) => {
+  onSelect: SelectEventHandler = info => {
     this.props.onSelect(info);
   };
 
-  onDeselect: SelectEventHandler = (info) => {
+  onDeselect: SelectEventHandler = info => {
     this.props.onDeselect(info);
   };
 
@@ -482,7 +516,9 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
 
     if (!this.isInlineMode()) {
-      return this.renderPopupMenu(sharedClassName);
+      return this.state.showWhenPopup
+        ? this.renderPopupMenu(sharedClassName)
+        : null;
     }
 
     return (
@@ -608,7 +644,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       subMenuCloseDelay,
       builtinPlacements,
     } = props;
-    menuAllProps.forEach((key) => delete props[key]);
+    menuAllProps.forEach(key => delete props[key]);
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
     const placement = isRTL
@@ -619,7 +655,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     // [Legacy] It's a fast fix,
     // but we should check if we can refactor this to make code more easy to understand
     const baseProps = this.getBaseProps();
-    const mergedMotion = inline
+    const mergedMotion: CSSMotionProps = inline
       ? null
       : this.getMotion(baseProps.mode, baseProps.visible);
 
