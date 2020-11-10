@@ -471,9 +471,9 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     );
   }
 }
-const connected = connect()(SubPopupMenu as any) as React.ComponentClass<
-  SubPopupMenuProps
-> & {
+const connected = (connect()(
+  SubPopupMenu as any,
+) as unknown) as React.ComponentClass<SubPopupMenuProps> & {
   getWrappedInstance: () => SubPopupMenu;
 };
 

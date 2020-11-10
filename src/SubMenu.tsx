@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
+import raf from 'rc-util/lib/raf';
 import KeyCode from 'rc-util/lib/KeyCode';
 import CSSMotion, { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
@@ -103,7 +104,12 @@ export interface SubMenuProps {
   direction?: 'ltr' | 'rtl';
 }
 
-export class SubMenu extends React.Component<SubMenuProps> {
+interface SubMenuState {
+  mode: MenuMode;
+  isOpen: boolean;
+}
+
+export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
   static defaultProps = {
     onMouseEnter: noop,
     onMouseLeave: noop,
@@ -129,6 +135,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
 
     updateDefaultActiveFirst(store, eventKey, value);
+
+    this.state = {
+      mode: props.mode,
+      isOpen: props.isOpen,
+    };
   }
 
   isRootMenu: boolean;
@@ -142,6 +153,8 @@ export class SubMenu extends React.Component<SubMenuProps> {
   haveRendered: boolean;
 
   haveOpened: boolean;
+
+  updateStateRaf: number;
 
   /**
    * Follow timeout should be `number`.
@@ -158,6 +171,26 @@ export class SubMenu extends React.Component<SubMenuProps> {
 
   componentDidUpdate() {
     const { mode, parentMenu, manualRef, isOpen } = this.props;
+
+    const updateState = () => {
+      this.setState({
+        mode,
+        isOpen,
+      });
+    };
+
+    // Delay sync when mode changed in case openKeys change not sync
+    const isOpenChanged = isOpen !== this.state.isOpen;
+    const isModeChanged = mode !== this.state.mode;
+    if (isModeChanged || isOpenChanged) {
+      raf.cancel(this.updateStateRaf);
+
+      if (isModeChanged) {
+        this.updateStateRaf = raf(updateState);
+      } else {
+        updateState();
+      }
+    }
 
     // invoke customized ref to expose component to mixin
     if (manualRef) {
@@ -186,6 +219,8 @@ export class SubMenu extends React.Component<SubMenuProps> {
     if (this.mouseenterTimeout) {
       clearTimeout(this.mouseenterTimeout);
     }
+
+    raf.cancel(this.updateStateRaf);
   }
 
   onDestroy = (key: string) => {
@@ -197,10 +232,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
    *  This legacy code that `onKeyDown` is called by parent instead of dom self.
    *  which need return code to check if this event is handled
    */
-  onKeyDown: React.KeyboardEventHandler<HTMLElement> = (e) => {
+  onKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
     const { keyCode } = e;
     const menu = this.menuInstance;
-    const { isOpen, store } = this.props;
+    const { store } = this.props;
+    const visible = this.getVisible();
 
     if (keyCode === KeyCode.ENTER) {
       this.onTitleClick(e);
@@ -209,7 +245,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
 
     if (keyCode === KeyCode.RIGHT) {
-      if (isOpen) {
+      if (visible) {
         menu.onKeyDown(e);
       } else {
         this.triggerOpenChange(true);
@@ -220,7 +256,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
     if (keyCode === KeyCode.LEFT) {
       let handled: boolean;
-      if (isOpen) {
+      if (visible) {
         handled = menu.onKeyDown(e);
       } else {
         return undefined;
@@ -232,14 +268,14 @@ export class SubMenu extends React.Component<SubMenuProps> {
       return handled;
     }
 
-    if (isOpen && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
+    if (visible && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
       return menu.onKeyDown(e);
     }
 
     return undefined;
   };
 
-  onOpenChange: OpenEventHandler = (e) => {
+  onOpenChange: OpenEventHandler = e => {
     this.props.onOpenChange(e);
   };
 
@@ -247,7 +283,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     this.triggerOpenChange(visible, visible ? 'mouseenter' : 'mouseleave');
   };
 
-  onMouseEnter: React.MouseEventHandler<HTMLElement> = (e) => {
+  onMouseEnter: React.MouseEventHandler<HTMLElement> = e => {
     const { eventKey: key, onMouseEnter, store } = this.props;
     updateDefaultActiveFirst(store, this.props.eventKey, false);
     onMouseEnter({
@@ -256,7 +292,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
+  onMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
     const { parentMenu, eventKey, onMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onMouseLeave({
@@ -265,7 +301,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = (domEvent) => {
+  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = domEvent => {
     const { eventKey: key, onItemHover, onTitleMouseEnter } = this.props;
     onItemHover({
       key,
@@ -277,7 +313,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     });
   };
 
-  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
+  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
     const { parentMenu, eventKey, onItemHover, onTitleMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onItemHover({
@@ -301,7 +337,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     if (props.triggerSubMenuAction === 'hover') {
       return;
     }
-    this.triggerOpenChange(!props.isOpen, 'click');
+    this.triggerOpenChange(!this.getVisible(), 'click');
     updateDefaultActiveFirst(props.store, this.props.eventKey, false);
   };
 
@@ -313,11 +349,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
     }
   };
 
-  onSelect: SelectEventHandler = (info) => {
+  onSelect: SelectEventHandler = info => {
     this.props.onSelect(info);
   };
 
-  onDeselect: SelectEventHandler = (info) => {
+  onDeselect: SelectEventHandler = info => {
     this.props.onDeselect(info);
   };
 
@@ -330,6 +366,10 @@ export class SubMenu extends React.Component<SubMenuProps> {
   getSelectedClassName = () => `${this.getPrefixCls()}-selected`;
 
   getOpenClassName = () => `${this.props.rootPrefixCls}-submenu-open`;
+
+  getVisible = () => this.state.isOpen;
+
+  getMode = () => this.state.mode;
 
   saveMenuInstance = (c: MenuItem) => {
     // children menu instance
@@ -367,9 +407,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     return ret.find;
   };
 
-  isOpen = () => this.props.openKeys.indexOf(this.props.eventKey) !== -1;
-
-  isInlineMode = () => this.props.mode === 'inline';
+  isInlineMode = () => this.getMode() === 'inline';
 
   adjustWidth = () => {
     /* istanbul ignore if */
@@ -391,9 +429,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
 
   getBaseProps = (): SubPopupMenuProps => {
     const { props } = this;
+    const mergedMode = this.getMode();
+
     return {
-      mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
-      visible: this.props.isOpen,
+      mode: mergedMode === 'horizontal' ? 'vertical' : mergedMode,
+      visible: this.getVisible(),
       level: props.level + 1,
       inlineIndent: props.inlineIndent,
       focusable: false,
@@ -498,13 +538,14 @@ export class SubMenu extends React.Component<SubMenuProps> {
 
   render() {
     const props = { ...this.props };
-    const { isOpen } = props;
+    const visible = this.getVisible();
     const prefixCls = this.getPrefixCls();
     const inline = this.isInlineMode();
-    const className = classNames(prefixCls, `${prefixCls}-${props.mode}`, {
+    const mergedMode = this.getMode();
+    const className = classNames(prefixCls, `${prefixCls}-${mergedMode}`, {
       [props.className]: !!props.className,
-      [this.getOpenClassName()]: isOpen,
-      [this.getActiveClassName()]: props.active || (isOpen && !inline),
+      [this.getOpenClassName()]: visible,
+      [this.getActiveClassName()]: props.active || (visible && !inline),
       [this.getDisabledClassName()]: props.disabled,
       [this.getSelectedClassName()]: this.isChildrenSelected(),
     });
@@ -554,7 +595,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     // only set aria-owns when menu is open
     // otherwise it would be an invalid aria-owns value
     // since corresponding node cannot be found
-    if (this.props.isOpen) {
+    if (this.getVisible()) {
       ariaOwns = {
         'aria-owns': this.internalMenuId,
       };
@@ -562,7 +603,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
 
     // expand custom icon should NOT be displayed in menu with horizontal mode.
     let icon = null;
-    if (props.mode !== 'horizontal') {
+    if (mergedMode !== 'horizontal') {
       icon = this.props.expandIcon; // ReactNode
       if (typeof this.props.expandIcon === 'function') {
         icon = React.createElement(this.props.expandIcon as any, {
@@ -579,7 +620,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
         role="button"
         {...titleMouseEvents}
         {...titleClickEvents}
-        aria-expanded={isOpen}
+        aria-expanded={visible}
         {...ariaOwns}
         aria-haspopup="true"
         title={typeof props.title === 'string' ? props.title : undefined}
@@ -594,7 +635,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     const getPopupContainer = props.parentMenu?.isRootMenu
       ? props.parentMenu.props.getPopupContainer
       : (triggerNode: HTMLElement) => triggerNode.parentNode;
-    const popupPlacement = popupPlacementMap[props.mode];
+    const popupPlacement = popupPlacementMap[mergedMode];
     const popupAlign = props.popupOffset ? { offset: props.popupOffset } : {};
     const popupClassName = classNames({
       [props.popupClassName]: props.popupClassName && !inline,
@@ -608,7 +649,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       subMenuCloseDelay,
       builtinPlacements,
     } = props;
-    menuAllProps.forEach((key) => delete props[key]);
+    menuAllProps.forEach(key => delete props[key]);
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
     const placement = isRTL
@@ -619,7 +660,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
     // [Legacy] It's a fast fix,
     // but we should check if we can refactor this to make code more easy to understand
     const baseProps = this.getBaseProps();
-    const mergedMotion = inline
+    const mergedMotion: CSSMotionProps = inline
       ? null
       : this.getMotion(baseProps.mode, baseProps.visible);
 
@@ -636,7 +677,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
           getPopupContainer={getPopupContainer}
           builtinPlacements={placement}
           popupPlacement={popupPlacement}
-          popupVisible={inline ? false : isOpen}
+          popupVisible={inline ? false : visible}
           popupAlign={popupAlign}
           popup={inline ? null : children}
           action={disabled || inline ? [] : [triggerSubMenuAction]}
