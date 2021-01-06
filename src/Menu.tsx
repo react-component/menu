@@ -141,7 +141,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
     }
 
     if ('openKeys' in nextProps) {
-      newStoreState.openKeys = nextProps.openKeys;
+      newStoreState.openKeys = nextProps.openKeys || [];
     } else {
       // [Legacy] Old code will return after `openKeys` changed.
       // Not sure the reason, we should keep this logic still.

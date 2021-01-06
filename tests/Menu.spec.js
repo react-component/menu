@@ -247,6 +247,27 @@ describe('Menu', () => {
     ).not.toContain('-hidden');
   });
 
+  it('openKeys should allow to be empty', () => {
+    const wrapper = mount(
+      <Menu
+        onClick={() => {}}
+        onOpenChange={() => {}}
+        openKeys={undefined}
+        selectedKeys={['1']}
+        mode="inline"
+      >
+        <SubMenu title="1231">
+          <MenuItem>
+            <a>
+              <span>123123</span>
+            </a>
+          </MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+    expect(wrapper).toBeTruthy();
+  });
+
   it('open default submenu', () => {
     const wrapper = mount(
       <Menu defaultOpenKeys={['g1']}>
