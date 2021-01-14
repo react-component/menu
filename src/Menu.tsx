@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Provider, create } from 'mini-store';
-import omit from 'omit.js';
+import omit from 'rc-util/lib/omit';
 import { CSSMotionProps } from 'rc-motion';
 import SubPopupMenu, { getActiveKey } from './SubPopupMenu';
 import { noop } from './util';

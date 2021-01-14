@@ -1,7 +1,7 @@
 import * as React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import classNames from 'classnames';
-import omit from 'omit.js';
+import omit from 'rc-util/lib/omit';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
 import {
