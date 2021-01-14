@@ -427,7 +427,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <Provider store={this.store}>
-        <SubPopupMenu {...props} ref={this.setInnerMenu}>
+        <SubPopupMenu {...props as any} ref={this.setInnerMenu}>
           {this.props.children}
         </SubPopupMenu>
       </Provider>
