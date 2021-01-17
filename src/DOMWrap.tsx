@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
 import { getWidth, setStyle, menuAllProps } from './util';
@@ -52,10 +51,12 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     lastVisibleIndex: undefined,
   };
 
+  childRef = React.createRef<HTMLElement>();
+
   componentDidMount() {
     this.setChildrenWidthAndResize();
     if (this.props.level === 1 && this.props.mode === 'horizontal') {
-      const menuUl = ReactDOM.findDOMNode(this) as HTMLElement;
+      const menuUl = this.childRef.current;
       if (!menuUl) {
         return;
       }
@@ -109,7 +110,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
   // get all valid menuItem nodes
   getMenuItemNodes = (): HTMLElement[] => {
     const { prefixCls } = this.props;
-    const ul = ReactDOM.findDOMNode(this) as HTMLElement;
+    const ul = this.childRef.current;
     if (!ul) {
       return [];
     }
@@ -192,7 +193,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     if (this.props.mode !== 'horizontal') {
       return;
     }
-    const ul = ReactDOM.findDOMNode(this) as HTMLElement;
+    const ul = this.childRef.current;
 
     if (!ul) {
       return;
@@ -247,7 +248,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       return;
     }
 
-    const ul = ReactDOM.findDOMNode(this) as HTMLElement;
+    const ul = this.childRef.current;
     if (!ul) {
       return;
     }
@@ -360,7 +361,11 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
 
     const Tag = tag as any;
 
-    return <Tag {...rest}>{this.renderChildren(children)}</Tag>;
+    return (
+      <Tag ref={this.childRef} {...rest}>
+        {this.renderChildren(children)}
+      </Tag>
+    );
   }
 }
 
