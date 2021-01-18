@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 import raf from 'rc-util/lib/raf';
 import KeyCode from 'rc-util/lib/KeyCode';
@@ -102,6 +101,7 @@ export interface SubMenuProps {
 
   motion?: CSSMotionProps;
   direction?: 'ltr' | 'rtl';
+  forwardedRef?: React.RefObject<HTMLElement>;
 }
 
 interface SubMenuState {
@@ -140,11 +140,15 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
       mode: props.mode,
       isOpen: props.isOpen,
     };
+
+    this.menuInstanceRef = React.createRef();
   }
 
   isRootMenu: boolean;
 
   menuInstance: MenuItem;
+
+  menuInstanceRef: React.RefObject<HTMLElement>;
 
   subMenuTitle: HTMLElement;
 
@@ -414,7 +418,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     if (!this.subMenuTitle || !this.menuInstance) {
       return;
     }
-    const popupMenu = ReactDOM.findDOMNode(this.menuInstance) as HTMLElement;
+    const popupMenu = this.menuInstanceRef.current;
     if (popupMenu.offsetWidth >= this.subMenuTitle.offsetWidth) {
       return;
     }
@@ -462,6 +466,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
       itemIcon: props.itemIcon,
       expandIcon: props.expandIcon,
       direction: props.direction,
+      forwardedRef: this.menuInstanceRef,
     };
   };
 
@@ -663,6 +668,8 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     const mergedMotion: CSSMotionProps = inline
       ? null
       : this.getMotion(baseProps.mode, baseProps.visible);
+
+    delete props.forwardedRef;
 
     return (
       <li

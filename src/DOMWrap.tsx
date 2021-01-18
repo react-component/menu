@@ -18,6 +18,7 @@ interface DOMWrapProps {
   visible?: boolean;
   tag?: string;
   style?: React.CSSProperties;
+  forwardedRef: React.RefObject<HTMLElement>;
 }
 
 interface DOMWrapState {
@@ -53,10 +54,16 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
 
   childRef = React.createRef<HTMLElement>();
 
+  setRef(e: HTMLElement) {
+    (this.childRef as any).current = e;
+    (this.props.forwardedRef as any).current = e;
+  }
+
   componentDidMount() {
     this.setChildrenWidthAndResize();
     if (this.props.level === 1 && this.props.mode === 'horizontal') {
       const menuUl = this.childRef.current;
+
       if (!menuUl) {
         return;
       }
@@ -249,6 +256,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     }
 
     const ul = this.childRef.current;
+
     if (!ul) {
       return;
     }
@@ -356,13 +364,14 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       tag,
       children,
       theme,
+      forwardedRef,
       ...rest
     } = this.props;
 
     const Tag = tag as any;
 
     return (
-      <Tag ref={this.childRef} {...rest}>
+      <Tag ref={this.setRef.bind(this)} {...rest}>
         {this.renderChildren(children)}
       </Tag>
     );

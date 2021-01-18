@@ -50,6 +50,7 @@ export interface MenuItemProps
   inlineIndent?: number;
   level?: number;
   direction?: 'ltr' | 'rtl';
+  forwardedRef?: React.RefObject<HTMLElement>;
 }
 
 export class MenuItem extends React.Component<MenuItemProps> {
@@ -235,6 +236,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
           'onMouseEnter',
           'onMouseLeave',
           'onSelect',
+          'forwardedRef',
         ])}
         {...attrs}
         {...mouseEvent}

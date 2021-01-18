@@ -155,6 +155,8 @@ export interface SubPopupMenuProps {
   motion?: CSSMotionProps;
 
   direction?: 'ltr' | 'rtl';
+
+  forwardedRef: React.RefObject<HTMLElement>;
 }
 
 export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
@@ -168,6 +170,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     focusable: true,
     style: {},
     manualRef: noop,
+    forwardedRef: noop,
   };
 
   constructor(props: SubPopupMenuProps) {
@@ -388,6 +391,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       expandIcon: childProps.expandIcon || this.props.expandIcon,
       ...extraProps,
       direction: props.direction,
+      forwardedRef: childProps.disabled ? undefined : props.forwardedRef,
     };
     // ref: https://github.com/ant-design/ant-design/issues/13943
     if (props.mode === 'inline' || isMobileDevice()) {
