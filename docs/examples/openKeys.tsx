@@ -1,18 +1,34 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem } from '../src';
+import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 
-import '../assets/index.less';
+import '../../assets/index.less';
 
 class Test extends React.Component {
+  state = {
+    openKeys: [],
+  };
+
   onClick = info => {
     console.log('click ', info);
   };
 
+  onOpenChange = openKeys => {
+    console.log('onOpenChange', openKeys);
+    this.setState({
+      openKeys,
+    });
+  };
+
   getMenu() {
     return (
-      <Menu onClick={this.onClick} mode="inline">
+      <Menu
+        onClick={this.onClick}
+        mode="inline"
+        onOpenChange={this.onOpenChange}
+        openKeys={this.state.openKeys}
+      >
         <SubMenu key="1" title="submenu1">
           <MenuItem key="1-1">item1-1</MenuItem>
           <MenuItem key="1-2">item1-2</MenuItem>
@@ -20,10 +36,6 @@ class Test extends React.Component {
         <SubMenu key="2" title="submenu2">
           <MenuItem key="2-1">item2-1</MenuItem>
           <MenuItem key="2-2">item2-2</MenuItem>
-          <SubMenu key="2-3" title="submenu2-3">
-            <MenuItem key="2-3-1">item2-3-1</MenuItem>
-            <MenuItem key="2-3-2">item2-3-2</MenuItem>
-          </SubMenu>
         </SubMenu>
         <MenuItem key="3">item3</MenuItem>
       </Menu>

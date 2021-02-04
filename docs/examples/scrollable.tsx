@@ -1,9 +1,9 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { Item as MenuItem } from '../src';
+import Menu, { Item as MenuItem } from 'rc-menu';
 
-import '../assets/index.less';
+import '../../assets/index.less';
 
 const children = [];
 for (let i = 0; i < 20; i += 1) {

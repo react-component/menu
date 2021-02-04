@@ -1,9 +1,9 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem } from '../src';
+import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 
-import '../assets/index.less';
+import '../../assets/index.less';
 
 class Test extends React.Component {
   state = {

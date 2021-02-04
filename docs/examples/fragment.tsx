@@ -1,6 +1,6 @@
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
-import '../assets/index.less';
+import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
+import '../../assets/index.less';
 
 export default () => (
   <Menu style={{ width: 200 }}>
