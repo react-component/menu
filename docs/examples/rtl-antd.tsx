@@ -1,8 +1,8 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem, Divider } from '../src';
-import '../assets/index.less';
+import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
+import '../../assets/index.less';
 
 function handleClick(info) {
   console.log(`clicked ${info.key}`);

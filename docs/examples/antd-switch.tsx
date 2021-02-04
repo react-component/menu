@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CommonMenu, inlineMotion } from './antd';
-import '../assets/index.less';
+import '../../assets/index.less';
 
 const Demo = () => {
   const [inline, setInline] = React.useState(false);

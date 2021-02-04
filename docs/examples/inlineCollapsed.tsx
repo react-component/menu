@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Menu, { SubMenu, Item } from '../src';
+import Menu, { SubMenu, Item } from 'rc-menu';
 import './inlineCollapsed.less';
 
 const App = () => {
