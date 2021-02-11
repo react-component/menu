@@ -412,7 +412,9 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     const extraProps = {
       openKeys: state.openKeys,
       selectedKeys: state.selectedKeys,
-      triggerSubMenuAction: this.props.triggerSubMenuAction,
+      triggerSubMenuAction: c.props?.triggerSubMenuAction ?
+        c.props.triggerSubMenuAction :
+        this.props.triggerSubMenuAction,
       subMenuKey,
     };
     return this.renderCommonMenuItem(c, i, extraProps);
