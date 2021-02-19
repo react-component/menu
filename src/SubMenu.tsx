@@ -197,6 +197,10 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
       manualRef(this);
     }
 
+    if (this.props.active && this.props.focused) {
+      this.node?.focus()
+    }
+
     if (mode !== 'horizontal' || !parentMenu?.isRootMenu || !isOpen) {
       return;
     }
@@ -620,9 +624,6 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
         role="button"
         {...titleMouseEvents}
         {...titleClickEvents}
-        aria-expanded={visible}
-        {...ariaOwns}
-        aria-haspopup="true"
         title={typeof props.title === 'string' ? props.title : undefined}
       >
         {props.title}
@@ -668,8 +669,13 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
       <li
         {...(props as any)}
         {...mouseEvents}
+        {...ariaOwns}
         className={className}
         role="menuitem"
+        tabIndex={this.props.active ? 0 : -1}
+        ref={elem => this.node = elem}
+        aria-expanded={visible}
+        aria-haspopup="true"
       >
         <Trigger
           prefixCls={prefixCls}
@@ -696,10 +702,11 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
 }
 
 const connected = connect<any, any, any>(
-  ({ openKeys, activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+  ({ openKeys, activeKey, selectedKeys, focused }, { eventKey, subMenuKey }) => ({
     isOpen: openKeys.indexOf(eventKey) > -1,
     active: activeKey[subMenuKey] === eventKey,
     selectedKeys,
+    focused
   }),
 )(SubMenu as any);
 

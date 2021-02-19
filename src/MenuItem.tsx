@@ -67,10 +67,22 @@ export class MenuItem extends React.Component<MenuItemProps> {
   componentDidMount() {
     // invoke customized ref to expose component to mixin
     this.callRef();
+    if (this.props.active && this.props.focused) {
+      setTimeout(() => {
+        this.node.focus()
+        console.log("focus menuitem mount");
+      });
+    }
   }
 
   componentDidUpdate() {
     this.callRef();
+    if (this.props.active && this.props.focused) {
+      setTimeout(() => {
+        this.node.focus()
+        console.log("focus menuitem");
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -240,6 +252,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {...mouseEvent}
         style={style}
         ref={this.saveNode}
+        tabIndex={this.props.active ? 0 : -1}
       >
         {props.children}
         {icon}
@@ -249,9 +262,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
 }
 
 const connected = connect<any, any, any>(
-  ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
+  ({ activeKey, selectedKeys, focused }, { eventKey, subMenuKey }) => ({
     active: activeKey[subMenuKey] === eventKey,
     isSelected: selectedKeys.indexOf(eventKey) !== -1,
+    focused
   }),
 )(MenuItem);
 
