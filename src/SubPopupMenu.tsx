@@ -327,7 +327,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
 
     do {
       const child = children[i];
-      if (!child || child.props.disabled) {
+      if (!child || child.props.disabled || child.props.style?.display === 'none') {
         i = (i + 1) % len;
       } else {
         return child;
@@ -435,7 +435,6 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       domProps.id = props.id;
     }
     if (props.focusable) {
-      domProps.tabIndex = 0;
       domProps.onKeyDown = this.onKeyDown as any;
     }
     const {

@@ -111,6 +111,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       selectedKeys,
       openKeys,
       activeKey: { '0-menu-': getActiveKey(props, props.activeKey) },
+      focused: false
     });
 
     this.state = {
@@ -122,6 +123,8 @@ class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   isRootMenu: boolean;
+
+  blurTimeout: number;
 
   store: MiniStore;
 
@@ -344,6 +347,21 @@ class Menu extends React.Component<MenuProps, MenuState> {
     }
   };
 
+  onFocus =() => {
+    clearTimeout(this.blurTimeout)
+    this.store.setState({
+      focused: true
+    });
+  }
+
+  onBlur =() => {
+    this.blurTimeout = setTimeout(() => {
+      this.store.setState({
+        focused: false
+      });
+    })
+  }
+
   onTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
     // when inlineCollapsed menu width animation finished
     // https://github.com/ant-design/ant-design/issues/12864
@@ -418,6 +436,8 @@ class Menu extends React.Component<MenuProps, MenuState> {
       onSelect: this.onSelect,
       onMouseEnter: this.onMouseEnter,
       onTransitionEnd: this.onTransitionEnd,
+      onFocus: this.onFocus,
+      onBlur:  this.onBlur,
       parentMenu: this,
       motion: getMotion(this.props, this.state, mode),
     };
