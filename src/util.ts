@@ -1,8 +1,8 @@
 import * as React from 'react';
 import isMobile from './utils/isMobile';
-import MenuItemGroup from './MenuItemGroup';
-import SubMenu from './SubMenu';
-import MenuItem from './MenuItem';
+import type MenuItemGroup from './MenuItemGroup';
+import type SubMenu from './SubMenu';
+import type MenuItem from './MenuItem';
 
 export function noop() {}
 
@@ -48,10 +48,10 @@ export function loopMenuItemRecursively(
   }
   React.Children.forEach(children, (c: React.ReactElement) => {
     if (c) {
-      const construct = c.type as (
+      const construct = c.type as
         | typeof MenuItemGroup
         | typeof MenuItem
-        | typeof SubMenu);
+        | typeof SubMenu;
       if (
         !construct ||
         !(

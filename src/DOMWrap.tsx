@@ -2,7 +2,7 @@ import * as React from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import SubMenu from './SubMenu';
 import { getWidth, setStyle, menuAllProps } from './util';
-import { MenuMode } from './interface';
+import type { MenuMode } from './interface';
 
 const MENUITEM_OVERFLOWED_CLASSNAME = 'menuitem-overflowed';
 const FLOAT_PRECISION_ADJUST = 0.5;
@@ -60,7 +60,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
       if (!menuUl) {
         return;
       }
-      this.resizeObserver = new ResizeObserver(entries => {
+      this.resizeObserver = new ResizeObserver((entries) => {
         entries.forEach(() => {
           const { cancelFrameId } = this;
           cancelAnimationFrame(cancelFrameId);
@@ -166,7 +166,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
 
     const popupClassName = theme ? `${prefixCls}-${theme}` : '';
     const props = {};
-    menuAllProps.forEach(k => {
+    menuAllProps.forEach((k) => {
       if (rest[k] !== undefined) {
         props[k] = rest[k];
       }
@@ -218,16 +218,16 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     // and then reset to original state after width calculation
 
     const overflowedItems = menuItemNodes.filter(
-      c => c.className.split(' ').indexOf(MENUITEM_OVERFLOWED_CLASSNAME) >= 0,
+      (c) => c.className.split(' ').indexOf(MENUITEM_OVERFLOWED_CLASSNAME) >= 0,
     );
 
-    overflowedItems.forEach(c => {
+    overflowedItems.forEach((c) => {
       setStyle(c, 'display', 'inline-block');
     });
 
-    this.menuItemSizes = menuItemNodes.map(c => getWidth(c, true));
+    this.menuItemSizes = menuItemNodes.map((c) => getWidth(c, true));
 
-    overflowedItems.forEach(c => {
+    overflowedItems.forEach((c) => {
       setStyle(c, 'display', 'none');
     });
     this.overflowedIndicatorWidth = getWidth(
@@ -266,7 +266,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
     if (this.originalTotalWidth > width + FLOAT_PRECISION_ADJUST) {
       lastVisibleIndex = -1;
 
-      this.menuItemSizes.forEach(liWidth => {
+      this.menuItemSizes.forEach((liWidth) => {
         currentSumWidth += liWidth;
         if (currentSumWidth + this.overflowedIndicatorWidth <= width) {
           lastVisibleIndex += 1;
@@ -314,7 +314,7 @@ class DOMWrap extends React.Component<DOMWrapProps, DOMWrapState> {
             if (index === lastVisibleIndex + 1) {
               this.overflowedItems = children
                 .slice(lastVisibleIndex + 1)
-                .map(c =>
+                .map((c) =>
                   React.cloneElement(
                     c,
                     // children[index].key will become '.$key' in clone by default,

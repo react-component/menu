@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'mini-store';
-import { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from 'rc-motion';
 import KeyCode from 'rc-util/lib/KeyCode';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import toArray from 'rc-util/lib/Children/toArray';
@@ -14,7 +14,7 @@ import {
   isMobileDevice,
 } from './util';
 import DOMWrap from './DOMWrap';
-import {
+import type {
   SelectEventHandler,
   OpenEventHandler,
   DestroyEventHandler,
@@ -28,14 +28,14 @@ import {
   MenuInfo,
   TriggerSubMenuAction,
 } from './interface';
-import { MenuItem, MenuItemProps } from './MenuItem';
-import { MenuItemGroupProps } from './MenuItemGroup';
+import type { MenuItem, MenuItemProps } from './MenuItem';
+import type { MenuItemGroupProps } from './MenuItemGroup';
 
 function allDisabled(arr: MenuItem[]) {
   if (!arr.length) {
     return true;
   }
-  return arr.every(c => !!c.props.disabled);
+  return arr.every((c) => !!c.props.disabled);
 }
 
 function updateActiveKey(
@@ -96,16 +96,19 @@ export function getActiveKey(
 }
 
 export function saveRef(c: React.ReactInstance) {
-  if (c) {
-    const index = this.instanceArray.indexOf(c);
-    if (index !== -1) {
-      // update component if it's already inside instanceArray
-      this.instanceArray[index] = c;
-    } else {
-      // add component if it's not in instanceArray yet;
-      this.instanceArray.push(c);
-    }
+  if (!c) {
+    return;
   }
+  /* eslint-disable @typescript-eslint/no-invalid-this */
+  const index = this.instanceArray.indexOf(c);
+  if (index !== -1) {
+    // update component if it's already inside instanceArray
+    this.instanceArray[index] = c;
+  } else {
+    // add component if it's not in instanceArray yet;
+    this.instanceArray.push(c);
+  }
+  /* eslint-enable @typescript-eslint/no-invalid-this */
 }
 
 export interface SubPopupMenuProps {
@@ -262,7 +265,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     return undefined;
   };
 
-  onItemHover: HoverEventHandler = e => {
+  onItemHover: HoverEventHandler = (e) => {
     const { key, hover } = e;
     updateActiveKey(
       this.props.store,
@@ -271,23 +274,23 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
     );
   };
 
-  onDeselect: SelectEventHandler = selectInfo => {
+  onDeselect: SelectEventHandler = (selectInfo) => {
     this.props.onDeselect(selectInfo);
   };
 
-  onSelect: SelectEventHandler = selectInfo => {
+  onSelect: SelectEventHandler = (selectInfo) => {
     this.props.onSelect(selectInfo);
   };
 
-  onClick: MenuClickEventHandler = e => {
+  onClick: MenuClickEventHandler = (e) => {
     this.props.onClick(e);
   };
 
-  onOpenChange: OpenEventHandler = e => {
+  onOpenChange: OpenEventHandler = (e) => {
     this.props.onOpenChange(e);
   };
 
-  onDestroy: DestroyEventHandler = key => {
+  onDestroy: DestroyEventHandler = (key) => {
     /* istanbul ignore next */
     this.props.onDestroy(key);
   };
@@ -447,7 +450,7 @@ export class SubPopupMenu extends React.Component<SubPopupMenuProps> {
       overflowedIndicator,
       theme,
     } = props;
-    menuAllProps.forEach(key => delete props[key]);
+    menuAllProps.forEach((key) => delete props[key]);
 
     // Otherwise, the propagated click event will trigger another onClick
     delete props.onClick;

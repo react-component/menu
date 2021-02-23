@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Provider, create } from 'mini-store';
 import omit from 'rc-util/lib/omit';
-import { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from 'rc-motion';
 import SubPopupMenu, { getActiveKey } from './SubPopupMenu';
 import { noop } from './util';
-import {
+import type {
   RenderIconType,
   SelectInfo,
   SelectEventHandler,
@@ -69,7 +69,7 @@ export interface MenuProps
 export interface MenuState {
   switchingModeFromInline: boolean;
   prevProps: MenuProps;
-  inlineOpenKeys: Array<string>;
+  inlineOpenKeys: string[];
   store: MiniStore;
 }
 
@@ -235,7 +235,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
     }
   };
 
-  onClick: MenuClickEventHandler = e => {
+  onClick: MenuClickEventHandler = (e) => {
     const mode = this.getRealMenuMode();
     const {
       store,
@@ -259,11 +259,11 @@ class Menu extends React.Component<MenuProps, MenuState> {
     this.innerMenu.getWrappedInstance().onKeyDown(e, callback);
   };
 
-  onOpenChange = event => {
+  onOpenChange = (event) => {
     const { props } = this;
     const openKeys = this.store.getState().openKeys.concat();
     let changed = false;
-    const processSingle = e => {
+    const processSingle = (e) => {
       let oneChanged = false;
       if (e.open) {
         oneChanged = openKeys.indexOf(e.key) === -1;
@@ -379,7 +379,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
     }
   }
 
-  setInnerMenu = node => {
+  setInnerMenu = (node) => {
     this.innerMenu = node;
   };
 
@@ -427,7 +427,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <Provider store={this.store}>
-        <SubPopupMenu {...props as any} ref={this.setInnerMenu}>
+        <SubPopupMenu {...(props as any)} ref={this.setInnerMenu}>
           {this.props.children}
         </SubPopupMenu>
       </Provider>

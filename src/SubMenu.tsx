@@ -3,10 +3,12 @@ import * as ReactDOM from 'react-dom';
 import Trigger from 'rc-trigger';
 import raf from 'rc-util/lib/raf';
 import KeyCode from 'rc-util/lib/KeyCode';
-import CSSMotion, { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from 'rc-motion';
+import CSSMotion from 'rc-motion';
 import classNames from 'classnames';
 import { connect } from 'mini-store';
-import SubPopupMenu, { SubPopupMenuProps } from './SubPopupMenu';
+import type { SubPopupMenuProps } from './SubPopupMenu';
+import SubPopupMenu from './SubPopupMenu';
 import { placements, placementsRtl } from './placements';
 import {
   noop,
@@ -14,7 +16,7 @@ import {
   getMenuIdFromSubMenuEventKey,
   menuAllProps,
 } from './util';
-import {
+import type {
   MiniStore,
   RenderIconType,
   LegacyFunctionRef,
@@ -29,7 +31,7 @@ import {
   TriggerSubMenuAction,
   HoverEventHandler,
 } from './interface';
-import { MenuItem } from './MenuItem';
+import type { MenuItem } from './MenuItem';
 
 let guid = 0;
 
@@ -232,7 +234,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
    *  This legacy code that `onKeyDown` is called by parent instead of dom self.
    *  which need return code to check if this event is handled
    */
-  onKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
+  onKeyDown: React.KeyboardEventHandler<HTMLElement> = (e) => {
     const { keyCode } = e;
     const menu = this.menuInstance;
     const { store } = this.props;
@@ -275,7 +277,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     return undefined;
   };
 
-  onOpenChange: OpenEventHandler = e => {
+  onOpenChange: OpenEventHandler = (e) => {
     this.props.onOpenChange(e);
   };
 
@@ -283,7 +285,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     this.triggerOpenChange(visible, visible ? 'mouseenter' : 'mouseleave');
   };
 
-  onMouseEnter: React.MouseEventHandler<HTMLElement> = e => {
+  onMouseEnter: React.MouseEventHandler<HTMLElement> = (e) => {
     const { eventKey: key, onMouseEnter, store } = this.props;
     updateDefaultActiveFirst(store, this.props.eventKey, false);
     onMouseEnter({
@@ -292,7 +294,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     });
   };
 
-  onMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
+  onMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
     const { parentMenu, eventKey, onMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onMouseLeave({
@@ -301,7 +303,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     });
   };
 
-  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = domEvent => {
+  onTitleMouseEnter: React.MouseEventHandler<HTMLElement> = (domEvent) => {
     const { eventKey: key, onItemHover, onTitleMouseEnter } = this.props;
     onItemHover({
       key,
@@ -313,7 +315,7 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     });
   };
 
-  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
+  onTitleMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
     const { parentMenu, eventKey, onItemHover, onTitleMouseLeave } = this.props;
     parentMenu.subMenuInstance = this;
     onItemHover({
@@ -349,11 +351,11 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     }
   };
 
-  onSelect: SelectEventHandler = info => {
+  onSelect: SelectEventHandler = (info) => {
     this.props.onSelect(info);
   };
 
-  onDeselect: SelectEventHandler = info => {
+  onDeselect: SelectEventHandler = (info) => {
     this.props.onDeselect(info);
   };
 
@@ -649,12 +651,12 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
       subMenuCloseDelay,
       builtinPlacements,
     } = props;
-    menuAllProps.forEach(key => delete props[key]);
+    menuAllProps.forEach((key) => delete props[key]);
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;
     const placement = isRTL
-      ? Object.assign({}, placementsRtl, builtinPlacements)
-      : Object.assign({}, placements, builtinPlacements);
+      ? { ...placementsRtl, ...builtinPlacements }
+      : { ...placements, ...builtinPlacements };
     delete props.direction;
 
     // [Legacy] It's a fast fix,
