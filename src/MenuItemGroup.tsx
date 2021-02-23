@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { menuAllProps } from './util';
-import { MenuClickEventHandler } from './interface';
+import type { MenuClickEventHandler } from './interface';
 
 export interface MenuItemGroupProps {
   disabled?: boolean;
@@ -36,7 +36,7 @@ class MenuItemGroup extends React.Component<MenuItemGroupProps> {
     const titleClassName = `${rootPrefixCls}-item-group-title`;
     const listClassName = `${rootPrefixCls}-item-group-list`;
     const { title, children } = props;
-    menuAllProps.forEach(key => delete props[key]);
+    menuAllProps.forEach((key) => delete props[key]);
 
     // Set onClick to null, to ignore propagated onClick event
     delete props.onClick;

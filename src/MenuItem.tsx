@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import omit from 'rc-util/lib/omit';
 import { connect } from 'mini-store';
 import { noop, menuAllProps } from './util';
-import {
+import type {
   SelectEventHandler,
   HoverEventHandler,
   DestroyEventHandler,
@@ -91,7 +91,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     return undefined;
   };
 
-  onMouseLeave: React.MouseEventHandler<HTMLElement> = e => {
+  onMouseLeave: React.MouseEventHandler<HTMLElement> = (e) => {
     const { eventKey, onItemHover, onMouseLeave } = this.props;
     onItemHover({
       key: eventKey,
@@ -103,7 +103,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     });
   };
 
-  onMouseEnter: React.MouseEventHandler<HTMLElement> = e => {
+  onMouseEnter: React.MouseEventHandler<HTMLElement> = (e) => {
     const { eventKey, onItemHover, onMouseEnter } = this.props;
     onItemHover({
       key: eventKey,
@@ -115,7 +115,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     });
   };
 
-  onClick: React.MouseEventHandler<HTMLElement> = e => {
+  onClick: React.MouseEventHandler<HTMLElement> = (e) => {
     const {
       eventKey,
       multiple,
@@ -221,7 +221,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         style.paddingLeft = props.inlineIndent * props.level;
       }
     }
-    menuAllProps.forEach(key => delete props[key]);
+    menuAllProps.forEach((key) => delete props[key]);
     delete props.direction;
     let icon = this.props.itemIcon;
     if (typeof this.props.itemIcon === 'function') {

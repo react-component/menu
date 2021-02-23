@@ -1,6 +1,6 @@
 import warning from 'rc-util/lib/warning';
-import { CSSMotionProps } from 'rc-motion';
-import { OpenAnimation, MenuMode } from '../interface';
+import type { CSSMotionProps } from 'rc-motion';
+import type { OpenAnimation, MenuMode } from '../interface';
 
 interface GetMotionProps {
   motion?: CSSMotionProps;
