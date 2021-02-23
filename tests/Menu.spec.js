@@ -221,6 +221,29 @@ describe('Menu', () => {
     ).toContain('-selected');
   });
 
+  it('issue https://github.com/ant-design/ant-design/issues/29429', () => {
+    // don't use selectedKeys as string
+    // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
+    const wrapper = mount(
+      <Menu selectedKeys="item_abc">
+        <MenuItem key="item_a">1</MenuItem>
+        <MenuItem key="item_abc">2</MenuItem>
+      </Menu>,
+    );
+    expect(
+      wrapper
+        .find('li')
+        .at(0)
+        .props().className,
+    ).not.toContain('-selected');
+    expect(
+      wrapper
+        .find('li')
+        .at(1)
+        .props().className,
+    ).toContain('-selected');
+  });
+
   it('can be controlled by openKeys', () => {
     const wrapper = mount(
       <Menu openKeys={['g1']}>

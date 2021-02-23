@@ -251,7 +251,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
 const connected = connect<any, any, any>(
   ({ activeKey, selectedKeys }, { eventKey, subMenuKey }) => ({
     active: activeKey[subMenuKey] === eventKey,
-    isSelected: selectedKeys.indexOf(eventKey) !== -1,
+    // selectedKeys should be array in any circumstance
+    // when it is not, we have fallback logic for https://github.com/ant-design/ant-design/issues/29430
+    isSelected: Array.isArray(selectedKeys)
+      ? selectedKeys.indexOf(eventKey) !== -1
+      : selectedKeys === eventKey,
   }),
 )(MenuItem);
 
