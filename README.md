@@ -213,6 +213,12 @@ ReactDOM.render(
             <th></th>
             <td>Layout direction of menu component, it supports RTL direction too.</td>
         </tr>
+        <tr>
+            <td>inlineIndent</td>
+            <td>Number</td>
+            <th>24</th>
+            <td>Padding level multiplier. Right or left padding depends on param "direction".</td>
+        </tr>
     </tbody>
 </table>
 
