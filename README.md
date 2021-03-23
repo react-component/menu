@@ -94,6 +94,12 @@ ReactDOM.render(
             <td>whether allow multiple select</td>
         </tr>
         <tr>
+            <td>remainOnSelect</td>
+            <td>Boolean</td>
+            <th>false</th>
+            <td>whether to allow the menu to remain showing after an item is selected</td>
+        </tr>
+        <tr>
             <td>selectable</td>
             <td>Boolean</td>
             <th>true</th>

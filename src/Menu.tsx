@@ -245,7 +245,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       props: { onOpenChange },
     } = this;
 
-    if (mode !== 'inline' && !('openKeys' in this.props) && !('remainOnSelect' in this.props)) {
+    if (mode !== 'inline' && !('openKeys' in this.props) && !(this.props.remainOnSelect)) {
       // closing vertical popup submenu after click it
       store.setState({
         openKeys: [],
