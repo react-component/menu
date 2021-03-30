@@ -8,7 +8,7 @@ import '../../assets/index.less';
 export default () => (
   <div>
     <h2>menu item group</h2>
-    <Menu style={{ margin: 20, width: 300 }}>
+    <Menu style={{ margin: 20, width: 300 }} onClick={() => console.log('click')}>
       <MenuItemGroup title="group 1" key="2">
         <MenuItem key="21">2</MenuItem>
         <MenuItem key="22">3</MenuItem>

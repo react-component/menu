@@ -38,13 +38,12 @@ class MenuItemGroup extends React.Component<MenuItemGroupProps> {
     const { title, children } = props;
     menuAllProps.forEach((key) => delete props[key]);
 
-    // Set onClick to null, to ignore propagated onClick event
-    delete props.onClick;
     delete props.direction;
 
     return (
       <li
         {...(props as any)}
+        onClick={(e) => e.stopPropagation()}
         className={`${className} ${rootPrefixCls}-item-group`}
       >
         <div
