@@ -61,6 +61,9 @@ export interface MenuProps
 
   inlineCollapsed?: boolean;
 
+  /** allow the menu to remain active after an item is selected. */
+  remainOnSelect?: boolean;
+
   /** SiderContextProps of layout in ant design */
   siderCollapsed?: boolean;
   collapsedWidth?: string | number;
@@ -242,7 +245,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       props: { onOpenChange },
     } = this;
 
-    if (mode !== 'inline' && !('openKeys' in this.props)) {
+    if (mode !== 'inline' && !('openKeys' in this.props) && !(this.props.remainOnSelect)) {
       // closing vertical popup submenu after click it
       store.setState({
         openKeys: [],
