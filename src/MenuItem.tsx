@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Overflow from 'rc-overflow';
 import { MenuContext } from './Menu';
 
 export interface MenuItemProps
@@ -37,15 +38,13 @@ export interface MenuItemProps
   // direction?: 'ltr' | 'rtl';
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ children }) => {
+export default function MenuItem({ children }: MenuItemProps) {
   const { prefixCls } = React.useContext(MenuContext);
   const itemCls = `${prefixCls}-item`;
 
   return (
-    <li className={itemCls} role="menuitem">
+    <Overflow.Item component="li" className={itemCls} role="menuitem">
       {children}
-    </li>
+    </Overflow.Item>
   );
-};
-
-export default MenuItem;
+}

@@ -11,6 +11,7 @@ export default () => {
   return (
     <Menu>
       <Menu.Item key="mail">Navigation One</Menu.Item>
+      <Menu.Item key="next">Next Item</Menu.Item>
     </Menu>
   );
 };

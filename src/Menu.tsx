@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import classNames from 'classnames';
+import toArray from 'rc-util/lib/Children/toArray';
 import Overflow from 'rc-overflow';
-import type { MenuItemData, MenuMode } from './interface';
-import { convertToData } from './dataUtil';
+import type { MenuMode } from './interface';
 import MenuItem from './MenuItem';
 
 export const MenuContext = React.createContext({
@@ -15,8 +15,10 @@ export interface MenuProps
   prefixCls?: string;
 
   mode?: MenuMode;
-  options?: MenuItemData[];
   children?: React.ReactNode;
+
+  /** direction of menu */
+  direction?: 'ltr' | 'rtl';
 
   // defaultSelectedKeys?: string[];
   // defaultActiveFirst?: boolean;
@@ -53,9 +55,6 @@ export interface MenuProps
   // /** @deprecated Please use `motion` instead */
   // openAnimation?: OpenAnimation;
 
-  // /** direction of menu */
-  // direction?: 'ltr' | 'rtl';
-
   // inlineCollapsed?: boolean;
 
   // /** SiderContextProps of layout in ant design */
@@ -68,31 +67,32 @@ const Menu: React.FC<MenuProps> = ({
   style,
   className,
   tabIndex = 0,
-
-  // Data
-  options,
+  mode = 'vertical',
   children,
+  direction,
 }) => {
-  const parsedOptions = useMemo(() => {
-    if (options) {
-      return options;
-    }
-
-    return convertToData(children);
-  }, [options, children]);
-
   const menuContext = useMemo(() => ({ prefixCls }), [prefixCls]);
 
-  const node = (
+  const childList: React.ReactElement[] = toArray(children);
+
+  const container = (
     <Overflow
       component="ul"
       itemComponent={MenuItem}
-      className={classNames(prefixCls, className)}
+      className={classNames(
+        prefixCls,
+        `${prefixCls}-root`,
+        `${prefixCls}-${mode}`,
+        className,
+        {
+          [`${prefixCls}-rlt`]: direction === 'rtl',
+        },
+      )}
       style={style}
       role="menu"
       tabIndex={tabIndex}
-      data={parsedOptions}
-      renderItem={item => item.key}
+      data={childList}
+      renderRawItem={node => node}
     />
   );
 
@@ -106,7 +106,7 @@ const Menu: React.FC<MenuProps> = ({
   // );
 
   return (
-    <MenuContext.Provider value={menuContext}>{node}</MenuContext.Provider>
+    <MenuContext.Provider value={menuContext}>{container}</MenuContext.Provider>
   );
 };
 
