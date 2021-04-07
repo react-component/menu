@@ -2,13 +2,16 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import Overflow from 'rc-overflow';
 import type { MenuMode } from './interface';
 import MenuItem from './MenuItem';
 
-export const MenuContext = React.createContext({
-  prefixCls: '',
-});
+export const MenuContext = React.createContext<{
+  prefixCls: string;
+  mode: MenuMode;
+  openKeys: string[];
+}>(null);
 
 export interface MenuProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'onSelect'> {
@@ -20,11 +23,13 @@ export interface MenuProps
   /** direction of menu */
   direction?: 'ltr' | 'rtl';
 
+  // Open control
+  defaultOpenKeys?: string[];
+  openKeys?: string[];
+
   // defaultSelectedKeys?: string[];
   // defaultActiveFirst?: boolean;
   // selectedKeys?: string[];
-  // defaultOpenKeys?: string[];
-  // openKeys?: string[];
 
   // getPopupContainer?: (node: HTMLElement) => HTMLElement;
   // onClick?: MenuClickEventHandler;
@@ -70,8 +75,24 @@ const Menu: React.FC<MenuProps> = ({
   mode = 'vertical',
   children,
   direction,
+
+  // Open
+  defaultOpenKeys,
+  openKeys,
 }) => {
-  const menuContext = useMemo(() => ({ prefixCls }), [prefixCls]);
+  // ========================= Open =========================
+  const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(
+    defaultOpenKeys || [],
+    {
+      value: openKeys,
+    },
+  );
+
+  const menuContext = useMemo(() => ({ prefixCls, mode, openKeys }), [
+    prefixCls,
+    mode,
+    openKeys,
+  ]);
 
   const childList: React.ReactElement[] = toArray(children);
 

@@ -1,15 +1,17 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import Overflow from 'rc-overflow';
 import { MenuContext } from './Menu';
+import SubMenuList from './SubMenuList';
 
 export interface SubMenuProps {
+  title?: React.ReactNode;
   children?: React.ReactNode;
 
   // parentMenu?: React.ReactElement & {
   //   isRootMenu: boolean;
   //   subMenuInstance: React.ReactInstance;
   // };
-  // title?: React.ReactNode;
 
   // selectedKeys?: string[];
   // openKeys?: string[];
@@ -52,13 +54,28 @@ export interface SubMenuProps {
   // direction?: 'ltr' | 'rtl';
 }
 
-export default function SubMenu({ children }: SubMenuProps) {
-  const { prefixCls } = React.useContext(MenuContext);
-  const itemCls = `${prefixCls}-submenu`;
+export default function SubMenu({ title, children }: SubMenuProps) {
+  const { prefixCls, mode } = React.useContext(MenuContext);
+  const subMenuPrefixCls = `${prefixCls}-submenu`;
+
+  // =============================== Render ===============================
+  const subListNode = <SubMenuList>{children}</SubMenuList>;
 
   return (
-    <Overflow.Item component="li" className={itemCls} role="menuitem">
-      {children}
+    <Overflow.Item
+      component="li"
+      className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`)}
+      role="menuitem"
+    >
+      <div
+        className={`${subMenuPrefixCls}-title`}
+        role="button"
+        aria-expanded
+        aria-haspopup
+      >
+        {title}
+      </div>
+      {mode === 'inline' && subListNode}
     </Overflow.Item>
   );
 }
