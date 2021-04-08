@@ -1,17 +1,16 @@
 import * as React from 'react';
-import { useMemo } from 'react';
+import type { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
-import toArray from 'rc-util/lib/Children/toArray';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import Overflow from 'rc-overflow';
-import type { MenuMode } from './interface';
+import type { MenuClickEventHandler, MenuInfo, MenuMode } from './interface';
 import MenuItem from './MenuItem';
+import { parseChildren } from './utils/nodeUtil';
+import MenuContextProvider from './context';
+import useMemoCallback from './hooks/useMemoCallback';
 
-export const MenuContext = React.createContext<{
-  prefixCls: string;
-  mode: MenuMode;
-  openKeys: string[];
-}>(null);
+// optimize for render
+const EMPTY_LIST: string[] = [];
 
 export interface MenuProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'onSelect'> {
@@ -27,14 +26,20 @@ export interface MenuProps
   defaultOpenKeys?: string[];
   openKeys?: string[];
 
+  /** Menu motion define */
+  motion?: CSSMotionProps;
+
+  // >>>>> Events
+  onClick?: MenuClickEventHandler;
+  onOpenChange?: (openKeys: React.Key[]) => void;
+
   // defaultSelectedKeys?: string[];
   // defaultActiveFirst?: boolean;
   // selectedKeys?: string[];
 
   // getPopupContainer?: (node: HTMLElement) => HTMLElement;
-  // onClick?: MenuClickEventHandler;
+
   // onSelect?: SelectEventHandler;
-  // onOpenChange?: (openKeys: React.Key[]) => void;
   // onDeselect?: SelectEventHandler;
   // onDestroy?: DestroyEventHandler;
   // subMenuOpenDelay?: number;
@@ -49,8 +54,6 @@ export interface MenuProps
   // itemIcon?: RenderIconType;
   // expandIcon?: RenderIconType;
   // overflowedIndicator?: React.ReactNode;
-  // /** Menu motion define */
-  // motion?: CSSMotionProps;
 
   // /** Default menu motion of each mode */
   // defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
@@ -79,6 +82,13 @@ const Menu: React.FC<MenuProps> = ({
   // Open
   defaultOpenKeys,
   openKeys,
+
+  // Motion
+  motion,
+
+  // Events
+  onClick,
+  onOpenChange,
 }) => {
   // ========================= Open =========================
   const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(
@@ -88,13 +98,22 @@ const Menu: React.FC<MenuProps> = ({
     },
   );
 
-  const menuContext = useMemo(() => ({ prefixCls, mode, openKeys }), [
-    prefixCls,
-    mode,
-    openKeys,
-  ]);
+  // ======================== Events ========================
+  const onInternalClick = useMemoCallback((info: MenuInfo) => {
+    onClick?.(info);
+  });
 
-  const childList: React.ReactElement[] = toArray(children);
+  const onInternalSubMenuClick = useMemoCallback((key: string) => {
+    const newOpenKeys = mergedOpenKeys.includes(key)
+      ? mergedOpenKeys.filter(k => k !== key)
+      : [...mergedOpenKeys, key];
+
+    setMergedOpenKeys(newOpenKeys);
+    onOpenChange?.(newOpenKeys);
+  });
+
+  // ======================== Render ========================
+  const childList: React.ReactElement[] = parseChildren(children);
 
   const container = (
     <Overflow
@@ -127,7 +146,17 @@ const Menu: React.FC<MenuProps> = ({
   // );
 
   return (
-    <MenuContext.Provider value={menuContext}>{container}</MenuContext.Provider>
+    <MenuContextProvider
+      prefixCls={prefixCls}
+      mode={mode}
+      openKeys={mergedOpenKeys}
+      motion={motion}
+      parentKeys={EMPTY_LIST}
+      onItemClick={onInternalClick}
+      onSubMenuClick={onInternalSubMenuClick}
+    >
+      {container}
+    </MenuContextProvider>
   );
 };
 
