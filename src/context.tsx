@@ -2,7 +2,12 @@ import * as React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import shallowEqual from 'shallowequal';
-import type { MenuClickEventHandler, MenuMode } from './interface';
+import type {
+  BuiltinPlacements,
+  MenuClickEventHandler,
+  MenuMode,
+  TriggerSubMenuAction,
+} from './interface';
 
 export interface MenuContextProps {
   prefixCls: string;
@@ -10,10 +15,19 @@ export interface MenuContextProps {
   openKeys: string[];
   motion?: CSSMotionProps;
   parentKeys: string[];
+  rtl?: boolean;
 
-  // Events
+  // Popup
+  subMenuOpenDelay: number;
+  subMenuCloseDelay: number;
+  forceSubMenuRender?: boolean;
+  builtinPlacements?: BuiltinPlacements;
+  triggerSubMenuAction?: TriggerSubMenuAction;
+
+  // Function
   onItemClick: MenuClickEventHandler;
-  onSubMenuClick: (key: string) => void;
+  onOpenChange: (key: string, open: boolean) => void;
+  getPopupContainer: (node: HTMLElement) => HTMLElement;
 }
 
 export const MenuContext = React.createContext<MenuContextProps>(null);

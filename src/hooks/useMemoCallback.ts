@@ -10,8 +10,10 @@ export default function useMemoCallback<T extends (...args: any[]) => void>(
   const funRef = React.useRef(func);
   funRef.current = func;
 
-  return React.useCallback(
+  const callback = React.useCallback(
     ((...args: any[]) => funRef.current?.(...args)) as any,
     [],
   );
+
+  return func ? callback : undefined;
 }

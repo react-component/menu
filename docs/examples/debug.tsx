@@ -1,13 +1,45 @@
 /* eslint no-console:0 */
 
 import React from 'react';
+import type { CSSMotionProps } from 'rc-motion';
 import Menu from '../../src';
 import type { MenuProps } from '../../src';
 import '../../assets/index.less';
 import '../../assets/menu.less';
 import type { MenuInfo } from '@/interface';
 
-// const menuOptions = [{ key: 'bamboo' }, { key: 'light', label: 'Light' }];
+const collapseNode = () => ({ height: 0 });
+const expandNode = node => ({ height: node.scrollHeight });
+
+const horizontalMotion: CSSMotionProps = {
+  motionName: 'rc-menu-open-slide-up',
+  motionAppear: true,
+  motionEnter: true,
+  motionLeave: true,
+};
+
+const verticalMotion: CSSMotionProps = {
+  motionName: 'rc-menu-open-zoom',
+  motionAppear: true,
+  motionEnter: true,
+  motionLeave: true,
+};
+
+const inlineMotion: CSSMotionProps = {
+  motionName: 'rc-menu-collapse',
+  onAppearStart: collapseNode,
+  onAppearActive: expandNode,
+  onEnterStart: collapseNode,
+  onEnterActive: expandNode,
+  onLeaveStart: expandNode,
+  onLeaveActive: collapseNode,
+};
+
+const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
+  horizontal: horizontalMotion,
+  inline: inlineMotion,
+  vertical: verticalMotion,
+};
 
 export default () => {
   const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
@@ -37,6 +69,7 @@ export default () => {
         mode={mode}
         style={{ width: mode === 'horizontal' ? undefined : 256 }}
         onClick={onRootClick}
+        motion={motionMap[mode]}
       >
         <Menu.Item key="mail">Navigation One</Menu.Item>
         <Menu.Item key="next">Next Item</Menu.Item>

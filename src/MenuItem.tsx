@@ -80,7 +80,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
   };
 
   render() {
-    const { children, className, ...restProps } = this.props;
+    const { children, className, eventKey, ...restProps } = this.props;
     const { prefixCls } = this.context;
     const itemCls = `${prefixCls}-item`;
 

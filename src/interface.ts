@@ -16,3 +16,7 @@ export interface MenuTitleInfo {
 }
 
 export type MenuClickEventHandler = (info: MenuInfo) => void;
+
+export type BuiltinPlacements = Record<string, any>;
+
+export type TriggerSubMenuAction = 'click' | 'hover';

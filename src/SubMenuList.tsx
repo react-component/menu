@@ -12,17 +12,15 @@ export default function SubMenuList({
   children,
   ...restProps
 }: SubMenuListProps) {
-  const { prefixCls } = React.useContext(MenuContext);
+  const { prefixCls, mode } = React.useContext(MenuContext);
 
   // TODO: props
   return (
     <ul
       className={classNames(
+        prefixCls,
         `${prefixCls}-sub`,
-        {
-          // TODO: Do we need keep this?
-          // [`${prefixCls}-inline`]: mode === 'inline',
-        },
+        `${prefixCls}-${mode === 'inline' ? 'inline' : 'vertical'}`,
         className,
       )}
       {...restProps}

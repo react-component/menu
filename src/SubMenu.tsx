@@ -11,10 +11,13 @@ import type {
 } from './interface';
 import MenuContextProvider, { MenuContext } from './context';
 import useMemoCallback from './hooks/useMemoCallback';
+import PopupTrigger from './PopupTrigger';
 
 export interface SubMenuProps {
   title?: React.ReactNode;
   children?: React.ReactNode;
+
+  disabled?: boolean;
 
   /** @private Internal filled key. Do not set it directly */
   eventKey?: string;
@@ -57,7 +60,6 @@ export interface SubMenuProps {
   // subMenuCloseDelay?: number;
   // forceSubMenuRender?: boolean;
   // builtinPlacements?: BuiltinPlacements;
-  // disabled?: boolean;
   // className?: string;
   // popupClassName?: string;
   // motion?: CSSMotionProps;
@@ -67,6 +69,9 @@ export interface SubMenuProps {
 export default function SubMenu({
   title,
   eventKey,
+
+  disabled,
+
   children,
 
   // Events
@@ -82,7 +87,7 @@ export default function SubMenu({
 
     // Events
     onItemClick,
-    onSubMenuClick,
+    onOpenChange,
   } = React.useContext(MenuContext);
   const subMenuPrefixCls = `${prefixCls}-submenu`;
 
@@ -102,7 +107,10 @@ export default function SubMenu({
       domEvent: e,
     });
 
-    onSubMenuClick(eventKey);
+    // Trigger open by click when mode is `inline`
+    if (mode === 'inline') {
+      onOpenChange(eventKey, !openKeys.includes(eventKey));
+    }
   };
 
   const onMergedItemClick = useMemoCallback((info: MenuInfo) => {
@@ -110,8 +118,38 @@ export default function SubMenu({
     onItemClick(info);
   });
 
+  const onPopupVisibleChange = (newVisible: boolean) => {
+    onOpenChange(eventKey, newVisible);
+  };
+
   // =============================== Render ===============================
   const childList: React.ReactElement[] = parseChildren(children);
+
+  let titleNode: React.ReactElement = (
+    <div
+      className={`${subMenuPrefixCls}-title`}
+      role="button"
+      aria-expanded
+      aria-haspopup
+      onClick={onInternalTitleClick}
+    >
+      {title}
+    </div>
+  );
+
+  if (mode !== 'inline') {
+    titleNode = (
+      <PopupTrigger
+        prefixCls={subMenuPrefixCls}
+        visible={visible}
+        popup={<SubMenuList>{childList}</SubMenuList>}
+        disabled={disabled}
+        onVisibleChange={onPopupVisibleChange}
+      >
+        {titleNode}
+      </PopupTrigger>
+    );
+  }
 
   return (
     <MenuContextProvider
@@ -123,15 +161,9 @@ export default function SubMenu({
         className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`)}
         role="menuitem"
       >
-        <div
-          className={`${subMenuPrefixCls}-title`}
-          role="button"
-          aria-expanded
-          aria-haspopup
-          onClick={onInternalTitleClick}
-        >
-          {title}
-        </div>
+        {titleNode}
+
+        {/* Inline mode */}
         {mode === 'inline' && (
           <CSSMotion visible={visible} {...motion}>
             {({ className, style }) => {

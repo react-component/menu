@@ -3,7 +3,13 @@ import type { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import Overflow from 'rc-overflow';
-import type { MenuClickEventHandler, MenuInfo, MenuMode } from './interface';
+import type {
+  BuiltinPlacements,
+  MenuClickEventHandler,
+  MenuInfo,
+  MenuMode,
+  TriggerSubMenuAction,
+} from './interface';
 import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
 import MenuContextProvider from './context';
@@ -29,6 +35,16 @@ export interface MenuProps
   /** Menu motion define */
   motion?: CSSMotionProps;
 
+  // Popup
+  subMenuOpenDelay?: number;
+  subMenuCloseDelay?: number;
+  forceSubMenuRender?: boolean;
+  triggerSubMenuAction?: TriggerSubMenuAction;
+  builtinPlacements?: BuiltinPlacements;
+
+  // >>>>> Function
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
+
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onOpenChange?: (openKeys: React.Key[]) => void;
@@ -37,20 +53,15 @@ export interface MenuProps
   // defaultActiveFirst?: boolean;
   // selectedKeys?: string[];
 
-  // getPopupContainer?: (node: HTMLElement) => HTMLElement;
-
   // onSelect?: SelectEventHandler;
   // onDeselect?: SelectEventHandler;
   // onDestroy?: DestroyEventHandler;
-  // subMenuOpenDelay?: number;
-  // subMenuCloseDelay?: number;
-  // forceSubMenuRender?: boolean;
-  // triggerSubMenuAction?: TriggerSubMenuAction;
+
   // level?: number;
   // selectable?: boolean;
   // multiple?: boolean;
   // activeKey?: string;
-  // builtinPlacements?: BuiltinPlacements;
+
   // itemIcon?: RenderIconType;
   // expandIcon?: RenderIconType;
   // overflowedIndicator?: React.ReactNode;
@@ -80,11 +91,21 @@ const Menu: React.FC<MenuProps> = ({
   direction,
 
   // Open
+  subMenuOpenDelay = 0.1,
+  subMenuCloseDelay = 0.1,
+  forceSubMenuRender,
   defaultOpenKeys,
   openKeys,
 
   // Motion
   motion,
+
+  // Popup
+  triggerSubMenuAction = 'hover',
+  builtinPlacements,
+
+  // Function
+  getPopupContainer,
 
   // Events
   onClick,
@@ -103,14 +124,18 @@ const Menu: React.FC<MenuProps> = ({
     onClick?.(info);
   });
 
-  const onInternalSubMenuClick = useMemoCallback((key: string) => {
-    const newOpenKeys = mergedOpenKeys.includes(key)
-      ? mergedOpenKeys.filter(k => k !== key)
-      : [...mergedOpenKeys, key];
+  const onInternalOpenChange = useMemoCallback((key: string, open: boolean) => {
+    const newOpenKeys = mergedOpenKeys.filter(k => k !== key);
+
+    if (open) {
+      newOpenKeys.push(key);
+    }
 
     setMergedOpenKeys(newOpenKeys);
     onOpenChange?.(newOpenKeys);
   });
+
+  const getInternalPopupContainer = useMemoCallback(getPopupContainer);
 
   // ======================== Render ========================
   const childList: React.ReactElement[] = parseChildren(children);
@@ -152,8 +177,15 @@ const Menu: React.FC<MenuProps> = ({
       openKeys={mergedOpenKeys}
       motion={motion}
       parentKeys={EMPTY_LIST}
+      rtl={direction === 'rtl'}
+      subMenuOpenDelay={subMenuOpenDelay}
+      subMenuCloseDelay={subMenuCloseDelay}
+      forceSubMenuRender={forceSubMenuRender}
+      builtinPlacements={builtinPlacements}
+      triggerSubMenuAction={triggerSubMenuAction}
       onItemClick={onInternalClick}
-      onSubMenuClick={onInternalSubMenuClick}
+      onOpenChange={onInternalOpenChange}
+      getPopupContainer={getInternalPopupContainer}
     >
       {container}
     </MenuContextProvider>
