@@ -32,6 +32,10 @@ export interface MenuProps
   defaultOpenKeys?: string[];
   openKeys?: string[];
 
+  // Active control
+  activeKey?: string;
+  defaultActiveFirst?: boolean;
+
   /** Menu motion define */
   motion?: CSSMotionProps;
 
@@ -50,7 +54,6 @@ export interface MenuProps
   onOpenChange?: (openKeys: React.Key[]) => void;
 
   // defaultSelectedKeys?: string[];
-  // defaultActiveFirst?: boolean;
   // selectedKeys?: string[];
 
   // onSelect?: SelectEventHandler;
@@ -60,7 +63,6 @@ export interface MenuProps
   // level?: number;
   // selectable?: boolean;
   // multiple?: boolean;
-  // activeKey?: string;
 
   // itemIcon?: RenderIconType;
   // expandIcon?: RenderIconType;
@@ -97,6 +99,10 @@ const Menu: React.FC<MenuProps> = ({
   defaultOpenKeys,
   openKeys,
 
+  // Active
+  activeKey,
+  defaultActiveFirst,
+
   // Motion
   motion,
 
@@ -111,6 +117,8 @@ const Menu: React.FC<MenuProps> = ({
   onClick,
   onOpenChange,
 }) => {
+  const childList: React.ReactElement[] = parseChildren(children);
+
   // ========================= Open =========================
   const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(
     defaultOpenKeys || [],
@@ -118,6 +126,22 @@ const Menu: React.FC<MenuProps> = ({
       value: openKeys,
     },
   );
+
+  // ======================== Active ========================
+  const [mergedActiveKey, setMergedActiveKey] = useMergedState(
+    activeKey || ((defaultActiveFirst && childList[0]?.key) as string),
+    {
+      value: activeKey,
+    },
+  );
+
+  const onActive = useMemoCallback((key: string) => {
+    setMergedActiveKey(key);
+  });
+
+  const onInactive = useMemoCallback(() => {
+    setMergedActiveKey(undefined);
+  });
 
   // ======================== Events ========================
   const onInternalClick = useMemoCallback((info: MenuInfo) => {
@@ -138,7 +162,6 @@ const Menu: React.FC<MenuProps> = ({
   const getInternalPopupContainer = useMemoCallback(getPopupContainer);
 
   // ======================== Render ========================
-  const childList: React.ReactElement[] = parseChildren(children);
 
   const container = (
     <Overflow
@@ -178,6 +201,11 @@ const Menu: React.FC<MenuProps> = ({
       motion={motion}
       parentKeys={EMPTY_LIST}
       rtl={direction === 'rtl'}
+      // Active
+      activeKey={mergedActiveKey}
+      onActive={onActive}
+      onInactive={onInactive}
+      // Popup
       subMenuOpenDelay={subMenuOpenDelay}
       subMenuCloseDelay={subMenuCloseDelay}
       forceSubMenuRender={forceSubMenuRender}

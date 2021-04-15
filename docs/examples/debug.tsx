@@ -79,6 +79,9 @@ export default () => {
           </Menu.Item>
           <Menu.Item key="sub2">Sub Item 2</Menu.Item>
         </Menu.SubMenu>
+        <Menu.Item key="disabled" disabled>
+          Disabled Item
+        </Menu.Item>
       </Menu>
     </>
   );

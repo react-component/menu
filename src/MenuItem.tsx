@@ -15,6 +15,8 @@ export interface MenuItemProps
   /** @private Internal filled key. Do not set it directly */
   eventKey?: string;
 
+  disabled?: boolean;
+
   // >>>>> Events
   onClick?: MenuClickEventHandler;
 
@@ -23,7 +25,6 @@ export interface MenuItemProps
   // rootPrefixCls?: string;
   // active?: boolean;
   // selectedKeys?: string[];
-  // disabled?: boolean;
   // title?: string;
   // onItemHover?: HoverEventHandler;
   // onSelect?: SelectEventHandler;

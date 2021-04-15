@@ -2,6 +2,10 @@ import type * as React from 'react';
 
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
 
+export type RenderIconType =
+  | React.ReactNode
+  | ((props: any) => React.ReactNode);
+
 export interface MenuInfo {
   key: string;
   keyPath: string[];

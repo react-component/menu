@@ -8,10 +8,12 @@ import type {
   MenuClickEventHandler,
   MenuInfo,
   MenuTitleInfo,
+  RenderIconType,
 } from './interface';
 import MenuContextProvider, { MenuContext } from './context';
 import useMemoCallback from './hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
+import Icon from './Icon';
 
 export interface SubMenuProps {
   title?: React.ReactNode;
@@ -22,17 +24,13 @@ export interface SubMenuProps {
   /** @private Internal filled key. Do not set it directly */
   eventKey?: string;
 
+  // >>>>> Icon
+  // itemIcon?: RenderIconType;
+  expandIcon?: RenderIconType;
+
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onTitleClick?: (info: MenuTitleInfo) => void;
-
-  // parentMenu?: React.ReactElement & {
-  //   isRootMenu: boolean;
-  //   subMenuInstance: React.ReactInstance;
-  // };
-
-  // selectedKeys?: string[];
-  // openKeys?: string[];
 
   // onOpenChange?: OpenEventHandler;
   // rootPrefixCls?: string;
@@ -52,8 +50,6 @@ export interface SubMenuProps {
   // store?: MiniStore;
   // mode?: MenuMode;
   // manualRef?: LegacyFunctionRef;
-  // itemIcon?: RenderIconType;
-  // expandIcon?: RenderIconType;
   // inlineIndent?: number;
   // level?: number;
   // subMenuOpenDelay?: number;
@@ -64,20 +60,35 @@ export interface SubMenuProps {
   // popupClassName?: string;
   // motion?: CSSMotionProps;
   // direction?: 'ltr' | 'rtl';
+
+  // >>>>>>>>>>>>>>>>>>> Useless content <<<<<<<<<<<<<<<<<<<<<
+
+  // parentMenu?: React.ReactElement & {
+  //   isRootMenu: boolean;
+  //   subMenuInstance: React.ReactInstance;
+  // };
+
+  // selectedKeys?: string[];
+  // openKeys?: string[];
 }
 
-export default function SubMenu({
-  title,
-  eventKey,
+export default function SubMenu(props: SubMenuProps) {
+  const {
+    title,
+    eventKey,
 
-  disabled,
+    disabled,
 
-  children,
+    children,
 
-  // Events
-  onClick,
-  onTitleClick,
-}: SubMenuProps) {
+    // Icons
+    expandIcon,
+
+    // Events
+    onClick,
+    onTitleClick,
+  } = props;
+
   const {
     prefixCls,
     mode,
@@ -85,11 +96,18 @@ export default function SubMenu({
     motion,
     parentKeys,
 
+    // Active
+    activeKey,
+    onActive,
+    onInactive,
+
     // Events
     onItemClick,
     onOpenChange,
   } = React.useContext(MenuContext);
+
   const subMenuPrefixCls = `${prefixCls}-submenu`;
+  const childList: React.ReactElement[] = parseChildren(children);
 
   // ================================ Key =================================
   const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
@@ -97,10 +115,11 @@ export default function SubMenu({
     eventKey,
   ]);
 
-  // ============================== Visible ===============================
-  const visible = openKeys.includes(eventKey);
+  // =========================== Open & Select ============================
+  const open = openKeys.includes(eventKey);
 
   // =============================== Events ===============================
+  // >>>> Title click
   const onInternalTitleClick: React.MouseEventHandler<HTMLElement> = e => {
     onTitleClick?.({
       key: eventKey,
@@ -113,17 +132,34 @@ export default function SubMenu({
     }
   };
 
+  // >>>> Context for children click
   const onMergedItemClick = useMemoCallback((info: MenuInfo) => {
     onClick?.(info);
     onItemClick(info);
   });
 
+  // >>>>> Visible change
   const onPopupVisibleChange = (newVisible: boolean) => {
     onOpenChange(eventKey, newVisible);
   };
 
+  // >>>>> Title hover
+  const onTitleMouseEnter: React.MouseEventHandler = () => {
+    onActive(eventKey);
+  };
+
+  const onTitleMouseLeave: React.MouseEventHandler = () => {
+    onInactive(eventKey);
+  };
+
   // =============================== Render ===============================
-  const childList: React.ReactElement[] = parseChildren(children);
+
+  // >>>>> Title
+  const titleProps: React.HtmlHTMLAttributes<HTMLDivElement> = {};
+  if (!disabled) {
+    titleProps.onMouseEnter = onTitleMouseEnter;
+    titleProps.onMouseLeave = onTitleMouseLeave;
+  }
 
   let titleNode: React.ReactElement = (
     <div
@@ -132,8 +168,23 @@ export default function SubMenu({
       aria-expanded
       aria-haspopup
       onClick={onInternalTitleClick}
+      {...titleProps}
     >
       {title}
+
+      {/* Only non-horizontal mode shows the icon */}
+      {mode !== 'horizontal' && (
+        <Icon
+          icon={expandIcon}
+          props={{
+            ...props,
+            // [Legacy] Not sure why need this mark
+            isSubMenu: true,
+          }}
+        >
+          <i className={`${subMenuPrefixCls}-arrow`} />
+        </Icon>
+      )}
     </div>
   );
 
@@ -141,7 +192,7 @@ export default function SubMenu({
     titleNode = (
       <PopupTrigger
         prefixCls={subMenuPrefixCls}
-        visible={visible}
+        visible={open}
         popup={<SubMenuList>{childList}</SubMenuList>}
         disabled={disabled}
         onVisibleChange={onPopupVisibleChange}
@@ -151,6 +202,7 @@ export default function SubMenu({
     );
   }
 
+  // >>>>> Render
   return (
     <MenuContextProvider
       parentKeys={connectedKeys}
@@ -158,14 +210,17 @@ export default function SubMenu({
     >
       <Overflow.Item
         component="li"
-        className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`)}
+        className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, {
+          [`${subMenuPrefixCls}-open`]: open,
+          [`${subMenuPrefixCls}-active`]: activeKey === eventKey,
+        })}
         role="menuitem"
       >
         {titleNode}
 
         {/* Inline mode */}
         {mode === 'inline' && (
-          <CSSMotion visible={visible} {...motion}>
+          <CSSMotion visible={open} {...motion}>
             {({ className, style }) => {
               return (
                 <SubMenuList className={className} style={style}>
