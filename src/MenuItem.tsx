@@ -1,9 +1,14 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
-import type { MenuClickEventHandler, MenuInfo } from './interface';
-import type { MenuContextProps } from './context';
+import omit from 'rc-util/lib/omit';
+import type {
+  MenuClickEventHandler,
+  MenuInfo,
+  MenuHoverEventHandler,
+} from './interface';
 import { MenuContext } from './context';
+import useActive from './hooks/useActive';
 
 export interface MenuItemProps
   extends Omit<
@@ -16,6 +21,10 @@ export interface MenuItemProps
   eventKey?: string;
 
   disabled?: boolean;
+
+  // >>>>> Active
+  onMouseEnter?: MenuHoverEventHandler;
+  onMouseLeave?: MenuHoverEventHandler;
 
   // >>>>> Events
   onClick?: MenuClickEventHandler;
@@ -32,8 +41,7 @@ export interface MenuItemProps
   // onDeselect?: SelectEventHandler;
   // parentMenu?: React.ReactInstance;
   // onDestroy?: DestroyEventHandler;
-  // onMouseEnter?: MenuHoverEventHandler;
-  // onMouseLeave?: MenuHoverEventHandler;
+
   // multiple?: boolean;
   // isSelected?: boolean;
   // manualRef?: LegacyFunctionRef;
@@ -50,51 +58,75 @@ export interface MenuItemProps
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
 // We have to use class component here.
 // This should be removed from doc & api in future.
-export default class MenuItem extends React.Component<MenuItemProps> {
-  context: MenuContextProps;
-  static contextType = MenuContext;
+class LegacyMenuItem extends React.Component<any> {
+  render() {
+    const passedProps = omit(this.props, ['eventKey']);
+    return <Overflow.Item {...passedProps} />;
+  }
+}
 
-  getEventInfo = (e: React.MouseEvent<HTMLElement>): MenuInfo => {
-    const { parentKeys } = this.context;
-    //   key: React.Key;
-    // keyPath: React.Key[];
-    // /** @deprecated This will not support in future. You should avoid to use this */
-    // item: React.ReactInstance;
-    // domEvent: React.MouseEvent<HTMLElement>;
-    const { eventKey } = this.props;
+/**
+ * Real Menu Item component
+ */
+const MenuItem = (props: MenuItemProps) => {
+  const {
+    children,
+    className,
+    eventKey,
+    disabled,
+    // >>>>> Active
+    onMouseEnter,
+    onMouseLeave,
+
+    onClick,
+  } = props;
+  const { prefixCls, onItemClick, parentKeys } = React.useContext(MenuContext);
+  const itemCls = `${prefixCls}-item`;
+
+  const legacyMenuItemRef = React.useRef<any>();
+
+  // ============================= Misc =============================
+  const getEventInfo = (e: React.MouseEvent<HTMLElement>): MenuInfo => {
     return {
       key: eventKey,
       keyPath: [...parentKeys, eventKey],
-      item: this,
+      item: legacyMenuItemRef.current,
       domEvent: e,
     };
   };
 
-  onClick: React.MouseEventHandler<HTMLLIElement> = e => {
-    const { onClick } = this.props;
-    const { onItemClick } = this.context;
+  // ============================ Active ============================
+  const { active, ...activeProps } = useActive(
+    eventKey,
+    disabled,
+    onMouseEnter,
+    onMouseLeave,
+  );
 
-    const info = this.getEventInfo(e);
+  // ============================ Events ============================
+  const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
+    const info = getEventInfo(e);
 
     onClick?.(info);
     onItemClick(info);
   };
 
-  render() {
-    const { children, className, eventKey, ...restProps } = this.props;
-    const { prefixCls } = this.context;
-    const itemCls = `${prefixCls}-item`;
+  // ============================ Render ============================
+  return (
+    <LegacyMenuItem
+      ref={legacyMenuItemRef}
+      {...props}
+      {...activeProps}
+      component="li"
+      className={classNames(itemCls, className, {
+        [`${itemCls}-active`]: active,
+      })}
+      role="menuitem"
+      onClick={onInternalClick}
+    >
+      {children}
+    </LegacyMenuItem>
+  );
+};
 
-    return (
-      <Overflow.Item
-        {...restProps}
-        component="li"
-        className={classNames(itemCls, className)}
-        role="menuitem"
-        onClick={this.onClick}
-      >
-        {children}
-      </Overflow.Item>
-    );
-  }
-}
+export default MenuItem;

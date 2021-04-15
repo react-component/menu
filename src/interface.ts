@@ -14,6 +14,11 @@ export interface MenuInfo {
   domEvent: React.MouseEvent<HTMLElement>;
 }
 
+export type MenuHoverEventHandler = (info: {
+  key: React.Key;
+  domEvent: React.MouseEvent<HTMLElement>;
+}) => void;
+
 export interface MenuTitleInfo {
   key: string;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;

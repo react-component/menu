@@ -6,6 +6,7 @@ import SubMenuList from './SubMenuList';
 import { parseChildren } from './utils/nodeUtil';
 import type {
   MenuClickEventHandler,
+  MenuHoverEventHandler,
   MenuInfo,
   MenuTitleInfo,
   RenderIconType,
@@ -14,6 +15,7 @@ import MenuContextProvider, { MenuContext } from './context';
 import useMemoCallback from './hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
 import Icon from './Icon';
+import useActive from './hooks/useActive';
 
 export interface SubMenuProps {
   title?: React.ReactNode;
@@ -28,6 +30,10 @@ export interface SubMenuProps {
   // itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
 
+  // >>>>> Active
+  onMouseEnter?: MenuHoverEventHandler;
+  onMouseLeave?: MenuHoverEventHandler;
+
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onTitleClick?: (info: MenuTitleInfo) => void;
@@ -41,8 +47,6 @@ export interface SubMenuProps {
   // triggerSubMenuAction?: TriggerSubMenuAction;
   // onDeselect?: SelectEventHandler;
   // onDestroy?: DestroyEventHandler;
-  // onMouseEnter?: MenuHoverEventHandler;
-  // onMouseLeave?: MenuHoverEventHandler;
   // onTitleMouseEnter?: MenuHoverEventHandler;
   // onTitleMouseLeave?: MenuHoverEventHandler;
   // popupOffset?: number[];
@@ -84,6 +88,10 @@ export default function SubMenu(props: SubMenuProps) {
     // Icons
     expandIcon,
 
+    // Active
+    onMouseEnter,
+    onMouseLeave,
+
     // Events
     onClick,
     onTitleClick,
@@ -95,11 +103,6 @@ export default function SubMenu(props: SubMenuProps) {
     openKeys,
     motion,
     parentKeys,
-
-    // Active
-    activeKey,
-    onActive,
-    onInactive,
 
     // Events
     onItemClick,
@@ -117,6 +120,14 @@ export default function SubMenu(props: SubMenuProps) {
 
   // =========================== Open & Select ============================
   const open = openKeys.includes(eventKey);
+
+  // =============================== Active ===============================
+  const { active, ...activeProps } = useActive(
+    eventKey,
+    disabled,
+    onMouseEnter,
+    onMouseLeave,
+  );
 
   // =============================== Events ===============================
   // >>>> Title click
@@ -143,24 +154,9 @@ export default function SubMenu(props: SubMenuProps) {
     onOpenChange(eventKey, newVisible);
   };
 
-  // >>>>> Title hover
-  const onTitleMouseEnter: React.MouseEventHandler = () => {
-    onActive(eventKey);
-  };
-
-  const onTitleMouseLeave: React.MouseEventHandler = () => {
-    onInactive(eventKey);
-  };
-
   // =============================== Render ===============================
 
   // >>>>> Title
-  const titleProps: React.HtmlHTMLAttributes<HTMLDivElement> = {};
-  if (!disabled) {
-    titleProps.onMouseEnter = onTitleMouseEnter;
-    titleProps.onMouseLeave = onTitleMouseLeave;
-  }
-
   let titleNode: React.ReactElement = (
     <div
       className={`${subMenuPrefixCls}-title`}
@@ -168,7 +164,7 @@ export default function SubMenu(props: SubMenuProps) {
       aria-expanded
       aria-haspopup
       onClick={onInternalTitleClick}
-      {...titleProps}
+      {...activeProps}
     >
       {title}
 
@@ -212,7 +208,7 @@ export default function SubMenu(props: SubMenuProps) {
         component="li"
         className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, {
           [`${subMenuPrefixCls}-open`]: open,
-          [`${subMenuPrefixCls}-active`]: activeKey === eventKey,
+          [`${subMenuPrefixCls}-active`]: active,
         })}
         role="menuitem"
       >
