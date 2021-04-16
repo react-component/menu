@@ -107,6 +107,9 @@ export default function SubMenu(props: SubMenuProps) {
     // ActiveKey
     activeKey,
 
+    // SelectKey
+    selectedKeys,
+
     // Path
     registerPath,
     unregisterPath,
@@ -131,8 +134,11 @@ export default function SubMenu(props: SubMenuProps) {
     connectedKeys,
   );
 
-  // =========================== Open & Select ============================
+  // ================================ Open ================================
   const open = openKeys.includes(eventKey);
+
+  // =============================== Select ===============================
+  const childrenSelected = keyInPath(selectedKeys, connectedKeys);
 
   // =============================== Active ===============================
   const { active, ...activeProps } = useActive(
@@ -241,6 +247,7 @@ export default function SubMenu(props: SubMenuProps) {
         className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, {
           [`${subMenuPrefixCls}-open`]: open,
           [`${subMenuPrefixCls}-active`]: mergedActive,
+          [`${subMenuPrefixCls}-selected`]: childrenSelected,
         })}
         role="menuitem"
       >

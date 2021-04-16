@@ -39,10 +39,17 @@ function usePathData() {
     const connectedPath = getPathStr([...keyPath, '']);
 
     return keyList.some(key => {
-      const fullPath = key2pathRef.current.get(key);
+      const fullPath = key2pathRef.current.get(key) || '';
       return fullPath.startsWith(connectedPath);
     });
   }
+
+  React.useEffect(
+    () => () => {
+      updateRef.current = null;
+    },
+    [],
+  );
 
   return {
     registerPath,
