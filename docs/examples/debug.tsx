@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
-import Menu from '../../src';
+import Menu, { ItemGroup as MenuItemGroup } from '../../src';
 import type { MenuProps } from '../../src';
 import '../../assets/index.less';
 import '../../assets/menu.less';
@@ -80,13 +80,30 @@ export default () => {
           <Menu.Item key="sub2">Sub Item 2</Menu.Item>
 
           <Menu.SubMenu title="Nest Menu" key="nest">
-            <Menu.Item key="nest-sub1">Nest Sub Item 1</Menu.Item>
-            <Menu.Item key="nest-sub2">Nest Sub Item 2</Menu.Item>
+            <MenuItemGroup title="group 1" key="grp1">
+              <Menu.Item key="21">2</Menu.Item>
+              <Menu.Item key="22">3</Menu.Item>
+            </MenuItemGroup>
+            <MenuItemGroup title="group 2" key="grp2">
+              <Menu.Item key="31">4</Menu.Item>
+              <Menu.Item key="32">5</Menu.Item>
+            </MenuItemGroup>
           </Menu.SubMenu>
         </Menu.SubMenu>
         <Menu.Item key="disabled" disabled>
           Disabled Item
         </Menu.Item>
+
+        <Menu.SubMenu
+          title="Disabled Sub Menu"
+          key="disabled-sub"
+          onClick={onSubMenuClick}
+          disabled
+        >
+          <Menu.Item key="dis-sub1" onClick={onClick}>
+            Disabled Sub Item 1
+          </Menu.Item>
+        </Menu.SubMenu>
       </Menu>
     </>
   );

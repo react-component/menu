@@ -132,6 +132,11 @@ export default function SubMenu(props: SubMenuProps) {
   // =============================== Events ===============================
   // >>>> Title click
   const onInternalTitleClick: React.MouseEventHandler<HTMLElement> = e => {
+    // Skip if disabled
+    if (disabled) {
+      return;
+    }
+
     onTitleClick?.({
       key: eventKey,
       domEvent: e,

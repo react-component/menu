@@ -1,7 +1,7 @@
 import Menu, { MenuProps } from './Menu';
 import MenuItem from './MenuItem';
 import SubMenu from './SubMenu';
-import MenuItemGroup from './sugar/MenuItemGroup';
+import MenuItemGroup from './MenuItemGroup';
 import Divider from './sugar/Divider';
 
 export {
