@@ -9,6 +9,7 @@ import type {
 } from './interface';
 import { MenuContext } from './context';
 import useActive from './hooks/useActive';
+import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
   extends Omit<
@@ -130,7 +131,7 @@ const MenuItem = (props: MenuItemProps) => {
 
     const info = getEventInfo(e);
 
-    onClick?.(info);
+    onClick?.(warnItemProp(info));
     onItemClick(info);
   };
 

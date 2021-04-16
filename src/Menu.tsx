@@ -17,6 +17,7 @@ import { parseChildren } from './utils/nodeUtil';
 import MenuContextProvider from './context';
 import useMemoCallback from './hooks/useMemoCallback';
 import usePathData from './hooks/usePathData';
+import { warnItemProp } from './utils/warnUtil';
 
 // optimize for render
 const EMPTY_LIST: string[] = [];
@@ -222,7 +223,7 @@ const Menu: React.FC<MenuProps> = ({
    * Click for item. SubMenu do not have selection status
    */
   const onInternalClick = useMemoCallback((info: MenuInfo) => {
-    onClick?.(info);
+    onClick?.(warnItemProp(info));
     triggerSelection(info);
   });
 

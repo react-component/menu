@@ -16,6 +16,7 @@ import useMemoCallback from './hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
 import Icon from './Icon';
 import useActive from './hooks/useActive';
+import { warnItemProp } from './utils/warnUtil';
 
 export interface SubMenuProps {
   title?: React.ReactNode;
@@ -171,7 +172,7 @@ export default function SubMenu(props: SubMenuProps) {
 
   // >>>> Context for children click
   const onMergedItemClick = useMemoCallback((info: MenuInfo) => {
-    onClick?.(info);
+    onClick?.(warnItemProp(info));
     onItemClick(info);
   });
 
