@@ -1,7 +1,7 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
+import Menu, { SubMenu, Item as MenuItem, Divider, MenuProps } from '../../src';
 import '../../assets/index.less';
 
 function handleClick(info) {
@@ -95,8 +95,22 @@ const children2 = [
 
 const customizeIndicator = <span>Add More Items</span>;
 
-export class CommonMenu extends React.Component {
-  state = {
+interface CommonMenuProps {
+  mode: MenuProps['mode'];
+  triggerSubMenuAction?: MenuProps['triggerSubMenuAction'];
+  updateChildrenAndOverflowedIndicator?: boolean;
+}
+
+interface CommonMenuState {
+  children: React.ReactNode;
+  overflowedIndicator: React.ReactNode;
+}
+
+export class CommonMenu extends React.Component<
+  CommonMenuProps,
+  CommonMenuState
+> {
+  state: CommonMenuState = {
     children: children1,
     overflowedIndicator: undefined,
   };
