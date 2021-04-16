@@ -78,6 +78,11 @@ export default () => {
             Sub Item 1
           </Menu.Item>
           <Menu.Item key="sub2">Sub Item 2</Menu.Item>
+
+          <Menu.SubMenu title="Nest Menu" key="nest">
+            <Menu.Item key="nest-sub1">Nest Sub Item 1</Menu.Item>
+            <Menu.Item key="nest-sub2">Nest Sub Item 2</Menu.Item>
+          </Menu.SubMenu>
         </Menu.SubMenu>
         <Menu.Item key="disabled" disabled>
           Disabled Item

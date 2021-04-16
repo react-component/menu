@@ -187,6 +187,7 @@ export default function SubMenu(props: SubMenuProps) {
   if (mode !== 'inline') {
     titleNode = (
       <PopupTrigger
+        mode={mode}
         prefixCls={subMenuPrefixCls}
         visible={open}
         popup={<SubMenuList>{childList}</SubMenuList>}
@@ -203,6 +204,7 @@ export default function SubMenu(props: SubMenuProps) {
     <MenuContextProvider
       parentKeys={connectedKeys}
       onItemClick={onMergedItemClick}
+      mode={mode === 'horizontal' ? 'vertical' : mode}
     >
       <Overflow.Item
         component="li"

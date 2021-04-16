@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import type { CSSMotionProps } from 'rc-motion';
 import { MenuContext } from './context';
 import { placements, placementsRtl } from './placements';
+import type { MenuMode } from './interface';
 
 const popupPlacementMap = {
   horizontal: 'bottomLeft',
@@ -14,6 +15,7 @@ const popupPlacementMap = {
 
 export interface PopupTriggerProps {
   prefixCls: string;
+  mode: MenuMode;
   visible: boolean;
   children: React.ReactElement;
   popup: React.ReactNode;
@@ -27,6 +29,7 @@ export default function PopupTrigger({
   children,
   popup,
   disabled,
+  mode,
   onVisibleChange,
 }: PopupTriggerProps) {
   const {
@@ -37,7 +40,6 @@ export default function PopupTrigger({
     builtinPlacements,
     triggerSubMenuAction,
     forceSubMenuRender,
-    mode,
     motion,
   } = React.useContext(MenuContext);
 
