@@ -44,9 +44,7 @@ export interface SubMenuProps {
   // multiple?: boolean;
   // active?: boolean; // TODO: remove
   // onItemHover?: HoverEventHandler;
-  // onSelect?: SelectEventHandler;
   // triggerSubMenuAction?: TriggerSubMenuAction;
-  // onDeselect?: SelectEventHandler;
   // onDestroy?: DestroyEventHandler;
   // onTitleMouseEnter?: MenuHoverEventHandler;
   // onTitleMouseLeave?: MenuHoverEventHandler;

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import type { RenderIconType } from './interface';
 import type { SubMenuProps } from './SubMenu';
+import type { MenuItemProps } from './MenuItem';
 
 export interface IconProps {
   icon?: RenderIconType;
-  props: SubMenuProps & { isSubMenu: boolean };
+  props: (SubMenuProps & { isSubMenu: boolean }) | MenuItemProps;
   /** Fallback of icon if provided */
   children?: React.ReactElement;
 }

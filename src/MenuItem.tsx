@@ -7,12 +7,12 @@ import type {
   MenuClickEventHandler,
   MenuInfo,
   MenuHoverEventHandler,
-  SelectEventHandler,
-  SelectInfo,
+  RenderIconType,
 } from './interface';
 import { MenuContext } from './context';
 import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
+import Icon from './Icon';
 
 export interface MenuItemProps
   extends Omit<
@@ -26,6 +26,8 @@ export interface MenuItemProps
 
   disabled?: boolean;
 
+  itemIcon?: RenderIconType;
+
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
 
@@ -33,29 +35,19 @@ export interface MenuItemProps
   onMouseEnter?: MenuHoverEventHandler;
   onMouseLeave?: MenuHoverEventHandler;
 
-  // >>>>> Selection
-  onSelect?: SelectEventHandler;
-  onDeselect?: SelectEventHandler;
-
   // >>>>> Events
   onClick?: MenuClickEventHandler;
 
-  // onItemHover?: HoverEventHandler;
-
-  // parentMenu?: React.ReactInstance;
-  // onDestroy?: DestroyEventHandler;
-
-  // multiple?: boolean;
-  // isSelected?: boolean;
   // manualRef?: LegacyFunctionRef;
-  // itemIcon?: RenderIconType;
-  // role?: string;
   // inlineIndent?: number;
   // level?: number;
   // direction?: 'ltr' | 'rtl';
 
   // No need anymore
   // mode?: MenuMode;
+
+  // >>>>>>>>>>>>>> Next round
+  // onDestroy?: DestroyEventHandler;
 
   // >>>>>>>>>>>>>> Useless props
   // rootPrefixCls?: string;
@@ -95,14 +87,11 @@ const MenuItem = (props: MenuItemProps) => {
     className,
     eventKey,
     disabled,
+    itemIcon,
 
     // Active
     onMouseEnter,
     onMouseLeave,
-
-    // Select
-    onSelect,
-    onDeselect,
 
     onClick,
   } = props;
@@ -113,11 +102,7 @@ const MenuItem = (props: MenuItemProps) => {
     parentKeys,
 
     // Select
-    selectable,
-    multiple,
     selectedKeys,
-    onItemSelect,
-    onItemDeselect,
 
     // Path
     registerPath,
@@ -154,42 +139,6 @@ const MenuItem = (props: MenuItemProps) => {
   // ============================ Select ============================
   const selected = selectedKeys.includes(eventKey);
 
-  // Events
-  const triggerSelection = (info: MenuInfo) => {
-    if (!selectable) {
-      return;
-    }
-
-    // Insert or Remove
-    const { key: targetKey } = info;
-    const exist = selectedKeys.includes(targetKey);
-    let newSelectKeys: string[];
-
-    if (exist) {
-      newSelectKeys = selectedKeys.filter(key => key !== targetKey);
-    } else if (multiple) {
-      newSelectKeys = [...selectedKeys, targetKey];
-    } else {
-      newSelectKeys = [targetKey];
-    }
-
-    // Trigger event
-    const selectInfo: SelectInfo = {
-      ...info,
-      selectedKeys: newSelectKeys,
-    };
-
-    const outerInfo = warnItemProp(selectInfo);
-
-    if (exist) {
-      onItemDeselect(selectInfo);
-      onSelect?.(outerInfo);
-    } else {
-      onItemSelect(selectInfo);
-      onDeselect?.(outerInfo);
-    }
-  };
-
   // ============================ Events ============================
   const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
     if (disabled) {
@@ -200,7 +149,6 @@ const MenuItem = (props: MenuItemProps) => {
 
     onClick?.(warnItemProp(info));
     onItemClick(info);
-    triggerSelection(info);
   };
 
   // ============================ Effect ============================
@@ -217,6 +165,7 @@ const MenuItem = (props: MenuItemProps) => {
   return (
     <LegacyMenuItem
       ref={legacyMenuItemRef}
+      role="menuitem"
       {...props}
       {...activeProps}
       component="li"
@@ -225,10 +174,10 @@ const MenuItem = (props: MenuItemProps) => {
         [`${itemCls}-selected`]: selected,
         [`${itemCls}-disabled`]: disabled,
       })}
-      role="menuitem"
       onClick={onInternalClick}
     >
       {children}
+      <Icon props={props} icon={itemIcon} />
     </LegacyMenuItem>
   );
 };
