@@ -42,30 +42,18 @@ export interface SubMenuProps {
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onTitleClick?: (info: MenuTitleInfo) => void;
+  onTitleMouseEnter?: MenuHoverEventHandler;
+  onTitleMouseLeave?: MenuHoverEventHandler;
 
-  // onOpenChange?: OpenEventHandler;
-  // rootPrefixCls?: string;
-  // multiple?: boolean;
-  // active?: boolean; // TODO: remove
-  // onItemHover?: HoverEventHandler;
-  // triggerSubMenuAction?: TriggerSubMenuAction;
-  // onDestroy?: DestroyEventHandler;
-  // onTitleMouseEnter?: MenuHoverEventHandler;
-  // onTitleMouseLeave?: MenuHoverEventHandler;
   // popupOffset?: number[];
-  // isOpen?: boolean;
-  // store?: MiniStore;
-  // mode?: MenuMode;
-  // manualRef?: LegacyFunctionRef;
-  // level?: number;
-  // subMenuOpenDelay?: number;
-  // subMenuCloseDelay?: number;
   // forceSubMenuRender?: boolean;
   // builtinPlacements?: BuiltinPlacements;
   // popupClassName?: string;
   // motion?: CSSMotionProps;
   // direction?: 'ltr' | 'rtl';
 
+  // >>>>>>>>>>>>>>>>>>>>> Next  Round <<<<<<<<<<<<<<<<<<<<<<<
+  // onDestroy?: DestroyEventHandler;
   // >>>>>>>>>>>>>>>>>>> Useless content <<<<<<<<<<<<<<<<<<<<<
 
   // parentMenu?: React.ReactElement & {
@@ -92,13 +80,13 @@ export default function SubMenu(props: SubMenuProps) {
     // Icons
     expandIcon,
 
-    // Active
-    onMouseEnter,
-    onMouseLeave,
-
     // Events
     onClick,
+    onMouseEnter,
+    onMouseLeave,
     onTitleClick,
+    onTitleMouseEnter,
+    onTitleMouseLeave,
   } = props;
 
   const {
@@ -148,8 +136,8 @@ export default function SubMenu(props: SubMenuProps) {
   const { active, ...activeProps } = useActive(
     eventKey,
     disabled,
-    onMouseEnter,
-    onMouseLeave,
+    onTitleMouseEnter,
+    onTitleMouseLeave,
   );
 
   const mergedActive = active || keyInPath([activeKey], connectedKeys);
@@ -186,6 +174,23 @@ export default function SubMenu(props: SubMenuProps) {
   const onPopupVisibleChange = (newVisible: boolean) => {
     onOpenChange(eventKey, newVisible);
   };
+
+  // >>>>> Hover
+  const hoverProps: React.HTMLAttributes<HTMLDivElement> = {};
+  if (!disabled) {
+    hoverProps.onMouseEnter = domEvent => {
+      onMouseEnter?.({
+        key: eventKey,
+        domEvent,
+      });
+    };
+    hoverProps.onMouseLeave = domEvent => {
+      onMouseLeave?.({
+        key: eventKey,
+        domEvent,
+      });
+    };
+  }
 
   // =============================== Effect ===============================
   // Path register

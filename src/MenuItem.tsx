@@ -39,20 +39,8 @@ export interface MenuItemProps
   // >>>>> Events
   onClick?: MenuClickEventHandler;
 
-  // manualRef?: LegacyFunctionRef;
-
-  // direction?: 'ltr' | 'rtl';
-
-  // No need anymore
-  // mode?: MenuMode;
-
   // >>>>>>>>>>>>>> Next round
   // onDestroy?: DestroyEventHandler;
-
-  // >>>>>>>>>>>>>> Useless props
-  // rootPrefixCls?: string;
-  // active?: boolean;
-  // selectedKeys?: string[];
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
