@@ -19,6 +19,8 @@ export interface PopupTriggerProps {
   visible: boolean;
   children: React.ReactElement;
   popup: React.ReactNode;
+  popupClassName?: string;
+  popupOffset?: number[];
   disabled: boolean;
   onVisibleChange: (visible: boolean) => void;
 }
@@ -28,6 +30,8 @@ export default function PopupTrigger({
   visible,
   children,
   popup,
+  popupClassName,
+  popupOffset,
   disabled,
   mode,
   onVisibleChange,
@@ -59,14 +63,19 @@ export default function PopupTrigger({
   return (
     <Trigger
       prefixCls={prefixCls}
-      popupClassName={classNames(`${prefixCls}-popup`, {
-        [`${prefixCls}-rtl`]: rtl,
-      })}
+      popupClassName={classNames(
+        `${prefixCls}-popup`,
+        {
+          [`${prefixCls}-rtl`]: rtl,
+        },
+        popupClassName,
+      )}
       getPopupContainer={getPopupContainer}
       builtinPlacements={placement}
       popupPlacement={popupPlacement}
       popupVisible={visible}
       popup={popup}
+      popupAlign={popupOffset && { offset: popupOffset }}
       action={disabled ? [] : [triggerSubMenuAction]}
       mouseEnterDelay={subMenuOpenDelay}
       mouseLeaveDelay={subMenuCloseDelay}

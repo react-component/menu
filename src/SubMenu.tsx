@@ -39,30 +39,18 @@ export interface SubMenuProps {
   onMouseEnter?: MenuHoverEventHandler;
   onMouseLeave?: MenuHoverEventHandler;
 
+  // >>>>> Popup
+  popupClassName?: string;
+  popupOffset?: number[];
+
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onTitleClick?: (info: MenuTitleInfo) => void;
   onTitleMouseEnter?: MenuHoverEventHandler;
   onTitleMouseLeave?: MenuHoverEventHandler;
 
-  // popupOffset?: number[];
-  // forceSubMenuRender?: boolean;
-  // builtinPlacements?: BuiltinPlacements;
-  // popupClassName?: string;
-  // motion?: CSSMotionProps;
-  // direction?: 'ltr' | 'rtl';
-
   // >>>>>>>>>>>>>>>>>>>>> Next  Round <<<<<<<<<<<<<<<<<<<<<<<
   // onDestroy?: DestroyEventHandler;
-  // >>>>>>>>>>>>>>>>>>> Useless content <<<<<<<<<<<<<<<<<<<<<
-
-  // parentMenu?: React.ReactElement & {
-  //   isRootMenu: boolean;
-  //   subMenuInstance: React.ReactInstance;
-  // };
-
-  // selectedKeys?: string[];
-  // openKeys?: string[];
 }
 
 export default function SubMenu(props: SubMenuProps) {
@@ -79,6 +67,10 @@ export default function SubMenu(props: SubMenuProps) {
 
     // Icons
     expandIcon,
+
+    // Popup
+    popupClassName,
+    popupOffset,
 
     // Events
     onClick,
@@ -239,6 +231,8 @@ export default function SubMenu(props: SubMenuProps) {
         mode={mode}
         prefixCls={subMenuPrefixCls}
         visible={open}
+        popupClassName={popupClassName}
+        popupOffset={popupOffset}
         popup={<SubMenuList>{childList}</SubMenuList>}
         disabled={disabled}
         onVisibleChange={onPopupVisibleChange}

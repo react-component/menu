@@ -166,11 +166,15 @@ const MenuItem = (props: MenuItemProps) => {
         ...directionStyle,
         ...style,
       }}
-      className={classNames(itemCls, className, {
-        [`${itemCls}-active`]: active,
-        [`${itemCls}-selected`]: selected,
-        [`${itemCls}-disabled`]: disabled,
-      })}
+      className={classNames(
+        itemCls,
+        {
+          [`${itemCls}-active`]: active,
+          [`${itemCls}-selected`]: selected,
+          [`${itemCls}-disabled`]: disabled,
+        },
+        className,
+      )}
       onClick={onInternalClick}
     >
       {children}
