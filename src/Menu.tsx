@@ -16,6 +16,7 @@ import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
 import MenuContextProvider from './context';
 import useMemoCallback from './hooks/useMemoCallback';
+import usePathData from './hooks/usePathData';
 
 // optimize for render
 const EMPTY_LIST: string[] = [];
@@ -141,6 +142,9 @@ const Menu: React.FC<MenuProps> = ({
     },
   );
 
+  // ========================= Path =========================
+  const pathData = usePathData();
+
   // ======================== Active ========================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState(
     activeKey || ((defaultActiveFirst && childList[0]?.key) as string),
@@ -158,6 +162,7 @@ const Menu: React.FC<MenuProps> = ({
   });
 
   // ======================== Select ========================
+  // >>>>> Select keys
   const [mergedSelectKeys, setMergedSelectKeys] = useMergedState(
     defaultSelectedKeys || [],
     {
@@ -178,6 +183,7 @@ const Menu: React.FC<MenuProps> = ({
     },
   );
 
+  // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {
     if (!selectable) {
       return;
@@ -273,6 +279,8 @@ const Menu: React.FC<MenuProps> = ({
       motion={motion}
       parentKeys={EMPTY_LIST}
       rtl={direction === 'rtl'}
+      // Path
+      {...pathData}
       // Active
       activeKey={mergedActiveKey}
       onActive={onActive}

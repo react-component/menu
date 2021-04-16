@@ -8,8 +8,9 @@ import type {
   MenuMode,
   TriggerSubMenuAction,
 } from './interface';
+import type { PathHookRet } from './hooks/usePathData';
 
-export interface MenuContextProps {
+export interface MenuContextProps extends PathHookRet {
   prefixCls: string;
   mode: MenuMode;
   openKeys: string[];

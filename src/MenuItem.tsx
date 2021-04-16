@@ -81,18 +81,31 @@ const MenuItem = (props: MenuItemProps) => {
 
     onClick,
   } = props;
-  const { prefixCls, onItemClick, parentKeys, selectedKeys } = React.useContext(
-    MenuContext,
-  );
+
+  const {
+    prefixCls,
+    onItemClick,
+    parentKeys,
+    selectedKeys,
+    // Path
+    registerPath,
+    unregisterPath,
+  } = React.useContext(MenuContext);
   const itemCls = `${prefixCls}-item`;
 
   const legacyMenuItemRef = React.useRef<any>();
 
-  // ============================= Misc =============================
+  // ============================= Key ==============================
+  const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
+    parentKeys,
+    eventKey,
+  ]);
+
+  // ============================= Info =============================
   const getEventInfo = (e: React.MouseEvent<HTMLElement>): MenuInfo => {
     return {
       key: eventKey,
-      keyPath: [...parentKeys, eventKey],
+      keyPath: connectedKeys,
       item: legacyMenuItemRef.current,
       domEvent: e,
     };
@@ -120,6 +133,16 @@ const MenuItem = (props: MenuItemProps) => {
     onClick?.(info);
     onItemClick(info);
   };
+
+  // ============================ Effect ============================
+  // Path register
+  React.useEffect(() => {
+    registerPath(eventKey, connectedKeys);
+
+    return () => {
+      unregisterPath(eventKey, connectedKeys);
+    };
+  }, [eventKey, connectedKeys]);
 
   // ============================ Render ============================
   return (

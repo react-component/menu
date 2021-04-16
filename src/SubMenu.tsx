@@ -104,6 +104,14 @@ export default function SubMenu(props: SubMenuProps) {
     motion,
     parentKeys,
 
+    // ActiveKey
+    activeKey,
+
+    // Path
+    registerPath,
+    unregisterPath,
+    keyInPath,
+
     // Events
     onItemClick,
     onOpenChange,
@@ -134,6 +142,8 @@ export default function SubMenu(props: SubMenuProps) {
     onMouseLeave,
   );
 
+  const mergedActive = active || keyInPath([activeKey], connectedKeys);
+
   // =============================== Events ===============================
   // >>>> Title click
   const onInternalTitleClick: React.MouseEventHandler<HTMLElement> = e => {
@@ -163,6 +173,16 @@ export default function SubMenu(props: SubMenuProps) {
   const onPopupVisibleChange = (newVisible: boolean) => {
     onOpenChange(eventKey, newVisible);
   };
+
+  // =============================== Effect ===============================
+  // Path register
+  React.useEffect(() => {
+    registerPath(eventKey, connectedKeys);
+
+    return () => {
+      unregisterPath(eventKey, connectedKeys);
+    };
+  }, [eventKey, connectedKeys]);
 
   // =============================== Render ===============================
 
@@ -220,7 +240,7 @@ export default function SubMenu(props: SubMenuProps) {
         component="li"
         className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, {
           [`${subMenuPrefixCls}-open`]: open,
-          [`${subMenuPrefixCls}-active`]: active,
+          [`${subMenuPrefixCls}-active`]: mergedActive,
         })}
         role="menuitem"
       >
