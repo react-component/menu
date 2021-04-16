@@ -74,13 +74,16 @@ const MenuItem = (props: MenuItemProps) => {
     className,
     eventKey,
     disabled,
+
     // >>>>> Active
     onMouseEnter,
     onMouseLeave,
 
     onClick,
   } = props;
-  const { prefixCls, onItemClick, parentKeys } = React.useContext(MenuContext);
+  const { prefixCls, onItemClick, parentKeys, selectedKeys } = React.useContext(
+    MenuContext,
+  );
   const itemCls = `${prefixCls}-item`;
 
   const legacyMenuItemRef = React.useRef<any>();
@@ -103,8 +106,15 @@ const MenuItem = (props: MenuItemProps) => {
     onMouseLeave,
   );
 
+  // ============================ Select ============================
+  const selected = selectedKeys.includes(eventKey);
+
   // ============================ Events ============================
   const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
+    if (disabled) {
+      return;
+    }
+
     const info = getEventInfo(e);
 
     onClick?.(info);
@@ -120,6 +130,8 @@ const MenuItem = (props: MenuItemProps) => {
       component="li"
       className={classNames(itemCls, className, {
         [`${itemCls}-active`]: active,
+        [`${itemCls}-selected`]: selected,
+        [`${itemCls}-disabled`]: disabled,
       })}
       role="menuitem"
       onClick={onInternalClick}

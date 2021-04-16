@@ -22,6 +22,9 @@ export interface MenuContextProps {
   onActive: (key: string) => void;
   onInactive: (key: string) => void;
 
+  // Selection
+  selectedKeys: string[];
+
   // Popup
   subMenuOpenDelay: number;
   subMenuCloseDelay: number;

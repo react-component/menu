@@ -8,7 +8,9 @@ import type {
   MenuClickEventHandler,
   MenuInfo,
   MenuMode,
+  SelectEventHandler,
   TriggerSubMenuAction,
+  SelectInfo,
 } from './interface';
 import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
@@ -36,6 +38,17 @@ export interface MenuProps
   activeKey?: string;
   defaultActiveFirst?: boolean;
 
+  // Selection
+  selectable?: boolean;
+  multiple?: boolean;
+
+  defaultSelectedKeys?: string[];
+  selectedKeys?: string[];
+
+  onSelect?: SelectEventHandler;
+  onDeselect?: SelectEventHandler;
+
+  // Motion
   /** Menu motion define */
   motion?: CSSMotionProps;
 
@@ -53,16 +66,9 @@ export interface MenuProps
   onClick?: MenuClickEventHandler;
   onOpenChange?: (openKeys: React.Key[]) => void;
 
-  // defaultSelectedKeys?: string[];
-  // selectedKeys?: string[];
-
-  // onSelect?: SelectEventHandler;
-  // onDeselect?: SelectEventHandler;
   // onDestroy?: DestroyEventHandler;
 
   // level?: number;
-  // selectable?: boolean;
-  // multiple?: boolean;
 
   // itemIcon?: RenderIconType;
   // expandIcon?: RenderIconType;
@@ -102,6 +108,14 @@ const Menu: React.FC<MenuProps> = ({
   // Active
   activeKey,
   defaultActiveFirst,
+
+  // Selection
+  selectable = true,
+  multiple = false,
+  defaultSelectedKeys,
+  selectedKeys,
+  onSelect,
+  onDeselect,
 
   // Motion
   motion,
@@ -143,9 +157,67 @@ const Menu: React.FC<MenuProps> = ({
     setMergedActiveKey(undefined);
   });
 
+  // ======================== Select ========================
+  const [mergedSelectKeys, setMergedSelectKeys] = useMergedState(
+    defaultSelectedKeys || [],
+    {
+      value: selectedKeys,
+
+      // Legacy convert key to array
+      postState: keys => {
+        if (Array.isArray(keys)) {
+          return keys;
+        }
+
+        if (keys === null || keys === undefined) {
+          return [];
+        }
+
+        return [keys];
+      },
+    },
+  );
+
+  const triggerSelection = (info: MenuInfo) => {
+    if (!selectable) {
+      return;
+    }
+
+    // Insert or Remove
+    const { key: targetKey } = info;
+    const exist = mergedSelectKeys.includes(targetKey);
+    let newSelectKeys: string[];
+
+    if (exist) {
+      newSelectKeys = mergedSelectKeys.filter(key => key !== targetKey);
+    } else if (multiple) {
+      newSelectKeys = [...mergedSelectKeys, targetKey];
+    } else {
+      newSelectKeys = [targetKey];
+    }
+
+    setMergedSelectKeys(newSelectKeys);
+
+    // Trigger event
+    const selectInfo: SelectInfo = {
+      ...info,
+      selectedKeys: newSelectKeys,
+    };
+
+    if (exist) {
+      onDeselect?.(selectInfo);
+    } else {
+      onSelect?.(selectInfo);
+    }
+  };
+
   // ======================== Events ========================
+  /**
+   * Click for item. SubMenu do not have selection status
+   */
   const onInternalClick = useMemoCallback((info: MenuInfo) => {
     onClick?.(info);
+    triggerSelection(info);
   });
 
   const onInternalOpenChange = useMemoCallback((key: string, open: boolean) => {
@@ -205,6 +277,8 @@ const Menu: React.FC<MenuProps> = ({
       activeKey={mergedActiveKey}
       onActive={onActive}
       onInactive={onInactive}
+      // Selection
+      selectedKeys={mergedSelectKeys}
       // Popup
       subMenuOpenDelay={subMenuOpenDelay}
       subMenuCloseDelay={subMenuCloseDelay}

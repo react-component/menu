@@ -1,6 +1,11 @@
 import type * as React from 'react';
 
+// ========================== Basic ==========================
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
+
+export type BuiltinPlacements = Record<string, any>;
+
+export type TriggerSubMenuAction = 'click' | 'hover';
 
 export type RenderIconType =
   | React.ReactNode
@@ -14,18 +19,23 @@ export interface MenuInfo {
   domEvent: React.MouseEvent<HTMLElement>;
 }
 
-export type MenuHoverEventHandler = (info: {
-  key: React.Key;
-  domEvent: React.MouseEvent<HTMLElement>;
-}) => void;
-
 export interface MenuTitleInfo {
   key: string;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
 }
 
+// ========================== Hover ==========================
+export type MenuHoverEventHandler = (info: {
+  key: React.Key;
+  domEvent: React.MouseEvent<HTMLElement>;
+}) => void;
+
+// ======================== Selection ========================
+export interface SelectInfo extends MenuInfo {
+  selectedKeys: React.Key[];
+}
+
+export type SelectEventHandler = (info: SelectInfo) => void;
+
+// ========================== Click ==========================
 export type MenuClickEventHandler = (info: MenuInfo) => void;
-
-export type BuiltinPlacements = Record<string, any>;
-
-export type TriggerSubMenuAction = 'click' | 'hover';

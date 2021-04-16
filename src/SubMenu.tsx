@@ -110,13 +110,18 @@ export default function SubMenu(props: SubMenuProps) {
   } = React.useContext(MenuContext);
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
-  const childList: React.ReactElement[] = parseChildren(children);
 
   // ================================ Key =================================
   const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
     parentKeys,
     eventKey,
   ]);
+
+  // ============================== Children ==============================
+  const childList: React.ReactElement[] = parseChildren(
+    children,
+    connectedKeys,
+  );
 
   // =========================== Open & Select ============================
   const open = openKeys.includes(eventKey);
