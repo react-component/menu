@@ -10,7 +10,6 @@ import type {
   MenuMode,
   SelectEventHandler,
   TriggerSubMenuAction,
-  SelectInfo,
 } from './interface';
 import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
@@ -184,39 +183,16 @@ const Menu: React.FC<MenuProps> = ({
     },
   );
 
-  // >>>>> Trigger select
-  const triggerSelection = (info: MenuInfo) => {
-    if (!selectable) {
-      return;
-    }
+  // >>>>> events
+  const onInternalSelect: SelectEventHandler = useMemoCallback(selectInfo => {
+    setMergedSelectKeys(selectInfo.selectedKeys);
+    onSelect?.(warnItemProp(selectInfo));
+  });
 
-    // Insert or Remove
-    const { key: targetKey } = info;
-    const exist = mergedSelectKeys.includes(targetKey);
-    let newSelectKeys: string[];
-
-    if (exist) {
-      newSelectKeys = mergedSelectKeys.filter(key => key !== targetKey);
-    } else if (multiple) {
-      newSelectKeys = [...mergedSelectKeys, targetKey];
-    } else {
-      newSelectKeys = [targetKey];
-    }
-
-    setMergedSelectKeys(newSelectKeys);
-
-    // Trigger event
-    const selectInfo: SelectInfo = {
-      ...info,
-      selectedKeys: newSelectKeys,
-    };
-
-    if (exist) {
-      onDeselect?.(selectInfo);
-    } else {
-      onSelect?.(selectInfo);
-    }
-  };
+  const onInternalDeselect: SelectEventHandler = useMemoCallback(selectInfo => {
+    setMergedSelectKeys(selectInfo.selectedKeys);
+    onDeselect?.(warnItemProp(selectInfo));
+  });
 
   // ======================== Events ========================
   /**
@@ -224,7 +200,6 @@ const Menu: React.FC<MenuProps> = ({
    */
   const onInternalClick = useMemoCallback((info: MenuInfo) => {
     onClick?.(warnItemProp(info));
-    triggerSelection(info);
   });
 
   const onInternalOpenChange = useMemoCallback((key: string, open: boolean) => {
@@ -263,15 +238,6 @@ const Menu: React.FC<MenuProps> = ({
     />
   );
 
-  // return (
-  //   <ul
-  //     className={classNames(prefixCls, className)}
-  //     style={style}
-  //     role="menu"
-  //     tabIndex={tabIndex}
-  //   ></ul>
-  // );
-
   return (
     <MenuContextProvider
       prefixCls={prefixCls}
@@ -287,14 +253,19 @@ const Menu: React.FC<MenuProps> = ({
       onActive={onActive}
       onInactive={onInactive}
       // Selection
+      selectable={selectable}
+      multiple={multiple}
       selectedKeys={mergedSelectKeys}
+      onItemSelect={onInternalSelect}
+      onItemDeselect={onInternalDeselect}
+      // Click
+      onItemClick={onInternalClick}
       // Popup
       subMenuOpenDelay={subMenuOpenDelay}
       subMenuCloseDelay={subMenuCloseDelay}
       forceSubMenuRender={forceSubMenuRender}
       builtinPlacements={builtinPlacements}
       triggerSubMenuAction={triggerSubMenuAction}
-      onItemClick={onInternalClick}
       onOpenChange={onInternalOpenChange}
       getPopupContainer={getInternalPopupContainer}
     >

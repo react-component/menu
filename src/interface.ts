@@ -26,13 +26,13 @@ export interface MenuTitleInfo {
 
 // ========================== Hover ==========================
 export type MenuHoverEventHandler = (info: {
-  key: React.Key;
+  key: string;
   domEvent: React.MouseEvent<HTMLElement>;
 }) => void;
 
 // ======================== Selection ========================
 export interface SelectInfo extends MenuInfo {
-  selectedKeys: React.Key[];
+  selectedKeys: string[];
 }
 
 export type SelectEventHandler = (info: SelectInfo) => void;

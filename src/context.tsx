@@ -6,6 +6,7 @@ import type {
   BuiltinPlacements,
   MenuClickEventHandler,
   MenuMode,
+  SelectEventHandler,
   TriggerSubMenuAction,
 } from './interface';
 import type { PathHookRet } from './hooks/usePathData';
@@ -24,7 +25,11 @@ export interface MenuContextProps extends PathHookRet {
   onInactive: (key: string) => void;
 
   // Selection
+  selectable?: boolean;
+  multiple?: boolean;
   selectedKeys: string[];
+  onItemSelect?: SelectEventHandler;
+  onItemDeselect?: SelectEventHandler;
 
   // Popup
   subMenuOpenDelay: number;

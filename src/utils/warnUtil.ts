@@ -1,11 +1,13 @@
 import warning from 'rc-util/lib/warning';
-import type { MenuInfo } from '../interface';
 
 /**
  * `onClick` event return `info.item` which point to react node directly.
  * We should warning this since it will not work on FC.
  */
-export function warnItemProp({ item, ...restInfo }: MenuInfo): MenuInfo {
+export function warnItemProp<T extends { item: React.ReactInstance }>({
+  item,
+  ...restInfo
+}: T): T {
   Object.defineProperty(restInfo, 'item', {
     get: () => {
       warning(
@@ -17,5 +19,5 @@ export function warnItemProp({ item, ...restInfo }: MenuInfo): MenuInfo {
     },
   });
 
-  return restInfo as MenuInfo;
+  return restInfo as T;
 }

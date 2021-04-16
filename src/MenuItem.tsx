@@ -1,11 +1,14 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
+import warning from 'rc-util/lib/warning';
 import omit from 'rc-util/lib/omit';
 import type {
   MenuClickEventHandler,
   MenuInfo,
   MenuHoverEventHandler,
+  SelectEventHandler,
+  SelectInfo,
 } from './interface';
 import { MenuContext } from './context';
 import useActive from './hooks/useActive';
@@ -23,23 +26,22 @@ export interface MenuItemProps
 
   disabled?: boolean;
 
+  /** @deprecated No place to use this. Should remove */
+  attribute?: Record<string, string>;
+
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;
   onMouseLeave?: MenuHoverEventHandler;
 
+  // >>>>> Selection
+  onSelect?: SelectEventHandler;
+  onDeselect?: SelectEventHandler;
+
   // >>>>> Events
   onClick?: MenuClickEventHandler;
 
-  /** @deprecated No place to use this. Should remove */
-  // attribute?: Record<string, string>;
-  // rootPrefixCls?: string;
-  // active?: boolean;
-  // selectedKeys?: string[];
-  // title?: string;
   // onItemHover?: HoverEventHandler;
-  // onSelect?: SelectEventHandler;
 
-  // onDeselect?: SelectEventHandler;
   // parentMenu?: React.ReactInstance;
   // onDestroy?: DestroyEventHandler;
 
@@ -54,6 +56,11 @@ export interface MenuItemProps
 
   // No need anymore
   // mode?: MenuMode;
+
+  // >>>>>>>>>>>>>> Useless props
+  // rootPrefixCls?: string;
+  // active?: boolean;
+  // selectedKeys?: string[];
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
@@ -61,8 +68,21 @@ export interface MenuItemProps
 // This should be removed from doc & api in future.
 class LegacyMenuItem extends React.Component<any> {
   render() {
-    const passedProps = omit(this.props, ['eventKey']);
-    return <Overflow.Item {...passedProps} />;
+    const { title, attribute, ...restProps } = this.props;
+
+    const passedProps = omit(restProps, ['eventKey']);
+    warning(
+      !attribute,
+      '`attribute` of Menu.Item is deprecated. Please pass attribute directly.',
+    );
+
+    return (
+      <Overflow.Item
+        {...attribute}
+        title={typeof title === 'string' ? title : undefined}
+        {...passedProps}
+      />
+    );
   }
 }
 
@@ -76,9 +96,13 @@ const MenuItem = (props: MenuItemProps) => {
     eventKey,
     disabled,
 
-    // >>>>> Active
+    // Active
     onMouseEnter,
     onMouseLeave,
+
+    // Select
+    onSelect,
+    onDeselect,
 
     onClick,
   } = props;
@@ -87,7 +111,14 @@ const MenuItem = (props: MenuItemProps) => {
     prefixCls,
     onItemClick,
     parentKeys,
+
+    // Select
+    selectable,
+    multiple,
     selectedKeys,
+    onItemSelect,
+    onItemDeselect,
+
     // Path
     registerPath,
     unregisterPath,
@@ -123,6 +154,42 @@ const MenuItem = (props: MenuItemProps) => {
   // ============================ Select ============================
   const selected = selectedKeys.includes(eventKey);
 
+  // Events
+  const triggerSelection = (info: MenuInfo) => {
+    if (!selectable) {
+      return;
+    }
+
+    // Insert or Remove
+    const { key: targetKey } = info;
+    const exist = selectedKeys.includes(targetKey);
+    let newSelectKeys: string[];
+
+    if (exist) {
+      newSelectKeys = selectedKeys.filter(key => key !== targetKey);
+    } else if (multiple) {
+      newSelectKeys = [...selectedKeys, targetKey];
+    } else {
+      newSelectKeys = [targetKey];
+    }
+
+    // Trigger event
+    const selectInfo: SelectInfo = {
+      ...info,
+      selectedKeys: newSelectKeys,
+    };
+
+    const outerInfo = warnItemProp(selectInfo);
+
+    if (exist) {
+      onItemDeselect(selectInfo);
+      onSelect?.(outerInfo);
+    } else {
+      onItemSelect(selectInfo);
+      onDeselect?.(outerInfo);
+    }
+  };
+
   // ============================ Events ============================
   const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
     if (disabled) {
@@ -133,6 +200,7 @@ const MenuItem = (props: MenuItemProps) => {
 
     onClick?.(warnItemProp(info));
     onItemClick(info);
+    triggerSelection(info);
   };
 
   // ============================ Effect ============================
