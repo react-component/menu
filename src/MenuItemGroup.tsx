@@ -8,30 +8,25 @@ export interface MenuItemGroupProps {
   title?: React.ReactNode;
   children?: React.ReactNode;
 
-  // disabled?: boolean;
-  // renderMenuItem?: (
-  //   item: React.ReactElement,
-  //   index: number,
-  //   key: string,
-  // ) => React.ReactElement;
-  // index?: number;
-  // subMenuKey?: string;
-  // rootPrefixCls?: string;
-  // onClick?: MenuClickEventHandler;
-  // direction?: 'ltr' | 'rtl';
+  /** @private Internal filled key. Do not set it directly */
+  eventKey?: string;
 }
 
 export default function MenuItemGroup({
   className,
   title,
+  eventKey,
   children,
   ...restProps
 }: MenuItemGroupProps) {
-  const { prefixCls } = React.useContext(MenuContext);
+  const { prefixCls, parentKeys } = React.useContext(MenuContext);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 
-  const childList: React.ReactElement[] = parseChildren(children);
+  const childList: React.ReactElement[] = parseChildren(children, [
+    ...parentKeys,
+    eventKey,
+  ]);
 
   return (
     <li

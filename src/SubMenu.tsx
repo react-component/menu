@@ -17,8 +17,12 @@ import PopupTrigger from './PopupTrigger';
 import Icon from './Icon';
 import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
+import useDirectionStyle from './hooks/useDirectionStyle';
 
 export interface SubMenuProps {
+  style?: React.CSSProperties;
+  className?: string;
+
   title?: React.ReactNode;
   children?: React.ReactNode;
 
@@ -53,13 +57,11 @@ export interface SubMenuProps {
   // store?: MiniStore;
   // mode?: MenuMode;
   // manualRef?: LegacyFunctionRef;
-  // inlineIndent?: number;
   // level?: number;
   // subMenuOpenDelay?: number;
   // subMenuCloseDelay?: number;
   // forceSubMenuRender?: boolean;
   // builtinPlacements?: BuiltinPlacements;
-  // className?: string;
   // popupClassName?: string;
   // motion?: CSSMotionProps;
   // direction?: 'ltr' | 'rtl';
@@ -77,6 +79,9 @@ export interface SubMenuProps {
 
 export default function SubMenu(props: SubMenuProps) {
   const {
+    style,
+    className,
+
     title,
     eventKey,
 
@@ -149,6 +154,9 @@ export default function SubMenu(props: SubMenuProps) {
 
   const mergedActive = active || keyInPath([activeKey], connectedKeys);
 
+  // ========================== DirectionStyle ==========================
+  const directionStyle = useDirectionStyle(connectedKeys);
+
   // =============================== Events ===============================
   // >>>> Title click
   const onInternalTitleClick: React.MouseEventHandler<HTMLElement> = e => {
@@ -194,6 +202,7 @@ export default function SubMenu(props: SubMenuProps) {
   // >>>>> Title
   let titleNode: React.ReactElement = (
     <div
+      style={directionStyle}
       className={`${subMenuPrefixCls}-title`}
       role="button"
       aria-expanded
@@ -243,11 +252,17 @@ export default function SubMenu(props: SubMenuProps) {
     >
       <Overflow.Item
         component="li"
-        className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, {
-          [`${subMenuPrefixCls}-open`]: open,
-          [`${subMenuPrefixCls}-active`]: mergedActive,
-          [`${subMenuPrefixCls}-selected`]: childrenSelected,
-        })}
+        style={style}
+        className={classNames(
+          subMenuPrefixCls,
+          `${subMenuPrefixCls}-${mode}`,
+          className,
+          {
+            [`${subMenuPrefixCls}-open`]: open,
+            [`${subMenuPrefixCls}-active`]: mergedActive,
+            [`${subMenuPrefixCls}-selected`]: childrenSelected,
+          },
+        )}
         role="menuitem"
       >
         {titleNode}
@@ -255,9 +270,9 @@ export default function SubMenu(props: SubMenuProps) {
         {/* Inline mode */}
         {mode === 'inline' && (
           <CSSMotion visible={open} {...motion}>
-            {({ className, style }) => {
+            {({ className: motionClassName, style: motionStyle }) => {
               return (
-                <SubMenuList className={className} style={style}>
+                <SubMenuList className={motionClassName} style={motionStyle}>
                   {childList}
                 </SubMenuList>
               );

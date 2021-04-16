@@ -22,5 +22,5 @@ export default function Icon({ icon, props, children }: IconProps) {
     iconNode = icon as React.ReactElement;
   }
 
-  return iconNode || children;
+  return iconNode || children || null;
 }

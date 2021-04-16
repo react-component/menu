@@ -14,7 +14,6 @@ export interface MenuContextProps extends PathHookRet {
   prefixCls: string;
   mode: MenuMode;
   openKeys: string[];
-  motion?: CSSMotionProps;
   parentKeys: string[];
   rtl?: boolean;
 
@@ -25,6 +24,12 @@ export interface MenuContextProps extends PathHookRet {
 
   // Selection
   selectedKeys: string[];
+
+  // Level
+  inlineIndent: number;
+
+  // Motion
+  motion?: CSSMotionProps;
 
   // Popup
   subMenuOpenDelay: number;

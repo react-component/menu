@@ -1,10 +1,7 @@
 import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
 
-export function parseChildren(
-  children: React.ReactNode,
-  keyPath: string[] = [],
-) {
+export function parseChildren(children: React.ReactNode, keyPath: string[]) {
   return toArray(children).map((child, index) => {
     if (React.isValidElement(child)) {
       let { key } = child;

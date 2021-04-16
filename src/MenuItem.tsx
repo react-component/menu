@@ -13,6 +13,7 @@ import { MenuContext } from './context';
 import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
 import Icon from './Icon';
+import useDirectionStyle from './hooks/useDirectionStyle';
 
 export interface MenuItemProps
   extends Omit<
@@ -39,8 +40,7 @@ export interface MenuItemProps
   onClick?: MenuClickEventHandler;
 
   // manualRef?: LegacyFunctionRef;
-  // inlineIndent?: number;
-  // level?: number;
+
   // direction?: 'ltr' | 'rtl';
 
   // No need anymore
@@ -83,11 +83,13 @@ class LegacyMenuItem extends React.Component<any> {
  */
 const MenuItem = (props: MenuItemProps) => {
   const {
-    children,
+    style,
     className,
+
     eventKey,
     disabled,
     itemIcon,
+    children,
 
     // Active
     onMouseEnter,
@@ -139,6 +141,9 @@ const MenuItem = (props: MenuItemProps) => {
   // ============================ Select ============================
   const selected = selectedKeys.includes(eventKey);
 
+  // ======================== DirectionStyle ========================
+  const directionStyle = useDirectionStyle(connectedKeys);
+
   // ============================ Events ============================
   const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
     if (disabled) {
@@ -169,6 +174,10 @@ const MenuItem = (props: MenuItemProps) => {
       {...props}
       {...activeProps}
       component="li"
+      style={{
+        ...directionStyle,
+        ...style,
+      }}
       className={classNames(itemCls, className, {
         [`${itemCls}-active`]: active,
         [`${itemCls}-selected`]: selected,

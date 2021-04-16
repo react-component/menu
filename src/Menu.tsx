@@ -50,6 +50,9 @@ export interface MenuProps
   onSelect?: SelectEventHandler;
   onDeselect?: SelectEventHandler;
 
+  // Level
+  inlineIndent?: number;
+
   // Motion
   /** Menu motion define */
   motion?: CSSMotionProps;
@@ -69,8 +72,6 @@ export interface MenuProps
   onOpenChange?: (openKeys: React.Key[]) => void;
 
   // onDestroy?: DestroyEventHandler;
-
-  // level?: number;
 
   // itemIcon?: RenderIconType;
   // expandIcon?: RenderIconType;
@@ -119,6 +120,9 @@ const Menu: React.FC<MenuProps> = ({
   onSelect,
   onDeselect,
 
+  // Level
+  inlineIndent = 24,
+
   // Motion
   motion,
 
@@ -133,7 +137,7 @@ const Menu: React.FC<MenuProps> = ({
   onClick,
   onOpenChange,
 }) => {
-  const childList: React.ReactElement[] = parseChildren(children);
+  const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
 
   // ========================= Open =========================
   const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(
@@ -279,6 +283,8 @@ const Menu: React.FC<MenuProps> = ({
       onInactive={onInactive}
       // Selection
       selectedKeys={mergedSelectKeys}
+      // Level
+      inlineIndent={inlineIndent}
       // Popup
       subMenuOpenDelay={subMenuOpenDelay}
       subMenuCloseDelay={subMenuCloseDelay}
