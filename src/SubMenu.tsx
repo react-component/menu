@@ -18,6 +18,7 @@ import Icon from './Icon';
 import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
 import useDirectionStyle from './hooks/useDirectionStyle';
+import { getMotion } from './utils/motionUtil';
 
 export interface SubMenuProps {
   style?: React.CSSProperties;
@@ -32,7 +33,7 @@ export interface SubMenuProps {
   eventKey?: string;
 
   // >>>>> Icon
-  // itemIcon?: RenderIconType;
+  itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
 
   // >>>>> Active
@@ -66,6 +67,7 @@ export default function SubMenu(props: SubMenuProps) {
     children,
 
     // Icons
+    itemIcon,
     expandIcon,
 
     // Popup
@@ -85,8 +87,12 @@ export default function SubMenu(props: SubMenuProps) {
     prefixCls,
     mode,
     openKeys,
-    motion,
     parentKeys,
+    forceSubMenuRender,
+
+    // Motion
+    motion,
+    defaultMotions,
 
     // ActiveKey
     activeKey,
@@ -98,6 +104,10 @@ export default function SubMenu(props: SubMenuProps) {
     registerPath,
     unregisterPath,
     keyInPath,
+
+    // Icon
+    itemIcon: contextItemIcon,
+    expandIcon: contextExpandIcon,
 
     // Events
     onItemClick,
@@ -111,6 +121,10 @@ export default function SubMenu(props: SubMenuProps) {
     parentKeys,
     eventKey,
   ]);
+
+  // ================================ Icon ================================
+  const mergedItemIcon = itemIcon || contextItemIcon;
+  const mergedExpandIcon = expandIcon || contextExpandIcon;
 
   // ============================== Children ==============================
   const childList: React.ReactElement[] = parseChildren(
@@ -212,7 +226,7 @@ export default function SubMenu(props: SubMenuProps) {
       {/* Only non-horizontal mode shows the icon */}
       {mode !== 'horizontal' && (
         <Icon
-          icon={expandIcon}
+          icon={mergedExpandIcon}
           props={{
             ...props,
             // [Legacy] Not sure why need this mark
@@ -248,6 +262,8 @@ export default function SubMenu(props: SubMenuProps) {
       parentKeys={connectedKeys}
       onItemClick={onMergedItemClick}
       mode={mode === 'horizontal' ? 'vertical' : mode}
+      itemIcon={mergedItemIcon}
+      expandIcon={mergedExpandIcon}
     >
       <Overflow.Item
         component="li"
@@ -268,7 +284,11 @@ export default function SubMenu(props: SubMenuProps) {
 
         {/* Inline mode */}
         {mode === 'inline' && (
-          <CSSMotion visible={open} {...motion}>
+          <CSSMotion
+            visible={open}
+            forceRender={forceSubMenuRender}
+            {...getMotion(mode, motion, defaultMotions)}
+          >
             {({ className: motionClassName, style: motionStyle }) => {
               return (
                 <SubMenuList className={motionClassName} style={motionStyle}>

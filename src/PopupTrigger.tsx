@@ -5,6 +5,7 @@ import type { CSSMotionProps } from 'rc-motion';
 import { MenuContext } from './context';
 import { placements, placementsRtl } from './placements';
 import type { MenuMode } from './interface';
+import { getMotion } from './utils/motionUtil';
 
 const popupPlacementMap = {
   horizontal: 'bottomLeft',
@@ -44,7 +45,10 @@ export default function PopupTrigger({
     builtinPlacements,
     triggerSubMenuAction,
     forceSubMenuRender,
+
+    // Motion
     motion,
+    defaultMotions,
   } = React.useContext(MenuContext);
 
   const placement = rtl
@@ -54,7 +58,7 @@ export default function PopupTrigger({
   const popupPlacement = popupPlacementMap[mode];
 
   const mergedMotion: CSSMotionProps = {
-    ...motion,
+    ...getMotion(mode, motion, defaultMotions),
     leavedClassName: `${prefixCls}-hidden`,
     removeOnLeave: false,
     motionAppear: true,

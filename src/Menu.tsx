@@ -11,6 +11,7 @@ import type {
   SelectEventHandler,
   TriggerSubMenuAction,
   SelectInfo,
+  RenderIconType,
 } from './interface';
 import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
@@ -18,6 +19,14 @@ import MenuContextProvider from './context';
 import useMemoCallback from './hooks/useMemoCallback';
 import usePathData from './hooks/usePathData';
 import { warnItemProp } from './utils/warnUtil';
+
+/**
+ * Menu modify after refactor:
+ * ## Remove
+ * - openTransitionName
+ * - openAnimation
+ * - onDestroy
+ */
 
 // optimize for render
 const EMPTY_LIST: string[] = [];
@@ -54,8 +63,10 @@ export interface MenuProps
   inlineIndent?: number;
 
   // Motion
-  /** Menu motion define */
+  /** Menu motion define. Use `defaultMotions` if you need config motion of each mode */
   motion?: CSSMotionProps;
+  /** Default menu motion of each mode */
+  defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
 
   // Popup
   subMenuOpenDelay?: number;
@@ -64,6 +75,10 @@ export interface MenuProps
   triggerSubMenuAction?: TriggerSubMenuAction;
   builtinPlacements?: BuiltinPlacements;
 
+  // Icon
+  itemIcon?: RenderIconType;
+  expandIcon?: RenderIconType;
+
   // >>>>> Function
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
 
@@ -71,19 +86,7 @@ export interface MenuProps
   onClick?: MenuClickEventHandler;
   onOpenChange?: (openKeys: React.Key[]) => void;
 
-  // onDestroy?: DestroyEventHandler;
-
-  // itemIcon?: RenderIconType;
-  // expandIcon?: RenderIconType;
   // overflowedIndicator?: React.ReactNode;
-
-  // /** Default menu motion of each mode */
-  // defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
-
-  // /** @deprecated Please use `motion` instead */
-  // openTransitionName?: string;
-  // /** @deprecated Please use `motion` instead */
-  // openAnimation?: OpenAnimation;
 
   // inlineCollapsed?: boolean;
 
@@ -125,10 +128,15 @@ const Menu: React.FC<MenuProps> = ({
 
   // Motion
   motion,
+  defaultMotions,
 
   // Popup
   triggerSubMenuAction = 'hover',
   builtinPlacements,
+
+  // Icon
+  itemIcon,
+  expandIcon,
 
   // Function
   getPopupContainer,
@@ -272,9 +280,11 @@ const Menu: React.FC<MenuProps> = ({
       prefixCls={prefixCls}
       mode={mode}
       openKeys={mergedOpenKeys}
-      motion={motion}
       parentKeys={EMPTY_LIST}
       rtl={direction === 'rtl'}
+      // Motion
+      motion={motion}
+      defaultMotions={defaultMotions}
       // Path
       {...pathData}
       // Active
@@ -291,9 +301,13 @@ const Menu: React.FC<MenuProps> = ({
       forceSubMenuRender={forceSubMenuRender}
       builtinPlacements={builtinPlacements}
       triggerSubMenuAction={triggerSubMenuAction}
+      getPopupContainer={getInternalPopupContainer}
+      // Icon
+      itemIcon={itemIcon}
+      expandIcon={expandIcon}
+      // Events
       onItemClick={onInternalClick}
       onOpenChange={onInternalOpenChange}
-      getPopupContainer={getInternalPopupContainer}
     >
       {container}
     </MenuContextProvider>

@@ -6,6 +6,7 @@ import type {
   BuiltinPlacements,
   MenuClickEventHandler,
   MenuMode,
+  RenderIconType,
   TriggerSubMenuAction,
 } from './interface';
 import type { PathHookRet } from './hooks/usePathData';
@@ -30,6 +31,7 @@ export interface MenuContextProps extends PathHookRet {
 
   // Motion
   motion?: CSSMotionProps;
+  defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
 
   // Popup
   subMenuOpenDelay: number;
@@ -37,6 +39,10 @@ export interface MenuContextProps extends PathHookRet {
   forceSubMenuRender?: boolean;
   builtinPlacements?: BuiltinPlacements;
   triggerSubMenuAction?: TriggerSubMenuAction;
+
+  // Icon
+  itemIcon?: RenderIconType;
+  expandIcon?: RenderIconType;
 
   // Function
   onItemClick: MenuClickEventHandler;

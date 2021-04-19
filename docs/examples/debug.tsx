@@ -69,7 +69,7 @@ export default () => {
         mode={mode}
         style={{ width: mode === 'horizontal' ? undefined : 256 }}
         onClick={onRootClick}
-        motion={motionMap[mode]}
+        defaultMotions={motionMap}
       >
         <Menu.Item key="mail">Navigation One</Menu.Item>
         <Menu.Item key="next">Next Item</Menu.Item>
