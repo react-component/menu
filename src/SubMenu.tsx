@@ -160,8 +160,17 @@ export default function SubMenu(props: SubMenuProps) {
     }
   };
 
-  const mergedActive =
-    active || childrenActive || keyInPath([activeKey], connectedKeys);
+  const mergedActive = React.useMemo(() => {
+    if (active) {
+      return active;
+    }
+
+    if (mode !== 'inline') {
+      return childrenActive || keyInPath([activeKey], connectedKeys);
+    }
+
+    return false;
+  }, [mode, active, activeKey, childrenActive, connectedKeys]);
 
   // ========================== DirectionStyle ==========================
   const directionStyle = useDirectionStyle(connectedKeys);
