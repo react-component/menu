@@ -146,7 +146,11 @@ export default function SubMenu(props: SubMenuProps) {
     onTitleMouseLeave,
   );
 
-  const mergedActive = active || keyInPath([activeKey], connectedKeys);
+  // Fallback of active check to avoid hover on menu title or disabled item
+  const [childrenActive, setChildrenActive] = React.useState(false);
+
+  const mergedActive =
+    active || childrenActive || keyInPath([activeKey], connectedKeys);
 
   // ========================== DirectionStyle ==========================
   const directionStyle = useDirectionStyle(connectedKeys);
@@ -279,6 +283,12 @@ export default function SubMenu(props: SubMenuProps) {
           },
         )}
         role="menuitem"
+        onMouseEnter={() => {
+          setChildrenActive(true);
+        }}
+        onMouseLeave={() => {
+          setChildrenActive(false);
+        }}
       >
         {titleNode}
 
