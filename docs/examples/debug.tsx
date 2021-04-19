@@ -74,7 +74,7 @@ export default () => {
         </button>
       </div>
 
-      <div style={{ width: narrow ? 300 : undefined }}>
+      <div style={{ width: narrow ? 350 : undefined }}>
         <Menu
           mode={mode}
           style={{ width: mode === 'horizontal' ? undefined : 256 }}

@@ -154,6 +154,12 @@ export default function SubMenu(props: SubMenuProps) {
   // Fallback of active check to avoid hover on menu title or disabled item
   const [childrenActive, setChildrenActive] = React.useState(false);
 
+  const triggerChildrenActive = (newActive: boolean) => {
+    if (!mergedDisabled) {
+      setChildrenActive(newActive);
+    }
+  };
+
   const mergedActive =
     active || childrenActive || keyInPath([activeKey], connectedKeys);
 
@@ -285,14 +291,15 @@ export default function SubMenu(props: SubMenuProps) {
             [`${subMenuPrefixCls}-open`]: open,
             [`${subMenuPrefixCls}-active`]: mergedActive,
             [`${subMenuPrefixCls}-selected`]: childrenSelected,
+            [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
           },
         )}
         role="menuitem"
         onMouseEnter={() => {
-          setChildrenActive(true);
+          triggerChildrenActive(true);
         }}
         onMouseLeave={() => {
-          setChildrenActive(false);
+          triggerChildrenActive(false);
         }}
       >
         {titleNode}

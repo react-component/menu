@@ -312,7 +312,7 @@ const Menu: React.FC<MenuProps> = ({
         const originOmitItems = childList.slice(-len);
 
         return (
-          <SubMenu key="rc-menu-more" title={moreIcon}>
+          <SubMenu eventKey="rc-menu-more" title={moreIcon}>
             {originOmitItems}
           </SubMenu>
         );
