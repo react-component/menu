@@ -19,9 +19,13 @@ import MenuContextProvider from './context';
 import useMemoCallback from './hooks/useMemoCallback';
 import usePathData from './hooks/usePathData';
 import { warnItemProp } from './utils/warnUtil';
+import SubMenu from './SubMenu';
 
 /**
  * Menu modify after refactor:
+ * ## Add
+ * - disabled
+ *
  * ## Remove
  * - openTransitionName
  * - openAnimation
@@ -37,6 +41,8 @@ export interface MenuProps
 
   mode?: MenuMode;
   children?: React.ReactNode;
+
+  disabled?: boolean;
 
   /** direction of menu */
   direction?: 'ltr' | 'rtl';
@@ -78,6 +84,7 @@ export interface MenuProps
   // Icon
   itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
+  moreIcon?: React.ReactNode;
 
   // >>>>> Function
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -103,6 +110,9 @@ const Menu: React.FC<MenuProps> = ({
   mode = 'vertical',
   children,
   direction,
+
+  // Disabled
+  disabled,
 
   // Open
   subMenuOpenDelay = 0.1,
@@ -137,6 +147,7 @@ const Menu: React.FC<MenuProps> = ({
   // Icon
   itemIcon,
   expandIcon,
+  moreIcon = '...',
 
   // Function
   getPopupContainer,
@@ -146,6 +157,9 @@ const Menu: React.FC<MenuProps> = ({
   onOpenChange,
 }) => {
   const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
+
+  // ====================== Responsive=======================
+  const [visibleCount, setVisibleCount] = React.useState(0);
 
   // ========================= Open =========================
   const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(
@@ -254,8 +268,27 @@ const Menu: React.FC<MenuProps> = ({
 
   // ======================== Render ========================
 
+  // >>>>> Children
+  const wrappedChildList =
+    mode !== 'horizontal'
+      ? childList
+      : // Need wrap for overflow dropdown that do not response for open
+        childList.map((child, index) => {
+          if (index < visibleCount) {
+            return child;
+          }
+
+          return (
+            <MenuContextProvider key={child.key} openDisabled>
+              {child}
+            </MenuContextProvider>
+          );
+        });
+
+  // >>>>> Container
   const container = (
     <Overflow
+      prefixCls={`${prefixCls}-overflow`}
       component="ul"
       itemComponent={MenuItem}
       className={classNames(
@@ -270,11 +303,28 @@ const Menu: React.FC<MenuProps> = ({
       style={style}
       role="menu"
       tabIndex={tabIndex}
-      data={childList}
+      data={wrappedChildList}
       renderRawItem={node => node}
+      renderRest={() => moreIcon}
+      renderRawRest={omitItems => {
+        // We use origin list since wrapped list use context to prevent open
+        const len = omitItems.length;
+        const originOmitItems = childList.slice(-len);
+
+        return (
+          <SubMenu key="rc-menu-more" title={moreIcon}>
+            {originOmitItems}
+          </SubMenu>
+        );
+      }}
+      maxCount={mode === 'horizontal' ? 'responsive' : null}
+      onVisibleChange={newCount => {
+        setVisibleCount(newCount);
+      }}
     />
   );
 
+  // >>>>> Render
   return (
     <MenuContextProvider
       prefixCls={prefixCls}
@@ -282,6 +332,8 @@ const Menu: React.FC<MenuProps> = ({
       openKeys={mergedOpenKeys}
       parentKeys={EMPTY_LIST}
       rtl={direction === 'rtl'}
+      // Disabled
+      disabled={disabled}
       // Motion
       motion={motion}
       defaultMotions={defaultMotions}

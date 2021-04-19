@@ -91,6 +91,8 @@ const MenuItem = (props: MenuItemProps) => {
     onItemClick,
     parentKeys,
 
+    disabled: contextDisabled,
+
     // Select
     selectedKeys,
 
@@ -101,6 +103,7 @@ const MenuItem = (props: MenuItemProps) => {
   const itemCls = `${prefixCls}-item`;
 
   const legacyMenuItemRef = React.useRef<any>();
+  const mergedDisabled = contextDisabled || disabled;
 
   // ============================= Key ==============================
   const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
@@ -121,7 +124,7 @@ const MenuItem = (props: MenuItemProps) => {
   // ============================ Active ============================
   const { active, ...activeProps } = useActive(
     eventKey,
-    disabled,
+    mergedDisabled,
     onMouseEnter,
     onMouseLeave,
   );
@@ -134,7 +137,7 @@ const MenuItem = (props: MenuItemProps) => {
 
   // ============================ Events ============================
   const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
-    if (disabled) {
+    if (mergedDisabled) {
       return;
     }
 
@@ -171,7 +174,7 @@ const MenuItem = (props: MenuItemProps) => {
         {
           [`${itemCls}-active`]: active,
           [`${itemCls}-selected`]: selected,
-          [`${itemCls}-disabled`]: disabled,
+          [`${itemCls}-disabled`]: mergedDisabled,
         },
         className,
       )}

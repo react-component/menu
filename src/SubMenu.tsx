@@ -90,6 +90,10 @@ export default function SubMenu(props: SubMenuProps) {
     parentKeys,
     forceSubMenuRender,
 
+    // Disabled
+    disabled: contextDisabled,
+    openDisabled,
+
     // Motion
     motion,
     defaultMotions,
@@ -115,6 +119,7 @@ export default function SubMenu(props: SubMenuProps) {
   } = React.useContext(MenuContext);
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
+  const mergedDisabled = contextDisabled || disabled;
 
   // ================================ Key =================================
   const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
@@ -133,7 +138,7 @@ export default function SubMenu(props: SubMenuProps) {
   );
 
   // ================================ Open ================================
-  const open = openKeys.includes(eventKey);
+  const open = !openDisabled && openKeys.includes(eventKey);
 
   // =============================== Select ===============================
   const childrenSelected = keyInPath(selectedKeys, connectedKeys);
@@ -141,7 +146,7 @@ export default function SubMenu(props: SubMenuProps) {
   // =============================== Active ===============================
   const { active, ...activeProps } = useActive(
     eventKey,
-    disabled,
+    mergedDisabled,
     onTitleMouseEnter,
     onTitleMouseLeave,
   );
@@ -159,7 +164,7 @@ export default function SubMenu(props: SubMenuProps) {
   // >>>> Title click
   const onInternalTitleClick: React.MouseEventHandler<HTMLElement> = e => {
     // Skip if disabled
-    if (disabled) {
+    if (mergedDisabled) {
       return;
     }
 
@@ -187,7 +192,7 @@ export default function SubMenu(props: SubMenuProps) {
 
   // >>>>> Hover
   const hoverProps: React.HTMLAttributes<HTMLDivElement> = {};
-  if (!disabled) {
+  if (!mergedDisabled) {
     hoverProps.onMouseEnter = domEvent => {
       onMouseEnter?.({
         key: eventKey,
@@ -252,7 +257,7 @@ export default function SubMenu(props: SubMenuProps) {
         popupClassName={popupClassName}
         popupOffset={popupOffset}
         popup={<SubMenuList>{childList}</SubMenuList>}
-        disabled={disabled}
+        disabled={mergedDisabled}
         onVisibleChange={onPopupVisibleChange}
       >
         {titleNode}

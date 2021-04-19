@@ -43,6 +43,7 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
 
 export default () => {
   const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
+  const [narrow, setNarrow] = React.useState(false);
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);
@@ -64,47 +65,57 @@ export default () => {
           <option value="vertical">Vertical</option>
           <option value="horizontal">Horizontal</option>
         </select>
-      </div>
-      <Menu
-        mode={mode}
-        style={{ width: mode === 'horizontal' ? undefined : 256 }}
-        onClick={onRootClick}
-        defaultMotions={motionMap}
-      >
-        <Menu.Item key="mail">Navigation One</Menu.Item>
-        <Menu.Item key="next">Next Item</Menu.Item>
-        <Menu.SubMenu title="Sub Menu" key="sub" onClick={onSubMenuClick}>
-          <Menu.Item key="sub1" onClick={onClick}>
-            Sub Item 1
-          </Menu.Item>
-          <Menu.Item key="sub2">Sub Item 2</Menu.Item>
-
-          <Menu.SubMenu title="Nest Menu" key="nest">
-            <MenuItemGroup title="group 1" key="grp1">
-              <Menu.Item key="21">2</Menu.Item>
-              <Menu.Item key="22">3</Menu.Item>
-            </MenuItemGroup>
-            <MenuItemGroup title="group 2" key="grp2">
-              <Menu.Item key="31">4</Menu.Item>
-              <Menu.Item key="32">5</Menu.Item>
-            </MenuItemGroup>
-          </Menu.SubMenu>
-        </Menu.SubMenu>
-        <Menu.Item key="disabled" disabled>
-          Disabled Item
-        </Menu.Item>
-
-        <Menu.SubMenu
-          title="Disabled Sub Menu"
-          key="disabled-sub"
-          onClick={onSubMenuClick}
-          disabled
+        <button
+          onClick={() => {
+            setNarrow(!narrow);
+          }}
         >
-          <Menu.Item key="dis-sub1" onClick={onClick}>
-            Disabled Sub Item 1
+          {String(narrow)}
+        </button>
+      </div>
+
+      <div style={{ width: narrow ? 300 : undefined }}>
+        <Menu
+          mode={mode}
+          style={{ width: mode === 'horizontal' ? undefined : 256 }}
+          onClick={onRootClick}
+          defaultMotions={motionMap}
+        >
+          <Menu.Item key="mail">Navigation One</Menu.Item>
+          <Menu.Item key="next">Next Item</Menu.Item>
+          <Menu.SubMenu title="Sub Menu" key="sub" onClick={onSubMenuClick}>
+            <Menu.Item key="sub1" onClick={onClick}>
+              Sub Item 1
+            </Menu.Item>
+            <Menu.Item key="sub2">Sub Item 2</Menu.Item>
+
+            <Menu.SubMenu title="Nest Menu" key="nest">
+              <MenuItemGroup title="group 1" key="grp1">
+                <Menu.Item key="21">2</Menu.Item>
+                <Menu.Item key="22">3</Menu.Item>
+              </MenuItemGroup>
+              <MenuItemGroup title="group 2" key="grp2">
+                <Menu.Item key="31">4</Menu.Item>
+                <Menu.Item key="32">5</Menu.Item>
+              </MenuItemGroup>
+            </Menu.SubMenu>
+          </Menu.SubMenu>
+          <Menu.Item key="disabled" disabled>
+            Disabled Item
           </Menu.Item>
-        </Menu.SubMenu>
-      </Menu>
+
+          <Menu.SubMenu
+            title="Disabled Sub Menu"
+            key="disabled-sub"
+            onClick={onSubMenuClick}
+            disabled
+          >
+            <Menu.Item key="dis-sub1" onClick={onClick}>
+              Disabled Sub Item 1
+            </Menu.Item>
+          </Menu.SubMenu>
+        </Menu>
+      </div>
     </>
   );
 };

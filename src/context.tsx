@@ -18,6 +18,11 @@ export interface MenuContextProps extends PathHookRet {
   parentKeys: string[];
   rtl?: boolean;
 
+  // Disabled
+  disabled?: boolean;
+  // Used for overflow only. Prevent hidden node trigger open
+  openDisabled?: boolean;
+
   // Active
   activeKey: string;
   onActive: (key: string) => void;
