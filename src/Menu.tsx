@@ -181,18 +181,21 @@ const Menu: React.FC<MenuProps> = ({
     },
   );
 
+  // >>>>> Cache & Reset open keys when inlineCollapsed changed
   const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
     mergedOpenKeys,
   );
 
   const isInlineMode = mergedMode === 'inline';
 
+  // Cache
   React.useEffect(() => {
     if (isInlineMode) {
       setInlineCacheOpenKeys(mergedOpenKeys);
     }
-  }, [mergedOpenKeys, isInlineMode]);
+  }, [mergedOpenKeys]);
 
+  // Restore
   React.useEffect(() => {
     if (isInlineMode) {
       setMergedOpenKeys(inlineCacheOpenKeys);
