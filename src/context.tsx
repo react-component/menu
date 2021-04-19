@@ -13,10 +13,12 @@ import type { PathHookRet } from './hooks/usePathData';
 
 export interface MenuContextProps extends PathHookRet {
   prefixCls: string;
-  mode: MenuMode;
   openKeys: string[];
   parentKeys: string[];
   rtl?: boolean;
+
+  // Mode
+  mode: MenuMode;
 
   // Disabled
   disabled?: boolean;

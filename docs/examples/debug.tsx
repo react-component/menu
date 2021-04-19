@@ -44,6 +44,7 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
 export default () => {
   const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
   const [narrow, setNarrow] = React.useState(false);
+  const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);
@@ -65,12 +66,23 @@ export default () => {
           <option value="vertical">Vertical</option>
           <option value="horizontal">Horizontal</option>
         </select>
+
+        {/* Narrow */}
         <button
           onClick={() => {
             setNarrow(!narrow);
           }}
         >
-          {String(narrow)}
+          Narrow: {String(narrow)}
+        </button>
+
+        {/* InlineCollapsed */}
+        <button
+          onClick={() => {
+            setInlineCollapsed(!inlineCollapsed);
+          }}
+        >
+          Inline Collapsed: {String(inlineCollapsed)}
         </button>
       </div>
 
@@ -80,6 +92,7 @@ export default () => {
           style={{ width: mode === 'horizontal' ? undefined : 256 }}
           onClick={onRootClick}
           defaultMotions={motionMap}
+          inlineCollapsed={inlineCollapsed}
         >
           <Menu.Item key="mail">Navigation One</Menu.Item>
           <Menu.Item key="next">Next Item</Menu.Item>

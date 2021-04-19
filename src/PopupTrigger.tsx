@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Trigger from 'rc-trigger';
 import classNames from 'classnames';
+import raf from 'rc-util/lib/raf';
 import type { CSSMotionProps } from 'rc-motion';
 import { MenuContext } from './context';
 import { placements, placementsRtl } from './placements';
@@ -51,18 +52,32 @@ export default function PopupTrigger({
     defaultMotions,
   } = React.useContext(MenuContext);
 
+  const [innerVisible, setInnerVisible] = React.useState(false);
+
   const placement = rtl
     ? { ...placementsRtl, ...builtinPlacements }
     : { ...placements, ...builtinPlacements };
 
   const popupPlacement = popupPlacementMap[mode];
 
+  const targetMotion = getMotion(mode, motion, defaultMotions);
+
   const mergedMotion: CSSMotionProps = {
-    ...getMotion(mode, motion, defaultMotions),
+    ...targetMotion,
     leavedClassName: `${prefixCls}-hidden`,
     removeOnLeave: false,
     motionAppear: true,
   };
+
+  // Delay to change visible
+  const visibleRef = React.useRef<number>();
+  React.useEffect(() => {
+    raf.cancel(visibleRef.current);
+
+    visibleRef.current = raf(() => {
+      setInnerVisible(visible);
+    });
+  }, [visible]);
 
   return (
     <Trigger
@@ -77,7 +92,7 @@ export default function PopupTrigger({
       getPopupContainer={getPopupContainer}
       builtinPlacements={placement}
       popupPlacement={popupPlacement}
-      popupVisible={visible}
+      popupVisible={innerVisible}
       popup={popup}
       popupAlign={popupOffset && { offset: popupOffset }}
       action={disabled ? [] : [triggerSubMenuAction]}

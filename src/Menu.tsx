@@ -39,13 +39,16 @@ export interface MenuProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'onSelect'> {
   prefixCls?: string;
 
-  mode?: MenuMode;
   children?: React.ReactNode;
 
   disabled?: boolean;
 
   /** direction of menu */
   direction?: 'ltr' | 'rtl';
+
+  // Mode
+  mode?: MenuMode;
+  inlineCollapsed?: boolean;
 
   // Open control
   defaultOpenKeys?: string[];
@@ -84,7 +87,7 @@ export interface MenuProps
   // Icon
   itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
-  moreIcon?: React.ReactNode;
+  overflowedIndicator?: React.ReactNode;
 
   // >>>>> Function
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -92,10 +95,6 @@ export interface MenuProps
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onOpenChange?: (openKeys: React.Key[]) => void;
-
-  // overflowedIndicator?: React.ReactNode;
-
-  // inlineCollapsed?: boolean;
 
   // /** SiderContextProps of layout in ant design */
   // siderCollapsed?: boolean;
@@ -107,9 +106,12 @@ const Menu: React.FC<MenuProps> = ({
   style,
   className,
   tabIndex = 0,
-  mode = 'vertical',
   children,
   direction,
+
+  // Mode
+  mode = 'vertical',
+  inlineCollapsed,
 
   // Disabled
   disabled,
@@ -147,7 +149,7 @@ const Menu: React.FC<MenuProps> = ({
   // Icon
   itemIcon,
   expandIcon,
-  moreIcon = '...',
+  overflowedIndicator = '...',
 
   // Function
   getPopupContainer,
@@ -158,7 +160,17 @@ const Menu: React.FC<MenuProps> = ({
 }) => {
   const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
 
-  // ====================== Responsive=======================
+  // ========================= Mode =========================
+  const [mergedMode, mergedInlineCollapsed] = React.useMemo<
+    [MenuMode, boolean]
+  >(() => {
+    if (mode === 'inline' && inlineCollapsed) {
+      return ['vertical', inlineCollapsed];
+    }
+    return [mode, false];
+  }, [mode, inlineCollapsed]);
+
+  // ====================== Responsive ======================
   const [visibleCount, setVisibleCount] = React.useState(0);
 
   // ========================= Open =========================
@@ -168,6 +180,26 @@ const Menu: React.FC<MenuProps> = ({
       value: openKeys,
     },
   );
+
+  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
+    mergedOpenKeys,
+  );
+
+  const isInlineMode = mergedMode === 'inline';
+
+  React.useEffect(() => {
+    if (isInlineMode) {
+      setInlineCacheOpenKeys(mergedOpenKeys);
+    }
+  }, [mergedOpenKeys, isInlineMode]);
+
+  React.useEffect(() => {
+    if (isInlineMode) {
+      setMergedOpenKeys(inlineCacheOpenKeys);
+    } else {
+      setMergedOpenKeys([]);
+    }
+  }, [isInlineMode]);
 
   // ========================= Path =========================
   const pathData = usePathData();
@@ -270,7 +302,7 @@ const Menu: React.FC<MenuProps> = ({
 
   // >>>>> Children
   const wrappedChildList =
-    mode !== 'horizontal'
+    mergedMode !== 'horizontal'
       ? childList
       : // Need wrap for overflow dropdown that do not response for open
         childList.map((child, index) => {
@@ -294,9 +326,10 @@ const Menu: React.FC<MenuProps> = ({
       className={classNames(
         prefixCls,
         `${prefixCls}-root`,
-        `${prefixCls}-${mode}`,
+        `${prefixCls}-${mergedMode}`,
         className,
         {
+          [`${prefixCls}-inline-collapsed`]: mergedInlineCollapsed,
           [`${prefixCls}-rlt`]: direction === 'rtl',
         },
       )}
@@ -305,19 +338,19 @@ const Menu: React.FC<MenuProps> = ({
       tabIndex={tabIndex}
       data={wrappedChildList}
       renderRawItem={node => node}
-      renderRest={() => moreIcon}
+      renderRest={() => overflowedIndicator}
       renderRawRest={omitItems => {
         // We use origin list since wrapped list use context to prevent open
         const len = omitItems.length;
         const originOmitItems = childList.slice(-len);
 
         return (
-          <SubMenu eventKey="rc-menu-more" title={moreIcon}>
+          <SubMenu eventKey="rc-menu-more" title={overflowedIndicator}>
             {originOmitItems}
           </SubMenu>
         );
       }}
-      maxCount={mode === 'horizontal' ? 'responsive' : null}
+      maxCount={mergedMode === 'horizontal' ? 'responsive' : null}
       onVisibleChange={newCount => {
         setVisibleCount(newCount);
       }}
@@ -328,7 +361,7 @@ const Menu: React.FC<MenuProps> = ({
   return (
     <MenuContextProvider
       prefixCls={prefixCls}
-      mode={mode}
+      mode={mergedMode}
       openKeys={mergedOpenKeys}
       parentKeys={EMPTY_LIST}
       rtl={direction === 'rtl'}
