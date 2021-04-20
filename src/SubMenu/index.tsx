@@ -1,24 +1,23 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import CSSMotion from 'rc-motion';
 import Overflow from 'rc-overflow';
 import SubMenuList from './SubMenuList';
-import { parseChildren } from './utils/nodeUtil';
+import { parseChildren } from '../utils/nodeUtil';
 import type {
   MenuClickEventHandler,
   MenuHoverEventHandler,
   MenuInfo,
   MenuTitleInfo,
   RenderIconType,
-} from './interface';
-import MenuContextProvider, { MenuContext } from './context';
-import useMemoCallback from './hooks/useMemoCallback';
+} from '../interface';
+import MenuContextProvider, { MenuContext } from '../context';
+import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
-import Icon from './Icon';
-import useActive from './hooks/useActive';
-import { warnItemProp } from './utils/warnUtil';
-import useDirectionStyle from './hooks/useDirectionStyle';
-import { getMotion } from './utils/motionUtil';
+import Icon from '../Icon';
+import useActive from '../hooks/useActive';
+import { warnItemProp } from '../utils/warnUtil';
+import useDirectionStyle from '../hooks/useDirectionStyle';
+import InlineSubMenuList from './InlineSubMenuList';
 
 export interface SubMenuProps {
   style?: React.CSSProperties;
@@ -88,15 +87,10 @@ export default function SubMenu(props: SubMenuProps) {
     mode,
     openKeys,
     parentKeys,
-    forceSubMenuRender,
 
     // Disabled
     disabled: contextDisabled,
     openDisabled,
-
-    // Motion
-    motion,
-    defaultMotions,
 
     // ActiveKey
     activeKey,
@@ -314,21 +308,7 @@ export default function SubMenu(props: SubMenuProps) {
         {titleNode}
 
         {/* Inline mode */}
-        {mode === 'inline' && (
-          <CSSMotion
-            visible={open}
-            forceRender={forceSubMenuRender}
-            {...getMotion(mode, motion, defaultMotions)}
-          >
-            {({ className: motionClassName, style: motionStyle }) => {
-              return (
-                <SubMenuList className={motionClassName} style={motionStyle}>
-                  {childList}
-                </SubMenuList>
-              );
-            }}
-          </CSSMotion>
-        )}
+        <InlineSubMenuList open={open}>{childList}</InlineSubMenuList>
       </Overflow.Item>
     </MenuContextProvider>
   );

@@ -3,10 +3,10 @@ import Trigger from 'rc-trigger';
 import classNames from 'classnames';
 import raf from 'rc-util/lib/raf';
 import type { CSSMotionProps } from 'rc-motion';
-import { MenuContext } from './context';
-import { placements, placementsRtl } from './placements';
-import type { MenuMode } from './interface';
-import { getMotion } from './utils/motionUtil';
+import { MenuContext } from '../context';
+import { placements, placementsRtl } from '../placements';
+import type { MenuMode } from '../interface';
+import { getMotion } from '../utils/motionUtil';
 
 const popupPlacementMap = {
   horizontal: 'bottomLeft',

@@ -27,6 +27,7 @@ const verticalMotion: CSSMotionProps = {
 
 const inlineMotion: CSSMotionProps = {
   motionName: 'rc-menu-collapse',
+  motionAppear: true,
   onAppearStart: collapseNode,
   onAppearActive: expandNode,
   onEnterStart: collapseNode,
@@ -42,7 +43,7 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
 };
 
 export default () => {
-  const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
+  const [mode, setMode] = React.useState<MenuProps['mode']>('inline');
   const [narrow, setNarrow] = React.useState(false);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
 
@@ -117,7 +118,7 @@ export default () => {
             Disabled Item
           </Menu.Item>
 
-          <Menu.SubMenu
+          {/* <Menu.SubMenu
             title="Disabled Sub Menu"
             key="disabled-sub"
             onClick={onSubMenuClick}
@@ -126,7 +127,7 @@ export default () => {
             <Menu.Item key="dis-sub1" onClick={onClick}>
               Disabled Sub Item 1
             </Menu.Item>
-          </Menu.SubMenu>
+          </Menu.SubMenu> */}
         </Menu>
       </div>
     </>

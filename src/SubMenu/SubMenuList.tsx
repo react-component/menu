@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { MenuContext } from './context';
+import { MenuContext } from '../context';
 
 export interface SubMenuListProps
   extends React.HTMLAttributes<HTMLUListElement> {

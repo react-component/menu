@@ -30,6 +30,8 @@ import SubMenu from './SubMenu';
  * - openTransitionName
  * - openAnimation
  * - onDestroy
+ * - siderCollapsed: Seems antd do not use this prop
+ * - collapsedWidth: Seems this logic should be handle by antd Layout.Sider
  */
 
 // optimize for render
@@ -95,10 +97,6 @@ export interface MenuProps
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onOpenChange?: (openKeys: React.Key[]) => void;
-
-  // /** SiderContextProps of layout in ant design */
-  // siderCollapsed?: boolean;
-  // collapsedWidth?: string | number;
 }
 
 const Menu: React.FC<MenuProps> = ({
