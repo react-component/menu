@@ -25,6 +25,8 @@ export default function InlineSubMenuList({
     mode,
   } = React.useContext(MenuContext);
 
+  // We record `destroy` mark here since when mode change from `inline` to others.
+  // The inline list should remove when motion end.
   const [destroy, setDestroy] = React.useState(false);
 
   // Always use latest mode check
@@ -32,6 +34,7 @@ export default function InlineSubMenuList({
   sameModeRef.current = mode === fixedMode;
 
   // ================================= Effect =================================
+  // Reset destroy state when mode change back
   React.useEffect(() => {
     if (sameModeRef.current) {
       setDestroy(false);
