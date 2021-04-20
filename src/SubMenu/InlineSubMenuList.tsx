@@ -17,6 +17,7 @@ export default function InlineSubMenuList({
   const fixedMode: MenuMode = 'inline';
 
   const {
+    prefixCls,
     forceSubMenuRender,
     motion,
     defaultMotions,
@@ -38,7 +39,7 @@ export default function InlineSubMenuList({
   }, [mode]);
 
   // ================================= Render =================================
-  const mergedMotion = getMotion(fixedMode, motion, defaultMotions);
+  const mergedMotion = { ...getMotion(fixedMode, motion, defaultMotions) };
 
   // No need appear since nest inlineCollapse changed
   if (parentKeys.length > 1) {
@@ -46,13 +47,13 @@ export default function InlineSubMenuList({
   }
 
   // Hide inline list when mode changed and motion end
-  const originOnLeaveEnd = mergedMotion.onLeaveEnd;
-  mergedMotion.onLeaveEnd = (...args) => {
-    if (!sameModeRef.current) {
+  const originOnVisibleChanged = mergedMotion.onVisibleChanged;
+  mergedMotion.onVisibleChanged = newVisible => {
+    if (!sameModeRef.current && !newVisible) {
       setDestroy(true);
     }
 
-    return originOnLeaveEnd?.(...args);
+    return originOnVisibleChanged?.(newVisible);
   };
 
   if (destroy) {
@@ -60,11 +61,13 @@ export default function InlineSubMenuList({
   }
 
   return (
-    <MenuContextProvider mode={fixedMode}>
+    <MenuContextProvider mode={fixedMode} locked={!sameModeRef.current}>
       <CSSMotion
         visible={open}
-        forceRender={forceSubMenuRender}
         {...mergedMotion}
+        forceRender={forceSubMenuRender}
+        removeOnLeave={false}
+        leavedClassName={`${prefixCls}-hidden`}
       >
         {({ className: motionClassName, style: motionStyle }) => {
           return (

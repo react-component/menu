@@ -77,10 +77,12 @@ function mergeProps(
 
 export interface InheritableContextProps extends Partial<MenuContextProps> {
   children?: React.ReactNode;
+  locked?: boolean;
 }
 
 export default function InheritableContextProvider({
   children,
+  locked,
   ...restProps
 }: InheritableContextProps) {
   const context = React.useContext(MenuContext);
@@ -88,7 +90,8 @@ export default function InheritableContextProvider({
   const inheritableContext = useMemo(
     () => mergeProps(context, restProps),
     [context, restProps],
-    (prev, next) => prev[0] !== next[0] || !shallowEqual(prev[1], next[1]),
+    (prev, next) =>
+      !locked && (prev[0] !== next[0] || !shallowEqual(prev[1], next[1])),
   );
 
   return (
