@@ -25,13 +25,15 @@ export default function InlineSubMenuList({
     mode,
   } = React.useContext(MenuContext);
 
-  // We record `destroy` mark here since when mode change from `inline` to others.
-  // The inline list should remove when motion end.
-  const [destroy, setDestroy] = React.useState(false);
-
   // Always use latest mode check
   const sameModeRef = React.useRef(false);
   sameModeRef.current = mode === fixedMode;
+
+  // We record `destroy` mark here since when mode change from `inline` to others.
+  // The inline list should remove when motion end.
+  const [destroy, setDestroy] = React.useState(!sameModeRef.current);
+
+  const mergedOpen = sameModeRef.current ? open : false;
 
   // ================================= Effect =================================
   // Reset destroy state when mode change back
@@ -66,7 +68,7 @@ export default function InlineSubMenuList({
   return (
     <MenuContextProvider mode={fixedMode} locked={!sameModeRef.current}>
       <CSSMotion
-        visible={open}
+        visible={mergedOpen}
         {...mergedMotion}
         forceRender={forceSubMenuRender}
         removeOnLeave={false}

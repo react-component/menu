@@ -46,6 +46,7 @@ export default () => {
   const [mode, setMode] = React.useState<MenuProps['mode']>('inline');
   const [narrow, setNarrow] = React.useState(false);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
+  const [forceRender, setForceRender] = React.useState(true);
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);
@@ -85,10 +86,20 @@ export default () => {
         >
           Inline Collapsed: {String(inlineCollapsed)}
         </button>
+
+        {/* forceRender */}
+        <button
+          onClick={() => {
+            setForceRender(!forceRender);
+          }}
+        >
+          Force Render: {String(forceRender)}
+        </button>
       </div>
 
       <div style={{ width: narrow ? 350 : undefined }}>
         <Menu
+          forceSubMenuRender={forceRender}
           mode={mode}
           style={{ width: mode === 'horizontal' ? undefined : 256 }}
           onClick={onRootClick}
