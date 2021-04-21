@@ -14,35 +14,36 @@ describe('Menu.Collapsed', () => {
       jest.useRealTimers();
     });
 
-    it.only('should always follow openKeys when mode is switched', () => {
+    it('should always follow openKeys when mode is switched', () => {
       const wrapper = mount(
         <Menu openKeys={['1']} mode="inline">
-          {/* <SubMenu key="1" title="submenu1">
+          <SubMenu key="1" title="submenu1">
             <MenuItem key="submenu1">Option 1</MenuItem>
             <MenuItem key="submenu2">Option 2</MenuItem>
-          </SubMenu> */}
+          </SubMenu>
           <MenuItem key="2">menu2</MenuItem>
         </Menu>,
       );
-      // expect(
-      //   wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-      // ).toBe(false);
 
-      // wrapper.setProps({ mode: 'vertical' });
-      // console.log(wrapper.debug());
-      // expect(
-      //   wrapper
-      //     .find('ul.rc-menu-sub')
-      //     .at(0)
-      //     .hasClass('rc-menu-hidden'),
-      // ).toBe(false);
-      // wrapper.setProps({ mode: 'inline' });
-      // expect(
-      //   wrapper
-      //     .find('ul.rc-menu-sub')
-      //     .at(0)
-      //     .hasClass('rc-menu-hidden'),
-      // ).toBe(false);
+      // Inline
+      wrapper.update();
+      expect(
+        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
+      ).toBe(false);
+
+      // Vertical
+      wrapper.setProps({ mode: 'vertical' });
+      wrapper.update();
+      expect(
+        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
+      ).toBe(false);
+
+      // Inline
+      wrapper.setProps({ mode: 'inline' });
+      wrapper.update();
+      expect(
+        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
+      ).toBe(false);
     });
 
     it('should always follow openKeys when inlineCollapsed is switched', () => {

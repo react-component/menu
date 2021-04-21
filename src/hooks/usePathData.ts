@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { nextSlice } from '../utils/timeUtil';
 
 const PATH_SPLIT = '__RC_UTIL_PATH_SPLIT__';
 
@@ -18,7 +19,7 @@ function usePathData() {
     updateRef.current += 1;
     const id = updateRef.current;
 
-    Promise.resolve().then(() => {
+    nextSlice(() => {
       if (id === updateRef.current) {
         forceUpdate({});
       }
