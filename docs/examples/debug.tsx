@@ -8,8 +8,12 @@ import '../../assets/index.less';
 import '../../assets/menu.less';
 import type { MenuInfo } from '@/interface';
 
-const collapseNode = () => ({ height: 0 });
-const expandNode = node => ({ height: node.scrollHeight });
+const collapseNode = () => {
+  return { height: 0 };
+};
+const expandNode = node => {
+  return { height: node.scrollHeight };
+};
 
 const horizontalMotion: CSSMotionProps = {
   motionName: 'rc-menu-open-slide-up',
@@ -47,7 +51,7 @@ export default () => {
   const [narrow, setNarrow] = React.useState(false);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(true);
-  const [openKeys, setOpenKeys] = React.useState<string[]>([]);
+  const [openKeys, setOpenKeys] = React.useState<string[]>(['sub']);
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);

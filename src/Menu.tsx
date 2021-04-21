@@ -157,6 +157,7 @@ const Menu: React.FC<MenuProps> = ({
   onOpenChange,
 }) => {
   const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
+  const [mounted, setMounted] = React.useState(false);
 
   // ========================= Mode =========================
   const [mergedMode, mergedInlineCollapsed] = React.useMemo<
@@ -198,7 +199,11 @@ const Menu: React.FC<MenuProps> = ({
     if (isInlineMode) {
       setMergedOpenKeys(inlineCacheOpenKeys);
     } else {
-      setMergedOpenKeys([]);
+      const empty = [];
+      setMergedOpenKeys(empty);
+
+      // Trigger open event in case its in control
+      onOpenChange?.(empty);
     }
   }, [isInlineMode]);
 
@@ -299,6 +304,11 @@ const Menu: React.FC<MenuProps> = ({
 
   const getInternalPopupContainer = useMemoCallback(getPopupContainer);
 
+  // ======================== Effect ========================
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // ======================== Render ========================
 
   // >>>>> Children
@@ -369,8 +379,8 @@ const Menu: React.FC<MenuProps> = ({
       // Disabled
       disabled={disabled}
       // Motion
-      motion={motion}
-      defaultMotions={defaultMotions}
+      motion={mounted ? motion : null}
+      defaultMotions={mounted ? defaultMotions : null}
       // Path
       {...pathData}
       // Active
