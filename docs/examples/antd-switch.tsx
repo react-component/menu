@@ -28,7 +28,6 @@ const Demo = () => {
       <CommonMenu
         mode="inline"
         openKeys={openKeys}
-        collapsedWidth={80}
         onOpenChange={keys => {
           console.error('Open Keys Changed:', keys);
           setOpenKey(keys);

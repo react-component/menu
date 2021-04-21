@@ -93,6 +93,9 @@ const MenuItem = (props: MenuItemProps) => {
 
     disabled: contextDisabled,
 
+    // Icon
+    itemIcon: contextItemIcon,
+
     // Select
     selectedKeys,
 
@@ -120,6 +123,9 @@ const MenuItem = (props: MenuItemProps) => {
       domEvent: e,
     };
   };
+
+  // ============================= Icon =============================
+  const mergedItemIcon = itemIcon || contextItemIcon;
 
   // ============================ Active ============================
   const { active, ...activeProps } = useActive(
@@ -181,7 +187,13 @@ const MenuItem = (props: MenuItemProps) => {
       onClick={onInternalClick}
     >
       {children}
-      <Icon props={props} icon={itemIcon} />
+      <Icon
+        props={{
+          ...props,
+          isSelected: selected,
+        }}
+        icon={mergedItemIcon}
+      />
     </LegacyMenuItem>
   );
 };

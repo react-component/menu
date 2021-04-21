@@ -47,6 +47,7 @@ export default () => {
   const [narrow, setNarrow] = React.useState(false);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(true);
+  const [openKeys, setOpenKeys] = React.useState<string[]>([]);
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);
@@ -105,6 +106,8 @@ export default () => {
           onClick={onRootClick}
           defaultMotions={motionMap}
           inlineCollapsed={inlineCollapsed}
+          openKeys={openKeys}
+          onOpenChange={newOpenKeys => setOpenKeys(newOpenKeys)}
         >
           <Menu.Item key="mail">Navigation One</Menu.Item>
           <Menu.Item key="next">Next Item</Menu.Item>
@@ -114,7 +117,7 @@ export default () => {
             </Menu.Item>
             <Menu.Item key="sub2">Sub Item 2</Menu.Item>
 
-            <Menu.SubMenu title="Nest Menu" key="nest">
+            {/* <Menu.SubMenu title="Nest Menu" key="nest">
               <MenuItemGroup title="group 1" key="grp1">
                 <Menu.Item key="21">2</Menu.Item>
                 <Menu.Item key="22">3</Menu.Item>
@@ -123,7 +126,7 @@ export default () => {
                 <Menu.Item key="31">4</Menu.Item>
                 <Menu.Item key="32">5</Menu.Item>
               </MenuItemGroup>
-            </Menu.SubMenu>
+            </Menu.SubMenu> */}
           </Menu.SubMenu>
           <Menu.Item key="disabled" disabled>
             Disabled Item

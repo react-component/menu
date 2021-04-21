@@ -247,6 +247,7 @@ export default function SubMenu(props: SubMenuProps) {
           icon={mergedExpandIcon}
           props={{
             ...props,
+            isOpen: open,
             // [Legacy] Not sure why need this mark
             isSubMenu: true,
           }}

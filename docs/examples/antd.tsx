@@ -95,8 +95,7 @@ const children2 = [
 
 const customizeIndicator = <span>Add More Items</span>;
 
-interface CommonMenuProps {
-  mode: MenuProps['mode'];
+interface CommonMenuProps extends MenuProps {
   triggerSubMenuAction?: MenuProps['triggerSubMenuAction'];
   updateChildrenAndOverflowedIndicator?: boolean;
 }

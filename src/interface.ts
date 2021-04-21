@@ -7,9 +7,16 @@ export type BuiltinPlacements = Record<string, any>;
 
 export type TriggerSubMenuAction = 'click' | 'hover';
 
+export interface RenderIconInfo {
+  isSelected?: boolean;
+  isOpen?: boolean;
+  isSubMenu?: boolean;
+  disabled?: boolean;
+}
+
 export type RenderIconType =
   | React.ReactNode
-  | ((props: any) => React.ReactNode);
+  | ((props: RenderIconInfo) => React.ReactNode);
 
 export interface MenuInfo {
   key: string;

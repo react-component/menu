@@ -1,11 +1,9 @@
 import * as React from 'react';
-import type { RenderIconType } from './interface';
-import type { SubMenuProps } from './SubMenu';
-import type { MenuItemProps } from './MenuItem';
+import type { RenderIconInfo, RenderIconType } from './interface';
 
 export interface IconProps {
   icon?: RenderIconType;
-  props: (SubMenuProps & { isSubMenu: boolean }) | MenuItemProps;
+  props: RenderIconInfo;
   /** Fallback of icon if provided */
   children?: React.ReactElement;
 }
@@ -14,7 +12,7 @@ export default function Icon({ icon, props, children }: IconProps) {
   let iconNode: React.ReactElement;
 
   if (typeof icon === 'function') {
-    iconNode = React.createElement(this.props.expandIcon as any, {
+    iconNode = React.createElement(icon as any, {
       ...props,
     });
   } else {
