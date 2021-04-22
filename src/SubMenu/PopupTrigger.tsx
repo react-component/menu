@@ -72,11 +72,13 @@ export default function PopupTrigger({
   // Delay to change visible
   const visibleRef = React.useRef<number>();
   React.useEffect(() => {
-    raf.cancel(visibleRef.current);
-
     visibleRef.current = raf(() => {
       setInnerVisible(visible);
     });
+
+    return () => {
+      raf.cancel(visibleRef.current);
+    };
   }, [visible]);
 
   return (

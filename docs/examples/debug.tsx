@@ -50,8 +50,8 @@ export default () => {
   const [mode, setMode] = React.useState<MenuProps['mode']>('inline');
   const [narrow, setNarrow] = React.useState(false);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
-  const [forceRender, setForceRender] = React.useState(true);
-  const [openKeys, setOpenKeys] = React.useState<string[]>(['sub']);
+  const [forceRender, setForceRender] = React.useState(false);
+  const [openKeys, setOpenKeys] = React.useState<string[]>([]);
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);
