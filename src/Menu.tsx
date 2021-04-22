@@ -30,7 +30,7 @@ import SubMenu from './SubMenu';
  * - openTransitionName
  * - openAnimation
  * - onDestroy
- * - siderCollapsed: Seems antd do not use this prop
+ * - siderCollapsed: Seems antd do not use this prop (Need test in antd)
  * - collapsedWidth: Seems this logic should be handle by antd Layout.Sider
  */
 
