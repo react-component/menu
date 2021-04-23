@@ -231,13 +231,12 @@ describe('Menu.Collapsed', () => {
       ).toBe('Option 2');
     });
 
-    it('should hideMenu in initial state  when collapsed to 0px', () => {
+    it('should hideMenu in initial state when collapsed', () => {
       const wrapper = mount(
         <Menu
           mode="inline"
           inlineCollapsed
           defaultSelectedKeys={['1']}
-          collapsedWidth={0}
           openKeys={['3']}
         >
           <MenuItem key="1">Option 1</MenuItem>
@@ -247,17 +246,16 @@ describe('Menu.Collapsed', () => {
           </SubMenu>
         </Menu>,
       );
-      expect(
-        wrapper
-          .find('Trigger')
-          .map(node => node.prop('popupVisible'))
-          .findIndex(node => !!node),
-      ).toBe(-1);
+
+      expect(wrapper.find('Trigger').props().popupVisible).toBeFalsy();
+
       wrapper.setProps({ inlineCollapsed: false });
-      jest.runAllTimers();
-      wrapper.update();
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
       expect(
-        wrapper.find('.rc-menu-item-selected').getDOMNode().textContent,
+        wrapper.find('li.rc-menu-item-selected').getDOMNode().textContent,
       ).toBe('Option 1');
     });
   });

@@ -84,6 +84,8 @@ const MenuItem = (props: MenuItemProps) => {
     onMouseLeave,
 
     onClick,
+
+    ...restProps
   } = props;
 
   const {
@@ -168,9 +170,10 @@ const MenuItem = (props: MenuItemProps) => {
     <LegacyMenuItem
       ref={legacyMenuItemRef}
       role="menuitem"
-      {...props}
+      {...restProps}
       {...activeProps}
       component="li"
+      aria-disabled={disabled}
       style={{
         ...directionStyle,
         ...style,

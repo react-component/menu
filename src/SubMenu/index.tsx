@@ -234,7 +234,8 @@ export default function SubMenu(props: SubMenuProps) {
       style={directionStyle}
       className={`${subMenuPrefixCls}-title`}
       role="button"
-      aria-expanded
+      title={typeof title === 'string' ? title : null}
+      aria-expanded={open}
       aria-haspopup
       onClick={onInternalTitleClick}
       {...activeProps}

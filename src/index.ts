@@ -1,8 +1,8 @@
 import Menu, { MenuProps } from './Menu';
-import MenuItem from './MenuItem';
-import SubMenu from './SubMenu';
-import MenuItemGroup from './MenuItemGroup';
-import Divider from './sugar/Divider';
+import MenuItem, { MenuItemProps } from './MenuItem';
+import SubMenu, { SubMenuProps } from './SubMenu';
+import MenuItemGroup, { MenuItemGroupProps } from './MenuItemGroup';
+import Divider from './Divider';
 
 export {
   SubMenu,
@@ -12,9 +12,9 @@ export {
   MenuItemGroup as ItemGroup,
   Divider,
   MenuProps,
-  // SubMenuProps,
-  // MenuItemProps,
-  // MenuItemGroupProps,
+  SubMenuProps,
+  MenuItemProps,
+  MenuItemGroupProps,
 };
 
 type MenuType = typeof Menu & {

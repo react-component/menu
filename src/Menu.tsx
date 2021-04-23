@@ -361,7 +361,9 @@ const Menu: React.FC<MenuProps> = ({
           </SubMenu>
         );
       }}
-      maxCount={mergedMode === 'horizontal' ? 'responsive' : null}
+      maxCount={
+        mergedMode === 'horizontal' ? Overflow.RESPONSIVE : Overflow.INVALIDATE
+      }
       onVisibleChange={newCount => {
         setVisibleCount(newCount);
       }}
