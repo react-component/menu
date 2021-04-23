@@ -33,7 +33,8 @@ describe('Menu', () => {
 
     [
       'vertical',
-      //  'horizontal', 'inline'
+      //  'horizontal',
+      // 'inline',
     ].forEach(mode => {
       it(`${mode} menu correctly`, () => {
         const wrapper = render(createMenu({ mode }));
@@ -41,16 +42,16 @@ describe('Menu', () => {
       });
 
       it(`${mode} menu with empty children without error`, () => {
-        expect(() => render(<Menu mode={mode}>{[]}</Menu>)).not.toThrow();
+        expect(() => mount(<Menu mode={mode}>{[]}</Menu>)).not.toThrow();
       });
 
       it(`${mode} menu with undefined children without error`, () => {
-        expect(() => render(<Menu mode={mode} />)).not.toThrow();
+        expect(() => mount(<Menu mode={mode} />)).not.toThrow();
       });
 
       it(`${mode} menu that has a submenu with undefined children without error`, () => {
         expect(() =>
-          render(
+          mount(
             <Menu mode={mode}>
               <SubMenu />
             </Menu>,
@@ -62,12 +63,7 @@ describe('Menu', () => {
         const wrapper = mount(createMenu({ mode, direction: 'rtl' }));
         expect(renderToJson(render(wrapper))).toMatchSnapshot();
 
-        expect(
-          wrapper
-            .find('ul')
-            .first()
-            .props().className,
-        ).toContain('-rtl');
+        expect(wrapper.find('ul').first().props().className).toContain('-rtl');
       });
     });
 
