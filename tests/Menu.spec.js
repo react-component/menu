@@ -40,35 +40,35 @@ describe('Menu', () => {
         expect(renderToJson(wrapper)).toMatchSnapshot();
       });
 
-      // it(`${mode} menu with empty children without error`, () => {
-      //   expect(() => render(<Menu mode={mode}>{[]}</Menu>)).not.toThrow();
-      // });
+      it(`${mode} menu with empty children without error`, () => {
+        expect(() => render(<Menu mode={mode}>{[]}</Menu>)).not.toThrow();
+      });
 
-      // it(`${mode} menu with undefined children without error`, () => {
-      //   expect(() => render(<Menu mode={mode} />)).not.toThrow();
-      // });
+      it(`${mode} menu with undefined children without error`, () => {
+        expect(() => render(<Menu mode={mode} />)).not.toThrow();
+      });
 
-      // it(`${mode} menu that has a submenu with undefined children without error`, () => {
-      //   expect(() =>
-      //     render(
-      //       <Menu mode={mode}>
-      //         <SubMenu />
-      //       </Menu>,
-      //     ),
-      //   ).not.toThrow();
-      // });
+      it(`${mode} menu that has a submenu with undefined children without error`, () => {
+        expect(() =>
+          render(
+            <Menu mode={mode}>
+              <SubMenu />
+            </Menu>,
+          ),
+        ).not.toThrow();
+      });
 
-      // it(`${mode} menu with rtl direction correctly`, () => {
-      //   const wrapper = mount(createMenu({ mode, direction: 'rtl' }));
-      //   expect(renderToJson(render(wrapper))).toMatchSnapshot();
+      it(`${mode} menu with rtl direction correctly`, () => {
+        const wrapper = mount(createMenu({ mode, direction: 'rtl' }));
+        expect(renderToJson(render(wrapper))).toMatchSnapshot();
 
-      //   expect(
-      //     wrapper
-      //       .find('ul')
-      //       .first()
-      //       .props().className,
-      //   ).toContain('-rtl');
-      // });
+        expect(
+          wrapper
+            .find('ul')
+            .first()
+            .props().className,
+        ).toContain('-rtl');
+      });
     });
 
     // it('should support Fragment', () => {

@@ -341,7 +341,7 @@ const Menu: React.FC<MenuProps> = ({
         className,
         {
           [`${prefixCls}-inline-collapsed`]: mergedInlineCollapsed,
-          [`${prefixCls}-rlt`]: direction === 'rtl',
+          [`${prefixCls}-rtl`]: direction === 'rtl',
         },
       )}
       style={style}
