@@ -344,6 +344,7 @@ const Menu: React.FC<MenuProps> = ({
           [`${prefixCls}-rtl`]: direction === 'rtl',
         },
       )}
+      dir={direction}
       style={style}
       role="menu"
       tabIndex={tabIndex}

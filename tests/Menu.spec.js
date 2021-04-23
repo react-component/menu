@@ -34,7 +34,7 @@ describe('Menu', () => {
     [
       'vertical',
       //  'horizontal',
-      // 'inline',
+      'inline',
     ].forEach(mode => {
       it(`${mode} menu correctly`, () => {
         const wrapper = render(createMenu({ mode }));
