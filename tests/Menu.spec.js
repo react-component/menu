@@ -110,78 +110,63 @@ describe('Menu', () => {
     });
   });
 
-  // it('set activeKey', () => {
-  //   const wrapper = mount(
-  //     <Menu activeKey="1">
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   expect(
-  //     wrapper
-  //       .find('MenuItem')
-  //       .first()
-  //       .props().active,
-  //   ).toBe(true);
-  //   expect(
-  //     wrapper
-  //       .find('MenuItem')
-  //       .last()
-  //       .props().active,
-  //   ).toBe(false);
-  // });
+  it('set activeKey', () => {
+    const wrapper = mount(
+      <Menu activeKey="1">
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    expect(
+      wrapper.find('.rc-menu-item').first().hasClass('rc-menu-item-active'),
+    ).toBeTruthy();
+    expect(
+      wrapper.find('.rc-menu-item').last().hasClass('rc-menu-item-active'),
+    ).toBeFalsy();
+  });
 
-  // it('active first item', () => {
-  //   const wrapper = mount(
-  //     <Menu defaultActiveFirst>
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   expect(
-  //     wrapper
-  //       .find('MenuItem')
-  //       .first()
-  //       .props().active,
-  //   ).toBe(true);
-  // });
+  it('active first item', () => {
+    const wrapper = mount(
+      <Menu defaultActiveFirst>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    expect(
+      wrapper.find('.rc-menu-item').first().hasClass('rc-menu-item-active'),
+    ).toBeTruthy();
+  });
 
-  // it('should render none menu item children', () => {
-  //   expect(() => {
-  //     mount(
-  //       <Menu activeKey="1">
-  //         <MenuItem key="1">1</MenuItem>
-  //         <MenuItem key="2">2</MenuItem>
-  //         string
-  //         {'string'}
-  //         {null}
-  //         {undefined}
-  //         {12345}
-  //         <div />
-  //         <input />
-  //       </Menu>,
-  //     );
-  //   }).not.toThrow();
-  // });
+  it('should render none menu item children', () => {
+    expect(() => {
+      mount(
+        <Menu activeKey="1">
+          <MenuItem key="1">1</MenuItem>
+          <MenuItem key="2">2</MenuItem>
+          string
+          {'string'}
+          {null}
+          {undefined}
+          {12345}
+          <div />
+          <input />
+        </Menu>,
+      );
+    }).not.toThrow();
+  });
 
-  // it('select multiple items', () => {
-  //   const wrapper = mount(
-  //     <Menu multiple>
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click');
-  //   wrapper
-  //     .find('MenuItem')
-  //     .last()
-  //     .simulate('click');
+  it('select multiple items', () => {
+    const wrapper = mount(
+      <Menu multiple>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    wrapper.find('.rc-menu-item').first().simulate('click');
+    wrapper.find('.rc-menu-item').last().simulate('click');
 
-  //   expect(wrapper.find('.rc-menu-item-selected').length).toBe(2);
-  // });
+    expect(wrapper.find('li.rc-menu-item-selected')).toHaveLength(2);
+  });
 
   // it('can be controlled by selectedKeys', () => {
   //   const wrapper = mount(
