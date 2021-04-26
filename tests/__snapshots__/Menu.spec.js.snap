@@ -2,7 +2,7 @@
 
 exports[`Menu render role listbox renders menu correctly 1`] = `
 <ul
-  class="rc-menu myMenu rc-menu-root rc-menu-vertical"
+  class="rc-menu rc-menu-root rc-menu-vertical myMenu"
   role="listbox"
   tabindex="0"
 >

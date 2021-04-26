@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import warning from 'rc-util/lib/warning';
 import Overflow from 'rc-overflow';
 import type {
   BuiltinPlacements,
@@ -101,66 +102,87 @@ export interface MenuProps
   onOpenChange?: (openKeys: React.Key[]) => void;
 }
 
-const Menu: React.FC<MenuProps> = ({
-  prefixCls = 'rc-menu',
-  style,
-  className,
-  tabIndex = 0,
-  children,
-  direction,
+interface LegacyMenuProps extends MenuProps {
+  openTransitionName?: string;
+  openAnimation?: string;
+}
 
-  // Mode
-  mode = 'vertical',
-  inlineCollapsed,
+const Menu: React.FC<MenuProps> = props => {
+  const {
+    prefixCls = 'rc-menu',
+    style,
+    className,
+    tabIndex = 0,
+    children,
+    direction,
 
-  // Disabled
-  disabled,
-  disabledOverflow,
+    // Mode
+    mode = 'vertical',
+    inlineCollapsed,
 
-  // Open
-  subMenuOpenDelay = 0.1,
-  subMenuCloseDelay = 0.1,
-  forceSubMenuRender,
-  defaultOpenKeys,
-  openKeys,
+    // Disabled
+    disabled,
+    disabledOverflow,
 
-  // Active
-  activeKey,
-  defaultActiveFirst,
+    // Open
+    subMenuOpenDelay = 0.1,
+    subMenuCloseDelay = 0.1,
+    forceSubMenuRender,
+    defaultOpenKeys,
+    openKeys,
 
-  // Selection
-  selectable = true,
-  multiple = false,
-  defaultSelectedKeys,
-  selectedKeys,
-  onSelect,
-  onDeselect,
+    // Active
+    activeKey,
+    defaultActiveFirst,
 
-  // Level
-  inlineIndent = 24,
+    // Selection
+    selectable = true,
+    multiple = false,
+    defaultSelectedKeys,
+    selectedKeys,
+    onSelect,
+    onDeselect,
 
-  // Motion
-  motion,
-  defaultMotions,
+    // Level
+    inlineIndent = 24,
 
-  // Popup
-  triggerSubMenuAction = 'hover',
-  builtinPlacements,
+    // Motion
+    motion,
+    defaultMotions,
 
-  // Icon
-  itemIcon,
-  expandIcon,
-  overflowedIndicator = '...',
+    // Popup
+    triggerSubMenuAction = 'hover',
+    builtinPlacements,
 
-  // Function
-  getPopupContainer,
+    // Icon
+    itemIcon,
+    expandIcon,
+    overflowedIndicator = '...',
 
-  // Events
-  onClick,
-  onOpenChange,
-}) => {
+    // Function
+    getPopupContainer,
+
+    // Events
+    onClick,
+    onOpenChange,
+
+    // Deprecated
+    openAnimation,
+    openTransitionName,
+
+    ...restProps
+  } = props as LegacyMenuProps;
+
   const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
   const [mounted, setMounted] = React.useState(false);
+
+  // ========================= Warn =========================
+  if (process.env.NODE_ENV !== 'production') {
+    warning(
+      !openAnimation && !openTransitionName,
+      '`openAnimation` and `openTransitionName` is removed. Please use `motion` or `defaultMotion` instead.',
+    );
+  }
 
   // ========================= Mode =========================
   const [mergedMode, mergedInlineCollapsed] = React.useMemo<
@@ -373,6 +395,7 @@ const Menu: React.FC<MenuProps> = ({
       onVisibleChange={newCount => {
         setVisibleCount(newCount);
       }}
+      {...restProps}
     />
   );
 

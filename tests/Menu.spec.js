@@ -87,28 +87,28 @@ describe('Menu', () => {
     });
   });
 
-  // describe('render role listbox', () => {
-  //   function createMenu() {
-  //     return (
-  //       <Menu className="myMenu" openAnimation="fade" role="listbox">
-  //         <MenuItem key="1" role="option">
-  //           1
-  //         </MenuItem>
-  //         <MenuItem key="2" role="option">
-  //           2
-  //         </MenuItem>
-  //         <MenuItem key="3" role="option">
-  //           3
-  //         </MenuItem>
-  //       </Menu>
-  //     );
-  //   }
+  describe('render role listbox', () => {
+    function createMenu() {
+      return (
+        <Menu className="myMenu" openAnimation="fade" role="listbox">
+          <MenuItem key="1" role="option">
+            1
+          </MenuItem>
+          <MenuItem key="2" role="option">
+            2
+          </MenuItem>
+          <MenuItem key="3" role="option">
+            3
+          </MenuItem>
+        </Menu>
+      );
+    }
 
-  //   it('renders menu correctly', () => {
-  //     const wrapper = render(createMenu());
-  //     expect(renderToJson(wrapper)).toMatchSnapshot();
-  //   });
-  // });
+    it('renders menu correctly', () => {
+      const wrapper = render(createMenu());
+      expect(renderToJson(wrapper)).toMatchSnapshot();
+    });
+  });
 
   // it('set activeKey', () => {
   //   const wrapper = mount(

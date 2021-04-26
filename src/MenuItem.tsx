@@ -166,12 +166,19 @@ const MenuItem = (props: MenuItemProps) => {
   }, [eventKey, connectedKeys]);
 
   // ============================ Render ============================
+  const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
+
+  if (props.role === 'option') {
+    optionRoleProps['aria-selected'] = selected;
+  }
+
   return (
     <LegacyMenuItem
       ref={legacyMenuItemRef}
       role="menuitem"
       {...restProps}
       {...activeProps}
+      {...optionRoleProps}
       component="li"
       aria-disabled={disabled}
       style={{
