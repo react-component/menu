@@ -418,7 +418,7 @@ exports[`Menu should render inline menu correctly 1`] = `
       <li
         class="rc-menu-item"
         role="menuitem"
-        style="padding-left:24px"
+        style="padding-left: 24px;"
       >
         1
       </li>
@@ -428,7 +428,7 @@ exports[`Menu should render inline menu correctly 1`] = `
       <li
         class="rc-menu-item"
         role="menuitem"
-        style="padding-left:24px"
+        style="padding-left: 24px;"
       >
         2
       </li>
@@ -437,7 +437,7 @@ exports[`Menu should render inline menu correctly 1`] = `
   <li
     class="rc-menu-item"
     role="menuitem"
-    style="padding-left:24px"
+    style="padding-left: 24px;"
   >
     3
   </li>
@@ -456,7 +456,7 @@ exports[`Menu should render inline menu correctly 1`] = `
       <li
         class="rc-menu-item"
         role="menuitem"
-        style="padding-left:24px"
+        style="padding-left: 24px;"
       >
         4
       </li>
@@ -464,7 +464,7 @@ exports[`Menu should render inline menu correctly 1`] = `
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
-        style="padding-left:24px"
+        style="padding-left: 24px;"
       >
         5
       </li>
@@ -479,7 +479,7 @@ exports[`Menu should render inline menu correctly 1`] = `
       aria-haspopup="true"
       class="rc-menu-submenu-title"
       role="button"
-      style="padding-left:24px"
+      style="padding-left: 24px;"
       title="submenu"
     >
       submenu
@@ -513,7 +513,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
       <li
         class="rc-menu-item"
         role="menuitem"
-        style="padding-right:24px"
+        style="padding-right: 24px;"
       >
         1
       </li>
@@ -523,7 +523,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
       <li
         class="rc-menu-item"
         role="menuitem"
-        style="padding-right:24px"
+        style="padding-right: 24px;"
       >
         2
       </li>
@@ -532,7 +532,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
   <li
     class="rc-menu-item"
     role="menuitem"
-    style="padding-right:24px"
+    style="padding-right: 24px;"
   >
     3
   </li>
@@ -551,7 +551,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
       <li
         class="rc-menu-item"
         role="menuitem"
-        style="padding-right:24px"
+        style="padding-right: 24px;"
       >
         4
       </li>
@@ -559,7 +559,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
         role="menuitem"
-        style="padding-right:24px"
+        style="padding-right: 24px;"
       >
         5
       </li>
@@ -574,7 +574,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
       aria-haspopup="true"
       class="rc-menu-submenu-title"
       role="button"
-      style="padding-right:24px"
+      style="padding-right: 24px;"
       title="submenu"
     >
       submenu

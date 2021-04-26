@@ -3,11 +3,24 @@ import React from 'react';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
+import { spyElementPrototype } from 'rc-util/lib/test/domHook';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
 // import * as mockedUtil from '../src/util';
 // import { getMotion } from '../src/utils/legacyUtil';
 
 describe('Menu', () => {
+  let domMock;
+
+  beforeAll(() => {
+    domMock = spyElementPrototype(HTMLElement, 'clientWidth', {
+      get: () => 100,
+    });
+  });
+
+  afterAll(() => {
+    domMock.mockRestore();
+  });
+
   describe('should render', () => {
     function createMenu(props) {
       return (
@@ -33,12 +46,12 @@ describe('Menu', () => {
 
     [
       'vertical',
-      //  'horizontal',
+      // 'horizontal',
       'inline',
     ].forEach(mode => {
       it(`${mode} menu correctly`, () => {
-        const wrapper = render(createMenu({ mode }));
-        expect(renderToJson(wrapper)).toMatchSnapshot();
+        const wrapper = mount(createMenu({ mode }));
+        expect(wrapper.render()).toMatchSnapshot();
       });
 
       it(`${mode} menu with empty children without error`, () => {
@@ -61,7 +74,7 @@ describe('Menu', () => {
 
       it(`${mode} menu with rtl direction correctly`, () => {
         const wrapper = mount(createMenu({ mode, direction: 'rtl' }));
-        expect(renderToJson(render(wrapper))).toMatchSnapshot();
+        expect(wrapper.render()).toMatchSnapshot();
 
         expect(wrapper.find('ul').first().props().className).toContain('-rtl');
       });
