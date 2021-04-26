@@ -212,6 +212,8 @@ const Menu: React.FC<MenuProps> = props => {
 
   const isInlineMode = mergedMode === 'inline';
 
+  const mountRef = React.useRef(false);
+
   // Cache
   React.useEffect(() => {
     if (isInlineMode) {
@@ -221,6 +223,11 @@ const Menu: React.FC<MenuProps> = props => {
 
   // Restore
   React.useEffect(() => {
+    if (!mountRef.current) {
+      mountRef.current = true;
+      return;
+    }
+
     if (isInlineMode) {
       setMergedOpenKeys(inlineCacheOpenKeys);
     } else {

@@ -1,4 +1,7 @@
-window.requestAnimationFrame = func => window.setTimeout(func, 16);
+window.requestAnimationFrame = func => {
+  const id = window.setTimeout(func, 16);
+  return id;
+};
 window.cancelAnimationFrame = id => window.clearTimeout(id);
 
 const Enzyme = require('enzyme');

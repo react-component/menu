@@ -1,5 +1,6 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
@@ -168,132 +169,109 @@ describe('Menu', () => {
     expect(wrapper.find('li.rc-menu-item-selected')).toHaveLength(2);
   });
 
-  // it('can be controlled by selectedKeys', () => {
-  //   const wrapper = mount(
-  //     <Menu selectedKeys={['1']}>
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   expect(
-  //     wrapper
-  //       .find('li')
-  //       .first()
-  //       .props().className,
-  //   ).toContain('-selected');
-  //   wrapper.setProps({ selectedKeys: ['2'] });
-  //   wrapper.update();
-  //   expect(
-  //     wrapper
-  //       .find('li')
-  //       .last()
-  //       .props().className,
-  //   ).toContain('-selected');
-  // });
+  it('can be controlled by selectedKeys', () => {
+    const wrapper = mount(
+      <Menu selectedKeys={['1']}>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    expect(wrapper.find('li').first().props().className).toContain('-selected');
+    wrapper.setProps({ selectedKeys: ['2'] });
+    wrapper.update();
+    expect(wrapper.find('li').last().props().className).toContain('-selected');
+  });
 
-  // it('select default item', () => {
-  //   const wrapper = mount(
-  //     <Menu defaultSelectedKeys={['1']}>
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   expect(
-  //     wrapper
-  //       .find('li')
-  //       .first()
-  //       .props().className,
-  //   ).toContain('-selected');
-  // });
+  it('select default item', () => {
+    const wrapper = mount(
+      <Menu defaultSelectedKeys={['1']}>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    expect(wrapper.find('li').first().props().className).toContain('-selected');
+  });
 
-  // it('issue https://github.com/ant-design/ant-design/issues/29429', () => {
-  //   // don't use selectedKeys as string
-  //   // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
-  //   const wrapper = mount(
-  //     <Menu selectedKeys="item_abc">
-  //       <MenuItem key="item_a">1</MenuItem>
-  //       <MenuItem key="item_abc">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   expect(
-  //     wrapper
-  //       .find('li')
-  //       .at(0)
-  //       .props().className,
-  //   ).not.toContain('-selected');
-  //   expect(
-  //     wrapper
-  //       .find('li')
-  //       .at(1)
-  //       .props().className,
-  //   ).toContain('-selected');
-  // });
+  it('issue https://github.com/ant-design/ant-design/issues/29429', () => {
+    // don't use selectedKeys as string
+    // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
+    const wrapper = mount(
+      <Menu selectedKeys="item_abc">
+        <MenuItem key="item_a">1</MenuItem>
+        <MenuItem key="item_abc">2</MenuItem>
+      </Menu>,
+    );
+    expect(wrapper.find('li').at(0).props().className).not.toContain(
+      '-selected',
+    );
+    expect(wrapper.find('li').at(1).props().className).toContain('-selected');
+  });
 
-  // it('can be controlled by openKeys', () => {
-  //   const wrapper = mount(
-  //     <Menu openKeys={['g1']}>
-  //       <MenuItemGroup key="g1">
-  //         <MenuItem key="1">1</MenuItem>
-  //       </MenuItemGroup>
-  //       <MenuItemGroup key="g2">
-  //         <MenuItem key="2">2</MenuItem>
-  //       </MenuItemGroup>
-  //     </Menu>,
-  //   );
-  //   expect(
-  //     wrapper
-  //       .find('ul')
-  //       .first()
-  //       .props().className,
-  //   ).not.toContain('-hidden');
-  //   wrapper.setProps({ openKeys: ['g2'] });
-  //   expect(
-  //     wrapper
-  //       .find('ul')
-  //       .last()
-  //       .props().className,
-  //   ).not.toContain('-hidden');
-  // });
+  it('can be controlled by openKeys', () => {
+    const wrapper = mount(
+      <Menu openKeys={['g1']}>
+        <Menu.SubMenu key="g1">
+          <MenuItem key="1">1</MenuItem>
+        </Menu.SubMenu>
+        <Menu.SubMenu key="g2">
+          <MenuItem key="2">2</MenuItem>
+        </Menu.SubMenu>
+      </Menu>,
+    );
 
-  // it('openKeys should allow to be empty', () => {
-  //   const wrapper = mount(
-  //     <Menu
-  //       onClick={() => {}}
-  //       onOpenChange={() => {}}
-  //       openKeys={undefined}
-  //       selectedKeys={['1']}
-  //       mode="inline"
-  //     >
-  //       <SubMenu title="1231">
-  //         <MenuItem>
-  //           <a>
-  //             <span>123123</span>
-  //           </a>
-  //         </MenuItem>
-  //       </SubMenu>
-  //     </Menu>,
-  //   );
-  //   expect(wrapper).toBeTruthy();
-  // });
+    expect(wrapper.find('InlineSubMenuList').first().props().open).toBeTruthy();
+    expect(wrapper.find('InlineSubMenuList').last().props().open).toBeFalsy();
 
-  // it('open default submenu', () => {
-  //   const wrapper = mount(
-  //     <Menu defaultOpenKeys={['g1']}>
-  //       <MenuItemGroup key="g1">
-  //         <MenuItem key="1">1</MenuItem>
-  //       </MenuItemGroup>
-  //       <MenuItemGroup key="g2">
-  //         <MenuItem key="2">2</MenuItem>
-  //       </MenuItemGroup>
-  //     </Menu>,
-  //   );
-  //   expect(
-  //     wrapper
-  //       .find('ul')
-  //       .first()
-  //       .props().className,
-  //   ).not.toContain('-hidden');
-  // });
+    wrapper.setProps({ openKeys: ['g2'] });
+    expect(wrapper.find('InlineSubMenuList').first().props().open).toBeFalsy();
+    expect(wrapper.find('InlineSubMenuList').last().props().open).toBeTruthy();
+  });
+
+  it('openKeys should allow to be empty', () => {
+    const wrapper = mount(
+      <Menu
+        onClick={() => {}}
+        onOpenChange={() => {}}
+        openKeys={undefined}
+        selectedKeys={['1']}
+        mode="inline"
+      >
+        <SubMenu title="1231">
+          <MenuItem>
+            <a>
+              <span>123123</span>
+            </a>
+          </MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+    expect(wrapper).toBeTruthy();
+  });
+
+  it('open default submenu', () => {
+    jest.useFakeTimers();
+
+    const wrapper = mount(
+      <Menu defaultOpenKeys={['g1']}>
+        <SubMenu key="g1">
+          <MenuItem key="1">1</MenuItem>
+        </SubMenu>
+        <SubMenu key="g2">
+          <MenuItem key="2">2</MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    expect(wrapper.find('Trigger').first().props().popupVisible).toBeTruthy();
+    expect(wrapper.find('Trigger').last().props().popupVisible).toBeFalsy();
+
+    jest.useRealTimers();
+  });
 
   // it('fires select event', () => {
   //   const handleSelect = jest.fn();
