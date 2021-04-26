@@ -243,19 +243,17 @@ export default function SubMenu(props: SubMenuProps) {
       {title}
 
       {/* Only non-horizontal mode shows the icon */}
-      {mode !== 'horizontal' && (
-        <Icon
-          icon={mergedExpandIcon}
-          props={{
-            ...props,
-            isOpen: open,
-            // [Legacy] Not sure why need this mark
-            isSubMenu: true,
-          }}
-        >
-          <i className={`${subMenuPrefixCls}-arrow`} />
-        </Icon>
-      )}
+      <Icon
+        icon={mergedExpandIcon}
+        props={{
+          ...props,
+          isOpen: open,
+          // [Legacy] Not sure why need this mark
+          isSubMenu: true,
+        }}
+      >
+        <i className={`${subMenuPrefixCls}-arrow`} />
+      </Icon>
     </div>
   );
 

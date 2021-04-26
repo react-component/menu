@@ -3,28 +3,20 @@ import React from 'react';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
-import { spyElementPrototype } from 'rc-util/lib/test/domHook';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
 // import * as mockedUtil from '../src/util';
 // import { getMotion } from '../src/utils/legacyUtil';
 
 describe('Menu', () => {
-  let domMock;
-
-  beforeAll(() => {
-    domMock = spyElementPrototype(HTMLElement, 'clientWidth', {
-      get: () => 100,
-    });
-  });
-
-  afterAll(() => {
-    domMock.mockRestore();
-  });
-
   describe('should render', () => {
     function createMenu(props) {
       return (
-        <Menu className="myMenu" openAnimation="fade" {...props}>
+        <Menu
+          disabledOverflow
+          className="myMenu"
+          openAnimation="fade"
+          {...props}
+        >
           <MenuItemGroup title="g1">
             <MenuItem key="1">1</MenuItem>
             <Divider />
@@ -44,11 +36,7 @@ describe('Menu', () => {
       );
     }
 
-    [
-      'vertical',
-      // 'horizontal',
-      'inline',
-    ].forEach(mode => {
+    ['vertical', 'horizontal', 'inline'].forEach(mode => {
       it(`${mode} menu correctly`, () => {
         const wrapper = mount(createMenu({ mode }));
         expect(wrapper.render()).toMatchSnapshot();

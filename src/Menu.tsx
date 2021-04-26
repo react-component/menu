@@ -44,6 +44,8 @@ export interface MenuProps
   children?: React.ReactNode;
 
   disabled?: boolean;
+  /** Disable auto overflow */
+  disabledOverflow?: boolean;
 
   /** direction of menu */
   direction?: 'ltr' | 'rtl';
@@ -113,6 +115,7 @@ const Menu: React.FC<MenuProps> = ({
 
   // Disabled
   disabled,
+  disabledOverflow,
 
   // Open
   subMenuOpenDelay = 0.1,
@@ -363,7 +366,9 @@ const Menu: React.FC<MenuProps> = ({
         );
       }}
       maxCount={
-        mergedMode === 'horizontal' ? Overflow.RESPONSIVE : Overflow.INVALIDATE
+        mergedMode !== 'horizontal' || disabledOverflow
+          ? Overflow.INVALIDATE
+          : Overflow.RESPONSIVE
       }
       onVisibleChange={newCount => {
         setVisibleCount(newCount);

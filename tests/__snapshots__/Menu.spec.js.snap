@@ -32,31 +32,12 @@ exports[`Menu render role listbox renders menu correctly 1`] = `
 
 exports[`Menu should render horizontal menu correctly 1`] = `
 <ul
-  class="rc-menu myMenu rc-menu-root rc-menu-horizontal"
+  class="rc-menu rc-menu-root rc-menu-horizontal myMenu"
   role="menu"
   tabindex="0"
 >
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
-    class=" rc-menu-item-group"
+    class="rc-menu-item-group"
   >
     <div
       class="rc-menu-item-group-title"
@@ -74,7 +55,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
         1
       </li>
       <li
-        class=" rc-menu-item-divider"
+        class="rc-menu-item-divider"
       />
       <li
         class="rc-menu-item"
@@ -85,51 +66,13 @@ exports[`Menu should render horizontal menu correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
     class="rc-menu-item"
     role="menuitem"
   >
     3
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
-    class=" rc-menu-item-group"
+    class="rc-menu-item-group"
   >
     <div
       class="rc-menu-item-group-title"
@@ -156,25 +99,6 @@ exports[`Menu should render horizontal menu correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
     class="rc-menu-submenu rc-menu-submenu-horizontal"
     role="menuitem"
   >
@@ -186,25 +110,6 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       title="submenu"
     >
       submenu
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="visibility:hidden;position:absolute"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
       <i
         class="rc-menu-submenu-arrow"
       />
@@ -215,32 +120,13 @@ exports[`Menu should render horizontal menu correctly 1`] = `
 
 exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
 <ul
-  class="rc-menu myMenu rc-menu-root rc-menu-rtl rc-menu-horizontal"
-  direction="rtl"
+  class="rc-menu rc-menu-root rc-menu-horizontal myMenu rc-menu-rtl"
+  dir="rtl"
   role="menu"
   tabindex="0"
 >
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
-    class=" rc-menu-item-group"
+    class="rc-menu-item-group"
   >
     <div
       class="rc-menu-item-group-title"
@@ -258,7 +144,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
         1
       </li>
       <li
-        class=" rc-menu-item-divider"
+        class="rc-menu-item-divider"
       />
       <li
         class="rc-menu-item"
@@ -269,51 +155,13 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
     class="rc-menu-item"
     role="menuitem"
   >
     3
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
-    class=" rc-menu-item-group"
+    class="rc-menu-item-group"
   >
     <div
       class="rc-menu-item-group-title"
@@ -340,25 +188,6 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
     </ul>
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="display:none"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
     class="rc-menu-submenu rc-menu-submenu-horizontal"
     role="menuitem"
   >
@@ -370,25 +199,6 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       title="submenu"
     >
       submenu
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-  </li>
-  <li
-    class="rc-menu-submenu rc-menu-submenu-horizontal rc-menu-overflowed-submenu"
-    role="menuitem"
-    style="visibility:hidden;position:absolute"
-  >
-    <div
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="button"
-    >
-      <span>
-        ···
-      </span>
       <i
         class="rc-menu-submenu-arrow"
       />
