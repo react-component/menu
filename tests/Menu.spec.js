@@ -267,57 +267,57 @@ describe('Menu', () => {
       wrapper.update();
     });
 
-    expect(wrapper.find('Trigger').first().props().popupVisible).toBeTruthy();
-    expect(wrapper.find('Trigger').last().props().popupVisible).toBeFalsy();
+    expect(wrapper.find('PopupTrigger').first().props().visible).toBeTruthy();
+    expect(wrapper.find('PopupTrigger').last().props().visible).toBeFalsy();
 
     jest.useRealTimers();
   });
 
-  // it('fires select event', () => {
-  //   const handleSelect = jest.fn();
-  //   const wrapper = mount(
-  //     <Menu onSelect={handleSelect}>
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click');
-  //   expect(handleSelect.mock.calls[0][0].key).toBe('1');
-  // });
+  it('fires select event', () => {
+    const handleSelect = jest.fn();
+    const wrapper = mount(
+      <Menu onSelect={handleSelect}>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click');
+    expect(handleSelect.mock.calls[0][0].key).toBe('1');
+  });
 
-  // it('fires click event', () => {
-  //   const handleClick = jest.fn();
-  //   const wrapper = mount(
-  //     <Menu onClick={handleClick}>
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click');
-  //   expect(handleClick.mock.calls[0][0].key).toBe('1');
-  // });
+  it('fires click event', () => {
+    const handleClick = jest.fn();
+    const wrapper = mount(
+      <Menu onClick={handleClick}>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click');
+    expect(handleClick.mock.calls[0][0].key).toBe('1');
+  });
 
-  // it('fires deselect event', () => {
-  //   const handleDeselect = jest.fn();
-  //   const wrapper = mount(
-  //     <Menu multiple onDeselect={handleDeselect}>
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click')
-  //     .simulate('click');
-  //   expect(handleDeselect.mock.calls[0][0].key).toBe('1');
-  // });
+  it('fires deselect event', () => {
+    const handleDeselect = jest.fn();
+    const wrapper = mount(
+      <Menu multiple onDeselect={handleDeselect}>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click')
+      .simulate('click');
+    expect(handleDeselect.mock.calls[0][0].key).toBe('1');
+  });
 
   // it('active by mouse enter', () => {
   //   const wrapper = mount(
@@ -330,7 +330,7 @@ describe('Menu', () => {
   //   let menuItem = wrapper.find('MenuItem').last();
   //   menuItem.simulate('mouseEnter');
   //   menuItem = wrapper.find('MenuItem').last();
-  //   expect(menuItem.props().active).toBe(true);
+  //   expect(menuItem.props().active).toBeTruthy();
   // });
 
   // it('active by key down', () => {
