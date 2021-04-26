@@ -68,23 +68,23 @@ describe('Menu', () => {
       });
     });
 
-    // it('should support Fragment', () => {
-    //   const wrapper = mount(
-    //     <Menu>
-    //       <SubMenu title="submenu">
-    //         <MenuItem key="6">6</MenuItem>
-    //       </SubMenu>
-    //       <MenuItem key="7">6</MenuItem>
-    //       <>
-    //         <SubMenu title="submenu">
-    //           <MenuItem key="8">6</MenuItem>
-    //         </SubMenu>
-    //         <MenuItem key="9">6</MenuItem>
-    //       </>
-    //     </Menu>,
-    //   );
-    //   expect(render(wrapper)).toMatchSnapshot();
-    // });
+    it('should support Fragment', () => {
+      const wrapper = mount(
+        <Menu>
+          <SubMenu title="submenu">
+            <MenuItem key="6">6</MenuItem>
+          </SubMenu>
+          <MenuItem key="7">6</MenuItem>
+          <>
+            <SubMenu title="submenu">
+              <MenuItem key="8">6</MenuItem>
+            </SubMenu>
+            <MenuItem key="9">6</MenuItem>
+          </>
+        </Menu>,
+      );
+      expect(render(wrapper)).toMatchSnapshot();
+    });
   });
 
   // describe('render role listbox', () => {

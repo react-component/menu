@@ -398,7 +398,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
 
 exports[`Menu should render should support Fragment 1`] = `
 <ul
-  class="rc-menu  rc-menu-root rc-menu-vertical"
+  class="rc-menu rc-menu-root rc-menu-vertical"
   role="menu"
   tabindex="0"
 >
