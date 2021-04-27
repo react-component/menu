@@ -47,7 +47,7 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
 };
 
 export default () => {
-  const [mode, setMode] = React.useState<MenuProps['mode']>('inline');
+  const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
   const [narrow, setNarrow] = React.useState(false);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(false);
@@ -121,7 +121,7 @@ export default () => {
             </Menu.Item>
             <Menu.Item key="sub2">Sub Item 2</Menu.Item>
 
-            {/* <Menu.SubMenu title="Nest Menu" key="nest">
+            <Menu.SubMenu title="Nest Menu" key="nest">
               <MenuItemGroup title="group 1" key="grp1">
                 <Menu.Item key="21">2</Menu.Item>
                 <Menu.Item key="22">3</Menu.Item>
@@ -130,13 +130,13 @@ export default () => {
                 <Menu.Item key="31">4</Menu.Item>
                 <Menu.Item key="32">5</Menu.Item>
               </MenuItemGroup>
-            </Menu.SubMenu> */}
+            </Menu.SubMenu>
           </Menu.SubMenu>
           <Menu.Item key="disabled" disabled>
             Disabled Item
           </Menu.Item>
 
-          {/* <Menu.SubMenu
+          <Menu.SubMenu
             title="Disabled Sub Menu"
             key="disabled-sub"
             onClick={onSubMenuClick}
@@ -145,7 +145,7 @@ export default () => {
             <Menu.Item key="dis-sub1" onClick={onClick}>
               Disabled Sub Item 1
             </Menu.Item>
-          </Menu.SubMenu> */}
+          </Menu.SubMenu>
         </Menu>
       </div>
     </>

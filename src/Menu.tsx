@@ -199,7 +199,11 @@ const Menu: React.FC<MenuProps> = props => {
   }, [mode, inlineCollapsed]);
 
   // ====================== Responsive ======================
-  const [visibleCount, setVisibleCount] = React.useState(0);
+  const [lastVisibleIndex, setLastVisibleIndex] = React.useState(0);
+  const allVisible =
+    lastVisibleIndex >= childList.length - 1 ||
+    mergedMode !== 'horizontal' ||
+    disabledOverflow;
 
   // ========================= Open =========================
   const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(
@@ -367,7 +371,7 @@ const Menu: React.FC<MenuProps> = props => {
       ? childList
       : // Need wrap for overflow dropdown that do not response for open
         childList.map((child, index) => {
-          if (index < visibleCount) {
+          if (index < lastVisibleIndex) {
             return child;
           }
 
@@ -401,14 +405,19 @@ const Menu: React.FC<MenuProps> = props => {
       tabIndex={tabIndex}
       data={wrappedChildList}
       renderRawItem={node => node}
-      renderRest={() => overflowedIndicator}
       renderRawRest={omitItems => {
         // We use origin list since wrapped list use context to prevent open
         const len = omitItems.length;
         const originOmitItems = childList.slice(-len);
 
+        console.log('!!!!!', allVisible);
+
         return (
-          <SubMenu eventKey="rc-menu-more" title={overflowedIndicator}>
+          <SubMenu
+            eventKey="rc-menu-more"
+            title={overflowedIndicator}
+            disabled={allVisible}
+          >
             {originOmitItems}
           </SubMenu>
         );
@@ -418,8 +427,8 @@ const Menu: React.FC<MenuProps> = props => {
           ? Overflow.INVALIDATE
           : Overflow.RESPONSIVE
       }
-      onVisibleChange={newCount => {
-        setVisibleCount(newCount);
+      onVisibleChange={newLastIndex => {
+        setLastVisibleIndex(newLastIndex);
       }}
       onKeyDown={onInternalKeyDown}
       {...restProps}

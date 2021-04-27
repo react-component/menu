@@ -3,7 +3,24 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import type { MenuMode } from '../interface';
 
-const ARROW_LIST = [KeyCode.LEFT, KeyCode.RIGHT, KeyCode.UP, KeyCode.DOWN];
+function getOffset(mode: MenuMode, which: number) {
+  const offsets: Record<MenuMode, Record<number, number>> = {
+    inline: {
+      [KeyCode.UP]: -1,
+      [KeyCode.DOWN]: 1,
+    },
+    horizontal: {
+      [KeyCode.LEFT]: -1,
+      [KeyCode.RIGHT]: 1,
+    },
+    vertical: {
+      [KeyCode.LEFT]: -1,
+      [KeyCode.RIGHT]: 1,
+    },
+  };
+
+  return offsets[mode][which] || null;
+}
 
 function findContainerUL(element: HTMLElement): HTMLUListElement {
   let current: HTMLElement = element;
@@ -56,7 +73,9 @@ export default function useAccessibility<T extends HTMLElement>(
   return e => {
     const { which } = e;
 
-    if (ARROW_LIST.includes(which)) {
+    const offset = getOffset(mode, which);
+
+    if (offset !== null) {
       // First we should find current focused MenuItem/SubMenu element
       const focusMenuElement = getFocusElement(elementsRef.current);
 
@@ -80,13 +99,13 @@ export default function useAccessibility<T extends HTMLElement>(
         ele => document.activeElement === ele,
       );
 
-      if (which === KeyCode.UP) {
+      if (offset < 0) {
         if (focusIndex === -1) {
           focusIndex = count - 1;
         } else {
           focusIndex -= 1;
         }
-      } else if (which === KeyCode.DOWN) {
+      } else if (offset > 0) {
         focusIndex += 1;
       }
 
@@ -97,6 +116,10 @@ export default function useAccessibility<T extends HTMLElement>(
       if (targetElement) {
         targetElement.focus();
         activeByElement(targetElement);
+
+        console.log('>>>', targetElement);
+
+        e.preventDefault();
       }
     }
 

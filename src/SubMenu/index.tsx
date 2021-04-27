@@ -247,12 +247,13 @@ export default function SubMenu(props: SubMenuProps) {
       role="menuitem"
       style={directionStyle}
       className={`${subMenuPrefixCls}-title`}
-      tabIndex={-1}
+      tabIndex={mergedDisabled ? null : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : null}
       aria-expanded={open}
       aria-haspopup
       aria-controls={popupId}
+      aria-disabled={mergedDisabled}
       onClick={onInternalTitleClick}
       onKeyDown={onInternalKeyDown}
       {...activeProps}
