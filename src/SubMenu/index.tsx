@@ -193,7 +193,6 @@ export default function SubMenu(props: SubMenuProps) {
 
   // Title key down
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
-    console.log('>>>>');
     // Skip if disabled
     if (!mergedDisabled && [KeyCode.ENTER, KeyCode.SPACE].includes(e.which)) {
       onOpenChange(eventKey, !originOpen);
@@ -240,6 +239,7 @@ export default function SubMenu(props: SubMenuProps) {
   }, [eventKey, connectedKeys]);
 
   // =============================== Render ===============================
+  const popupId = `${prefixCls}-popup-list-${eventKey}`;
 
   // >>>>> Title
   let titleNode: React.ReactElement = (
@@ -252,6 +252,7 @@ export default function SubMenu(props: SubMenuProps) {
       title={typeof title === 'string' ? title : null}
       aria-expanded={open}
       aria-haspopup
+      aria-controls={popupId}
       onClick={onInternalTitleClick}
       onKeyDown={onInternalKeyDown}
       {...activeProps}
@@ -273,7 +274,7 @@ export default function SubMenu(props: SubMenuProps) {
     </div>
   );
 
-  if (mode !== 'inline') {
+  if (mode !== 'inline' && !openDisabled) {
     titleNode = (
       <PopupTrigger
         mode={mode}
@@ -281,7 +282,7 @@ export default function SubMenu(props: SubMenuProps) {
         visible={open}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
-        popup={<SubMenuList>{childList}</SubMenuList>}
+        popup={<SubMenuList id={popupId}>{childList}</SubMenuList>}
         disabled={mergedDisabled}
         onVisibleChange={onPopupVisibleChange}
       >
@@ -323,7 +324,11 @@ export default function SubMenu(props: SubMenuProps) {
         {titleNode}
 
         {/* Inline mode */}
-        <InlineSubMenuList open={open}>{childList}</InlineSubMenuList>
+        {!openDisabled && (
+          <InlineSubMenuList id={popupId} open={open}>
+            {childList}
+          </InlineSubMenuList>
+        )}
       </Overflow.Item>
     </MenuContextProvider>
   );

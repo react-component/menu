@@ -6,11 +6,13 @@ import SubMenuList from './SubMenuList';
 import type { MenuMode } from '../interface';
 
 export interface InlineSubMenuListProps {
+  id?: string;
   open: boolean;
   children: React.ReactNode;
 }
 
 export default function InlineSubMenuList({
+  id,
   open,
   children,
 }: InlineSubMenuListProps) {
@@ -76,7 +78,11 @@ export default function InlineSubMenuList({
       >
         {({ className: motionClassName, style: motionStyle }) => {
           return (
-            <SubMenuList className={motionClassName} style={motionStyle}>
+            <SubMenuList
+              id={id}
+              className={motionClassName}
+              style={motionStyle}
+            >
               {children}
             </SubMenuList>
           );
