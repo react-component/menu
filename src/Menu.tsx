@@ -266,20 +266,6 @@ const Menu: React.FC<MenuProps> = props => {
     setMergedActiveKey(undefined);
   });
 
-  // ======================== Focus =========================
-  const activeByElement = (element: HTMLElement) => {
-    const key = getKeyByElement(element);
-    setMergedActiveKey(key);
-  };
-
-  const onInternalKeyDown = useAccessibility(
-    containerRef,
-    elementsRef,
-    mergedMode,
-    activeByElement,
-    onKeyDown,
-  );
-
   // ======================== Select ========================
   // >>>>> Select keys
   const [mergedSelectKeys, setMergedSelectKeys] = useMergedState(
@@ -336,7 +322,7 @@ const Menu: React.FC<MenuProps> = props => {
     }
   };
 
-  // ======================== Events ========================
+  // ========================= Open =========================
   /**
    * Click for item. SubMenu do not have selection status
    */
@@ -357,6 +343,27 @@ const Menu: React.FC<MenuProps> = props => {
   });
 
   const getInternalPopupContainer = useMemoCallback(getPopupContainer);
+
+  // ======================== Focus =========================
+  const activeByElement = (element: HTMLElement) => {
+    const key = getKeyByElement(element);
+    setMergedActiveKey(key);
+  };
+
+  const triggerElement = (element: HTMLElement, open: boolean) => {
+    const key = getKeyByElement(element);
+
+    onInternalOpenChange(key, open);
+  };
+
+  const onInternalKeyDown = useAccessibility(
+    containerRef,
+    elementsRef,
+    mergedMode,
+    activeByElement,
+    triggerElement,
+    onKeyDown,
+  );
 
   // ======================== Effect ========================
   React.useEffect(() => {
@@ -409,8 +416,6 @@ const Menu: React.FC<MenuProps> = props => {
         // We use origin list since wrapped list use context to prevent open
         const len = omitItems.length;
         const originOmitItems = childList.slice(-len);
-
-        console.log('!!!!!', allVisible);
 
         return (
           <SubMenu
