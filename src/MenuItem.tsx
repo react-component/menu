@@ -2,6 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
+import KeyCode from 'rc-util/lib/KeyCode';
 import omit from 'rc-util/lib/omit';
 import type {
   MenuClickEventHandler,
@@ -84,6 +85,7 @@ const MenuItem = (props: MenuItemProps) => {
     onMouseLeave,
 
     onClick,
+    onKeyDown,
 
     ...restProps
   } = props;
@@ -118,7 +120,9 @@ const MenuItem = (props: MenuItemProps) => {
   ]);
 
   // ============================= Info =============================
-  const getEventInfo = (e: React.MouseEvent<HTMLElement>): MenuInfo => {
+  const getEventInfo = (
+    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+  ): MenuInfo => {
     return {
       key: eventKey,
       keyPath: connectedKeys,
@@ -154,6 +158,14 @@ const MenuItem = (props: MenuItemProps) => {
 
     onClick?.(warnItemProp(info));
     onItemClick(info);
+  };
+
+  const onInternalKeyDown: React.KeyboardEventHandler<HTMLLIElement> = e => {
+    onKeyDown?.(e);
+
+    if ([KeyCode.ENTER, KeyCode.SPACE].includes(e.which)) {
+      onItemClick(warnItemProp(getEventInfo(e)));
+    }
   };
 
   // ============================ Effect ============================
@@ -199,6 +211,7 @@ const MenuItem = (props: MenuItemProps) => {
         className,
       )}
       onClick={onInternalClick}
+      onKeyDown={onInternalKeyDown}
     >
       {children}
       <Icon

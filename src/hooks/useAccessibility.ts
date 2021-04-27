@@ -50,6 +50,7 @@ export default function useAccessibility<T extends HTMLElement>(
   containerRef: React.RefObject<HTMLUListElement>,
   elementsRef: React.RefObject<Set<HTMLElement>>,
   mode: MenuMode,
+  activeByElement: (element: HTMLElement) => void,
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
   return e => {
@@ -92,7 +93,11 @@ export default function useAccessibility<T extends HTMLElement>(
       focusIndex = (focusIndex + count) % count;
 
       // Focus menu item
-      sameLevelFocusableMenuElementList[focusIndex]?.focus();
+      const targetElement = sameLevelFocusableMenuElementList[focusIndex];
+      if (targetElement) {
+        targetElement.focus();
+        activeByElement(targetElement);
+      }
     }
 
     // Pass origin key down event
