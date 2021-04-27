@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
+import KeyCode from 'rc-util/lib/KeyCode';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/nodeUtil';
 import type {
@@ -114,7 +115,7 @@ export default function SubMenu(props: SubMenuProps) {
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
-  const elementRef = React.useRef<HTMLLIElement>();
+  const elementRef = React.useRef<HTMLDivElement>();
 
   // ================================ Key =================================
   const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
@@ -133,7 +134,8 @@ export default function SubMenu(props: SubMenuProps) {
   );
 
   // ================================ Open ================================
-  const open = !openDisabled && openKeys.includes(eventKey);
+  const originOpen = openKeys.includes(eventKey);
+  const open = !openDisabled && originOpen;
 
   // =============================== Select ===============================
   const childrenSelected = keyInPath(selectedKeys, connectedKeys);
@@ -185,7 +187,16 @@ export default function SubMenu(props: SubMenuProps) {
 
     // Trigger open by click when mode is `inline`
     if (mode === 'inline') {
-      onOpenChange(eventKey, !openKeys.includes(eventKey));
+      onOpenChange(eventKey, !originOpen);
+    }
+  };
+
+  // Title key down
+  const onInternalKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
+    console.log('>>>>');
+    // Skip if disabled
+    if (!mergedDisabled && [KeyCode.ENTER, KeyCode.SPACE].includes(e.which)) {
+      onOpenChange(eventKey, !originOpen);
     }
   };
 
@@ -233,13 +244,16 @@ export default function SubMenu(props: SubMenuProps) {
   // >>>>> Title
   let titleNode: React.ReactElement = (
     <div
+      role="menuitem"
       style={directionStyle}
       className={`${subMenuPrefixCls}-title`}
-      role="button"
+      tabIndex={-1}
+      ref={elementRef}
       title={typeof title === 'string' ? title : null}
       aria-expanded={open}
       aria-haspopup
       onClick={onInternalTitleClick}
+      onKeyDown={onInternalKeyDown}
       {...activeProps}
     >
       {title}
@@ -287,7 +301,6 @@ export default function SubMenu(props: SubMenuProps) {
     >
       <Overflow.Item
         component="li"
-        ref={elementRef}
         style={style}
         className={classNames(
           subMenuPrefixCls,
@@ -300,7 +313,6 @@ export default function SubMenu(props: SubMenuProps) {
             [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
           },
         )}
-        role="menuitem"
         onMouseEnter={() => {
           triggerChildrenActive(true);
         }}
