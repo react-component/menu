@@ -281,10 +281,7 @@ describe('Menu', () => {
         <MenuItem key="2">2</MenuItem>
       </Menu>,
     );
-    wrapper
-      .find('MenuItem')
-      .first()
-      .simulate('click');
+    wrapper.find('MenuItem').first().simulate('click');
     expect(handleSelect.mock.calls[0][0].key).toBe('1');
   });
 
@@ -296,10 +293,7 @@ describe('Menu', () => {
         <MenuItem key="2">2</MenuItem>
       </Menu>,
     );
-    wrapper
-      .find('MenuItem')
-      .first()
-      .simulate('click');
+    wrapper.find('MenuItem').first().simulate('click');
     expect(handleClick.mock.calls[0][0].key).toBe('1');
   });
 
@@ -311,44 +305,35 @@ describe('Menu', () => {
         <MenuItem key="2">2</MenuItem>
       </Menu>,
     );
-    wrapper
-      .find('MenuItem')
-      .first()
-      .simulate('click')
-      .simulate('click');
+    wrapper.find('MenuItem').first().simulate('click').simulate('click');
     expect(handleDeselect.mock.calls[0][0].key).toBe('1');
   });
 
-  // it('active by mouse enter', () => {
-  //   const wrapper = mount(
-  //     <Menu>
-  //       <MenuItem key="item1">item</MenuItem>
-  //       <MenuItem disabled>disabled</MenuItem>
-  //       <MenuItem key="item2">item2</MenuItem>
-  //     </Menu>,
-  //   );
-  //   let menuItem = wrapper.find('MenuItem').last();
-  //   menuItem.simulate('mouseEnter');
-  //   menuItem = wrapper.find('MenuItem').last();
-  //   expect(menuItem.props().active).toBeTruthy();
-  // });
+  it('active by mouse enter', () => {
+    const wrapper = mount(
+      <Menu>
+        <MenuItem key="item1">item</MenuItem>
+        <MenuItem disabled>disabled</MenuItem>
+        <MenuItem key="item2">item2</MenuItem>
+      </Menu>,
+    );
+    wrapper.find('li').last().simulate('mouseEnter');
+    expect(
+      wrapper.find('li').last().hasClass('rc-menu-item-active'),
+    ).toBeTruthy();
+  });
 
-  // it('active by key down', () => {
-  //   const wrapper = mount(
-  //     <Menu activeKey="1">
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
+  it('active by key down', () => {
+    const wrapper = mount(
+      <Menu activeKey="1">
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
 
-  //   wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
-  //   expect(
-  //     wrapper
-  //       .find('MenuItem')
-  //       .at(1)
-  //       .props().active,
-  //   ).toBe(true);
-  // });
+    wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
+    expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
+  });
 
   // it('keydown works when children change', () => {
   //   class App extends React.Component {

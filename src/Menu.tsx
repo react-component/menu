@@ -21,6 +21,7 @@ import useMemoCallback from './hooks/useMemoCallback';
 import usePathData from './hooks/usePathData';
 import { warnItemProp } from './utils/warnUtil';
 import SubMenu from './SubMenu';
+import useAccessibility from './hooks/useAccessibility';
 
 /**
  * Menu modify after refactor:
@@ -39,7 +40,7 @@ import SubMenu from './SubMenu';
 const EMPTY_LIST: string[] = [];
 
 export interface MenuProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'onSelect'> {
+  extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onClick' | 'onSelect'> {
   prefixCls?: string;
 
   children?: React.ReactNode;
@@ -165,6 +166,7 @@ const Menu: React.FC<MenuProps> = props => {
     // Events
     onClick,
     onOpenChange,
+    onKeyDown,
 
     // Deprecated
     openAnimation,
@@ -175,6 +177,8 @@ const Menu: React.FC<MenuProps> = props => {
 
   const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
   const [mounted, setMounted] = React.useState(false);
+
+  const containerRef = React.useRef<HTMLUListElement>();
 
   // ========================= Warn =========================
   if (process.env.NODE_ENV !== 'production') {
@@ -240,7 +244,7 @@ const Menu: React.FC<MenuProps> = props => {
   }, [isInlineMode]);
 
   // ========================= Path =========================
-  const pathData = usePathData();
+  const { elementsRef, ...pathData } = usePathData();
 
   // ======================== Active ========================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState(
@@ -257,6 +261,14 @@ const Menu: React.FC<MenuProps> = props => {
   const onInactive = useMemoCallback(() => {
     setMergedActiveKey(undefined);
   });
+
+  // ======================== Focus =========================
+  const onInternalKeyDown = useAccessibility(
+    containerRef,
+    elementsRef,
+    mergedMode,
+    onKeyDown,
+  );
 
   // ======================== Select ========================
   // >>>>> Select keys
@@ -363,6 +375,7 @@ const Menu: React.FC<MenuProps> = props => {
   // >>>>> Container
   const container = (
     <Overflow
+      ref={containerRef as any}
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
       itemComponent={MenuItem}
@@ -402,6 +415,7 @@ const Menu: React.FC<MenuProps> = props => {
       onVisibleChange={newCount => {
         setVisibleCount(newCount);
       }}
+      onKeyDown={onInternalKeyDown}
       {...restProps}
     />
   );

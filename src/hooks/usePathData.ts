@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef } from 'react';
 import { nextSlice } from '../utils/timeUtil';
 
 const PATH_SPLIT = '__RC_UTIL_PATH_SPLIT__';
@@ -7,14 +8,17 @@ const getPathStr = (keyPath: string[]) => keyPath.join(PATH_SPLIT);
 
 function usePathData() {
   const [, forceUpdate] = React.useState({});
-  const path2keyRef = React.useRef(new Map<string, string>());
-  const key2pathRef = React.useRef(new Map<string, string>());
-  const updateRef = React.useRef(0);
+  const path2keyRef = useRef(new Map<string, string>());
+  const key2pathRef = useRef(new Map<string, string>());
+  const elementsRef = useRef(new Set<HTMLElement>());
 
-  function registerPath(key: string, keyPath: string[]) {
+  const updateRef = useRef(0);
+
+  function registerPath(key: string, keyPath: string[], element: HTMLElement) {
     const connectedPath = getPathStr(keyPath);
     path2keyRef.current.set(connectedPath, key);
     key2pathRef.current.set(key, connectedPath);
+    elementsRef.current.add(element);
 
     updateRef.current += 1;
     const id = updateRef.current;
@@ -26,10 +30,15 @@ function usePathData() {
     });
   }
 
-  function unregisterPath(key: string, keyPath: string[]) {
+  function unregisterPath(
+    key: string,
+    keyPath: string[],
+    element: HTMLElement,
+  ) {
     const connectedPath = getPathStr(keyPath);
     path2keyRef.current.delete(connectedPath);
     key2pathRef.current.delete(key);
+    elementsRef.current.delete(element);
   }
 
   function keyInPath(keyList: string[], keyPath: string[]) {
@@ -56,6 +65,7 @@ function usePathData() {
     registerPath,
     unregisterPath,
     keyInPath,
+    elementsRef,
   };
 }
 

@@ -31,7 +31,6 @@ export interface MenuItemProps
 
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
-
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;
   onMouseLeave?: MenuHoverEventHandler;
@@ -48,7 +47,7 @@ export interface MenuItemProps
 // This should be removed from doc & api in future.
 class LegacyMenuItem extends React.Component<any> {
   render() {
-    const { title, attribute, ...restProps } = this.props;
+    const { title, attribute, elementRef, ...restProps } = this.props;
 
     const passedProps = omit(restProps, ['eventKey']);
     warning(
@@ -61,6 +60,7 @@ class LegacyMenuItem extends React.Component<any> {
         {...attribute}
         title={typeof title === 'string' ? title : undefined}
         {...passedProps}
+        ref={elementRef}
       />
     );
   }
@@ -108,6 +108,7 @@ const MenuItem = (props: MenuItemProps) => {
   const itemCls = `${prefixCls}-item`;
 
   const legacyMenuItemRef = React.useRef<any>();
+  const elementRef = React.useRef<HTMLLIElement>();
   const mergedDisabled = contextDisabled || disabled;
 
   // ============================= Key ==============================
@@ -158,10 +159,11 @@ const MenuItem = (props: MenuItemProps) => {
   // ============================ Effect ============================
   // Path register
   React.useEffect(() => {
-    registerPath(eventKey, connectedKeys);
+    const element = elementRef.current;
+    registerPath(eventKey, connectedKeys, element);
 
     return () => {
-      unregisterPath(eventKey, connectedKeys);
+      unregisterPath(eventKey, connectedKeys, element);
     };
   }, [eventKey, connectedKeys]);
 
@@ -175,7 +177,9 @@ const MenuItem = (props: MenuItemProps) => {
   return (
     <LegacyMenuItem
       ref={legacyMenuItemRef}
+      elementRef={elementRef}
       role="menuitem"
+      tabIndex={disabled ? null : -1}
       {...restProps}
       {...activeProps}
       {...optionRoleProps}

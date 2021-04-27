@@ -114,6 +114,7 @@ export default function SubMenu(props: SubMenuProps) {
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
+  const elementRef = React.useRef<HTMLLIElement>();
 
   // ================================ Key =================================
   const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
@@ -219,10 +220,11 @@ export default function SubMenu(props: SubMenuProps) {
   // =============================== Effect ===============================
   // Path register
   React.useEffect(() => {
-    registerPath(eventKey, connectedKeys);
+    const element = elementRef.current;
+    registerPath(eventKey, connectedKeys, element);
 
     return () => {
-      unregisterPath(eventKey, connectedKeys);
+      unregisterPath(eventKey, connectedKeys, element);
     };
   }, [eventKey, connectedKeys]);
 
@@ -285,6 +287,7 @@ export default function SubMenu(props: SubMenuProps) {
     >
       <Overflow.Item
         component="li"
+        ref={elementRef}
         style={style}
         className={classNames(
           subMenuPrefixCls,
