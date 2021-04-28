@@ -1,7 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
-import KeyCode from 'rc-util/lib/KeyCode';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/nodeUtil';
 import type {
@@ -195,14 +194,6 @@ export default function SubMenu(props: SubMenuProps) {
     }
   };
 
-  // Title key down
-  const onInternalKeyDown: React.KeyboardEventHandler<HTMLElement> = e => {
-    // Skip if disabled
-    if (!mergedDisabled && [KeyCode.ENTER, KeyCode.SPACE].includes(e.which)) {
-      onOpenChange(eventKey, !originOpen);
-    }
-  };
-
   // >>>> Context for children click
   const onMergedItemClick = useMemoCallback((info: MenuInfo) => {
     onClick?.(warnItemProp(info));
@@ -259,7 +250,6 @@ export default function SubMenu(props: SubMenuProps) {
       aria-controls={popupId}
       aria-disabled={mergedDisabled}
       onClick={onInternalTitleClick}
-      onKeyDown={onInternalKeyDown}
       {...activeProps}
     >
       {title}

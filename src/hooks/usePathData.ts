@@ -60,6 +60,21 @@ function usePathData() {
     });
   }
 
+  /**
+   * Find current key related child path keys
+   */
+  function getSubPathKeys(key: string): Set<string> {
+    const connectedPath = `${key2pathRef.current.get(key)}${PATH_SPLIT}`;
+    const pathKeys = new Set<string>();
+
+    [...path2keyRef.current.keys()].forEach(pathKey => {
+      if (pathKey.startsWith(connectedPath)) {
+        pathKeys.add(path2keyRef.current.get(pathKey));
+      }
+    });
+    return pathKeys;
+  }
+
   function getInfoByElement(element: HTMLElement): [string, string[]] {
     const key = element2keyRef.current.get(element);
     const connectedPath = key2pathRef.current.get(key);
@@ -85,6 +100,7 @@ function usePathData() {
     elementsRef,
     getInfoByElement,
     getElementByKey,
+    getSubPathKeys,
   };
 }
 

@@ -5,20 +5,30 @@ import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import type { MenuMode } from '../interface';
 
 // destruct to reduce minify size
-const { LEFT, RIGHT, UP, DOWN } = KeyCode;
+const { LEFT, RIGHT, UP, DOWN, ENTER, ESC } = KeyCode;
+
+const ArrowKeys = [UP, DOWN, LEFT, RIGHT];
 
 function getOffset(
   mode: MenuMode,
   isRootLevel: boolean,
   which: number,
 ): {
-  offset: number;
-  sibling: boolean;
+  offset?: number;
+  sibling?: boolean;
+  inlineTrigger?: boolean;
 } {
   const prev = 'prev' as const;
   const next = 'next' as const;
   const children = 'children' as const;
   const parent = 'parent' as const;
+
+  // Inline enter is special that we use unique operation
+  if (mode === 'inline' && which === ENTER) {
+    return {
+      inlineTrigger: true,
+    };
+  }
 
   type OffsetMap = Record<number, 'prev' | 'next' | 'children' | 'parent'>;
   const inline: OffsetMap = {
@@ -28,14 +38,16 @@ function getOffset(
   const horizontal: OffsetMap = {
     [LEFT]: prev,
     [RIGHT]: next,
-    [UP]: parent,
     [DOWN]: children,
+    [ENTER]: children,
   };
   const vertical: OffsetMap = {
     [UP]: prev,
     [DOWN]: next,
     [LEFT]: parent,
+    [ESC]: parent,
     [RIGHT]: children,
+    [ENTER]: children,
   };
 
   const offsets: Record<
@@ -129,6 +141,11 @@ function getNextFocusElement(
   focusMenuElement?: HTMLElement,
   offset: number = 1,
 ) {
+  // Key on the menu item will not get validate parent container
+  if (!parentQueryContainer) {
+    return null;
+  }
+
   // List current level menu item elements
   const sameLevelFocusableMenuElementList = getFocusableElements(
     parentQueryContainer,
@@ -167,14 +184,14 @@ export default function useAccessibility<T extends HTMLElement>(
   getElementByKey: (key: string) => HTMLElement,
 
   activeByElement: (element: HTMLElement) => void,
-  triggerElement: (element: HTMLElement, open: boolean) => void,
+  triggerElement: (element: HTMLElement, open?: boolean) => void,
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
   return e => {
     const { which } = e;
 
-    if ([UP, DOWN, LEFT, RIGHT].includes(which)) {
+    if ([...ArrowKeys, ENTER, ESC].includes(which)) {
       const elements = elementsRef.current;
 
       // First we should find current focused MenuItem/SubMenu element
@@ -191,7 +208,10 @@ export default function useAccessibility<T extends HTMLElement>(
         return;
       }
 
-      e.preventDefault();
+      // Arrow prevent default to avoid page scroll
+      if (ArrowKeys.includes(which)) {
+        e.preventDefault();
+      }
 
       const tryFocus = (menuElement: HTMLElement) => {
         if (menuElement) {
@@ -230,6 +250,10 @@ export default function useAccessibility<T extends HTMLElement>(
         // Focus menu item
         tryFocus(targetElement);
 
+        // ======================= InlineTrigger =======================
+      } else if (offsetObj.inlineTrigger) {
+        // Inline trigger no need switch to sub menu item
+        triggerElement(focusMenuElement);
         // =========================== Level ===========================
       } else if (offsetObj.offset > 0) {
         triggerElement(focusMenuElement, true);

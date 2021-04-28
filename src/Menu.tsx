@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
+import shallowEqual from 'shallowequal';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import warning from 'rc-util/lib/warning';
 import Overflow from 'rc-overflow';
@@ -257,6 +258,7 @@ const Menu: React.FC<MenuProps> = props => {
     elementsRef,
     getInfoByElement,
     getElementByKey,
+    getSubPathKeys,
     ...pathData
   } = usePathData();
 
@@ -342,14 +344,20 @@ const Menu: React.FC<MenuProps> = props => {
   });
 
   const onInternalOpenChange = useMemoCallback((key: string, open: boolean) => {
-    const newOpenKeys = mergedOpenKeys.filter(k => k !== key);
+    let newOpenKeys = mergedOpenKeys.filter(k => k !== key);
 
     if (open) {
       newOpenKeys.push(key);
+    } else if (mergedMode !== 'inline') {
+      // We need find all related popup to close
+      const subPathKeys = getSubPathKeys(key);
+      newOpenKeys = newOpenKeys.filter(k => !subPathKeys.has(k));
     }
 
-    setMergedOpenKeys(newOpenKeys);
-    onOpenChange?.(newOpenKeys);
+    if (!shallowEqual(mergedOpenKeys, newOpenKeys)) {
+      setMergedOpenKeys(newOpenKeys);
+      onOpenChange?.(newOpenKeys);
+    }
   });
 
   const getInternalPopupContainer = useMemoCallback(getPopupContainer);
@@ -360,10 +368,12 @@ const Menu: React.FC<MenuProps> = props => {
     setMergedActiveKey(key);
   };
 
-  const triggerElement = (element: HTMLElement, open: boolean) => {
+  const triggerElement = (element: HTMLElement, open?: boolean) => {
     const [key] = getInfoByElement(element);
 
-    onInternalOpenChange(key, open);
+    const nextOpen = open ?? !mergedOpenKeys.includes(key);
+
+    onInternalOpenChange(key, nextOpen);
   };
 
   const onInternalKeyDown = useAccessibility(
