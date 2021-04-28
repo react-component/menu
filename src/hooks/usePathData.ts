@@ -12,6 +12,7 @@ function usePathData() {
   const key2pathRef = useRef(new Map<string, string>());
   const elementsRef = useRef(new Set<HTMLElement>());
   const element2keyRef = useRef(new Map<HTMLElement, string>());
+  const key2elementRef = useRef(new Map<string, HTMLElement>());
 
   const updateRef = useRef(0);
 
@@ -21,6 +22,7 @@ function usePathData() {
     key2pathRef.current.set(key, connectedPath);
     elementsRef.current.add(element);
     element2keyRef.current.set(element, key);
+    key2elementRef.current.set(key, element);
 
     updateRef.current += 1;
     const id = updateRef.current;
@@ -42,6 +44,7 @@ function usePathData() {
     key2pathRef.current.delete(key);
     elementsRef.current.delete(element);
     element2keyRef.current.delete(element);
+    key2elementRef.current.delete(key);
   }
 
   function keyInPath(keyList: string[], keyPath: string[]) {
@@ -60,7 +63,11 @@ function usePathData() {
   function getInfoByElement(element: HTMLElement): [string, string[]] {
     const key = element2keyRef.current.get(element);
     const connectedPath = key2pathRef.current.get(key);
-    return [key, connectedPath?.split(PATH_SPLIT)];
+    return [key, connectedPath?.split(PATH_SPLIT) || []];
+  }
+
+  function getElementByKey(key: string): HTMLElement {
+    return key2elementRef.current.get(key);
   }
 
   React.useEffect(
@@ -77,6 +84,7 @@ function usePathData() {
     keyInPath,
     elementsRef,
     getInfoByElement,
+    getElementByKey,
   };
 }
 

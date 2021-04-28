@@ -240,7 +240,7 @@ export default function SubMenu(props: SubMenuProps) {
     return () => {
       unregisterPath(eventKey, connectedKeys, element);
     };
-  }, [eventKey, connectedKeys]);
+  }, [eventKey, connectedKeys, open]);
 
   // =============================== Render ===============================
   const popupId = `${id}-${eventKey}`;

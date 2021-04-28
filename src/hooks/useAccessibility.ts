@@ -163,7 +163,9 @@ export default function useAccessibility<T extends HTMLElement>(
   containerRef: React.RefObject<HTMLUListElement>,
   elementsRef: React.RefObject<Set<HTMLElement>>,
 
-  isElementRootLevel: (element: HTMLElement) => boolean,
+  getInfoByElement: (element: HTMLElement) => [string, string[]],
+  getElementByKey: (key: string) => HTMLElement,
+
   activeByElement: (element: HTMLElement) => void,
   triggerElement: (element: HTMLElement, open: boolean) => void,
 
@@ -173,15 +175,21 @@ export default function useAccessibility<T extends HTMLElement>(
     const { which } = e;
 
     if ([UP, DOWN, LEFT, RIGHT].includes(which)) {
+      const elements = elementsRef.current;
+
       // First we should find current focused MenuItem/SubMenu element
-      const focusMenuElement = getFocusElement(elementsRef.current);
+      const focusMenuElement = getFocusElement(elements);
 
       const offsetObj = getOffset(
         mode,
-        isElementRootLevel(focusMenuElement),
+        getInfoByElement(focusMenuElement)[1].length === 1,
         which,
       );
-      console.log('===>', offsetObj);
+
+      // Some mode do not have fully arrow operation like inline
+      if (!offsetObj) {
+        return;
+      }
 
       e.preventDefault();
 
@@ -205,7 +213,7 @@ export default function useAccessibility<T extends HTMLElement>(
         // Get next focus element
         const targetElement = getNextFocusElement(
           parentQueryContainer,
-          elementsRef.current,
+          elements,
           focusMenuElement,
           offsetObj.offset,
         );
@@ -224,14 +232,21 @@ export default function useAccessibility<T extends HTMLElement>(
           // Get sub focusable menu item
           const targetElement = getNextFocusElement(
             subQueryContainer,
-            elementsRef.current,
+            elements,
           );
 
           // Focus menu item
           tryFocus(targetElement);
         }, 5);
       } else if (offsetObj.offset < 0) {
-        triggerElement(focusMenuElement, false);
+        const [, keyPath] = getInfoByElement(focusMenuElement);
+        const parentKey = keyPath[keyPath.length - 2];
+
+        const parentMenuElement = getElementByKey(parentKey);
+
+        // Focus menu item
+        triggerElement(parentMenuElement, false);
+        tryFocus(parentMenuElement);
       }
     }
 

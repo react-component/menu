@@ -253,7 +253,12 @@ const Menu: React.FC<MenuProps> = props => {
   }, [isInlineMode]);
 
   // ========================= Path =========================
-  const { elementsRef, getInfoByElement, ...pathData } = usePathData();
+  const {
+    elementsRef,
+    getInfoByElement,
+    getElementByKey,
+    ...pathData
+  } = usePathData();
 
   // ======================== Active ========================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState(
@@ -361,18 +366,14 @@ const Menu: React.FC<MenuProps> = props => {
     onInternalOpenChange(key, open);
   };
 
-  const isElementRootLevel = (element: HTMLElement) => {
-    const [, keyPath] = getInfoByElement(element);
-    return keyPath?.length === 1;
-  };
-
   const onInternalKeyDown = useAccessibility(
     mergedMode,
 
     containerRef,
     elementsRef,
 
-    isElementRootLevel,
+    getInfoByElement,
+    getElementByKey,
     activeByElement,
     triggerElement,
 
