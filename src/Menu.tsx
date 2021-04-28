@@ -380,7 +380,7 @@ const Menu: React.FC<MenuProps> = props => {
 
   const onInternalKeyDown = useAccessibility(
     mergedMode,
-    activeKey,
+    mergedActiveKey,
 
     containerRef,
     elementsRef,
