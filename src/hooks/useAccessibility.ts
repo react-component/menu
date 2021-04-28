@@ -110,8 +110,11 @@ function findContainerUL(element: HTMLElement): HTMLUListElement {
 /**
  * Find focused element within element set provided
  */
-function getFocusElement(elements: Set<HTMLElement>): HTMLElement {
-  let current = document.activeElement;
+function getFocusElement(
+  activeElement: HTMLElement,
+  elements: Set<HTMLElement>,
+): HTMLElement {
+  let current = activeElement || document.activeElement;
 
   while (current) {
     if (elements.has(current as any)) {
@@ -212,7 +215,8 @@ export default function useAccessibility<T extends HTMLElement>(
       const elements = elementsRef.current;
 
       // First we should find current focused MenuItem/SubMenu element
-      const focusMenuElement = getFocusElement(elements);
+      const activeElement = getElementByKey(activeKey);
+      const focusMenuElement = getFocusElement(activeElement, elements);
 
       const offsetObj = getOffset(
         mode,
