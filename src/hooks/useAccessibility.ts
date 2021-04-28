@@ -1,4 +1,4 @@
-import type * as React from 'react';
+import * as React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
@@ -176,6 +176,7 @@ function getNextFocusElement(
 
 export default function useAccessibility<T extends HTMLElement>(
   mode: MenuMode,
+  activeKey: string,
 
   containerRef: React.RefObject<HTMLUListElement>,
   elementsRef: React.RefObject<Set<HTMLElement>>,
@@ -183,11 +184,27 @@ export default function useAccessibility<T extends HTMLElement>(
   getInfoByElement: (element: HTMLElement) => [string, string[]],
   getElementByKey: (key: string) => HTMLElement,
 
-  activeByElement: (element: HTMLElement) => void,
+  activeByElement: (element: HTMLElement) => string,
   triggerElement: (element: HTMLElement, open?: boolean) => void,
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
+  const rafRef = React.useRef<number>();
+
+  const activeRef = React.useRef<string>();
+  activeRef.current = activeKey;
+
+  const cleanRaf = () => {
+    raf.cancel(rafRef.current);
+  };
+
+  React.useEffect(
+    () => () => {
+      cleanRaf();
+    },
+    [],
+  );
+
   return e => {
     const { which } = e;
 
@@ -223,9 +240,14 @@ export default function useAccessibility<T extends HTMLElement>(
             focusTargetElement = link;
           }
 
-          focusTargetElement.focus();
+          const targetKey = activeByElement(menuElement);
 
-          activeByElement(menuElement);
+          cleanRaf();
+          rafRef.current = raf(() => {
+            if (activeRef.current === targetKey) {
+              focusTargetElement.focus();
+            }
+          });
         }
       };
 
@@ -258,7 +280,8 @@ export default function useAccessibility<T extends HTMLElement>(
       } else if (offsetObj.offset > 0) {
         triggerElement(focusMenuElement, true);
 
-        raf(() => {
+        cleanRaf();
+        rafRef.current = raf(() => {
           const controlId = focusMenuElement.getAttribute('aria-controls');
           const subQueryContainer = document.getElementById(controlId);
 

@@ -9,4 +9,8 @@ const Adapter = require('enzyme-adapter-react-16');
 
 Enzyme.configure({ adapter: new Adapter() });
 
-Object.assign(Enzyme.ReactWrapper.prototype, {});
+Object.assign(Enzyme.ReactWrapper.prototype, {
+  isActive(index = 0) {
+    return this.find('.rc-menu-item').at(index).hasClass('rc-menu-item-active');
+  },
+});

@@ -366,6 +366,8 @@ const Menu: React.FC<MenuProps> = props => {
   const activeByElement = (element: HTMLElement) => {
     const [key] = getInfoByElement(element);
     setMergedActiveKey(key);
+
+    return key;
   };
 
   const triggerElement = (element: HTMLElement, open?: boolean) => {
@@ -378,6 +380,7 @@ const Menu: React.FC<MenuProps> = props => {
 
   const onInternalKeyDown = useAccessibility(
     mergedMode,
+    activeKey,
 
     containerRef,
     elementsRef,

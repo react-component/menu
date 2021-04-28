@@ -332,9 +332,7 @@ describe('Menu', () => {
     );
 
     wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
-    expect(
-      wrapper.find('.rc-menu-item').first().hasClass('rc-menu-item-active'),
-    ).toBeTruthy();
+    expect(wrapper.isActive(1)).toBeTruthy();
   });
 
   // it('keydown works when children change', () => {
@@ -359,20 +357,10 @@ describe('Menu', () => {
   //   wrapper.setState({ items: [0, 1] });
 
   //   wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
-  //   expect(
-  //     wrapper
-  //       .find('MenuItem')
-  //       .at(0)
-  //       .props().active,
-  //   ).toBe(true);
+  //   expect(wrapper.isActive(0)).toBeTruthy();
 
   //   wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
-  //   expect(
-  //     wrapper
-  //       .find('MenuItem')
-  //       .at(1)
-  //       .props().active,
-  //   ).toBe(true);
+  //   expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
   // });
 
   // it('active first item when children changes', () => {
