@@ -113,7 +113,9 @@ export default () => {
           openKeys={openKeys}
           onOpenChange={newOpenKeys => setOpenKeys(newOpenKeys)}
         >
-          <Menu.Item key="mail">Navigation One</Menu.Item>
+          <Menu.Item key="mail">
+            <a href="http://www.taobao.com">Navigation One</a>
+          </Menu.Item>
           <Menu.Item key="next">Next Item</Menu.Item>
           <Menu.SubMenu title="Sub Menu" key="sub" onClick={onSubMenuClick}>
             <Menu.Item key="sub1" onClick={onClick}>

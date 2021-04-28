@@ -195,7 +195,16 @@ export default function useAccessibility<T extends HTMLElement>(
 
       const tryFocus = (menuElement: HTMLElement) => {
         if (menuElement) {
-          menuElement.focus();
+          let focusTargetElement = menuElement;
+
+          // Focus to link instead of menu item if possible
+          const link = menuElement.querySelector('a');
+          if (link?.getAttribute('href')) {
+            focusTargetElement = link;
+          }
+
+          focusTargetElement.focus();
+
           activeByElement(menuElement);
         }
       };
