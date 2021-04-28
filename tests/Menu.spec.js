@@ -323,17 +323,19 @@ describe('Menu', () => {
     ).toBeTruthy();
   });
 
-  // it('active by key down', () => {
-  //   const wrapper = mount(
-  //     <Menu activeKey="1">
-  //       <MenuItem key="1">1</MenuItem>
-  //       <MenuItem key="2">2</MenuItem>
-  //     </Menu>,
-  //   );
+  it('active by key down', () => {
+    const wrapper = mount(
+      <Menu activeKey="1">
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
 
-  //   wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
-  //   expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
-  // });
+    wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
+    expect(
+      wrapper.find('.rc-menu-item').first().hasClass('rc-menu-item-active'),
+    ).toBeTruthy();
+  });
 
   // it('keydown works when children change', () => {
   //   class App extends React.Component {
