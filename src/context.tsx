@@ -17,6 +17,8 @@ export interface MenuContextProps extends PathHookRet {
   parentKeys: string[];
   rtl?: boolean;
 
+  id: string;
+
   // Mode
   mode: MenuMode;
 

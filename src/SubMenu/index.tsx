@@ -89,6 +89,9 @@ export default function SubMenu(props: SubMenuProps) {
     openKeys,
     parentKeys,
 
+    // ID
+    id,
+
     // Disabled
     disabled: contextDisabled,
     openDisabled,
@@ -116,6 +119,7 @@ export default function SubMenu(props: SubMenuProps) {
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
   const elementRef = React.useRef<HTMLDivElement>();
+  const popupRef = React.useRef<HTMLUListElement>();
 
   // ================================ Key =================================
   const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
@@ -239,7 +243,7 @@ export default function SubMenu(props: SubMenuProps) {
   }, [eventKey, connectedKeys]);
 
   // =============================== Render ===============================
-  const popupId = `${prefixCls}-popup-list-${eventKey}`;
+  const popupId = `${id}-${eventKey}`;
 
   // >>>>> Title
   let titleNode: React.ReactElement = (
@@ -283,7 +287,11 @@ export default function SubMenu(props: SubMenuProps) {
         visible={open}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
-        popup={<SubMenuList id={popupId}>{childList}</SubMenuList>}
+        popup={
+          <SubMenuList id={popupId} ref={popupRef}>
+            {childList}
+          </SubMenuList>
+        }
         disabled={mergedDisabled}
         onVisibleChange={onPopupVisibleChange}
       >

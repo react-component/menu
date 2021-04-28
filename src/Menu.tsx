@@ -22,6 +22,7 @@ import usePathData from './hooks/usePathData';
 import { warnItemProp } from './utils/warnUtil';
 import SubMenu from './SubMenu';
 import useAccessibility from './hooks/useAccessibility';
+import useUUID from './hooks/useUUID';
 
 /**
  * Menu modify after refactor:
@@ -117,6 +118,8 @@ const Menu: React.FC<MenuProps> = props => {
     children,
     direction,
 
+    id,
+
     // Mode
     mode = 'vertical',
     inlineCollapsed,
@@ -179,6 +182,8 @@ const Menu: React.FC<MenuProps> = props => {
   const [mounted, setMounted] = React.useState(false);
 
   const containerRef = React.useRef<HTMLUListElement>();
+
+  const uuid = useUUID(id);
 
   // ========================= Warn =========================
   if (process.env.NODE_ENV !== 'production') {
@@ -248,7 +253,7 @@ const Menu: React.FC<MenuProps> = props => {
   }, [isInlineMode]);
 
   // ========================= Path =========================
-  const { elementsRef, getKeyByElement, ...pathData } = usePathData();
+  const { elementsRef, getInfoByElement, ...pathData } = usePathData();
 
   // ======================== Active ========================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState(
@@ -346,22 +351,31 @@ const Menu: React.FC<MenuProps> = props => {
 
   // ======================== Focus =========================
   const activeByElement = (element: HTMLElement) => {
-    const key = getKeyByElement(element);
+    const [key] = getInfoByElement(element);
     setMergedActiveKey(key);
   };
 
   const triggerElement = (element: HTMLElement, open: boolean) => {
-    const key = getKeyByElement(element);
+    const [key] = getInfoByElement(element);
 
     onInternalOpenChange(key, open);
   };
 
+  const isElementRootLevel = (element: HTMLElement) => {
+    const [, keyPath] = getInfoByElement(element);
+    return keyPath?.length === 1;
+  };
+
   const onInternalKeyDown = useAccessibility(
+    mergedMode,
+
     containerRef,
     elementsRef,
-    mergedMode,
+
+    isElementRootLevel,
     activeByElement,
     triggerElement,
+
     onKeyDown,
   );
 
@@ -392,6 +406,7 @@ const Menu: React.FC<MenuProps> = props => {
   // >>>>> Container
   const container = (
     <Overflow
+      id={uuid}
       ref={containerRef as any}
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
@@ -432,6 +447,7 @@ const Menu: React.FC<MenuProps> = props => {
           ? Overflow.INVALIDATE
           : Overflow.RESPONSIVE
       }
+      data-menu-list
       onVisibleChange={newLastIndex => {
         setLastVisibleIndex(newLastIndex);
       }}
@@ -443,6 +459,7 @@ const Menu: React.FC<MenuProps> = props => {
   // >>>>> Render
   return (
     <MenuContextProvider
+      id={uuid}
       prefixCls={prefixCls}
       mode={mergedMode}
       openKeys={mergedOpenKeys}

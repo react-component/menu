@@ -57,8 +57,10 @@ function usePathData() {
     });
   }
 
-  function getKeyByElement(element: HTMLElement) {
-    return element2keyRef.current.get(element);
+  function getInfoByElement(element: HTMLElement): [string, string[]] {
+    const key = element2keyRef.current.get(element);
+    const connectedPath = key2pathRef.current.get(key);
+    return [key, connectedPath?.split(PATH_SPLIT)];
   }
 
   React.useEffect(
@@ -71,9 +73,10 @@ function usePathData() {
   return {
     registerPath,
     unregisterPath,
+
     keyInPath,
     elementsRef,
-    getKeyByElement,
+    getInfoByElement,
   };
 }
 

@@ -1,10 +1,15 @@
 import type * as React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
+import raf from 'rc-util/lib/raf';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import type { MenuMode } from '../interface';
 
+// destruct to reduce minify size
+const { LEFT, RIGHT, UP, DOWN } = KeyCode;
+
 function getOffset(
   mode: MenuMode,
+  isRootLevel: boolean,
   which: number,
 ): {
   offset: number;
@@ -15,29 +20,37 @@ function getOffset(
   const children = 'children' as const;
   const parent = 'parent' as const;
 
-  const offsets: Record<
-    MenuMode,
-    Record<number, 'prev' | 'next' | 'children' | 'parent'>
-  > = {
-    inline: {
-      [KeyCode.UP]: prev,
-      [KeyCode.DOWN]: next,
-    },
-    horizontal: {
-      [KeyCode.LEFT]: prev,
-      [KeyCode.RIGHT]: next,
-      [KeyCode.UP]: parent,
-      [KeyCode.DOWN]: children,
-    },
-    vertical: {
-      [KeyCode.UP]: prev,
-      [KeyCode.DOWN]: next,
-      [KeyCode.LEFT]: parent,
-      [KeyCode.RIGHT]: children,
-    },
+  type OffsetMap = Record<number, 'prev' | 'next' | 'children' | 'parent'>;
+  const inline: OffsetMap = {
+    [UP]: prev,
+    [DOWN]: next,
+  };
+  const horizontal: OffsetMap = {
+    [LEFT]: prev,
+    [RIGHT]: next,
+    [UP]: parent,
+    [DOWN]: children,
+  };
+  const vertical: OffsetMap = {
+    [UP]: prev,
+    [DOWN]: next,
+    [LEFT]: parent,
+    [RIGHT]: children,
   };
 
-  const type = offsets[mode]?.[which];
+  const offsets: Record<
+    string,
+    Record<number, 'prev' | 'next' | 'children' | 'parent'>
+  > = {
+    inline,
+    horizontal,
+    vertical,
+    inlineSub: inline,
+    horizontalSub: vertical,
+    verticalSub: vertical,
+  };
+
+  const type = offsets[`${mode}${isRootLevel ? '' : 'Sub'}`]?.[which];
 
   switch (type) {
     case prev:
@@ -72,7 +85,7 @@ function getOffset(
 function findContainerUL(element: HTMLElement): HTMLUListElement {
   let current: HTMLElement = element;
   while (current) {
-    if (current.tagName?.toUpperCase() === 'UL') {
+    if (current.getAttribute('data-menu-list')) {
       return current as HTMLUListElement;
     }
 
@@ -110,71 +123,113 @@ function getFocusableElements(
   return list.filter(ele => elements.has(ele));
 }
 
+function getNextFocusElement(
+  parentQueryContainer: HTMLElement,
+  elements: Set<HTMLElement>,
+  focusMenuElement?: HTMLElement,
+  offset: number = 1,
+) {
+  // List current level menu item elements
+  const sameLevelFocusableMenuElementList = getFocusableElements(
+    parentQueryContainer,
+    elements,
+  );
+
+  // Find next focus index
+  const count = sameLevelFocusableMenuElementList.length;
+  let focusIndex = sameLevelFocusableMenuElementList.findIndex(
+    ele => focusMenuElement === ele,
+  );
+
+  if (offset < 0) {
+    if (focusIndex === -1) {
+      focusIndex = count - 1;
+    } else {
+      focusIndex -= 1;
+    }
+  } else if (offset > 0) {
+    focusIndex += 1;
+  }
+
+  focusIndex = (focusIndex + count) % count;
+
+  // Focus menu item
+  return sameLevelFocusableMenuElementList[focusIndex];
+}
+
 export default function useAccessibility<T extends HTMLElement>(
+  mode: MenuMode,
+
   containerRef: React.RefObject<HTMLUListElement>,
   elementsRef: React.RefObject<Set<HTMLElement>>,
-  mode: MenuMode,
+
+  isElementRootLevel: (element: HTMLElement) => boolean,
   activeByElement: (element: HTMLElement) => void,
   triggerElement: (element: HTMLElement, open: boolean) => void,
+
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
   return e => {
     const { which } = e;
 
-    const offsetObj = getOffset(mode, which);
-
-    if (offsetObj !== null) {
+    if ([UP, DOWN, LEFT, RIGHT].includes(which)) {
       // First we should find current focused MenuItem/SubMenu element
       const focusMenuElement = getFocusElement(elementsRef.current);
 
-      // Find walkable focus menu element container
-      let parentQueryContainer: HTMLElement;
-      if (!focusMenuElement || mode === 'inline') {
-        parentQueryContainer = containerRef.current;
-      } else {
-        parentQueryContainer = findContainerUL(focusMenuElement);
-      }
-
-      // List current level menu item elements
-      const sameLevelFocusableMenuElementList = getFocusableElements(
-        parentQueryContainer,
-        elementsRef.current,
+      const offsetObj = getOffset(
+        mode,
+        isElementRootLevel(focusMenuElement),
+        which,
       );
+      console.log('===>', offsetObj);
+
+      e.preventDefault();
+
+      const tryFocus = (menuElement: HTMLElement) => {
+        if (menuElement) {
+          menuElement.focus();
+          activeByElement(menuElement);
+        }
+      };
 
       if (offsetObj.sibling || !focusMenuElement) {
         // ========================== Sibling ==========================
-        // Find next focus index
-        const count = sameLevelFocusableMenuElementList.length;
-        let focusIndex = sameLevelFocusableMenuElementList.findIndex(
-          ele => focusMenuElement === ele,
+        // Find walkable focus menu element container
+        let parentQueryContainer: HTMLElement;
+        if (!focusMenuElement || mode === 'inline') {
+          parentQueryContainer = containerRef.current;
+        } else {
+          parentQueryContainer = findContainerUL(focusMenuElement);
+        }
+
+        // Get next focus element
+        const targetElement = getNextFocusElement(
+          parentQueryContainer,
+          elementsRef.current,
+          focusMenuElement,
+          offsetObj.offset,
         );
 
-        if (offsetObj.offset < 0) {
-          if (focusIndex === -1) {
-            focusIndex = count - 1;
-          } else {
-            focusIndex -= 1;
-          }
-        } else if (offsetObj.offset > 0) {
-          focusIndex += 1;
-        }
-
-        focusIndex = (focusIndex + count) % count;
-
         // Focus menu item
-        const targetElement = sameLevelFocusableMenuElementList[focusIndex];
-        if (targetElement) {
-          targetElement.focus();
-          activeByElement(targetElement);
-
-          console.log('>>>', targetElement);
-
-          e.preventDefault();
-        }
+        tryFocus(targetElement);
 
         // =========================== Level ===========================
       } else if (offsetObj.offset > 0) {
         triggerElement(focusMenuElement, true);
+
+        raf(() => {
+          const controlId = focusMenuElement.getAttribute('aria-controls');
+          const subQueryContainer = document.getElementById(controlId);
+
+          // Get sub focusable menu item
+          const targetElement = getNextFocusElement(
+            subQueryContainer,
+            elementsRef.current,
+          );
+
+          // Focus menu item
+          tryFocus(targetElement);
+        }, 5);
       } else if (offsetObj.offset < 0) {
         triggerElement(focusMenuElement, false);
       }

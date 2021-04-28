@@ -7,14 +7,12 @@ export interface SubMenuListProps
   children?: React.ReactNode;
 }
 
-export default function SubMenuList({
-  className,
-  children,
-  ...restProps
-}: SubMenuListProps) {
+const InternalSubMenuList = (
+  { className, children, ...restProps }: SubMenuListProps,
+  ref: React.Ref<HTMLUListElement>,
+) => {
   const { prefixCls, mode } = React.useContext(MenuContext);
 
-  // TODO: props
   return (
     <ul
       className={classNames(
@@ -24,8 +22,15 @@ export default function SubMenuList({
         className,
       )}
       {...restProps}
+      data-menu-list
+      ref={ref}
     >
       {children}
     </ul>
   );
-}
+};
+
+const SubMenuList = React.forwardRef(InternalSubMenuList);
+SubMenuList.displayName = 'SubMenuList';
+
+export default SubMenuList;
