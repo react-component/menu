@@ -417,7 +417,7 @@ const Menu: React.FC<MenuProps> = props => {
   // >>>>> Container
   const container = (
     <Overflow
-      id={uuid}
+      id={id}
       ref={containerRef as any}
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
