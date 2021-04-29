@@ -104,7 +104,7 @@ export default () => {
 
       <div style={{ width: narrow ? 350 : undefined }}>
         <Menu
-          triggerSubMenuAction="click"
+          direction="rtl"
           forceSubMenuRender={forceRender}
           mode={mode}
           style={{ width: mode === 'horizontal' ? undefined : 256 }}

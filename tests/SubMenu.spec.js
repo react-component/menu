@@ -255,103 +255,78 @@ describe('SubMenu', () => {
     });
   });
 
-  // describe('key press', () => {
-  //   describe('enter key', () => {
-  //     it('opens menu and active first item', () => {
-  //       const wrapper = mount(createMenu());
-  //       const title = wrapper.find('.rc-menu-submenu-title').first();
+  describe('key press', () => {
+    describe('enter key', () => {
 
-  //       title
-  //         .simulate('mouseEnter')
-  //         .simulate('keyDown', { keyCode: KeyCode.ENTER });
+    //   describe('left & right key', () => {
+    //     it('toggles menu', () => {
+    //       const wrapper = mount(createMenu({ defaultActiveFirst: true }));
+    //       const title = wrapper.find('.rc-menu-submenu-title').first();
 
-  //       jest.runAllTimers();
-  //       wrapper.update();
+    //       title
+    //         .simulate('mouseEnter')
+    //         .simulate('keyDown', { keyCode: KeyCode.LEFT });
+    //       expect(wrapper.instance().store.getState().openKeys).toEqual([]);
+    //       title.simulate('keyDown', { keyCode: KeyCode.RIGHT });
+    //       expect(wrapper.instance().store.getState().openKeys).toEqual(['s1']);
+    //       expect(
+    //         wrapper
+    //           .find('MenuItem')
+    //           .first()
+    //           .props().active,
+    //       ).toBe(true);
+    //     });
+    //   });
 
-  //       expect(
-  //         wrapper
-  //           .find('.rc-menu-sub')
-  //           .first()
-  //           .is('.rc-menu-hidden'),
-  //       ).toBe(false);
-  //       expect(
-  //         wrapper
-  //           .find('MenuItem')
-  //           .first()
-  //           .props().active,
-  //       ).toBe(true);
-  //     });
-  //   });
+    //   it('up & down key', () => {
+    //     const wrapper = mount(createMenu());
+    //     const titles = wrapper.find('.rc-menu-submenu-title');
 
-  //   describe('left & right key', () => {
-  //     it('toggles menu', () => {
-  //       const wrapper = mount(createMenu({ defaultActiveFirst: true }));
-  //       const title = wrapper.find('.rc-menu-submenu-title').first();
+    //     titles
+    //       .first()
+    //       .simulate('mouseEnter')
+    //       .simulate('keyDown', { keyCode: KeyCode.LEFT })
+    //       .simulate('keyDown', { keyCode: KeyCode.DOWN });
+    //     expect(
+    //       wrapper
+    //         .find('.rc-menu-submenu')
+    //         .last()
+    //         .is('.rc-menu-submenu-active'),
+    //     ).toBe(true);
 
-  //       title
-  //         .simulate('mouseEnter')
-  //         .simulate('keyDown', { keyCode: KeyCode.LEFT });
-  //       expect(wrapper.instance().store.getState().openKeys).toEqual([]);
-  //       title.simulate('keyDown', { keyCode: KeyCode.RIGHT });
-  //       expect(wrapper.instance().store.getState().openKeys).toEqual(['s1']);
-  //       expect(
-  //         wrapper
-  //           .find('MenuItem')
-  //           .first()
-  //           .props().active,
-  //       ).toBe(true);
-  //     });
-  //   });
+    //     titles.last().simulate('keyDown', { keyCode: KeyCode.UP });
+    //     expect(
+    //       wrapper
+    //         .find('.rc-menu-submenu')
+    //         .first()
+    //         .is('.rc-menu-submenu-active'),
+    //     ).toBe(true);
+    //   });
 
-  //   it('up & down key', () => {
-  //     const wrapper = mount(createMenu());
-  //     const titles = wrapper.find('.rc-menu-submenu-title');
+    //   it('combined key presses', () => {
+    //     const wrapper = mount(createMenu());
+    //     const titles = wrapper.find('.rc-menu-submenu-title');
+    //     const firstItem = titles.first();
 
-  //     titles
-  //       .first()
-  //       .simulate('mouseEnter')
-  //       .simulate('keyDown', { keyCode: KeyCode.LEFT })
-  //       .simulate('keyDown', { keyCode: KeyCode.DOWN });
-  //     expect(
-  //       wrapper
-  //         .find('.rc-menu-submenu')
-  //         .last()
-  //         .is('.rc-menu-submenu-active'),
-  //     ).toBe(true);
+    //     // testing keydown event after submenu is closed and then opened again
+    //     firstItem
+    //       .simulate('mouseEnter')
+    //       .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+    //       .simulate('keyDown', { keyCode: KeyCode.LEFT })
+    //       .simulate('keyDown', { keyCode: KeyCode.RIGHT })
+    //       .simulate('keyDown', { keyCode: KeyCode.DOWN })
+    //       .simulate('keyDown', { keyCode: KeyCode.DOWN })
+    //       .simulate('keyDown', { keyCode: KeyCode.DOWN });
 
-  //     titles.last().simulate('keyDown', { keyCode: KeyCode.UP });
-  //     expect(
-  //       wrapper
-  //         .find('.rc-menu-submenu')
-  //         .first()
-  //         .is('.rc-menu-submenu-active'),
-  //     ).toBe(true);
-  //   });
-
-  //   it('combined key presses', () => {
-  //     const wrapper = mount(createMenu());
-  //     const titles = wrapper.find('.rc-menu-submenu-title');
-  //     const firstItem = titles.first();
-
-  //     // testing keydown event after submenu is closed and then opened again
-  //     firstItem
-  //       .simulate('mouseEnter')
-  //       .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-  //       .simulate('keyDown', { keyCode: KeyCode.LEFT })
-  //       .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-  //       .simulate('keyDown', { keyCode: KeyCode.DOWN })
-  //       .simulate('keyDown', { keyCode: KeyCode.DOWN })
-  //       .simulate('keyDown', { keyCode: KeyCode.DOWN });
-
-  //     expect(
-  //       wrapper
-  //         .find('[title="submenu1-1"]')
-  //         .find('.rc-menu-submenu')
-  //         .first()
-  //         .is('.rc-menu-submenu-active'),
-  //     ).toBe(true);
-  //   });
-  // });
+    //     expect(
+    //       wrapper
+    //         .find('[title="submenu1-1"]')
+    //         .find('.rc-menu-submenu')
+    //         .first()
+    //         .is('.rc-menu-submenu-active'),
+    //     ).toBe(true);
+    //   });
+  });
 
   // it('fires select event', () => {
   //   const handleSelect = jest.fn();

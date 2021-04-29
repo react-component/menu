@@ -12,6 +12,7 @@ const ArrowKeys = [UP, DOWN, LEFT, RIGHT];
 function getOffset(
   mode: MenuMode,
   isRootLevel: boolean,
+  isRtl: boolean,
   which: number,
 ): {
   offset?: number;
@@ -36,18 +37,18 @@ function getOffset(
     [DOWN]: next,
   };
   const horizontal: OffsetMap = {
-    [LEFT]: prev,
-    [RIGHT]: next,
+    [LEFT]: isRtl ? next : prev,
+    [RIGHT]: isRtl ? prev : next,
     [DOWN]: children,
     [ENTER]: children,
   };
   const vertical: OffsetMap = {
     [UP]: prev,
     [DOWN]: next,
-    [LEFT]: parent,
-    [ESC]: parent,
-    [RIGHT]: children,
     [ENTER]: children,
+    [ESC]: parent,
+    [LEFT]: isRtl ? children : parent,
+    [RIGHT]: isRtl ? parent : children,
   };
 
   const offsets: Record<
@@ -180,6 +181,7 @@ function getNextFocusElement(
 export default function useAccessibility<T extends HTMLElement>(
   mode: MenuMode,
   activeKey: string,
+  isRtl: boolean,
 
   containerRef: React.RefObject<HTMLUListElement>,
   elementsRef: React.RefObject<Set<HTMLElement>>,
@@ -221,6 +223,7 @@ export default function useAccessibility<T extends HTMLElement>(
       const offsetObj = getOffset(
         mode,
         getInfoByElement(focusMenuElement)[1].length === 1,
+        isRtl,
         which,
       );
 

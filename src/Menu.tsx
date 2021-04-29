@@ -42,7 +42,10 @@ import useUUID from './hooks/useUUID';
 const EMPTY_LIST: string[] = [];
 
 export interface MenuProps
-  extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onClick' | 'onSelect'> {
+  extends Omit<
+    React.HTMLAttributes<HTMLUListElement>,
+    'onClick' | 'onSelect' | 'dir'
+  > {
   prefixCls?: string;
 
   children?: React.ReactNode;
@@ -185,6 +188,8 @@ const Menu: React.FC<MenuProps> = props => {
   const containerRef = React.useRef<HTMLUListElement>();
 
   const uuid = useUUID(id);
+
+  const isRtl = direction === 'rtl';
 
   // ========================= Warn =========================
   if (process.env.NODE_ENV !== 'production') {
@@ -381,6 +386,7 @@ const Menu: React.FC<MenuProps> = props => {
   const onInternalKeyDown = useAccessibility(
     mergedMode,
     mergedActiveKey,
+    isRtl,
 
     containerRef,
     elementsRef,
@@ -432,7 +438,7 @@ const Menu: React.FC<MenuProps> = props => {
         className,
         {
           [`${prefixCls}-inline-collapsed`]: mergedInlineCollapsed,
-          [`${prefixCls}-rtl`]: direction === 'rtl',
+          [`${prefixCls}-rtl`]: isRtl,
         },
       )}
       dir={direction}
@@ -478,7 +484,7 @@ const Menu: React.FC<MenuProps> = props => {
       mode={mergedMode}
       openKeys={mergedOpenKeys}
       parentKeys={EMPTY_LIST}
-      rtl={direction === 'rtl'}
+      rtl={isRtl}
       // Disabled
       disabled={disabled}
       // Motion

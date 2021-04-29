@@ -22,5 +22,7 @@ Object.assign(Enzyme.ReactWrapper.prototype, {
       // eslint-disable-next-line no-await-in-loop
       await Promise.resolve();
     }
+
+    return this;
   },
 });
