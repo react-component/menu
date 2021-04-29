@@ -246,6 +246,11 @@ export default function useAccessibility<T extends HTMLElement>(
 
           const targetKey = activeByElement(menuElement);
 
+          /**
+           * Do not `useEffect` here since `tryFocus` may trigger async
+           * which makes React sync update the `activeKey`
+           * that force render before `useRef` set the next activeKey
+           */
           cleanRaf();
           rafRef.current = raf(() => {
             if (activeRef.current === targetKey) {
