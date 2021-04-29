@@ -71,5 +71,35 @@ describe('Menu.Keyboard', () => {
     });
     expect(wrapper.isActive(1)).toBeTruthy();
   });
+
+  it('Skip disabled item', () => {
+    const wrapper = mount(
+      <Menu defaultActiveFirst>
+        <MenuItem key="1">1</MenuItem>
+        <MenuItem disabled />
+        <MenuItem key="2">2</MenuItem>
+      </Menu>,
+    );
+
+    // Next item
+    wrapper
+      .find('ul.rc-menu-root')
+      .simulate('keyDown', { which: KeyCode.DOWN });
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+    expect(wrapper.isActive(2)).toBeTruthy();
+
+    // Back to first item
+    wrapper
+      .find('ul.rc-menu-root')
+      .simulate('keyDown', { which: KeyCode.UP });
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+    expect(wrapper.isActive(0)).toBeTruthy();
+  });
 });
 /* eslint-enable */

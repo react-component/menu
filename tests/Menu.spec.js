@@ -346,339 +346,111 @@ describe('Menu', () => {
     expect(wrapper.isActive(0)).toBeTruthy();
   });
 
-  // it('should accept builtinPlacements', () => {
-  //   const builtinPlacements = {
-  //     leftTop: {
-  //       points: ['tr', 'tl'],
-  //       overflow: {
-  //         adjustX: 0,
-  //         adjustY: 0,
-  //       },
-  //       offset: [0, 0],
-  //     },
-  //   };
+  it('should accept builtinPlacements', () => {
+    const builtinPlacements = {
+      leftTop: {
+        points: ['tr', 'tl'],
+        overflow: {
+          adjustX: 0,
+          adjustY: 0,
+        },
+        offset: [0, 0],
+      },
+    };
 
-  //   const wrapper = mount(
-  //     <Menu builtinPlacements={builtinPlacements}>
-  //       <MenuItem>menuItem</MenuItem>
-  //       <SubMenu title="submenu">
-  //         <MenuItem>menuItem</MenuItem>
-  //       </SubMenu>
-  //     </Menu>,
-  //   );
+    const wrapper = mount(
+      <Menu builtinPlacements={builtinPlacements}>
+        <MenuItem>menuItem</MenuItem>
+        <SubMenu title="submenu">
+          <MenuItem>menuItem</MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
 
-  //   expect(wrapper.find('Trigger').prop('builtinPlacements').leftTop).toEqual(
-  //     builtinPlacements.leftTop,
-  //   );
-  // });
+    expect(wrapper.find('Trigger').prop('builtinPlacements').leftTop).toEqual(
+      builtinPlacements.leftTop,
+    );
+  });
 
-  // describe('submenu mode', () => {
-  //   it('should use menu mode by default', () => {
-  //     const wrapper = mount(
-  //       <Menu mode="horizontal">
-  //         <SubMenu title="submenu">
-  //           <MenuItem>menuItem</MenuItem>
-  //         </SubMenu>
-  //       </Menu>,
-  //     );
+  describe('motion', () => {
+    const defaultMotions = {
+      inline: { motionName: 'inlineMotion' },
+      horizontal: { motionName: 'horizontalMotion' },
+      other: { motionName: 'defaultMotion' },
+    };
 
-  //     expect(
-  //       wrapper
-  //         .find('SubMenu')
-  //         .first()
-  //         .prop('mode'),
-  //     ).toEqual('horizontal');
-  //   });
+    it('defaultMotions should work correctly', () => {
+      const wrapper = mount(
+        <Menu mode="inline" defaultMotions={defaultMotions}>
+          <SubMenu key="bamboo">
+            <MenuItem key="light" />
+          </SubMenu>
+        </Menu>,
+      );
 
-  //   it('should be able to customize SubMenu mode', () => {
-  //     const wrapper = mount(
-  //       <Menu mode="horizontal">
-  //         <SubMenu title="submenu" mode="vertical-right">
-  //           <MenuItem>menuItem</MenuItem>
-  //         </SubMenu>
-  //       </Menu>,
-  //     );
+      // Inline
+      wrapper.setProps({ mode: 'inline' });
+      expect(wrapper.find('CSSMotion').last().prop('motionName')).toEqual(
+        'inlineMotion',
+      );
 
-  //     expect(
-  //       wrapper
-  //         .find('SubMenu')
-  //         .first()
-  //         .prop('mode'),
-  //     ).toEqual('vertical-right');
-  //   });
-  // });
+      // Horizontal
+      wrapper.setProps({ mode: 'horizontal' });
+      expect(
+        wrapper.find('Trigger').last().prop('popupMotion').motionName,
+      ).toEqual('horizontalMotion');
 
-  // describe('DOMWrap Allow Overflow', () => {
-  //   const overflowIndicatorSelector = 'SubMenu.rc-menu-overflowed-submenu';
-  //   function createMenu(props) {
-  //     return (
-  //       <Menu
-  //         mode="horizontal"
-  //         className="myMenu"
-  //         openAnimation="fade"
-  //         overflowedIndicator={
-  //           <div className="test-overflow-indicator">...</div>
-  //         }
-  //         {...props}
-  //       >
-  //         <MenuItem key="1">1</MenuItem>
-  //         <MenuItem key="2" disabled>
-  //           2
-  //         </MenuItem>
-  //         <MenuItem key="3">3</MenuItem>
-  //         <MenuItem key="4">4</MenuItem>
-  //       </Menu>
-  //     );
-  //   }
+      // Default
+      wrapper.setProps({ mode: 'vertical' });
+      expect(
+        wrapper.find('Trigger').last().prop('popupMotion').motionName,
+      ).toEqual('defaultMotion');
+    });
 
-  //   let wrapper;
+    it('motion is first level', () => {
+      const wrapper = mount(
+        <Menu
+          mode="inline"
+          defaultMotions={defaultMotions}
+          motion={{ motionName: 'bambooLight' }}
+        >
+          <SubMenu key="bamboo">
+            <MenuItem key="light" />
+          </SubMenu>
+        </Menu>,
+      );
 
-  //   it('getWidth should contain margin when includeMargin is set to true', () => {
-  //     const memorizedGetComputedStyle = window.getComputedStyle;
-  //     window.getComputedStyle = () => ({
-  //       marginLeft: '10px',
-  //       marginRight: '10px',
-  //     });
-  //     expect(
-  //       mockedUtil.getWidth(
-  //         {
-  //           getBoundingClientRect() {
-  //             return { width: 10 };
-  //           },
-  //         },
-  //         true,
-  //       ),
-  //     ).toEqual(30);
-  //     window.getComputedStyle = memorizedGetComputedStyle;
-  //   });
+      // Inline
+      wrapper.setProps({ mode: 'inline' });
+      expect(wrapper.find('CSSMotion').last().prop('motionName')).toEqual(
+        'bambooLight',
+      );
 
-  //   it('should not include overflow indicator when having enough width', () => {
-  //     const indicatorWidth = 50; // actual width including 40 px padding, which will be 50;
-  //     const liWidths = [50, 50, 50, 50];
-  //     const availableWidth = 250;
-  //     const widths = [...liWidths, indicatorWidth, availableWidth];
-  //     let i = 0;
-  //     mockedUtil.getWidth = () => {
-  //       const id = i;
-  //       i += 1;
-  //       return widths[id];
-  //     };
-  //     wrapper = mount(createMenu());
+      // Horizontal
+      wrapper.setProps({ mode: 'horizontal' });
+      expect(
+        wrapper.find('Trigger').last().prop('popupMotion').motionName,
+      ).toEqual('bambooLight');
 
-  //     // overflow indicator placeholder
-  //     expect(
-  //       wrapper
-  //         .find(overflowIndicatorSelector)
-  //         .at(4)
-  //         .prop('style'),
-  //     ).toEqual({
-  //       visibility: 'hidden',
-  //       position: 'absolute',
-  //     });
+      // Default
+      wrapper.setProps({ mode: 'vertical' });
+      expect(
+        wrapper.find('Trigger').last().prop('popupMotion').motionName,
+      ).toEqual('bambooLight');
+    });
+  });
 
-  //     // last overflow indicator should be hidden
-  //     expect(
-  //       wrapper
-  //         .find(overflowIndicatorSelector)
-  //         .at(3)
-  //         .prop('style'),
-  //     ).toEqual({
-  //       display: 'none',
-  //     });
+  it('onMouseEnter should work', () => {
+    const onMouseEnter = jest.fn();
+    const wrapper = mount(
+      <Menu onMouseEnter={onMouseEnter} defaultSelectedKeys={['test1']}>
+        <MenuItem key="test1">Navigation One</MenuItem>
+        <MenuItem key="test2">Navigation Two</MenuItem>
+      </Menu>,
+    );
 
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(0)
-  //         .prop('style'),
-  //     ).toEqual({});
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(1)
-  //         .prop('style'),
-  //     ).toEqual({});
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(2)
-  //         .prop('style'),
-  //     ).toEqual({});
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(3)
-  //         .prop('style'),
-  //     ).toEqual({});
-  //   });
-
-  //   it('should include overflow indicator when having not enough width', () => {
-  //     const indicatorWidth = 5; // actual width including 40 px padding, which will be 45;
-  //     const liWidths = [50, 50, 50, 50];
-  //     const availableWidth = 145;
-  //     const widths = [...liWidths, indicatorWidth, availableWidth];
-  //     let i = 0;
-  //     mockedUtil.getWidth = () => {
-  //       const id = i;
-  //       i += 1;
-  //       return widths[id];
-  //     };
-  //     wrapper = mount(createMenu());
-
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(0)
-  //         .prop('style'),
-  //     ).toEqual({});
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(1)
-  //         .prop('style'),
-  //     ).toEqual({});
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(2)
-  //         .prop('style'),
-  //     ).toEqual({ display: 'none' });
-  //     expect(
-  //       wrapper
-  //         .find('MenuItem li')
-  //         .at(3)
-  //         .prop('style'),
-  //     ).toEqual({ display: 'none' });
-
-  //     expect(
-  //       wrapper
-  //         .find(overflowIndicatorSelector)
-  //         .at(2)
-  //         .prop('style'),
-  //     ).toEqual({});
-  //     expect(
-  //       wrapper
-  //         .find(overflowIndicatorSelector)
-  //         .at(3)
-  //         .prop('style'),
-  //     ).toEqual({
-  //       display: 'none',
-  //     });
-  //   });
-
-  //   describe('props changes', () => {
-  //     it('should recalculate overflow on children length changes', () => {
-  //       const liWidths = [50, 50, 50, 50];
-  //       const availableWidth = 145;
-  //       const indicatorWidth = 45;
-  //       const widths = [...liWidths, indicatorWidth, availableWidth];
-  //       let i = 0;
-
-  //       mockedUtil.getWidth = () => {
-  //         const id = i;
-  //         i += 1;
-  //         return widths[id];
-  //       };
-
-  //       wrapper = mount(createMenu());
-
-  //       expect(wrapper.find(overflowIndicatorSelector).length).toEqual(5);
-  //       expect(
-  //         wrapper
-  //           .find(overflowIndicatorSelector)
-  //           .at(1)
-  //           .prop('style'),
-  //       ).toEqual({
-  //         display: 'none',
-  //       });
-  //       expect(
-  //         wrapper
-  //           .find(overflowIndicatorSelector)
-  //           .at(2)
-  //           .prop('style'),
-  //       ).toEqual({});
-
-  //       wrapper.setProps({ children: <MenuItem>child</MenuItem> });
-  //       wrapper.update();
-
-  //       expect(wrapper.find(overflowIndicatorSelector).length).toEqual(2);
-  //       expect(
-  //         wrapper
-  //           .find(overflowIndicatorSelector)
-  //           .at(0)
-  //           .prop('style'),
-  //       ).toEqual({
-  //         display: 'none',
-  //       });
-  //     });
-  //   });
-  // });
-
-  // describe('motion', () => {
-  //   it('defaultMotions should work correctly', () => {
-  //     const defaultMotions = {
-  //       inline: { motionName: 'inlineMotion' },
-  //       horizontal: { motionName: 'horizontalMotion' },
-  //       other: { motionName: 'defaultMotion' },
-  //     };
-  //     const wrapper = mount(
-  //       <Menu mode="inline" defaultMotions={defaultMotions} />,
-  //     );
-  //     expect(getMotion(wrapper.props(), wrapper.state(), 'inline')).toEqual({
-  //       motionName: 'inlineMotion',
-  //     });
-  //     expect(getMotion(wrapper.props(), wrapper.state(), 'horizontal')).toEqual(
-  //       {
-  //         motionName: 'horizontalMotion',
-  //       },
-  //     );
-  //     expect(getMotion(wrapper.props(), wrapper.state(), 'vertical')).toEqual({
-  //       motionName: 'defaultMotion',
-  //     });
-  //   });
-
-  //   it('get correct animation type when switched from inline', () => {
-  //     const wrapper = mount(<Menu mode="inline" />);
-  //     wrapper.setProps({ mode: 'horizontal' });
-  //     expect(getMotion(wrapper.props(), wrapper.state())).toEqual(null);
-  //   });
-
-  //   it('warning if use `openAnimation` as object', () => {
-  //     const warnSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-  //     mount(<Menu openAnimation={{}} />);
-  //     expect(warnSpy).toHaveBeenCalledWith(
-  //       'Warning: Object type of `openAnimation` is removed. Please use `motion` instead.',
-  //     );
-  //     warnSpy.mockRestore();
-  //   });
-
-  //   it('motion object', () => {
-  //     const motion = { test: true };
-  //     const wrapper = mount(<Menu motion={motion} />);
-  //     expect(getMotion(wrapper.props(), wrapper.state())).toEqual(motion);
-  //   });
-
-  //   it('legacy openTransitionName', () => {
-  //     const wrapper = mount(<Menu openTransitionName="legacy" />);
-  //     expect(getMotion(wrapper.props(), wrapper.state())).toEqual({
-  //       motionName: 'legacy',
-  //     });
-  //   });
-  // });
-
-  // it('onMouseEnter should work', () => {
-  //   const onMouseEnter = jest.fn();
-  //   const wrapper = mount(
-  //     <Menu onMouseEnter={onMouseEnter} defaultSelectedKeys={['test1']}>
-  //       <MenuItem key="test1">Navigation One</MenuItem>
-  //       <MenuItem key="test2">Navigation Two</MenuItem>
-  //     </Menu>,
-  //   );
-  //   wrapper
-  //     .find(Menu)
-  //     .at(0)
-  //     .simulate('mouseenter');
-  //   expect(onMouseEnter).toHaveBeenCalled();
-  // });
+    wrapper.find('ul.rc-menu-root').simulate('mouseEnter');
+    expect(onMouseEnter).toHaveBeenCalled();
+  });
 });
 /* eslint-enable */

@@ -163,8 +163,12 @@ const MenuItem = (props: MenuItemProps) => {
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLLIElement> = e => {
     onKeyDown?.(e);
 
-    if ([KeyCode.ENTER, KeyCode.SPACE].includes(e.which)) {
-      onItemClick(warnItemProp(getEventInfo(e)));
+    if (e.which === KeyCode.ENTER) {
+      const info = getEventInfo(e);
+
+      // Legacy. Key will also trigger click event
+      onClick?.(warnItemProp(info));
+      onItemClick(info);
     }
   };
 
