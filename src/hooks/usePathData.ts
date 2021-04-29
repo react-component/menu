@@ -21,10 +21,6 @@ function usePathData() {
     // Warning for invalidate or duplicated `key`
     if (process.env.NODE_ENV !== 'production') {
       warning(
-        key !== undefined,
-        'MenuItem or SubMenu should not leave undefined `key`.',
-      );
-      warning(
         !key2pathRef.current.has(key),
         `Duplicated key '${key}' used in Menu.`,
       );

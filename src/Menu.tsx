@@ -402,7 +402,7 @@ const Menu: React.FC<MenuProps> = props => {
 
   // >>>>> Children
   const wrappedChildList =
-    mergedMode !== 'horizontal'
+    mergedMode !== 'horizontal' || disabledOverflow
       ? childList
       : // Need wrap for overflow dropdown that do not response for open
         childList.map((child, index) => {

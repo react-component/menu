@@ -162,6 +162,24 @@ export default function SubMenu(props: SubMenuProps) {
     }
   };
 
+  const onInternalMouseEnter: React.MouseEventHandler<HTMLLIElement> = domEvent => {
+    triggerChildrenActive(true);
+
+    onMouseEnter?.({
+      key: eventKey,
+      domEvent,
+    });
+  };
+
+  const onInternalMouseLeave: React.MouseEventHandler<HTMLLIElement> = domEvent => {
+    triggerChildrenActive(false);
+
+    onMouseLeave?.({
+      key: eventKey,
+      domEvent,
+    });
+  };
+
   const mergedActive = React.useMemo(() => {
     if (active) {
       return active;
@@ -207,23 +225,6 @@ export default function SubMenu(props: SubMenuProps) {
     onOpenChange(eventKey, newVisible);
   };
 
-  // >>>>> Hover
-  const hoverProps: React.HTMLAttributes<HTMLDivElement> = {};
-  if (!mergedDisabled) {
-    hoverProps.onMouseEnter = domEvent => {
-      onMouseEnter?.({
-        key: eventKey,
-        domEvent,
-      });
-    };
-    hoverProps.onMouseLeave = domEvent => {
-      onMouseLeave?.({
-        key: eventKey,
-        domEvent,
-      });
-    };
-  }
-
   // =============================== Effect ===============================
   // Path register
   React.useEffect(() => {
@@ -258,7 +259,7 @@ export default function SubMenu(props: SubMenuProps) {
 
       {/* Only non-horizontal mode shows the icon */}
       <Icon
-        icon={mergedExpandIcon}
+        icon={mode !== 'horizontal' ? mergedExpandIcon : null}
         props={{
           ...props,
           isOpen: open,
@@ -317,12 +318,8 @@ export default function SubMenu(props: SubMenuProps) {
             [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
           },
         )}
-        onMouseEnter={() => {
-          triggerChildrenActive(true);
-        }}
-        onMouseLeave={() => {
-          triggerChildrenActive(false);
-        }}
+        onMouseEnter={onInternalMouseEnter}
+        onMouseLeave={onInternalMouseLeave}
       >
         {titleNode}
 
