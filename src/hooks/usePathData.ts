@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
+import warning from 'rc-util/lib/warning';
 import { nextSlice } from '../utils/timeUtil';
 
 const PATH_SPLIT = '__RC_UTIL_PATH_SPLIT__';
@@ -17,6 +18,19 @@ function usePathData() {
   const updateRef = useRef(0);
 
   function registerPath(key: string, keyPath: string[], element: HTMLElement) {
+    // Warning for invalidate or duplicated `key`
+    if (process.env.NODE_ENV !== 'production') {
+      warning(
+        key !== undefined,
+        'MenuItem or SubMenu should not leave undefined `key`.',
+      );
+      warning(
+        !key2pathRef.current.has(key),
+        `Duplicated key '${key}' used in Menu.`,
+      );
+    }
+
+    // Fill map
     const connectedPath = getPathStr(keyPath);
     path2keyRef.current.set(connectedPath, key);
     key2pathRef.current.set(key, connectedPath);

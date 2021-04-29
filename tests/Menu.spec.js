@@ -318,9 +318,7 @@ describe('Menu', () => {
       </Menu>,
     );
     wrapper.find('li').last().simulate('mouseEnter');
-    expect(
-      wrapper.find('li').last().hasClass('rc-menu-item-active'),
-    ).toBeTruthy();
+    expect(wrapper.isActive(2)).toBeTruthy();
   });
 
   it('active by key down', () => {
@@ -331,37 +329,12 @@ describe('Menu', () => {
       </Menu>,
     );
 
-    wrapper.simulate('keyDown', { keyCode: KeyCode.DOWN });
+    // KeyDown will not change activeKey since control
+    wrapper.simulate('keyDown', { which: KeyCode.DOWN });
+
     expect(wrapper.isActive(1)).toBeTruthy();
   });
 
-  // it('keydown works when children change', () => {
-  //   class App extends React.Component {
-  //     state = {
-  //       items: [1, 2, 3],
-  //     };
-
-  //     render() {
-  //       return (
-  //         <Menu>
-  //           {this.state.items.map(i => (
-  //             <MenuItem key={i}>{i}</MenuItem>
-  //           ))}
-  //         </Menu>
-  //       );
-  //     }
-  //   }
-
-  //   const wrapper = mount(<App />);
-
-  //   wrapper.setState({ items: [0, 1] });
-
-  //   wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
-  //   expect(wrapper.isActive(0)).toBeTruthy();
-
-  //   wrapper.find('Menu').simulate('keyDown', { keyCode: KeyCode.DOWN });
-  //   expect(wrapper.find('MenuItem').at(1).props().active).toBe(true);
-  // });
 
   // it('active first item when children changes', () => {
   //   class App extends React.Component {
