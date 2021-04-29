@@ -29,7 +29,7 @@ describe('Menu.Keyboard', () => {
     jest.useRealTimers();
   });
 
-  it.only('keydown works when children change', async () => {
+  it('keydown works when children change', async () => {
     class App extends React.Component {
       state = {
         items: [1, 2, 3],

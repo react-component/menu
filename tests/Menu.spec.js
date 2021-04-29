@@ -331,40 +331,20 @@ describe('Menu', () => {
 
     // KeyDown will not change activeKey since control
     wrapper.simulate('keyDown', { which: KeyCode.DOWN });
+    expect(wrapper.isActive(0)).toBeTruthy();
 
+    wrapper.setProps({ activeKey: '2' });
     expect(wrapper.isActive(1)).toBeTruthy();
   });
 
-
-  // it('active first item when children changes', () => {
-  //   class App extends React.Component {
-  //     state = {
-  //       items: ['foo'],
-  //     };
-
-  //     render() {
-  //       return (
-  //         <Menu defaultActiveFirst activeKey="" selectedKeys={['foo']}>
-  //           {this.state.items.map(item => (
-  //             <MenuItem key={item}>{item}</MenuItem>
-  //           ))}
-  //         </Menu>
-  //       );
-  //     }
-  //   }
-
-  //   const wrapper = mount(<App />);
-
-  //   wrapper.setState({ items: ['bar', 'foo'] });
-  //   wrapper.update();
-
-  //   expect(
-  //     wrapper
-  //       .find('li')
-  //       .first()
-  //       .hasClass('rc-menu-item-active'),
-  //   ).toBe(true);
-  // });
+  it('defaultActiveFirst', () => {
+    const wrapper = mount(
+      <Menu selectedKeys={['foo']} defaultActiveFirst>
+        <MenuItem key="foo">foo</MenuItem>
+      </Menu>,
+    );
+    expect(wrapper.isActive(0)).toBeTruthy();
+  });
 
   // it('should accept builtinPlacements', () => {
   //   const builtinPlacements = {
