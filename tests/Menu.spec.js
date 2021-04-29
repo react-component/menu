@@ -5,8 +5,6 @@ import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
-// import * as mockedUtil from '../src/util';
-// import { getMotion } from '../src/utils/legacyUtil';
 
 describe('Menu', () => {
   describe('should render', () => {
@@ -118,12 +116,12 @@ describe('Menu', () => {
         <MenuItem key="2">2</MenuItem>
       </Menu>,
     );
-    expect(
-      wrapper.find('.rc-menu-item').first().hasClass('rc-menu-item-active'),
-    ).toBeTruthy();
-    expect(
-      wrapper.find('.rc-menu-item').last().hasClass('rc-menu-item-active'),
-    ).toBeFalsy();
+    expect(wrapper.isActive(0)).toBeTruthy();
+    expect(wrapper.isActive(1)).toBeFalsy();
+
+    wrapper.setProps({ activeKey: '2' });
+    expect(wrapper.isActive(0)).toBeFalsy();
+    expect(wrapper.isActive(1)).toBeTruthy();
   });
 
   it('active first item', () => {

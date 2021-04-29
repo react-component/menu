@@ -7,11 +7,8 @@ import type {
   ReactWrapper as OriginReactWrapper,
   MountRendererProps,
 } from 'enzyme';
-import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
-import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
-// import * as mockedUtil from '../src/util';
-// import { getMotion } from '../src/utils/legacyUtil';
+import Menu, { MenuItem, SubMenu } from '../src';
 
 type ReactWrapper = OriginReactWrapper & {
   flush: () => ReactWrapper;

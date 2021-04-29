@@ -109,6 +109,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-horizontal"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-3"
@@ -204,6 +205,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-horizontal"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-3"
@@ -303,6 +305,7 @@ exports[`Menu should render inline menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-inline"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-3"
@@ -404,6 +407,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-inline"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-3"
@@ -433,6 +437,7 @@ exports[`Menu should render should support Fragment 1`] = `
 >
   <li
     class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-0"
@@ -458,6 +463,7 @@ exports[`Menu should render should support Fragment 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-2"
@@ -559,6 +565,7 @@ exports[`Menu should render vertical menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-3"
@@ -654,6 +661,7 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
   </li>
   <li
     class="rc-menu-submenu rc-menu-submenu-vertical"
+    role="none"
   >
     <div
       aria-controls="rc-menu-uuid-test-tmp_key-3"

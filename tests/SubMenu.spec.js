@@ -2,7 +2,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('SubMenu', () => {
@@ -255,265 +254,82 @@ describe('SubMenu', () => {
     });
   });
 
-  describe('key press', () => {
-    describe('enter key', () => {
+  it('fires select event', () => {
+    const handleSelect = jest.fn();
+    const wrapper = mount(createMenu({ onSelect: handleSelect }));
+    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
 
-    //   describe('left & right key', () => {
-    //     it('toggles menu', () => {
-    //       const wrapper = mount(createMenu({ defaultActiveFirst: true }));
-    //       const title = wrapper.find('.rc-menu-submenu-title').first();
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
 
-    //       title
-    //         .simulate('mouseEnter')
-    //         .simulate('keyDown', { keyCode: KeyCode.LEFT });
-    //       expect(wrapper.instance().store.getState().openKeys).toEqual([]);
-    //       title.simulate('keyDown', { keyCode: KeyCode.RIGHT });
-    //       expect(wrapper.instance().store.getState().openKeys).toEqual(['s1']);
-    //       expect(
-    //         wrapper
-    //           .find('MenuItem')
-    //           .first()
-    //           .props().active,
-    //       ).toBe(true);
-    //     });
-    //   });
-
-    //   it('up & down key', () => {
-    //     const wrapper = mount(createMenu());
-    //     const titles = wrapper.find('.rc-menu-submenu-title');
-
-    //     titles
-    //       .first()
-    //       .simulate('mouseEnter')
-    //       .simulate('keyDown', { keyCode: KeyCode.LEFT })
-    //       .simulate('keyDown', { keyCode: KeyCode.DOWN });
-    //     expect(
-    //       wrapper
-    //         .find('.rc-menu-submenu')
-    //         .last()
-    //         .is('.rc-menu-submenu-active'),
-    //     ).toBe(true);
-
-    //     titles.last().simulate('keyDown', { keyCode: KeyCode.UP });
-    //     expect(
-    //       wrapper
-    //         .find('.rc-menu-submenu')
-    //         .first()
-    //         .is('.rc-menu-submenu-active'),
-    //     ).toBe(true);
-    //   });
-
-    //   it('combined key presses', () => {
-    //     const wrapper = mount(createMenu());
-    //     const titles = wrapper.find('.rc-menu-submenu-title');
-    //     const firstItem = titles.first();
-
-    //     // testing keydown event after submenu is closed and then opened again
-    //     firstItem
-    //       .simulate('mouseEnter')
-    //       .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-    //       .simulate('keyDown', { keyCode: KeyCode.LEFT })
-    //       .simulate('keyDown', { keyCode: KeyCode.RIGHT })
-    //       .simulate('keyDown', { keyCode: KeyCode.DOWN })
-    //       .simulate('keyDown', { keyCode: KeyCode.DOWN })
-    //       .simulate('keyDown', { keyCode: KeyCode.DOWN });
-
-    //     expect(
-    //       wrapper
-    //         .find('[title="submenu1-1"]')
-    //         .find('.rc-menu-submenu')
-    //         .first()
-    //         .is('.rc-menu-submenu-active'),
-    //     ).toBe(true);
-    //   });
+    wrapper.findItem().simulate('click');
+    expect(handleSelect.mock.calls[0][0].key).toBe('s1-1');
   });
 
-  // it('fires select event', () => {
-  //   const handleSelect = jest.fn();
-  //   const wrapper = mount(createMenu({ onSelect: handleSelect }));
-  //   wrapper
-  //     .find('.rc-menu-submenu-title')
-  //     .first()
-  //     .simulate('mouseEnter');
+  it('fires select event with className', () => {
+    const wrapper = mount(createMenu());
+    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
 
-  //   jest.runAllTimers();
-  //   wrapper.update();
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
 
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click');
-  //   expect(handleSelect.mock.calls[0][0].key).toBe('s1-1');
-  // });
+    wrapper.find('MenuItem').first().simulate('click');
+    expect(
+      wrapper.find('.rc-menu-submenu').first().is('.rc-menu-submenu-selected'),
+    ).toBe(true);
+  });
 
-  // it('fires select event with className', () => {
-  //   const wrapper = mount(createMenu());
-  //   wrapper
-  //     .find('.rc-menu-submenu-title')
-  //     .first()
-  //     .simulate('mouseEnter');
+  it('fires deselect event for multiple menu', () => {
+    const handleDeselect = jest.fn();
+    const wrapper = mount(
+      createMenu({
+        multiple: true,
+        onDeselect: handleDeselect,
+      }),
+    );
+    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
 
-  //   jest.runAllTimers();
-  //   wrapper.update();
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
 
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click');
-  //   expect(
-  //     wrapper
-  //       .find('.rc-menu-submenu')
-  //       .first()
-  //       .is('.rc-menu-submenu-selected'),
-  //   ).toBe(true);
-  // });
+    wrapper.findItem().simulate('click');
+    wrapper.findItem().simulate('click');
+    expect(handleDeselect.mock.calls[0][0].key).toBe('s1-1');
+  });
 
-  // it('fires deselect event for multiple menu', () => {
-  //   const handleDeselect = jest.fn();
-  //   const wrapper = mount(
-  //     createMenu({
-  //       multiple: true,
-  //       onDeselect: handleDeselect,
-  //     }),
-  //   );
-  //   wrapper
-  //     .find('.rc-menu-submenu-title')
-  //     .first()
-  //     .simulate('mouseEnter');
+  it('should take style prop', () => {
+    const App = () => (
+      <Menu style={{ backgroundColor: 'black' }}>
+        <SubMenu key="s1" title="submenu1">
+          <MenuItem key="s1-1">1</MenuItem>
+        </SubMenu>
+      </Menu>
+    );
 
-  //   jest.runAllTimers();
-  //   wrapper.update();
+    const wrapper = mount(<App show />);
+    expect(wrapper.find('Menu ul').prop('style')).toEqual({
+      backgroundColor: 'black',
+    });
+  });
 
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click');
-  //   wrapper
-  //     .find('MenuItem')
-  //     .first()
-  //     .simulate('click');
+  it('not pass style into sub menu item', () => {
+    const wrapper = mount(
+      <Menu mode="horizontal" style={{ background: 'green' }} disabledOverflow>
+        <MenuItem style={{ color: 'red' }} key="1">
+          1
+        </MenuItem>
+      </Menu>,
+    );
 
-  //   expect(handleDeselect.mock.calls[0][0].key).toBe('s1-1');
-  // });
-
-  // describe('horizontal menu', () => {
-  //   it('should automatically adjust width', () => {
-  //     const props = {
-  //       mode: 'horizontal',
-  //       openKeys: ['s1'],
-  //     };
-
-  //     const wrapper = mount(
-  //       <Menu {...props}>
-  //         <MenuItem key="1">1</MenuItem>
-  //         <SubMenu title="s1" key="s1">
-  //           <MenuItem key="2">2</MenuItem>
-  //         </SubMenu>
-  //       </Menu>,
-  //     );
-
-  //     // every item has a prefixed overflow indicator as a submenu
-  //     // so we have to get the 3rd submenu
-  //     const subMenuInstance = wrapper
-  //       .find('SubMenu')
-  //       .at(2)
-  //       .instance();
-  //     const adjustWidthSpy = jest.spyOn(subMenuInstance, 'adjustWidth');
-
-  //     jest.runAllTimers();
-
-  //     expect(adjustWidthSpy).toHaveBeenCalledTimes(1);
-  //   });
-  // });
-
-  // describe('submenu animation', () => {
-  //   const appear = () => {};
-
-  //   it('should animate with transition class', () => {
-  //     const wrapper = mount(
-  //       createMenu({
-  //         openTransitionName: 'fade',
-  //         mode: 'inline',
-  //       }),
-  //     );
-
-  //     const title = wrapper.find('.rc-menu-submenu-title').first();
-
-  //     title.simulate('click');
-  //     jest.runAllTimers();
-  //     expect(wrapper.find('CSSMotion').prop('motionName')).toEqual('fade');
-  //   });
-
-  //   it('should not animate on initially opened menu', () => {
-  //     const wrapper = mount(
-  //       createMenu({
-  //         openAnimation: { appear },
-  //         mode: 'inline',
-  //         openKeys: ['s1'],
-  //       }),
-  //     );
-
-  //     expect(
-  //       wrapper
-  //         .find('CSSMotion')
-  //         .first()
-  //         .prop('motionAppear'),
-  //     ).toBeFalsy();
-  //   });
-
-  //   it('should animate with config', () => {
-  //     const wrapper = mount(
-  //       createMenu({
-  //         openAnimation: { appear },
-  //         mode: 'inline',
-  //       }),
-  //     );
-
-  //     const title = wrapper.find('.rc-menu-submenu-title').first();
-
-  //     title.simulate('click');
-  //     jest.runAllTimers();
-
-  //     expect(wrapper.find('CSSMotion').prop('motionAppear')).toBeTruthy();
-  //   });
-  // });
-
-  // describe('.componentWillUnmount()', () => {
-  //   it('should invoke hooks', () => {
-  //     const onDestroy = jest.fn();
-  //     const App = props => (
-  //       <Menu>
-  //         {props.show && (
-  //           <SubMenu key="s1" title="submenu1" onDestroy={onDestroy}>
-  //             <MenuItem key="s1-1">1</MenuItem>
-  //           </SubMenu>
-  //         )}
-  //       </Menu>
-  //     );
-
-  //     const wrapper = mount(<App show />);
-
-  //     wrapper.setProps({ show: false });
-
-  //     expect(onDestroy).toHaveBeenCalledWith('s1');
-  //   });
-  // });
-
-  // describe('customizing style', () => {
-  //   it('should take style prop', () => {
-  //     const App = () => (
-  //       <Menu style={{ backgroundColor: 'black' }}>
-  //         <SubMenu key="s1" title="submenu1">
-  //           <MenuItem key="s1-1">1</MenuItem>
-  //         </SubMenu>
-  //       </Menu>
-  //     );
-
-  //     const wrapper = mount(<App show />);
-  //     expect(wrapper.find('Menu ul').prop('style')).toEqual({
-  //       backgroundColor: 'black',
-  //     });
-  //   });
-  // });
+    expect(wrapper.find('li.rc-menu-item').at(0).props().style).toEqual({
+      color: 'red',
+    });
+  });
 });
 /* eslint-enable */
