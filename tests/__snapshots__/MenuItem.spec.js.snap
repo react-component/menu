@@ -2,8 +2,9 @@
 
 exports[`MenuItem overwrite default role should set role to listitem 1`] = `
 <li
-  class="undefined-item"
+  class="rc-menu-item"
   role="listitem"
+  tabindex="-1"
 >
   test
 </li>
@@ -11,8 +12,9 @@ exports[`MenuItem overwrite default role should set role to listitem 1`] = `
 
 exports[`MenuItem overwrite default role should set role to none if none 1`] = `
 <li
-  class="undefined-item"
+  class="rc-menu-item"
   role="none"
+  tabindex="-1"
 >
   test
 </li>
@@ -20,8 +22,9 @@ exports[`MenuItem overwrite default role should set role to none if none 1`] = `
 
 exports[`MenuItem overwrite default role should set role to none if null 1`] = `
 <li
-  class="undefined-item"
+  class="rc-menu-item"
   role="none"
+  tabindex="-1"
 >
   test
 </li>
@@ -29,8 +32,10 @@ exports[`MenuItem overwrite default role should set role to none if null 1`] = `
 
 exports[`MenuItem overwrite default role should set role to option 1`] = `
 <li
-  class="undefined-item"
+  aria-selected="false"
+  class="rc-menu-item"
   role="option"
+  tabindex="-1"
 >
   test
 </li>
@@ -54,13 +59,14 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
     1
   </li>
   <li
-    class="rc-menu-submenu rc-menu-submenu-inline className"
+    class="rc-menu-submenu rc-menu-submenu-inline className rc-menu-submenu-open"
     data-whatever="whatever"
+    role="none"
     style="font-size: 20px;"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-1"
-      aria-expanded="false"
+      aria-controls="rc-menu-uuid-test-bamboo"
+      aria-expanded="true"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
       role="menuitem"
@@ -73,6 +79,22 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
         class="rc-menu-submenu-arrow"
       />
     </div>
+    <ul
+      class="rc-menu rc-menu-sub rc-menu-inline"
+      data-menu-list="true"
+      id="rc-menu-uuid-test-bamboo"
+    >
+      <li
+        class="rc-menu-item className"
+        data-whatever="whatever"
+        role="menuitem"
+        style="padding-left: 48px; font-size: 20px;"
+        tabindex="-1"
+        title="title"
+      >
+        3
+      </li>
+    </ul>
   </li>
   <li
     class="rc-menu-item-group className"

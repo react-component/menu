@@ -80,6 +80,9 @@ const MenuItem = (props: MenuItemProps) => {
     itemIcon,
     children,
 
+    // Aria
+    role,
+
     // Active
     onMouseEnter,
     onMouseLeave,
@@ -194,7 +197,7 @@ const MenuItem = (props: MenuItemProps) => {
     <LegacyMenuItem
       ref={legacyMenuItemRef}
       elementRef={elementRef}
-      role="menuitem"
+      role={role === null ? 'none' : role || 'menuitem'}
       tabIndex={disabled ? null : -1}
       {...restProps}
       {...activeProps}

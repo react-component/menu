@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 
@@ -56,32 +56,6 @@ describe('MenuItem', () => {
   });
 
   describe('menuItem events', () => {
-    // let onMouseEnter;
-    // let onMouseLeave;
-    // let onItemHover;
-    // let wrapper;
-    // let instance;
-    // const domEvent = { which: KeyCode.ENTER };
-    // const key = '1';
-
-    // beforeEach(() => {
-    //   onMouseEnter = jest.fn();
-    //   onMouseLeave = jest.fn();
-    //   onItemHover = jest.fn();
-
-    //   wrapper = shallow(
-    //     <NakedMenuItem
-    //       eventKey={key}
-    //       onMouseEnter={onMouseEnter}
-    //       onItemHover={onItemHover}
-    //       onMouseLeave={onMouseLeave}
-    //     >
-    //       1
-    //     </NakedMenuItem>,
-    //   );
-    //   instance = wrapper.instance();
-    // });
-
     function mountMenu(props, itemProps) {
       return mount(
         <Menu {...props}>
@@ -130,11 +104,11 @@ describe('MenuItem', () => {
       };
 
       const wrapper = mount(
-        <Menu mode="inline" activeKey="1">
+        <Menu mode="inline" activeKey="1" openKeys={['bamboo']}>
           <MenuItem key="1" {...restProps}>
             1
           </MenuItem>
-          <SubMenu {...restProps}>
+          <SubMenu key="bamboo" {...restProps}>
             <MenuItem key="2" {...restProps}>
               3
             </MenuItem>
@@ -149,67 +123,56 @@ describe('MenuItem', () => {
 
       expect(wrapper.render()).toMatchSnapshot();
 
-      //     wrapper
-      //       .find('MenuItem')
-      //       .at(0)
-      //       .simulate('click');
-      //     expect(onClick).toHaveBeenCalledTimes(1);
-      //     wrapper
-      //       .find('SubMenu')
-      //       .at(0)
-      //       .simulate('click');
-      //     expect(onClick).toHaveBeenCalledTimes(1);
-      //     wrapper
-      //       .find('MenuItemGroup')
-      //       .at(0)
-      //       .simulate('click');
-      //     expect(onClick).toHaveBeenCalledTimes(1);
+      wrapper.findItem().simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(1);
+
+      wrapper.find('.rc-menu-sub').simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(1);
+
+      wrapper.find('.rc-menu-item-group').simulate('click');
+      expect(onClick).toHaveBeenCalledTimes(1);
     });
   });
 
-  // describe('overwrite default role', () => {
-  //   it('should set role to none if null', () => {
-  //     const wrapper = shallow(<NakedMenuItem role={null}>test</NakedMenuItem>);
+  describe('overwrite default role', () => {
+    it('should set role to none if null', () => {
+      const wrapper = mount(
+        <Menu>
+          <MenuItem role={null}>test</MenuItem>
+        </Menu>,
+      );
 
-  //     expect(wrapper.render()).toMatchSnapshot();
-  //   });
+      expect(wrapper.find('li').render()).toMatchSnapshot();
+    });
 
-  //   it('should set role to none if none', () => {
-  //     const wrapper = shallow(<NakedMenuItem role="none">test</NakedMenuItem>);
+    it('should set role to none if none', () => {
+      const wrapper = mount(
+        <Menu>
+          <MenuItem role="none">test</MenuItem>
+        </Menu>,
+      );
 
-  //     expect(wrapper.render()).toMatchSnapshot();
-  //   });
+      expect(wrapper.find('li').render()).toMatchSnapshot();
+    });
 
-  //   it('should set role to listitem', () => {
-  //     const wrapper = shallow(
-  //       <NakedMenuItem role="listitem">test</NakedMenuItem>,
-  //     );
+    it('should set role to listitem', () => {
+      const wrapper = mount(
+        <Menu>
+          <MenuItem role="listitem">test</MenuItem>
+        </Menu>,
+      );
 
-  //     expect(wrapper.render()).toMatchSnapshot();
-  //   });
+      expect(wrapper.find('li').render()).toMatchSnapshot();
+    });
 
-  //   it('should set role to option', () => {
-  //     const wrapper = shallow(
-  //       <NakedMenuItem role="option">test</NakedMenuItem>,
-  //     );
+    it('should set role to option', () => {
+      const wrapper = mount(
+        <Menu>
+          <MenuItem role="option">test</MenuItem>
+        </Menu>,
+      );
 
-  //     expect(wrapper.render()).toMatchSnapshot();
-  //   });
-
-  //   it('should call onDestroy before unmount', () => {
-  //     const callback = jest.fn();
-
-  //     const wrapper = mount(
-  //       <Menu>
-  //         <MenuItem role="option" key="item" onDestroy={callback}>
-  //           <span>Item content</span>
-  //         </MenuItem>
-  //       </Menu>,
-  //     );
-
-  //     wrapper.unmount();
-
-  //     expect(callback).toHaveBeenCalled();
-  //   });
-  // });
+      expect(wrapper.find('li').render()).toMatchSnapshot();
+    });
+  });
 });

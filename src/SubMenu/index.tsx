@@ -302,6 +302,7 @@ export default function SubMenu(props: SubMenuProps) {
       expandIcon={mergedExpandIcon}
     >
       <Overflow.Item
+        role="none"
         {...restProps}
         component="li"
         style={style}
