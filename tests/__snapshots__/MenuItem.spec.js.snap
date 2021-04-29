@@ -38,15 +38,17 @@ exports[`MenuItem overwrite default role should set role to option 1`] = `
 
 exports[`MenuItem rest props onClick event should only trigger 1 time along the component hierarchy 1`] = `
 <ul
-  class="rc-menu  rc-menu-root rc-menu-inline"
+  class="rc-menu rc-menu-root rc-menu-inline"
+  data-menu-list="true"
   role="menu"
   tabindex="0"
 >
   <li
-    class="rc-menu-item className rc-menu-item-active"
+    class="rc-menu-item rc-menu-item-active className"
     data-whatever="whatever"
     role="menuitem"
-    style="font-size: 20px; padding-left: 24px;"
+    style="padding-left: 24px; font-size: 20px;"
+    tabindex="-1"
     title="title"
   >
     1
@@ -54,15 +56,16 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
   <li
     class="rc-menu-submenu rc-menu-submenu-inline className"
     data-whatever="whatever"
-    role="menuitem"
     style="font-size: 20px;"
   >
     <div
+      aria-controls="rc-menu-uuid-test-tmp_key-1"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
-      role="button"
+      role="menuitem"
       style="padding-left: 24px;"
+      tabindex="-1"
       title="title"
     >
       title
@@ -70,10 +73,9 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
         class="rc-menu-submenu-arrow"
       />
     </div>
-    <div />
   </li>
   <li
-    class="className rc-menu-item-group"
+    class="rc-menu-item-group className"
     data-whatever="whatever"
     style="font-size: 20px;"
   >
@@ -90,7 +92,8 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
         class="rc-menu-item className"
         data-whatever="whatever"
         role="menuitem"
-        style="font-size: 20px; padding-left: 24px;"
+        style="padding-left: 24px; font-size: 20px;"
+        tabindex="-1"
         title="title"
       >
         4

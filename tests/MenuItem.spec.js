@@ -118,54 +118,54 @@ describe('MenuItem', () => {
     });
   });
 
-  // describe('rest props', () => {
-  //   it('onClick event should only trigger 1 time along the component hierarchy', () => {
-  //     const onClick = jest.fn();
-  //     const restProps = {
-  //       onClick,
-  //       'data-whatever': 'whatever',
-  //       title: 'title',
-  //       className: 'className',
-  //       style: { fontSize: 20 },
-  //     };
-  //     const wrapper = mount(
-  //       <Menu mode="inline" activeKey="1">
-  //         <MenuItem key="1" {...restProps}>
-  //           1
-  //         </MenuItem>
-  //         <SubMenu {...restProps}>
-  //           <MenuItem key="2" {...restProps}>
-  //             3
-  //           </MenuItem>
-  //         </SubMenu>
-  //         <MenuItemGroup {...restProps}>
-  //           <MenuItem key="3" {...restProps}>
-  //             4
-  //           </MenuItem>
-  //         </MenuItemGroup>
-  //       </Menu>,
-  //     );
+  describe('rest props', () => {
+    it('onClick event should only trigger 1 time along the component hierarchy', () => {
+      const onClick = jest.fn();
+      const restProps = {
+        onClick,
+        'data-whatever': 'whatever',
+        title: 'title',
+        className: 'className',
+        style: { fontSize: 20 },
+      };
 
-  //     expect(wrapper.render()).toMatchSnapshot();
-  //     wrapper
-  //       .find('MenuItem')
-  //       .at(0)
-  //       .simulate('click');
-  //     expect(onClick).toHaveBeenCalledTimes(1);
+      const wrapper = mount(
+        <Menu mode="inline" activeKey="1">
+          <MenuItem key="1" {...restProps}>
+            1
+          </MenuItem>
+          <SubMenu {...restProps}>
+            <MenuItem key="2" {...restProps}>
+              3
+            </MenuItem>
+          </SubMenu>
+          <MenuItemGroup {...restProps}>
+            <MenuItem key="3" {...restProps}>
+              4
+            </MenuItem>
+          </MenuItemGroup>
+        </Menu>,
+      );
 
-  //     wrapper
-  //       .find('SubMenu')
-  //       .at(0)
-  //       .simulate('click');
-  //     expect(onClick).toHaveBeenCalledTimes(1);
+      expect(wrapper.render()).toMatchSnapshot();
 
-  //     wrapper
-  //       .find('MenuItemGroup')
-  //       .at(0)
-  //       .simulate('click');
-  //     expect(onClick).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+      //     wrapper
+      //       .find('MenuItem')
+      //       .at(0)
+      //       .simulate('click');
+      //     expect(onClick).toHaveBeenCalledTimes(1);
+      //     wrapper
+      //       .find('SubMenu')
+      //       .at(0)
+      //       .simulate('click');
+      //     expect(onClick).toHaveBeenCalledTimes(1);
+      //     wrapper
+      //       .find('MenuItemGroup')
+      //       .at(0)
+      //       .simulate('click');
+      //     expect(onClick).toHaveBeenCalledTimes(1);
+    });
+  });
 
   // describe('overwrite default role', () => {
   //   it('should set role to none if null', () => {

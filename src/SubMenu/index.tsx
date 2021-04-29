@@ -80,6 +80,8 @@ export default function SubMenu(props: SubMenuProps) {
     onTitleClick,
     onTitleMouseEnter,
     onTitleMouseLeave,
+
+    ...restProps
   } = props;
 
   const {
@@ -300,6 +302,7 @@ export default function SubMenu(props: SubMenuProps) {
       expandIcon={mergedExpandIcon}
     >
       <Overflow.Item
+        {...restProps}
         component="li"
         style={style}
         className={classNames(
