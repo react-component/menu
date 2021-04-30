@@ -4,6 +4,7 @@ import { act } from 'react-dom/test-utils';
 import { render, mount } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import KeyCode from 'rc-util/lib/KeyCode';
+import { resetWarned } from 'rc-util/lib/warning';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
 
 describe('Menu', () => {
@@ -284,6 +285,10 @@ describe('Menu', () => {
   });
 
   it('fires click event', () => {
+    resetWarned();
+
+    const errorSpy = jest.spyOn(console, 'error');
+
     const handleClick = jest.fn();
     const wrapper = mount(
       <Menu onClick={handleClick}>
@@ -292,7 +297,15 @@ describe('Menu', () => {
       </Menu>,
     );
     wrapper.find('MenuItem').first().simulate('click');
-    expect(handleClick.mock.calls[0][0].key).toBe('1');
+    const info = handleClick.mock.calls[0][0];
+    expect(info.key).toBe('1');
+    expect(info.item).toBeTruthy();
+
+    expect(errorSpy).toHaveBeenCalledWith(
+      'Warning: `info.item` is deprecated since we will move to function component that not provides React Node instance in future.',
+    );
+
+    errorSpy.mockRestore();
   });
 
   it('fires deselect event', () => {
