@@ -1,6 +1,7 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
+import type { CSSMotionProps } from 'rc-motion';
 import Menu, { SubMenu, Item as MenuItem, Divider, MenuProps } from '../../src';
 import '../../assets/index.less';
 
@@ -9,17 +10,42 @@ function handleClick(info) {
   console.log(info);
 }
 
-const collapseNode = () => ({ height: 0 });
-const expandNode = node => ({ height: node.scrollHeight });
+const collapseNode = () => {
+  return { height: 0 };
+};
+const expandNode = node => {
+  return { height: node.scrollHeight };
+};
 
-export const inlineMotion = {
+const horizontalMotion: CSSMotionProps = {
+  motionName: 'rc-menu-open-slide-up',
+  motionAppear: true,
+  motionEnter: true,
+  motionLeave: true,
+};
+
+const verticalMotion: CSSMotionProps = {
+  motionName: 'rc-menu-open-zoom',
+  motionAppear: true,
+  motionEnter: true,
+  motionLeave: true,
+};
+
+const inlineMotion: CSSMotionProps = {
   motionName: 'rc-menu-collapse',
+  motionAppear: true,
   onAppearStart: collapseNode,
   onAppearActive: expandNode,
   onEnterStart: collapseNode,
   onEnterActive: expandNode,
   onLeaveStart: expandNode,
   onLeaveActive: collapseNode,
+};
+
+const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
+  horizontal: horizontalMotion,
+  inline: inlineMotion,
+  vertical: verticalMotion,
 };
 
 const nestSubMenu = (
@@ -162,7 +188,7 @@ function Demo() {
     <CommonMenu
       mode="horizontal"
       // use openTransition for antd
-      openAnimation="slide-up"
+      defaultMotions={motionMap}
     />
   );
 
@@ -170,13 +196,15 @@ function Demo() {
     <CommonMenu
       mode="horizontal"
       // use openTransition for antd
-      openAnimation="slide-up"
+      defaultMotions={motionMap}
       triggerSubMenuAction="click"
       updateChildrenAndOverflowedIndicator
     />
   );
 
-  const verticalMenu = <CommonMenu mode="vertical" openAnimation="zoom" />;
+  const verticalMenu = (
+    <CommonMenu mode="vertical" defaultMotions={motionMap} />
+  );
 
   const inlineMenu = (
     <CommonMenu mode="inline" defaultOpenKeys={['1']} motion={inlineMotion} />
