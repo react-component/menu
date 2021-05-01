@@ -3,6 +3,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import type { MenuMode } from '../interface';
+import { getMenuId } from '../context/IdContext';
 
 // destruct to reduce minify size
 const { LEFT, RIGHT, UP, DOWN, ENTER, ESC } = KeyCode;
@@ -184,15 +185,14 @@ export default function useAccessibility<T extends HTMLElement>(
   mode: MenuMode,
   activeKey: string,
   isRtl: boolean,
+  id: string,
 
   containerRef: React.RefObject<HTMLUListElement>,
-  elementsRef: React.RefObject<Set<HTMLElement>>,
+  getKeys: () => string[],
+  getKeyPath: (key: string) => string[],
 
-  getInfoByElement: (element: HTMLElement) => [string, string[]],
-  getElementByKey: (key: string) => HTMLElement,
-
-  activeByElement: (element: HTMLElement) => string,
-  triggerElement: (element: HTMLElement, open?: boolean) => void,
+  triggerActiveKey: (key: string) => void,
+  triggerAccessibilityOpen: (key: string, open?: boolean) => void,
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
@@ -216,15 +216,31 @@ export default function useAccessibility<T extends HTMLElement>(
     const { which } = e;
 
     if ([...ArrowKeys, ENTER, ESC].includes(which)) {
-      const elements = elementsRef.current;
+      // Convert key to elements
+      const elements = new Set<HTMLElement>();
+      const key2element = new Map<string, HTMLElement>();
+      const element2key = new Map<HTMLElement, string>();
+
+      getKeys().forEach(key => {
+        const element = document.querySelector(
+          `[data-menu-id='${getMenuId(id, key)}']`,
+        ) as HTMLElement;
+
+        if (element) {
+          elements.add(element);
+          element2key.set(element, key);
+          key2element.set(key, element);
+        }
+      });
 
       // First we should find current focused MenuItem/SubMenu element
-      const activeElement = getElementByKey(activeKey);
+      const activeElement = key2element.get(activeKey);
       const focusMenuElement = getFocusElement(activeElement, elements);
+      const focusMenuKey = element2key.get(focusMenuElement);
 
       const offsetObj = getOffset(
         mode,
-        getInfoByElement(focusMenuElement)[1].length === 1,
+        getKeyPath(focusMenuKey).length === 1,
         isRtl,
         which,
       );
@@ -249,7 +265,8 @@ export default function useAccessibility<T extends HTMLElement>(
             focusTargetElement = link;
           }
 
-          const targetKey = activeByElement(menuElement);
+          const targetKey = element2key.get(menuElement);
+          triggerActiveKey(targetKey);
 
           /**
            * Do not `useEffect` here since `tryFocus` may trigger async
@@ -289,10 +306,10 @@ export default function useAccessibility<T extends HTMLElement>(
         // ======================= InlineTrigger =======================
       } else if (offsetObj.inlineTrigger) {
         // Inline trigger no need switch to sub menu item
-        triggerElement(focusMenuElement);
+        triggerAccessibilityOpen(focusMenuKey);
         // =========================== Level ===========================
       } else if (offsetObj.offset > 0) {
-        triggerElement(focusMenuElement, true);
+        triggerAccessibilityOpen(focusMenuKey, true);
 
         cleanRaf();
         rafRef.current = raf(() => {
@@ -309,13 +326,13 @@ export default function useAccessibility<T extends HTMLElement>(
           tryFocus(targetElement);
         }, 5);
       } else if (offsetObj.offset < 0) {
-        const [, keyPath] = getInfoByElement(focusMenuElement);
+        const [, keyPath] = getKeyPath(focusMenuKey);
         const parentKey = keyPath[keyPath.length - 2];
 
-        const parentMenuElement = getElementByKey(parentKey);
+        const parentMenuElement = key2element.get(parentKey);
 
         // Focus menu item
-        triggerElement(parentMenuElement, false);
+        triggerAccessibilityOpen(parentKey, false);
         tryFocus(parentMenuElement);
       }
     }

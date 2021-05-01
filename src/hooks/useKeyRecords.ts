@@ -60,10 +60,32 @@ export default function useKeyRecords() {
     return getPathKeys(fullPath);
   }, []);
 
+  const getKeys = () => [...key2pathRef.current.keys()];
+
+  /**
+   * Find current key related child path keys
+   */
+  const getSubPathKeys = useCallback((key: string): Set<string> => {
+    const connectedPath = `${key2pathRef.current.get(key)}${PATH_SPLIT}`;
+    const pathKeys = new Set<string>();
+
+    [...path2keyRef.current.keys()].forEach(pathKey => {
+      if (pathKey.startsWith(connectedPath)) {
+        pathKeys.add(path2keyRef.current.get(pathKey));
+      }
+    });
+    return pathKeys;
+  }, []);
+
   return {
-    isSubPathKey,
-    getKeyPath,
+    // Register
     registerPath,
     unregisterPath,
+
+    // Util
+    isSubPathKey,
+    getKeyPath,
+    getKeys,
+    getSubPathKeys,
   };
 }

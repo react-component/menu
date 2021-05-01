@@ -19,7 +19,6 @@ import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
 import MenuContextProvider from './context/MenuContext';
 import useMemoCallback from './hooks/useMemoCallback';
-import usePathData from './hooks/usePathData';
 import { warnItemProp } from './utils/warnUtil';
 import SubMenu from './SubMenu';
 import useAccessibility from './hooks/useAccessibility';
@@ -263,18 +262,15 @@ const Menu: React.FC<MenuProps> = props => {
 
   // ========================= Path =========================
   const {
-    elementsRef,
-    getInfoByElement,
-    getElementByKey,
-    getSubPathKeys,
-  } = usePathData();
-
-  const {
-    isSubPathKey,
-    getKeyPath,
     registerPath,
     unregisterPath,
+
+    isSubPathKey,
+    getKeyPath,
+    getKeys,
+    getSubPathKeys,
   } = useKeyRecords();
+
   const registerPathContext = React.useMemo(
     () => ({ registerPath, unregisterPath }),
     [registerPath, unregisterPath],
@@ -385,17 +381,8 @@ const Menu: React.FC<MenuProps> = props => {
 
   const getInternalPopupContainer = useMemoCallback(getPopupContainer);
 
-  // ======================== Focus =========================
-  const activeByElement = (element: HTMLElement) => {
-    const [key] = getInfoByElement(element);
-    setMergedActiveKey(key);
-
-    return key;
-  };
-
-  const triggerElement = (element: HTMLElement, open?: boolean) => {
-    const [key] = getInfoByElement(element);
-
+  // ==================== Accessibility =====================
+  const triggerAccessibilityOpen = (key: string, open?: boolean) => {
     const nextOpen = open ?? !mergedOpenKeys.includes(key);
 
     onInternalOpenChange(key, nextOpen);
@@ -405,14 +392,14 @@ const Menu: React.FC<MenuProps> = props => {
     mergedMode,
     mergedActiveKey,
     isRtl,
+    uuid,
 
     containerRef,
-    elementsRef,
+    getKeys,
+    getKeyPath,
 
-    getInfoByElement,
-    getElementByKey,
-    activeByElement,
-    triggerElement,
+    setMergedActiveKey,
+    triggerAccessibilityOpen,
 
     onKeyDown,
   );
