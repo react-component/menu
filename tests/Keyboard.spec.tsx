@@ -8,6 +8,8 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('Menu.Keyboard', () => {
+  let holder: HTMLDivElement;
+
   beforeAll(() => {
     // Mock to force make menu item visible
     spyElementPrototypes(HTMLElement, {
@@ -20,11 +22,14 @@ describe('Menu.Keyboard', () => {
   });
 
   beforeEach(() => {
+    holder = document.createElement('div');
+    document.body.appendChild(holder);
     jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    holder.parentElement.removeChild(holder);
   });
 
   function keyDown(wrapper: ReactWrapper, keyCode: number) {
@@ -53,7 +58,7 @@ describe('Menu.Keyboard', () => {
       }
     }
 
-    const wrapper = mount(<App />);
+    const wrapper = mount(<App />, { attachTo: holder });
 
     wrapper.setState({ items: [0, 1] });
     await wrapper.flush();
@@ -74,6 +79,7 @@ describe('Menu.Keyboard', () => {
         <MenuItem disabled />
         <MenuItem key="2">2</MenuItem>
       </Menu>,
+      { attachTo: holder },
     );
 
     // Next item
@@ -92,6 +98,7 @@ describe('Menu.Keyboard', () => {
           <MenuItem key="s1-1">1</MenuItem>
         </SubMenu>
       </Menu>,
+      { attachTo: holder },
     );
 
     // Active first sub menu
@@ -117,7 +124,7 @@ describe('Menu.Keyboard', () => {
               </SubMenu>
             </SubMenu>
           </Menu>,
-          { attachTo: document.body },
+          { attachTo: holder },
         );
 
         // Active first
@@ -175,6 +182,7 @@ describe('Menu.Keyboard', () => {
           <MenuItem key="little">Little</MenuItem>
         </SubMenu>
       </Menu>,
+      { attachTo: holder },
     );
 
     // Nothing happen when no control key
@@ -214,6 +222,7 @@ describe('Menu.Keyboard', () => {
         <MenuItem key="light">Light</MenuItem>
         <MenuItem key="bamboo">Bamboo</MenuItem>
       </Menu>,
+      { attachTo: holder },
     );
 
     keyDown(wrapper, KeyCode.UP);
@@ -227,6 +236,7 @@ describe('Menu.Keyboard', () => {
           <a href="https://ant.design">Light</a>
         </MenuItem>
       </Menu>,
+      { attachTo: holder },
     );
 
     const focusSpy = jest.spyOn(
@@ -238,11 +248,12 @@ describe('Menu.Keyboard', () => {
     expect(focusSpy).toHaveBeenCalled();
   });
 
-  it('no dead loop', () => {
+  it('no dead loop', async () => {
     const wrapper = mount(
       <Menu mode="vertical" openKeys={['bamboo']}>
         <MenuItem key="little">Little</MenuItem>
       </Menu>,
+      { attachTo: holder },
     );
 
     keyDown(wrapper, KeyCode.DOWN);
