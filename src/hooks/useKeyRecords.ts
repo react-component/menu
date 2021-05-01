@@ -19,7 +19,7 @@ export default function useKeyRecords() {
     if (process.env.NODE_ENV !== 'production') {
       warning(
         !key2pathRef.current.has(key),
-        `Duplicated key '${key}' used in Menu.`,
+        `Duplicated key '${key}' used in Menu by path [${keyPath.join(' > ')}]`,
       );
     }
 

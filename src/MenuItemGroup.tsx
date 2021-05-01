@@ -2,7 +2,10 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { parseChildren } from './utils/nodeUtil';
 import { MenuContext } from './context/MenuContext';
-import { PathUserContext, useMeasure } from './context/MeasureContext';
+import {
+  useKeyPath,
+  useMeasure,
+} from './context/MeasureContext';
 
 export interface MenuItemGroupProps {
   className?: string;
@@ -21,12 +24,8 @@ const InternalMenuItemGroup = ({
   ...restProps
 }: MenuItemGroupProps) => {
   const { prefixCls } = React.useContext(MenuContext);
-  const { getKeyPath } = React.useContext(PathUserContext);
-  const keyPath = getKeyPath(eventKey);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
-
-  const childList: React.ReactElement[] = parseChildren(children, keyPath);
 
   return (
     <li
@@ -40,18 +39,25 @@ const InternalMenuItemGroup = ({
       >
         {title}
       </div>
-      <ul className={`${groupPrefixCls}-list`}>{childList}</ul>
+      <ul className={`${groupPrefixCls}-list`}>{children}</ul>
     </li>
   );
 };
 
-export default function MenuItemGroup(
-  props: MenuItemGroupProps,
-): React.ReactElement {
+export default function MenuItemGroup({
+  children,
+  ...props
+}: MenuItemGroupProps): React.ReactElement {
+  const connectedKeyPath = useKeyPath(props.eventKey);
+  const childList: React.ReactElement[] = parseChildren(
+    children,
+    connectedKeyPath,
+  );
+
   const measure = useMeasure();
   if (measure) {
-    return props.children as React.ReactElement;
+    return (childList as any) as React.ReactElement;
   }
 
-  return <InternalMenuItemGroup {...props} />;
+  return <InternalMenuItemGroup {...props}>{childList}</InternalMenuItemGroup>;
 }
