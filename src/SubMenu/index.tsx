@@ -10,7 +10,7 @@ import type {
   MenuTitleInfo,
   RenderIconType,
 } from '../interface';
-import MenuContextProvider, { MenuContext } from '../context';
+import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
 import Icon from '../Icon';
@@ -18,6 +18,13 @@ import useActive from '../hooks/useActive';
 import { warnItemProp } from '../utils/warnUtil';
 import useDirectionStyle from '../hooks/useDirectionStyle';
 import InlineSubMenuList from './InlineSubMenuList';
+import {
+  PathConnectContext,
+  PathUserContext,
+  useKeyPath,
+  useMeasure,
+} from '../context/MeasureContext';
+import { IdContext } from '../context/IdContext';
 
 export interface SubMenuProps {
   style?: React.CSSProperties;
@@ -55,7 +62,7 @@ export interface SubMenuProps {
   // onDestroy?: DestroyEventHandler;
 }
 
-export default function SubMenu(props: SubMenuProps) {
+const InternalSubMenu = (props: SubMenuProps) => {
   const {
     style,
     className,
@@ -87,14 +94,13 @@ export default function SubMenu(props: SubMenuProps) {
     ...restProps
   } = props;
 
+  const id = React.useContext(IdContext);
+
   const {
     prefixCls,
     mode,
     openKeys,
     parentKeys,
-
-    // ID
-    id,
 
     // Disabled
     disabled: contextDisabled,
@@ -106,9 +112,6 @@ export default function SubMenu(props: SubMenuProps) {
     // SelectKey
     selectedKeys,
 
-    // Path
-    keyInPath,
-
     // Icon
     itemIcon: contextItemIcon,
     expandIcon: contextExpandIcon,
@@ -117,6 +120,8 @@ export default function SubMenu(props: SubMenuProps) {
     onItemClick,
     onOpenChange,
   } = React.useContext(MenuContext);
+
+  const { keyInPath } = React.useContext(PathUserContext);
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
@@ -324,4 +329,35 @@ export default function SubMenu(props: SubMenuProps) {
       </Overflow.Item>
     </MenuContextProvider>
   );
+};
+
+export default function SubMenu(props: SubMenuProps) {
+  const { eventKey } = props;
+
+  // ==================== Record KeyPath ====================
+  const measure = useMeasure();
+  const connectedKeyPath = useKeyPath(eventKey);
+
+  // eslint-disable-next-line consistent-return
+  React.useEffect(() => {
+    if (measure) {
+      measure.registerPath(eventKey, connectedKeyPath);
+
+      return () => {
+        measure.unregisterPath(eventKey, connectedKeyPath);
+      };
+    }
+  }, [connectedKeyPath]);
+
+  if (measure) {
+    return (
+      <PathConnectContext.Provider value={connectedKeyPath}>
+        {props.children}
+      </PathConnectContext.Provider>
+    );
+  }
+
+  // ======================== Render ========================
+
+  return <InternalSubMenu {...props} />;
 }

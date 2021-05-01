@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CSSMotion from 'rc-motion';
 import { getMotion } from '../utils/motionUtil';
-import MenuContextProvider, { MenuContext } from '../context';
+import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import SubMenuList from './SubMenuList';
 import type { MenuMode } from '../interface';
 

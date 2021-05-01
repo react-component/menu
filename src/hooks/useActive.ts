@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MenuContext } from '../context';
+import { MenuContext } from '../context/MenuContext';
 import type { MenuHoverEventHandler } from '../interface';
 
 interface ActiveObj {

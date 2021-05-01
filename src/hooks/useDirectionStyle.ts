@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MenuContext } from '../context';
+import { MenuContext } from '../context/MenuContext';
 
 export default function useDirectionStyle(
   keyPath: string[],

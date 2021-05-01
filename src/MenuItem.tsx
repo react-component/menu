@@ -10,11 +10,13 @@ import type {
   MenuHoverEventHandler,
   RenderIconType,
 } from './interface';
-import { MenuContext } from './context';
+import { MenuContext } from './context/MenuContext';
 import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
 import Icon from './Icon';
 import useDirectionStyle from './hooks/useDirectionStyle';
+import { useKeyPath, useMeasure } from './context/MeasureContext';
+import { IdContext } from './context/IdContext';
 
 export interface MenuItemProps
   extends Omit<
@@ -70,7 +72,7 @@ class LegacyMenuItem extends React.Component<any> {
 /**
  * Real Menu Item component
  */
-const MenuItem = (props: MenuItemProps) => {
+const InternalMenuItem = (props: MenuItemProps) => {
   const {
     style,
     className,
@@ -93,9 +95,9 @@ const MenuItem = (props: MenuItemProps) => {
     ...restProps
   } = props;
 
-  const {
-    id,
+  const id = React.useContext(IdContext);
 
+  const {
     prefixCls,
     onItemClick,
     parentKeys,
@@ -222,5 +224,31 @@ const MenuItem = (props: MenuItemProps) => {
     </LegacyMenuItem>
   );
 };
+
+function MenuItem(props: MenuItemProps): React.ReactElement {
+  const { eventKey } = props;
+
+  // ==================== Record KeyPath ====================
+  const measure = useMeasure();
+  const connectedKeyPath = useKeyPath(eventKey);
+
+  // eslint-disable-next-line consistent-return
+  React.useEffect(() => {
+    if (measure) {
+      measure.registerPath(eventKey, connectedKeyPath);
+
+      return () => {
+        measure.unregisterPath(eventKey, connectedKeyPath);
+      };
+    }
+  }, [connectedKeyPath]);
+
+  if (measure) {
+    return null;
+  }
+
+  // ======================== Render ========================
+  return <InternalMenuItem {...props} />;
+}
 
 export default MenuItem;

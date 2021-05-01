@@ -17,13 +17,16 @@ import type {
 } from './interface';
 import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
-import MenuContextProvider from './context';
+import MenuContextProvider from './context/MenuContext';
 import useMemoCallback from './hooks/useMemoCallback';
 import usePathData from './hooks/usePathData';
 import { warnItemProp } from './utils/warnUtil';
 import SubMenu from './SubMenu';
 import useAccessibility from './hooks/useAccessibility';
 import useUUID from './hooks/useUUID';
+import { PathRegisterContext, PathUserContext } from './context/MeasureContext';
+import useKeyRecords from './hooks/useKeyRecords';
+import { IdContext } from './context/IdContext';
 
 /**
  * Menu modify after refactor:
@@ -264,8 +267,15 @@ const Menu: React.FC<MenuProps> = props => {
     getInfoByElement,
     getElementByKey,
     getSubPathKeys,
-    ...pathData
   } = usePathData();
+
+  const { keyInPath, registerPath, unregisterPath } = useKeyRecords();
+  const registerPathContext = React.useMemo(
+    () => ({ registerPath, unregisterPath }),
+    [registerPath, unregisterPath],
+  );
+
+  const pathUserContext = React.useMemo(() => ({ keyInPath }), [keyInPath]);
 
   // ======================== Active ========================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState(
@@ -478,44 +488,54 @@ const Menu: React.FC<MenuProps> = props => {
 
   // >>>>> Render
   return (
-    <MenuContextProvider
-      id={uuid}
-      prefixCls={prefixCls}
-      mode={mergedMode}
-      openKeys={mergedOpenKeys}
-      parentKeys={EMPTY_LIST}
-      rtl={isRtl}
-      // Disabled
-      disabled={disabled}
-      // Motion
-      motion={mounted ? motion : null}
-      defaultMotions={mounted ? defaultMotions : null}
-      // Path
-      {...pathData}
-      // Active
-      activeKey={mergedActiveKey}
-      onActive={onActive}
-      onInactive={onInactive}
-      // Selection
-      selectedKeys={mergedSelectKeys}
-      // Level
-      inlineIndent={inlineIndent}
-      // Popup
-      subMenuOpenDelay={subMenuOpenDelay}
-      subMenuCloseDelay={subMenuCloseDelay}
-      forceSubMenuRender={forceSubMenuRender}
-      builtinPlacements={builtinPlacements}
-      triggerSubMenuAction={triggerSubMenuAction}
-      getPopupContainer={getInternalPopupContainer}
-      // Icon
-      itemIcon={itemIcon}
-      expandIcon={expandIcon}
-      // Events
-      onItemClick={onInternalClick}
-      onOpenChange={onInternalOpenChange}
-    >
-      {container}
-    </MenuContextProvider>
+    <IdContext.Provider value={uuid}>
+      <MenuContextProvider
+        prefixCls={prefixCls}
+        mode={mergedMode}
+        openKeys={mergedOpenKeys}
+        parentKeys={EMPTY_LIST}
+        rtl={isRtl}
+        // Disabled
+        disabled={disabled}
+        // Motion
+        motion={mounted ? motion : null}
+        defaultMotions={mounted ? defaultMotions : null}
+        // Path
+        // {...keyRecords}
+        // Active
+        activeKey={mergedActiveKey}
+        onActive={onActive}
+        onInactive={onInactive}
+        // Selection
+        selectedKeys={mergedSelectKeys}
+        // Level
+        inlineIndent={inlineIndent}
+        // Popup
+        subMenuOpenDelay={subMenuOpenDelay}
+        subMenuCloseDelay={subMenuCloseDelay}
+        forceSubMenuRender={forceSubMenuRender}
+        builtinPlacements={builtinPlacements}
+        triggerSubMenuAction={triggerSubMenuAction}
+        getPopupContainer={getInternalPopupContainer}
+        // Icon
+        itemIcon={itemIcon}
+        expandIcon={expandIcon}
+        // Events
+        onItemClick={onInternalClick}
+        onOpenChange={onInternalOpenChange}
+      >
+        <PathUserContext.Provider value={pathUserContext}>
+          {container}
+        </PathUserContext.Provider>
+
+        {/* Measure menu keys */}
+        <div style={{ display: 'none' }} aria-hidden>
+          <PathRegisterContext.Provider value={registerPathContext}>
+            {childList}
+          </PathRegisterContext.Provider>
+        </div>
+      </MenuContextProvider>
+    </IdContext.Provider>
   );
 };
 

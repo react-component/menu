@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { MenuContext } from './context';
+import { MenuContext } from './context/MenuContext';
+import { useMeasure } from './context/MeasureContext';
 
 export interface DividerProps {
   className?: string;
@@ -9,6 +10,11 @@ export interface DividerProps {
 
 export default function Divider({ className, style }: DividerProps) {
   const { prefixCls } = React.useContext(MenuContext);
+  const measure = useMeasure();
+
+  if (measure) {
+    return null;
+  }
 
   return (
     <li

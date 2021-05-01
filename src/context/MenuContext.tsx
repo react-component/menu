@@ -8,16 +8,14 @@ import type {
   MenuMode,
   RenderIconType,
   TriggerSubMenuAction,
-} from './interface';
-import type { PathHookRet } from './hooks/usePathData';
+} from '../interface';
+import type { KeyRecordsRet } from '../hooks/useKeyRecords';
 
-export interface MenuContextProps extends PathHookRet {
+export interface MenuContextProps extends KeyRecordsRet {
   prefixCls: string;
   openKeys: string[];
   parentKeys: string[];
   rtl?: boolean;
-
-  id: string;
 
   // Mode
   mode: MenuMode;
