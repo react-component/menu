@@ -217,21 +217,34 @@ export default function useAccessibility<T extends HTMLElement>(
 
     if ([...ArrowKeys, ENTER, ESC].includes(which)) {
       // Convert key to elements
-      const elements = new Set<HTMLElement>();
-      const key2element = new Map<string, HTMLElement>();
-      const element2key = new Map<HTMLElement, string>();
+      let elements: Set<HTMLElement>;
+      let key2element: Map<string, HTMLElement>;
+      let element2key: Map<HTMLElement, string>;
 
-      getKeys().forEach(key => {
-        const element = document.querySelector(
-          `[data-menu-id='${getMenuId(id, key)}']`,
-        ) as HTMLElement;
+      // >>> Wrap as function since we use raf for some case
+      const refreshElements = () => {
+        elements = new Set<HTMLElement>();
+        key2element = new Map();
+        element2key = new Map();
 
-        if (element) {
-          elements.add(element);
-          element2key.set(element, key);
-          key2element.set(key, element);
-        }
-      });
+        const keys = getKeys();
+
+        keys.forEach(key => {
+          const element = document.querySelector(
+            `[data-menu-id='${getMenuId(id, key)}']`,
+          ) as HTMLElement;
+
+          if (element) {
+            elements.add(element);
+            element2key.set(element, key);
+            key2element.set(key, element);
+          }
+        });
+
+        return elements;
+      };
+
+      refreshElements();
 
       // First we should find current focused MenuItem/SubMenu element
       const activeElement = key2element.get(activeKey);
@@ -313,6 +326,9 @@ export default function useAccessibility<T extends HTMLElement>(
 
         cleanRaf();
         rafRef.current = raf(() => {
+          // Async should resync elements
+          refreshElements();
+
           const controlId = focusMenuElement.getAttribute('aria-controls');
           const subQueryContainer = document.getElementById(controlId);
 
@@ -326,7 +342,7 @@ export default function useAccessibility<T extends HTMLElement>(
           tryFocus(targetElement);
         }, 5);
       } else if (offsetObj.offset < 0) {
-        const [, keyPath] = getKeyPath(focusMenuKey);
+        const keyPath = getKeyPath(focusMenuKey);
         const parentKey = keyPath[keyPath.length - 2];
 
         const parentMenuElement = key2element.get(parentKey);

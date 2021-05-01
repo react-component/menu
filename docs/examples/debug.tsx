@@ -47,7 +47,7 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
 };
 
 export default () => {
-  const [mode, setMode] = React.useState<MenuProps['mode']>('vertical');
+  const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
   const [narrow, setNarrow] = React.useState(true);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(false);
