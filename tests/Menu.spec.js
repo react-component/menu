@@ -181,6 +181,34 @@ describe('Menu', () => {
     expect(wrapper.find('li').last().props().className).toContain('-selected');
   });
 
+  it('empty selectedKeys not to throw', () => {
+    mount(
+      <Menu selectedKeys={null}>
+        <MenuItem key="foo">foo</MenuItem>
+      </Menu>,
+    );
+  });
+
+  it('not selectable', () => {
+    const onSelect = jest.fn();
+
+    const wrapper = mount(
+      <Menu onSelect={onSelect} selectedKeys={[]}>
+        <MenuItem key="bamboo">Bamboo</MenuItem>
+      </Menu>,
+    );
+
+    wrapper.findItem(0).simulate('click');
+    expect(onSelect).toHaveBeenCalledWith(
+      expect.objectContaining({ selectedKeys: ['bamboo'] }),
+    );
+
+    onSelect.mockReset();
+    wrapper.setProps({ selectable: false });
+    wrapper.findItem(0).simulate('click');
+    expect(onSelect).not.toHaveBeenCalled();
+  });
+
   it('select default item', () => {
     const wrapper = mount(
       <Menu defaultSelectedKeys={['1']}>
