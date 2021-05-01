@@ -29,7 +29,8 @@ export function useKeyPath(eventKey: string) {
 
 // =========================== Path User ===========================
 export interface PathUserContextProps {
-  keyInPath: (keyList: string[], keyPath: string[]) => void;
+  isSubPathKey: (pathKeys: string[], eventKey: string) => boolean;
+  getKeyPath: (eventKey: string) => string[];
 }
 
 export const PathUserContext = React.createContext<PathUserContextProps>(null);

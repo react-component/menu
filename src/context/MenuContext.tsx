@@ -9,12 +9,10 @@ import type {
   RenderIconType,
   TriggerSubMenuAction,
 } from '../interface';
-import type { KeyRecordsRet } from '../hooks/useKeyRecords';
 
-export interface MenuContextProps extends KeyRecordsRet {
+export interface MenuContextProps {
   prefixCls: string;
   openKeys: string[];
-  parentKeys: string[];
   rtl?: boolean;
 
   // Mode

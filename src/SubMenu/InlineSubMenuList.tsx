@@ -8,12 +8,14 @@ import type { MenuMode } from '../interface';
 export interface InlineSubMenuListProps {
   id?: string;
   open: boolean;
+  keyPath: string[];
   children: React.ReactNode;
 }
 
 export default function InlineSubMenuList({
   id,
   open,
+  keyPath,
   children,
 }: InlineSubMenuListProps) {
   const fixedMode: MenuMode = 'inline';
@@ -23,7 +25,6 @@ export default function InlineSubMenuList({
     forceSubMenuRender,
     motion,
     defaultMotions,
-    parentKeys,
     mode,
   } = React.useContext(MenuContext);
 
@@ -49,7 +50,7 @@ export default function InlineSubMenuList({
   const mergedMotion = { ...getMotion(fixedMode, motion, defaultMotions) };
 
   // No need appear since nest inlineCollapse changed
-  if (parentKeys.length > 1) {
+  if (keyPath.length > 2) {
     mergedMotion.motionAppear = false;
   }
 

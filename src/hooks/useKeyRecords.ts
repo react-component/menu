@@ -6,6 +6,7 @@ import { nextSlice } from '../utils/timeUtil';
 const PATH_SPLIT = '__RC_UTIL_PATH_SPLIT__';
 
 const getPathStr = (keyPath: string[]) => keyPath.join(PATH_SPLIT);
+const getPathKeys = (keyPathStr: string) => keyPathStr.split(PATH_SPLIT);
 
 export default function useKeyRecords() {
   const [, forceUpdate] = React.useState({});
@@ -43,21 +44,25 @@ export default function useKeyRecords() {
     key2pathRef.current.delete(key);
   }, []);
 
-  const keyInPath = useCallback((keyList: string[], keyPath: string[]) => {
-    /**
-     * Generate `path1__SPLIT__path2__SPLIT__` instead of `path1__SPLIT__path2`.
-     * To avoid full path like `path1__SPLIT__path23__SPLIT__path3` matching.
-     */
-    const connectedPath = getPathStr([...keyPath, '']);
+  const isSubPathKey = useCallback(
+    (pathKeys: string[], eventKey: string) =>
+      pathKeys.some(pathKey => {
+        const fullPath = key2pathRef.current.get(pathKey) || '';
+        const pathKeyList = getPathKeys(fullPath);
 
-    return keyList.some(key => {
-      const fullPath = key2pathRef.current.get(key) || '';
-      return fullPath.startsWith(connectedPath);
-    });
+        return pathKeyList.includes(eventKey);
+      }),
+    [],
+  );
+
+  const getKeyPath = useCallback((eventKey: string) => {
+    const fullPath = key2pathRef.current.get(eventKey) || '';
+    return getPathKeys(fullPath);
   }, []);
 
   return {
-    keyInPath,
+    isSubPathKey,
+    getKeyPath,
     registerPath,
     unregisterPath,
   };

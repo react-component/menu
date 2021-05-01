@@ -15,8 +15,12 @@ import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
 import Icon from './Icon';
 import useDirectionStyle from './hooks/useDirectionStyle';
-import { useKeyPath, useMeasure } from './context/MeasureContext';
-import { IdContext } from './context/IdContext';
+import {
+  PathUserContext,
+  useKeyPath,
+  useMeasure,
+} from './context/MeasureContext';
+import { useMenuId } from './context/IdContext';
 
 export interface MenuItemProps
   extends Omit<
@@ -95,12 +99,11 @@ const InternalMenuItem = (props: MenuItemProps) => {
     ...restProps
   } = props;
 
-  const id = React.useContext(IdContext);
+  const domDataId = useMenuId(eventKey);
 
   const {
     prefixCls,
     onItemClick,
-    parentKeys,
 
     disabled: contextDisabled,
     overflowDisabled,
@@ -117,11 +120,8 @@ const InternalMenuItem = (props: MenuItemProps) => {
   const elementRef = React.useRef<HTMLLIElement>();
   const mergedDisabled = contextDisabled || disabled;
 
-  // ============================= Key ==============================
-  const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
-    parentKeys,
-    eventKey,
-  ]);
+  const { getKeyPath } = React.useContext(PathUserContext);
+  const connectedKeys = getKeyPath(eventKey);
 
   // ============================= Info =============================
   const getEventInfo = (
@@ -150,7 +150,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
   const selected = selectedKeys.includes(eventKey);
 
   // ======================== DirectionStyle ========================
-  const directionStyle = useDirectionStyle(connectedKeys);
+  const directionStyle = useDirectionStyle(connectedKeys.length);
 
   // ============================ Events ============================
   const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
@@ -177,8 +177,6 @@ const InternalMenuItem = (props: MenuItemProps) => {
   };
 
   // ============================ Render ============================
-  const domDataId = `${id}-${eventKey}`;
-
   const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
 
   if (props.role === 'option') {

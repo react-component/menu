@@ -269,13 +269,21 @@ const Menu: React.FC<MenuProps> = props => {
     getSubPathKeys,
   } = usePathData();
 
-  const { keyInPath, registerPath, unregisterPath } = useKeyRecords();
+  const {
+    isSubPathKey,
+    getKeyPath,
+    registerPath,
+    unregisterPath,
+  } = useKeyRecords();
   const registerPathContext = React.useMemo(
     () => ({ registerPath, unregisterPath }),
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(() => ({ keyInPath }), [keyInPath]);
+  const pathUserContext = React.useMemo(() => ({ isSubPathKey, getKeyPath }), [
+    isSubPathKey,
+    getKeyPath,
+  ]);
 
   // ======================== Active ========================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState(
@@ -493,7 +501,6 @@ const Menu: React.FC<MenuProps> = props => {
         prefixCls={prefixCls}
         mode={mergedMode}
         openKeys={mergedOpenKeys}
-        parentKeys={EMPTY_LIST}
         rtl={isRtl}
         // Disabled
         disabled={disabled}

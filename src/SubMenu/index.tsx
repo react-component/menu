@@ -24,7 +24,7 @@ import {
   useKeyPath,
   useMeasure,
 } from '../context/MeasureContext';
-import { IdContext } from '../context/IdContext';
+import { useMenuId } from '../context/IdContext';
 
 export interface SubMenuProps {
   style?: React.CSSProperties;
@@ -94,13 +94,12 @@ const InternalSubMenu = (props: SubMenuProps) => {
     ...restProps
   } = props;
 
-  const id = React.useContext(IdContext);
+  const domDataId = useMenuId(eventKey);
 
   const {
     prefixCls,
     mode,
     openKeys,
-    parentKeys,
 
     // Disabled
     disabled: contextDisabled,
@@ -121,35 +120,24 @@ const InternalSubMenu = (props: SubMenuProps) => {
     onOpenChange,
   } = React.useContext(MenuContext);
 
-  const { keyInPath } = React.useContext(PathUserContext);
+  const { isSubPathKey, getKeyPath } = React.useContext(PathUserContext);
+  const keyPath = getKeyPath(eventKey);
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
   const elementRef = React.useRef<HTMLDivElement>();
   const popupRef = React.useRef<HTMLUListElement>();
 
-  // ================================ Key =================================
-  const connectedKeys = React.useMemo(() => [...parentKeys, eventKey], [
-    parentKeys,
-    eventKey,
-  ]);
-
   // ================================ Icon ================================
   const mergedItemIcon = itemIcon || contextItemIcon;
   const mergedExpandIcon = expandIcon || contextExpandIcon;
-
-  // ============================== Children ==============================
-  const childList: React.ReactElement[] = parseChildren(
-    children,
-    connectedKeys,
-  );
 
   // ================================ Open ================================
   const originOpen = openKeys.includes(eventKey);
   const open = !overflowDisabled && originOpen;
 
   // =============================== Select ===============================
-  const childrenSelected = keyInPath(selectedKeys, connectedKeys);
+  const childrenSelected = isSubPathKey(selectedKeys, eventKey);
 
   // =============================== Active ===============================
   const { active, ...activeProps } = useActive(
@@ -192,14 +180,14 @@ const InternalSubMenu = (props: SubMenuProps) => {
     }
 
     if (mode !== 'inline') {
-      return childrenActive || keyInPath([activeKey], connectedKeys);
+      return childrenActive || isSubPathKey([activeKey], eventKey);
     }
 
     return false;
-  }, [mode, active, activeKey, childrenActive, connectedKeys]);
+  }, [mode, active, activeKey, childrenActive, eventKey]);
 
   // ========================== DirectionStyle ==========================
-  const directionStyle = useDirectionStyle(connectedKeys);
+  const directionStyle = useDirectionStyle(keyPath.length);
 
   // =============================== Events ===============================
   // >>>> Title click
@@ -232,7 +220,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
   };
 
   // =============================== Render ===============================
-  const domDataId = `${id}-${eventKey}`;
   const popupId = `${domDataId}-popup`;
 
   // >>>>> Title
@@ -279,7 +266,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         popupOffset={popupOffset}
         popup={
           <SubMenuList id={popupId} ref={popupRef}>
-            {childList}
+            {children}
           </SubMenuList>
         }
         disabled={mergedDisabled}
@@ -293,7 +280,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
   // >>>>> Render
   return (
     <MenuContextProvider
-      parentKeys={connectedKeys}
       onItemClick={onMergedItemClick}
       mode={mode === 'horizontal' ? 'vertical' : mode}
       itemIcon={mergedItemIcon}
@@ -322,8 +308,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
         {/* Inline mode */}
         {!overflowDisabled && (
-          <InlineSubMenuList id={popupId} open={open}>
-            {childList}
+          <InlineSubMenuList id={popupId} open={open} keyPath={keyPath}>
+            {children}
           </InlineSubMenuList>
         )}
       </Overflow.Item>
@@ -332,11 +318,16 @@ const InternalSubMenu = (props: SubMenuProps) => {
 };
 
 export default function SubMenu(props: SubMenuProps) {
-  const { eventKey } = props;
+  const { eventKey, children } = props;
+
+  const connectedKeyPath = useKeyPath(eventKey);
+  const childList: React.ReactElement[] = parseChildren(
+    children,
+    connectedKeyPath,
+  );
 
   // ==================== Record KeyPath ====================
   const measure = useMeasure();
-  const connectedKeyPath = useKeyPath(eventKey);
 
   // eslint-disable-next-line consistent-return
   React.useEffect(() => {
@@ -352,12 +343,12 @@ export default function SubMenu(props: SubMenuProps) {
   if (measure) {
     return (
       <PathConnectContext.Provider value={connectedKeyPath}>
-        {props.children}
+        {childList}
       </PathConnectContext.Provider>
     );
   }
 
   // ======================== Render ========================
 
-  return <InternalSubMenu {...props} />;
+  return <InternalSubMenu {...props}>{childList}</InternalSubMenu>;
 }

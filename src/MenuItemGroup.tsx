@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { parseChildren } from './utils/nodeUtil';
 import { MenuContext } from './context/MenuContext';
-import { useMeasure } from './context/MeasureContext';
+import { PathUserContext, useMeasure } from './context/MeasureContext';
 
 export interface MenuItemGroupProps {
   className?: string;
@@ -20,14 +20,13 @@ const InternalMenuItemGroup = ({
   children,
   ...restProps
 }: MenuItemGroupProps) => {
-  const { prefixCls, parentKeys } = React.useContext(MenuContext);
+  const { prefixCls } = React.useContext(MenuContext);
+  const { getKeyPath } = React.useContext(PathUserContext);
+  const keyPath = getKeyPath(eventKey);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 
-  const childList: React.ReactElement[] = parseChildren(children, [
-    ...parentKeys,
-    eventKey,
-  ]);
+  const childList: React.ReactElement[] = parseChildren(children, keyPath);
 
   return (
     <li
