@@ -411,17 +411,15 @@ const Menu: React.FC<MenuProps> = props => {
     mergedMode !== 'horizontal' || disabledOverflow
       ? childList
       : // Need wrap for overflow dropdown that do not response for open
-        childList.map((child, index) => {
-          if (index < lastVisibleIndex) {
-            return child;
-          }
-
-          return (
-            <MenuContextProvider key={child.key} openDisabled>
-              {child}
-            </MenuContextProvider>
-          );
-        });
+        childList.map((child, index) => (
+          // Always wrap provider to avoid sub node re-mount
+          <MenuContextProvider
+            key={child.key}
+            overflowDisabled={index > lastVisibleIndex}
+          >
+            {child}
+          </MenuContextProvider>
+        ));
 
   // >>>>> Container
   const container = (
@@ -450,13 +448,15 @@ const Menu: React.FC<MenuProps> = props => {
       renderRawRest={omitItems => {
         // We use origin list since wrapped list use context to prevent open
         const len = omitItems.length;
-        const originOmitItems = childList.slice(-len);
+
+        const originOmitItems = len ? childList.slice(-len) : null;
 
         return (
           <SubMenu
             eventKey="rc-menu-more"
             title={overflowedIndicator}
             disabled={allVisible}
+            internalPopupClose={len === 0}
           >
             {originOmitItems}
           </SubMenu>

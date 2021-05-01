@@ -27,6 +27,8 @@ export interface SubMenuProps {
   children?: React.ReactNode;
 
   disabled?: boolean;
+  /** @private Used for rest popup. Do not use in your prod */
+  internalPopupClose?: boolean;
 
   /** @private Internal filled key. Do not set it directly */
   eventKey?: string;
@@ -62,6 +64,7 @@ export default function SubMenu(props: SubMenuProps) {
     eventKey,
 
     disabled,
+    internalPopupClose,
 
     children,
 
@@ -95,7 +98,7 @@ export default function SubMenu(props: SubMenuProps) {
 
     // Disabled
     disabled: contextDisabled,
-    openDisabled,
+    overflowDisabled,
 
     // ActiveKey
     activeKey,
@@ -140,7 +143,7 @@ export default function SubMenu(props: SubMenuProps) {
 
   // ================================ Open ================================
   const originOpen = openKeys.includes(eventKey);
-  const open = !openDisabled && originOpen;
+  const open = !overflowDisabled && originOpen;
 
   // =============================== Select ===============================
   const childrenSelected = keyInPath(selectedKeys, connectedKeys);
@@ -227,14 +230,17 @@ export default function SubMenu(props: SubMenuProps) {
 
   // =============================== Effect ===============================
   // Path register
+  // eslint-disable-next-line consistent-return
   React.useEffect(() => {
-    const element = elementRef.current;
-    registerPath(eventKey, connectedKeys, element);
+    if (!overflowDisabled) {
+      const element = elementRef.current;
+      registerPath(eventKey, connectedKeys, element);
 
-    return () => {
-      unregisterPath(eventKey, connectedKeys, element);
-    };
-  }, [eventKey, connectedKeys, open]);
+      return () => {
+        unregisterPath(eventKey, connectedKeys, element);
+      };
+    }
+  }, [eventKey, connectedKeys, overflowDisabled]);
 
   // =============================== Render ===============================
   const popupId = `${id}-${eventKey}`;
@@ -272,12 +278,12 @@ export default function SubMenu(props: SubMenuProps) {
     </div>
   );
 
-  if (mode !== 'inline' && !openDisabled) {
+  if (mode !== 'inline' && !overflowDisabled) {
     titleNode = (
       <PopupTrigger
         mode={mode}
         prefixCls={subMenuPrefixCls}
-        visible={open}
+        visible={!internalPopupClose && open}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
         popup={
@@ -324,7 +330,7 @@ export default function SubMenu(props: SubMenuProps) {
         {titleNode}
 
         {/* Inline mode */}
-        {!openDisabled && (
+        {!overflowDisabled && (
           <InlineSubMenuList id={popupId} open={open}>
             {childList}
           </InlineSubMenuList>

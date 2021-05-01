@@ -2,23 +2,10 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
-import { mount as originMount } from 'enzyme';
-import type {
-  ReactWrapper as OriginReactWrapper,
-  MountRendererProps,
-} from 'enzyme';
+import { mount } from './util';
+import type { ReactWrapper } from './util';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, SubMenu } from '../src';
-
-type ReactWrapper = OriginReactWrapper & {
-  flush: () => ReactWrapper;
-  isActive: (index?: number) => boolean;
-};
-
-const mount = originMount as (
-  node: React.ReactElement,
-  options?: MountRendererProps,
-) => ReactWrapper;
 
 describe('Menu.Keyboard', () => {
   beforeAll(() => {

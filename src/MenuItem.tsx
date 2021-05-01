@@ -99,6 +99,7 @@ const MenuItem = (props: MenuItemProps) => {
     parentKeys,
 
     disabled: contextDisabled,
+    overflowDisabled,
 
     // Icon
     itemIcon: contextItemIcon,
@@ -177,14 +178,17 @@ const MenuItem = (props: MenuItemProps) => {
 
   // ============================ Effect ============================
   // Path register
+  // eslint-disable-next-line consistent-return
   React.useEffect(() => {
-    const element = elementRef.current;
-    registerPath(eventKey, connectedKeys, element);
+    if (!overflowDisabled) {
+      const element = elementRef.current;
+      registerPath(eventKey, connectedKeys, element);
 
-    return () => {
-      unregisterPath(eventKey, connectedKeys, element);
-    };
-  }, [eventKey, connectedKeys]);
+      return () => {
+        unregisterPath(eventKey, connectedKeys, element);
+      };
+    }
+  }, [eventKey, connectedKeys, overflowDisabled]);
 
   // ============================ Render ============================
   const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
