@@ -368,7 +368,7 @@ describe('Menu', () => {
     );
 
     // KeyDown will not change activeKey since control
-    wrapper.simulate('keyDown', { which: KeyCode.DOWN });
+    wrapper.find('Overflow').simulate('keyDown', { which: KeyCode.DOWN });
     expect(wrapper.isActive(0)).toBeTruthy();
 
     wrapper.setProps({ activeKey: '2' });

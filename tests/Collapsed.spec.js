@@ -69,7 +69,9 @@ describe('Menu.Collapsed', () => {
         jest.runAllTimers();
         wrapper.update();
       });
-      wrapper.simulate('transitionEnd', { propertyName: 'width' });
+      wrapper
+        .find('Overflow')
+        .simulate('transitionEnd', { propertyName: 'width' });
 
       // Flush SubMenu raf state update
       act(() => {
@@ -118,7 +120,9 @@ describe('Menu.Collapsed', () => {
         wrapper.update();
       });
 
-      wrapper.simulate('transitionEnd', { propertyName: 'width' });
+      wrapper
+        .find('Overflow')
+        .simulate('transitionEnd', { propertyName: 'width' });
 
       // Wait internal raf work
       act(() => {
