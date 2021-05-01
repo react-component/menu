@@ -179,5 +179,88 @@ describe('Menu.Keyboard', () => {
     testDirection('ltr', KeyCode.RIGHT, KeyCode.LEFT);
     testDirection('rtl', KeyCode.LEFT, KeyCode.RIGHT);
   });
+
+  it('inline keyboard', () => {
+    const wrapper = mount(
+      <Menu mode="inline">
+        <MenuItem key="light">Light</MenuItem>
+        <SubMenu key="bamboo" title="Bamboo">
+          <MenuItem key="little">Little</MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+
+    // Nothing happen when no control key
+    keyDown(wrapper, KeyCode.P);
+    expect(wrapper.exists('.rc-menu-item-active')).toBeFalsy();
+
+    // Active first
+    keyDown(wrapper, KeyCode.DOWN);
+    expect(wrapper.isActive(0)).toBeTruthy();
+
+    // Active next
+    keyDown(wrapper, KeyCode.DOWN);
+
+    // Right will not open
+    keyDown(wrapper, KeyCode.RIGHT);
+    expect(wrapper.find('InlineSubMenuList').prop('open')).toBeFalsy();
+
+    // Trigger open
+    keyDown(wrapper, KeyCode.ENTER);
+    expect(wrapper.find('InlineSubMenuList').prop('open')).toBeTruthy();
+    expect(
+      wrapper
+        .find('.rc-menu-submenu')
+        .last()
+        .hasClass('rc-menu-submenu-active'),
+    ).toBeTruthy();
+    expect(wrapper.isActive(1)).toBeFalsy();
+
+    // Active sub item
+    keyDown(wrapper, KeyCode.DOWN);
+    expect(wrapper.isActive(1)).toBeTruthy();
+  });
+
+  it('Focus last one', () => {
+    const wrapper = mount(
+      <Menu mode="inline">
+        <MenuItem key="light">Light</MenuItem>
+        <MenuItem key="bamboo">Bamboo</MenuItem>
+      </Menu>,
+    );
+
+    keyDown(wrapper, KeyCode.UP);
+    expect(wrapper.isActive(1)).toBeTruthy();
+  });
+
+  it('Focus to link direct', () => {
+    const wrapper = mount(
+      <Menu mode="inline">
+        <MenuItem key="light">
+          <a href="https://ant.design">Light</a>
+        </MenuItem>
+      </Menu>,
+    );
+
+    const focusSpy = jest.spyOn(
+      (wrapper.find('a').instance() as any) as HTMLAnchorElement,
+      'focus',
+    );
+
+    keyDown(wrapper, KeyCode.DOWN);
+    expect(focusSpy).toHaveBeenCalled();
+  });
+
+  it('no dead loop', () => {
+    const wrapper = mount(
+      <Menu mode="vertical" openKeys={['bamboo']}>
+        <MenuItem key="little">Little</MenuItem>
+      </Menu>,
+    );
+
+    keyDown(wrapper, KeyCode.DOWN);
+    keyDown(wrapper, KeyCode.LEFT);
+    expect(wrapper.isActive(0)).toBeTruthy();
+  });
 });
 /* eslint-enable */

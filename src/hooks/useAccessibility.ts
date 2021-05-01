@@ -105,6 +105,8 @@ function findContainerUL(element: HTMLElement): HTMLUListElement {
     current = current.parentElement;
   }
 
+  // Normally should not reach this line
+  /* istanbul ignore next */
   return null;
 }
 
