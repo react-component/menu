@@ -1,8 +1,7 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render, mount } from 'enzyme';
-import { renderToJson } from 'enzyme-to-json';
+import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { resetWarned } from 'rc-util/lib/warning';
 import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
@@ -105,8 +104,8 @@ describe('Menu', () => {
     }
 
     it('renders menu correctly', () => {
-      const wrapper = render(createMenu());
-      expect(renderToJson(wrapper)).toMatchSnapshot();
+      const wrapper = mount(createMenu());
+      expect(wrapper.render()).toMatchSnapshot();
     });
   });
 

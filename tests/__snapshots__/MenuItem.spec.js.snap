@@ -3,6 +3,7 @@
 exports[`MenuItem overwrite default role should set role to listitem 1`] = `
 <li
   class="rc-menu-item"
+  data-menu-id="rc-menu-uuid-test-tmp_key-0"
   role="listitem"
   tabindex="-1"
 >
@@ -13,6 +14,7 @@ exports[`MenuItem overwrite default role should set role to listitem 1`] = `
 exports[`MenuItem overwrite default role should set role to none if none 1`] = `
 <li
   class="rc-menu-item"
+  data-menu-id="rc-menu-uuid-test-tmp_key-0"
   role="none"
   tabindex="-1"
 >
@@ -23,6 +25,7 @@ exports[`MenuItem overwrite default role should set role to none if none 1`] = `
 exports[`MenuItem overwrite default role should set role to none if null 1`] = `
 <li
   class="rc-menu-item"
+  data-menu-id="rc-menu-uuid-test-tmp_key-0"
   role="none"
   tabindex="-1"
 >
@@ -34,6 +37,7 @@ exports[`MenuItem overwrite default role should set role to option 1`] = `
 <li
   aria-selected="false"
   class="rc-menu-item"
+  data-menu-id="rc-menu-uuid-test-tmp_key-0"
   role="option"
   tabindex="-1"
 >
@@ -50,6 +54,7 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
 >
   <li
     class="rc-menu-item rc-menu-item-active className"
+    data-menu-id="rc-menu-uuid-test-1"
     data-whatever="whatever"
     role="menuitem"
     style="padding-left: 24px; font-size: 20px;"
@@ -65,10 +70,11 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
     style="font-size: 20px;"
   >
     <div
-      aria-controls="rc-menu-uuid-test-bamboo"
+      aria-controls="rc-menu-uuid-test-bamboo-popup"
       aria-expanded="true"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-bamboo"
       role="menuitem"
       style="padding-left: 24px;"
       tabindex="-1"
@@ -82,10 +88,11 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
     <ul
       class="rc-menu rc-menu-sub rc-menu-inline"
       data-menu-list="true"
-      id="rc-menu-uuid-test-bamboo"
+      id="rc-menu-uuid-test-bamboo-popup"
     >
       <li
         class="rc-menu-item className"
+        data-menu-id="rc-menu-uuid-test-2"
         data-whatever="whatever"
         role="menuitem"
         style="padding-left: 48px; font-size: 20px;"
@@ -112,6 +119,7 @@ exports[`MenuItem rest props onClick event should only trigger 1 time along the 
     >
       <li
         class="rc-menu-item className"
+        data-menu-id="rc-menu-uuid-test-3"
         data-whatever="whatever"
         role="menuitem"
         style="padding-left: 24px; font-size: 20px;"

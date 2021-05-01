@@ -10,6 +10,7 @@ exports[`Menu render role listbox renders menu correctly 1`] = `
   <li
     aria-selected="false"
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-1"
     role="option"
     tabindex="-1"
   >
@@ -18,6 +19,7 @@ exports[`Menu render role listbox renders menu correctly 1`] = `
   <li
     aria-selected="false"
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-2"
     role="option"
     tabindex="-1"
   >
@@ -26,6 +28,7 @@ exports[`Menu render role listbox renders menu correctly 1`] = `
   <li
     aria-selected="false"
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-3"
     role="option"
     tabindex="-1"
   >
@@ -55,6 +58,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-1"
         role="menuitem"
         tabindex="-1"
       >
@@ -65,6 +69,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       />
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-2"
         role="menuitem"
         tabindex="-1"
       >
@@ -74,6 +79,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-3"
     role="menuitem"
     tabindex="-1"
   >
@@ -93,6 +99,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-4"
         role="menuitem"
         tabindex="-1"
       >
@@ -101,6 +108,7 @@ exports[`Menu should render horizontal menu correctly 1`] = `
       <li
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
+        data-menu-id="rc-menu-uuid-test-5"
         role="menuitem"
       >
         5
@@ -112,10 +120,11 @@ exports[`Menu should render horizontal menu correctly 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-3"
+      aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-3"
       role="menuitem"
       tabindex="-1"
       title="submenu"
@@ -151,6 +160,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-1"
         role="menuitem"
         tabindex="-1"
       >
@@ -161,6 +171,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       />
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-2"
         role="menuitem"
         tabindex="-1"
       >
@@ -170,6 +181,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-3"
     role="menuitem"
     tabindex="-1"
   >
@@ -189,6 +201,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-4"
         role="menuitem"
         tabindex="-1"
       >
@@ -197,6 +210,7 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
       <li
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
+        data-menu-id="rc-menu-uuid-test-5"
         role="menuitem"
       >
         5
@@ -208,10 +222,11 @@ exports[`Menu should render horizontal menu with rtl direction correctly 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-3"
+      aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-3"
       role="menuitem"
       tabindex="-1"
       title="submenu"
@@ -246,6 +261,7 @@ exports[`Menu should render inline menu correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-1"
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
@@ -257,6 +273,7 @@ exports[`Menu should render inline menu correctly 1`] = `
       />
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-2"
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
@@ -267,6 +284,7 @@ exports[`Menu should render inline menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-3"
     role="menuitem"
     style="padding-left: 24px;"
     tabindex="-1"
@@ -287,6 +305,7 @@ exports[`Menu should render inline menu correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-4"
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
@@ -296,6 +315,7 @@ exports[`Menu should render inline menu correctly 1`] = `
       <li
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
+        data-menu-id="rc-menu-uuid-test-5"
         role="menuitem"
         style="padding-left: 24px;"
       >
@@ -308,10 +328,11 @@ exports[`Menu should render inline menu correctly 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-3"
+      aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-3"
       role="menuitem"
       style="padding-left: 24px;"
       tabindex="-1"
@@ -348,6 +369,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-1"
         role="menuitem"
         style="padding-right: 24px;"
         tabindex="-1"
@@ -359,6 +381,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
       />
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-2"
         role="menuitem"
         style="padding-right: 24px;"
         tabindex="-1"
@@ -369,6 +392,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-3"
     role="menuitem"
     style="padding-right: 24px;"
     tabindex="-1"
@@ -389,6 +413,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-4"
         role="menuitem"
         style="padding-right: 24px;"
         tabindex="-1"
@@ -398,6 +423,7 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
       <li
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
+        data-menu-id="rc-menu-uuid-test-5"
         role="menuitem"
         style="padding-right: 24px;"
       >
@@ -410,10 +436,11 @@ exports[`Menu should render inline menu with rtl direction correctly 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-3"
+      aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-3"
       role="menuitem"
       style="padding-right: 24px;"
       tabindex="-1"
@@ -440,10 +467,11 @@ exports[`Menu should render should support Fragment 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-0"
+      aria-controls="rc-menu-uuid-test-tmp_key-0-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-0"
       role="menuitem"
       tabindex="-1"
       title="submenu"
@@ -456,6 +484,7 @@ exports[`Menu should render should support Fragment 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-7"
     role="menuitem"
     tabindex="-1"
   >
@@ -466,10 +495,11 @@ exports[`Menu should render should support Fragment 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-2"
+      aria-controls="rc-menu-uuid-test-tmp_key-2-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-2"
       role="menuitem"
       tabindex="-1"
       title="submenu"
@@ -482,6 +512,7 @@ exports[`Menu should render should support Fragment 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-9"
     role="menuitem"
     tabindex="-1"
   >
@@ -511,6 +542,7 @@ exports[`Menu should render vertical menu correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-1"
         role="menuitem"
         tabindex="-1"
       >
@@ -521,6 +553,7 @@ exports[`Menu should render vertical menu correctly 1`] = `
       />
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-2"
         role="menuitem"
         tabindex="-1"
       >
@@ -530,6 +563,7 @@ exports[`Menu should render vertical menu correctly 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-3"
     role="menuitem"
     tabindex="-1"
   >
@@ -549,6 +583,7 @@ exports[`Menu should render vertical menu correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-4"
         role="menuitem"
         tabindex="-1"
       >
@@ -557,6 +592,7 @@ exports[`Menu should render vertical menu correctly 1`] = `
       <li
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
+        data-menu-id="rc-menu-uuid-test-5"
         role="menuitem"
       >
         5
@@ -568,10 +604,11 @@ exports[`Menu should render vertical menu correctly 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-3"
+      aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-3"
       role="menuitem"
       tabindex="-1"
       title="submenu"
@@ -607,6 +644,7 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-1"
         role="menuitem"
         tabindex="-1"
       >
@@ -617,6 +655,7 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
       />
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-2"
         role="menuitem"
         tabindex="-1"
       >
@@ -626,6 +665,7 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
   </li>
   <li
     class="rc-menu-item"
+    data-menu-id="rc-menu-uuid-test-3"
     role="menuitem"
     tabindex="-1"
   >
@@ -645,6 +685,7 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
     >
       <li
         class="rc-menu-item"
+        data-menu-id="rc-menu-uuid-test-4"
         role="menuitem"
         tabindex="-1"
       >
@@ -653,6 +694,7 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
       <li
         aria-disabled="true"
         class="rc-menu-item rc-menu-item-disabled"
+        data-menu-id="rc-menu-uuid-test-5"
         role="menuitem"
       >
         5
@@ -664,10 +706,11 @@ exports[`Menu should render vertical menu with rtl direction correctly 1`] = `
     role="none"
   >
     <div
-      aria-controls="rc-menu-uuid-test-tmp_key-3"
+      aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
       aria-expanded="false"
       aria-haspopup="true"
       class="rc-menu-submenu-title"
+      data-menu-id="rc-menu-uuid-test-tmp_key-3"
       role="menuitem"
       tabindex="-1"
       title="submenu"
