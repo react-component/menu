@@ -24,7 +24,7 @@ import SubMenu from './SubMenu';
 import useAccessibility from './hooks/useAccessibility';
 import useUUID from './hooks/useUUID';
 import { PathRegisterContext, PathUserContext } from './context/MeasureContext';
-import useKeyRecords from './hooks/useKeyRecords';
+import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import { IdContext } from './context/IdContext';
 
 /**
@@ -264,6 +264,7 @@ const Menu: React.FC<MenuProps> = props => {
   const {
     registerPath,
     unregisterPath,
+    refreshOverflowKeys,
 
     isSubPathKey,
     getKeyPath,
@@ -280,6 +281,16 @@ const Menu: React.FC<MenuProps> = props => {
     isSubPathKey,
     getKeyPath,
   ]);
+
+  React.useEffect(() => {
+    refreshOverflowKeys(
+      allVisible
+        ? EMPTY_LIST
+        : childList
+            .slice(lastVisibleIndex + 1)
+            .map(child => child.key as string),
+    );
+  }, [lastVisibleIndex, allVisible]);
 
   // ======================== Active ========================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState(
@@ -458,7 +469,7 @@ const Menu: React.FC<MenuProps> = props => {
 
         return (
           <SubMenu
-            eventKey="rc-menu-more"
+            eventKey={OVERFLOW_KEY}
             title={overflowedIndicator}
             disabled={allVisible}
             internalPopupClose={len === 0}
@@ -494,8 +505,6 @@ const Menu: React.FC<MenuProps> = props => {
         // Motion
         motion={mounted ? motion : null}
         defaultMotions={mounted ? defaultMotions : null}
-        // Path
-        // {...keyRecords}
         // Active
         activeKey={mergedActiveKey}
         onActive={onActive}

@@ -189,7 +189,7 @@ export default function useAccessibility<T extends HTMLElement>(
 
   containerRef: React.RefObject<HTMLUListElement>,
   getKeys: () => string[],
-  getKeyPath: (key: string) => string[],
+  getKeyPath: (key: string, includeOverflow?: boolean) => string[],
 
   triggerActiveKey: (key: string) => void,
   triggerAccessibilityOpen: (key: string, open?: boolean) => void,
@@ -253,7 +253,7 @@ export default function useAccessibility<T extends HTMLElement>(
 
       const offsetObj = getOffset(
         mode,
-        getKeyPath(focusMenuKey).length === 1,
+        getKeyPath(focusMenuKey, true).length === 1,
         isRtl,
         which,
       );
@@ -342,7 +342,7 @@ export default function useAccessibility<T extends HTMLElement>(
           tryFocus(targetElement);
         }, 5);
       } else if (offsetObj.offset < 0) {
-        const keyPath = getKeyPath(focusMenuKey);
+        const keyPath = getKeyPath(focusMenuKey, true);
         const parentKey = keyPath[keyPath.length - 2];
 
         const parentMenuElement = key2element.get(parentKey);

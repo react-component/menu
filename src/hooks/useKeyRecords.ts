@@ -8,10 +8,13 @@ const PATH_SPLIT = '__RC_UTIL_PATH_SPLIT__';
 const getPathStr = (keyPath: string[]) => keyPath.join(PATH_SPLIT);
 const getPathKeys = (keyPathStr: string) => keyPathStr.split(PATH_SPLIT);
 
+export const OVERFLOW_KEY = 'rc-menu-more';
+
 export default function useKeyRecords() {
   const [, forceUpdate] = React.useState({});
   const key2pathRef = useRef(new Map<string, string>());
   const path2keyRef = useRef(new Map<string, string>());
+  const [overflowKeys, setOverflowKeys] = React.useState([]);
   const updateRef = useRef(0);
 
   const registerPath = useCallback((key: string, keyPath: string[]) => {
@@ -44,23 +47,45 @@ export default function useKeyRecords() {
     key2pathRef.current.delete(key);
   }, []);
 
+  const refreshOverflowKeys = useCallback((keys: string[]) => {
+    setOverflowKeys(keys);
+  }, []);
+
+  const getKeyPath = useCallback(
+    (eventKey: string, includeOverflow?: boolean) => {
+      const fullPath = key2pathRef.current.get(eventKey) || '';
+      const keys = getPathKeys(fullPath);
+
+      if (includeOverflow && overflowKeys.includes(keys[0])) {
+        keys.unshift(OVERFLOW_KEY);
+      }
+
+      return keys;
+    },
+    [overflowKeys],
+  );
+
   const isSubPathKey = useCallback(
     (pathKeys: string[], eventKey: string) =>
       pathKeys.some(pathKey => {
-        const fullPath = key2pathRef.current.get(pathKey) || '';
-        const pathKeyList = getPathKeys(fullPath);
+        // const fullPath = key2pathRef.current.get(pathKey) || '';
+        // const pathKeyList = getPathKeys(fullPath);
+        const pathKeyList = getKeyPath(pathKey, true);
 
         return pathKeyList.includes(eventKey);
       }),
-    [],
+    [overflowKeys],
   );
 
-  const getKeyPath = useCallback((eventKey: string) => {
-    const fullPath = key2pathRef.current.get(eventKey) || '';
-    return getPathKeys(fullPath);
-  }, []);
+  const getKeys = () => {
+    const keys = [...key2pathRef.current.keys()];
 
-  const getKeys = () => [...key2pathRef.current.keys()];
+    if (overflowKeys.length) {
+      keys.push(OVERFLOW_KEY);
+    }
+
+    return keys;
+  };
 
   /**
    * Find current key related child path keys
@@ -81,6 +106,7 @@ export default function useKeyRecords() {
     // Register
     registerPath,
     unregisterPath,
+    refreshOverflowKeys,
 
     // Util
     isSubPathKey,
