@@ -1,6 +1,8 @@
 import * as React from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 
+const uniquePrefix = Math.random().toFixed(5).toString().slice(2);
+
 let internalId = 0;
 
 export default function useUUID(id?: string) {
@@ -11,7 +13,7 @@ export default function useUUID(id?: string) {
   React.useEffect(() => {
     internalId += 1;
     const newId = process.env.NODE_ENV === 'test' ? 'test' : internalId;
-    setUUID(`rc-menu-uuid-${newId}`);
+    setUUID(`rc-menu-uuid-${uniquePrefix}-${newId}`);
   }, []);
 
   return uuid;

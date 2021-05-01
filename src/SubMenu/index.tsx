@@ -243,7 +243,8 @@ export default function SubMenu(props: SubMenuProps) {
   }, [eventKey, connectedKeys, overflowDisabled]);
 
   // =============================== Render ===============================
-  const popupId = `${id}-${eventKey}`;
+  const domDataId = `${id}-${eventKey}`;
+  const popupId = `${domDataId}-popup`;
 
   // >>>>> Title
   let titleNode: React.ReactElement = (
@@ -254,6 +255,7 @@ export default function SubMenu(props: SubMenuProps) {
       tabIndex={mergedDisabled ? null : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : null}
+      data-menu-id={domDataId}
       aria-expanded={open}
       aria-haspopup
       aria-controls={popupId}

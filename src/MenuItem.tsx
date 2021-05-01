@@ -94,6 +94,8 @@ const MenuItem = (props: MenuItemProps) => {
   } = props;
 
   const {
+    id,
+
     prefixCls,
     onItemClick,
     parentKeys,
@@ -191,6 +193,8 @@ const MenuItem = (props: MenuItemProps) => {
   }, [eventKey, connectedKeys, overflowDisabled]);
 
   // ============================ Render ============================
+  const domDataId = `${id}-${eventKey}`;
+
   const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
 
   if (props.role === 'option') {
@@ -203,6 +207,7 @@ const MenuItem = (props: MenuItemProps) => {
       elementRef={elementRef}
       role={role === null ? 'none' : role || 'menuitem'}
       tabIndex={disabled ? null : -1}
+      data-menu-id={domDataId}
       {...restProps}
       {...activeProps}
       {...optionRoleProps}

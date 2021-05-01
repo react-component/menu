@@ -491,5 +491,17 @@ describe('Menu', () => {
     wrapper.find('ul.rc-menu-root').simulate('mouseEnter');
     expect(onMouseEnter).toHaveBeenCalled();
   });
+
+  it('pass active when nest children is', () => {
+    const wrapper = mount(
+      <Menu activeKey="light" mode="vertical">
+        <SubMenu key="bamboo" title="Bamboo">
+          <MenuItem key="light">Light</MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+
+    expect(wrapper.exists('.rc-menu-submenu-active')).toBeTruthy();
+  });
 });
 /* eslint-enable */
