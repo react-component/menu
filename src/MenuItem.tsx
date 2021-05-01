@@ -108,10 +108,6 @@ const MenuItem = (props: MenuItemProps) => {
 
     // Select
     selectedKeys,
-
-    // Path
-    registerPath,
-    unregisterPath,
   } = React.useContext(MenuContext);
   const itemCls = `${prefixCls}-item`;
 
@@ -178,20 +174,6 @@ const MenuItem = (props: MenuItemProps) => {
     }
   };
 
-  // ============================ Effect ============================
-  // Path register
-  // eslint-disable-next-line consistent-return
-  React.useEffect(() => {
-    if (!overflowDisabled) {
-      const element = elementRef.current;
-      registerPath(eventKey, connectedKeys, element);
-
-      return () => {
-        unregisterPath(eventKey, connectedKeys, element);
-      };
-    }
-  }, [eventKey, connectedKeys, overflowDisabled]);
-
   // ============================ Render ============================
   const domDataId = `${id}-${eventKey}`;
 
@@ -207,7 +189,7 @@ const MenuItem = (props: MenuItemProps) => {
       elementRef={elementRef}
       role={role === null ? 'none' : role || 'menuitem'}
       tabIndex={disabled ? null : -1}
-      data-menu-id={domDataId}
+      data-menu-id={overflowDisabled ? null : domDataId}
       {...restProps}
       {...activeProps}
       {...optionRoleProps}

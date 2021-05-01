@@ -107,8 +107,6 @@ export default function SubMenu(props: SubMenuProps) {
     selectedKeys,
 
     // Path
-    registerPath,
-    unregisterPath,
     keyInPath,
 
     // Icon
@@ -228,20 +226,6 @@ export default function SubMenu(props: SubMenuProps) {
     onOpenChange(eventKey, newVisible);
   };
 
-  // =============================== Effect ===============================
-  // Path register
-  // eslint-disable-next-line consistent-return
-  React.useEffect(() => {
-    if (!overflowDisabled) {
-      const element = elementRef.current;
-      registerPath(eventKey, connectedKeys, element);
-
-      return () => {
-        unregisterPath(eventKey, connectedKeys, element);
-      };
-    }
-  }, [eventKey, connectedKeys, overflowDisabled]);
-
   // =============================== Render ===============================
   const domDataId = `${id}-${eventKey}`;
   const popupId = `${domDataId}-popup`;
@@ -255,7 +239,7 @@ export default function SubMenu(props: SubMenuProps) {
       tabIndex={mergedDisabled ? null : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : null}
-      data-menu-id={domDataId}
+      data-menu-id={overflowDisabled ? null : domDataId}
       aria-expanded={open}
       aria-haspopup
       aria-controls={popupId}
