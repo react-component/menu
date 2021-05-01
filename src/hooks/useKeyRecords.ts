@@ -68,13 +68,11 @@ export default function useKeyRecords() {
   const isSubPathKey = useCallback(
     (pathKeys: string[], eventKey: string) =>
       pathKeys.some(pathKey => {
-        // const fullPath = key2pathRef.current.get(pathKey) || '';
-        // const pathKeyList = getPathKeys(fullPath);
         const pathKeyList = getKeyPath(pathKey, true);
 
         return pathKeyList.includes(eventKey);
       }),
-    [overflowKeys],
+    [getKeyPath],
   );
 
   const getKeys = () => {

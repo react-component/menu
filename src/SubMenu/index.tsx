@@ -184,7 +184,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     }
 
     return false;
-  }, [mode, active, activeKey, childrenActive, eventKey]);
+  }, [mode, active, activeKey, childrenActive, eventKey, isSubPathKey]);
 
   // ========================== DirectionStyle ==========================
   const directionStyle = useDirectionStyle(keyPath.length);

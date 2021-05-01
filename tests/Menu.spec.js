@@ -491,7 +491,7 @@ describe('Menu', () => {
     expect(onMouseEnter).toHaveBeenCalled();
   });
 
-  it('pass active when nest children is', () => {
+  it('Nest children active should bump to top', async () => {
     const wrapper = mount(
       <Menu activeKey="light" mode="vertical">
         <SubMenu key="bamboo" title="Bamboo">
