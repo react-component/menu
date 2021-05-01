@@ -331,5 +331,28 @@ describe('SubMenu', () => {
       color: 'red',
     });
   });
+
+  it('inline click for open', () => {
+    const onOpenChange = jest.fn();
+
+    const wrapper = mount(
+      <Menu mode="inline" onOpenChange={onOpenChange}>
+        <SubMenu key="bamboo" title="Bamboo" disabled>
+          <MenuItem key="little">Little</MenuItem>
+        </SubMenu>
+        <SubMenu key="light" title="Light">
+          <MenuItem key="sub">Sub</MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+
+    // Disabled
+    wrapper.find('div.rc-menu-submenu-title').first().simulate('click');
+    expect(onOpenChange).not.toHaveBeenCalled();
+
+    // Disabled
+    wrapper.find('div.rc-menu-submenu-title').last().simulate('click');
+    expect(onOpenChange).toHaveBeenCalledWith(['light']);
+  });
 });
 /* eslint-enable */
