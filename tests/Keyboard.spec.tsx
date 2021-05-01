@@ -258,6 +258,7 @@ describe('Menu.Keyboard', () => {
 
     keyDown(wrapper, KeyCode.DOWN);
     keyDown(wrapper, KeyCode.LEFT);
+    keyDown(wrapper, KeyCode.RIGHT);
     expect(wrapper.isActive(0)).toBeTruthy();
   });
 });

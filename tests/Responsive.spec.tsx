@@ -1,9 +1,11 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import React from 'react';
 import { act } from 'react-dom/test-utils';
+import KeyCode from 'rc-util/lib/KeyCode';
 import ResizeObserver from 'rc-resize-observer';
 import { mount } from './util';
 import Menu, { MenuItem, SubMenu } from '../src';
+import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
 
 describe('Menu.Responsive', () => {
   beforeEach(() => {
@@ -15,14 +17,16 @@ describe('Menu.Responsive', () => {
   });
 
   it('show rest', () => {
+    const onOpenChange = jest.fn();
     const wrapper = mount(
-      <Menu mode="horizontal">
+      <Menu mode="horizontal" activeKey="little" onOpenChange={onOpenChange}>
         <MenuItem key="light">Light</MenuItem>
         <MenuItem key="bamboo">Bamboo</MenuItem>
         <SubMenu key="home" title="Home">
           <MenuItem key="little">Little</MenuItem>
         </SubMenu>
       </Menu>,
+      { attachTo: document.body },
     );
 
     act(() => {
@@ -57,6 +61,22 @@ describe('Menu.Responsive', () => {
     expect(
       wrapper.find('.rc-menu-overflow-item-rest').last().prop('style').opacity,
     ).not.toEqual(0);
+
+    // Should set active on rest
+    expect(
+      wrapper
+        .find('.rc-menu-overflow-item-rest')
+        .last()
+        .hasClass('rc-menu-submenu-active'),
+    ).toBeTruthy();
+
+    // Key down can open
+    expect(onOpenChange).not.toHaveBeenCalled();
+    wrapper.setProps({ activeKey: OVERFLOW_KEY });
+    wrapper
+      .find('ul.rc-menu-root')
+      .simulate('keyDown', { which: KeyCode.DOWN });
+    expect(onOpenChange).toHaveBeenCalled();
   });
 });
 /* eslint-enable */
