@@ -118,6 +118,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
     // Events
     onItemClick,
     onOpenChange,
+
+    onActive,
   } = React.useContext(MenuContext);
 
   const { isSubPathKey, getKeyPath } = React.useContext(PathUserContext);
@@ -219,6 +221,14 @@ const InternalSubMenu = (props: SubMenuProps) => {
     onOpenChange(eventKey, newVisible);
   };
 
+  /**
+   * Used for accessibility. Helper will focus element without key board.
+   * We should manually trigger an active
+   */
+  const onInternalFocus: React.FocusEventHandler<HTMLDivElement> = () => {
+    onActive(eventKey);
+  };
+
   // =============================== Render ===============================
   const popupId = `${domDataId}-popup`;
 
@@ -237,6 +247,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       aria-controls={popupId}
       aria-disabled={mergedDisabled}
       onClick={onInternalTitleClick}
+      onFocus={onInternalFocus}
       {...activeProps}
     >
       {title}

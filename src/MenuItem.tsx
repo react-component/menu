@@ -44,9 +44,6 @@ export interface MenuItemProps
 
   // >>>>> Events
   onClick?: MenuClickEventHandler;
-
-  // >>>>>>>>>>>>>> Next round
-  // onDestroy?: DestroyEventHandler;
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
@@ -96,6 +93,8 @@ const InternalMenuItem = (props: MenuItemProps) => {
     onClick,
     onKeyDown,
 
+    onFocus,
+
     ...restProps
   } = props;
 
@@ -113,6 +112,9 @@ const InternalMenuItem = (props: MenuItemProps) => {
 
     // Select
     selectedKeys,
+
+    // Active
+    onActive,
   } = React.useContext(MenuContext);
   const itemCls = `${prefixCls}-item`;
 
@@ -176,6 +178,15 @@ const InternalMenuItem = (props: MenuItemProps) => {
     }
   };
 
+  /**
+   * Used for accessibility. Helper will focus element without key board.
+   * We should manually trigger an active
+   */
+  const onInternalFocus: React.FocusEventHandler<HTMLLIElement> = e => {
+    onActive(eventKey);
+    onFocus?.(e);
+  };
+
   // ============================ Render ============================
   const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
 
@@ -210,6 +221,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
       )}
       onClick={onInternalClick}
       onKeyDown={onInternalKeyDown}
+      onFocus={onInternalFocus}
     >
       {children}
       <Icon
