@@ -1,6 +1,7 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
+import type { CSSMotionProps } from 'rc-motion';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import '../../assets/index.less';
 
@@ -9,17 +10,42 @@ function handleClick(info) {
   console.log(info);
 }
 
-const collapseNode = () => ({ height: 0 });
-const expandNode = node => ({ height: node.scrollHeight });
+const collapseNode = () => {
+  return { height: 0 };
+};
+const expandNode = node => {
+  return { height: node.scrollHeight };
+};
 
-const inlineMotion = {
+const horizontalMotion: CSSMotionProps = {
+  motionName: 'rc-menu-open-slide-up',
+  motionAppear: true,
+  motionEnter: true,
+  motionLeave: true,
+};
+
+const verticalMotion: CSSMotionProps = {
+  motionName: 'rc-menu-open-zoom',
+  motionAppear: true,
+  motionEnter: true,
+  motionLeave: true,
+};
+
+const inlineMotion: CSSMotionProps = {
   motionName: 'rc-menu-collapse',
+  motionAppear: true,
   onAppearStart: collapseNode,
   onAppearActive: expandNode,
   onEnterStart: collapseNode,
   onEnterActive: expandNode,
   onLeaveStart: expandNode,
   onLeaveActive: collapseNode,
+};
+
+const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
+  horizontal: horizontalMotion,
+  inline: inlineMotion,
+  vertical: verticalMotion,
 };
 
 const nestSubMenu = (
@@ -115,11 +141,11 @@ class CommonMenu extends React.Component {
   };
 
   render() {
-    const { triggerSubMenuAction } = this.props;
+    const { updateChildrenAndOverflowedIndicator, ...restProps } = this.props;
     const { children, overflowedIndicator } = this.state;
     return (
       <div>
-        {this.props.updateChildrenAndOverflowedIndicator && (
+        {updateChildrenAndOverflowedIndicator && (
           <div>
             <button type="button" onClick={this.toggleChildren}>
               toggle children
@@ -131,15 +157,11 @@ class CommonMenu extends React.Component {
         )}
         <Menu
           onClick={handleClick}
-          triggerSubMenuAction={triggerSubMenuAction}
           onOpenChange={onOpenChange}
           selectedKeys={['3']}
-          mode={this.props.mode}
-          openAnimation={this.props.openAnimation}
-          defaultOpenKeys={this.props.defaultOpenKeys}
           overflowedIndicator={overflowedIndicator}
-          motion={this.props.motion}
           direction="rtl"
+          {...restProps}
         >
           {children}
         </Menu>
@@ -153,7 +175,7 @@ function Demo() {
     <CommonMenu
       mode="horizontal"
       // use openTransition for antd
-      openAnimation="slide-up"
+      defaultMotions={motionMap}
     />
   );
 
@@ -161,13 +183,15 @@ function Demo() {
     <CommonMenu
       mode="horizontal"
       // use openTransition for antd
-      openAnimation="slide-up"
+      defaultMotions={motionMap}
       triggerSubMenuAction="click"
       updateChildrenAndOverflowedIndicator
     />
   );
 
-  const verticalMenu = <CommonMenu mode="vertical" openAnimation="zoom" />;
+  const verticalMenu = (
+    <CommonMenu mode="vertical" defaultMotions={motionMap} />
+  );
 
   const inlineMenu = (
     <CommonMenu mode="inline" defaultOpenKeys={['1']} motion={inlineMotion} />

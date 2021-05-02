@@ -1,25 +1,25 @@
 import * as React from 'react';
+import classNames from 'classnames';
+import { MenuContext } from './context/MenuContext';
+import { useMeasure } from './context/MeasureContext';
 
 export interface DividerProps {
   className?: string;
-  rootPrefixCls?: string;
   style?: React.CSSProperties;
-  disabled?: boolean;
 }
 
-const Divider: React.FC<DividerProps> = ({
-  className,
-  rootPrefixCls,
-  style,
-}) => (
-  <li className={`${className} ${rootPrefixCls}-item-divider`} style={style} />
-);
+export default function Divider({ className, style }: DividerProps) {
+  const { prefixCls } = React.useContext(MenuContext);
+  const measure = useMeasure();
 
-Divider.defaultProps = {
-  // To fix keyboard UX.
-  disabled: true,
-  className: '',
-  style: {},
-};
+  if (measure) {
+    return null;
+  }
 
-export default Divider;
+  return (
+    <li
+      className={classNames(`${prefixCls}-item-divider`, className)}
+      style={style}
+    />
+  );
+}
