@@ -47,7 +47,7 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
 };
 
 export default () => {
-  const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
+  const [mode, setMode] = React.useState<MenuProps['mode']>('inline');
   const [narrow, setNarrow] = React.useState(true);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(false);
@@ -111,7 +111,7 @@ export default () => {
           onClick={onRootClick}
           defaultMotions={motionMap}
           inlineCollapsed={inlineCollapsed}
-          openKeys={openKeys}
+          // openKeys={openKeys}
           onOpenChange={newOpenKeys => setOpenKeys(newOpenKeys)}
         >
           <Menu.Item key="mail">

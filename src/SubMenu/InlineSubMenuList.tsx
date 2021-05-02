@@ -50,7 +50,7 @@ export default function InlineSubMenuList({
   const mergedMotion = { ...getMotion(fixedMode, motion, defaultMotions) };
 
   // No need appear since nest inlineCollapse changed
-  if (keyPath.length > 2) {
+  if (keyPath.length > 1) {
     mergedMotion.motionAppear = false;
   }
 
