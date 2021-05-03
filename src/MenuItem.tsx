@@ -200,7 +200,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
       elementRef={elementRef}
       role={role === null ? 'none' : role || 'menuitem'}
       tabIndex={disabled ? null : -1}
-      data-menu-id={overflowDisabled ? null : domDataId}
+      data-menu-id={overflowDisabled && domDataId ? null : domDataId}
       {...restProps}
       {...activeProps}
       {...optionRoleProps}

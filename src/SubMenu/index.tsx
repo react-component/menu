@@ -230,7 +230,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   };
 
   // =============================== Render ===============================
-  const popupId = `${domDataId}-popup`;
+  const popupId = domDataId && `${domDataId}-popup`;
 
   // >>>>> Title
   let titleNode: React.ReactElement = (
@@ -241,7 +241,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       tabIndex={mergedDisabled ? null : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : null}
-      data-menu-id={overflowDisabled ? null : domDataId}
+      data-menu-id={overflowDisabled && domDataId ? null : domDataId}
       aria-expanded={open}
       aria-haspopup
       aria-controls={popupId}
