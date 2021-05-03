@@ -483,6 +483,7 @@ const Menu: React.FC<MenuProps> = props => {
           ? Overflow.INVALIDATE
           : Overflow.RESPONSIVE
       }
+      ssr="full"
       data-menu-list
       onVisibleChange={newLastIndex => {
         setLastVisibleIndex(newLastIndex);

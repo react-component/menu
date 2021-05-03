@@ -2,6 +2,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import { render } from 'enzyme';
 import { mount } from './util';
 import type { ReactWrapper } from './util';
 import KeyCode from 'rc-util/lib/KeyCode';
@@ -40,6 +41,18 @@ describe('Menu.Keyboard', () => {
       wrapper.update();
     });
   }
+
+  it('no data-menu-id by init', () => {
+    const wrapper = render(
+      <Menu mode="inline" openKeys={['light']}>
+        <Menu.SubMenu key="light" title="Light">
+          <Menu.Item key="bamboo">Bamboo</Menu.Item>
+        </Menu.SubMenu>
+      </Menu>,
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
 
   it('keydown works when children change', async () => {
     class App extends React.Component {

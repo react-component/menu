@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu.Responsive ssr render full 1`] = `
+Array [
+  <ul
+    class="rc-menu-overflow rc-menu rc-menu-root rc-menu-horizontal"
+    data-menu-list="true"
+    role="menu"
+    tabindex="0"
+  >
+    <li
+      class="rc-menu-overflow-item rc-menu-item"
+      role="menuitem"
+      style="opacity:1;order:0"
+      tabindex="-1"
+    >
+      Light
+    </li>
+    <li
+      class="rc-menu-overflow-item rc-menu-submenu rc-menu-submenu-horizontal"
+      role="none"
+      style="opacity:1;order:1"
+    >
+      <div
+        aria-expanded="false"
+        aria-haspopup="true"
+        class="rc-menu-submenu-title"
+        role="menuitem"
+        tabindex="-1"
+      >
+        <i
+          class="rc-menu-submenu-arrow"
+        />
+      </div>
+    </li>
+    <li
+      class="rc-menu-overflow-item rc-menu-item"
+      role="menuitem"
+      style="opacity:1;order:2"
+      tabindex="-1"
+    >
+      Little
+    </li>
+    <li
+      aria-hidden="true"
+      class="rc-menu-overflow-item rc-menu-overflow-item-rest rc-menu-submenu rc-menu-submenu-horizontal"
+      role="none"
+      style="opacity:0;height:0;overflow-y:hidden;order:9007199254740991;pointer-events:none"
+    >
+      <div
+        aria-expanded="false"
+        aria-haspopup="true"
+        class="rc-menu-submenu-title"
+        role="menuitem"
+        tabindex="-1"
+        title="..."
+      >
+        ...
+        <i
+          class="rc-menu-submenu-arrow"
+        />
+      </div>
+    </li>
+  </ul>,
+  "Bamboo",
+]
+`;

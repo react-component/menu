@@ -2,6 +2,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import KeyCode from 'rc-util/lib/KeyCode';
+import { render } from 'enzyme';
 import ResizeObserver from 'rc-resize-observer';
 import { mount } from './util';
 import Menu, { MenuItem, SubMenu } from '../src';
@@ -14,6 +15,18 @@ describe('Menu.Responsive', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+  });
+
+  it('ssr render full', () => {
+    const wrapper = render(
+      <Menu mode="horizontal">
+        <MenuItem key="light">Light</MenuItem>
+        <SubMenu key="bamboo">Bamboo</SubMenu>
+        <MenuItem key="little">Little</MenuItem>
+      </Menu>,
+    );
+
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('show rest', () => {

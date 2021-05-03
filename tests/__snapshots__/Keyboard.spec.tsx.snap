@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu.Keyboard no data-menu-id by init 1`] = `
+<ul
+  class="rc-menu rc-menu-root rc-menu-inline"
+  data-menu-list="true"
+  role="menu"
+  tabindex="0"
+>
+  <li
+    class="rc-menu-submenu rc-menu-submenu-inline rc-menu-submenu-open"
+    role="none"
+  >
+    <div
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="rc-menu-submenu-title"
+      role="menuitem"
+      style="padding-left:24px"
+      tabindex="-1"
+      title="Light"
+    >
+      Light
+      <i
+        class="rc-menu-submenu-arrow"
+      />
+    </div>
+    <ul
+      class="rc-menu rc-menu-sub rc-menu-inline"
+      data-menu-list="true"
+    >
+      <li
+        class="rc-menu-item"
+        role="menuitem"
+        style="padding-left:24px"
+        tabindex="-1"
+      >
+        Bamboo
+      </li>
+    </ul>
+  </li>
+</ul>
+`;
