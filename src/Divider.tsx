@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { MenuContext } from './context/MenuContext';
-import { useMeasure } from './context/MeasureContext';
+import { useMeasure } from './context/PathContext';
 
 export interface DividerProps {
   className?: string;
