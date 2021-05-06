@@ -218,7 +218,9 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   // >>>>> Visible change
   const onPopupVisibleChange = (newVisible: boolean) => {
-    onOpenChange(eventKey, newVisible);
+    if (mode !== 'inline') {
+      onOpenChange(eventKey, newVisible);
+    }
   };
 
   /**
