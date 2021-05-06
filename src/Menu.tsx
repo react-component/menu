@@ -23,7 +23,7 @@ import { warnItemProp } from './utils/warnUtil';
 import SubMenu from './SubMenu';
 import useAccessibility from './hooks/useAccessibility';
 import useUUID from './hooks/useUUID';
-import { PathRegisterContext, PathUserContext } from './context/MeasureContext';
+import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import { IdContext } from './context/IdContext';
 

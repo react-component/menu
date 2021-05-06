@@ -15,11 +15,7 @@ import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
 import Icon from './Icon';
 import useDirectionStyle from './hooks/useDirectionStyle';
-import {
-  PathUserContext,
-  useKeyPath,
-  useMeasure,
-} from './context/MeasureContext';
+import { PathUserContext, useKeyPath, useMeasure } from './context/PathContext';
 import { useMenuId } from './context/IdContext';
 
 export interface MenuItemProps

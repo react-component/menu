@@ -2,10 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { parseChildren } from './utils/nodeUtil';
 import { MenuContext } from './context/MenuContext';
-import {
-  useKeyPath,
-  useMeasure,
-} from './context/MeasureContext';
+import { useKeyPath, useMeasure } from './context/PathContext';
 
 export interface MenuItemGroupProps {
   className?: string;
