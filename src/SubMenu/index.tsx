@@ -267,18 +267,30 @@ const InternalSubMenu = (props: SubMenuProps) => {
     </div>
   );
 
-  if (mode !== 'inline' && !overflowDisabled) {
+  // Cache mode if it change to `inline` which do not have popup motion
+  const triggerModeRef = React.useRef(mode);
+  if (mode !== 'inline') {
+    triggerModeRef.current = mode;
+  }
+
+  if (!overflowDisabled) {
+    const triggerMode = triggerModeRef.current;
+
+    // Still wrap with Trigger here since we need avoid react re-mount dom node
+    // Which makes motion failed
     titleNode = (
       <PopupTrigger
-        mode={mode}
+        mode={triggerMode}
         prefixCls={subMenuPrefixCls}
-        visible={!internalPopupClose && open}
+        visible={!internalPopupClose && open && mode !== 'inline'}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
         popup={
-          <SubMenuList id={popupId} ref={popupRef}>
-            {children}
-          </SubMenuList>
+          <MenuContextProvider mode={triggerMode}>
+            <SubMenuList id={popupId} ref={popupRef}>
+              {children}
+            </SubMenuList>
+          </MenuContextProvider>
         }
         disabled={mergedDisabled}
         onVisibleChange={onPopupVisibleChange}
