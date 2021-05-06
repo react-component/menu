@@ -277,9 +277,8 @@ const Menu: React.FC<MenuProps> = props => {
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(() => ({ isSubPathKey, getKeyPath }), [
+  const pathUserContext = React.useMemo(() => ({ isSubPathKey }), [
     isSubPathKey,
-    getKeyPath,
   ]);
 
   React.useEffect(() => {

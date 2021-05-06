@@ -15,7 +15,7 @@ import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
 import Icon from './Icon';
 import useDirectionStyle from './hooks/useDirectionStyle';
-import { PathUserContext, useKeyPath, useMeasure } from './context/PathContext';
+import { useFullPath, useMeasure } from './context/PathContext';
 import { useMenuId } from './context/IdContext';
 
 export interface MenuItemProps
@@ -118,8 +118,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
   const elementRef = React.useRef<HTMLLIElement>();
   const mergedDisabled = contextDisabled || disabled;
 
-  const { getKeyPath } = React.useContext(PathUserContext);
-  const connectedKeys = getKeyPath(eventKey);
+  const connectedKeys = useFullPath(eventKey);
 
   // ============================= Info =============================
   const getEventInfo = (
@@ -236,7 +235,7 @@ function MenuItem(props: MenuItemProps): React.ReactElement {
 
   // ==================== Record KeyPath ====================
   const measure = useMeasure();
-  const connectedKeyPath = useKeyPath(eventKey);
+  const connectedKeyPath = useFullPath(eventKey);
 
   // eslint-disable-next-line consistent-return
   React.useEffect(() => {

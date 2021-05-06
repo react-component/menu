@@ -19,9 +19,9 @@ import { warnItemProp } from '../utils/warnUtil';
 import useDirectionStyle from '../hooks/useDirectionStyle';
 import InlineSubMenuList from './InlineSubMenuList';
 import {
-  PathConnectContext,
+  PathTrackerContext,
   PathUserContext,
-  useKeyPath,
+  useFullPath,
   useMeasure,
 } from '../context/PathContext';
 import { useMenuId } from '../context/IdContext';
@@ -122,8 +122,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
     onActive,
   } = React.useContext(MenuContext);
 
-  const { isSubPathKey, getKeyPath } = React.useContext(PathUserContext);
-  const keyPath = getKeyPath(eventKey);
+  const { isSubPathKey } = React.useContext(PathUserContext);
+  const connectedPath = useFullPath();
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
@@ -189,7 +189,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   }, [mode, active, activeKey, childrenActive, eventKey, isSubPathKey]);
 
   // ========================== DirectionStyle ==========================
-  const directionStyle = useDirectionStyle(keyPath.length);
+  const directionStyle = useDirectionStyle(connectedPath.length);
 
   // =============================== Events ===============================
   // >>>> Title click
@@ -319,7 +319,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
         {/* Inline mode */}
         {!overflowDisabled && (
-          <InlineSubMenuList id={popupId} open={open} keyPath={keyPath}>
+          <InlineSubMenuList id={popupId} open={open} keyPath={connectedPath}>
             {children}
           </InlineSubMenuList>
         )}
@@ -331,7 +331,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 export default function SubMenu(props: SubMenuProps) {
   const { eventKey, children } = props;
 
-  const connectedKeyPath = useKeyPath(eventKey);
+  const connectedKeyPath = useFullPath(eventKey);
   const childList: React.ReactElement[] = parseChildren(
     children,
     connectedKeyPath,
@@ -351,15 +351,18 @@ export default function SubMenu(props: SubMenuProps) {
     }
   }, [connectedKeyPath]);
 
-  if (measure) {
-    return (
-      <PathConnectContext.Provider value={connectedKeyPath}>
-        {childList}
-      </PathConnectContext.Provider>
-    );
-  }
+  let renderNode: React.ReactNode;
 
   // ======================== Render ========================
+  if (measure) {
+    renderNode = childList;
+  } else {
+    renderNode = <InternalSubMenu {...props}>{childList}</InternalSubMenu>;
+  }
 
-  return <InternalSubMenu {...props}>{childList}</InternalSubMenu>;
+  return (
+    <PathTrackerContext.Provider value={connectedKeyPath}>
+      {renderNode}
+    </PathTrackerContext.Provider>
+  );
 }

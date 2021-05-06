@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { parseChildren } from './utils/nodeUtil';
 import { MenuContext } from './context/MenuContext';
-import { useKeyPath, useMeasure } from './context/PathContext';
+import { useFullPath, useMeasure } from './context/PathContext';
 
 export interface MenuItemGroupProps {
   className?: string;
@@ -45,7 +45,7 @@ export default function MenuItemGroup({
   children,
   ...props
 }: MenuItemGroupProps): React.ReactElement {
-  const connectedKeyPath = useKeyPath(props.eventKey);
+  const connectedKeyPath = useFullPath(props.eventKey);
   const childList: React.ReactElement[] = parseChildren(
     children,
     connectedKeyPath,
