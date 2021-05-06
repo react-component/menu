@@ -32,7 +32,7 @@ exports[`Menu.Keyboard no data-menu-id by init 1`] = `
       <li
         class="rc-menu-item"
         role="menuitem"
-        style="padding-left:24px"
+        style="padding-left:48px"
         tabindex="-1"
       >
         Bamboo
