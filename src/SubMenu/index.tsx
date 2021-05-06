@@ -276,6 +276,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
   if (!overflowDisabled) {
     const triggerMode = triggerModeRef.current;
 
+    // Still wrap with Trigger here since we need avoid react re-mount dom node
+    // Which makes motion failed
     titleNode = (
       <PopupTrigger
         mode={triggerMode}
