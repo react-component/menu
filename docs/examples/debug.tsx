@@ -121,7 +121,7 @@ export default () => {
           <Menu.Item key="next" onClick={onClick}>
             Next Item
           </Menu.Item>
-          <Menu.SubMenu title="Sub Menu With Long Title" key="sub" onClick={onSubMenuClick}>
+          <Menu.SubMenu title="Sub Menu" key="sub" onClick={onSubMenuClick}>
             <Menu.Item key="sub1" onClick={onClick}>
               Sub Item 1
             </Menu.Item>
