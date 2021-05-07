@@ -233,45 +233,64 @@ describe('Menu', () => {
     expect(wrapper.find('li').at(1).props().className).toContain('-selected');
   });
 
-  it('can be controlled by openKeys', () => {
-    const wrapper = mount(
-      <Menu openKeys={['g1']}>
-        <Menu.SubMenu key="g1">
-          <MenuItem key="1">1</MenuItem>
-        </Menu.SubMenu>
-        <Menu.SubMenu key="g2">
-          <MenuItem key="2">2</MenuItem>
-        </Menu.SubMenu>
-      </Menu>,
-    );
+  describe('openKeys', () => {
+    it('can be controlled by openKeys', () => {
+      const wrapper = mount(
+        <Menu openKeys={['g1']}>
+          <Menu.SubMenu key="g1">
+            <MenuItem key="1">1</MenuItem>
+          </Menu.SubMenu>
+          <Menu.SubMenu key="g2">
+            <MenuItem key="2">2</MenuItem>
+          </Menu.SubMenu>
+        </Menu>,
+      );
 
-    expect(wrapper.find('InlineSubMenuList').first().props().open).toBeTruthy();
-    expect(wrapper.find('InlineSubMenuList').last().props().open).toBeFalsy();
+      expect(
+        wrapper.find('InlineSubMenuList').first().props().open,
+      ).toBeTruthy();
+      expect(wrapper.find('InlineSubMenuList').last().props().open).toBeFalsy();
 
-    wrapper.setProps({ openKeys: ['g2'] });
-    expect(wrapper.find('InlineSubMenuList').first().props().open).toBeFalsy();
-    expect(wrapper.find('InlineSubMenuList').last().props().open).toBeTruthy();
-  });
+      wrapper.setProps({ openKeys: ['g2'] });
+      expect(
+        wrapper.find('InlineSubMenuList').first().props().open,
+      ).toBeFalsy();
+      expect(
+        wrapper.find('InlineSubMenuList').last().props().open,
+      ).toBeTruthy();
+    });
 
-  it('openKeys should allow to be empty', () => {
-    const wrapper = mount(
-      <Menu
-        onClick={() => {}}
-        onOpenChange={() => {}}
-        openKeys={undefined}
-        selectedKeys={['1']}
-        mode="inline"
-      >
-        <SubMenu title="1231">
-          <MenuItem>
-            <a>
-              <span>123123</span>
-            </a>
-          </MenuItem>
-        </SubMenu>
-      </Menu>,
-    );
-    expect(wrapper).toBeTruthy();
+    it('openKeys should allow to be empty', () => {
+      const wrapper = mount(
+        <Menu
+          onClick={() => {}}
+          onOpenChange={() => {}}
+          openKeys={undefined}
+          selectedKeys={['1']}
+          mode="inline"
+        >
+          <SubMenu title="1231">
+            <MenuItem>
+              <a>
+                <span>123123</span>
+              </a>
+            </MenuItem>
+          </SubMenu>
+        </Menu>,
+      );
+      expect(wrapper).toBeTruthy();
+    });
+
+    it('null of openKeys', () => {
+      const wrapper = mount(
+        <Menu openKeys={null} mode="inline">
+          <SubMenu key="bamboo" title="Bamboo">
+            <MenuItem key="light">Light</MenuItem>
+          </SubMenu>
+        </Menu>,
+      );
+      expect(wrapper).toBeTruthy();
+    });
   });
 
   it('open default submenu', () => {

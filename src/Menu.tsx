@@ -219,12 +219,10 @@ const Menu: React.FC<MenuProps> = props => {
     disabledOverflow;
 
   // ========================= Open =========================
-  const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(
-    defaultOpenKeys || [],
-    {
-      value: openKeys,
-    },
-  );
+  const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(defaultOpenKeys, {
+    value: openKeys,
+    postState: keys => keys || EMPTY_LIST,
+  });
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
   const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
@@ -321,7 +319,7 @@ const Menu: React.FC<MenuProps> = props => {
         }
 
         if (keys === null || keys === undefined) {
-          return [];
+          return EMPTY_LIST;
         }
 
         return [keys];
