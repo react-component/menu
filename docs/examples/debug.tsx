@@ -47,7 +47,7 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
 };
 
 export default () => {
-  const [mode, setMode] = React.useState<MenuProps['mode']>('inline');
+  const [mode, setMode] = React.useState<MenuProps['mode']>('horizontal');
   const [narrow, setNarrow] = React.useState(false);
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(false);
@@ -121,7 +121,7 @@ export default () => {
           <Menu.Item key="next" onClick={onClick}>
             Next Item
           </Menu.Item>
-          <Menu.SubMenu title="Sub Menu" key="sub" onClick={onSubMenuClick}>
+          <Menu.SubMenu title="Sub Menu With Long Title" key="sub" onClick={onSubMenuClick}>
             <Menu.Item key="sub1" onClick={onClick}>
               Sub Item 1
             </Menu.Item>
