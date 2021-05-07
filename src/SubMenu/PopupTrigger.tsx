@@ -91,6 +91,7 @@ export default function PopupTrigger({
         },
         popupClassName,
       )}
+      stretch={mode === 'horizontal' ? 'minWidth' : null}
       getPopupContainer={getPopupContainer}
       builtinPlacements={placement}
       popupPlacement={popupPlacement}
