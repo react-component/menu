@@ -20,6 +20,9 @@ function match(regex, userAgent) {
 }
 
 function isMobile(userAgent?: string) {
+  
+  if (typeof window === "undefined" || typeof navigator === "undefined") return userAgent || false;
+  
   let ua =
     userAgent || (typeof navigator !== 'undefined' ? navigator.userAgent : '');
 
