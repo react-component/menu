@@ -20,15 +20,12 @@ function match(regex, userAgent) {
 }
 
 function isMobile(userAgent?: string) {
-  
-  if (typeof window === "undefined" || typeof navigator === "undefined") return userAgent || false;
-  
   let ua =
     userAgent || (typeof navigator !== 'undefined' ? navigator.userAgent : '');
 
   // Facebook mobile app's integrated browser adds a bunch of strings that
   // match everything. Strip it out if it exists.
-  let tmp = ua.split('[FBAN');
+  let tmp = (ua || '').split('[FBAN');
   if (typeof tmp[1] !== 'undefined') {
     [ua] = tmp;
   }
