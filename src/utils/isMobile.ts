@@ -25,7 +25,7 @@ function isMobile(userAgent?: string) {
 
   // Facebook mobile app's integrated browser adds a bunch of strings that
   // match everything. Strip it out if it exists.
-  let tmp = ua.split('[FBAN');
+  let tmp = (ua || '').split('[FBAN');
   if (typeof tmp[1] !== 'undefined') {
     [ua] = tmp;
   }
