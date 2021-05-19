@@ -48,10 +48,9 @@ export function loopMenuItemRecursively(
   }
   React.Children.forEach(children, (c: React.ReactElement) => {
     if (c) {
-      const construct = c.type as
-        | typeof MenuItemGroup
-        | typeof MenuItem
-        | typeof SubMenu;
+      const construct = c.type as typeof MenuItemGroup &
+        typeof MenuItem &
+        typeof SubMenu;
       if (
         !construct ||
         !(
