@@ -454,9 +454,10 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
       forceSubMenuRender: props.forceSubMenuRender,
       triggerSubMenuAction: props.triggerSubMenuAction,
       builtinPlacements: props.builtinPlacements,
-      defaultActiveFirst: props.store.getState().defaultActiveFirst[
-        getMenuIdFromSubMenuEventKey(props.eventKey)
-      ],
+      defaultActiveFirst:
+        props.store.getState().defaultActiveFirst[
+          getMenuIdFromSubMenuEventKey(props.eventKey)
+        ],
       multiple: props.multiple,
       prefixCls: props.rootPrefixCls,
       id: this.internalMenuId,
@@ -528,7 +529,11 @@ export class SubMenu extends React.Component<SubMenuProps, SubMenuState> {
     }
 
     return (
-      <CSSMotion visible={baseProps.visible} {...mergedMotion}>
+      <CSSMotion
+        visible={baseProps.visible}
+        forceRender={forceSubMenuRender}
+        {...mergedMotion}
+      >
         {({ className, style }) => {
           const mergedClassName = classNames(sharedClassName, className);
 
