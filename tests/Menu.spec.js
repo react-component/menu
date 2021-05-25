@@ -559,6 +559,8 @@ describe('Menu', () => {
       wrapper.update();
     });
 
+    wrapper.update();
+
     wrapper.find('.rc-menu-item').last().simulate('click');
     expect(onOpenChange).toHaveBeenCalledWith([]);
 
