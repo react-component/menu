@@ -539,5 +539,32 @@ describe('Menu', () => {
 
     errorSpy.mockRestore();
   });
+
+  it('Click should close Menu', async () => {
+    jest.useFakeTimers();
+
+    const onOpenChange = jest.fn();
+
+    const wrapper = mount(
+      <Menu openKeys={['bamboo']} mode="vertical" onOpenChange={onOpenChange}>
+        <SubMenu key="bamboo" title="Bamboo">
+          <MenuItem key="light">Light</MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+
+    // Open menu
+    await act(async () => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    wrapper.update();
+
+    wrapper.find('.rc-menu-item').last().simulate('click');
+    expect(onOpenChange).toHaveBeenCalledWith([]);
+
+    jest.useRealTimers();
+  });
 });
 /* eslint-enable */
