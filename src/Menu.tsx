@@ -364,7 +364,7 @@ const Menu: React.FC<MenuProps> = props => {
       onSelect?.(selectInfo);
     }
 
-    if (!multiple) {
+    if (!multiple && mergedOpenKeys.length) {
       onOpenChange?.(EMPTY_LIST);
     }
   };
