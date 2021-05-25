@@ -3,6 +3,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import Menu, { MenuItem, SubMenu } from '../src';
+import { resetWarned } from 'rc-util/lib/warning';
 
 describe('SubMenu', () => {
   beforeEach(() => {
@@ -160,8 +161,6 @@ describe('SubMenu', () => {
   });
 
   it('fires openChange event', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
     const handleOpenChange = jest.fn();
     const wrapper = mount(
       <Menu onOpenChange={handleOpenChange}>
@@ -193,12 +192,66 @@ describe('SubMenu', () => {
       'tmp_key-1',
       'tmp_key-tmp_key-1-1',
     ]);
+  });
 
-    expect(errorSpy).toHaveBeenCalledWith(
-      'Warning: MenuItem or SubMenu should not leave undefined `key`.',
-    );
+  describe('undefined key', () => {
+    it('warning item', () => {
+      resetWarned();
 
-    errorSpy.mockRestore();
+      const errorSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      mount(
+        <Menu>
+          <MenuItem>1</MenuItem>
+        </Menu>,
+      );
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        'Warning: MenuItem should not leave undefined `key`.',
+      );
+
+      errorSpy.mockRestore();
+    });
+
+    it('warning sub menu', () => {
+      resetWarned();
+
+      const errorSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      mount(
+        <Menu>
+          <SubMenu />
+        </Menu>,
+      );
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        'Warning: SubMenu should not leave undefined `key`.',
+      );
+
+      errorSpy.mockRestore();
+    });
+
+    it('should not warning', () => {
+      resetWarned();
+
+      const errorSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      mount(
+        <Menu>
+          <Menu.Divider />
+        </Menu>,
+      );
+
+      expect(errorSpy).not.toHaveBeenCalled();
+
+      errorSpy.mockRestore();
+    });
   });
 
   describe('mouse events', () => {

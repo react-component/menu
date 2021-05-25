@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
+import warning from 'rc-util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/nodeUtil';
 import type {
@@ -39,6 +40,9 @@ export interface SubMenuProps {
 
   /** @private Internal filled key. Do not set it directly */
   eventKey?: string;
+
+  /** @private Do not use. Private warning empty usage */
+  warnKey?: boolean;
 
   // >>>>> Icon
   itemIcon?: RenderIconType;
@@ -130,6 +134,11 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const elementRef = React.useRef<HTMLDivElement>();
   const popupRef = React.useRef<HTMLUListElement>();
 
+  // ================================ Warn ================================
+  if (process.env.NODE_ENV !== 'production' && props.warnKey) {
+    warning(false, 'SubMenu should not leave undefined `key`.');
+  }
+
   // ================================ Icon ================================
   const mergedItemIcon = itemIcon || contextItemIcon;
   const mergedExpandIcon = expandIcon || contextExpandIcon;
@@ -158,23 +167,25 @@ const InternalSubMenu = (props: SubMenuProps) => {
     }
   };
 
-  const onInternalMouseEnter: React.MouseEventHandler<HTMLLIElement> = domEvent => {
-    triggerChildrenActive(true);
+  const onInternalMouseEnter: React.MouseEventHandler<HTMLLIElement> =
+    domEvent => {
+      triggerChildrenActive(true);
 
-    onMouseEnter?.({
-      key: eventKey,
-      domEvent,
-    });
-  };
+      onMouseEnter?.({
+        key: eventKey,
+        domEvent,
+      });
+    };
 
-  const onInternalMouseLeave: React.MouseEventHandler<HTMLLIElement> = domEvent => {
-    triggerChildrenActive(false);
+  const onInternalMouseLeave: React.MouseEventHandler<HTMLLIElement> =
+    domEvent => {
+      triggerChildrenActive(false);
 
-    onMouseLeave?.({
-      key: eventKey,
-      domEvent,
-    });
-  };
+      onMouseLeave?.({
+        key: eventKey,
+        domEvent,
+      });
+    };
 
   const mergedActive = React.useMemo(() => {
     if (active) {

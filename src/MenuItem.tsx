@@ -28,6 +28,9 @@ export interface MenuItemProps
   /** @private Internal filled key. Do not set it directly */
   eventKey?: string;
 
+  /** @private Do not use. Private warning empty usage */
+  warnKey?: boolean;
+
   disabled?: boolean;
 
   itemIcon?: RenderIconType;
@@ -119,6 +122,11 @@ const InternalMenuItem = (props: MenuItemProps) => {
   const mergedDisabled = contextDisabled || disabled;
 
   const connectedKeys = useFullPath(eventKey);
+
+  // ================================ Warn ================================
+  if (process.env.NODE_ENV !== 'production' && props.warnKey) {
+    warning(false, 'MenuItem should not leave undefined `key`.');
+  }
 
   // ============================= Info =============================
   const getEventInfo = (
