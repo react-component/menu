@@ -224,6 +224,11 @@ const Menu: React.FC<MenuProps> = props => {
     postState: keys => keys || EMPTY_LIST,
   });
 
+  const triggerOpenKeys = (keys: string[]) => {
+    setMergedOpenKeys(keys);
+    onOpenChange?.(keys);
+  };
+
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
   const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
     React.useState(mergedOpenKeys);
@@ -249,11 +254,8 @@ const Menu: React.FC<MenuProps> = props => {
     if (isInlineMode) {
       setMergedOpenKeys(inlineCacheOpenKeys);
     } else {
-      const empty = [];
-      setMergedOpenKeys(empty);
-
       // Trigger open event in case its in control
-      onOpenChange?.(empty);
+      triggerOpenKeys(EMPTY_LIST);
     }
   }, [isInlineMode]);
 
@@ -338,10 +340,12 @@ const Menu: React.FC<MenuProps> = props => {
     const exist = mergedSelectKeys.includes(targetKey);
     let newSelectKeys: string[];
 
-    if (exist) {
-      newSelectKeys = mergedSelectKeys.filter(key => key !== targetKey);
-    } else if (multiple) {
-      newSelectKeys = [...mergedSelectKeys, targetKey];
+    if (multiple) {
+      if (exist) {
+        newSelectKeys = mergedSelectKeys.filter(key => key !== targetKey);
+      } else {
+        newSelectKeys = [...mergedSelectKeys, targetKey];
+      }
     } else {
       newSelectKeys = [targetKey];
     }
@@ -358,6 +362,10 @@ const Menu: React.FC<MenuProps> = props => {
       onDeselect?.(selectInfo);
     } else {
       onSelect?.(selectInfo);
+    }
+
+    if (!multiple) {
+      onOpenChange?.(EMPTY_LIST);
     }
   };
 
@@ -382,8 +390,7 @@ const Menu: React.FC<MenuProps> = props => {
     }
 
     if (!shallowEqual(mergedOpenKeys, newOpenKeys)) {
-      setMergedOpenKeys(newOpenKeys);
-      onOpenChange?.(newOpenKeys);
+      triggerOpenKeys(newOpenKeys);
     }
   });
 
