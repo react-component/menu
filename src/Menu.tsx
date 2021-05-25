@@ -53,7 +53,7 @@ export interface MenuProps
   children?: React.ReactNode;
 
   disabled?: boolean;
-  /** Disable auto overflow */
+  /** @private Disable auto overflow. Pls note the prop name may refactor since we do not final decided. */
   disabledOverflow?: boolean;
 
   /** direction of menu */
@@ -225,9 +225,8 @@ const Menu: React.FC<MenuProps> = props => {
   });
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
-  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
-    mergedOpenKeys,
-  );
+  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
+    React.useState(mergedOpenKeys);
 
   const isInlineMode = mergedMode === 'inline';
 
@@ -275,9 +274,10 @@ const Menu: React.FC<MenuProps> = props => {
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(() => ({ isSubPathKey }), [
-    isSubPathKey,
-  ]);
+  const pathUserContext = React.useMemo(
+    () => ({ isSubPathKey }),
+    [isSubPathKey],
+  );
 
   React.useEffect(() => {
     refreshOverflowKeys(

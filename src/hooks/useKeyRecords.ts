@@ -11,11 +11,18 @@ const getPathKeys = (keyPathStr: string) => keyPathStr.split(PATH_SPLIT);
 export const OVERFLOW_KEY = 'rc-menu-more';
 
 export default function useKeyRecords() {
-  const [, forceUpdate] = React.useState({});
+  const [, internalForceUpdate] = React.useState({});
   const key2pathRef = useRef(new Map<string, string>());
   const path2keyRef = useRef(new Map<string, string>());
   const [overflowKeys, setOverflowKeys] = React.useState([]);
   const updateRef = useRef(0);
+  const destroyRef = useRef(false);
+
+  const forceUpdate = () => {
+    if (!destroyRef.current) {
+      internalForceUpdate({});
+    }
+  };
 
   const registerPath = useCallback((key: string, keyPath: string[]) => {
     // Warning for invalidate or duplicated `key`
@@ -36,7 +43,7 @@ export default function useKeyRecords() {
 
     nextSlice(() => {
       if (id === updateRef.current) {
-        forceUpdate({});
+        forceUpdate();
       }
     });
   }, []);
@@ -99,6 +106,13 @@ export default function useKeyRecords() {
     });
     return pathKeys;
   }, []);
+
+  React.useEffect(
+    () => () => {
+      destroyRef.current = true;
+    },
+    [],
+  );
 
   return {
     // Register

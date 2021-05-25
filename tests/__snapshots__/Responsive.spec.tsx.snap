@@ -45,7 +45,7 @@ Array [
       aria-hidden="true"
       class="rc-menu-overflow-item rc-menu-overflow-item-rest rc-menu-submenu rc-menu-submenu-horizontal"
       role="none"
-      style="opacity:0;height:0;overflow-y:hidden;order:9007199254740991;pointer-events:none"
+      style="opacity:0;height:0;overflow-y:hidden;order:9007199254740991;pointer-events:none;position:absolute"
     >
       <div
         aria-expanded="false"
