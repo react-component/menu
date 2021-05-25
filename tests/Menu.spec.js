@@ -521,5 +521,23 @@ describe('Menu', () => {
 
     expect(wrapper.exists('.rc-menu-submenu-active')).toBeTruthy();
   });
+
+  it('not warning on destroy', async () => {
+    const errorSpy = jest.spyOn(console, 'error');
+
+    const wrapper = mount(
+      <Menu>
+        <MenuItem key="bamboo">Bamboo</MenuItem>
+      </Menu>,
+    );
+
+    wrapper.unmount();
+
+    await Promise.resolve();
+
+    expect(errorSpy).not.toHaveBeenCalled();
+
+    errorSpy.mockRestore();
+  });
 });
 /* eslint-enable */

@@ -2,7 +2,11 @@ import Menu, { MenuProps } from './Menu';
 import MenuItem, { MenuItemProps } from './MenuItem';
 import SubMenu, { SubMenuProps } from './SubMenu';
 import MenuItemGroup, { MenuItemGroupProps } from './MenuItemGroup';
+import { useFullPath as useOriginFullPath } from './context/PathContext';
 import Divider from './Divider';
+
+/** @private Only used for antd internal. Do not use in your production. */
+const useFullPath = useOriginFullPath;
 
 export {
   SubMenu,
@@ -15,6 +19,7 @@ export {
   SubMenuProps,
   MenuItemProps,
   MenuItemGroupProps,
+  useFullPath,
 };
 
 type MenuType = typeof Menu & {
