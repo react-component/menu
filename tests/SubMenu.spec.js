@@ -195,7 +195,7 @@ describe('SubMenu', () => {
   });
 
   describe('undefined key', () => {
-    it('should warning', () => {
+    it('warning item', () => {
       resetWarned();
 
       const errorSpy = jest
@@ -209,7 +209,27 @@ describe('SubMenu', () => {
       );
 
       expect(errorSpy).toHaveBeenCalledWith(
-        'Warning: MenuItem or SubMenu should not leave undefined `key`.',
+        'Warning: MenuItem should not leave undefined `key`.',
+      );
+
+      errorSpy.mockRestore();
+    });
+
+    it('warning sub menu', () => {
+      resetWarned();
+
+      const errorSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      mount(
+        <Menu>
+          <SubMenu />
+        </Menu>,
+      );
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        'Warning: SubMenu should not leave undefined `key`.',
       );
 
       errorSpy.mockRestore();
