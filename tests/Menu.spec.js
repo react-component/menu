@@ -540,31 +540,43 @@ describe('Menu', () => {
     errorSpy.mockRestore();
   });
 
-  it('Click should close Menu', async () => {
-    jest.useFakeTimers();
+  describe('Click should close Menu', () => {
+    function test(name, props) {
+      it(name, async () => {
+        jest.useFakeTimers();
 
-    const onOpenChange = jest.fn();
+        const onOpenChange = jest.fn();
 
-    const wrapper = mount(
-      <Menu openKeys={['bamboo']} mode="vertical" onOpenChange={onOpenChange}>
-        <SubMenu key="bamboo" title="Bamboo">
-          <MenuItem key="light">Light</MenuItem>
-        </SubMenu>
-      </Menu>,
-    );
+        const wrapper = mount(
+          <Menu
+            openKeys={['bamboo']}
+            mode="vertical"
+            onOpenChange={onOpenChange}
+            {...props}
+          >
+            <SubMenu key="bamboo" title="Bamboo">
+              <MenuItem key="light">Light</MenuItem>
+            </SubMenu>
+          </Menu>,
+        );
 
-    // Open menu
-    await act(async () => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+        // Open menu
+        await act(async () => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
 
-    wrapper.update();
+        wrapper.update();
 
-    wrapper.find('.rc-menu-item').last().simulate('click');
-    expect(onOpenChange).toHaveBeenCalledWith([]);
+        wrapper.find('.rc-menu-item').last().simulate('click');
+        expect(onOpenChange).toHaveBeenCalledWith([]);
 
-    jest.useRealTimers();
+        jest.useRealTimers();
+      });
+    }
+
+    test('basic');
+    test('not selectable', { selectable: false });
   });
 });
 /* eslint-enable */
