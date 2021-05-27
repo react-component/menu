@@ -73,6 +73,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
     title,
     eventKey,
+    warnKey,
 
     disabled,
     internalPopupClose,
@@ -135,7 +136,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const popupRef = React.useRef<HTMLUListElement>();
 
   // ================================ Warn ================================
-  if (process.env.NODE_ENV !== 'production' && props.warnKey) {
+  if (process.env.NODE_ENV !== 'production' && warnKey) {
     warning(false, 'SubMenu should not leave undefined `key`.');
   }
 

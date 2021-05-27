@@ -78,6 +78,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
     className,
 
     eventKey,
+    warnKey,
     disabled,
     itemIcon,
     children,
@@ -124,7 +125,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
   const connectedKeys = useFullPath(eventKey);
 
   // ================================ Warn ================================
-  if (process.env.NODE_ENV !== 'production' && props.warnKey) {
+  if (process.env.NODE_ENV !== 'production' && warnKey) {
     warning(false, 'MenuItem should not leave undefined `key`.');
   }
 
