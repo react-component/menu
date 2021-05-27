@@ -262,6 +262,12 @@ describe('Menu.Collapsed', () => {
         wrapper.find('li.rc-menu-item-selected').getDOMNode().textContent,
       ).toBe('Option 1');
     });
+
+    it('vertical also support inlineCollapsed', () => {
+      const wrapper = mount(<Menu mode="vertical" inlineCollapsed />);
+
+      expect(wrapper.exists('.rc-menu-inline-collapsed')).toBeTruthy();
+    });
   });
 });
 /* eslint-enable */

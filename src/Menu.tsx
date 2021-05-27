@@ -205,7 +205,7 @@ const Menu: React.FC<MenuProps> = props => {
   const [mergedMode, mergedInlineCollapsed] = React.useMemo<
     [MenuMode, boolean]
   >(() => {
-    if (mode === 'inline' && inlineCollapsed) {
+    if ((mode === 'inline' || mode === 'vertical') && inlineCollapsed) {
       return ['vertical', inlineCollapsed];
     }
     return [mode, false];
