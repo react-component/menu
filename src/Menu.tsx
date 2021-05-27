@@ -331,41 +331,40 @@ const Menu: React.FC<MenuProps> = props => {
 
   // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {
-    if (!selectable) {
-      return;
-    }
+    if (selectable) {
+      // Insert or Remove
+      const { key: targetKey } = info;
+      const exist = mergedSelectKeys.includes(targetKey);
+      let newSelectKeys: string[];
 
-    // Insert or Remove
-    const { key: targetKey } = info;
-    const exist = mergedSelectKeys.includes(targetKey);
-    let newSelectKeys: string[];
-
-    if (multiple) {
-      if (exist) {
-        newSelectKeys = mergedSelectKeys.filter(key => key !== targetKey);
+      if (multiple) {
+        if (exist) {
+          newSelectKeys = mergedSelectKeys.filter(key => key !== targetKey);
+        } else {
+          newSelectKeys = [...mergedSelectKeys, targetKey];
+        }
       } else {
-        newSelectKeys = [...mergedSelectKeys, targetKey];
+        newSelectKeys = [targetKey];
       }
-    } else {
-      newSelectKeys = [targetKey];
+
+      setMergedSelectKeys(newSelectKeys);
+
+      // Trigger event
+      const selectInfo: SelectInfo = {
+        ...info,
+        selectedKeys: newSelectKeys,
+      };
+
+      if (exist) {
+        onDeselect?.(selectInfo);
+      } else {
+        onSelect?.(selectInfo);
+      }
     }
 
-    setMergedSelectKeys(newSelectKeys);
-
-    // Trigger event
-    const selectInfo: SelectInfo = {
-      ...info,
-      selectedKeys: newSelectKeys,
-    };
-
-    if (exist) {
-      onDeselect?.(selectInfo);
-    } else {
-      onSelect?.(selectInfo);
-    }
-
+    // Whatever selectable, always close it
     if (!multiple && mergedOpenKeys.length) {
-      onOpenChange?.(EMPTY_LIST);
+      triggerOpenKeys(EMPTY_LIST);
     }
   };
 
