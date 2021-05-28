@@ -407,5 +407,37 @@ describe('SubMenu', () => {
     wrapper.find('div.rc-menu-submenu-title').last().simulate('click');
     expect(onOpenChange).toHaveBeenCalledWith(['light']);
   });
+
+  it('popup className should correct', () => {
+    jest.useFakeTimers();
+
+    const wrapper = mount(
+      <Menu mode="horizontal" openKeys={['light']} disabledOverflow>
+        <SubMenu key="light">
+          <SubMenu key="bamboo" />
+        </SubMenu>
+      </Menu>,
+    );
+
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    expect(
+      wrapper
+        .find('li.rc-menu-submenu')
+        .first()
+        .hasClass('rc-menu-submenu-horizontal'),
+    ).toBeTruthy();
+    expect(
+      wrapper
+        .find('li.rc-menu-submenu')
+        .last()
+        .hasClass('rc-menu-submenu-vertical'),
+    ).toBeTruthy();
+
+    jest.useRealTimers();
+  });
 });
 /* eslint-enable */
