@@ -46,89 +46,95 @@ exports[`MenuItem overwrite default role should set role to option 1`] = `
 `;
 
 exports[`MenuItem rest props onClick event should only trigger 1 time along the component hierarchy 1`] = `
-<ul
-  class="rc-menu rc-menu-root rc-menu-inline"
-  data-menu-list="true"
-  role="menu"
-  tabindex="0"
->
-  <li
-    class="rc-menu-item rc-menu-item-active className"
-    data-menu-id="rc-menu-uuid-test-1"
-    data-whatever="whatever"
-    role="menuitem"
-    style="padding-left: 24px; font-size: 20px;"
-    tabindex="-1"
-    title="title"
+Array [
+  <ul
+    class="rc-menu rc-menu-root rc-menu-inline"
+    data-menu-list="true"
+    role="menu"
+    tabindex="0"
   >
-    1
-  </li>
-  <li
-    class="rc-menu-submenu rc-menu-submenu-inline className rc-menu-submenu-open"
-    data-whatever="whatever"
-    role="none"
-    style="font-size: 20px;"
-  >
-    <div
-      aria-controls="rc-menu-uuid-test-bamboo-popup"
-      aria-expanded="true"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      data-menu-id="rc-menu-uuid-test-bamboo"
+    <li
+      class="rc-menu-item rc-menu-item-active className"
+      data-menu-id="rc-menu-uuid-test-1"
+      data-whatever="whatever"
       role="menuitem"
-      style="padding-left: 24px;"
+      style="padding-left: 24px; font-size: 20px;"
       tabindex="-1"
       title="title"
     >
-      title
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-    <ul
-      class="rc-menu rc-menu-sub rc-menu-inline"
-      data-menu-list="true"
-      id="rc-menu-uuid-test-bamboo-popup"
+      1
+    </li>
+    <li
+      class="rc-menu-submenu rc-menu-submenu-inline className rc-menu-submenu-open"
+      data-whatever="whatever"
+      role="none"
+      style="font-size: 20px;"
     >
-      <li
-        class="rc-menu-item className"
-        data-menu-id="rc-menu-uuid-test-2"
-        data-whatever="whatever"
+      <div
+        aria-controls="rc-menu-uuid-test-bamboo-popup"
+        aria-expanded="true"
+        aria-haspopup="true"
+        class="rc-menu-submenu-title"
+        data-menu-id="rc-menu-uuid-test-bamboo"
         role="menuitem"
-        style="padding-left: 48px; font-size: 20px;"
+        style="padding-left: 24px;"
         tabindex="-1"
         title="title"
       >
-        3
-      </li>
-    </ul>
-  </li>
-  <li
-    class="rc-menu-item-group className"
-    data-whatever="whatever"
-    style="font-size: 20px;"
-  >
-    <div
-      class="rc-menu-item-group-title"
-      title="title"
+        title
+        <i
+          class="rc-menu-submenu-arrow"
+        />
+      </div>
+      <ul
+        class="rc-menu rc-menu-sub rc-menu-inline"
+        data-menu-list="true"
+        id="rc-menu-uuid-test-bamboo-popup"
+      >
+        <li
+          class="rc-menu-item className"
+          data-menu-id="rc-menu-uuid-test-2"
+          data-whatever="whatever"
+          role="menuitem"
+          style="padding-left: 48px; font-size: 20px;"
+          tabindex="-1"
+          title="title"
+        >
+          3
+        </li>
+      </ul>
+    </li>
+    <li
+      class="rc-menu-item-group className"
+      data-whatever="whatever"
+      style="font-size: 20px;"
     >
-      title
-    </div>
-    <ul
-      class="rc-menu-item-group-list"
-    >
-      <li
-        class="rc-menu-item className"
-        data-menu-id="rc-menu-uuid-test-3"
-        data-whatever="whatever"
-        role="menuitem"
-        style="padding-left: 24px; font-size: 20px;"
-        tabindex="-1"
+      <div
+        class="rc-menu-item-group-title"
         title="title"
       >
-        4
-      </li>
-    </ul>
-  </li>
-</ul>
+        title
+      </div>
+      <ul
+        class="rc-menu-item-group-list"
+      >
+        <li
+          class="rc-menu-item className"
+          data-menu-id="rc-menu-uuid-test-3"
+          data-whatever="whatever"
+          role="menuitem"
+          style="padding-left: 24px; font-size: 20px;"
+          tabindex="-1"
+          title="title"
+        >
+          4
+        </li>
+      </ul>
+    </li>
+  </ul>,
+  <div
+    aria-hidden="true"
+    style="display: none;"
+  />,
+]
 `;

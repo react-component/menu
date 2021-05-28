@@ -331,18 +331,29 @@ describe('Menu', () => {
   });
 
   it('fires click event', () => {
+    jest.useFakeTimers();
+
     resetWarned();
 
     const errorSpy = jest.spyOn(console, 'error');
 
     const handleClick = jest.fn();
     const wrapper = mount(
-      <Menu onClick={handleClick}>
+      <Menu onClick={handleClick} openKeys={['parent']}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
+        <Menu.SubMenu key="parent">
+          <MenuItem key="3">3</MenuItem>
+        </Menu.SubMenu>
       </Menu>,
     );
-    wrapper.find('MenuItem').first().simulate('click');
+
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    wrapper.find('.rc-menu-item').first().simulate('click');
     const info = handleClick.mock.calls[0][0];
     expect(info.key).toBe('1');
     expect(info.item).toBeTruthy();
@@ -351,7 +362,13 @@ describe('Menu', () => {
       'Warning: `info.item` is deprecated since we will move to function component that not provides React Node instance in future.',
     );
 
+    handleClick.mockReset();
+    wrapper.find('.rc-menu-item').last().simulate('click');
+    expect(handleClick.mock.calls[0][0].keyPath).toEqual(['3', 'parent']);
+
     errorSpy.mockRestore();
+
+    jest.useRealTimers();
   });
 
   it('fires deselect event', () => {
