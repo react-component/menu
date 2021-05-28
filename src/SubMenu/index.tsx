@@ -300,7 +300,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
         popupClassName={popupClassName}
         popupOffset={popupOffset}
         popup={
-          <MenuContextProvider mode={triggerMode}>
+          <MenuContextProvider
+            // Special handle of horizontal mode
+            mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
+          >
             <SubMenuList id={popupId} ref={popupRef}>
               {children}
             </SubMenuList>
