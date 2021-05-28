@@ -135,7 +135,8 @@ const InternalMenuItem = (props: MenuItemProps) => {
   ): MenuInfo => {
     return {
       key: eventKey,
-      keyPath: connectedKeys,
+      // Note: For legacy code is reversed which not like other antd component
+      keyPath: [...connectedKeys].reverse(),
       item: legacyMenuItemRef.current,
       domEvent: e,
     };
