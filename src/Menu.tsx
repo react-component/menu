@@ -535,12 +535,12 @@ const Menu: React.FC<MenuProps> = props => {
           {container}
         </PathUserContext.Provider>
 
-        {/* Measure menu keys */}
-        {/* <div style={{ display: 'none' }} aria-hidden> */}
-        <PathRegisterContext.Provider value={registerPathContext}>
-          {childList}
-        </PathRegisterContext.Provider>
-        {/* </div> */}
+        {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
+        <div style={{ display: 'none' }} aria-hidden>
+          <PathRegisterContext.Provider value={registerPathContext}>
+            {childList}
+          </PathRegisterContext.Provider>
+        </div>
       </MenuContextProvider>
     </IdContext.Provider>
   );

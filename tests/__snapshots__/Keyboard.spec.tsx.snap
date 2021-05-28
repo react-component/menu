@@ -1,43 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Menu.Keyboard no data-menu-id by init 1`] = `
-<ul
-  class="rc-menu rc-menu-root rc-menu-inline"
-  data-menu-list="true"
-  role="menu"
-  tabindex="0"
->
-  <li
-    class="rc-menu-submenu rc-menu-submenu-inline rc-menu-submenu-open"
-    role="none"
+Array [
+  <ul
+    class="rc-menu rc-menu-root rc-menu-inline"
+    data-menu-list="true"
+    role="menu"
+    tabindex="0"
   >
-    <div
-      aria-expanded="true"
-      aria-haspopup="true"
-      class="rc-menu-submenu-title"
-      role="menuitem"
-      style="padding-left:24px"
-      tabindex="-1"
-      title="Light"
+    <li
+      class="rc-menu-submenu rc-menu-submenu-inline rc-menu-submenu-open"
+      role="none"
     >
-      Light
-      <i
-        class="rc-menu-submenu-arrow"
-      />
-    </div>
-    <ul
-      class="rc-menu rc-menu-sub rc-menu-inline"
-      data-menu-list="true"
-    >
-      <li
-        class="rc-menu-item"
+      <div
+        aria-expanded="true"
+        aria-haspopup="true"
+        class="rc-menu-submenu-title"
         role="menuitem"
-        style="padding-left:48px"
+        style="padding-left:24px"
         tabindex="-1"
+        title="Light"
       >
-        Bamboo
-      </li>
-    </ul>
-  </li>
-</ul>
+        Light
+        <i
+          class="rc-menu-submenu-arrow"
+        />
+      </div>
+      <ul
+        class="rc-menu rc-menu-sub rc-menu-inline"
+        data-menu-list="true"
+      >
+        <li
+          class="rc-menu-item"
+          role="menuitem"
+          style="padding-left:48px"
+          tabindex="-1"
+        >
+          Bamboo
+        </li>
+      </ul>
+    </li>
+  </ul>,
+  <div
+    aria-hidden="true"
+    style="display:none"
+  />,
+]
 `;
