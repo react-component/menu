@@ -363,7 +363,7 @@ const Menu: React.FC<MenuProps> = props => {
     }
 
     // Whatever selectable, always close it
-    if (!multiple && mergedOpenKeys.length) {
+    if (!multiple && mergedOpenKeys.length && mergedMode !== 'inline') {
       triggerOpenKeys(EMPTY_LIST);
     }
   };

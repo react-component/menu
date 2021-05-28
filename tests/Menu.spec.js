@@ -577,6 +577,34 @@ describe('Menu', () => {
 
     test('basic');
     test('not selectable', { selectable: false });
+    test('inlineCollapsed', { mode: 'inline', inlineCollapsed: true });
+
+    it('not close inline', async () => {
+      jest.useFakeTimers();
+
+      const onOpenChange = jest.fn();
+
+      const wrapper = mount(
+        <Menu openKeys={['bamboo']} mode="inline" onOpenChange={onOpenChange}>
+          <SubMenu key="bamboo" title="Bamboo">
+            <MenuItem key="light">Light</MenuItem>
+          </SubMenu>
+        </Menu>,
+      );
+
+      // Open menu
+      await act(async () => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+
+      wrapper.update();
+
+      wrapper.find('.rc-menu-item').last().simulate('click');
+      expect(onOpenChange).not.toHaveBeenCalled();
+
+      jest.useRealTimers();
+    });
   });
 });
 /* eslint-enable */
