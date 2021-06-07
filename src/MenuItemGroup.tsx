@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import omit from 'rc-util/lib/omit';
 import { parseChildren } from './utils/nodeUtil';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
@@ -11,6 +12,9 @@ export interface MenuItemGroupProps {
 
   /** @private Internal filled key. Do not set it directly */
   eventKey?: string;
+
+  /** @private Do not use. Private warning empty usage */
+  warnKey?: boolean;
 }
 
 const InternalMenuItemGroup = ({
@@ -53,8 +57,12 @@ export default function MenuItemGroup({
 
   const measure = useMeasure();
   if (measure) {
-    return (childList as any) as React.ReactElement;
+    return childList as any as React.ReactElement;
   }
 
-  return <InternalMenuItemGroup {...props}>{childList}</InternalMenuItemGroup>;
+  return (
+    <InternalMenuItemGroup {...omit(props, ['warnKey'])}>
+      {childList}
+    </InternalMenuItemGroup>
+  );
 }
