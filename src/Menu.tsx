@@ -101,6 +101,8 @@ export interface MenuProps
   itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
   overflowedIndicator?: React.ReactNode;
+  /** @private Internal usage. Do not use in your production. */
+  overflowedIndicatorPopupClassName?: string;
 
   // >>>>> Function
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -168,6 +170,7 @@ const Menu: React.FC<MenuProps> = props => {
     itemIcon,
     expandIcon,
     overflowedIndicator = '...',
+    overflowedIndicatorPopupClassName,
 
     // Function
     getPopupContainer,
@@ -476,6 +479,7 @@ const Menu: React.FC<MenuProps> = props => {
             title={overflowedIndicator}
             disabled={allVisible}
             internalPopupClose={len === 0}
+            popupClassName={overflowedIndicatorPopupClassName}
           >
             {originOmitItems}
           </SubMenu>
