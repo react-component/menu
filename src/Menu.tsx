@@ -20,6 +20,7 @@ import { parseChildren } from './utils/nodeUtil';
 import MenuContextProvider from './context/MenuContext';
 import useMemoCallback from './hooks/useMemoCallback';
 import { warnItemProp } from './utils/warnUtil';
+import { genMultiMode } from './utils/multiModeUtil';
 import SubMenu from './SubMenu';
 import useAccessibility from './hooks/useAccessibility';
 import useUUID from './hooks/useUUID';
@@ -61,6 +62,7 @@ export interface MenuProps
 
   // Mode
   mode?: MenuMode;
+  inlineMaxLevel?: number;
   inlineCollapsed?: boolean;
 
   // Open control
@@ -130,6 +132,7 @@ const Menu: React.FC<MenuProps> = props => {
 
     // Mode
     mode = 'vertical',
+    inlineMaxLevel,
     inlineCollapsed,
 
     // Disabled
@@ -233,8 +236,9 @@ const Menu: React.FC<MenuProps> = props => {
   };
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
-  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
-    React.useState(mergedOpenKeys);
+  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
+    mergedOpenKeys,
+  );
 
   const isInlineMode = mergedMode === 'inline';
 
@@ -279,10 +283,9 @@ const Menu: React.FC<MenuProps> = props => {
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(
-    () => ({ isSubPathKey }),
-    [isSubPathKey],
-  );
+  const pathUserContext = React.useMemo(() => ({ isSubPathKey }), [
+    isSubPathKey,
+  ]);
 
   React.useEffect(() => {
     refreshOverflowKeys(
@@ -368,6 +371,23 @@ const Menu: React.FC<MenuProps> = props => {
     // Whatever selectable, always close it
     if (!multiple && mergedOpenKeys.length && mergedMode !== 'inline') {
       triggerOpenKeys(EMPTY_LIST);
+    }
+
+    const isMultiMode = genMultiMode(
+      mergedOpenKeys,
+      mergedMode,
+      inlineMaxLevel,
+    );
+    if (!multiple && isMultiMode.isMultiPopup) {
+      const inlineLevelPathKeys =
+        info.keyPath[info.keyPath.length - inlineMaxLevel + 1];
+      if (inlineLevelPathKeys) {
+        const subPathKeys = getSubPathKeys(inlineLevelPathKeys);
+        const newOpenKeys = mergedOpenKeys.filter(k => !subPathKeys.has(k));
+        triggerOpenKeys(newOpenKeys);
+      } else {
+        triggerOpenKeys(EMPTY_LIST);
+      }
     }
   };
 
@@ -506,6 +526,7 @@ const Menu: React.FC<MenuProps> = props => {
       <MenuContextProvider
         prefixCls={prefixCls}
         mode={mergedMode}
+        inlineMaxLevel={inlineMaxLevel}
         openKeys={mergedOpenKeys}
         rtl={isRtl}
         // Disabled

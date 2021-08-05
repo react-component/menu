@@ -17,6 +17,7 @@ import PopupTrigger from './PopupTrigger';
 import Icon from '../Icon';
 import useActive from '../hooks/useActive';
 import { warnItemProp } from '../utils/warnUtil';
+import { genMultiMode } from '../utils/multiModeUtil';
 import useDirectionStyle from '../hooks/useDirectionStyle';
 import InlineSubMenuList from './InlineSubMenuList';
 import {
@@ -104,6 +105,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const {
     prefixCls,
     mode,
+    inlineMaxLevel,
     openKeys,
 
     // Disabled
@@ -129,6 +131,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const { isSubPathKey } = React.useContext(PathUserContext);
   const connectedPath = useFullPath();
+  const isMultiMode = genMultiMode(connectedPath, mode, inlineMaxLevel);
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
@@ -168,25 +171,23 @@ const InternalSubMenu = (props: SubMenuProps) => {
     }
   };
 
-  const onInternalMouseEnter: React.MouseEventHandler<HTMLLIElement> =
-    domEvent => {
-      triggerChildrenActive(true);
+  const onInternalMouseEnter: React.MouseEventHandler<HTMLLIElement> = domEvent => {
+    triggerChildrenActive(true);
 
-      onMouseEnter?.({
-        key: eventKey,
-        domEvent,
-      });
-    };
+    onMouseEnter?.({
+      key: eventKey,
+      domEvent,
+    });
+  };
 
-  const onInternalMouseLeave: React.MouseEventHandler<HTMLLIElement> =
-    domEvent => {
-      triggerChildrenActive(false);
+  const onInternalMouseLeave: React.MouseEventHandler<HTMLLIElement> = domEvent => {
+    triggerChildrenActive(false);
 
-      onMouseLeave?.({
-        key: eventKey,
-        domEvent,
-      });
-    };
+    onMouseLeave?.({
+      key: eventKey,
+      domEvent,
+    });
+  };
 
   const mergedActive = React.useMemo(() => {
     if (active) {
@@ -231,6 +232,9 @@ const InternalSubMenu = (props: SubMenuProps) => {
   // >>>>> Visible change
   const onPopupVisibleChange = (newVisible: boolean) => {
     if (mode !== 'inline') {
+      onOpenChange(eventKey, newVisible);
+    }
+    if (isMultiMode.isMultiPopup) {
       onOpenChange(eventKey, newVisible);
     }
   };
@@ -287,6 +291,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
     triggerModeRef.current = connectedPath.length > 1 ? 'vertical' : mode;
   }
 
+  if (isMultiMode.isMultiPopup) {
+    triggerModeRef.current = 'vertical';
+  }
+
   if (!overflowDisabled) {
     const triggerMode = triggerModeRef.current;
 
@@ -296,7 +304,11 @@ const InternalSubMenu = (props: SubMenuProps) => {
       <PopupTrigger
         mode={triggerMode}
         prefixCls={subMenuPrefixCls}
-        visible={!internalPopupClose && open && mode !== 'inline'}
+        visible={
+          !internalPopupClose &&
+          open &&
+          (mode !== 'inline' || isMultiMode.isMultiPopup)
+        }
         popupClassName={popupClassName}
         popupOffset={popupOffset}
         popup={
@@ -304,9 +316,11 @@ const InternalSubMenu = (props: SubMenuProps) => {
             // Special handle of horizontal mode
             mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
           >
-            <SubMenuList id={popupId} ref={popupRef}>
-              {children}
-            </SubMenuList>
+            {!isMultiMode.isMulti || isMultiMode.isPopup ? (
+              <SubMenuList id={popupId} ref={popupRef}>
+                {children}
+              </SubMenuList>
+            ) : null}
           </MenuContextProvider>
         }
         disabled={mergedDisabled}
@@ -339,6 +353,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
             [`${subMenuPrefixCls}-active`]: mergedActive,
             [`${subMenuPrefixCls}-selected`]: childrenSelected,
             [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
+            [`${subMenuPrefixCls}-multi`]: isMultiMode.isMultiPopup,
           },
         )}
         onMouseEnter={onInternalMouseEnter}
@@ -347,7 +362,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         {titleNode}
 
         {/* Inline mode */}
-        {!overflowDisabled && (
+        {!overflowDisabled && (!isMultiMode.isMulti || !isMultiMode.isPopup) && (
           <InlineSubMenuList id={popupId} open={open} keyPath={connectedPath}>
             {children}
           </InlineSubMenuList>

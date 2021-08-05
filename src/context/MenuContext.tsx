@@ -17,6 +17,7 @@ export interface MenuContextProps {
 
   // Mode
   mode: MenuMode;
+  inlineMaxLevel?: number;
 
   // Disabled
   disabled?: boolean;

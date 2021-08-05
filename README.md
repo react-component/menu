@@ -219,6 +219,12 @@ ReactDOM.render(
             <th>24</th>
             <td>Padding level multiplier. Right or left padding depends on param "direction".</td>
         </tr>
+        <tr>
+            <td>inlineMaxLevel</td>
+            <td>Number</td>
+            <th></th>
+            <td>inline menu, specify at most a certain level of submenu, deeper submenu will right popover</td>
+        </tr>
     </tbody>
 </table>
 
