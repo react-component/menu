@@ -230,6 +230,8 @@ const Menu: React.FC<MenuProps> = props => {
     postState: keys => keys || EMPTY_LIST,
   });
 
+  const isMultiMode = genMultiMode(mergedOpenKeys, mergedMode, inlineMaxDeep);
+
   const triggerOpenKeys = (keys: string[]) => {
     setMergedOpenKeys(keys);
     onOpenChange?.(keys);
@@ -373,7 +375,6 @@ const Menu: React.FC<MenuProps> = props => {
       triggerOpenKeys(EMPTY_LIST);
     }
 
-    const isMultiMode = genMultiMode(mergedOpenKeys, mergedMode, inlineMaxDeep);
     if (!multiple && isMultiMode.isMultiPopup) {
       const inlineLevelPathKeys =
         info.keyPath[info.keyPath.length - inlineMaxDeep + 1];
@@ -401,7 +402,7 @@ const Menu: React.FC<MenuProps> = props => {
 
     if (open) {
       newOpenKeys.push(key);
-    } else if (mergedMode !== 'inline') {
+    } else if (mergedMode !== 'inline' || isMultiMode.isMultiPopup) {
       // We need find all related popup to close
       const subPathKeys = getSubPathKeys(key);
       newOpenKeys = newOpenKeys.filter(k => !subPathKeys.has(k));

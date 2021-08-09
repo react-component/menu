@@ -218,7 +218,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     });
 
     // Trigger open by click when mode is `inline`
-    if (mode === 'inline') {
+    if (mode === 'inline' && !isMultiMode.isMultiPopup) {
       onOpenChange(eventKey, !originOpen);
     }
   };
