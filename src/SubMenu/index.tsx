@@ -105,7 +105,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const {
     prefixCls,
     mode,
-    inlineMaxLevel,
+    inlineMaxDeep,
     openKeys,
 
     // Disabled
@@ -131,7 +131,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const { isSubPathKey } = React.useContext(PathUserContext);
   const connectedPath = useFullPath();
-  const isMultiMode = genMultiMode(connectedPath, mode, inlineMaxLevel);
+  const isMultiMode = genMultiMode(connectedPath, mode, inlineMaxDeep);
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;

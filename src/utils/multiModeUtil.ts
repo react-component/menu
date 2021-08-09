@@ -3,7 +3,7 @@ import type { MenuMode } from '../interface';
 export function genMultiMode(
   keys: string[],
   mode?: MenuMode,
-  inlineMaxLevel?: number,
+  inlineMaxDeep?: number,
 ): {
   isMulti: boolean;
   isPopup: boolean;
@@ -15,11 +15,11 @@ export function genMultiMode(
     isMultiPopup: false,
   };
 
-  if (mode === 'inline' && typeof inlineMaxLevel === 'number') {
+  if (mode === 'inline' && typeof inlineMaxDeep === 'number') {
     multi.isMulti = true;
   }
 
-  if (keys?.length >= inlineMaxLevel) {
+  if (keys?.length >= inlineMaxDeep) {
     multi.isPopup = true;
   }
 

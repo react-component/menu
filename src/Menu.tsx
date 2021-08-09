@@ -62,7 +62,7 @@ export interface MenuProps
 
   // Mode
   mode?: MenuMode;
-  inlineMaxLevel?: number;
+  inlineMaxDeep?: number;
   inlineCollapsed?: boolean;
 
   // Open control
@@ -132,7 +132,7 @@ const Menu: React.FC<MenuProps> = props => {
 
     // Mode
     mode = 'vertical',
-    inlineMaxLevel,
+    inlineMaxDeep,
     inlineCollapsed,
 
     // Disabled
@@ -373,14 +373,10 @@ const Menu: React.FC<MenuProps> = props => {
       triggerOpenKeys(EMPTY_LIST);
     }
 
-    const isMultiMode = genMultiMode(
-      mergedOpenKeys,
-      mergedMode,
-      inlineMaxLevel,
-    );
+    const isMultiMode = genMultiMode(mergedOpenKeys, mergedMode, inlineMaxDeep);
     if (!multiple && isMultiMode.isMultiPopup) {
       const inlineLevelPathKeys =
-        info.keyPath[info.keyPath.length - inlineMaxLevel + 1];
+        info.keyPath[info.keyPath.length - inlineMaxDeep + 1];
       if (inlineLevelPathKeys) {
         const subPathKeys = getSubPathKeys(inlineLevelPathKeys);
         const newOpenKeys = mergedOpenKeys.filter(k => !subPathKeys.has(k));
@@ -526,7 +522,7 @@ const Menu: React.FC<MenuProps> = props => {
       <MenuContextProvider
         prefixCls={prefixCls}
         mode={mergedMode}
-        inlineMaxLevel={inlineMaxLevel}
+        inlineMaxDeep={inlineMaxDeep}
         openKeys={mergedOpenKeys}
         rtl={isRtl}
         // Disabled

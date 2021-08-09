@@ -27,7 +27,7 @@ const Demo = () => {
       </label>
       <CommonMenu
         mode="inline"
-        inlineMaxLevel={2}
+        inlineMaxDeep={2}
         openKeys={openKeys}
         onOpenChange={keys => {
           console.error('Open Keys Changed:', keys);
