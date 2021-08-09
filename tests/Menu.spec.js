@@ -623,5 +623,113 @@ describe('Menu', () => {
       jest.useRealTimers();
     });
   });
+
+  function createInlineMenu(level, onOpenChange) {
+    return (
+      <Menu
+        defaultOpenKeys={['4', '4-2']}
+        mode="inline"
+        inlineMaxDeep={level}
+        onOpenChange={onOpenChange}
+      >
+        <SubMenu title="offset sub menu 2" key="4">
+          <MenuItem key="4-1">inner inner</MenuItem>
+          <SubMenu key="4-2" title="sub menu 1">
+            <MenuItem key="4-2-1">inn</MenuItem>
+          </SubMenu>
+        </SubMenu>
+      </Menu>
+    );
+  }
+
+  describe('Click or hover inline Menu with inlineMaxDeep', () => {
+    [
+      {
+        level: null,
+        openKeys: [],
+      },
+      {
+        level: -1,
+        openKeys: [],
+      },
+      {
+        level: 0,
+        openKeys: [],
+      },
+      {
+        level: 1,
+        openKeys: [],
+      },
+      {
+        level: 2,
+        openKeys: ['4'],
+      },
+      {
+        level: 3,
+        openKeys: [],
+      },
+    ].forEach(item => {
+      const { level, openKeys } = item;
+      it(`Click on the ${level} level menu is open, the other menus is closed`, async () => {
+        jest.useFakeTimers();
+
+        const onOpenChange = jest.fn();
+
+        const wrapper = mount(createInlineMenu(level, onOpenChange));
+
+        await act(async () => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+
+        const menuItems = wrapper.find('.rc-menu-item');
+        menuItems.at(0).simulate('click');
+
+        if (typeof level === 'number' && level < 3) {
+          expect(onOpenChange).toHaveBeenCalledWith(openKeys);
+        } else {
+          expect(onOpenChange).not.toHaveBeenCalled();
+        }
+
+        jest.useRealTimers();
+      });
+
+      it(`Hover on the ${level} level menu is open, the other menus is closed`, async () => {
+        jest.useFakeTimers();
+
+        const onOpenChange = jest.fn();
+
+        const wrapper = mount(createInlineMenu(level, onOpenChange));
+
+        await act(async () => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+
+        // Enter
+        wrapper.find('.rc-menu-submenu-title').at(1).simulate('mouseEnter');
+        await act(async () => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+        if (typeof level === 'number' && level < 3) {
+          expect(
+            wrapper.find('PopupTrigger').at(1).prop('visible'),
+          ).toBeTruthy();
+        }
+
+        // Leave
+        wrapper.find('.rc-menu-submenu-title').at(1).simulate('mouseLeave');
+        await act(async () => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+
+        expect(wrapper.find('PopupTrigger').at(1).prop('visible')).toBeFalsy();
+
+        jest.useRealTimers();
+      });
+    });
+  });
 });
 /* eslint-enable */
