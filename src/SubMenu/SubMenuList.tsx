@@ -11,12 +11,13 @@ const InternalSubMenuList = (
   { className, children, ...restProps }: SubMenuListProps,
   ref: React.Ref<HTMLUListElement>,
 ) => {
-  const { prefixCls, mode } = React.useContext(MenuContext);
+  const { prefixCls, mode, rtl } = React.useContext(MenuContext);
 
   return (
     <ul
       className={classNames(
         prefixCls,
+        rtl && `${prefixCls}-rtl`,
         `${prefixCls}-sub`,
         `${prefixCls}-${mode === 'inline' ? 'inline' : 'vertical'}`,
         className,
