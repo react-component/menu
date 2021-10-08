@@ -28,7 +28,7 @@ describe('Menu', () => {
               5
             </MenuItem>
           </MenuItemGroup>
-          <SubMenu title="submenu">
+          <SubMenu key="sub" title="submenu">
             <MenuItem key="6">6</MenuItem>
           </SubMenu>
         </Menu>
@@ -65,6 +65,24 @@ describe('Menu', () => {
 
         expect(wrapper.find('ul').first().props().className).toContain('-rtl');
       });
+    });
+
+    it('popup with rtl has correct className', () => {
+      jest.useFakeTimers();
+      const wrapper = mount(
+        createMenu({ mode: 'vertical', direction: 'rtl', openKeys: ['sub'] }),
+      );
+
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+
+      expect(
+        wrapper.find('.rc-menu-submenu-popup').exists('.rc-menu-rtl'),
+      ).toBeTruthy();
+
+      jest.useRealTimers();
     });
 
     it('should support Fragment', () => {
