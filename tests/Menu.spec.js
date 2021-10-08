@@ -8,7 +8,7 @@ import Menu, { MenuItem, MenuItemGroup, SubMenu, Divider } from '../src';
 
 describe('Menu', () => {
   describe('should render', () => {
-    function createMenu(props) {
+    function createMenu(props, subKey) {
       return (
         <Menu
           disabledOverflow
@@ -28,12 +28,36 @@ describe('Menu', () => {
               5
             </MenuItem>
           </MenuItemGroup>
-          <SubMenu key="sub" title="submenu">
+          <SubMenu key={subKey} title="submenu">
             <MenuItem key="6">6</MenuItem>
           </SubMenu>
         </Menu>
       );
     }
+
+    it('popup with rtl has correct className', () => {
+      jest.useFakeTimers();
+      const wrapper = mount(
+        createMenu(
+          { mode: 'vertical', direction: 'rtl', openKeys: ['sub'] },
+          'sub',
+        ),
+      );
+
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+
+      expect(
+        wrapper.find('.rc-menu-submenu-popup').exists('.rc-menu-rtl'),
+      ).toBeTruthy();
+
+      wrapper.unmount();
+
+      jest.useRealTimers();
+      jest.clearAllTimers();
+    });
 
     ['vertical', 'horizontal', 'inline'].forEach(mode => {
       it(`${mode} menu correctly`, () => {
@@ -65,24 +89,6 @@ describe('Menu', () => {
 
         expect(wrapper.find('ul').first().props().className).toContain('-rtl');
       });
-    });
-
-    it('popup with rtl has correct className', () => {
-      jest.useFakeTimers();
-      const wrapper = mount(
-        createMenu({ mode: 'vertical', direction: 'rtl', openKeys: ['sub'] }),
-      );
-
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-
-      expect(
-        wrapper.find('.rc-menu-submenu-popup').exists('.rc-menu-rtl'),
-      ).toBeTruthy();
-
-      jest.useRealTimers();
     });
 
     it('should support Fragment', () => {
