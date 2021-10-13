@@ -109,7 +109,7 @@ export interface MenuProps
 
   // >>>>> Events
   onClick?: MenuClickEventHandler;
-  onOpenChange?: (openKeys: React.Key[]) => void;
+  onOpenChange?: (openKeys: string[]) => void;
 }
 
 interface LegacyMenuProps extends MenuProps {
