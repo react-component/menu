@@ -227,6 +227,21 @@
     }
   }
 
+  &-inline {
+    .@{menuPrefixCls}-submenu-multi {
+      .@{menuPrefixCls}-submenu-title {
+        .@{menuPrefixCls}-submenu-arrow {
+          transform: rotate(0);
+        }
+      }
+    }
+    .@{menuPrefixCls}-submenu-multi.@{menuPrefixCls}-submenu-open {
+      .@{menuPrefixCls}-submenu-title {
+        background-color: #eaf8fe;
+      }
+    }
+  }
+
   &-vertical&-sub,
   &-vertical-left&-sub,
   &-vertical-right&-sub {
