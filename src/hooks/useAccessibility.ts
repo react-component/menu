@@ -6,7 +6,7 @@ import type { MenuMode } from '../interface';
 import { getMenuId } from '../context/IdContext';
 
 // destruct to reduce minify size
-const { LEFT, RIGHT, UP, DOWN, ENTER, ESC } = KeyCode;
+const { LEFT, RIGHT, UP, DOWN, ENTER, ESC, HOME, END } = KeyCode;
 
 const ArrowKeys = [UP, DOWN, LEFT, RIGHT];
 
@@ -215,7 +215,7 @@ export default function useAccessibility<T extends HTMLElement>(
   return e => {
     const { which } = e;
 
-    if ([...ArrowKeys, ENTER, ESC].includes(which)) {
+    if ([...ArrowKeys, ENTER, ESC, HOME, END].includes(which)) {
       // Convert key to elements
       let elements: Set<HTMLElement>;
       let key2element: Map<string, HTMLElement>;
@@ -259,12 +259,12 @@ export default function useAccessibility<T extends HTMLElement>(
       );
 
       // Some mode do not have fully arrow operation like inline
-      if (!offsetObj) {
+      if (!offsetObj && which !== HOME && which !== END) {
         return;
       }
 
       // Arrow prevent default to avoid page scroll
-      if (ArrowKeys.includes(which)) {
+      if (ArrowKeys.includes(which) || [HOME, END].includes(which)) {
         e.preventDefault();
       }
 
@@ -295,7 +295,11 @@ export default function useAccessibility<T extends HTMLElement>(
         }
       };
 
-      if (offsetObj.sibling || !focusMenuElement) {
+      if (
+        [HOME, END].includes(which) ||
+        offsetObj.sibling ||
+        !focusMenuElement
+      ) {
         // ========================== Sibling ==========================
         // Find walkable focus menu element container
         let parentQueryContainer: HTMLElement;
@@ -306,13 +310,23 @@ export default function useAccessibility<T extends HTMLElement>(
         }
 
         // Get next focus element
-        const targetElement = getNextFocusElement(
+        let targetElement;
+        const focusableElements = getFocusableElements(
           parentQueryContainer,
           elements,
-          focusMenuElement,
-          offsetObj.offset,
         );
-
+        if (which === HOME) {
+          targetElement = focusableElements[0];
+        } else if (which === END) {
+          targetElement = focusableElements[focusableElements.length - 1];
+        } else {
+          targetElement = getNextFocusElement(
+            parentQueryContainer,
+            elements,
+            focusMenuElement,
+            offsetObj.offset,
+          );
+        }
         // Focus menu item
         tryFocus(targetElement);
 
