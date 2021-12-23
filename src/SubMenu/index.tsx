@@ -26,6 +26,7 @@ import {
   useMeasure,
 } from '../context/PathContext';
 import { useMenuId } from '../context/IdContext';
+import PrivateContext from '../context/PrivateContext';
 
 export interface SubMenuProps {
   style?: React.CSSProperties;
@@ -127,6 +128,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
     onActive,
   } = React.useContext(MenuContext);
 
+  const { _internalRenderSubMenuItem } = React.useContext(PrivateContext);
+
   const { isSubPathKey } = React.useContext(PathUserContext);
   const connectedPath = useFullPath();
 
@@ -168,25 +171,27 @@ const InternalSubMenu = (props: SubMenuProps) => {
     }
   };
 
-  const onInternalMouseEnter: React.MouseEventHandler<HTMLLIElement> =
-    domEvent => {
-      triggerChildrenActive(true);
+  const onInternalMouseEnter: React.MouseEventHandler<
+    HTMLLIElement
+  > = domEvent => {
+    triggerChildrenActive(true);
 
-      onMouseEnter?.({
-        key: eventKey,
-        domEvent,
-      });
-    };
+    onMouseEnter?.({
+      key: eventKey,
+      domEvent,
+    });
+  };
 
-  const onInternalMouseLeave: React.MouseEventHandler<HTMLLIElement> =
-    domEvent => {
-      triggerChildrenActive(false);
+  const onInternalMouseLeave: React.MouseEventHandler<
+    HTMLLIElement
+  > = domEvent => {
+    triggerChildrenActive(false);
 
-      onMouseLeave?.({
-        key: eventKey,
-        domEvent,
-      });
-    };
+    onMouseLeave?.({
+      key: eventKey,
+      domEvent,
+    });
+  };
 
   const mergedActive = React.useMemo(() => {
     if (active) {
@@ -317,6 +322,42 @@ const InternalSubMenu = (props: SubMenuProps) => {
     );
   }
 
+  // >>>>> List node
+  let listNode = (
+    <Overflow.Item
+      role="none"
+      {...restProps}
+      component="li"
+      style={style}
+      className={classNames(
+        subMenuPrefixCls,
+        `${subMenuPrefixCls}-${mode}`,
+        className,
+        {
+          [`${subMenuPrefixCls}-open`]: open,
+          [`${subMenuPrefixCls}-active`]: mergedActive,
+          [`${subMenuPrefixCls}-selected`]: childrenSelected,
+          [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
+        },
+      )}
+      onMouseEnter={onInternalMouseEnter}
+      onMouseLeave={onInternalMouseLeave}
+    >
+      {titleNode}
+
+      {/* Inline mode */}
+      {!overflowDisabled && (
+        <InlineSubMenuList id={popupId} open={open} keyPath={connectedPath}>
+          {children}
+        </InlineSubMenuList>
+      )}
+    </Overflow.Item>
+  );
+
+  if (_internalRenderSubMenuItem) {
+    listNode = _internalRenderSubMenuItem(listNode, props);
+  }
+
   // >>>>> Render
   return (
     <MenuContextProvider
@@ -325,34 +366,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       itemIcon={mergedItemIcon}
       expandIcon={mergedExpandIcon}
     >
-      <Overflow.Item
-        role="none"
-        {...restProps}
-        component="li"
-        style={style}
-        className={classNames(
-          subMenuPrefixCls,
-          `${subMenuPrefixCls}-${mode}`,
-          className,
-          {
-            [`${subMenuPrefixCls}-open`]: open,
-            [`${subMenuPrefixCls}-active`]: mergedActive,
-            [`${subMenuPrefixCls}-selected`]: childrenSelected,
-            [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
-          },
-        )}
-        onMouseEnter={onInternalMouseEnter}
-        onMouseLeave={onInternalMouseLeave}
-      >
-        {titleNode}
-
-        {/* Inline mode */}
-        {!overflowDisabled && (
-          <InlineSubMenuList id={popupId} open={open} keyPath={connectedPath}>
-            {children}
-          </InlineSubMenuList>
-        )}
-      </Overflow.Item>
+      {listNode}
     </MenuContextProvider>
   );
 };

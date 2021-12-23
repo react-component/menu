@@ -121,6 +121,14 @@ export interface MenuProps
     originNode: React.ReactElement,
     menuItemProps: any,
   ) => React.ReactElement;
+  /***
+   * @private Only used for `pro-layout`. Do not use in your prod directly
+   * and we do not promise any compatibility for this.
+   */
+  _internalRenderSubMenuItem?: (
+    originNode: React.ReactElement,
+    subMenuItemProps: any,
+  ) => React.ReactElement;
 }
 
 interface LegacyMenuProps extends MenuProps {
@@ -197,6 +205,7 @@ const Menu: React.FC<MenuProps> = props => {
 
     // Internal
     _internalRenderMenuItem,
+    _internalRenderSubMenuItem,
 
     ...restProps
   } = props as LegacyMenuProps;
@@ -444,8 +453,9 @@ const Menu: React.FC<MenuProps> = props => {
   const privateContext = React.useMemo(
     () => ({
       _internalRenderMenuItem,
+      _internalRenderSubMenuItem,
     }),
-    [_internalRenderMenuItem],
+    [_internalRenderMenuItem, _internalRenderSubMenuItem],
   );
 
   // ======================== Render ========================
