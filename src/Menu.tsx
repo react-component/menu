@@ -26,6 +26,7 @@ import useUUID from './hooks/useUUID';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import { IdContext } from './context/IdContext';
+import PrivateContext from './context/PrivateContext';
 
 /**
  * Menu modify after refactor:
@@ -110,6 +111,16 @@ export interface MenuProps
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onOpenChange?: (openKeys: string[]) => void;
+
+  // >>>>> Internal
+  /***
+   * @private Only used for `pro-layout`. Do not use in your prod directly
+   * and we do not promise any compatibility for this.
+   */
+  _internalRenderMenuItem?: (
+    originNode: React.ReactElement,
+    menuItemProps: any,
+  ) => React.ReactElement;
 }
 
 interface LegacyMenuProps extends MenuProps {
@@ -183,6 +194,9 @@ const Menu: React.FC<MenuProps> = props => {
     // Deprecated
     openAnimation,
     openTransitionName,
+
+    // Internal
+    _internalRenderMenuItem,
 
     ...restProps
   } = props as LegacyMenuProps;
@@ -426,6 +440,14 @@ const Menu: React.FC<MenuProps> = props => {
     setMounted(true);
   }, []);
 
+  // ======================= Context ========================
+  const privateContext = React.useMemo(
+    () => ({
+      _internalRenderMenuItem,
+    }),
+    [_internalRenderMenuItem],
+  );
+
   // ======================== Render ========================
 
   // >>>>> Children
@@ -502,51 +524,53 @@ const Menu: React.FC<MenuProps> = props => {
 
   // >>>>> Render
   return (
-    <IdContext.Provider value={uuid}>
-      <MenuContextProvider
-        prefixCls={prefixCls}
-        mode={mergedMode}
-        openKeys={mergedOpenKeys}
-        rtl={isRtl}
-        // Disabled
-        disabled={disabled}
-        // Motion
-        motion={mounted ? motion : null}
-        defaultMotions={mounted ? defaultMotions : null}
-        // Active
-        activeKey={mergedActiveKey}
-        onActive={onActive}
-        onInactive={onInactive}
-        // Selection
-        selectedKeys={mergedSelectKeys}
-        // Level
-        inlineIndent={inlineIndent}
-        // Popup
-        subMenuOpenDelay={subMenuOpenDelay}
-        subMenuCloseDelay={subMenuCloseDelay}
-        forceSubMenuRender={forceSubMenuRender}
-        builtinPlacements={builtinPlacements}
-        triggerSubMenuAction={triggerSubMenuAction}
-        getPopupContainer={getInternalPopupContainer}
-        // Icon
-        itemIcon={itemIcon}
-        expandIcon={expandIcon}
-        // Events
-        onItemClick={onInternalClick}
-        onOpenChange={onInternalOpenChange}
-      >
-        <PathUserContext.Provider value={pathUserContext}>
-          {container}
-        </PathUserContext.Provider>
+    <PrivateContext.Provider value={privateContext}>
+      <IdContext.Provider value={uuid}>
+        <MenuContextProvider
+          prefixCls={prefixCls}
+          mode={mergedMode}
+          openKeys={mergedOpenKeys}
+          rtl={isRtl}
+          // Disabled
+          disabled={disabled}
+          // Motion
+          motion={mounted ? motion : null}
+          defaultMotions={mounted ? defaultMotions : null}
+          // Active
+          activeKey={mergedActiveKey}
+          onActive={onActive}
+          onInactive={onInactive}
+          // Selection
+          selectedKeys={mergedSelectKeys}
+          // Level
+          inlineIndent={inlineIndent}
+          // Popup
+          subMenuOpenDelay={subMenuOpenDelay}
+          subMenuCloseDelay={subMenuCloseDelay}
+          forceSubMenuRender={forceSubMenuRender}
+          builtinPlacements={builtinPlacements}
+          triggerSubMenuAction={triggerSubMenuAction}
+          getPopupContainer={getInternalPopupContainer}
+          // Icon
+          itemIcon={itemIcon}
+          expandIcon={expandIcon}
+          // Events
+          onItemClick={onInternalClick}
+          onOpenChange={onInternalOpenChange}
+        >
+          <PathUserContext.Provider value={pathUserContext}>
+            {container}
+          </PathUserContext.Provider>
 
-        {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
-        <div style={{ display: 'none' }} aria-hidden>
-          <PathRegisterContext.Provider value={registerPathContext}>
-            {childList}
-          </PathRegisterContext.Provider>
-        </div>
-      </MenuContextProvider>
-    </IdContext.Provider>
+          {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
+          <div style={{ display: 'none' }} aria-hidden>
+            <PathRegisterContext.Provider value={registerPathContext}>
+              {childList}
+            </PathRegisterContext.Provider>
+          </div>
+        </MenuContextProvider>
+      </IdContext.Provider>
+    </PrivateContext.Provider>
   );
 };
 

@@ -17,6 +17,7 @@ import Icon from './Icon';
 import useDirectionStyle from './hooks/useDirectionStyle';
 import { useFullPath, useMeasure } from './context/PathContext';
 import { useMenuId } from './context/IdContext';
+import PrivateContext from './context/PrivateContext';
 
 export interface MenuItemProps
   extends Omit<
@@ -116,6 +117,9 @@ const InternalMenuItem = (props: MenuItemProps) => {
     // Active
     onActive,
   } = React.useContext(MenuContext);
+
+  const { _internalRenderMenuItem } = React.useContext(PrivateContext);
+
   const itemCls = `${prefixCls}-item`;
 
   const legacyMenuItemRef = React.useRef<any>();
@@ -199,7 +203,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
     optionRoleProps['aria-selected'] = selected;
   }
 
-  return (
+  let renderNode = (
     <LegacyMenuItem
       ref={legacyMenuItemRef}
       elementRef={elementRef}
@@ -238,6 +242,12 @@ const InternalMenuItem = (props: MenuItemProps) => {
       />
     </LegacyMenuItem>
   );
+
+  if (_internalRenderMenuItem) {
+    renderNode = _internalRenderMenuItem(renderNode, props);
+  }
+
+  return renderNode;
 };
 
 function MenuItem(props: MenuItemProps): React.ReactElement {
