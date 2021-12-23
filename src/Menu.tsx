@@ -119,6 +119,7 @@ export interface MenuProps
    */
   _internalRenderMenuItem?: (
     originNode: React.ReactElement,
+    menuItemProps: any,
   ) => React.ReactElement;
 }
 
