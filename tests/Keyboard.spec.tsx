@@ -73,9 +73,6 @@ describe('Menu.Keyboard', () => {
 
     const wrapper = mount(<App />, { attachTo: holder });
 
-    wrapper.setState({ items: [0, 1] });
-    await wrapper.flush();
-
     // First item
     keyDown(wrapper, KeyCode.DOWN);
     expect(wrapper.isActive(0)).toBeTruthy();
@@ -83,25 +80,44 @@ describe('Menu.Keyboard', () => {
     // Next item
     keyDown(wrapper, KeyCode.DOWN);
     expect(wrapper.isActive(1)).toBeTruthy();
+
+    // Very first item
+    keyDown(wrapper, KeyCode.HOME);
+    expect(wrapper.isActive(0)).toBeTruthy();
+
+    // Very last item
+    keyDown(wrapper, KeyCode.END);
+    expect(wrapper.isActive(2)).toBeTruthy();
   });
 
   it('Skip disabled item', () => {
     const wrapper = mount(
       <Menu defaultActiveFirst>
+        <MenuItem disabled />
         <MenuItem key="1">1</MenuItem>
         <MenuItem disabled />
         <MenuItem key="2">2</MenuItem>
+        <MenuItem disabled />
       </Menu>,
       { attachTo: holder },
     );
 
     // Next item
     keyDown(wrapper, KeyCode.DOWN);
-    expect(wrapper.isActive(2)).toBeTruthy();
+    keyDown(wrapper, KeyCode.DOWN);
+    expect(wrapper.isActive(3)).toBeTruthy();
 
     // Back to first item
     keyDown(wrapper, KeyCode.UP);
-    expect(wrapper.isActive(0)).toBeTruthy();
+    expect(wrapper.isActive(1)).toBeTruthy();
+
+    // To the last available item
+    keyDown(wrapper, KeyCode.END);
+    expect(wrapper.isActive(3)).toBeTruthy();
+
+    // To the first available item
+    keyDown(wrapper, KeyCode.HOME);
+    expect(wrapper.isActive(1)).toBeTruthy();
   });
 
   it('Enter to open menu and active first item', () => {
