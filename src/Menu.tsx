@@ -120,6 +120,7 @@ export interface MenuProps
   _internalRenderMenuItem?: (
     originNode: React.ReactElement,
     menuItemProps: any,
+    selected: boolean,
   ) => React.ReactElement;
   /***
    * @private Only used for `pro-layout`. Do not use in your prod directly
@@ -128,6 +129,7 @@ export interface MenuProps
   _internalRenderSubMenuItem?: (
     originNode: React.ReactElement,
     subMenuItemProps: any,
+    selected: boolean,
   ) => React.ReactElement;
 }
 

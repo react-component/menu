@@ -355,7 +355,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   );
 
   if (_internalRenderSubMenuItem) {
-    listNode = _internalRenderSubMenuItem(listNode, props);
+    listNode = _internalRenderSubMenuItem(listNode, props, childrenSelected);
   }
 
   // >>>>> Render
