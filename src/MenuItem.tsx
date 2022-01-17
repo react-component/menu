@@ -244,7 +244,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
   );
 
   if (_internalRenderMenuItem) {
-    renderNode = _internalRenderMenuItem(renderNode, props, selected);
+    renderNode = _internalRenderMenuItem(renderNode, props, { selected });
   }
 
   return renderNode;
