@@ -133,6 +133,9 @@ export interface MenuProps
     subMenuItemProps: any,
     stateProps: {
       selected: boolean;
+      open: boolean;
+      active: boolean;
+      disabled: boolean;
     },
   ) => React.ReactElement;
 }
