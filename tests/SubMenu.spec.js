@@ -366,7 +366,7 @@ describe('SubMenu', () => {
     );
 
     const wrapper = mount(<App show />);
-    expect(wrapper.find('Menu ul').prop('style')).toEqual({
+    expect(wrapper.find('.rc-menu').first().prop('style')).toEqual({
       backgroundColor: 'black',
     });
   });

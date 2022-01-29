@@ -647,5 +647,17 @@ describe('Menu', () => {
       jest.useRealTimers();
     });
   });
+
+  it('should support ref', () => {
+    const menuRef = React.createRef();
+
+    mount(
+      <Menu ref={menuRef}>
+        <MenuItem key="light">Light</MenuItem>
+      </Menu>,
+    );
+
+    expect(menuRef.current).toBeTruthy();
+  });
 });
 /* eslint-enable */
