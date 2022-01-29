@@ -27,6 +27,7 @@ import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import { IdContext } from './context/IdContext';
 import PrivateContext from './context/PrivateContext';
+import { composeRef } from 'rc-util/lib/ref';
 
 /**
  * Menu modify after refactor:
@@ -136,7 +137,7 @@ interface LegacyMenuProps extends MenuProps {
   openAnimation?: string;
 }
 
-const Menu: React.FC<MenuProps> = props => {
+const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
   const {
     prefixCls = 'rc-menu',
     style,
@@ -214,6 +215,7 @@ const Menu: React.FC<MenuProps> = props => {
   const [mounted, setMounted] = React.useState(false);
 
   const containerRef = React.useRef<HTMLUListElement>();
+  const mergedRef = composeRef(containerRef, ref);
 
   const uuid = useUUID(id);
 
@@ -434,7 +436,7 @@ const Menu: React.FC<MenuProps> = props => {
     isRtl,
     uuid,
 
-    containerRef,
+    mergedRef,
     getKeys,
     getKeyPath,
 
@@ -479,7 +481,7 @@ const Menu: React.FC<MenuProps> = props => {
   const container = (
     <Overflow
       id={id}
-      ref={containerRef as any}
+      ref={mergedRef as any}
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
       itemComponent={MenuItem}
@@ -582,6 +584,6 @@ const Menu: React.FC<MenuProps> = props => {
       </IdContext.Provider>
     </PrivateContext.Provider>
   );
-};
+});
 
 export default Menu;
