@@ -187,7 +187,7 @@ export default function useAccessibility<T extends HTMLElement>(
   isRtl: boolean,
   id: string,
 
-  containerRef: React.Ref<HTMLUListElement>,
+  containerRef: React.RefObject<HTMLUListElement>,
   getKeys: () => string[],
   getKeyPath: (key: string, includeOverflow?: boolean) => string[],
 

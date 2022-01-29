@@ -436,7 +436,7 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     isRtl,
     uuid,
 
-    mergedRef,
+    containerRef,
     getKeys,
     getKeyPath,
 
