@@ -263,8 +263,11 @@ export default function useAccessibility<T extends HTMLElement>(
         return;
       }
 
-      // Arrow prevent default to avoid page scroll
-      if (ArrowKeys.includes(which) || [HOME, END].includes(which)) {
+      // Arrow prevent default to avoid page scroll, not apply for input and textarea
+      if (
+        (ArrowKeys.includes(which) || [HOME, END].includes(which)) &&
+        !['INPUT', 'TEXTAREA'].includes(e.target.nodeType)
+      ) {
         e.preventDefault();
       }
 
