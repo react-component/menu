@@ -435,6 +435,37 @@ describe('Menu', () => {
     expect(wrapper.isActive(1)).toBeTruthy();
   });
 
+  it('input and textarea cursor can be moved by arrow', () => {
+    const wrapper = mount(
+      <Menu activeKey="1">
+        <MenuItem key="1">
+          <input value="123" />
+        </MenuItem>
+        <MenuItem key="2">
+          <textarea value="123" />
+        </MenuItem>
+      </Menu>,
+    );
+
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    const inputNode = input.getDOMNode();
+    expect(inputNode.selectionStart).toEqual(0);
+    input.simulate('keyDown', { which: KeyCode.RIGHT });
+    expect(inputNode.selectionStart).toEqual(1);
+    input.simulate('keyDown', { which: KeyCode.LEFT });
+    expect(inputNode.selectionStart).toEqual(0);
+
+    const textarea = wrapper.find('textarea');
+    textarea.simulate('focus');
+    const textareaNode = textarea.getDOMNode();
+    expect(textarea.selectionStart).toEqual(0);
+    textareaNode.simulate('keyDown', { which: KeyCode.RIGHT });
+    expect(textarea.selectionStart).toEqual(1);
+    textareaNode.simulate('keyDown', { which: KeyCode.LEFT });
+    expect(textarea.selectionStart).toEqual(0);
+  });
+
   it('defaultActiveFirst', () => {
     const wrapper = mount(
       <Menu selectedKeys={['foo']} defaultActiveFirst>
