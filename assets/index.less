@@ -53,11 +53,6 @@
     border-bottom: 1px solid #dedede;
   }
 
-  &-item-active,
-  &-submenu-active > &-submenu-title {
-    background-color: #eaf8fe;
-  }
-
   &-item-selected {
     background-color: #eaf8fe;
     // fix chrome render bug
@@ -78,6 +73,38 @@
   &-vertical-right&-sub {
     min-width: 160px;
     margin-top: 0;
+  }
+
+  .effect(@background-color) {
+    &:focus,
+    &:hover {
+      background-color: @background-color;
+    }
+  }
+
+  &-submenu {
+    &-title {
+      .effect(#eaf8fe);
+    }
+
+    &-open {
+      background-color: #eaf8fe;
+    }
+
+    &-disabled {
+      &-open {
+        background-color: transparent;
+      }
+      .effect(transparent);
+    }
+  }
+
+  &-item {
+    .effect(#eaf8fe);
+
+    &-disabled {
+      .effect(transparent);
+    }
   }
 
   &-item,

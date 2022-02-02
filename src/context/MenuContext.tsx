@@ -23,11 +23,6 @@ export interface MenuContextProps {
   // Used for overflow only. Prevent hidden node trigger open
   overflowDisabled?: boolean;
 
-  // Active
-  activeKey: string;
-  onActive: (key: string) => void;
-  onInactive: (key: string) => void;
-
   // Selection
   selectedKeys: string[];
 

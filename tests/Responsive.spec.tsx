@@ -2,19 +2,35 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import KeyCode from 'rc-util/lib/KeyCode';
+import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { render } from 'enzyme';
 import ResizeObserver from 'rc-resize-observer';
-import { mount } from './util';
+import { mount, keyDown } from './util';
 import Menu, { MenuItem, SubMenu } from '../src';
-import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
 
 describe('Menu.Responsive', () => {
+  let holder: HTMLDivElement;
+
+  beforeAll(() => {
+    // Mock to force make menu item visible
+    spyElementPrototypes(HTMLElement, {
+      offsetParent: {
+        get() {
+          return this.parentElement;
+        },
+      },
+    });
+  });
+
   beforeEach(() => {
+    holder = document.createElement('div');
+    document.body.appendChild(holder);
     jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    holder.parentElement.removeChild(holder);
   });
 
   it('ssr render full', () => {
@@ -32,14 +48,14 @@ describe('Menu.Responsive', () => {
   it('show rest', () => {
     const onOpenChange = jest.fn();
     const wrapper = mount(
-      <Menu mode="horizontal" activeKey="little" onOpenChange={onOpenChange}>
+      <Menu mode="horizontal" onOpenChange={onOpenChange}>
         <MenuItem key="light">Light</MenuItem>
         <MenuItem key="bamboo">Bamboo</MenuItem>
         <SubMenu key="home" title="Home">
           <MenuItem key="little">Little</MenuItem>
         </SubMenu>
       </Menu>,
-      { attachTo: document.body },
+      { attachTo: holder },
     );
 
     act(() => {
@@ -64,7 +80,7 @@ describe('Menu.Responsive', () => {
         item
           .find(ResizeObserver)
           .props()
-          .onResize({ offsetWidth: 20 } as any, null);
+          .onResize({ offsetWidth: 20, width: 20 } as any, {} as any);
         jest.runAllTimers();
         wrapper.update();
       });
@@ -75,20 +91,13 @@ describe('Menu.Responsive', () => {
       wrapper.find('.rc-menu-overflow-item-rest').last().prop('style').opacity,
     ).not.toEqual(0);
 
-    // Should set active on rest
-    expect(
-      wrapper
-        .find('.rc-menu-overflow-item-rest')
-        .last()
-        .hasClass('rc-menu-submenu-active'),
-    ).toBeTruthy();
-
-    // Key down can open
     expect(onOpenChange).not.toHaveBeenCalled();
-    wrapper.setProps({ activeKey: OVERFLOW_KEY });
-    wrapper
-      .find('ul.rc-menu-root')
-      .simulate('keyDown', { which: KeyCode.DOWN });
+
+    // open submenu
+    keyDown(wrapper, KeyCode.DOWN);
+    keyDown(wrapper, KeyCode.RIGHT);
+    keyDown(wrapper, KeyCode.ENTER);
+
     expect(onOpenChange).toHaveBeenCalled();
   });
 });

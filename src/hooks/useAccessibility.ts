@@ -114,11 +114,8 @@ function findContainerUL(element: HTMLElement): HTMLUListElement {
 /**
  * Find focused element within element set provided
  */
-function getFocusElement(
-  activeElement: HTMLElement,
-  elements: Set<HTMLElement>,
-): HTMLElement {
-  let current = activeElement || document.activeElement;
+function getFocusElement(elements: Set<HTMLElement>): HTMLElement {
+  let current = document.activeElement;
 
   while (current) {
     if (elements.has(current as any)) {
@@ -183,7 +180,6 @@ function getNextFocusElement(
 
 export default function useAccessibility<T extends HTMLElement>(
   mode: MenuMode,
-  activeKey: string,
   isRtl: boolean,
   id: string,
 
@@ -191,15 +187,11 @@ export default function useAccessibility<T extends HTMLElement>(
   getKeys: () => string[],
   getKeyPath: (key: string, includeOverflow?: boolean) => string[],
 
-  triggerActiveKey: (key: string) => void,
   triggerAccessibilityOpen: (key: string, open?: boolean) => void,
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
   const rafRef = React.useRef<number>();
-
-  const activeRef = React.useRef<string>();
-  activeRef.current = activeKey;
 
   const cleanRaf = () => {
     raf.cancel(rafRef.current);
@@ -247,8 +239,7 @@ export default function useAccessibility<T extends HTMLElement>(
       refreshElements();
 
       // First we should find current focused MenuItem/SubMenu element
-      const activeElement = key2element.get(activeKey);
-      const focusMenuElement = getFocusElement(activeElement, elements);
+      const focusMenuElement = getFocusElement(elements);
       const focusMenuKey = element2key.get(focusMenuElement);
 
       const offsetObj = getOffset(
@@ -278,9 +269,6 @@ export default function useAccessibility<T extends HTMLElement>(
             focusTargetElement = link;
           }
 
-          const targetKey = element2key.get(menuElement);
-          triggerActiveKey(targetKey);
-
           /**
            * Do not `useEffect` here since `tryFocus` may trigger async
            * which makes React sync update the `activeKey`
@@ -288,9 +276,7 @@ export default function useAccessibility<T extends HTMLElement>(
            */
           cleanRaf();
           rafRef.current = raf(() => {
-            if (activeRef.current === targetKey) {
-              focusTargetElement.focus();
-            }
+            focusTargetElement.focus();
           });
         }
       };
@@ -329,7 +315,6 @@ export default function useAccessibility<T extends HTMLElement>(
         }
         // Focus menu item
         tryFocus(targetElement);
-
         // ======================= InlineTrigger =======================
       } else if (offsetObj.inlineTrigger) {
         // Inline trigger no need switch to sub menu item
@@ -343,17 +328,21 @@ export default function useAccessibility<T extends HTMLElement>(
           // Async should resync elements
           refreshElements();
 
-          const controlId = focusMenuElement.getAttribute('aria-controls');
-          const subQueryContainer = document.getElementById(controlId);
+          let targetElement = focusMenuElement;
 
-          // Get sub focusable menu item
-          const targetElement = getNextFocusElement(
-            subQueryContainer,
-            elements,
-          );
+          const controlId = targetElement.getAttribute('aria-controls');
 
-          // Focus menu item
-          tryFocus(targetElement);
+          if (controlId) {
+            const subQueryContainer = document.getElementById(controlId);
+
+            // Get sub focusable menu item
+            targetElement = getNextFocusElement(subQueryContainer, elements);
+
+            // Focus menu item
+            tryFocus(targetElement);
+          } else {
+            targetElement.click();
+          }
         }, 5);
       } else if (offsetObj.offset < 0) {
         const keyPath = getKeyPath(focusMenuKey, true);

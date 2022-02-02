@@ -133,37 +133,10 @@ describe('Menu', () => {
     });
   });
 
-  it('set activeKey', () => {
-    const wrapper = mount(
-      <Menu activeKey="1">
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
-    );
-    expect(wrapper.isActive(0)).toBeTruthy();
-    expect(wrapper.isActive(1)).toBeFalsy();
-
-    wrapper.setProps({ activeKey: '2' });
-    expect(wrapper.isActive(0)).toBeFalsy();
-    expect(wrapper.isActive(1)).toBeTruthy();
-  });
-
-  it('active first item', () => {
-    const wrapper = mount(
-      <Menu defaultActiveFirst>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
-    );
-    expect(
-      wrapper.find('.rc-menu-item').first().hasClass('rc-menu-item-active'),
-    ).toBeTruthy();
-  });
-
   it('should render none menu item children', () => {
     expect(() => {
       mount(
-        <Menu activeKey="1">
+        <Menu>
           <MenuItem key="1">1</MenuItem>
           <MenuItem key="2">2</MenuItem>
           string
@@ -407,43 +380,6 @@ describe('Menu', () => {
     expect(handleDeselect.mock.calls[0][0].key).toBe('1');
   });
 
-  it('active by mouse enter', () => {
-    const wrapper = mount(
-      <Menu>
-        <MenuItem key="item1">item</MenuItem>
-        <MenuItem disabled>disabled</MenuItem>
-        <MenuItem key="item2">item2</MenuItem>
-      </Menu>,
-    );
-    wrapper.find('li').last().simulate('mouseEnter');
-    expect(wrapper.isActive(2)).toBeTruthy();
-  });
-
-  it('active by key down', () => {
-    const wrapper = mount(
-      <Menu activeKey="1">
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
-    );
-
-    // KeyDown will not change activeKey since control
-    wrapper.find('Overflow').simulate('keyDown', { which: KeyCode.DOWN });
-    expect(wrapper.isActive(0)).toBeTruthy();
-
-    wrapper.setProps({ activeKey: '2' });
-    expect(wrapper.isActive(1)).toBeTruthy();
-  });
-
-  it('defaultActiveFirst', () => {
-    const wrapper = mount(
-      <Menu selectedKeys={['foo']} defaultActiveFirst>
-        <MenuItem key="foo">foo</MenuItem>
-      </Menu>,
-    );
-    expect(wrapper.isActive(0)).toBeTruthy();
-  });
-
   it('should accept builtinPlacements', () => {
     const builtinPlacements = {
       leftTop: {
@@ -549,18 +485,6 @@ describe('Menu', () => {
 
     wrapper.find('ul.rc-menu-root').simulate('mouseEnter');
     expect(onMouseEnter).toHaveBeenCalled();
-  });
-
-  it('Nest children active should bump to top', async () => {
-    const wrapper = mount(
-      <Menu activeKey="light" mode="vertical">
-        <SubMenu key="bamboo" title="Bamboo">
-          <MenuItem key="light">Light</MenuItem>
-        </SubMenu>
-      </Menu>,
-    );
-
-    expect(wrapper.exists('.rc-menu-submenu-active')).toBeTruthy();
   });
 
   it('not warning on destroy', async () => {

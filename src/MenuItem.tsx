@@ -11,7 +11,7 @@ import type {
   RenderIconType,
 } from './interface';
 import { MenuContext } from './context/MenuContext';
-import useActive from './hooks/useActive';
+import useMouseEvents from './hooks/useMouseEvents';
 import { warnItemProp } from './utils/warnUtil';
 import Icon from './Icon';
 import useDirectionStyle from './hooks/useDirectionStyle';
@@ -113,9 +113,6 @@ const InternalMenuItem = (props: MenuItemProps) => {
 
     // Select
     selectedKeys,
-
-    // Active
-    onActive,
   } = React.useContext(MenuContext);
 
   const { _internalRenderMenuItem } = React.useContext(PrivateContext);
@@ -150,7 +147,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
   const mergedItemIcon = itemIcon || contextItemIcon;
 
   // ============================ Active ============================
-  const { active, ...activeProps } = useActive(
+  const mouseEvents = useMouseEvents(
     eventKey,
     mergedDisabled,
     onMouseEnter,
@@ -187,15 +184,6 @@ const InternalMenuItem = (props: MenuItemProps) => {
     }
   };
 
-  /**
-   * Used for accessibility. Helper will focus element without key board.
-   * We should manually trigger an active
-   */
-  const onInternalFocus: React.FocusEventHandler<HTMLLIElement> = e => {
-    onActive(eventKey);
-    onFocus?.(e);
-  };
-
   // ============================ Render ============================
   const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
 
@@ -211,7 +199,7 @@ const InternalMenuItem = (props: MenuItemProps) => {
       tabIndex={disabled ? null : -1}
       data-menu-id={overflowDisabled && domDataId ? null : domDataId}
       {...restProps}
-      {...activeProps}
+      {...mouseEvents}
       {...optionRoleProps}
       component="li"
       aria-disabled={disabled}
@@ -222,7 +210,6 @@ const InternalMenuItem = (props: MenuItemProps) => {
       className={classNames(
         itemCls,
         {
-          [`${itemCls}-active`]: active,
           [`${itemCls}-selected`]: selected,
           [`${itemCls}-disabled`]: mergedDisabled,
         },
@@ -230,7 +217,6 @@ const InternalMenuItem = (props: MenuItemProps) => {
       )}
       onClick={onInternalClick}
       onKeyDown={onInternalKeyDown}
-      onFocus={onInternalFocus}
     >
       {children}
       <Icon

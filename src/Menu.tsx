@@ -69,10 +69,6 @@ export interface MenuProps
   defaultOpenKeys?: string[];
   openKeys?: string[];
 
-  // Active control
-  activeKey?: string;
-  defaultActiveFirst?: boolean;
-
   // Selection
   selectable?: boolean;
   multiple?: boolean;
@@ -135,7 +131,6 @@ export interface MenuProps
     stateProps: {
       selected: boolean;
       open: boolean;
-      active: boolean;
       disabled: boolean;
     },
   ) => React.ReactElement;
@@ -171,10 +166,6 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     forceSubMenuRender,
     defaultOpenKeys,
     openKeys,
-
-    // Active
-    activeKey,
-    defaultActiveFirst,
 
     // Selection
     selectable = true,
@@ -328,22 +319,6 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     );
   }, [lastVisibleIndex, allVisible]);
 
-  // ======================== Active ========================
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState(
-    activeKey || ((defaultActiveFirst && childList[0]?.key) as string),
-    {
-      value: activeKey,
-    },
-  );
-
-  const onActive = useMemoCallback((key: string) => {
-    setMergedActiveKey(key);
-  });
-
-  const onInactive = useMemoCallback(() => {
-    setMergedActiveKey(undefined);
-  });
-
   // ======================== Select ========================
   // >>>>> Select keys
   const [mergedSelectKeys, setMergedSelectKeys] = useMergedState(
@@ -441,7 +416,6 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
 
   const onInternalKeyDown = useAccessibility(
     mergedMode,
-    mergedActiveKey,
     isRtl,
     uuid,
 
@@ -449,7 +423,6 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     getKeys,
     getKeyPath,
 
-    setMergedActiveKey,
     triggerAccessibilityOpen,
 
     onKeyDown,
@@ -557,10 +530,6 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
           // Motion
           motion={mounted ? motion : null}
           defaultMotions={mounted ? defaultMotions : null}
-          // Active
-          activeKey={mergedActiveKey}
-          onActive={onActive}
-          onInactive={onInactive}
           // Selection
           selectedKeys={mergedSelectKeys}
           // Level
