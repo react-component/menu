@@ -7,6 +7,7 @@ import { render } from 'enzyme';
 import ResizeObserver from 'rc-resize-observer';
 import { mount, keyDown } from './util';
 import Menu, { MenuItem, SubMenu } from '../src';
+import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
 
 describe('Menu.Responsive', () => {
   let holder: HTMLDivElement;
@@ -46,13 +47,14 @@ describe('Menu.Responsive', () => {
   });
 
   it('show rest', () => {
-    const onOpenChange = jest.fn();
+    const onOpenChange = jest.fn(openedKeys => openedKeys);
     const wrapper = mount(
       <Menu mode="horizontal" onOpenChange={onOpenChange}>
         <MenuItem key="light">Light</MenuItem>
         <MenuItem key="bamboo">Bamboo</MenuItem>
         <SubMenu key="home" title="Home">
           <MenuItem key="little">Little</MenuItem>
+          <MenuItem key="foo">Foo</MenuItem>
         </SubMenu>
       </Menu>,
       { attachTo: holder },
@@ -97,8 +99,12 @@ describe('Menu.Responsive', () => {
     keyDown(wrapper, KeyCode.DOWN);
     keyDown(wrapper, KeyCode.RIGHT);
     keyDown(wrapper, KeyCode.ENTER);
-
     expect(onOpenChange).toHaveBeenCalled();
+
+    // go to next SubMenu and open
+    keyDown(wrapper, KeyCode.DOWN);
+    keyDown(wrapper, KeyCode.ENTER);
+    expect(onOpenChange.mock.results[1].value).toEqual([OVERFLOW_KEY, 'home']);
   });
 });
 /* eslint-enable */

@@ -257,10 +257,11 @@ describe('Menu.Keyboard', () => {
       { attachTo: holder },
     );
 
+    const menuItems = document.querySelectorAll('.rc-menu-item');
+
     keyDown(wrapper, KeyCode.UP);
     keyDown(wrapper, KeyCode.ENTER);
 
-    const menuItems = document.querySelectorAll('.rc-menu-item');
     expect(menuItems[1] === document.activeElement).toBeTruthy();
   });
 
@@ -299,6 +300,28 @@ describe('Menu.Keyboard', () => {
     const menuItems = document.querySelectorAll('.rc-menu-item');
 
     expect(menuItems[0] === document.activeElement).toBeTruthy();
+  });
+
+  it('Test KeyCode.HOME and KeyCode.END', () => {
+    const wrapper = mount(
+      <Menu mode="inline">
+        <MenuItem key="foo">foo</MenuItem>
+        <MenuItem key="bar">bar</MenuItem>
+        <MenuItem key="baz">baz</MenuItem>
+      </Menu>,
+      { attachTo: holder },
+    );
+
+    const menuItems = document.querySelectorAll('.rc-menu-item');
+
+    keyDown(wrapper, KeyCode.END);
+    expect(menuItems[2] === document.activeElement).toBeTruthy();
+
+    keyDown(wrapper, KeyCode.HOME);
+    expect(menuItems[0] === document.activeElement).toBeTruthy();
+
+    keyDown(wrapper, KeyCode.UP);
+    expect(menuItems[2] === document.activeElement).toBeTruthy();
   });
 });
 /* eslint-enable */

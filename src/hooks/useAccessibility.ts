@@ -145,11 +145,6 @@ function getNextFocusElement(
   focusMenuElement?: HTMLElement,
   offset: number = 1,
 ) {
-  // Key on the menu item will not get validate parent container
-  if (!parentQueryContainer) {
-    return null;
-  }
-
   // List current level menu item elements
   const sameLevelFocusableMenuElementList = getFocusableElements(
     parentQueryContainer,
@@ -341,7 +336,18 @@ export default function useAccessibility<T extends HTMLElement>(
             // Focus menu item
             tryFocus(targetElement);
           } else {
+            // select Item
             targetElement.click();
+
+            // back to focus ancestor element
+            if (mode !== 'inline') {
+              const targetElementKey = element2key.get(targetElement);
+              const keyPath = getKeyPath(targetElementKey, true);
+              const ancestorKey = keyPath[0];
+
+              const ancestorMenuElement = key2element.get(ancestorKey);
+              tryFocus(ancestorMenuElement);
+            }
           }
         }, 5);
       } else if (offsetObj.offset < 0) {

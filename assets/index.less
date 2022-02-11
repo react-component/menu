@@ -75,7 +75,7 @@
     margin-top: 0;
   }
 
-  .effect(@background-color) {
+  .active-effect(@background-color) {
     &:focus,
     &:hover {
       background-color: @background-color;
@@ -84,7 +84,7 @@
 
   &-submenu {
     &-title {
-      .effect(#eaf8fe);
+      .active-effect(#eaf8fe);
     }
 
     &-open {
@@ -95,15 +95,15 @@
       &-open {
         background-color: transparent;
       }
-      .effect(transparent);
+      .active-effect(transparent);
     }
   }
 
   &-item {
-    .effect(#eaf8fe);
+    .active-effect(#eaf8fe);
 
     &-disabled {
-      .effect(transparent);
+      .active-effect(transparent);
     }
   }
 
