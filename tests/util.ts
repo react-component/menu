@@ -7,7 +7,6 @@ import { act } from 'react-dom/test-utils';
 
 export type ReactWrapper = OriginReactWrapper & {
   flush: () => ReactWrapper;
-  isActive: (index?: number) => boolean;
 };
 
 export const mount = originMount as (
