@@ -10,6 +10,8 @@ describe('Options', () => {
         mode="inline"
         openKeys={['sub1']}
         options={[
+          // Invalid
+          null,
           {
             title: 'SubMenu',
             key: 'sub1',
