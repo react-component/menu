@@ -4,7 +4,7 @@ import { MenuContext } from './context/MenuContext';
 import { useMeasure } from './context/PathContext';
 import type { MenuDividerOption } from './interface';
 
-export type DividerProps = MenuDividerOption;
+export type DividerProps = Omit<MenuDividerOption, 'type'>;
 
 export default function Divider({ className, style }: DividerProps) {
   const { prefixCls } = React.useContext(MenuContext);

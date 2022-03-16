@@ -6,9 +6,7 @@ import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupOption } from './interface';
 
-export interface MenuItemGroupProps
-  extends Omit<MenuItemGroupOption, 'label' | 'options'> {
-  title?: React.ReactNode;
+export interface MenuItemGroupProps extends Omit<MenuItemGroupOption, 'type'> {
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */

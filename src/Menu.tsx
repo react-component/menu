@@ -17,7 +17,7 @@ import type {
   Option,
 } from './interface';
 import MenuItem from './MenuItem';
-import { parseChildren } from './utils/nodeUtil';
+import { parseOptions } from './utils/nodeUtil';
 import MenuContextProvider from './context/MenuContext';
 import useMemoCallback from './hooks/useMemoCallback';
 import { warnItemProp } from './utils/warnUtil';
@@ -155,6 +155,7 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     style,
     className,
     tabIndex = 0,
+    options,
     children,
     direction,
 
@@ -223,7 +224,11 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     ...restProps
   } = props as LegacyMenuProps;
 
-  const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
+  const childList: React.ReactElement[] = parseOptions(
+    children,
+    options,
+    EMPTY_LIST,
+  );
   const [mounted, setMounted] = React.useState(false);
 
   const containerRef = React.useRef<HTMLUListElement>();

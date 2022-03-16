@@ -7,9 +7,9 @@ interface OptionShareProps {
 }
 
 export interface SubMenuOption extends OptionShareProps {
-  // Option is `label` instead of `title`
-  label?: React.ReactNode;
-  children?: React.ReactNode;
+  title?: React.ReactNode;
+
+  children: Option[];
 
   disabled?: boolean;
 
@@ -35,8 +35,7 @@ export interface SubMenuOption extends OptionShareProps {
 }
 
 export interface MenuItemOption extends OptionShareProps {
-  // Option is `label` instead of `children`
-  label?: React.ReactNode;
+  title?: React.ReactNode;
 
   disabled?: boolean;
 
@@ -53,14 +52,16 @@ export interface MenuItemOption extends OptionShareProps {
 }
 
 export interface MenuItemGroupOption extends OptionShareProps {
-  // Origin `title`
-  label?: React.ReactNode;
+  type: 'group';
 
-  // Origin `children`
-  options?: MenuItemOption[];
+  title?: React.ReactNode;
+
+  children: Option[];
 }
 
-export type MenuDividerOption = OptionShareProps;
+export interface MenuDividerOption extends OptionShareProps {
+  type: 'divider';
+}
 
 export type Option =
   | SubMenuOption
