@@ -36,16 +36,17 @@ export function parseChildren(
 
 function convertOptionsToNodes(list: Option[]) {
   return (list || [])
-    .map(opt => {
+    .map((opt, index) => {
       if (opt && typeof opt === 'object') {
-        const { children, type, ...restProps } = opt as any;
+        const { children, key, type, ...restProps } = opt as any;
+        const mergedKey = key ?? `tmp-${index}`;
 
         // MenuItemGroup & SubMenuItem
         if (children || type === 'group') {
           if (type === 'group') {
             // Group
             return (
-              <MenuItemGroup {...restProps}>
+              <MenuItemGroup key={mergedKey} {...restProps}>
                 {convertOptionsToNodes(children)}
               </MenuItemGroup>
             );
@@ -53,17 +54,23 @@ function convertOptionsToNodes(list: Option[]) {
 
           // Sub Menu
           return (
-            <SubMenu {...restProps}>{convertOptionsToNodes(children)}</SubMenu>
+            <SubMenu key={mergedKey} {...restProps}>
+              {convertOptionsToNodes(children)}
+            </SubMenu>
           );
         }
 
         // MenuItem & Divider
         if (type === 'divider') {
-          return <Divider {...restProps} />;
+          return <Divider key={mergedKey} {...restProps} />;
         }
 
         const { title, ...restMenuItemProps } = restProps as MenuItemOption;
-        return <MenuItem {...restMenuItemProps}>{title}</MenuItem>;
+        return (
+          <MenuItem key={mergedKey} {...restMenuItemProps}>
+            {title}
+          </MenuItem>
+        );
       }
 
       return null;
