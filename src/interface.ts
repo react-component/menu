@@ -56,7 +56,7 @@ export interface MenuItemGroupOption extends OptionShareProps {
 
   title?: React.ReactNode;
 
-  children: Option[];
+  children?: Option[];
 }
 
 export interface MenuDividerOption extends OptionShareProps {

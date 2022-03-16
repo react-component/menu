@@ -41,7 +41,7 @@ function convertOptionsToNodes(list: Option[]) {
         const { children, type, ...restProps } = opt as any;
 
         // MenuItemGroup & SubMenuItem
-        if (children) {
+        if (children || type === 'group') {
           if (type === 'group') {
             // Group
             return (
