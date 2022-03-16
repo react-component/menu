@@ -4,12 +4,7 @@ import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import KeyCode from 'rc-util/lib/KeyCode';
 import omit from 'rc-util/lib/omit';
-import type {
-  MenuClickEventHandler,
-  MenuInfo,
-  MenuHoverEventHandler,
-  RenderIconType,
-} from './interface';
+import type { MenuInfo, MenuItemOption } from './interface';
 import { MenuContext } from './context/MenuContext';
 import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
@@ -20,10 +15,11 @@ import { useMenuId } from './context/IdContext';
 import PrivateContext from './context/PrivateContext';
 
 export interface MenuItemProps
-  extends Omit<
-    React.HTMLAttributes<HTMLLIElement>,
-    'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
-  > {
+  extends Omit<MenuItemOption, 'label' | 'key'>,
+    Omit<
+      React.HTMLAttributes<HTMLLIElement>,
+      'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
+    > {
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */
@@ -32,18 +28,8 @@ export interface MenuItemProps
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
 
-  disabled?: boolean;
-
-  itemIcon?: RenderIconType;
-
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
-  // >>>>> Active
-  onMouseEnter?: MenuHoverEventHandler;
-  onMouseLeave?: MenuHoverEventHandler;
-
-  // >>>>> Events
-  onClick?: MenuClickEventHandler;
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.

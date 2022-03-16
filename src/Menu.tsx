@@ -14,6 +14,7 @@ import type {
   TriggerSubMenuAction,
   SelectInfo,
   RenderIconType,
+  Option,
 } from './interface';
 import MenuItem from './MenuItem';
 import { parseChildren } from './utils/nodeUtil';
@@ -52,6 +53,8 @@ export interface MenuProps
   > {
   prefixCls?: string;
 
+  options?: Option[];
+  /** @deprecated Please use `options` instead */
   children?: React.ReactNode;
 
   disabled?: boolean;

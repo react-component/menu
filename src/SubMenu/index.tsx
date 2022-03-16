@@ -4,13 +4,7 @@ import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/nodeUtil';
-import type {
-  MenuClickEventHandler,
-  MenuHoverEventHandler,
-  MenuInfo,
-  MenuTitleInfo,
-  RenderIconType,
-} from '../interface';
+import type { MenuInfo, SubMenuOption } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
@@ -28,14 +22,9 @@ import {
 import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
 
-export interface SubMenuProps {
-  style?: React.CSSProperties;
-  className?: string;
-
+export interface SubMenuProps extends Omit<SubMenuOption, 'title' | 'key'> {
   title?: React.ReactNode;
-  children?: React.ReactNode;
 
-  disabled?: boolean;
   /** @private Used for rest popup. Do not use in your prod */
   internalPopupClose?: boolean;
 
@@ -44,24 +33,6 @@ export interface SubMenuProps {
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
-
-  // >>>>> Icon
-  itemIcon?: RenderIconType;
-  expandIcon?: RenderIconType;
-
-  // >>>>> Active
-  onMouseEnter?: MenuHoverEventHandler;
-  onMouseLeave?: MenuHoverEventHandler;
-
-  // >>>>> Popup
-  popupClassName?: string;
-  popupOffset?: number[];
-
-  // >>>>> Events
-  onClick?: MenuClickEventHandler;
-  onTitleClick?: (info: MenuTitleInfo) => void;
-  onTitleMouseEnter?: MenuHoverEventHandler;
-  onTitleMouseLeave?: MenuHoverEventHandler;
 
   // >>>>>>>>>>>>>>>>>>>>> Next  Round <<<<<<<<<<<<<<<<<<<<<<<
   // onDestroy?: DestroyEventHandler;

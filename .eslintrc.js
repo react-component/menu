@@ -15,5 +15,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     'jsx-a11y/label-has-associated-control': 0,
     'jsx-a11y/label-has-for': 0,
+    '@typescript-eslint/no-empty-interface': "off",
   },
 };

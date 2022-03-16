@@ -1,5 +1,73 @@
 import type * as React from 'react';
 
+// ========================= Options =========================
+interface OptionShareProps {
+  style?: React.CSSProperties;
+  className?: string;
+}
+
+export interface SubMenuOption extends OptionShareProps {
+  // Option is `label` instead of `title`
+  label?: React.ReactNode;
+  children?: React.ReactNode;
+
+  disabled?: boolean;
+
+  key: string;
+
+  // >>>>> Icon
+  itemIcon?: RenderIconType;
+  expandIcon?: RenderIconType;
+
+  // >>>>> Active
+  onMouseEnter?: MenuHoverEventHandler;
+  onMouseLeave?: MenuHoverEventHandler;
+
+  // >>>>> Popup
+  popupClassName?: string;
+  popupOffset?: number[];
+
+  // >>>>> Events
+  onClick?: MenuClickEventHandler;
+  onTitleClick?: (info: MenuTitleInfo) => void;
+  onTitleMouseEnter?: MenuHoverEventHandler;
+  onTitleMouseLeave?: MenuHoverEventHandler;
+}
+
+export interface MenuItemOption extends OptionShareProps {
+  // Option is `label` instead of `children`
+  label?: React.ReactNode;
+
+  disabled?: boolean;
+
+  itemIcon?: RenderIconType;
+
+  key: string;
+
+  // >>>>> Active
+  onMouseEnter?: MenuHoverEventHandler;
+  onMouseLeave?: MenuHoverEventHandler;
+
+  // >>>>> Events
+  onClick?: MenuClickEventHandler;
+}
+
+export interface MenuItemGroupOption extends OptionShareProps {
+  // Origin `title`
+  label?: React.ReactNode;
+
+  // Origin `children`
+  options?: MenuItemOption[];
+}
+
+export type MenuDividerOption = OptionShareProps;
+
+export type Option =
+  | SubMenuOption
+  | MenuItemOption
+  | MenuItemGroupOption
+  | MenuDividerOption;
+
 // ========================== Basic ==========================
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
 

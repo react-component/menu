@@ -4,9 +4,10 @@ import omit from 'rc-util/lib/omit';
 import { parseChildren } from './utils/nodeUtil';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
+import type { MenuItemGroupOption } from './interface';
 
-export interface MenuItemGroupProps {
-  className?: string;
+export interface MenuItemGroupProps
+  extends Omit<MenuItemGroupOption, 'label' | 'options'> {
   title?: React.ReactNode;
   children?: React.ReactNode;
 
