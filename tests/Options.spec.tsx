@@ -13,19 +13,19 @@ describe('Options', () => {
           // Invalid
           null,
           {
-            title: 'SubMenu',
+            label: 'SubMenu',
             key: 'sub1',
             children: [
               {
                 type: 'group',
-                title: 'Menu Group',
+                label: 'Menu Group',
                 children: [
                   {
-                    title: 'Menu Item 1',
+                    label: 'Menu Item 1',
                     key: '1',
                   },
                   {
-                    title: 'Menu Item 2',
+                    label: 'Menu Item 2',
                     key: '2',
                   },
                 ],

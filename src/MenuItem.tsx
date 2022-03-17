@@ -15,7 +15,7 @@ import { useMenuId } from './context/IdContext';
 import PrivateContext from './context/PrivateContext';
 
 export interface MenuItemProps
-  extends Omit<MenuItemType, 'title' | 'key'>,
+  extends Omit<MenuItemType, 'label' | 'key'>,
     Omit<
       React.HTMLAttributes<HTMLLIElement>,
       'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'

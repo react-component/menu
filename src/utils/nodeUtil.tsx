@@ -1,6 +1,6 @@
 import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
-import type { MenuItemType, ItemType } from '../interface';
+import type { ItemType } from '../interface';
 import { Divider, MenuItem, MenuItemGroup, SubMenu } from '..';
 
 export function parseChildren(
@@ -38,7 +38,7 @@ function convertItemsToNodes(list: ItemType[]) {
   return (list || [])
     .map((opt, index) => {
       if (opt && typeof opt === 'object') {
-        const { children, key, type, ...restProps } = opt as any;
+        const { label, children, key, type, ...restProps } = opt as any;
         const mergedKey = key ?? `tmp-${index}`;
 
         // MenuItemGroup & SubMenuItem
@@ -46,7 +46,7 @@ function convertItemsToNodes(list: ItemType[]) {
           if (type === 'group') {
             // Group
             return (
-              <MenuItemGroup key={mergedKey} {...restProps}>
+              <MenuItemGroup key={mergedKey} {...restProps} title={label}>
                 {convertItemsToNodes(children)}
               </MenuItemGroup>
             );
@@ -54,7 +54,7 @@ function convertItemsToNodes(list: ItemType[]) {
 
           // Sub Menu
           return (
-            <SubMenu key={mergedKey} {...restProps}>
+            <SubMenu key={mergedKey} {...restProps} title={label}>
               {convertItemsToNodes(children)}
             </SubMenu>
           );
@@ -65,10 +65,9 @@ function convertItemsToNodes(list: ItemType[]) {
           return <Divider key={mergedKey} {...restProps} />;
         }
 
-        const { title, ...restMenuItemProps } = restProps as MenuItemType;
         return (
-          <MenuItem key={mergedKey} {...restMenuItemProps}>
-            {title}
+          <MenuItem key={mergedKey} {...restProps}>
+            {label}
           </MenuItem>
         );
       }

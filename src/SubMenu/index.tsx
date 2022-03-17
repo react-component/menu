@@ -22,7 +22,10 @@ import {
 import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
 
-export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children'> {
+export interface SubMenuProps
+  extends Omit<SubMenuType, 'key' | 'children' | 'label'> {
+  title?: React.ReactNode;
+
   children?: React.ReactNode;
 
   /** @private Used for rest popup. Do not use in your prod */
