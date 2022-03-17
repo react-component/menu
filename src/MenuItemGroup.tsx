@@ -7,7 +7,9 @@ import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
 
 export interface MenuItemGroupProps
-  extends Omit<MenuItemGroupType, 'type' | 'children'> {
+  extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
+  title?: React.ReactNode;
+
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */
