@@ -4,7 +4,7 @@ import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import KeyCode from 'rc-util/lib/KeyCode';
 import omit from 'rc-util/lib/omit';
-import type { MenuInfo, MenuItemOption } from './interface';
+import type { MenuInfo, MenuItemType } from './interface';
 import { MenuContext } from './context/MenuContext';
 import useActive from './hooks/useActive';
 import { warnItemProp } from './utils/warnUtil';
@@ -15,7 +15,7 @@ import { useMenuId } from './context/IdContext';
 import PrivateContext from './context/PrivateContext';
 
 export interface MenuItemProps
-  extends Omit<MenuItemOption, 'title' | 'key'>,
+  extends Omit<MenuItemType, 'title' | 'key'>,
     Omit<
       React.HTMLAttributes<HTMLLIElement>,
       'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'

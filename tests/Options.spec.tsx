@@ -9,7 +9,7 @@ describe('Options', () => {
       <Menu
         mode="inline"
         openKeys={['sub1']}
-        options={[
+        items={[
           // Invalid
           null,
           {

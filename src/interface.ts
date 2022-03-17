@@ -1,15 +1,15 @@
 import type * as React from 'react';
 
 // ========================= Options =========================
-interface OptionShareProps {
+interface ItemSharedProps {
   style?: React.CSSProperties;
   className?: string;
 }
 
-export interface SubMenuOption extends OptionShareProps {
+export interface SubMenuType extends ItemSharedProps {
   title?: React.ReactNode;
 
-  children: Option[];
+  children: ItemType[];
 
   disabled?: boolean;
 
@@ -34,7 +34,7 @@ export interface SubMenuOption extends OptionShareProps {
   onTitleMouseLeave?: MenuHoverEventHandler;
 }
 
-export interface MenuItemOption extends OptionShareProps {
+export interface MenuItemType extends ItemSharedProps {
   title?: React.ReactNode;
 
   disabled?: boolean;
@@ -51,23 +51,23 @@ export interface MenuItemOption extends OptionShareProps {
   onClick?: MenuClickEventHandler;
 }
 
-export interface MenuItemGroupOption extends OptionShareProps {
+export interface MenuItemGroupType extends ItemSharedProps {
   type: 'group';
 
   title?: React.ReactNode;
 
-  children?: Option[];
+  children?: ItemType[];
 }
 
-export interface MenuDividerOption extends OptionShareProps {
+export interface MenuDividerType extends ItemSharedProps {
   type: 'divider';
 }
 
-export type Option =
-  | SubMenuOption
-  | MenuItemOption
-  | MenuItemGroupOption
-  | MenuDividerOption;
+export type ItemType =
+  | SubMenuType
+  | MenuItemType
+  | MenuItemGroupType
+  | MenuDividerType;
 
 // ========================== Basic ==========================
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';

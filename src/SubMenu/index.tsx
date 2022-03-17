@@ -4,7 +4,7 @@ import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/nodeUtil';
-import type { MenuInfo, SubMenuOption } from '../interface';
+import type { MenuInfo, SubMenuType } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
@@ -22,7 +22,7 @@ import {
 import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
 
-export interface SubMenuProps extends Omit<SubMenuOption, 'key' | 'children'> {
+export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children'> {
   children?: React.ReactNode;
 
   /** @private Used for rest popup. Do not use in your prod */

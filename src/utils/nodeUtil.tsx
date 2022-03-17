@@ -1,6 +1,6 @@
 import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
-import type { MenuItemOption, Option } from '../interface';
+import type { MenuItemType, ItemType } from '../interface';
 import { Divider, MenuItem, MenuItemGroup, SubMenu } from '..';
 
 export function parseChildren(
@@ -34,7 +34,7 @@ export function parseChildren(
   });
 }
 
-function convertOptionsToNodes(list: Option[]) {
+function convertItemsToNodes(list: ItemType[]) {
   return (list || [])
     .map((opt, index) => {
       if (opt && typeof opt === 'object') {
@@ -47,7 +47,7 @@ function convertOptionsToNodes(list: Option[]) {
             // Group
             return (
               <MenuItemGroup key={mergedKey} {...restProps}>
-                {convertOptionsToNodes(children)}
+                {convertItemsToNodes(children)}
               </MenuItemGroup>
             );
           }
@@ -55,7 +55,7 @@ function convertOptionsToNodes(list: Option[]) {
           // Sub Menu
           return (
             <SubMenu key={mergedKey} {...restProps}>
-              {convertOptionsToNodes(children)}
+              {convertItemsToNodes(children)}
             </SubMenu>
           );
         }
@@ -65,7 +65,7 @@ function convertOptionsToNodes(list: Option[]) {
           return <Divider key={mergedKey} {...restProps} />;
         }
 
-        const { title, ...restMenuItemProps } = restProps as MenuItemOption;
+        const { title, ...restMenuItemProps } = restProps as MenuItemType;
         return (
           <MenuItem key={mergedKey} {...restMenuItemProps}>
             {title}
@@ -78,15 +78,15 @@ function convertOptionsToNodes(list: Option[]) {
     .filter(opt => opt);
 }
 
-export function parseOptions(
+export function parseItems(
   children: React.ReactNode | undefined,
-  options: Option[] | undefined,
+  items: ItemType[] | undefined,
   keyPath: string[],
 ) {
   let childNodes = children;
 
-  if (options) {
-    childNodes = convertOptionsToNodes(options);
+  if (items) {
+    childNodes = convertItemsToNodes(items);
   }
 
   return parseChildren(childNodes, keyPath);
