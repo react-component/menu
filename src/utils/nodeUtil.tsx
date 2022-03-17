@@ -46,7 +46,7 @@ function convertItemsToNodes(list: ItemType[]) {
           if (type === 'group') {
             // Group
             return (
-              <MenuItemGroup title={label} key={mergedKey} {...restProps}>
+              <MenuItemGroup key={mergedKey} {...restProps} title={label}>
                 {convertItemsToNodes(children)}
               </MenuItemGroup>
             );
@@ -54,7 +54,7 @@ function convertItemsToNodes(list: ItemType[]) {
 
           // Sub Menu
           return (
-            <SubMenu title={label} key={mergedKey} {...restProps}>
+            <SubMenu key={mergedKey} {...restProps} title={label}>
               {convertItemsToNodes(children)}
             </SubMenu>
           );
