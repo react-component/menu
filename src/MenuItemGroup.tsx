@@ -4,10 +4,10 @@ import omit from 'rc-util/lib/omit';
 import { parseChildren } from './utils/nodeUtil';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
+import type { MenuItemGroupType } from './interface';
 
-export interface MenuItemGroupProps {
-  className?: string;
-  title?: React.ReactNode;
+export interface MenuItemGroupProps
+  extends Omit<MenuItemGroupType, 'type' | 'children'> {
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */

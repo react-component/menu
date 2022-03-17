@@ -1,5 +1,74 @@
 import type * as React from 'react';
 
+// ========================= Options =========================
+interface ItemSharedProps {
+  style?: React.CSSProperties;
+  className?: string;
+}
+
+export interface SubMenuType extends ItemSharedProps {
+  title?: React.ReactNode;
+
+  children: ItemType[];
+
+  disabled?: boolean;
+
+  key: string;
+
+  // >>>>> Icon
+  itemIcon?: RenderIconType;
+  expandIcon?: RenderIconType;
+
+  // >>>>> Active
+  onMouseEnter?: MenuHoverEventHandler;
+  onMouseLeave?: MenuHoverEventHandler;
+
+  // >>>>> Popup
+  popupClassName?: string;
+  popupOffset?: number[];
+
+  // >>>>> Events
+  onClick?: MenuClickEventHandler;
+  onTitleClick?: (info: MenuTitleInfo) => void;
+  onTitleMouseEnter?: MenuHoverEventHandler;
+  onTitleMouseLeave?: MenuHoverEventHandler;
+}
+
+export interface MenuItemType extends ItemSharedProps {
+  title?: React.ReactNode;
+
+  disabled?: boolean;
+
+  itemIcon?: RenderIconType;
+
+  key: string;
+
+  // >>>>> Active
+  onMouseEnter?: MenuHoverEventHandler;
+  onMouseLeave?: MenuHoverEventHandler;
+
+  // >>>>> Events
+  onClick?: MenuClickEventHandler;
+}
+
+export interface MenuItemGroupType extends ItemSharedProps {
+  type: 'group';
+
+  title?: React.ReactNode;
+
+  children?: ItemType[];
+}
+
+export interface MenuDividerType extends ItemSharedProps {
+  type: 'divider';
+}
+
+export type ItemType =
+  | SubMenuType
+  | MenuItemType
+  | MenuItemGroupType
+  | MenuDividerType;
+
 // ========================== Basic ==========================
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
 

@@ -14,9 +14,10 @@ import type {
   TriggerSubMenuAction,
   SelectInfo,
   RenderIconType,
+  ItemType,
 } from './interface';
 import MenuItem from './MenuItem';
-import { parseChildren } from './utils/nodeUtil';
+import { parseItems } from './utils/nodeUtil';
 import MenuContextProvider from './context/MenuContext';
 import useMemoCallback from './hooks/useMemoCallback';
 import { warnItemProp } from './utils/warnUtil';
@@ -52,6 +53,8 @@ export interface MenuProps
   > {
   prefixCls?: string;
 
+  items?: ItemType[];
+  /** @deprecated Please use `items` instead */
   children?: React.ReactNode;
 
   disabled?: boolean;
@@ -152,6 +155,7 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     style,
     className,
     tabIndex = 0,
+    items,
     children,
     direction,
 
@@ -220,7 +224,11 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
     ...restProps
   } = props as LegacyMenuProps;
 
-  const childList: React.ReactElement[] = parseChildren(children, EMPTY_LIST);
+  const childList: React.ReactElement[] = parseItems(
+    children,
+    items,
+    EMPTY_LIST,
+  );
   const [mounted, setMounted] = React.useState(false);
 
   const containerRef = React.useRef<HTMLUListElement>();
