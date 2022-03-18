@@ -41,7 +41,7 @@ export interface MenuItemType extends ItemSharedProps {
 
   itemIcon?: RenderIconType;
 
-  key: string;
+  key: React.Key;
 
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;
