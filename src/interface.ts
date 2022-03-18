@@ -67,7 +67,8 @@ export type ItemType =
   | SubMenuType
   | MenuItemType
   | MenuItemGroupType
-  | MenuDividerType;
+  | MenuDividerType
+  | null;
 
 // ========================== Basic ==========================
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
