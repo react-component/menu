@@ -15,6 +15,7 @@ import type {
   SelectInfo,
   RenderIconType,
   ItemType,
+  MenuRef,
 } from './interface';
 import MenuItem from './MenuItem';
 import { parseItems } from './utils/nodeUtil';
@@ -28,7 +29,7 @@ import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import { IdContext } from './context/IdContext';
 import PrivateContext from './context/PrivateContext';
-import { composeRef } from 'rc-util/lib/ref';
+import { useImperativeHandle } from 'react';
 
 /**
  * Menu modify after refactor:
@@ -149,7 +150,7 @@ interface LegacyMenuProps extends MenuProps {
   openAnimation?: string;
 }
 
-const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
+const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const {
     prefixCls = 'rc-menu',
     style,
@@ -232,7 +233,13 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
   const [mounted, setMounted] = React.useState(false);
 
   const containerRef = React.useRef<HTMLUListElement>();
-  const mergedRef = composeRef(containerRef, ref);
+
+  useImperativeHandle(ref, () => ({
+    list: containerRef.current,
+    focus: (options?: FocusOptions) => {
+      containerRef.current?.focus(options);
+    },
+  }));
 
   const uuid = useUUID(id);
 
@@ -498,7 +505,7 @@ const Menu = React.forwardRef<HTMLUListElement, MenuProps>((props, ref) => {
   const container = (
     <Overflow
       id={id}
-      ref={mergedRef as any}
+      ref={containerRef as any}
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
       itemComponent={MenuItem}
