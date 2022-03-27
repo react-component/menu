@@ -116,3 +116,8 @@ export type SelectEventHandler = (info: SelectInfo) => void;
 
 // ========================== Click ==========================
 export type MenuClickEventHandler = (info: MenuInfo) => void;
+
+export type MenuRef = {
+  focus: (options?: FocusOptions) => void;
+  list: HTMLUListElement;
+};

@@ -650,14 +650,27 @@ describe('Menu', () => {
 
   it('should support ref', () => {
     const menuRef = React.createRef();
-
-    mount(
+    const wrapper = mount(
       <Menu ref={menuRef}>
         <MenuItem key="light">Light</MenuItem>
       </Menu>,
     );
 
-    expect(menuRef.current).toBeTruthy();
+    expect(menuRef.current?.list).toBe(wrapper.find('ul').first().getDOMNode());
+  });
+
+  it('should support focus through ref', () => {
+    const menuRef = React.createRef();
+    const wrapper = mount(
+      <Menu ref={menuRef}>
+        <MenuItem key="light">Light</MenuItem>
+      </Menu>,
+    );
+    menuRef.current?.focus();
+
+    expect(document.activeElement).toBe(
+      wrapper.find('ul').first().getDOMNode(),
+    );
   });
 });
 /* eslint-enable */
