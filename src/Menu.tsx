@@ -53,7 +53,7 @@ export interface MenuProps
     'onClick' | 'onSelect' | 'dir'
   > {
   prefixCls?: string;
-
+  rootClassName?: string;
   items?: ItemType[];
   /** @deprecated Please use `items` instead */
   children?: React.ReactNode;
@@ -153,6 +153,7 @@ interface LegacyMenuProps extends MenuProps {
 const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const {
     prefixCls = 'rc-menu',
+    rootClassName,
     style,
     className,
     tabIndex = 0,
@@ -518,6 +519,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           [`${prefixCls}-inline-collapsed`]: mergedInlineCollapsed,
           [`${prefixCls}-rtl`]: isRtl,
         },
+        rootClassName,
       )}
       dir={direction}
       style={style}
@@ -564,6 +566,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       <IdContext.Provider value={uuid}>
         <MenuContextProvider
           prefixCls={prefixCls}
+          rootClassName={rootClassName}
           mode={mergedMode}
           openKeys={mergedOpenKeys}
           rtl={isRtl}
