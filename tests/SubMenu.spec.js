@@ -439,5 +439,48 @@ describe('SubMenu', () => {
 
     jest.useRealTimers();
   });
+
+  it('should support rootClassName', () => {
+    const wrapper = mount(
+      <Menu rootClassName="custom-className" defaultOpenKeys={['1', '1-1']}>
+        <SubMenu key="1" title="submenu1">
+          <MenuItem key="1-1" role="option">
+            submenu7
+          </MenuItem>
+        </SubMenu>
+        <MenuItem key="2" role="option">
+          2
+        </MenuItem>
+        <MenuItem key="3" role="option">
+          3
+        </MenuItem>
+      </Menu>,
+    );
+    expect(wrapper.render()).toMatchSnapshot();
+
+    expect(
+      wrapper.find('ul.rc-menu-root').at(0).hasClass('custom-className'),
+    ).toBe(true);
+    expect(wrapper.find('.rc-menu-submenu-popup').length).toBe(0);
+
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    // Enter
+    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    expect(
+      wrapper.find('.rc-menu-submenu-popup').at(0).hasClass('custom-className'),
+    ).toBe(true);
+
+    expect(wrapper.render()).toMatchSnapshot();
+  });
 });
 /* eslint-enable */

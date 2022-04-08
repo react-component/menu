@@ -15,6 +15,8 @@ export interface SubMenuType extends ItemSharedProps {
 
   key: string;
 
+  rootClassName?: string;
+
   // >>>>> Icon
   itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;

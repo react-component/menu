@@ -12,6 +12,7 @@ import type {
 
 export interface MenuContextProps {
   prefixCls: string;
+  rootClassName?: string;
   openKeys: string[];
   rtl?: boolean;
 

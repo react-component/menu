@@ -46,6 +46,7 @@ export default function PopupTrigger({
     builtinPlacements,
     triggerSubMenuAction,
     forceSubMenuRender,
+    rootClassName,
 
     // Motion
     motion,
@@ -90,6 +91,7 @@ export default function PopupTrigger({
           [`${prefixCls}-rtl`]: rtl,
         },
         popupClassName,
+        rootClassName,
       )}
       stretch={mode === 'horizontal' ? 'minWidth' : null}
       getPopupContainer={getPopupContainer}
