@@ -9,7 +9,7 @@ import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
 import Icon from '../Icon';
-import useActive from '../hooks/useActive';
+import useMouseEvents from '../hooks/useMouseEvents';
 import { warnItemProp } from '../utils/warnUtil';
 import useDirectionStyle from '../hooks/useDirectionStyle';
 import InlineSubMenuList from './InlineSubMenuList';
@@ -85,9 +85,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     disabled: contextDisabled,
     overflowDisabled,
 
-    // ActiveKey
-    activeKey,
-
     // SelectKey
     selectedKeys,
 
@@ -98,8 +95,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     // Events
     onItemClick,
     onOpenChange,
-
-    onActive,
   } = React.useContext(MenuContext);
 
   const { _internalRenderSubMenuItem } = React.useContext(PrivateContext);
@@ -128,56 +123,35 @@ const InternalSubMenu = (props: SubMenuProps) => {
   // =============================== Select ===============================
   const childrenSelected = isSubPathKey(selectedKeys, eventKey);
 
-  // =============================== Active ===============================
-  const { active, ...activeProps } = useActive(
+  // =========================== MouseEventProps ==========================
+  const mouseEvents = useMouseEvents(
     eventKey,
     mergedDisabled,
     onTitleMouseEnter,
     onTitleMouseLeave,
   );
 
-  // Fallback of active check to avoid hover on menu title or disabled item
-  const [childrenActive, setChildrenActive] = React.useState(false);
-
-  const triggerChildrenActive = (newActive: boolean) => {
-    if (!mergedDisabled) {
-      setChildrenActive(newActive);
-    }
-  };
-
   const onInternalMouseEnter: React.MouseEventHandler<
     HTMLLIElement
   > = domEvent => {
-    triggerChildrenActive(true);
-
-    onMouseEnter?.({
-      key: eventKey,
-      domEvent,
-    });
+    if (!mergedDisabled) {
+      onMouseEnter?.({
+        key: eventKey,
+        domEvent,
+      });
+    }
   };
 
   const onInternalMouseLeave: React.MouseEventHandler<
     HTMLLIElement
   > = domEvent => {
-    triggerChildrenActive(false);
-
-    onMouseLeave?.({
-      key: eventKey,
-      domEvent,
-    });
+    if (!mergedDisabled) {
+      onMouseLeave?.({
+        key: eventKey,
+        domEvent,
+      });
+    }
   };
-
-  const mergedActive = React.useMemo(() => {
-    if (active) {
-      return active;
-    }
-
-    if (mode !== 'inline') {
-      return childrenActive || isSubPathKey([activeKey], eventKey);
-    }
-
-    return false;
-  }, [mode, active, activeKey, childrenActive, eventKey, isSubPathKey]);
 
   // ========================== DirectionStyle ==========================
   const directionStyle = useDirectionStyle(connectedPath.length);
@@ -214,14 +188,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     }
   };
 
-  /**
-   * Used for accessibility. Helper will focus element without key board.
-   * We should manually trigger an active
-   */
-  const onInternalFocus: React.FocusEventHandler<HTMLDivElement> = () => {
-    onActive(eventKey);
-  };
-
   // =============================== Render ===============================
   const popupId = domDataId && `${domDataId}-popup`;
 
@@ -240,8 +206,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       aria-controls={popupId}
       aria-disabled={mergedDisabled}
       onClick={onInternalTitleClick}
-      onFocus={onInternalFocus}
-      {...activeProps}
+      {...mouseEvents}
     >
       {title}
 
@@ -309,7 +274,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
         className,
         {
           [`${subMenuPrefixCls}-open`]: open,
-          [`${subMenuPrefixCls}-active`]: mergedActive,
           [`${subMenuPrefixCls}-selected`]: childrenSelected,
           [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
         },
@@ -331,7 +295,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
   if (_internalRenderSubMenuItem) {
     listNode = _internalRenderSubMenuItem(listNode, props, {
       selected: childrenSelected,
-      active: mergedActive,
       open,
       disabled: mergedDisabled,
     });

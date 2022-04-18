@@ -48,13 +48,14 @@ exports[`MenuItem overwrite default role should set role to option 1`] = `
 exports[`MenuItem rest props onClick event should only trigger 1 time along the component hierarchy 1`] = `
 Array [
   <ul
+    activekey="1"
     class="rc-menu rc-menu-root rc-menu-inline"
     data-menu-list="true"
     role="menu"
     tabindex="0"
   >
     <li
-      class="rc-menu-item rc-menu-item-active className"
+      class="rc-menu-item className"
       data-menu-id="rc-menu-uuid-test-1"
       data-whatever="whatever"
       role="menuitem"

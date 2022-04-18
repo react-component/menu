@@ -255,34 +255,6 @@ describe('SubMenu', () => {
   });
 
   describe('mouse events', () => {
-    it('mouse enter event on a submenu should not activate first item', () => {
-      const wrapper = mount(createMenu({ openKeys: ['s1'] }));
-      const title = wrapper.find('div.rc-menu-submenu-title').first();
-      title.simulate('mouseEnter');
-
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeTruthy();
-      expect(wrapper.isActive(0)).toBeFalsy();
-    });
-
-    it('click to open a submenu should not activate first item', () => {
-      const wrapper = mount(createMenu({ triggerSubMenuAction: 'click' }));
-      const subMenuTitle = wrapper.find('div.rc-menu-submenu-title').first();
-      subMenuTitle.simulate('click');
-
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeTruthy();
-      expect(wrapper.isActive(0)).toBeFalsy();
-    });
-
     it('mouse enter/mouse leave on a subMenu item should trigger hooks', () => {
       const onMouseEnter = jest.fn();
       const onMouseLeave = jest.fn();

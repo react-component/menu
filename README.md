@@ -76,18 +76,6 @@ ReactDOM.render(
           <td>one of ["horizontal","inline","vertical-left","vertical-right"]</td>
         </tr>
         <tr>
-            <td>activeKey</td>
-            <td>String</td>
-            <th></th>
-            <td>initial and current active menu item's key.</td>
-        </tr>
-        <tr>
-            <td>defaultActiveFirst</td>
-            <td>Boolean</td>
-            <th>false</th>
-            <td>whether active first menu item when show if activeKey is not set or invalid</td>
-        </tr>
-        <tr>
             <td>multiple</td>
             <td>Boolean</td>
             <th>false</th>

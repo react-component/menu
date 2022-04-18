@@ -14,9 +14,6 @@ Object.assign(Enzyme.ReactWrapper.prototype, {
   findItem(index = 0) {
     return this.find('li.rc-menu-item').at(index);
   },
-  isActive(index = 0) {
-    return this.findItem(index).hasClass('rc-menu-item-active');
-  },
   async flush() {
     for (let i = 0; i < 3; i += 1) {
       // eslint-disable-next-line no-await-in-loop

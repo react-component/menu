@@ -1,10 +1,8 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { render } from 'enzyme';
-import { mount } from './util';
-import type { ReactWrapper } from './util';
+import { mount, keyDown } from './util';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, SubMenu } from '../src';
 
@@ -32,15 +30,6 @@ describe('Menu.Keyboard', () => {
     jest.useRealTimers();
     holder.parentElement.removeChild(holder);
   });
-
-  function keyDown(wrapper: ReactWrapper, keyCode: number) {
-    wrapper.find('ul.rc-menu-root').simulate('keyDown', { which: keyCode });
-
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
-  }
 
   it('no data-menu-id by init', () => {
     const wrapper = render(
@@ -73,27 +62,35 @@ describe('Menu.Keyboard', () => {
 
     const wrapper = mount(<App />, { attachTo: holder });
 
+    wrapper.setState({ items: [0, 1] });
+    await wrapper.flush();
+
+    const menuItems = document.querySelectorAll('.rc-menu-item');
+
     // First item
     keyDown(wrapper, KeyCode.DOWN);
-    expect(wrapper.isActive(0)).toBeTruthy();
+    expect(menuItems[0] === document.activeElement).toBeTruthy();
+    keyDown(wrapper, KeyCode.ENTER);
+    expect(
+      menuItems[0].classList.contains('rc-menu-item-selected'),
+    ).toBeTruthy();
 
-    // Next item
+    // // Next item
     keyDown(wrapper, KeyCode.DOWN);
-    expect(wrapper.isActive(1)).toBeTruthy();
+    expect(menuItems[1] === document.activeElement).toBeTruthy();
 
-    // Very first item
-    keyDown(wrapper, KeyCode.HOME);
-    expect(wrapper.isActive(0)).toBeTruthy();
-
-    // Very last item
-    keyDown(wrapper, KeyCode.END);
-    expect(wrapper.isActive(2)).toBeTruthy();
+    keyDown(wrapper, KeyCode.ENTER);
+    expect(
+      menuItems[0].classList.contains('rc-menu-item-selected'),
+    ).toBeFalsy();
+    expect(
+      menuItems[1].classList.contains('rc-menu-item-selected'),
+    ).toBeTruthy();
   });
 
   it('Skip disabled item', () => {
     const wrapper = mount(
-      <Menu defaultActiveFirst>
-        <MenuItem disabled />
+      <Menu>
         <MenuItem key="1">1</MenuItem>
         <MenuItem disabled />
         <MenuItem key="2">2</MenuItem>
@@ -102,27 +99,26 @@ describe('Menu.Keyboard', () => {
       { attachTo: holder },
     );
 
+    const menuItems = document.querySelectorAll('.rc-menu-item');
+
     // Next item
     keyDown(wrapper, KeyCode.DOWN);
+    keyDown(wrapper, KeyCode.ENTER);
+    expect(
+      menuItems[0].classList.contains('rc-menu-item-selected'),
+    ).toBeTruthy();
+
+    // Go to next item
     keyDown(wrapper, KeyCode.DOWN);
-    expect(wrapper.isActive(3)).toBeTruthy();
-
-    // Back to first item
-    keyDown(wrapper, KeyCode.UP);
-    expect(wrapper.isActive(1)).toBeTruthy();
-
-    // To the last available item
-    keyDown(wrapper, KeyCode.END);
-    expect(wrapper.isActive(3)).toBeTruthy();
-
-    // To the first available item
-    keyDown(wrapper, KeyCode.HOME);
-    expect(wrapper.isActive(1)).toBeTruthy();
+    keyDown(wrapper, KeyCode.ENTER);
+    expect(
+      menuItems[2].classList.contains('rc-menu-item-selected'),
+    ).toBeTruthy();
   });
 
-  it('Enter to open menu and active first item', () => {
+  it('Enter to open submenu and focus first item', () => {
     const wrapper = mount(
-      <Menu>
+      <Menu mode="vertical">
         <SubMenu key="s1" title="submenu1">
           <MenuItem key="s1-1">1</MenuItem>
         </SubMenu>
@@ -130,12 +126,15 @@ describe('Menu.Keyboard', () => {
       { attachTo: holder },
     );
 
-    // Active first sub menu
-    keyDown(wrapper, KeyCode.DOWN);
-
     // Open it
+    keyDown(wrapper, KeyCode.DOWN);
     keyDown(wrapper, KeyCode.ENTER);
     expect(wrapper.find('PopupTrigger').prop('visible')).toBeTruthy();
+
+    const popupMenuItems = document
+      .querySelector('.rc-menu-sub')
+      .querySelectorAll('.rc-menu-item');
+    expect(popupMenuItems[0] === document.activeElement).toBeTruthy();
   });
 
   describe('go to children & back of parent', () => {
@@ -156,35 +155,35 @@ describe('Menu.Keyboard', () => {
           { attachTo: holder },
         );
 
-        // Active first
-        keyDown(wrapper, KeyCode.DOWN);
+        let sumMenuTitles;
 
-        // Open and active sub
+        // Focus first
+        keyDown(wrapper, KeyCode.DOWN);
+        sumMenuTitles = document.querySelectorAll('.rc-menu-submenu-title');
+        expect(sumMenuTitles[0] === document.activeElement).toBeTruthy();
+
+        // Open and focus sub
         keyDown(wrapper, subKey);
         expect(
           wrapper.find('PopupTrigger').first().prop('visible'),
         ).toBeTruthy();
 
-        expect(
-          wrapper
-            .find('.rc-menu-submenu-active .rc-menu-submenu-title')
-            .last()
-            .text(),
-        ).toEqual('Light');
+        sumMenuTitles = document.querySelectorAll('.rc-menu-submenu-title');
+        expect(sumMenuTitles[1] === document.activeElement).toBeTruthy();
 
-        // Open and active sub
+        // Open and focus sub
         keyDown(wrapper, subKey);
         expect(
           wrapper.find('PopupTrigger').last().prop('visible'),
         ).toBeTruthy();
-        expect(wrapper.find('.rc-menu-item-active').last().text()).toEqual(
-          'Little',
-        );
+
+        const menuItems = document.querySelectorAll('.rc-menu-item');
+        expect(menuItems[0] === document.activeElement).toBeTruthy();
 
         // Back to parent
         keyDown(wrapper, parentKey);
         expect(wrapper.find('PopupTrigger').last().prop('visible')).toBeFalsy();
-        expect(wrapper.find('.rc-menu-item-active')).toHaveLength(0);
+        expect(sumMenuTitles[1] === document.activeElement).toBeTruthy();
 
         // Back to parent
         keyDown(wrapper, parentKey);
@@ -193,7 +192,7 @@ describe('Menu.Keyboard', () => {
           wrapper.find('PopupTrigger').first().prop('visible'),
         ).toBeFalsy();
 
-        expect(wrapper.find('li.rc-menu-submenu-active')).toHaveLength(1);
+        expect(sumMenuTitles[0] === document.activeElement).toBeTruthy();
 
         wrapper.unmount();
       });
@@ -214,16 +213,22 @@ describe('Menu.Keyboard', () => {
       { attachTo: holder },
     );
 
+    const menuRoot = document.querySelector('.rc-menu-root');
+
     // Nothing happen when no control key
     keyDown(wrapper, KeyCode.P);
-    expect(wrapper.exists('.rc-menu-item-active')).toBeFalsy();
+    expect(document.body === document.activeElement).toBeTruthy();
 
-    // Active first
+    // Focus first
     keyDown(wrapper, KeyCode.DOWN);
-    expect(wrapper.isActive(0)).toBeTruthy();
+    expect(menuRoot.childNodes[0] === document.activeElement).toBeTruthy();
 
-    // Active next
+    // Focus next
     keyDown(wrapper, KeyCode.DOWN);
+    expect(
+      menuRoot.querySelector('.rc-menu-submenu-title') ===
+        document.activeElement,
+    );
 
     // Right will not open
     keyDown(wrapper, KeyCode.RIGHT);
@@ -233,16 +238,14 @@ describe('Menu.Keyboard', () => {
     keyDown(wrapper, KeyCode.ENTER);
     expect(wrapper.find('InlineSubMenuList').prop('open')).toBeTruthy();
     expect(
-      wrapper
-        .find('.rc-menu-submenu')
-        .last()
-        .hasClass('rc-menu-submenu-active'),
+      wrapper.find('.rc-menu-submenu').last().hasClass('rc-menu-submenu-open'),
     ).toBeTruthy();
-    expect(wrapper.isActive(1)).toBeFalsy();
 
-    // Active sub item
+    // Focus sub item
     keyDown(wrapper, KeyCode.DOWN);
-    expect(wrapper.isActive(1)).toBeTruthy();
+
+    const items = document.querySelectorAll('.rc-menu-item');
+    expect(items[items.length - 1] === document.activeElement).toBeTruthy();
   });
 
   it('Focus last one', () => {
@@ -254,8 +257,12 @@ describe('Menu.Keyboard', () => {
       { attachTo: holder },
     );
 
+    const menuItems = document.querySelectorAll('.rc-menu-item');
+
     keyDown(wrapper, KeyCode.UP);
-    expect(wrapper.isActive(1)).toBeTruthy();
+    keyDown(wrapper, KeyCode.ENTER);
+
+    expect(menuItems[1] === document.activeElement).toBeTruthy();
   });
 
   it('Focus to link direct', () => {
@@ -269,11 +276,12 @@ describe('Menu.Keyboard', () => {
     );
 
     const focusSpy = jest.spyOn(
-      (wrapper.find('a').instance() as any) as HTMLAnchorElement,
+      wrapper.find('a').instance() as any as HTMLAnchorElement,
       'focus',
     );
 
     keyDown(wrapper, KeyCode.DOWN);
+    keyDown(wrapper, KeyCode.ENTER);
     expect(focusSpy).toHaveBeenCalled();
   });
 
@@ -288,7 +296,32 @@ describe('Menu.Keyboard', () => {
     keyDown(wrapper, KeyCode.DOWN);
     keyDown(wrapper, KeyCode.LEFT);
     keyDown(wrapper, KeyCode.RIGHT);
-    expect(wrapper.isActive(0)).toBeTruthy();
+
+    const menuItems = document.querySelectorAll('.rc-menu-item');
+
+    expect(menuItems[0] === document.activeElement).toBeTruthy();
+  });
+
+  it('Test KeyCode.HOME and KeyCode.END', () => {
+    const wrapper = mount(
+      <Menu mode="inline">
+        <MenuItem key="foo">foo</MenuItem>
+        <MenuItem key="bar">bar</MenuItem>
+        <MenuItem key="baz">baz</MenuItem>
+      </Menu>,
+      { attachTo: holder },
+    );
+
+    const menuItems = document.querySelectorAll('.rc-menu-item');
+
+    keyDown(wrapper, KeyCode.END);
+    expect(menuItems[2] === document.activeElement).toBeTruthy();
+
+    keyDown(wrapper, KeyCode.HOME);
+    expect(menuItems[0] === document.activeElement).toBeTruthy();
+
+    keyDown(wrapper, KeyCode.UP);
+    expect(menuItems[2] === document.activeElement).toBeTruthy();
   });
 });
 /* eslint-enable */
