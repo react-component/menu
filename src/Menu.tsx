@@ -226,11 +226,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     ...restProps
   } = props as LegacyMenuProps;
 
-  const childList: React.ReactElement[] = parseItems(
-    children,
-    items,
-    EMPTY_LIST,
+  const childList: React.ReactElement[] = React.useMemo(
+    () => parseItems(children, items, EMPTY_LIST),
+    [children, items],
   );
+
   const [mounted, setMounted] = React.useState(false);
 
   const containerRef = React.useRef<HTMLUListElement>();
