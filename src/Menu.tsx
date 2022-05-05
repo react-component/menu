@@ -238,7 +238,14 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   useImperativeHandle(ref, () => ({
     list: containerRef.current,
     focus: (options?: FocusOptions) => {
-      containerRef.current?.focus(options);
+      const shouldFocusIndex = childList.findIndex(
+        node => !node.props.disabled,
+      );
+      if (shouldFocusIndex > 0) {
+        containerRef.current
+          ?.querySelectorAll('li')
+          [shouldFocusIndex]?.focus(options);
+      }
     },
   }));
 
