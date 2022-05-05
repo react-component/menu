@@ -84,7 +84,7 @@ Array [
       <div>
         <div
           class="rc-menu-submenu rc-menu-submenu-popup custom-className"
-          style="opacity: 0; pointer-events: none;"
+          style="opacity: 0;"
         >
           <ul
             class="rc-menu rc-menu-sub rc-menu-vertical"
