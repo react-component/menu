@@ -673,5 +673,18 @@ describe('Menu', () => {
 
     expect(document.activeElement).toBe(wrapper.find('li').last().getDOMNode());
   });
+
+  it('should focus active item through ref', () => {
+    const menuRef = React.createRef();
+    const wrapper = mount(
+      <Menu ref={menuRef} activeKey="cat">
+        <MenuItem key="light">Light</MenuItem>
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>,
+    );
+    menuRef.current?.focus();
+
+    expect(document.activeElement).toBe(wrapper.find('li').last().getDOMNode());
+  });
 });
 /* eslint-enable */

@@ -235,20 +235,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   const containerRef = React.useRef<HTMLUListElement>();
 
-  useImperativeHandle(ref, () => ({
-    list: containerRef.current,
-    focus: (options?: FocusOptions) => {
-      const shouldFocusIndex = childList.findIndex(
-        node => !node.props.disabled,
-      );
-      if (shouldFocusIndex > 0) {
-        containerRef.current
-          ?.querySelectorAll('li')
-          [shouldFocusIndex]?.focus(options);
-      }
-    },
-  }));
-
   const uuid = useUUID(id);
 
   const isRtl = direction === 'rtl';
@@ -366,6 +352,25 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const onInactive = useMemoCallback(() => {
     setMergedActiveKey(undefined);
   });
+
+  useImperativeHandle(ref, () => ({
+    list: containerRef.current,
+    focus: options => {
+      let shouldFocusIndex = -1;
+      if (mergedActiveKey) {
+        shouldFocusIndex = childList.findIndex(
+          node => node.key === mergedActiveKey,
+        );
+      } else {
+        shouldFocusIndex = childList.findIndex(node => !node.props.disabled);
+      }
+      if (shouldFocusIndex > 0) {
+        containerRef.current
+          ?.querySelectorAll('li')
+          [shouldFocusIndex]?.focus(options);
+      }
+    },
+  }));
 
   // ======================== Select ========================
   // >>>>> Select keys
