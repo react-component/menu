@@ -120,6 +120,10 @@ export type SelectEventHandler = (info: SelectInfo) => void;
 export type MenuClickEventHandler = (info: MenuInfo) => void;
 
 export type MenuRef = {
+  /**
+   * Focus active child if any, or the first child which is not disabled will be focused.
+   * @param options
+   */
   focus: (options?: FocusOptions) => void;
   list: HTMLUListElement;
 };

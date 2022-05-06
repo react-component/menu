@@ -27,7 +27,7 @@ import useAccessibility from './hooks/useAccessibility';
 import useUUID from './hooks/useUUID';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
-import { IdContext } from './context/IdContext';
+import { getMenuId, IdContext } from './context/IdContext';
 import PrivateContext from './context/PrivateContext';
 import { useImperativeHandle } from 'react';
 
@@ -356,18 +356,14 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   useImperativeHandle(ref, () => ({
     list: containerRef.current,
     focus: options => {
-      let shouldFocusIndex = -1;
-      if (mergedActiveKey) {
-        shouldFocusIndex = childList.findIndex(
-          node => node.key === mergedActiveKey,
-        );
-      } else {
-        shouldFocusIndex = childList.findIndex(node => !node.props.disabled);
-      }
-      if (shouldFocusIndex > -1) {
+      const shouldFocusKey =
+        mergedActiveKey ?? childList.find(node => !node.props.disabled)?.key;
+      if (shouldFocusKey) {
         containerRef.current
-          ?.querySelectorAll('li')
-          [shouldFocusIndex]?.focus(options);
+          ?.querySelector<HTMLLIElement>(
+            `li[data-menu-id='${getMenuId(uuid, shouldFocusKey as string)}']`,
+          )
+          ?.focus?.(options);
       }
     },
   }));
