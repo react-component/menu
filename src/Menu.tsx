@@ -27,7 +27,7 @@ import useAccessibility from './hooks/useAccessibility';
 import useUUID from './hooks/useUUID';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
-import { IdContext } from './context/IdContext';
+import { getMenuId, IdContext } from './context/IdContext';
 import PrivateContext from './context/PrivateContext';
 import { useImperativeHandle } from 'react';
 
@@ -235,13 +235,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   const containerRef = React.useRef<HTMLUListElement>();
 
-  useImperativeHandle(ref, () => ({
-    list: containerRef.current,
-    focus: (options?: FocusOptions) => {
-      containerRef.current?.focus(options);
-    },
-  }));
-
   const uuid = useUUID(id);
 
   const isRtl = direction === 'rtl';
@@ -359,6 +352,21 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const onInactive = useMemoCallback(() => {
     setMergedActiveKey(undefined);
   });
+
+  useImperativeHandle(ref, () => ({
+    list: containerRef.current,
+    focus: options => {
+      const shouldFocusKey =
+        mergedActiveKey ?? childList.find(node => !node.props.disabled)?.key;
+      if (shouldFocusKey) {
+        containerRef.current
+          ?.querySelector<HTMLLIElement>(
+            `li[data-menu-id='${getMenuId(uuid, shouldFocusKey as string)}']`,
+          )
+          ?.focus?.(options);
+      }
+    },
+  }));
 
   // ======================== Select ========================
   // >>>>> Select keys
