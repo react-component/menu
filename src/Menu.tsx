@@ -364,7 +364,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       } else {
         shouldFocusIndex = childList.findIndex(node => !node.props.disabled);
       }
-      if (shouldFocusIndex > 0) {
+      if (shouldFocusIndex > -1) {
         containerRef.current
           ?.querySelectorAll('li')
           [shouldFocusIndex]?.focus(options);
