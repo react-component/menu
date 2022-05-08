@@ -118,7 +118,7 @@ export interface MenuProps
   onOpenChange?: (openKeys: string[]) => void;
 
   // >>>>> Internal
-  /***
+  /** *
    * @private Only used for `pro-layout`. Do not use in your prod directly
    * and we do not promise any compatibility for this.
    */
@@ -129,7 +129,7 @@ export interface MenuProps
       selected: boolean;
     },
   ) => React.ReactElement;
-  /***
+  /** *
    * @private Only used for `pro-layout`. Do not use in your prod directly
    * and we do not promise any compatibility for this.
    */
@@ -439,7 +439,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   });
 
   const onInternalOpenChange = useMemoCallback((key: string, open: boolean) => {
-    let newOpenKeys = mergedOpenKeys.filter(k => k !== key);
+    let newOpenKeys = (mergedOpenKeys || []).filter(k => k !== key);
 
     if (open) {
       newOpenKeys.push(key);
