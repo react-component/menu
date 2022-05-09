@@ -31,7 +31,7 @@ const verticalMotion: CSSMotionProps = {
   motionLeave: true,
 };
 
-const inlineMotion: CSSMotionProps = {
+export const inlineMotion: CSSMotionProps = {
   motionName: 'rc-menu-collapse',
   motionAppear: true,
   onAppearStart: collapseNode,
