@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-const EmptyList: string[] = [];
+const EmptyList: React.Key[] = [];
 
 // ========================= Path Register =========================
 export interface PathRegisterContextProps {
-  registerPath: (key: string, keyPath: string[]) => void;
-  unregisterPath: (key: string, keyPath: string[]) => void;
+  registerPath: (key: React.Key, keyPath: React.Key[]) => void;
+  unregisterPath: (key: React.Key, keyPath: React.Key[]) => void;
 }
 
 export const PathRegisterContext = React.createContext<PathRegisterContextProps>(
@@ -17,9 +17,9 @@ export function useMeasure() {
 }
 
 // ========================= Path Tracker ==========================
-export const PathTrackerContext = React.createContext<string[]>(EmptyList);
+export const PathTrackerContext = React.createContext<React.Key[]>(EmptyList);
 
-export function useFullPath(eventKey?: string) {
+export function useFullPath(eventKey?: React.Key) {
   const parentKeyPath = React.useContext(PathTrackerContext);
   return React.useMemo(
     () =>
@@ -30,7 +30,7 @@ export function useFullPath(eventKey?: string) {
 
 // =========================== Path User ===========================
 export interface PathUserContextProps {
-  isSubPathKey: (pathKeys: string[], eventKey: string) => boolean;
+  isSubPathKey: (pathKeys: React.Key[], eventKey: string) => boolean;
 }
 
 export const PathUserContext = React.createContext<PathUserContextProps>(null);

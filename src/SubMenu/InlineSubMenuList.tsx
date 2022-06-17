@@ -8,7 +8,7 @@ import type { MenuMode } from '../interface';
 export interface InlineSubMenuListProps {
   id?: string;
   open: boolean;
-  keyPath: string[];
+  keyPath: React.Key[];
   children: React.ReactNode;
 }
 

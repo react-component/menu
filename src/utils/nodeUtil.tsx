@@ -5,7 +5,7 @@ import { Divider, MenuItem, MenuItemGroup, SubMenu } from '..';
 
 export function parseChildren(
   children: React.ReactNode | undefined,
-  keyPath: string[],
+  keyPath: React.Key[],
 ) {
   return toArray(children).map((child, index) => {
     if (React.isValidElement(child)) {

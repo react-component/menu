@@ -74,15 +74,15 @@ export interface MenuProps
   openKeys?: string[];
 
   // Active control
-  activeKey?: string;
+  activeKey?: React.Key;
   defaultActiveFirst?: boolean;
 
   // Selection
   selectable?: boolean;
   multiple?: boolean;
 
-  defaultSelectedKeys?: string[];
-  selectedKeys?: string[];
+  defaultSelectedKeys?: React.Key[];
+  selectedKeys?: React.Key[];
 
   onSelect?: SelectEventHandler;
   onDeselect?: SelectEventHandler;
@@ -396,7 +396,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       // Insert or Remove
       const { key: targetKey } = info;
       const exist = mergedSelectKeys.includes(targetKey);
-      let newSelectKeys: string[];
+      let newSelectKeys: React.Key[];
 
       if (multiple) {
         if (exist) {

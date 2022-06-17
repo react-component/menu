@@ -9,7 +9,7 @@ interface ActiveObj {
 }
 
 export default function useActive(
-  eventKey: string,
+  eventKey: React.Key,
   disabled: boolean,
   onMouseEnter?: MenuHoverEventHandler,
   onMouseLeave?: MenuHoverEventHandler,

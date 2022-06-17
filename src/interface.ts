@@ -91,8 +91,8 @@ export type RenderIconType =
   | ((props: RenderIconInfo) => React.ReactNode);
 
 export interface MenuInfo {
-  key: string;
-  keyPath: string[];
+  key: React.Key;
+  keyPath: React.Key[];
   /** @deprecated This will not support in future. You should avoid to use this */
   item: React.ReactInstance;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
@@ -105,13 +105,13 @@ export interface MenuTitleInfo {
 
 // ========================== Hover ==========================
 export type MenuHoverEventHandler = (info: {
-  key: string;
+  key: React.Key;
   domEvent: React.MouseEvent<HTMLElement>;
 }) => void;
 
 // ======================== Selection ========================
 export interface SelectInfo extends MenuInfo {
-  selectedKeys: string[];
+  selectedKeys: React.Key[];
 }
 
 export type SelectEventHandler = (info: SelectInfo) => void;

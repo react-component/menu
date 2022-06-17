@@ -23,7 +23,7 @@ export interface MenuItemProps
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */
-  eventKey?: string;
+  eventKey?: React.Key;
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;

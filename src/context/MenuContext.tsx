@@ -25,12 +25,12 @@ export interface MenuContextProps {
   overflowDisabled?: boolean;
 
   // Active
-  activeKey: string;
-  onActive: (key: string) => void;
-  onInactive: (key: string) => void;
+  activeKey: React.Key;
+  onActive: (key: React.Key) => void;
+  onInactive: (key: React.Key) => void;
 
   // Selection
-  selectedKeys: string[];
+  selectedKeys: React.Key[];
 
   // Level
   inlineIndent: number;
