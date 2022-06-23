@@ -9,37 +9,37 @@
     "ui",
     "react-menu"
   ],
+  "homepage": "http://github.com/react-component/menu",
+  "bugs": {
+    "url": "http://github.com/react-component/menu/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:react-component/menu.git"
+  },
+  "license": "MIT",
+  "maintainers": [
+    "yiminghe@gmail.com",
+    "hualei5280@gmail.com"
+  ],
+  "main": "./lib/index",
+  "module": "./es/index",
   "files": [
     "es",
     "lib",
     "assets/*.css",
     "assets/*.less"
   ],
-  "main": "./lib/index",
-  "module": "./es/index",
-  "homepage": "http://github.com/react-component/menu",
-  "maintainers": [
-    "yiminghe@gmail.com",
-    "hualei5280@gmail.com"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:react-component/menu.git"
-  },
-  "bugs": {
-    "url": "http://github.com/react-component/menu/issues"
-  },
-  "license": "MIT",
   "scripts": {
-    "start": "dumi dev",
+    "compile": "father build && lessc assets/index.less assets/index.css",
+    "coverage": "father test --coverage",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d .doc",
-    "compile": "father build && lessc assets/index.less assets/index.css",
-    "prepublishOnly": "npm run compile && np --yolo --no-publish",
     "lint": "eslint src/ --ext .tsx,.ts,.jsx,.js",
-    "test": "father test",
-    "coverage": "father test --coverage",
-    "now-build": "npm run build"
+    "now-build": "npm run build",
+    "prepublishOnly": "npm run compile && np --yolo --no-publish",
+    "start": "dumi dev",
+    "test": "father test"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.1",
@@ -51,6 +51,8 @@
     "shallowequal": "^1.1.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.0.0",
     "@types/enzyme": "^3.10.8",
     "@types/jest": "^26.0.23",
     "@types/react": "^16.8.19",
@@ -67,8 +69,8 @@
     "gh-pages": "^3.1.0",
     "less": "^3.10.3",
     "np": "^6.0.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "regenerator-runtime": "^0.13.7",
     "typescript": "^4.0.5"
   },
