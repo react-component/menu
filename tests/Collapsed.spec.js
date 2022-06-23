@@ -1,5 +1,5 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence */
-import { act, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('Menu.Collapsed', () => {
@@ -31,13 +31,10 @@ describe('Menu.Collapsed', () => {
       );
 
       // Vertical
-      console.log('do change!');
       rerender(genMenu({ mode: 'vertical' }));
-      console.log('111');
       act(() => {
         jest.runAllTimers();
       });
-      console.log('222');
       expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
         'rc-menu-hidden',
       );
@@ -49,116 +46,120 @@ describe('Menu.Collapsed', () => {
       );
     });
 
-    // it('should always follow openKeys when inlineCollapsed is switched', () => {
-    //   const wrapper = mount(
-    //     <Menu defaultOpenKeys={['1']} mode="inline">
-    //       <MenuItem key="menu1">
-    //         <span>Option</span>
-    //       </MenuItem>
-    //       <SubMenu key="1" title="submenu1">
-    //         <MenuItem key="submenu1">Option</MenuItem>
-    //         <MenuItem key="submenu2">Option</MenuItem>
-    //       </SubMenu>
-    //     </Menu>,
-    //   );
-    //   expect(
-    //     wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-inline'),
-    //   ).toBe(true);
-    //   expect(
-    //     wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-    //   ).toBe(false);
+    it('should always follow openKeys when inlineCollapsed is switched', () => {
+      const genMenu = props => (
+        <Menu defaultOpenKeys={['1']} mode="inline" {...props}>
+          <MenuItem key="menu1">
+            <span>Option</span>
+          </MenuItem>
+          <SubMenu key="1" title="submenu1">
+            <MenuItem key="submenu1">Option</MenuItem>
+            <MenuItem key="submenu2">Option</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
 
-    //   wrapper.setProps({ inlineCollapsed: true });
-    //   // 动画结束后套样式;
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
-    //   wrapper
-    //     .find('Overflow')
-    //     .simulate('transitionEnd', { propertyName: 'width' });
+      const { container, rerender } = render(genMenu());
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
+        'rc-menu-inline',
+      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
 
-    //   // Flush SubMenu raf state update
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
+      rerender(genMenu({ inlineCollapsed: true }));
+      // 动画结束后套样式;
+      act(() => {
+        jest.runAllTimers();
+      });
+      fireEvent.transitionEnd(container.querySelector('.rc-menu-root'), {
+        propertyName: 'width',
+      });
 
-    //   expect(
-    //     wrapper.find('ul.rc-menu-root').at(0).hasClass('rc-menu-vertical'),
-    //   ).toBe(true);
-    //   expect(wrapper.find('ul.rc-menu-sub').length).toBe(0);
+      // Flush SubMenu raf state update
+      act(() => {
+        jest.runAllTimers();
+      });
 
-    //   wrapper.setProps({ inlineCollapsed: false });
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
+      expect(container.querySelector('ul.rc-menu-root')).toHaveClass(
+        'rc-menu-vertical',
+      );
+      expect(container.querySelectorAll('ul.rc-menu-sub')).toHaveLength(0);
 
-    //   expect(
-    //     wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-inline'),
-    //   ).toBe(true);
-    //   expect(
-    //     wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-    //   ).toBe(false);
-    // });
+      rerender(genMenu({ inlineCollapsed: false }));
+      act(() => {
+        jest.runAllTimers();
+      });
 
-    // it('inlineCollapsed should works well when specify a not existed default openKeys', () => {
-    //   const wrapper = mount(
-    //     <Menu defaultOpenKeys={['not-existed']} mode="inline">
-    //       <MenuItem key="menu1">
-    //         <span>Option</span>
-    //       </MenuItem>
-    //       <SubMenu key="1" title="submenu1">
-    //         <MenuItem key="submenu1">Option</MenuItem>
-    //         <MenuItem key="submenu2">Option</MenuItem>
-    //       </SubMenu>
-    //     </Menu>,
-    //   );
-    //   expect(wrapper.find('.rc-menu-sub').length).toBe(0);
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
+        'rc-menu-inline',
+      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
+    });
 
-    //   // Do collapsed
-    //   wrapper.setProps({ inlineCollapsed: true });
+    it('inlineCollapsed should works well when specify a not existed default openKeys', () => {
+      const genMenu = props => (
+        <Menu defaultOpenKeys={['not-existed']} mode="inline" {...props}>
+          <MenuItem key="menu1">
+            <span>Option</span>
+          </MenuItem>
+          <SubMenu key="1" title="submenu1">
+            <MenuItem key="submenu1">Option</MenuItem>
+            <MenuItem key="submenu2">Option</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
 
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
+      const { container, rerender } = render(genMenu());
+      expect(container.querySelectorAll('.rc-menu-sub')).toHaveLength(0);
 
-    //   wrapper
-    //     .find('Overflow')
-    //     .simulate('transitionEnd', { propertyName: 'width' });
+      // Do collapsed
+      rerender(genMenu({ inlineCollapsed: true }));
 
-    //   // Wait internal raf work
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
+      act(() => {
+        jest.runAllTimers();
+      });
 
-    //   // Hover to show
-    //   wrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
+      //   wrapper
+      //     .find('Overflow')
+      //     .simulate('transitionEnd', { propertyName: 'width' });
+      fireEvent.transitionEnd(container.querySelector('.rc-menu-root'), {
+        propertyName: 'width',
+      });
 
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
+      // Wait internal raf work
+      act(() => {
+        jest.runAllTimers();
+      });
 
-    //   expect(
-    //     wrapper
-    //       .find('.rc-menu-submenu')
-    //       .at(0)
-    //       .hasClass('rc-menu-submenu-vertical'),
-    //   ).toBe(true);
-    //   expect(
-    //     wrapper.find('.rc-menu-submenu').at(0).hasClass('rc-menu-submenu-open'),
-    //   ).toBe(true);
-    //   expect(
-    //     wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-vertical'),
-    //   ).toBe(true);
-    //   expect(
-    //     wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-    //   ).toBe(false);
-    // });
+      // Hover to show
+      //   wrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
+      fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
+
+      act(() => {
+        jest.runAllTimers();
+      });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
+        'rc-menu-submenu-vertical',
+      );
+
+      expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
+        'rc-menu-submenu-open',
+      );
+
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
+        'rc-menu-vertical',
+      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
+    });
 
     // it('inlineCollapsed MenuItem Tooltip can be removed', () => {
     //   const wrapper = mount(
