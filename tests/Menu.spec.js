@@ -44,7 +44,7 @@ describe('Menu', () => {
     }
 
     it('popup with rtl has correct className', () => {
-      const { container } = render(
+      const { container, unmount } = render(
         createMenu(
           { mode: 'vertical', direction: 'rtl', openKeys: ['sub'] },
           'sub',
