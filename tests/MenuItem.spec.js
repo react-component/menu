@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
-import React from 'react';
-import { mount } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 
@@ -15,20 +14,29 @@ describe('MenuItem', () => {
     return <span>{subMenuIconText}</span>;
   }
 
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   describe('custom icon', () => {
     it('should render custom arrow icon correctly.', () => {
-      const wrapper = mount(
+      const { container } = render(
         <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
           <MenuItem key="1">1</MenuItem>
         </Menu>,
       );
-      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      const menuItemText = container.querySelector('.rc-menu-item').textContent;
       expect(menuItemText).toEqual(`1${menuItemIconText}`);
     });
 
     it('should render custom arrow icon correctly (with children props).', () => {
       const targetText = 'target';
-      const wrapper = mount(
+      const { container } = render(
         <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
           <MenuItem key="1" itemIcon={() => <span>{targetText}</span>}>
             1
@@ -36,14 +44,14 @@ describe('MenuItem', () => {
           <MenuItem key="2">2</MenuItem>
         </Menu>,
       );
-      const menuItemText = wrapper.find('.rc-menu-item').first().text();
+      const menuItemText = container.querySelector('.rc-menu-item').textContent;
       expect(menuItemText).toEqual(`1${targetText}`);
     });
   });
 
   it('not fires select event when disabled', () => {
     const handleSelect = jest.fn();
-    const wrapper = mount(
+    const { container } = render(
       <Menu>
         <MenuItem disabled onSelect={handleSelect}>
           <span className="xx">Item content</span>
@@ -51,13 +59,13 @@ describe('MenuItem', () => {
       </Menu>,
     );
 
-    wrapper.find('.xx').simulate('click');
+    fireEvent.click(container.querySelector('.xx'));
     expect(handleSelect).not.toBeCalled();
   });
 
   describe('menuItem events', () => {
-    function mountMenu(props, itemProps) {
-      return mount(
+    function renderMenu(props, itemProps) {
+      return render(
         <Menu {...props}>
           <MenuItem key="light" {...itemProps} />
         </Menu>,
@@ -66,8 +74,11 @@ describe('MenuItem', () => {
 
     it('on enter key down should trigger onClick', () => {
       const onItemClick = jest.fn();
-      const wrapper = mountMenu(null, { onClick: onItemClick });
-      wrapper.findItem().simulate('keyDown', { which: KeyCode.ENTER });
+      const { container } = renderMenu(null, { onClick: onItemClick });
+      fireEvent.keyDown(container.querySelector('.rc-menu-item'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
       expect(onItemClick).toHaveBeenCalledWith(
         expect.objectContaining({ domEvent: expect.anything() }),
       );
@@ -75,8 +86,10 @@ describe('MenuItem', () => {
 
     it('on mouse enter should trigger onMouseEnter', () => {
       const onItemMouseEnter = jest.fn();
-      const wrapper = mountMenu(null, { onMouseEnter: onItemMouseEnter });
-      wrapper.findItem().simulate('mouseEnter', { which: KeyCode.ENTER });
+      const { container } = renderMenu(null, {
+        onMouseEnter: onItemMouseEnter,
+      });
+      fireEvent.mouseEnter(container.querySelector('.rc-menu-item'));
       expect(onItemMouseEnter).toHaveBeenCalledWith(
         expect.objectContaining({ key: 'light', domEvent: expect.anything() }),
       );
@@ -84,8 +97,10 @@ describe('MenuItem', () => {
 
     it('on mouse leave should trigger onMouseLeave', () => {
       const onItemMouseLeave = jest.fn();
-      const wrapper = mountMenu(null, { onMouseLeave: onItemMouseLeave });
-      wrapper.findItem().simulate('mouseLeave', { which: KeyCode.ENTER });
+      const { container } = renderMenu(null, {
+        onMouseLeave: onItemMouseLeave,
+      });
+      fireEvent.mouseLeave(container.querySelector('.rc-menu-item'));
       expect(onItemMouseLeave).toHaveBeenCalledWith(
         expect.objectContaining({ key: 'light', domEvent: expect.anything() }),
       );
@@ -103,7 +118,7 @@ describe('MenuItem', () => {
         style: { fontSize: 20 },
       };
 
-      const wrapper = mount(
+      const { container } = render(
         <Menu mode="inline" activeKey="1" openKeys={['bamboo']}>
           <MenuItem key="1" {...restProps}>
             1
@@ -121,58 +136,58 @@ describe('MenuItem', () => {
         </Menu>,
       );
 
-      expect(wrapper.render()).toMatchSnapshot();
+      expect(container.children).toMatchSnapshot();
 
-      wrapper.findItem().simulate('click');
+      fireEvent.click(container.querySelector('.rc-menu-item'));
       expect(onClick).toHaveBeenCalledTimes(1);
 
-      wrapper.find('.rc-menu-sub').simulate('click');
+      fireEvent.click(container.querySelector('.rc-menu-sub'));
       expect(onClick).toHaveBeenCalledTimes(1);
 
-      wrapper.find('.rc-menu-item-group').simulate('click');
+      fireEvent.click(container.querySelector('.rc-menu-item-group'));
       expect(onClick).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('overwrite default role', () => {
     it('should set role to none if null', () => {
-      const wrapper = mount(
+      const { container } = render(
         <Menu>
           <MenuItem role={null}>test</MenuItem>
         </Menu>,
       );
 
-      expect(wrapper.find('li').render()).toMatchSnapshot();
+      expect(container.querySelector('li')).toMatchSnapshot();
     });
 
     it('should set role to none if none', () => {
-      const wrapper = mount(
+      const { container } = render(
         <Menu>
           <MenuItem role="none">test</MenuItem>
         </Menu>,
       );
 
-      expect(wrapper.find('li').render()).toMatchSnapshot();
+      expect(container.querySelector('li')).toMatchSnapshot();
     });
 
     it('should set role to listitem', () => {
-      const wrapper = mount(
+      const { container } = render(
         <Menu>
           <MenuItem role="listitem">test</MenuItem>
         </Menu>,
       );
 
-      expect(wrapper.find('li').render()).toMatchSnapshot();
+      expect(container.querySelector('li')).toMatchSnapshot();
     });
 
     it('should set role to option', () => {
-      const wrapper = mount(
+      const { container } = render(
         <Menu>
           <MenuItem role="option">test</MenuItem>
         </Menu>,
       );
 
-      expect(wrapper.find('li').render()).toMatchSnapshot();
+      expect(container.querySelector('li')).toMatchSnapshot();
     });
   });
 });
