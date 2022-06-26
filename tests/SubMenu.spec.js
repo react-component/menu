@@ -459,39 +459,24 @@ describe('SubMenu', () => {
     );
     expect(container.children).toMatchSnapshot();
 
-    //   expect(
-    //     wrapper.find('ul.rc-menu-root').at(0).hasClass('custom-className'),
-    //   ).toBe(true);
     expect(container.querySelector('.rc-menu-root')).toHaveClass(
       'custom-className',
     );
-    //   expect(wrapper.find('.rc-menu-submenu-popup').length).toBe(0);
-    expect(container.querySelector('.rc-menu-submenu-popup')).toHaveLength(0);
+    expect(container.querySelectorAll('.rc-menu-submenu-popup')).toHaveLength(
+      0,
+    );
 
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
     runAllTimer();
 
     // Enter
-    //   wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
     fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
-    //   act(() => {
-    //     jest.runAllTimers();
-    //     wrapper.update();
-    //   });
     runAllTimer();
 
-    //   expect(
-    //     wrapper.find('.rc-menu-submenu-popup').at(0).hasClass('custom-className'),
-    //   ).toBe(true);
     expect(container.querySelector('.rc-menu-submenu-popup')).toHaveClass(
       'custom-className',
     );
 
-    //   expect(wrapper.render()).toMatchSnapshot();
     expect(container.children).toMatchSnapshot();
   });
 });

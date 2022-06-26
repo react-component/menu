@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SubMenu should support rootClassName 1`] = `
-Array [
+HTMLCollection [
   <ul
     class="rc-menu rc-menu-root rc-menu-vertical custom-className"
     data-menu-list="true"
@@ -55,7 +55,7 @@ Array [
 `;
 
 exports[`SubMenu should support rootClassName 2`] = `
-Array [
+HTMLCollection [
   <ul
     class="rc-menu rc-menu-root rc-menu-vertical custom-className"
     data-menu-list="true"
