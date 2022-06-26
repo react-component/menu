@@ -1,12 +1,43 @@
 /* eslint-disable no-undef */
-import React from 'react';
-import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import Menu, { MenuItem, SubMenu } from '../src';
+import { act, fireEvent, render } from '@testing-library/react';
 import { resetWarned } from 'rc-util/lib/warning';
+import Menu, { MenuItem, SubMenu } from '../src';
+import { isActive, last } from './util';
+
+jest.mock('rc-trigger', () => {
+  const React = require('react');
+  let Trigger = jest.requireActual('rc-trigger/lib/mock');
+  Trigger = Trigger.default || Trigger;
+
+  return React.forwardRef((props, ref) => {
+    global.triggerProps = props;
+    return React.createElement(Trigger, { ref, ...props });
+  });
+});
+
+jest.mock('../src/SubMenu/PopupTrigger', () => {
+  const React = require('react');
+  let PopupTrigger = jest.requireActual('../src/SubMenu/PopupTrigger');
+  PopupTrigger = PopupTrigger.default || PopupTrigger;
+
+  return React.forwardRef((props, ref) => {
+    global.popupTriggerProps = props;
+    return React.createElement(PopupTrigger, { ref, ...props });
+  });
+});
 
 describe('SubMenu', () => {
+  function runAllTimer() {
+    for (let i = 0; i < 10; i += 1) {
+      act(() => {
+        jest.runAllTimers();
+      });
+    }
+  }
+
   beforeEach(() => {
+    global.triggerProps = null;
+    global.popupTriggerProps = null;
     jest.useFakeTimers();
   });
 
@@ -35,20 +66,20 @@ describe('SubMenu', () => {
   }
 
   it("don't show submenu when disabled", () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu mode="vertical">
         <SubMenu key="s" title="submenu" disabled>
           <MenuItem key="1">1</MenuItem>
         </SubMenu>
       </Menu>,
     );
-    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
-    expect(wrapper.find('PopupTrigger').prop('visible')).toBeFalsy();
+    expect(global.popupTriggerProps.visible).toBeFalsy();
   });
 
   it('offsets the submenu popover', () => {
-    const wrapper = mount(
+    render(
       <Menu mode="horizontal" disabledOverflow>
         <SubMenu key="s" title="submenu" popupOffset={[0, 15]}>
           <MenuItem key="1">1</MenuItem>
@@ -56,12 +87,12 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    const popupAlign = wrapper.find('Trigger').first().prop('popupAlign');
+    const { popupAlign } = global.triggerProps;
     expect(popupAlign).toEqual({ offset: [0, 15] });
   });
 
   it('should render custom arrow icon correctly.', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu
         mode="vertical"
         itemIcon={itemIcon}
@@ -74,7 +105,7 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    const wrapperWithExpandIconFunction = mount(
+    const wrapperWithExpandIconFunction = render(
       <Menu
         mode="vertical"
         itemIcon={itemIcon}
@@ -87,17 +118,19 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    const subMenuText = wrapper.find('.rc-menu-submenu-title').first().text();
-    const subMenuTextWithExpandIconFunction = wrapperWithExpandIconFunction
-      .find('.rc-menu-submenu-title')
-      .first()
-      .text();
+    const subMenuText = container.querySelector(
+      '.rc-menu-submenu-title',
+    ).textContent;
+    const subMenuTextWithExpandIconFunction =
+      wrapperWithExpandIconFunction.container.querySelector(
+        '.rc-menu-submenu-title',
+      ).textContent;
     expect(subMenuText).toEqual('submenuSubMenuIconNode');
     expect(subMenuTextWithExpandIconFunction).toEqual('submenuSubMenuIconNode');
   });
 
   it('should Not render custom arrow icon in horizontal mode.', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu mode="horizontal" disabledOverflow>
         <SubMenu
           key="s"
@@ -110,59 +143,59 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    const childText = wrapper.find('.rc-menu-submenu-title').hostNodes().text();
+    const childText = container.querySelector(
+      '.rc-menu-submenu-title',
+    ).textContent;
     expect(childText).toEqual('submenu');
   });
 
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are true', () => {
     it('toggles when mouse enter and leave', () => {
-      const wrapper = mount(createMenu());
+      const { container } = render(
+        <Menu>
+          <SubMenu key="s1" title="submenu1">
+            <MenuItem key="s1-1">1</MenuItem>
+          </SubMenu>
+        </Menu>,
+      );
 
       // Enter
-      wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeTruthy();
+      fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
+      runAllTimer();
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeTruthy();
 
       // Leave
-      wrapper.find('.rc-menu-submenu-title').first().simulate('mouseLeave');
+      fireEvent.mouseLeave(container.querySelector('.rc-menu-submenu-title'));
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeFalsy();
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeFalsy();
     });
   });
 
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are false', () => {
     it('toggles when mouse click', () => {
-      const wrapper = mount(
+      const { container } = render(
         createMenu({
           triggerSubMenuAction: 'click',
         }),
       );
 
-      wrapper.find('.rc-menu-submenu-title').first().simulate('click');
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeTruthy();
+      fireEvent.click(container.querySelector('.rc-menu-submenu-title'));
+      runAllTimer();
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeTruthy();
 
-      wrapper.find('.rc-menu-submenu-title').first().simulate('click');
+      fireEvent.click(container.querySelector('.rc-menu-submenu-title'));
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeFalsy();
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeFalsy();
     });
   });
 
   it('fires openChange event', () => {
     const handleOpenChange = jest.fn();
-    const wrapper = mount(
+    const { container } = render(
       <Menu onOpenChange={handleOpenChange}>
         <MenuItem key="1">1</MenuItem>
         <SubMenu title="s1">
@@ -175,19 +208,15 @@ describe('SubMenu', () => {
     );
 
     // First
-    wrapper.find('div.rc-menu-submenu-title').at(0).simulate('mouseEnter');
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
+    runAllTimer();
     expect(handleOpenChange).toHaveBeenCalledWith(['tmp_key-1']);
 
     // Second
-    wrapper.find('div.rc-menu-submenu-title').at(1).simulate('mouseEnter');
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    fireEvent.mouseEnter(
+      container.querySelectorAll('.rc-menu-submenu-title')[1],
+    );
+    runAllTimer();
     expect(handleOpenChange).toHaveBeenCalledWith([
       'tmp_key-1',
       'tmp_key-tmp_key-1-1',
@@ -202,7 +231,7 @@ describe('SubMenu', () => {
         .spyOn(console, 'error')
         .mockImplementation(() => {});
 
-      mount(
+      render(
         <Menu>
           <MenuItem>1</MenuItem>
         </Menu>,
@@ -222,7 +251,7 @@ describe('SubMenu', () => {
         .spyOn(console, 'error')
         .mockImplementation(() => {});
 
-      mount(
+      render(
         <Menu>
           <SubMenu />
         </Menu>,
@@ -242,7 +271,7 @@ describe('SubMenu', () => {
         .spyOn(console, 'error')
         .mockImplementation(() => {});
 
-      mount(
+      render(
         <Menu>
           <Menu.Divider />
         </Menu>,
@@ -256,37 +285,31 @@ describe('SubMenu', () => {
 
   describe('mouse events', () => {
     it('mouse enter event on a submenu should not activate first item', () => {
-      const wrapper = mount(createMenu({ openKeys: ['s1'] }));
-      const title = wrapper.find('div.rc-menu-submenu-title').first();
-      title.simulate('mouseEnter');
+      const { container } = render(createMenu({ openKeys: ['s1'] }));
+      fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
+      runAllTimer();
 
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeTruthy();
-      expect(wrapper.isActive(0)).toBeFalsy();
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeTruthy();
+      isActive(container, 0, false);
     });
 
     it('click to open a submenu should not activate first item', () => {
-      const wrapper = mount(createMenu({ triggerSubMenuAction: 'click' }));
-      const subMenuTitle = wrapper.find('div.rc-menu-submenu-title').first();
-      subMenuTitle.simulate('click');
+      const { container } = render(
+        createMenu({ triggerSubMenuAction: 'click' }),
+      );
+      fireEvent.click(container.querySelector('.rc-menu-submenu-title'));
 
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
+      runAllTimer();
 
-      expect(wrapper.find('PopupTrigger').first().prop('visible')).toBeTruthy();
-      expect(wrapper.isActive(0)).toBeFalsy();
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeTruthy();
+      isActive(container, 0, false);
     });
 
     it('mouse enter/mouse leave on a subMenu item should trigger hooks', () => {
       const onMouseEnter = jest.fn();
       const onMouseLeave = jest.fn();
-      const wrapper = mount(
+      const { container } = render(
         <Menu openKeys={['s1']}>
           <SubMenu
             key="s1"
@@ -298,61 +321,51 @@ describe('SubMenu', () => {
           </SubMenu>
         </Menu>,
       );
-      const subMenu = wrapper.find('.rc-menu-submenu').first();
-      subMenu.simulate('mouseEnter');
+      fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
       expect(onMouseEnter).toHaveBeenCalledTimes(1);
 
-      subMenu.simulate('mouseLeave');
+      fireEvent.mouseLeave(container.querySelector('.rc-menu-submenu-title'));
       expect(onMouseLeave).toHaveBeenCalledTimes(1);
     });
   });
 
   it('fires select event', () => {
     const handleSelect = jest.fn();
-    const wrapper = mount(createMenu({ onSelect: handleSelect }));
-    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+    const { container } = render(createMenu({ onSelect: handleSelect }));
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    runAllTimer();
 
-    wrapper.findItem().simulate('click');
+    fireEvent.click(container.querySelector('.rc-menu-item'));
     expect(handleSelect.mock.calls[0][0].key).toBe('s1-1');
   });
 
   it('fires select event with className', () => {
-    const wrapper = mount(createMenu());
-    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+    const { container } = render(createMenu());
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    runAllTimer();
 
-    wrapper.find('MenuItem').first().simulate('click');
-    expect(
-      wrapper.find('.rc-menu-submenu').first().is('.rc-menu-submenu-selected'),
-    ).toBe(true);
+    fireEvent.click(container.querySelector('.rc-menu-item'));
+    expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
+      'rc-menu-submenu-selected',
+    );
   });
 
   it('fires deselect event for multiple menu', () => {
     const handleDeselect = jest.fn();
-    const wrapper = mount(
+    const { container } = render(
       createMenu({
         multiple: true,
         onDeselect: handleDeselect,
       }),
     );
-    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    runAllTimer();
 
-    wrapper.findItem().simulate('click');
-    wrapper.findItem().simulate('click');
+    fireEvent.click(container.querySelector('.rc-menu-item'));
+    fireEvent.click(container.querySelector('.rc-menu-item'));
     expect(handleDeselect.mock.calls[0][0].key).toBe('s1-1');
   });
 
@@ -365,14 +378,14 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const wrapper = mount(<App show />);
-    expect(wrapper.find('.rc-menu').first().prop('style')).toEqual({
+    const { container } = render(<App show />);
+    expect(container.querySelector('.rc-menu')).toHaveStyle({
       backgroundColor: 'black',
     });
   });
 
   it('not pass style into sub menu item', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu mode="horizontal" style={{ background: 'green' }} disabledOverflow>
         <MenuItem style={{ color: 'red' }} key="1">
           1
@@ -380,7 +393,7 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    expect(wrapper.find('li.rc-menu-item').at(0).props().style).toEqual({
+    expect(container.querySelector('.rc-menu-item')).toHaveStyle({
       color: 'red',
     });
   });
@@ -388,7 +401,7 @@ describe('SubMenu', () => {
   it('inline click for open', () => {
     const onOpenChange = jest.fn();
 
-    const wrapper = mount(
+    const { container } = render(
       <Menu mode="inline" onOpenChange={onOpenChange}>
         <SubMenu key="bamboo" title="Bamboo" disabled>
           <MenuItem key="little">Little</MenuItem>
@@ -400,18 +413,16 @@ describe('SubMenu', () => {
     );
 
     // Disabled
-    wrapper.find('div.rc-menu-submenu-title').first().simulate('click');
+    fireEvent.click(container.querySelector('.rc-menu-submenu-title'));
     expect(onOpenChange).not.toHaveBeenCalled();
 
     // Disabled
-    wrapper.find('div.rc-menu-submenu-title').last().simulate('click');
+    fireEvent.click(last(container.querySelectorAll('.rc-menu-submenu-title')));
     expect(onOpenChange).toHaveBeenCalledWith(['light']);
   });
 
   it('popup className should correct', () => {
-    jest.useFakeTimers();
-
-    const wrapper = mount(
+    const { container } = render(
       <Menu mode="horizontal" openKeys={['light']} disabledOverflow>
         <SubMenu key="light">
           <SubMenu key="bamboo" />
@@ -419,29 +430,19 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    runAllTimer();
 
-    expect(
-      wrapper
-        .find('li.rc-menu-submenu')
-        .first()
-        .hasClass('rc-menu-submenu-horizontal'),
-    ).toBeTruthy();
-    expect(
-      wrapper
-        .find('li.rc-menu-submenu')
-        .last()
-        .hasClass('rc-menu-submenu-vertical'),
-    ).toBeTruthy();
+    expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
+      'rc-menu-submenu-horizontal',
+    );
 
-    jest.useRealTimers();
+    expect(last(container.querySelectorAll('.rc-menu-submenu'))).toHaveClass(
+      'rc-menu-submenu-vertical',
+    );
   });
 
   it('should support rootClassName', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu rootClassName="custom-className" defaultOpenKeys={['1', '1-1']}>
         <SubMenu key="1" title="submenu1">
           <MenuItem key="1-1" role="option">
@@ -456,31 +457,42 @@ describe('SubMenu', () => {
         </MenuItem>
       </Menu>,
     );
-    expect(wrapper.render()).toMatchSnapshot();
+    expect(container.children).toMatchSnapshot();
 
-    expect(
-      wrapper.find('ul.rc-menu-root').at(0).hasClass('custom-className'),
-    ).toBe(true);
-    expect(wrapper.find('.rc-menu-submenu-popup').length).toBe(0);
+    //   expect(
+    //     wrapper.find('ul.rc-menu-root').at(0).hasClass('custom-className'),
+    //   ).toBe(true);
+    expect(container.querySelector('.rc-menu-root')).toHaveClass(
+      'custom-className',
+    );
+    //   expect(wrapper.find('.rc-menu-submenu-popup').length).toBe(0);
+    expect(container.querySelector('.rc-menu-submenu-popup')).toHaveLength(0);
 
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    //   act(() => {
+    //     jest.runAllTimers();
+    //     wrapper.update();
+    //   });
+    runAllTimer();
 
     // Enter
-    wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+    //   wrapper.find('.rc-menu-submenu-title').first().simulate('mouseEnter');
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
-    });
+    //   act(() => {
+    //     jest.runAllTimers();
+    //     wrapper.update();
+    //   });
+    runAllTimer();
 
-    expect(
-      wrapper.find('.rc-menu-submenu-popup').at(0).hasClass('custom-className'),
-    ).toBe(true);
+    //   expect(
+    //     wrapper.find('.rc-menu-submenu-popup').at(0).hasClass('custom-className'),
+    //   ).toBe(true);
+    expect(container.querySelector('.rc-menu-submenu-popup')).toHaveClass(
+      'custom-className',
+    );
 
-    expect(wrapper.render()).toMatchSnapshot();
+    //   expect(wrapper.render()).toMatchSnapshot();
+    expect(container.children).toMatchSnapshot();
   });
 });
 /* eslint-enable */
