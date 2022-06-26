@@ -1,15 +1,34 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
-import React from 'react';
-import { act } from 'react-dom/test-utils';
+import { fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
-import { render } from 'enzyme';
-import ResizeObserver from 'rc-resize-observer';
-import { mount } from './util';
+import { act } from 'react-dom/test-utils';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
+import { last } from './util';
+
+jest.mock('rc-resize-observer', () => {
+  const React = require('react');
+  let ResizeObserver = jest.requireActual('rc-resize-observer');
+  ResizeObserver = ResizeObserver.default || ResizeObserver;
+
+  let guid = 0;
+
+  return React.forwardRef((props, ref) => {
+    const [id] = React.useState(() => {
+      guid += 1;
+      return guid;
+    });
+
+    global.resizeProps = global.resizeProps || new Map<number, any>();
+    global.resizeProps.set(id, props);
+
+    return React.createElement(ResizeObserver, { ref, ...props });
+  });
+});
 
 describe('Menu.Responsive', () => {
   beforeEach(() => {
+    global.resizeProps = null;
     jest.useFakeTimers();
   });
 
@@ -17,8 +36,12 @@ describe('Menu.Responsive', () => {
     jest.useRealTimers();
   });
 
+  function getResizeProps(): any[] {
+    return Array.from(global.resizeProps!.values());
+  }
+
   it('ssr render full', () => {
-    const wrapper = render(
+    const { container } = render(
       <Menu mode="horizontal">
         <MenuItem key="light">Light</MenuItem>
         <SubMenu key="bamboo">Bamboo</SubMenu>
@@ -26,69 +49,74 @@ describe('Menu.Responsive', () => {
       </Menu>,
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(container.children).toMatchSnapshot();
   });
 
   it('show rest', () => {
     const onOpenChange = jest.fn();
-    const wrapper = mount(
-      <Menu mode="horizontal" activeKey="little" onOpenChange={onOpenChange}>
+
+    const genMenu = (props?: any) => (
+      <Menu
+        mode="horizontal"
+        activeKey="little"
+        onOpenChange={onOpenChange}
+        {...props}
+      >
         <MenuItem key="light">Light</MenuItem>
         <MenuItem key="bamboo">Bamboo</MenuItem>
         <SubMenu key="home" title="Home">
           <MenuItem key="little">Little</MenuItem>
         </SubMenu>
-      </Menu>,
-      { attachTo: document.body },
+      </Menu>
     );
+
+    const { container, rerender } = render(genMenu());
 
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
 
     // Set container width
     act(() => {
-      wrapper
-        .find(ResizeObserver)
-        .first()
-        .props()
-        .onResize({} as any, { clientWidth: 41 } as any);
+      getResizeProps()[0].onResize({} as any, { clientWidth: 41 } as any);
       jest.runAllTimers();
-      wrapper.update();
     });
 
     // Resize every item
-    wrapper.find('Item').forEach(item => {
-      act(() => {
-        item
-          .find(ResizeObserver)
-          .props()
-          .onResize({ offsetWidth: 20 } as any, null);
-        jest.runAllTimers();
-        wrapper.update();
+    getResizeProps()
+      .slice(1)
+      .forEach(props => {
+        act(() => {
+          props.onResize({ offsetWidth: 20 } as any, null);
+          jest.runAllTimers();
+        });
       });
-    });
 
     // Should show the rest icon
     expect(
-      wrapper.find('.rc-menu-overflow-item-rest').last().prop('style').opacity,
-    ).not.toEqual(0);
+      last(container.querySelectorAll('.rc-menu-overflow-item-rest')),
+    ).not.toHaveStyle({
+      opacity: '0',
+    });
 
     // Should set active on rest
     expect(
-      wrapper
-        .find('.rc-menu-overflow-item-rest')
-        .last()
-        .hasClass('rc-menu-submenu-active'),
-    ).toBeTruthy();
+      last(container.querySelectorAll('.rc-menu-overflow-item-rest')),
+    ).toHaveClass('rc-menu-submenu-active');
 
     // Key down can open
     expect(onOpenChange).not.toHaveBeenCalled();
-    wrapper.setProps({ activeKey: OVERFLOW_KEY });
-    wrapper
-      .find('ul.rc-menu-root')
-      .simulate('keyDown', { which: KeyCode.DOWN });
+    rerender(genMenu({ activeKey: OVERFLOW_KEY }));
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    fireEvent.keyDown(container.querySelector('ul.rc-menu-root'), {
+      which: KeyCode.DOWN,
+      keyCode: KeyCode.DOWN,
+      charCode: KeyCode.DOWN,
+    });
+
     expect(onOpenChange).toHaveBeenCalled();
   });
 });

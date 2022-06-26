@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-import React from 'react';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import classnames from 'classnames';
+import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('Private Props', () => {
   it('_internalRenderMenuItem', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu
         _internalRenderMenuItem={node =>
           React.cloneElement(node, {
@@ -18,11 +18,11 @@ describe('Private Props', () => {
       </Menu>,
     );
 
-    expect(wrapper.exists('.inject-cls')).toBeTruthy();
+    expect(container.querySelector('.inject-cls')).toBeTruthy();
   });
 
   it('_internalRenderSubMenuItem', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu
         mode="inline"
         openKeys={['1']}
@@ -38,7 +38,7 @@ describe('Private Props', () => {
       </Menu>,
     );
 
-    expect(wrapper.exists('.inject-cls')).toBeTruthy();
+    expect(container.querySelector('.inject-cls')).toBeTruthy();
   });
 });
 /* eslint-enable */

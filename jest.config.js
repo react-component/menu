@@ -1,4 +1,4 @@
 module.exports = {
-  setupFiles: ['./tests/setup.js'],
-  snapshotSerializers: [require.resolve('enzyme-to-json/serializer')],
+  setupFiles: ['<rootDir>/tests/setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/tests/setupFilesAfterEnv.ts']
 };

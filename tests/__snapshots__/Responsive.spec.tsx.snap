@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Menu.Responsive ssr render full 1`] = `
-Array [
+HTMLCollection [
   <ul
     class="rc-menu-overflow rc-menu rc-menu-root rc-menu-horizontal"
     data-menu-list="true"
@@ -10,8 +10,9 @@ Array [
   >
     <li
       class="rc-menu-overflow-item rc-menu-item"
+      data-menu-id="rc-menu-uuid-test-light"
       role="menuitem"
-      style="opacity:1;order:0"
+      style="opacity: 1; order: 0;"
       tabindex="-1"
     >
       Light
@@ -19,9 +20,10 @@ Array [
     <li
       class="rc-menu-overflow-item rc-menu-submenu rc-menu-submenu-horizontal"
       role="none"
-      style="opacity:1;order:1"
+      style="opacity: 1; order: 1;"
     >
       <div
+        aria-controls="rc-menu-uuid-test-bamboo-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
@@ -36,7 +38,7 @@ Array [
     <li
       class="rc-menu-overflow-item rc-menu-item"
       role="menuitem"
-      style="opacity:1;order:2"
+      style="opacity: 1; order: 2;"
       tabindex="-1"
     >
       Little
@@ -45,12 +47,14 @@ Array [
       aria-hidden="true"
       class="rc-menu-overflow-item rc-menu-overflow-item-rest rc-menu-submenu rc-menu-submenu-horizontal"
       role="none"
-      style="opacity:0;height:0;overflow-y:hidden;order:9007199254740991;pointer-events:none;position:absolute"
+      style="opacity: 0; height: 0px; overflow-y: hidden; order: 9007199254740991; pointer-events: none; position: absolute;"
     >
       <div
+        aria-controls="rc-menu-uuid-test-rc-menu-more-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
+        data-menu-id="rc-menu-uuid-test-rc-menu-more"
         role="menuitem"
         tabindex="-1"
         title="..."
@@ -64,7 +68,7 @@ Array [
   </ul>,
   <div
     aria-hidden="true"
-    style="display:none"
+    style="display: none;"
   >
     Bamboo
   </div>,

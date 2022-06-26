@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Menu.Keyboard no data-menu-id by init 1`] = `
-Array [
+HTMLCollection [
   <ul
     class="rc-menu rc-menu-root rc-menu-inline"
     data-menu-list="true"
@@ -13,11 +13,13 @@ Array [
       role="none"
     >
       <div
+        aria-controls="rc-menu-uuid-test-light-popup"
         aria-expanded="true"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
+        data-menu-id="rc-menu-uuid-test-light"
         role="menuitem"
-        style="padding-left:24px"
+        style="padding-left: 24px;"
         tabindex="-1"
         title="Light"
       >
@@ -29,11 +31,13 @@ Array [
       <ul
         class="rc-menu rc-menu-sub rc-menu-inline"
         data-menu-list="true"
+        id="rc-menu-uuid-test-light-popup"
       >
         <li
           class="rc-menu-item"
+          data-menu-id="rc-menu-uuid-test-bamboo"
           role="menuitem"
-          style="padding-left:48px"
+          style="padding-left: 48px;"
           tabindex="-1"
         >
           Bamboo
@@ -43,7 +47,7 @@ Array [
   </ul>,
   <div
     aria-hidden="true"
-    style="display:none"
+    style="display: none;"
   />,
 ]
 `;

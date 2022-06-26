@@ -1,7 +1,5 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence */
-import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { mount } from 'enzyme';
+import { act, fireEvent, render } from '@testing-library/react';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('Menu.Collapsed', () => {
@@ -15,38 +13,42 @@ describe('Menu.Collapsed', () => {
     });
 
     it('should always follow openKeys when mode is switched', () => {
-      const wrapper = mount(
-        <Menu openKeys={['1']} mode="inline">
+      const genMenu = props => (
+        <Menu openKeys={['1']} mode="inline" {...props}>
           <SubMenu key="1" title="submenu1">
             <MenuItem key="submenu1">Option 1</MenuItem>
             <MenuItem key="submenu2">Option 2</MenuItem>
           </SubMenu>
           <MenuItem key="2">menu2</MenuItem>
-        </Menu>,
+        </Menu>
+      );
+
+      const { container, rerender } = render(genMenu());
+
+      // Inline
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
+
+      // Vertical
+      rerender(genMenu({ mode: 'vertical' }));
+      act(() => {
+        jest.runAllTimers();
+      });
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
       );
 
       // Inline
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-      ).toBe(false);
-
-      // Vertical
-      wrapper.setProps({ mode: 'vertical' });
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-      ).toBe(false);
-
-      // Inline
-      wrapper.setProps({ mode: 'inline' });
-      wrapper.update();
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-      ).toBe(false);
+      rerender(genMenu({ mode: 'inline' }));
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
     });
 
     it('should always follow openKeys when inlineCollapsed is switched', () => {
-      const wrapper = mount(
-        <Menu defaultOpenKeys={['1']} mode="inline">
+      const genMenu = props => (
+        <Menu defaultOpenKeys={['1']} mode="inline" {...props}>
           <MenuItem key="menu1">
             <span>Option</span>
           </MenuItem>
@@ -54,53 +56,52 @@ describe('Menu.Collapsed', () => {
             <MenuItem key="submenu1">Option</MenuItem>
             <MenuItem key="submenu2">Option</MenuItem>
           </SubMenu>
-        </Menu>,
+        </Menu>
       );
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-inline'),
-      ).toBe(true);
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-      ).toBe(false);
 
-      wrapper.setProps({ inlineCollapsed: true });
+      const { container, rerender } = render(genMenu());
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
+        'rc-menu-inline',
+      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
+
+      rerender(genMenu({ inlineCollapsed: true }));
       // 动画结束后套样式;
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      wrapper
-        .find('Overflow')
-        .simulate('transitionEnd', { propertyName: 'width' });
+      fireEvent.transitionEnd(container.querySelector('.rc-menu-root'), {
+        propertyName: 'width',
+      });
 
       // Flush SubMenu raf state update
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
-      expect(
-        wrapper.find('ul.rc-menu-root').at(0).hasClass('rc-menu-vertical'),
-      ).toBe(true);
-      expect(wrapper.find('ul.rc-menu-sub').length).toBe(0);
+      expect(container.querySelector('ul.rc-menu-root')).toHaveClass(
+        'rc-menu-vertical',
+      );
+      expect(container.querySelectorAll('ul.rc-menu-sub')).toHaveLength(0);
 
-      wrapper.setProps({ inlineCollapsed: false });
+      rerender(genMenu({ inlineCollapsed: false }));
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-inline'),
-      ).toBe(true);
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-      ).toBe(false);
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
+        'rc-menu-inline',
+      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
     });
 
     it('inlineCollapsed should works well when specify a not existed default openKeys', () => {
-      const wrapper = mount(
-        <Menu defaultOpenKeys={['not-existed']} mode="inline">
+      const genMenu = props => (
+        <Menu defaultOpenKeys={['not-existed']} mode="inline" {...props}>
           <MenuItem key="menu1">
             <span>Option</span>
           </MenuItem>
@@ -108,55 +109,60 @@ describe('Menu.Collapsed', () => {
             <MenuItem key="submenu1">Option</MenuItem>
             <MenuItem key="submenu2">Option</MenuItem>
           </SubMenu>
-        </Menu>,
+        </Menu>
       );
-      expect(wrapper.find('.rc-menu-sub').length).toBe(0);
+
+      const { container, rerender } = render(genMenu());
+      expect(container.querySelectorAll('.rc-menu-sub')).toHaveLength(0);
 
       // Do collapsed
-      wrapper.setProps({ inlineCollapsed: true });
+      rerender(genMenu({ inlineCollapsed: true }));
 
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
-      wrapper
-        .find('Overflow')
-        .simulate('transitionEnd', { propertyName: 'width' });
+      //   wrapper
+      //     .find('Overflow')
+      //     .simulate('transitionEnd', { propertyName: 'width' });
+      fireEvent.transitionEnd(container.querySelector('.rc-menu-root'), {
+        propertyName: 'width',
+      });
 
       // Wait internal raf work
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
       // Hover to show
-      wrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
+      //   wrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
+      fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
+      });
+      act(() => {
+        jest.runAllTimers();
       });
 
-      expect(
-        wrapper
-          .find('.rc-menu-submenu')
-          .at(0)
-          .hasClass('rc-menu-submenu-vertical'),
-      ).toBe(true);
-      expect(
-        wrapper.find('.rc-menu-submenu').at(0).hasClass('rc-menu-submenu-open'),
-      ).toBe(true);
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-vertical'),
-      ).toBe(true);
-      expect(
-        wrapper.find('ul.rc-menu-sub').at(0).hasClass('rc-menu-hidden'),
-      ).toBe(false);
+      expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
+        'rc-menu-submenu-vertical',
+      );
+
+      expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
+        'rc-menu-submenu-open',
+      );
+
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
+        'rc-menu-vertical',
+      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
+        'rc-menu-hidden',
+      );
     });
 
     it('inlineCollapsed MenuItem Tooltip can be removed', () => {
-      const wrapper = mount(
+      const { container } = render(
         <Menu
           defaultOpenKeys={['not-existed']}
           mode="inline"
@@ -181,92 +187,101 @@ describe('Menu.Collapsed', () => {
           </MenuItem>
         </Menu>,
       );
-      expect(wrapper.find(MenuItem).at(0).getDOMNode().title).toBe('');
-      expect(wrapper.find(MenuItem).at(1).getDOMNode().title).toBe('title');
-      expect(wrapper.find(MenuItem).at(2).getDOMNode().title).toBe('');
-      expect(wrapper.find(MenuItem).at(3).getDOMNode().title).toBe('');
-      expect(wrapper.find(MenuItem).at(4).getDOMNode().title).toBe('');
-      expect(wrapper.find(MenuItem).at(4).getDOMNode().title).toBe('');
+
+      expect(
+        Array.from(container.querySelectorAll('.rc-menu-item')).map(
+          node => node.title,
+        ),
+      ).toEqual(['', 'title', '', '', '', '']);
     });
 
     // https://github.com/ant-design/ant-design/issues/18825
     // https://github.com/ant-design/ant-design/issues/8587
     it('should keep selectedKeys in state when collapsed to 0px', () => {
-      const wrapper = mount(
+      const genMenu = props => (
         <Menu
           mode="inline"
           inlineCollapsed={false}
           defaultSelectedKeys={['1']}
           openKeys={['3']}
+          {...props}
         >
           <MenuItem key="1">Option 1</MenuItem>
           <MenuItem key="2">Option 2</MenuItem>
           <SubMenu key="3" title="Option 3">
             <MenuItem key="4">Option 4</MenuItem>
           </SubMenu>
-        </Menu>,
+        </Menu>
       );
+
+      const { container, rerender } = render(genMenu());
 
       // Default
       expect(
-        wrapper.find('li.rc-menu-item-selected').getDOMNode().textContent,
+        container.querySelector('.rc-menu-item-selected').textContent,
       ).toBe('Option 1');
 
       // Click to change select
-      wrapper.find('li.rc-menu-item').at(1).simulate('click');
+      fireEvent.click(container.querySelectorAll('.rc-menu-item')[1]);
       expect(
-        wrapper.find('li.rc-menu-item-selected').getDOMNode().textContent,
+        container.querySelector('.rc-menu-item-selected').textContent,
       ).toBe('Option 2');
 
       // Collapse it
-      wrapper.setProps({ inlineCollapsed: true });
+      rerender(genMenu({ inlineCollapsed: true }));
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
       // Open since controlled
-      expect(wrapper.find('Trigger').props().popupVisible).toBeTruthy();
+      expect(container.querySelector('.rc-menu-submenu-popup')).toBeTruthy();
 
       // Expand it
-      wrapper.setProps({ inlineCollapsed: false });
+      rerender(genMenu({ inlineCollapsed: false }));
       expect(
-        wrapper.find('li.rc-menu-item-selected').getDOMNode().textContent,
+        container.querySelector('.rc-menu-item-selected').textContent,
       ).toBe('Option 2');
     });
 
     it('should hideMenu in initial state when collapsed', () => {
-      const wrapper = mount(
+      const genMenu = props => (
         <Menu
           mode="inline"
           inlineCollapsed
           defaultSelectedKeys={['1']}
           openKeys={['3']}
+          {...props}
         >
           <MenuItem key="1">Option 1</MenuItem>
           <MenuItem key="2">Option 2</MenuItem>
           <SubMenu key="3" title="Option 3">
             <MenuItem key="4">Option 4</MenuItem>
           </SubMenu>
-        </Menu>,
+        </Menu>
       );
 
-      expect(wrapper.find('Trigger').props().popupVisible).toBeFalsy();
+      const { container, rerender } = render(genMenu());
 
-      wrapper.setProps({ inlineCollapsed: false });
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
+
+      expect(container.querySelector('.rc-menu-submenu-popup')).toBeTruthy();
+
+      rerender(genMenu({ inlineCollapsed: false }));
+      act(() => {
+        jest.runAllTimers();
+      });
+
       expect(
-        wrapper.find('li.rc-menu-item-selected').getDOMNode().textContent,
+        container.querySelector('.rc-menu-item-selected').textContent,
       ).toBe('Option 1');
     });
 
     it('vertical also support inlineCollapsed', () => {
-      const wrapper = mount(<Menu mode="vertical" inlineCollapsed />);
+      const { container } = render(<Menu mode="vertical" inlineCollapsed />);
 
-      expect(wrapper.exists('.rc-menu-inline-collapsed')).toBeTruthy();
+      expect(container.querySelector('.rc-menu-inline-collapsed')).toBeTruthy();
     });
   });
 });

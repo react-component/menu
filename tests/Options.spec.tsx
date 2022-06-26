@@ -1,11 +1,10 @@
 /* eslint-disable no-undef */
-import React from 'react';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import Menu from '../src';
 
 describe('Options', () => {
   it('should work', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Menu
         mode="inline"
         openKeys={['sub1']}
@@ -39,7 +38,7 @@ describe('Options', () => {
       />,
     );
 
-    expect(wrapper.render()).toMatchSnapshot();
+    expect(container.children).toMatchSnapshot();
   });
 });
 /* eslint-enable */

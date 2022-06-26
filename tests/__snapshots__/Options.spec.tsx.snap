@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Options should work 1`] = `
-Array [
+HTMLCollection [
   <ul
     class="rc-menu rc-menu-root rc-menu-inline"
     data-menu-list="true"
