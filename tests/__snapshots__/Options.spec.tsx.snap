@@ -19,7 +19,7 @@ HTMLCollection [
         class="rc-menu-submenu-title"
         data-menu-id="rc-menu-uuid-test-sub1"
         role="menuitem"
-        style="padding-left: 24px;"
+        style="padding-left: 0px;"
         tabindex="-1"
         title="SubMenu"
       >
@@ -49,7 +49,7 @@ HTMLCollection [
               class="rc-menu-item"
               data-menu-id="rc-menu-uuid-test-1"
               role="menuitem"
-              style="padding-left: 48px;"
+              style="padding-left: 24px;"
               tabindex="-1"
             >
               Menu Item 1
@@ -58,7 +58,7 @@ HTMLCollection [
               class="rc-menu-item"
               data-menu-id="rc-menu-uuid-test-2"
               role="menuitem"
-              style="padding-left: 48px;"
+              style="padding-left: 24px;"
               tabindex="-1"
             >
               Menu Item 2

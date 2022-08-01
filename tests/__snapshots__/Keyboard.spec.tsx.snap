@@ -19,7 +19,7 @@ HTMLCollection [
         class="rc-menu-submenu-title"
         data-menu-id="rc-menu-uuid-test-light"
         role="menuitem"
-        style="padding-left: 24px;"
+        style="padding-left: 0px;"
         tabindex="-1"
         title="Light"
       >
@@ -37,7 +37,7 @@ HTMLCollection [
           class="rc-menu-item"
           data-menu-id="rc-menu-uuid-test-bamboo"
           role="menuitem"
-          style="padding-left: 48px;"
+          style="padding-left: 24px;"
           tabindex="-1"
         >
           Bamboo
