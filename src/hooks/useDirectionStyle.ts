@@ -8,7 +8,7 @@ export default function useDirectionStyle(level: number): React.CSSProperties {
     return null;
   }
 
-  const len = level;
+  const len = Math.max(0, level - 1);
   return rtl
     ? { paddingRight: len * inlineIndent }
     : { paddingLeft: len * inlineIndent };
