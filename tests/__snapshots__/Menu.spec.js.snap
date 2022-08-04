@@ -282,7 +282,7 @@ HTMLCollection [
           class="rc-menu-item"
           data-menu-id="rc-menu-uuid-test-1"
           role="menuitem"
-          style="padding-left: 0px;"
+          style="padding-left: 24px;"
           tabindex="-1"
         >
           1
@@ -294,7 +294,7 @@ HTMLCollection [
           class="rc-menu-item"
           data-menu-id="rc-menu-uuid-test-2"
           role="menuitem"
-          style="padding-left: 0px;"
+          style="padding-left: 24px;"
           tabindex="-1"
         >
           2
@@ -305,7 +305,7 @@ HTMLCollection [
       class="rc-menu-item"
       data-menu-id="rc-menu-uuid-test-3"
       role="menuitem"
-      style="padding-left: 0px;"
+      style="padding-left: 24px;"
       tabindex="-1"
     >
       3
@@ -326,7 +326,7 @@ HTMLCollection [
           class="rc-menu-item"
           data-menu-id="rc-menu-uuid-test-4"
           role="menuitem"
-          style="padding-left: 0px;"
+          style="padding-left: 24px;"
           tabindex="-1"
         >
           4
@@ -336,7 +336,7 @@ HTMLCollection [
           class="rc-menu-item rc-menu-item-disabled"
           data-menu-id="rc-menu-uuid-test-5"
           role="menuitem"
-          style="padding-left: 0px;"
+          style="padding-left: 24px;"
         >
           5
         </li>
@@ -353,7 +353,7 @@ HTMLCollection [
         class="rc-menu-submenu-title"
         data-menu-id="rc-menu-uuid-test-tmp_key-3"
         role="menuitem"
-        style="padding-left: 0px;"
+        style="padding-left: 24px;"
         tabindex="-1"
         title="submenu"
       >
@@ -396,7 +396,7 @@ HTMLCollection [
           class="rc-menu-item"
           data-menu-id="rc-menu-uuid-test-1"
           role="menuitem"
-          style="padding-right: 0px;"
+          style="padding-right: 24px;"
           tabindex="-1"
         >
           1
@@ -408,7 +408,7 @@ HTMLCollection [
           class="rc-menu-item"
           data-menu-id="rc-menu-uuid-test-2"
           role="menuitem"
-          style="padding-right: 0px;"
+          style="padding-right: 24px;"
           tabindex="-1"
         >
           2
@@ -419,7 +419,7 @@ HTMLCollection [
       class="rc-menu-item"
       data-menu-id="rc-menu-uuid-test-3"
       role="menuitem"
-      style="padding-right: 0px;"
+      style="padding-right: 24px;"
       tabindex="-1"
     >
       3
@@ -440,7 +440,7 @@ HTMLCollection [
           class="rc-menu-item"
           data-menu-id="rc-menu-uuid-test-4"
           role="menuitem"
-          style="padding-right: 0px;"
+          style="padding-right: 24px;"
           tabindex="-1"
         >
           4
@@ -450,7 +450,7 @@ HTMLCollection [
           class="rc-menu-item rc-menu-item-disabled"
           data-menu-id="rc-menu-uuid-test-5"
           role="menuitem"
-          style="padding-right: 0px;"
+          style="padding-right: 24px;"
         >
           5
         </li>
@@ -467,7 +467,7 @@ HTMLCollection [
         class="rc-menu-submenu-title"
         data-menu-id="rc-menu-uuid-test-tmp_key-3"
         role="menuitem"
-        style="padding-right: 0px;"
+        style="padding-right: 24px;"
         tabindex="-1"
         title="submenu"
       >
