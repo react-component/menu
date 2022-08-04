@@ -38,6 +38,7 @@
     "lint": "eslint src/ --ext .tsx,.ts,.jsx,.js",
     "now-build": "npm run build",
     "prepublishOnly": "npm run compile && np --yolo --no-publish",
+    "postpublish": "tnpm sync rc-menu",
     "start": "dumi dev",
     "test": "father test"
   },
