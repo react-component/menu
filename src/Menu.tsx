@@ -293,7 +293,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   // Restore
   React.useEffect(() => {
     if (!mountRef.current) {
-      mountRef.current = true;
       return;
     }
 
@@ -304,6 +303,14 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       triggerOpenKeys(EMPTY_LIST);
     }
   }, [isInlineMode]);
+
+  React.useEffect(() => {
+    mountRef.current = true;
+
+    return () => {
+      mountRef.current = false;
+    };
+  }, []);
 
   // ========================= Path =========================
   const {
