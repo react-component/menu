@@ -294,15 +294,18 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   React.useEffect(() => {
     if (!mountRef.current) {
       mountRef.current = true;
-      return;
+    } else {
+      if (isInlineMode) {
+        setMergedOpenKeys(inlineCacheOpenKeys);
+      } else {
+        // Trigger open event in case its in control
+        triggerOpenKeys(EMPTY_LIST);
+      }
     }
 
-    if (isInlineMode) {
-      setMergedOpenKeys(inlineCacheOpenKeys);
-    } else {
-      // Trigger open event in case its in control
-      triggerOpenKeys(EMPTY_LIST);
-    }
+    return () => {
+      mountRef.current = false;
+    };
   }, [isInlineMode]);
 
   // ========================= Path =========================
