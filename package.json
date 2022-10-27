@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "compile": "father build && lessc assets/index.less assets/index.css",
-    "coverage": "father test --coverage",
+    "coverage": "rc-test --coverage",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d .doc",
     "lint": "eslint src/ --ext .tsx,.ts,.jsx,.js",
@@ -40,7 +40,7 @@
     "prepublishOnly": "npm run compile && np --yolo --no-publish",
     "postpublish": "tnpm sync rc-menu",
     "start": "dumi dev",
-    "test": "father test"
+    "test": "rc-test"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.1",
@@ -61,15 +61,16 @@
     "cross-env": "^7.0.0",
     "dumi": "^1.1.0",
     "eslint": "^7.0.0",
-    "father": "^2.22.0",
-    "father-build": "^1.18.6",
+    "father": "^4.0.0",
     "gh-pages": "^3.1.0",
     "less": "^3.10.3",
     "np": "^6.0.0",
+    "rc-test": "^7.0.14",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "regenerator-runtime": "^0.13.7",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.5",
+    "@rc-component/father-plugin": "^1.0.0"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
