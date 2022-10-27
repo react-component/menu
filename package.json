@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "compile": "father build && lessc assets/index.less assets/index.css",
-    "coverage": "father test --coverage",
+    "coverage": "rc-test --coverage",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d .doc",
     "lint": "eslint src/ --ext .tsx,.ts,.jsx,.js",
