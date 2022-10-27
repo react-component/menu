@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { flushSync } from 'react-dom';
 import type { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
 import shallowEqual from 'shallowequal';
@@ -272,11 +271,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   });
 
   const triggerOpenKeys = (keys: string[]) => {
-    // Prevent React18 auto batch since trigger openKeys on same time
-    // which makes mergedOpenKeys closure problem
-    flushSync(() => {
-      setMergedOpenKeys(keys);
-    });
+    setMergedOpenKeys(keys);
     onOpenChange?.(keys);
   };
 
