@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 import type { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
 import shallowEqual from 'shallowequal';
@@ -271,13 +272,18 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   });
 
   const triggerOpenKeys = (keys: string[]) => {
-    setMergedOpenKeys(keys);
+    // Prevent React18 auto batch since trigger openKeys on same time
+    // which makes mergedOpenKeys closure problem
+    flushSync(() => {
+      setMergedOpenKeys(keys);
+    });
     onOpenChange?.(keys);
   };
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
-  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
-    React.useState(mergedOpenKeys);
+  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
+    mergedOpenKeys,
+  );
 
   const isInlineMode = mergedMode === 'inline';
 
@@ -329,10 +335,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(
-    () => ({ isSubPathKey }),
-    [isSubPathKey],
-  );
+  const pathUserContext = React.useMemo(() => ({ isSubPathKey }), [
+    isSubPathKey,
+  ]);
 
   React.useEffect(() => {
     refreshOverflowKeys(
