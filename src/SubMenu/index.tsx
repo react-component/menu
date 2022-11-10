@@ -262,8 +262,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   // Cache mode if it change to `inline` which do not have popup motion
   const triggerModeRef = React.useRef(mode);
-  if (mode !== 'inline') {
-    triggerModeRef.current = connectedPath.length > 1 ? 'vertical' : mode;
+  if (mode !== 'inline' && connectedPath.length > 1) {
+    triggerModeRef.current = 'vertical';
+  } else {
+    triggerModeRef.current = mode;
   }
 
   if (!overflowDisabled) {
