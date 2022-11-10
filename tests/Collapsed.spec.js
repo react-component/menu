@@ -46,6 +46,59 @@ describe('Menu.Collapsed', () => {
       );
     });
 
+    it('should always follow submenu popup hidden when mode is switched', () => {
+      const genMenu = props => (
+        <Menu mode="vertical" {...props}>
+          <SubMenu key="1" title="submenu1">
+            <SubMenu key="1-1" title="submenu1-1">
+              <MenuItem key="Option-1">Option 1</MenuItem>
+            </SubMenu>
+          </SubMenu>
+        </Menu>
+      );
+
+      const { container, rerender } = render(genMenu());
+
+      // Hover submenu1
+      fireEvent.mouseEnter(
+        container.querySelectorAll('.rc-menu-submenu-title')[0],
+      );
+
+      act(() => {
+        jest.runAllTimers();
+      });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      // Hover submenu1-1
+      fireEvent.mouseEnter(
+        container.querySelectorAll('.rc-menu-submenu-title')[1],
+      );
+
+      act(() => {
+        jest.runAllTimers();
+      });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      rerender(genMenu({ mode: 'inline' }));
+
+      // Click submenu1
+      fireEvent.click(container.querySelectorAll('.rc-menu-submenu-title')[0]);
+      // Click submenu1-1
+      fireEvent.click(container.querySelectorAll('.rc-menu-submenu-title')[2]);
+
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(container.querySelectorAll('.rc-menu-submenu')[3]).toHaveClass(
+        'rc-menu-submenu-hidden',
+      );
+    });
+
     it('should always follow openKeys when inlineCollapsed is switched', () => {
       const genMenu = props => (
         <Menu defaultOpenKeys={['1']} mode="inline" {...props}>
