@@ -247,23 +247,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     );
   }
 
-  // ========================= Mode =========================
-  const [mergedMode, mergedInlineCollapsed] = React.useMemo<
-    [MenuMode, boolean]
-  >(() => {
-    if ((mode === 'inline' || mode === 'vertical') && inlineCollapsed) {
-      return ['vertical', inlineCollapsed];
-    }
-    return [mode, false];
-  }, [mode, inlineCollapsed]);
-
-  // ====================== Responsive ======================
-  const [lastVisibleIndex, setLastVisibleIndex] = React.useState(0);
-  const allVisible =
-    lastVisibleIndex >= childList.length - 1 ||
-    mergedMode !== 'horizontal' ||
-    disabledOverflow;
-
   // ========================= Open =========================
   const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(defaultOpenKeys, {
     value: openKeys,
@@ -279,9 +262,45 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
     React.useState(mergedOpenKeys);
 
+  const mountRef = React.useRef(false);
+
+  // ========================= Mode =========================
+  const [mergedMode, mergedInlineCollapsed] = React.useMemo<
+    [MenuMode, boolean]
+  >(() => {
+    if ((mode === 'inline' || mode === 'vertical') && inlineCollapsed) {
+      return ['vertical', inlineCollapsed];
+    }
+    return [mode, false];
+  }, [mode, inlineCollapsed]);
+
   const isInlineMode = mergedMode === 'inline';
 
-  const mountRef = React.useRef(false);
+  const [internalMode, setInternalMode] = React.useState(mergedMode);
+  const [internalInlineCollapsed, setInternalInlineCollapsed] = React.useState(mergedInlineCollapsed);
+
+  React.useEffect(() => {
+    setInternalMode(mergedMode);
+    setInternalInlineCollapsed(mergedInlineCollapsed)
+
+    if (!mountRef.current) {
+      return;
+    }
+    // Synchronously update MergedOpenKeys
+    if (isInlineMode) {
+      setMergedOpenKeys(inlineCacheOpenKeys);
+    } else {
+      // Trigger open event in case its in control
+      triggerOpenKeys(EMPTY_LIST);
+    }
+  }, [mergedMode, mergedInlineCollapsed]);
+
+  // ====================== Responsive ======================
+  const [lastVisibleIndex, setLastVisibleIndex] = React.useState(0);
+  const allVisible =
+    lastVisibleIndex >= childList.length - 1 ||
+    internalMode !== 'horizontal' ||
+    disabledOverflow;
 
   // Cache
   React.useEffect(() => {
@@ -289,20 +308,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       setInlineCacheOpenKeys(mergedOpenKeys);
     }
   }, [mergedOpenKeys]);
-
-  // Restore
-  React.useEffect(() => {
-    if (!mountRef.current) {
-      return;
-    }
-
-    if (isInlineMode) {
-      setMergedOpenKeys(inlineCacheOpenKeys);
-    } else {
-      // Trigger open event in case its in control
-      triggerOpenKeys(EMPTY_LIST);
-    }
-  }, [isInlineMode]);
 
   React.useEffect(() => {
     mountRef.current = true;
@@ -431,7 +436,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     }
 
     // Whatever selectable, always close it
-    if (!multiple && mergedOpenKeys.length && mergedMode !== 'inline') {
+    if (!multiple && mergedOpenKeys.length && internalMode !== 'inline') {
       triggerOpenKeys(EMPTY_LIST);
     }
   };
@@ -450,7 +455,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     if (open) {
       newOpenKeys.push(key);
-    } else if (mergedMode !== 'inline') {
+    } else if (internalMode !== 'inline') {
       // We need find all related popup to close
       const subPathKeys = getSubPathKeys(key);
       newOpenKeys = newOpenKeys.filter(k => !subPathKeys.has(k));
@@ -471,7 +476,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   };
 
   const onInternalKeyDown = useAccessibility(
-    mergedMode,
+    internalMode,
     mergedActiveKey,
     isRtl,
     uuid,
@@ -504,7 +509,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   // >>>>> Children
   const wrappedChildList =
-    mergedMode !== 'horizontal' || disabledOverflow
+    internalMode !== 'horizontal' || disabledOverflow
       ? childList
       : // Need wrap for overflow dropdown that do not response for open
         childList.map((child, index) => (
@@ -528,10 +533,10 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       className={classNames(
         prefixCls,
         `${prefixCls}-root`,
-        `${prefixCls}-${mergedMode}`,
+        `${prefixCls}-${internalMode}`,
         className,
         {
-          [`${prefixCls}-inline-collapsed`]: mergedInlineCollapsed,
+          [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
           [`${prefixCls}-rtl`]: isRtl,
         },
         rootClassName,
@@ -561,7 +566,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         );
       }}
       maxCount={
-        mergedMode !== 'horizontal' || disabledOverflow
+        internalMode !== 'horizontal' || disabledOverflow
           ? Overflow.INVALIDATE
           : Overflow.RESPONSIVE
       }
@@ -582,7 +587,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         <MenuContextProvider
           prefixCls={prefixCls}
           rootClassName={rootClassName}
-          mode={mergedMode}
+          mode={internalMode}
           openKeys={mergedOpenKeys}
           rtl={isRtl}
           // Disabled
