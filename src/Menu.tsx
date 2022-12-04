@@ -1,35 +1,36 @@
-import * as React from 'react';
-import type { CSSMotionProps } from 'rc-motion';
 import classNames from 'classnames';
-import shallowEqual from 'shallowequal';
+import type { CSSMotionProps } from 'rc-motion';
+import Overflow from 'rc-overflow';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import warning from 'rc-util/lib/warning';
-import Overflow from 'rc-overflow';
+import * as React from 'react';
+import { useImperativeHandle } from 'react';
+import { flushSync } from 'react-dom';
+import shallowEqual from 'shallowequal';
+import { getMenuId, IdContext } from './context/IdContext';
+import MenuContextProvider from './context/MenuContext';
+import { PathRegisterContext, PathUserContext } from './context/PathContext';
+import PrivateContext from './context/PrivateContext';
+import useAccessibility from './hooks/useAccessibility';
+import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
+import useMemoCallback from './hooks/useMemoCallback';
+import useUUID from './hooks/useUUID';
 import type {
   BuiltinPlacements,
+  ItemType,
   MenuClickEventHandler,
   MenuInfo,
   MenuMode,
-  SelectEventHandler,
-  TriggerSubMenuAction,
-  SelectInfo,
-  RenderIconType,
-  ItemType,
   MenuRef,
+  RenderIconType,
+  SelectEventHandler,
+  SelectInfo,
+  TriggerSubMenuAction,
 } from './interface';
 import MenuItem from './MenuItem';
-import { parseItems } from './utils/nodeUtil';
-import MenuContextProvider from './context/MenuContext';
-import useMemoCallback from './hooks/useMemoCallback';
-import { warnItemProp } from './utils/warnUtil';
 import SubMenu from './SubMenu';
-import useAccessibility from './hooks/useAccessibility';
-import useUUID from './hooks/useUUID';
-import { PathRegisterContext, PathUserContext } from './context/PathContext';
-import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
-import { getMenuId, IdContext } from './context/IdContext';
-import PrivateContext from './context/PrivateContext';
-import { useImperativeHandle } from 'react';
+import { parseItems } from './utils/nodeUtil';
+import { warnItemProp } from './utils/warnUtil';
 
 /**
  * Menu modify after refactor:
@@ -253,9 +254,19 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     postState: keys => keys || EMPTY_LIST,
   });
 
-  const triggerOpenKeys = (keys: string[]) => {
-    setMergedOpenKeys(keys);
-    onOpenChange?.(keys);
+  // React 18 will merge mouse event which means we open key will not sync
+  // ref: https://github.com/ant-design/ant-design/issues/38818
+  const triggerOpenKeys = (keys: string[], forceFlush = false) => {
+    function doUpdate() {
+      setMergedOpenKeys(keys);
+      onOpenChange?.(keys);
+    }
+
+    if (forceFlush) {
+      flushSync(doUpdate);
+    } else {
+      doUpdate();
+    }
   };
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
@@ -277,11 +288,13 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const isInlineMode = mergedMode === 'inline';
 
   const [internalMode, setInternalMode] = React.useState(mergedMode);
-  const [internalInlineCollapsed, setInternalInlineCollapsed] = React.useState(mergedInlineCollapsed);
+  const [internalInlineCollapsed, setInternalInlineCollapsed] = React.useState(
+    mergedInlineCollapsed,
+  );
 
   React.useEffect(() => {
     setInternalMode(mergedMode);
-    setInternalInlineCollapsed(mergedInlineCollapsed)
+    setInternalInlineCollapsed(mergedInlineCollapsed);
 
     if (!mountRef.current) {
       return;
@@ -462,7 +475,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     }
 
     if (!shallowEqual(mergedOpenKeys, newOpenKeys)) {
-      triggerOpenKeys(newOpenKeys);
+      triggerOpenKeys(newOpenKeys, true);
     }
   });
 
