@@ -53,15 +53,18 @@ HTMLCollection [
   >
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g1"
       >
         g1
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -94,15 +97,18 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g2"
       >
         g2
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -161,15 +167,18 @@ HTMLCollection [
   >
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g1"
       >
         g1
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -202,15 +211,18 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g2"
       >
         g2
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -268,15 +280,18 @@ HTMLCollection [
   >
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g1"
       >
         g1
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -312,15 +327,18 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g2"
       >
         g2
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -382,15 +400,18 @@ HTMLCollection [
   >
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g1"
       >
         g1
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -426,15 +447,18 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g2"
       >
         g2
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -567,15 +591,18 @@ HTMLCollection [
   >
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g1"
       >
         g1
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -608,15 +635,18 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g2"
       >
         g2
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -675,15 +705,18 @@ HTMLCollection [
   >
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g1"
       >
         g1
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"
@@ -716,15 +749,18 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item-group"
+      role="presentation"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="g2"
       >
         g2
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item"

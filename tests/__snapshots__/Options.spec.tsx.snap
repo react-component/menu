@@ -35,15 +35,18 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item-group"
+          role="presentation"
         >
           <div
             class="rc-menu-item-group-title"
+            role="presentation"
             title="Menu Group"
           >
             Menu Group
           </div>
           <ul
             class="rc-menu-item-group-list"
+            role="group"
           >
             <li
               class="rc-menu-item"

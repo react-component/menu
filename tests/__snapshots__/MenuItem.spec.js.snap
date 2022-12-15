@@ -107,16 +107,19 @@ HTMLCollection [
     <li
       class="rc-menu-item-group className"
       data-whatever="whatever"
+      role="presentation"
       style="font-size: 20px;"
     >
       <div
         class="rc-menu-item-group-title"
+        role="presentation"
         title="title"
       >
         title
       </div>
       <ul
         class="rc-menu-item-group-list"
+        role="group"
       >
         <li
           class="rc-menu-item className"

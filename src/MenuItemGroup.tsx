@@ -32,17 +32,22 @@ const InternalMenuItemGroup = ({
 
   return (
     <li
+      role="presentation"
       {...restProps}
       onClick={e => e.stopPropagation()}
       className={classNames(groupPrefixCls, className)}
     >
       <div
+        role="presentation"
         className={`${groupPrefixCls}-title`}
         title={typeof title === 'string' ? title : undefined}
       >
         {title}
       </div>
-      <ul className={`${groupPrefixCls}-list`}>{children}</ul>
+      <ul
+        role="group"
+        className={`${groupPrefixCls}-list`}
+      >{children}</ul>
     </li>
   );
 };
