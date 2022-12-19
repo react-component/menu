@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
 import useMemo from 'rc-util/lib/hooks/useMemo';
-import shallowEqual from 'shallowequal';
+import isEqual from 'rc-util/lib/isEqual';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
@@ -90,7 +90,7 @@ export default function InheritableContextProvider({
     () => mergeProps(context, restProps),
     [context, restProps],
     (prev, next) =>
-      !locked && (prev[0] !== next[0] || !shallowEqual(prev[1], next[1])),
+      !locked && (prev[0] !== next[0] || !isEqual(prev[1], next[1], true)),
   );
 
   return (
