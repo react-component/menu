@@ -90,6 +90,7 @@ HTMLCollection [
             class="rc-menu rc-menu-sub rc-menu-vertical"
             data-menu-list="true"
             id="rc-menu-uuid-test-1-popup"
+            role="menu"
           >
             <li
               aria-selected="false"

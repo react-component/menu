@@ -25,6 +25,7 @@ const InternalSubMenuList = (
       {...restProps}
       data-menu-list
       ref={ref}
+      role="menu"
     >
       {children}
     </ul>

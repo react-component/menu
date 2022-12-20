@@ -32,6 +32,7 @@ HTMLCollection [
         class="rc-menu rc-menu-sub rc-menu-inline"
         data-menu-list="true"
         id="rc-menu-uuid-test-sub1-popup"
+        role="menu"
       >
         <li
           class="rc-menu-item-group"
