@@ -22,6 +22,7 @@ const InternalSubMenuList = (
         `${prefixCls}-${mode === 'inline' ? 'inline' : 'vertical'}`,
         className,
       )}
+      role="menu"
       {...restProps}
       data-menu-list
       ref={ref}

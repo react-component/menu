@@ -1,10 +1,10 @@
-import * as React from 'react';
 import classNames from 'classnames';
 import omit from 'rc-util/lib/omit';
-import { parseChildren } from './utils/nodeUtil';
+import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
+import { parseChildren } from './utils/nodeUtil';
 
 export interface MenuItemGroupProps
   extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
@@ -32,17 +32,21 @@ const InternalMenuItemGroup = ({
 
   return (
     <li
+      role="presentation"
       {...restProps}
       onClick={e => e.stopPropagation()}
       className={classNames(groupPrefixCls, className)}
     >
       <div
+        role="presentation"
         className={`${groupPrefixCls}-title`}
         title={typeof title === 'string' ? title : undefined}
       >
         {title}
       </div>
-      <ul className={`${groupPrefixCls}-list`}>{children}</ul>
+      <ul role="group" className={`${groupPrefixCls}-list`}>
+        {children}
+      </ul>
     </li>
   );
 };
@@ -59,7 +63,7 @@ export default function MenuItemGroup({
 
   const measure = useMeasure();
   if (measure) {
-    return childList as any as React.ReactElement;
+    return (childList as any) as React.ReactElement;
   }
 
   return (

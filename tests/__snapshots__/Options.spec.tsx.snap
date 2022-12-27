@@ -32,18 +32,22 @@ HTMLCollection [
         class="rc-menu rc-menu-sub rc-menu-inline"
         data-menu-list="true"
         id="rc-menu-uuid-test-sub1-popup"
+        role="menu"
       >
         <li
           class="rc-menu-item-group"
+          role="presentation"
         >
           <div
             class="rc-menu-item-group-title"
+            role="presentation"
             title="Menu Group"
           >
             Menu Group
           </div>
           <ul
             class="rc-menu-item-group-list"
+            role="group"
           >
             <li
               class="rc-menu-item"
