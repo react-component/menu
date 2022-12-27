@@ -6,7 +6,7 @@ import warning from 'rc-util/lib/warning';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
-import shallowEqual from 'shallowequal';
+import isEqual from 'rc-util/lib/isEqual';
 import { getMenuId, IdContext } from './context/IdContext';
 import MenuContextProvider from './context/MenuContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
@@ -474,7 +474,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       newOpenKeys = newOpenKeys.filter(k => !subPathKeys.has(k));
     }
 
-    if (!shallowEqual(mergedOpenKeys, newOpenKeys)) {
+    if (!isEqual(mergedOpenKeys, newOpenKeys, true)) {
       triggerOpenKeys(newOpenKeys, true);
     }
   });
