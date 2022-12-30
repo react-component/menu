@@ -574,6 +574,22 @@ describe('Menu', () => {
       rerender(genMenu({ mode: 'vertical' }));
       expect(global.triggerProps.popupMotion.motionName).toEqual('bambooLight');
     });
+
+    it('inline does not affect vertical motion', () => {
+      const genMenu = props => (
+        <Menu defaultMotions={defaultMotions} {...props}>
+          <SubMenu key="bamboo">
+            <MenuItem key="light" />
+          </SubMenu>
+        </Menu>
+      );
+
+      const { rerender } = render(genMenu({ mode: 'vertical' }));
+      rerender(genMenu({ mode: 'inline' }));
+      expect(global.triggerProps.popupMotion.motionName).toEqual(
+        'defaultMotion',
+      );
+    });
   });
 
   it('onMouseEnter should work', () => {
