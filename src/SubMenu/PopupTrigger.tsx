@@ -62,9 +62,18 @@ export default function PopupTrigger({
   const popupPlacement = popupPlacementMap[mode];
 
   const targetMotion = getMotion(mode, motion, defaultMotions);
+  const targetMotionRef = React.useRef(targetMotion);
+
+  if (mode !== 'inline') {
+    /**
+     * PopupTrigger is only used for vertical and horizontal types.
+     * When collapsed is unfolded, the inline animation will destroy the vertical animation.
+     */
+    targetMotionRef.current = targetMotion;
+  }
 
   const mergedMotion: CSSMotionProps = {
-    ...targetMotion,
+    ...targetMotionRef.current,
     leavedClassName: `${prefixCls}-hidden`,
     removeOnLeave: false,
     motionAppear: true,
