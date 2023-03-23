@@ -38,8 +38,12 @@ export interface MenuItemProps
 class LegacyMenuItem extends React.Component<any> {
   render() {
     const { title, attribute, elementRef, ...restProps } = this.props;
-
-    const passedProps = omit(restProps, ['eventKey']);
+    
+    // Here the props are eventually passed to the DOM element.
+    // React does not recognize non-standard attributes.
+    // Therefore, remove the props that is not used here.
+    // ref: https://github.com/ant-design/ant-design/issues/41395
+    const passedProps = omit(restProps, ['eventKey', 'popupClassName', 'popupOffset', 'onTitleClick']);
     warning(
       !attribute,
       '`attribute` of Menu.Item is deprecated. Please pass attribute directly.',
