@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Trigger from 'rc-trigger';
+import Trigger from '@rc-component/trigger';
 import classNames from 'classnames';
 import raf from 'rc-util/lib/raf';
 import type { CSSMotionProps } from 'rc-motion';
