@@ -1,28 +1,29 @@
 /* eslint-disable no-undef */
 import { act, fireEvent, render } from '@testing-library/react';
 import { resetWarned } from 'rc-util/lib/warning';
+import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { isActive, last } from './util';
 
 jest.mock('rc-trigger', () => {
-  const React = require('react');
+  const react  = require('react');
   let Trigger = jest.requireActual('rc-trigger/lib/mock');
   Trigger = Trigger.default || Trigger;
 
-  return React.forwardRef((props, ref) => {
+  return react.forwardRef((props, ref) => {
     global.triggerProps = props;
-    return React.createElement(Trigger, { ref, ...props });
+    return react.createElement(Trigger, { ref, ...props });
   });
 });
 
 jest.mock('../src/SubMenu/PopupTrigger', () => {
-  const React = require('react');
+  const react  = require('react');
   let PopupTrigger = jest.requireActual('../src/SubMenu/PopupTrigger');
   PopupTrigger = PopupTrigger.default || PopupTrigger;
 
-  return React.forwardRef((props, ref) => {
+  return react.forwardRef((props, ref) => {
     global.popupTriggerProps = props;
-    return React.createElement(PopupTrigger, { ref, ...props });
+    return react.createElement(PopupTrigger, { ref, ...props });
   });
 });
 
@@ -45,7 +46,7 @@ describe('SubMenu', () => {
     jest.useRealTimers();
   });
 
-  function createMenu(props) {
+  function createMenu(props?) {
     return (
       <Menu {...props}>
         <SubMenu key="s1" title="submenu1">
@@ -378,7 +379,7 @@ describe('SubMenu', () => {
       </Menu>
     );
 
-    const { container } = render(<App show />);
+    const { container } = render(<App />);
     expect(container.querySelector('.rc-menu')).toHaveStyle({
       backgroundColor: 'black',
     });
