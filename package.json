@@ -47,6 +47,7 @@
     "classnames": "2.x",
     "rc-motion": "^2.4.3",
     "rc-overflow": "^1.2.8",
+    "rc-trigger": "^5.1.2",
     "rc-util": "^5.27.0"
   },
   "devDependencies": {
