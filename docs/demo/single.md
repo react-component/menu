@@ -1,3 +1,3 @@
 ## single
 
-<code src="../examples/single.tsx">
+<code src="../examples/single.tsx"></code>

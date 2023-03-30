@@ -1,3 +1,3 @@
 ## scrollable
 
-<code src="../examples/scrollable.tsx">
+<code src="../examples/scrollable.tsx"></code>
