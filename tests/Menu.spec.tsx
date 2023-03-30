@@ -281,11 +281,11 @@ describe('Menu', () => {
     expect(container.querySelector('li').className).toContain('-selected');
   });
 
-  it('issue https://github.com/ant-design/ant-design/issues/29429', () => {
+  it('should support legacy string type selectedKeys', () => {
     // don't use selectedKeys as string
     // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
     const { container } = render(
-      <Menu selectedKeys={['item_abc']}>
+      <Menu selectedKeys={'item_abc' as unknown as string[]}>
         <MenuItem key="item_a">1</MenuItem>
         <MenuItem key="item_abc">2</MenuItem>
       </Menu>,
