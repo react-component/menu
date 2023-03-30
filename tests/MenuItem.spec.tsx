@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import { fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
+import React from 'react';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 
 describe('MenuItem', () => {
@@ -52,8 +53,8 @@ describe('MenuItem', () => {
   it('not fires select event when disabled', () => {
     const handleSelect = jest.fn();
     const { container } = render(
-      <Menu>
-        <MenuItem disabled onSelect={handleSelect}>
+      <Menu onSelect={handleSelect}>
+        <MenuItem disabled>
           <span className="xx">Item content</span>
         </MenuItem>
       </Menu>,

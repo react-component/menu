@@ -1,5 +1,6 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence */
 import { act, fireEvent, render } from '@testing-library/react';
+import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('Menu.Collapsed', () => {
@@ -13,7 +14,7 @@ describe('Menu.Collapsed', () => {
     });
 
     it('should always follow openKeys when mode is switched', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu openKeys={['1']} mode="inline" {...props}>
           <SubMenu key="1" title="submenu1">
             <MenuItem key="submenu1">Option 1</MenuItem>
@@ -47,7 +48,7 @@ describe('Menu.Collapsed', () => {
     });
 
     it('should always follow submenu popup hidden when mode is switched', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu mode="vertical" {...props}>
           <SubMenu key="1" title="submenu1">
             <SubMenu key="1-1" title="submenu1-1">
@@ -100,7 +101,7 @@ describe('Menu.Collapsed', () => {
     });
 
     it('should always follow openKeys when inlineCollapsed is switched', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu defaultOpenKeys={['1']} mode="inline" {...props}>
           <MenuItem key="menu1">
             <span>Option</span>
@@ -153,7 +154,7 @@ describe('Menu.Collapsed', () => {
     });
 
     it('inlineCollapsed should works well when specify a not existed default openKeys', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu defaultOpenKeys={['not-existed']} mode="inline" {...props}>
           <MenuItem key="menu1">
             <span>Option</span>
@@ -220,7 +221,7 @@ describe('Menu.Collapsed', () => {
           defaultOpenKeys={['not-existed']}
           mode="inline"
           inlineCollapsed
-          getPopupContainer={node => node.parentNode}
+          getPopupContainer={node => node.parentNode as HTMLElement}
         >
           <MenuItem key="menu1">item</MenuItem>
           <MenuItem key="menu2" title="title">
@@ -235,7 +236,7 @@ describe('Menu.Collapsed', () => {
           <MenuItem key="menu5" title="">
             item
           </MenuItem>
-          <MenuItem key="menu6" title={false}>
+          <MenuItem key="menu6" title={false as unknown as string}>
             item
           </MenuItem>
         </Menu>,
@@ -243,7 +244,7 @@ describe('Menu.Collapsed', () => {
 
       expect(
         Array.from(container.querySelectorAll('.rc-menu-item')).map(
-          node => node.title,
+          (node: HTMLElement) => node.title,
         ),
       ).toEqual(['', 'title', '', '', '', '']);
     });
@@ -251,7 +252,7 @@ describe('Menu.Collapsed', () => {
     // https://github.com/ant-design/ant-design/issues/18825
     // https://github.com/ant-design/ant-design/issues/8587
     it('should keep selectedKeys in state when collapsed to 0px', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu
           mode="inline"
           inlineCollapsed={false}
@@ -297,7 +298,7 @@ describe('Menu.Collapsed', () => {
     });
 
     it('should hideMenu in initial state when collapsed', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu
           mode="inline"
           inlineCollapsed
