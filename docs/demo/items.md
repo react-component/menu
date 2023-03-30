@@ -1,3 +1,3 @@
 ## items
 
-<code src="../examples/items.tsx">
+<code src="../examples/items.tsx"></code>

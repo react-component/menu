@@ -1,3 +1,3 @@
 ## custom-icon
 
-<code src="../examples/custom-icon.tsx">
+<code src="../examples/custom-icon.tsx"></code>

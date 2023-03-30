@@ -32,7 +32,7 @@ package-lock.json
 .vscode
 
 # umi
-.umi
-.umi-production
-.umi-test
-.env.local 
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production
+.env.local

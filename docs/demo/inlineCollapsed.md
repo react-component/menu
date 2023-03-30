@@ -1,3 +1,3 @@
 ## inlineCollapsed
 
-<code src="../examples/inlineCollapsed.tsx">
+<code src="../examples/inlineCollapsed.tsx"></code>

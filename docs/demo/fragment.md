@@ -1,3 +1,3 @@
 ## fragment
 
-<code src="../examples/fragment.tsx">
+<code src="../examples/fragment.tsx"></code>

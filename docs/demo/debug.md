@@ -1,3 +1,3 @@
 ## debug
 
-<code src="../examples/debug.tsx">
+<code src="../examples/debug.tsx"></code>
