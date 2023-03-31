@@ -5,7 +5,7 @@ import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { isActive, last } from './util';
 
-jest.mock('rc-trigger', () => {
+jest.mock('@rc-component/trigger', () => {
   const react  = require('react');
   let Trigger = jest.requireActual('rc-trigger/lib/mock');
   Trigger = Trigger.default || Trigger;
