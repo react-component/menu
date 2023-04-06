@@ -1,20 +1,22 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import { fireEvent, render } from '@testing-library/react';
+import ResizeObserver from 'rc-resize-observer';
 import KeyCode from 'rc-util/lib/KeyCode';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
 import { last } from './util';
 
 jest.mock('rc-resize-observer', () => {
-  const React = require('react');
-  let ResizeObserver = jest.requireActual('rc-resize-observer');
-  ResizeObserver = ResizeObserver.default || ResizeObserver;
+  const R = require('react');
+  let RO = jest.requireActual('rc-resize-observer');
+  RO = RO.default || RO;
 
   let guid = 0;
 
-  return React.forwardRef((props, ref) => {
-    const [id] = React.useState(() => {
+  return R.forwardRef((props, ref) => {
+    const [id] = R.useState(() => {
       guid += 1;
       return guid;
     });
@@ -22,7 +24,7 @@ jest.mock('rc-resize-observer', () => {
     global.resizeProps = global.resizeProps || new Map<number, any>();
     global.resizeProps.set(id, props);
 
-    return React.createElement(ResizeObserver, { ref, ...props });
+    return R.createElement(RO, { ref, ...props });
   });
 });
 
@@ -39,6 +41,37 @@ describe('Menu.Responsive', () => {
   function getResizeProps(): any[] {
     return Array.from(global.resizeProps!.values());
   }
+
+  // MenuItem should support `ref` since HOC may use this
+  // https://github.com/ant-design/ant-design/issues/41570
+  it('StrictMode warning', async () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const MyItem = (props: any) => {
+      const domRef = React.useRef();
+
+      return (
+        <ResizeObserver onResize={() => {}} ref={domRef}>
+          <Menu.Item {...props} />
+        </ResizeObserver>
+      );
+    };
+
+    render(
+      <React.StrictMode>
+        <Menu mode="horizontal">
+          <MyItem key="1">Good</MyItem>
+        </Menu>
+      </React.StrictMode>,
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
 
   it('ssr render full', () => {
     const { container } = render(
