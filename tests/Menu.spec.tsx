@@ -9,9 +9,9 @@ import Menu, { Divider, MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { isActive, last } from './util';
 import type { MenuMode } from '@/interface';
 
-jest.mock('rc-trigger', () => {
+jest.mock('@rc-component/trigger', () => {
   const react = require('react');
-  let Trigger = jest.requireActual('rc-trigger/lib/mock');
+  let Trigger = jest.requireActual('@rc-component/trigger/lib/mock');
   Trigger = Trigger.default || Trigger;
 
   return react.forwardRef((props, ref) => {
