@@ -7,7 +7,7 @@ import { isActive, last } from './util';
 
 jest.mock('@rc-component/trigger', () => {
   const react  = require('react');
-  let Trigger = jest.requireActual('rc-trigger/lib/mock');
+  let Trigger = jest.requireActual('@rc-component/trigger/lib/mock');
   Trigger = Trigger.default || Trigger;
 
   return react.forwardRef((props, ref) => {
