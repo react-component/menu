@@ -203,7 +203,7 @@ function Demo() {
   );
 
   const verticalMenu = (
-    <CommonMenu mode="vertical" defaultMotions={motionMap} getPopupContainer={(node) => node.parentElement} />
+    <CommonMenu mode="vertical" defaultMotions={motionMap} />
   );
 
   const inlineMenu = (
