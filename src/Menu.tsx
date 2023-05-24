@@ -479,8 +479,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     }
   });
 
-  const getInternalPopupContainer = useMemoCallback(getPopupContainer);
-
   // ==================== Accessibility =====================
   const triggerAccessibilityOpen = (key: string, open?: boolean) => {
     const nextOpen = open ?? !mergedOpenKeys.includes(key);
@@ -622,7 +620,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           forceSubMenuRender={forceSubMenuRender}
           builtinPlacements={builtinPlacements}
           triggerSubMenuAction={triggerSubMenuAction}
-          getPopupContainer={getInternalPopupContainer}
+          getPopupContainer={getPopupContainer}
           // Icon
           itemIcon={itemIcon}
           expandIcon={expandIcon}
