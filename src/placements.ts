@@ -7,46 +7,35 @@ export const placements = {
   topLeft: {
     points: ['bl', 'tl'],
     overflow: autoAdjustOverflow,
-    offset: [0, -7],
+  },
+  topRight: {
+    points: ['br', 'tr'],
+    overflow: autoAdjustOverflow,
   },
   bottomLeft: {
     points: ['tl', 'bl'],
     overflow: autoAdjustOverflow,
-    offset: [0, 7],
+  },
+  bottomRight: {
+    points: ['tr', 'br'],
+    overflow: autoAdjustOverflow,
   },
   leftTop: {
     points: ['tr', 'tl'],
     overflow: autoAdjustOverflow,
-    offset: [-4, 0],
+  },
+  leftBottom: {
+    points: ['br', 'bl'],
+    overflow: autoAdjustOverflow,
   },
   rightTop: {
     points: ['tl', 'tr'],
     overflow: autoAdjustOverflow,
-    offset: [4, 0],
   },
-};
-
-export const placementsRtl = {
-  topLeft: {
-    points: ['bl', 'tl'],
+  rightBottom: {
+    points: ['bl', 'br'],
     overflow: autoAdjustOverflow,
-    offset: [0, -7],
-  },
-  bottomLeft: {
-    points: ['tl', 'bl'],
-    overflow: autoAdjustOverflow,
-    offset: [0, 7],
-  },
-  rightTop: {
-    points: ['tr', 'tl'],
-    overflow: autoAdjustOverflow,
-    offset: [-4, 0],
-  },
-  leftTop: {
-    points: ['tl', 'tr'],
-    overflow: autoAdjustOverflow,
-    offset: [4, 0],
-  },
+  }
 };
 
 export default placements;
