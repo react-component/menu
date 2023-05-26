@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import raf from 'rc-util/lib/raf';
 import type { CSSMotionProps } from 'rc-motion';
 import { MenuContext } from '../context/MenuContext';
-import { placements } from '../placements';
+import { placements, placementsRtl } from '../placements';
 import type { MenuMode } from '../interface';
 import { getMotion } from '../utils/motionUtil';
 
@@ -55,7 +55,9 @@ export default function PopupTrigger({
 
   const [innerVisible, setInnerVisible] = React.useState(false);
 
-  const placement =  { ...placements, ...builtinPlacements };
+  const placement = rtl
+    ? { ...placementsRtl, ...builtinPlacements }
+    : { ...placements, ...builtinPlacements };
 
   const popupPlacement = popupPlacementMap[mode];
 
