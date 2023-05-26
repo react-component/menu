@@ -38,4 +38,39 @@ export const placements = {
   }
 };
 
+export const placementsRtl = {
+  topLeft: {
+    points: ['bl', 'tl'],
+    overflow: autoAdjustOverflow,
+  },
+  topRight: {
+    points: ['br', 'tr'],
+    overflow: autoAdjustOverflow,
+  },
+  bottomLeft: {
+    points: ['tl', 'bl'],
+    overflow: autoAdjustOverflow,
+  },
+  bottomRight: {
+    points: ['tr', 'br'],
+    overflow: autoAdjustOverflow,
+  },
+  rightTop: {
+    points: ['tr', 'tl'],
+    overflow: autoAdjustOverflow,
+  },
+  rightBottom: {
+    points: ['br', 'bl'],
+    overflow: autoAdjustOverflow,
+  },
+  leftTop: {
+    points: ['tl', 'tr'],
+    overflow: autoAdjustOverflow,
+  },
+  leftBottom: {
+    points: ['bl', 'br'],
+    overflow: autoAdjustOverflow,
+  }
+};
+
 export default placements;
