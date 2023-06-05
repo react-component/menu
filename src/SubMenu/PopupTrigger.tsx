@@ -43,7 +43,6 @@ export default function PopupTrigger({
     rtl,
     subMenuOpenDelay,
     subMenuCloseDelay,
-    subMenuStyle,
     builtinPlacements,
     triggerSubMenuAction,
     forceSubMenuRender,
@@ -109,7 +108,6 @@ export default function PopupTrigger({
       popupPlacement={popupPlacement}
       popupVisible={innerVisible}
       popup={popup}
-      popupStyle={subMenuStyle}
       popupAlign={popupOffset && { offset: popupOffset }}
       action={disabled ? [] : [triggerSubMenuAction]}
       mouseEnterDelay={subMenuOpenDelay}
