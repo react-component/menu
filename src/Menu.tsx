@@ -100,6 +100,7 @@ export interface MenuProps
   // Popup
   subMenuOpenDelay?: number;
   subMenuCloseDelay?: number;
+  subMenuStyle?: React.CSSProperties;
   forceSubMenuRender?: boolean;
   triggerSubMenuAction?: TriggerSubMenuAction;
   builtinPlacements?: BuiltinPlacements;
@@ -175,6 +176,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     // Open
     subMenuOpenDelay = 0.1,
     subMenuCloseDelay = 0.1,
+    subMenuStyle,
     forceSubMenuRender,
     defaultOpenKeys,
     openKeys,
@@ -617,6 +619,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           // Popup
           subMenuOpenDelay={subMenuOpenDelay}
           subMenuCloseDelay={subMenuCloseDelay}
+          subMenuStyle={subMenuStyle}
           forceSubMenuRender={forceSubMenuRender}
           builtinPlacements={builtinPlacements}
           triggerSubMenuAction={triggerSubMenuAction}
