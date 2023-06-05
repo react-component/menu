@@ -188,9 +188,9 @@ ReactDOM.render(
         </tr>
         <tr>
             <td>subMenuStyle</td>
-            <td>Object</td>
+            <td>React.CSSProperties</td>
             <th></th>
-            <td>the style of sub menu. unit: s</td>
+            <td>the style of sub menu.</td>
         </tr>
         <tr>
             <td>forceSubMenuRender</td>
