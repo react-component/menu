@@ -62,6 +62,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     // Popup
     popupClassName,
     popupOffset,
+    popupStyle,
 
     // Events
     onClick,
@@ -280,6 +281,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         visible={!internalPopupClose && open && mode !== 'inline'}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
+        popupStyle={popupStyle}
         popup={
           <MenuContextProvider
             // Special handle of horizontal mode

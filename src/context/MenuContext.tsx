@@ -42,7 +42,6 @@ export interface MenuContextProps {
   // Popup
   subMenuOpenDelay: number;
   subMenuCloseDelay: number;
-  subMenuStyle?: React.CSSProperties;
   forceSubMenuRender?: boolean;
   builtinPlacements?: BuiltinPlacements;
   triggerSubMenuAction?: TriggerSubMenuAction;

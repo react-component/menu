@@ -187,12 +187,6 @@ ReactDOM.render(
             <td>delay time to hide popup sub menu. unit: s</td>
         </tr>
         <tr>
-            <td>subMenuStyle</td>
-            <td>React.CSSProperties</td>
-            <th></th>
-            <td>the style of sub menu.</td>
-        </tr>
-        <tr>
             <td>forceSubMenuRender</td>
             <td>Boolean</td>
             <th>false</th>
