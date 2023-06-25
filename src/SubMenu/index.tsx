@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import SubMenuList from './SubMenuList';
-import { parseChildren } from '../utils/nodeUtil';
+import { parseChildren } from '../utils/commonUtil';
 import type { MenuInfo, SubMenuType } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';

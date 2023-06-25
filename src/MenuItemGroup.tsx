@@ -4,7 +4,7 @@ import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
-import { parseChildren } from './utils/nodeUtil';
+import { parseChildren } from './utils/commonUtil';
 
 export interface MenuItemGroupProps
   extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
