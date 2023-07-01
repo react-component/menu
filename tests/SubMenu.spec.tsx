@@ -6,7 +6,7 @@ import Menu, { MenuItem, SubMenu } from '../src';
 import { isActive, last } from './util';
 
 jest.mock('@rc-component/trigger', () => {
-  const react  = require('react');
+  const react = require('react');
   let Trigger = jest.requireActual('@rc-component/trigger/lib/mock');
   Trigger = Trigger.default || Trigger;
 
@@ -17,7 +17,7 @@ jest.mock('@rc-component/trigger', () => {
 });
 
 jest.mock('../src/SubMenu/PopupTrigger', () => {
-  const react  = require('react');
+  const react = require('react');
   let PopupTrigger = jest.requireActual('../src/SubMenu/PopupTrigger');
   PopupTrigger = PopupTrigger.default || PopupTrigger;
 
@@ -479,6 +479,25 @@ describe('SubMenu', () => {
     );
 
     expect(container.children).toMatchSnapshot();
+  });
+
+  it('submenu should support popupStyle', () => {
+    const { container } = render(
+      <Menu>
+        <SubMenu
+          key="s1"
+          title="submenu1"
+          popupStyle={{ zIndex: 100, width: 150 }}
+        >
+          <MenuItem key="s1-1">1</MenuItem>
+        </SubMenu>
+      </Menu>,
+    );
+
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
+    runAllTimer();
+    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.zIndex).toEqual('100');
+    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.width).toEqual('150px');
   });
 });
 /* eslint-enable */
