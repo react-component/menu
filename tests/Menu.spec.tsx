@@ -740,11 +740,11 @@ describe('Menu', () => {
         <MenuItem key="cat">Cat</MenuItem>
       </Menu>,
     );
-    // Get the separator element
-    const separator = container.querySelector('[role="separator"]');
+   // Get the divider element with the rc-menu-item-divider class
+   const divider = container.querySelector('.rc-menu-item-divider');
 
-    // Assert that the separator element with role="separator" exists
-    expect(separator).toBeInTheDocument();
+   // Assert that the divider element with rc-menu-item-divider class has role="separator"
+   expect(divider).toHaveAttribute('role', 'separator');
   });
 });
 /* eslint-enable */
