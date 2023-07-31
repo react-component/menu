@@ -730,5 +730,20 @@ describe('Menu', () => {
 
     expect(document.activeElement).toBe(last(container.querySelectorAll('li')));
   });
+  it('should render a divider with role="separator"', () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = render(
+      <Menu ref={menuRef} activeKey="cat">
+        <MenuItem key="light">Light</MenuItem>
+        <Divider />
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>,
+    );
+    // Get the separator element
+    const separator = container.querySelector('[role="separator"]');
+
+    // Assert that the separator element with role="separator" exists
+    expect(separator).toBeInTheDocument();
+  });
 });
 /* eslint-enable */
