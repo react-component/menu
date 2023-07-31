@@ -730,5 +730,21 @@ describe('Menu', () => {
 
     expect(document.activeElement).toBe(last(container.querySelectorAll('li')));
   });
+
+  it('should render a divider with role="separator"', () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = render(
+      <Menu ref={menuRef} activeKey="cat">
+        <MenuItem key="light">Light</MenuItem>
+        <Divider />
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>,
+    );
+   // Get the divider element with the rc-menu-item-divider class
+   const divider = container.querySelector('.rc-menu-item-divider');
+
+   // Assert that the divider element with rc-menu-item-divider class has role="separator"
+   expect(divider).toHaveAttribute('role', 'separator');
+  });
 });
 /* eslint-enable */
