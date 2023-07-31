@@ -730,6 +730,7 @@ describe('Menu', () => {
 
     expect(document.activeElement).toBe(last(container.querySelectorAll('li')));
   });
+
   it('should render a divider with role="separator"', () => {
     const menuRef = React.createRef<MenuRef>();
     const { container } = render(
