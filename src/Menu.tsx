@@ -386,7 +386,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       if (shouldFocusKey) {
         containerRef.current
           ?.querySelector<HTMLLIElement>(
-            `li[data-menu-id='${getMenuId(uuid, shouldFocusKey as string)}']`,
+            `[data-menu-id='${getMenuId(uuid, shouldFocusKey as string)}']`,
           )
           ?.focus?.(options);
       }

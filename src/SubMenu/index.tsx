@@ -137,12 +137,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     onTitleMouseLeave,
   );
 
-  React.useEffect(() => {
-    if (elementRef.current && activeKey === eventKey) {
-      elementRef.current.focus();
-    }
-  });
-
   // Fallback of active check to avoid hover on menu title or disabled item
   const [childrenActive, setChildrenActive] = React.useState(false);
 
