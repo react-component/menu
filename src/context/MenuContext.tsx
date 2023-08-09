@@ -1,7 +1,7 @@
-import * as React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
+import * as React from 'react';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
@@ -52,6 +52,7 @@ export interface MenuContextProps {
 
   // Function
   onItemClick: MenuClickEventHandler;
+  onKeyDown?: React.KeyboardEventHandler<HTMLUListElement>;
   onOpenChange: (key: string, open: boolean) => void;
   getPopupContainer: (node: HTMLElement) => HTMLElement;
 }

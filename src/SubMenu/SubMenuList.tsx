@@ -1,5 +1,5 @@
-import * as React from 'react';
 import classNames from 'classnames';
+import * as React from 'react';
 import { MenuContext } from '../context/MenuContext';
 
 export interface SubMenuListProps
@@ -11,7 +11,7 @@ const InternalSubMenuList = (
   { className, children, ...restProps }: SubMenuListProps,
   ref: React.Ref<HTMLUListElement>,
 ) => {
-  const { prefixCls, mode, rtl } = React.useContext(MenuContext);
+  const { prefixCls, mode, rtl, onKeyDown } = React.useContext(MenuContext);
 
   return (
     <ul
@@ -26,6 +26,7 @@ const InternalSubMenuList = (
       {...restProps}
       data-menu-list
       ref={ref}
+      onKeyDown={onKeyDown}
     >
       {children}
     </ul>
