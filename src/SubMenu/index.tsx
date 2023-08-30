@@ -123,8 +123,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const mergedExpandIcon = expandIcon ?? contextExpandIcon;
   const expandable = mergedExpandIcon !== null && mergedExpandIcon !== false;
 
-  console.log(expandIcon, contextExpandIcon, expandable, mergedExpandIcon);
-
   // ================================ Open ================================
   const originOpen = openKeys.includes(eventKey);
   const open = !overflowDisabled && originOpen;
