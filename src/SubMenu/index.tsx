@@ -119,8 +119,11 @@ const InternalSubMenu = (props: SubMenuProps) => {
   }
 
   // ================================ Icon ================================
-  const mergedItemIcon = itemIcon || contextItemIcon;
-  const mergedExpandIcon = expandIcon || contextExpandIcon;
+  const mergedItemIcon = itemIcon ?? contextItemIcon;
+  const mergedExpandIcon = expandIcon ?? contextExpandIcon;
+  const expandable = mergedExpandIcon !== null && mergedExpandIcon !== false;
+
+  console.log(expandIcon, contextExpandIcon, expandable, mergedExpandIcon);
 
   // ================================ Open ================================
   const originOpen = openKeys.includes(eventKey);
@@ -247,17 +250,20 @@ const InternalSubMenu = (props: SubMenuProps) => {
       {title}
 
       {/* Only non-horizontal mode shows the icon */}
-      <Icon
-        icon={mode !== 'horizontal' ? mergedExpandIcon : null}
-        props={{
-          ...props,
-          isOpen: open,
-          // [Legacy] Not sure why need this mark
-          isSubMenu: true,
-        }}
-      >
-        <i className={`${subMenuPrefixCls}-arrow`} />
-      </Icon>
+      {expandable && (
+        <Icon
+          icon={mode !== 'horizontal' ? mergedExpandIcon : null}
+          props={{
+            ...props,
+            isOpen: open,
+            // [Legacy] Not sure why need this mark
+            isSubMenu: true,
+          }}
+        >
+          <i className={`${subMenuPrefixCls}-arrow`} />
+        </Icon>
+      )}
+
     </div>
   );
 
