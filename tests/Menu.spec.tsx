@@ -766,7 +766,8 @@ describe('Menu', () => {
         </SubMenu>,
         <MenuItem key="cat">Cat</MenuItem>
       </Menu>
-    )
+    );
+    
     const { container, rerender } = render(
       <App expand={null} subExpand={undefined} />,
     );
