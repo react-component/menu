@@ -11,6 +11,10 @@ export interface IconProps {
 export default function Icon({ icon, props, children }: IconProps) {
   let iconNode: React.ReactElement;
 
+  if (icon === null || icon === false) {
+    return null;
+  }
+
   if (typeof icon === 'function') {
     iconNode = React.createElement(icon as any, {
       ...props,
