@@ -18,6 +18,7 @@ export interface MenuContextProps {
 
   // Mode
   mode: MenuMode;
+  inlineCollapsed?: boolean;
 
   // Disabled
   disabled?: boolean;

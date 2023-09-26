@@ -599,6 +599,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           prefixCls={prefixCls}
           rootClassName={rootClassName}
           mode={internalMode}
+          inlineCollapsed={internalInlineCollapsed}
           openKeys={mergedOpenKeys}
           rtl={isRtl}
           // Disabled
