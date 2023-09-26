@@ -75,10 +75,10 @@ export default function PopupTrigger({
   }
 
   const mergedMotion: CSSMotionProps = {
-    ...targetMotionRef.current,
-    leavedClassName: `${prefixCls}-hidden`,
-    removeOnLeave: false,
-    motionAppear: true,
+      ...targetMotionRef.current,
+      leavedClassName: `${prefixCls}-hidden`,
+      removeOnLeave: false,
+      motionAppear: true,
   };
 
   // Delay to change visible
