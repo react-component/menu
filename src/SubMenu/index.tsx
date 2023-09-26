@@ -80,6 +80,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const {
     prefixCls,
     mode,
+    originMode,
+    inlineCollapsed,
     openKeys,
 
     // Disabled
@@ -272,6 +274,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   if (!overflowDisabled) {
     const triggerMode = triggerModeRef.current;
+    const canTriggerPopupVisible = originMode !== 'inline' || inlineCollapsed;
+    const visible = !internalPopupClose && open && mode !== 'inline' && canTriggerPopupVisible;
 
     // Still wrap with Trigger here since we need avoid react re-mount dom node
     // Which makes motion failed
@@ -279,7 +283,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       <PopupTrigger
         mode={triggerMode}
         prefixCls={subMenuPrefixCls}
-        visible={!internalPopupClose && open && mode !== 'inline'}
+        visible={visible}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
         popupStyle={popupStyle}
