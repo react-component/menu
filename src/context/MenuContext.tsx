@@ -17,6 +17,7 @@ export interface MenuContextProps {
   rtl?: boolean;
 
   // Mode
+  originMode: MenuMode;
   mode: MenuMode;
   inlineCollapsed?: boolean;
 

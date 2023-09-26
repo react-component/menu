@@ -50,6 +50,7 @@ export default function PopupTrigger({
     forceSubMenuRender,
     rootClassName,
 
+    originMode,
     inlineCollapsed,
 
     // Motion
@@ -76,12 +77,13 @@ export default function PopupTrigger({
     targetMotionRef.current = targetMotion;
   }
 
-  const mergedMotion: CSSMotionProps = inlineCollapsed ? {
-    ...targetMotionRef.current,
-    leavedClassName: `${prefixCls}-hidden`,
-    removeOnLeave: false,
-    motionAppear: true,
-  } : undefined;
+  const mergedMotion: CSSMotionProps = originMode !== 'inline' || inlineCollapsed
+    ? {
+      ...targetMotionRef.current,
+      leavedClassName: `${prefixCls}-hidden`,
+      removeOnLeave: false,
+      motionAppear: true,
+    } : undefined;
 
   // Delay to change visible
   const visibleRef = React.useRef<number>();
