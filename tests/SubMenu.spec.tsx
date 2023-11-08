@@ -1,8 +1,9 @@
 /* eslint-disable no-undef */
 import { act, fireEvent, render } from '@testing-library/react';
+import { screen } from '@testing-library/dom';
 import { resetWarned } from 'rc-util/lib/warning';
 import React from 'react';
-import Menu, { MenuItem, SubMenu } from '../src';
+import Menu, { MenuItem, MenuRef, SubMenu } from '../src';
 import { isActive, last } from './util';
 
 jest.mock('@rc-component/trigger', () => {
@@ -496,8 +497,49 @@ describe('SubMenu', () => {
 
     fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
     runAllTimer();
-    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.zIndex).toEqual('100');
-    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.width).toEqual('150px');
+    expect(
+      (container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style
+        .zIndex,
+    ).toEqual('100');
+    expect(
+      (container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style
+        .width,
+    ).toEqual('150px');
+  });
+  it('focus menu to first menu item when .focus() is called', async () => {
+    const ref = React.createRef<MenuRef>();
+    const items = [
+      {
+        key: '1',
+        label: 'group title',
+        type: 'group',
+      },
+      {
+        key: '2',
+        label: 'menu item',
+        ['data-testid']: 'menu-item',
+      },
+    ];
+    await act(async () => render(<Menu ref={ref} items={items}></Menu>));
+    act(() => ref.current.focus());
+    screen.debug();
+    expect(screen.getByTestId('menu-item')).toHaveClass('rc-menu-item-active');
+  });
+  it('focus menu to first submenu when .focus() is called', async () => {
+    const ref = React.createRef<MenuRef>();
+    await act(async () =>
+      render(
+        <Menu ref={ref}>
+          <SubMenu data-testid="sub-menu" key="s1" title="submenu1">
+            <MenuItem key="s1-1">1</MenuItem>
+          </SubMenu>
+        </Menu>,
+      ),
+    );
+    act(() => ref.current.focus());
+    expect(screen.getByTestId('sub-menu')).toHaveClass(
+      'rc-menu-submenu-active',
+    );
   });
 });
 /* eslint-enable */

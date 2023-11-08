@@ -378,20 +378,27 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     setMergedActiveKey(undefined);
   });
 
-  useImperativeHandle(ref, () => ({
-    list: containerRef.current,
-    focus: options => {
-      const shouldFocusKey =
-        mergedActiveKey ?? childList.find(node => !node.props.disabled)?.key;
-      if (shouldFocusKey) {
-        containerRef.current
-          ?.querySelector<HTMLLIElement>(
-            `li[data-menu-id='${getMenuId(uuid, shouldFocusKey as string)}']`,
-          )
-          ?.focus?.(options);
-      }
-    },
-  }));
+  useImperativeHandle(ref, () => {
+    return {
+      list: containerRef.current,
+      focus: options => {
+        const shouldFocusKey =
+          mergedActiveKey ??
+          childList.find(
+            node =>
+              !node.props.disabled &&
+              (node.props.children.length || node.props.children.type),
+          )?.key;
+        if (shouldFocusKey) {
+          containerRef.current
+            ?.querySelector<HTMLElement>(
+              `[data-menu-id='${getMenuId(uuid, shouldFocusKey as string)}']`,
+            )
+            ?.focus?.(options);
+        }
+      },
+    };
+  });
 
   // ======================== Select ========================
   // >>>>> Select keys
