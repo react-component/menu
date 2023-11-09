@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import { act, fireEvent, render } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
+import { act, fireEvent, render } from '@testing-library/react';
 import { resetWarned } from 'rc-util/lib/warning';
 import React from 'react';
 import Menu, { MenuItem, MenuRef, SubMenu } from '../src';
@@ -522,7 +522,6 @@ describe('SubMenu', () => {
     ];
     await act(async () => render(<Menu ref={ref} items={items}></Menu>));
     act(() => ref.current.focus());
-    screen.debug();
     expect(screen.getByTestId('menu-item')).toHaveClass('rc-menu-item-active');
   });
   it('focus menu to first submenu when .focus() is called', async () => {
