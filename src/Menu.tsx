@@ -2,16 +2,20 @@ import classNames from 'classnames';
 import type { CSSMotionProps } from 'rc-motion';
 import Overflow from 'rc-overflow';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import isEqual from 'rc-util/lib/isEqual';
 import warning from 'rc-util/lib/warning';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
-import isEqual from 'rc-util/lib/isEqual';
-import { getMenuId, IdContext } from './context/IdContext';
+import { IdContext } from './context/IdContext';
 import MenuContextProvider from './context/MenuContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import PrivateContext from './context/PrivateContext';
-import useAccessibility from './hooks/useAccessibility';
+import {
+  getFocusableElements,
+  refreshElements,
+  useAccessibility,
+} from './hooks/useAccessibility';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import useMemoCallback from './hooks/useMemoCallback';
 import useUUID from './hooks/useUUID';
@@ -270,8 +274,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   };
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
-  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
-    React.useState(mergedOpenKeys);
+  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
+    mergedOpenKeys,
+  );
 
   const mountRef = React.useRef(false);
 
@@ -347,10 +352,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(
-    () => ({ isSubPathKey }),
-    [isSubPathKey],
-  );
+  const pathUserContext = React.useMemo(() => ({ isSubPathKey }), [
+    isSubPathKey,
+  ]);
 
   React.useEffect(() => {
     refreshOverflowKeys(
@@ -378,20 +382,33 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     setMergedActiveKey(undefined);
   });
 
-  useImperativeHandle(ref, () => ({
-    list: containerRef.current,
-    focus: options => {
-      const shouldFocusKey =
-        mergedActiveKey ?? childList.find(node => !node.props.disabled)?.key;
-      if (shouldFocusKey) {
-        containerRef.current
-          ?.querySelector<HTMLLIElement>(
-            `li[data-menu-id='${getMenuId(uuid, shouldFocusKey as string)}']`,
-          )
-          ?.focus?.(options);
-      }
-    },
-  }));
+  useImperativeHandle(ref, () => {
+    return {
+      list: containerRef.current,
+      focus: options => {
+        const elements = new Set<HTMLElement>();
+        const key2element = new Map<string, HTMLElement>();
+        const element2key = new Map<HTMLElement, string>();
+        const keys = getKeys();
+
+        refreshElements(keys, uuid, elements, key2element, element2key);
+
+        const focusableElements = getFocusableElements(
+          containerRef.current,
+          elements,
+        );
+
+        const shouldFocusKey =
+          mergedActiveKey ?? element2key.get(focusableElements[0]);
+
+        const elementToFocus = key2element.get(shouldFocusKey);
+
+        if (shouldFocusKey && elementToFocus) {
+          elementToFocus?.focus?.(options);
+        }
+      },
+    };
+  });
 
   // ======================== Select ========================
   // >>>>> Select keys
