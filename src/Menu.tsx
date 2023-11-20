@@ -11,7 +11,11 @@ import { IdContext } from './context/IdContext';
 import MenuContextProvider from './context/MenuContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import PrivateContext from './context/PrivateContext';
-import { refreshElements, useAccessibility } from './hooks/useAccessibility';
+import {
+  getFocusableElements,
+  refreshElements,
+  useAccessibility,
+} from './hooks/useAccessibility';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import useMemoCallback from './hooks/useMemoCallback';
 import useUUID from './hooks/useUUID';
@@ -382,22 +386,19 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     return {
       list: containerRef.current,
       focus: options => {
-        let shouldFocusKey: string;
         const elements = new Set<HTMLElement>();
         const key2element = new Map<string, HTMLElement>();
         const element2key = new Map<HTMLElement, string>();
         const keys = getKeys();
 
         refreshElements(keys, uuid, elements, key2element, element2key);
-        if (mergedActiveKey) {
-          shouldFocusKey = mergedActiveKey;
-        } else {
-          const firstActiveElement = [...elements].find(
-            el => !el.ariaDisabled || el.ariaDisabled === 'false',
-          );
+        const focusableElements = getFocusableElements(
+          containerRef.current,
+          elements,
+        );
 
-          shouldFocusKey = element2key.get(firstActiveElement);
-        }
+        const shouldFocusKey =
+          mergedActiveKey ?? element2key.get(focusableElements[0]);
 
         const elementToFocus = key2element.get(shouldFocusKey);
 
