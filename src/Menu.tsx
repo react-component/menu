@@ -386,12 +386,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     return {
       list: containerRef.current,
       focus: options => {
-        const elements = new Set<HTMLElement>();
-        const key2element = new Map<string, HTMLElement>();
-        const element2key = new Map<HTMLElement, string>();
         const keys = getKeys();
-
-        refreshElements(keys, uuid, elements, key2element, element2key);
+        const { elements, key2element, element2key } = refreshElements(
+          keys,
+          uuid,
+        );
         const focusableElements = getFocusableElements(
           containerRef.current,
           elements,

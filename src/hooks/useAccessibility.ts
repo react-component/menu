@@ -181,13 +181,11 @@ function getNextFocusElement(
   return sameLevelFocusableMenuElementList[focusIndex];
 }
 
-export const refreshElements = (
-  keys: string[],
-  id: string,
-  elements: Set<HTMLElement>,
-  key2element: Map<string, HTMLElement>,
-  element2key: Map<HTMLElement, string>,
-) => {
+export const refreshElements = (keys: string[], id: string) => {
+  const elements = new Set<HTMLElement>();
+  const key2element = new Map<string, HTMLElement>();
+  const element2key = new Map<HTMLElement, string>();
+
   keys.forEach(key => {
     const element = document.querySelector(
       `[data-menu-id='${getMenuId(id, key)}']`,
@@ -200,7 +198,7 @@ export const refreshElements = (
     }
   });
 
-  return elements;
+  return { elements, key2element, element2key };
 };
 
 export function useAccessibility<T extends HTMLElement>(
@@ -238,12 +236,10 @@ export function useAccessibility<T extends HTMLElement>(
     const { which } = e;
 
     if ([...ArrowKeys, ENTER, ESC, HOME, END].includes(which)) {
-      const elements = new Set<HTMLElement>();
-      const key2element = new Map<string, HTMLElement>();
-      const element2key = new Map<HTMLElement, string>();
       const keys = getKeys();
 
-      refreshElements(keys, id, elements, key2element, element2key);
+      let refreshedElements = refreshElements(keys, id);
+      const { elements, key2element, element2key } = refreshedElements;
 
       // First we should find current focused MenuItem/SubMenu element
       const activeElement = key2element.get(activeKey);
@@ -340,7 +336,7 @@ export function useAccessibility<T extends HTMLElement>(
         cleanRaf();
         rafRef.current = raf(() => {
           // Async should resync elements
-          refreshElements(keys, id, elements, key2element, element2key);
+          refreshedElements = refreshElements(keys, id);
 
           const controlId = focusMenuElement.getAttribute('aria-controls');
           const subQueryContainer = document.getElementById(controlId);
@@ -348,7 +344,7 @@ export function useAccessibility<T extends HTMLElement>(
           // Get sub focusable menu item
           const targetElement = getNextFocusElement(
             subQueryContainer,
-            elements,
+            refreshedElements.elements,
           );
 
           // Focus menu item
