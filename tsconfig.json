@@ -10,7 +10,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": [".dumi/tmp/*"],
-      "rc-menu": ["src/index.tsx"]
+      "rc-menu": ["src/index.ts"]
     }
   }
 }

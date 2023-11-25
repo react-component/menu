@@ -4,7 +4,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { resetWarned } from 'rc-util/lib/warning';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import type { MenuRef} from '../src';
+import type { MenuRef } from '../src';
 import Menu, { Divider, MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { isActive, last } from './util';
 import type { MenuMode } from '@/interface';
@@ -329,8 +329,8 @@ describe('Menu', () => {
     it('openKeys should allow to be empty', () => {
       const { container } = render(
         <Menu
-          onClick={() => {}}
-          onOpenChange={() => {}}
+          onClick={() => { }}
+          onOpenChange={() => { }}
           openKeys={undefined}
           selectedKeys={['1']}
           mode="inline"
@@ -729,6 +729,70 @@ describe('Menu', () => {
     menuRef.current?.focus();
 
     expect(document.activeElement).toBe(last(container.querySelectorAll('li')));
+  });
+
+  it('should render a divider with role="separator"', () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = render(
+      <Menu ref={menuRef} activeKey="cat">
+        <MenuItem key="light">Light</MenuItem>
+        <Divider />
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>,
+    );
+    // Get the divider element with the rc-menu-item-divider class
+    const divider = container.querySelector('.rc-menu-item-divider');
+
+    // Assert that the divider element with rc-menu-item-divider class has role="separator"
+    expect(divider).toHaveAttribute('role', 'separator');
+  });
+  it('expandIcon should be hidden when setting null or false', () => {
+    const App = ({expand, subExpand}: {expand?: React.ReactNode, subExpand?: React.ReactNode}) => (
+      <Menu expandIcon={expand}>
+        <SubMenu
+          title="sub menu"
+          key="1"
+          expandIcon={subExpand}
+        >
+          <MenuItem key="1-1">0-1</MenuItem>
+          <MenuItem key="1-2">0-2</MenuItem>
+        </SubMenu>,
+        <SubMenu
+          title="sub menu2"
+          key="2"
+        >
+          <MenuItem key="2-1">0-1</MenuItem>
+          <MenuItem key="2-2">0-2</MenuItem>
+        </SubMenu>,
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>
+    );
+    
+    const { container, rerender } = render(
+      <App expand={null} subExpand={undefined} />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(0);
+
+    rerender(
+      <App expand={null} subExpand />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(1);
+
+    rerender(
+      <App />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(2);
+
+    rerender(
+      <App expand={false} subExpand={undefined} />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(0);
+
+    rerender(
+      <App expand={false} subExpand />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(1);
+
   });
 });
 /* eslint-enable */
