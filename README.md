@@ -301,6 +301,12 @@ ReactDOM.render(
           <td>additional css class of root dom node</td>
         </tr>
         <tr>
+          <td>popupStyle</td>
+          <td>CSSProperties</td>
+          <td></td>
+          <td>additional css style of root dom node</td>
+        </tr>
+        <tr>
           <td>title</td>
           <td>String/ReactElement</td>
           <td></td>

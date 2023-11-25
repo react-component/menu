@@ -21,6 +21,7 @@ export interface PopupTriggerProps {
   visible: boolean;
   children: React.ReactElement;
   popup: React.ReactNode;
+  popupStyle?: React.CSSProperties;
   popupClassName?: string;
   popupOffset?: number[];
   disabled: boolean;
@@ -32,6 +33,7 @@ export default function PopupTrigger({
   visible,
   children,
   popup,
+  popupStyle,
   popupClassName,
   popupOffset,
   disabled,
@@ -108,6 +110,7 @@ export default function PopupTrigger({
       popupPlacement={popupPlacement}
       popupVisible={innerVisible}
       popup={popup}
+      popupStyle={popupStyle}
       popupAlign={popupOffset && { offset: popupOffset }}
       action={disabled ? [] : [triggerSubMenuAction]}
       mouseEnterDelay={subMenuOpenDelay}
@@ -115,6 +118,7 @@ export default function PopupTrigger({
       onPopupVisibleChange={onVisibleChange}
       forceRender={forceSubMenuRender}
       popupMotion={mergedMotion}
+      fresh
     >
       {children}
     </Trigger>
