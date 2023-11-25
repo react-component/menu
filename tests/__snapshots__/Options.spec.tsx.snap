@@ -73,6 +73,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item-divider"
+      role="separator"
     />
   </ul>,
   <div

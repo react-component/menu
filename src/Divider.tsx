@@ -16,6 +16,7 @@ export default function Divider({ className, style }: DividerProps) {
 
   return (
     <li
+      role="separator"
       className={classNames(`${prefixCls}-item-divider`, className)}
       style={style}
     />
