@@ -1,38 +1,11 @@
 import * as React from 'react';
-import toArray from 'rc-util/lib/Children/toArray';
 import type { ItemType } from '../interface';
-import { Divider, MenuItem, MenuItemGroup, SubMenu } from '..';
+import MenuItemGroup from '../MenuItemGroup';
+import SubMenu from '../SubMenu';
+import Divider from '../Divider';
+import MenuItem from '../MenuItem';
+import { parseChildren } from './commonUtil';
 
-export function parseChildren(
-  children: React.ReactNode | undefined,
-  keyPath: string[],
-) {
-  return toArray(children).map((child, index) => {
-    if (React.isValidElement(child)) {
-      const { key } = child;
-      let eventKey = (child.props as any)?.eventKey ?? key;
-
-      const emptyKey = eventKey === null || eventKey === undefined;
-
-      if (emptyKey) {
-        eventKey = `tmp_key-${[...keyPath, index].join('-')}`;
-      }
-
-      const cloneProps = {
-        key: eventKey,
-        eventKey,
-      } as any;
-
-      if (process.env.NODE_ENV !== 'production' && emptyKey) {
-        cloneProps.warnKey = true;
-      }
-
-      return React.cloneElement(child, cloneProps);
-    }
-
-    return child;
-  });
-}
 
 function convertItemsToNodes(list: ItemType[]) {
   return (list || [])

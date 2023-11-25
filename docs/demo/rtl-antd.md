@@ -1,3 +1,3 @@
 ## rtl-antd
 
-<code src="../examples/rtl-antd.tsx">
+<code src="../examples/rtl-antd.tsx"></code>

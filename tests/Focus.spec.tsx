@@ -1,15 +1,9 @@
 /* eslint-disable no-undef */
-import { act, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('Focus', () => {
-  function runAllTimer() {
-    for (let i = 0; i < 10; i += 1) {
-      act(() => {
-        jest.runAllTimers();
-      });
-    }
-  }
 
   beforeEach(() => {
     global.triggerProps = null;

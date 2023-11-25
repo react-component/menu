@@ -1,3 +1,3 @@
 ## keyPath
 
-<code src="../examples/keyPath.tsx">
+<code src="../examples/keyPath.tsx"></code>

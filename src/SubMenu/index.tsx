@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import SubMenuList from './SubMenuList';
-import { parseChildren } from '../utils/nodeUtil';
+import { parseChildren } from '../utils/commonUtil';
 import type { MenuInfo, SubMenuType } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
@@ -62,6 +62,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     // Popup
     popupClassName,
     popupOffset,
+    popupStyle,
 
     // Events
     onClick,
@@ -118,8 +119,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
   }
 
   // ================================ Icon ================================
-  const mergedItemIcon = itemIcon || contextItemIcon;
-  const mergedExpandIcon = expandIcon || contextExpandIcon;
+  const mergedItemIcon = itemIcon ?? contextItemIcon;
+  const mergedExpandIcon = expandIcon ?? contextExpandIcon;
 
   // ================================ Open ================================
   const originOpen = openKeys.includes(eventKey);
@@ -247,16 +248,17 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
       {/* Only non-horizontal mode shows the icon */}
       <Icon
-        icon={mode !== 'horizontal' ? mergedExpandIcon : null}
-        props={{
-          ...props,
-          isOpen: open,
-          // [Legacy] Not sure why need this mark
-          isSubMenu: true,
-        }}
-      >
-        <i className={`${subMenuPrefixCls}-arrow`} />
-      </Icon>
+          icon={mode !== 'horizontal' ? mergedExpandIcon : undefined}
+          props={{
+            ...props,
+            isOpen: open,
+            // [Legacy] Not sure why need this mark
+            isSubMenu: true,
+          }}
+        >
+          <i className={`${subMenuPrefixCls}-arrow`} />
+        </Icon>
+
     </div>
   );
 
@@ -280,6 +282,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         visible={!internalPopupClose && open && mode !== 'inline'}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
+        popupStyle={popupStyle}
         popup={
           <MenuContextProvider
             // Special handle of horizontal mode

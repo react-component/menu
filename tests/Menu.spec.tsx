@@ -2,29 +2,32 @@
 import { fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { resetWarned } from 'rc-util/lib/warning';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
+import type { MenuRef } from '../src';
 import Menu, { Divider, MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { isActive, last } from './util';
+import type { MenuMode } from '@/interface';
 
-jest.mock('rc-trigger', () => {
-  const React = require('react');
-  let Trigger = jest.requireActual('rc-trigger/lib/mock');
+jest.mock('@rc-component/trigger', () => {
+  const react = require('react');
+  let Trigger = jest.requireActual('@rc-component/trigger/lib/mock');
   Trigger = Trigger.default || Trigger;
 
-  return React.forwardRef((props, ref) => {
+  return react.forwardRef((props, ref) => {
     global.triggerProps = props;
-    return React.createElement(Trigger, { ref, ...props });
+    return react.createElement(Trigger, { ref, ...props });
   });
 });
 
 jest.mock('rc-motion', () => {
-  const React = require('react');
+  const react = require('react');
   let Motion = jest.requireActual('rc-motion');
   Motion = Motion.default || Motion;
 
-  return React.forwardRef((props, ref) => {
+  return react.forwardRef((props, ref) => {
     global.motionProps = props;
-    return React.createElement(Motion, { ref, ...props });
+    return react.createElement(Motion, { ref, ...props });
   });
 });
 
@@ -39,7 +42,7 @@ describe('Menu', () => {
   });
 
   describe('should render', () => {
-    function createMenu(props, subKey) {
+    function createMenu(props?, subKey?) {
       return (
         <Menu
           disabledOverflow
@@ -85,7 +88,7 @@ describe('Menu', () => {
       unmount();
     });
 
-    ['vertical', 'horizontal', 'inline'].forEach(mode => {
+    (['vertical', 'horizontal', 'inline'] as MenuMode[]).forEach(mode => {
       it(`${mode} menu correctly`, () => {
         const { container } = render(createMenu({ mode }));
         expect(container.children).toMatchSnapshot();
@@ -139,7 +142,7 @@ describe('Menu', () => {
   describe('render role listbox', () => {
     function createMenu() {
       return (
-        <Menu className="myMenu" openAnimation="fade" role="listbox">
+        <Menu className="myMenu" role="listbox">
           <MenuItem key="1" role="option">
             1
           </MenuItem>
@@ -160,7 +163,7 @@ describe('Menu', () => {
   });
 
   it('set activeKey', () => {
-    const genMenu = props => (
+    const genMenu = (props?) => (
       <Menu activeKey="1" {...props}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
@@ -223,7 +226,7 @@ describe('Menu', () => {
   });
 
   it('can be controlled by selectedKeys', () => {
-    const genMenu = props => (
+    const genMenu = (props?) => (
       <Menu selectedKeys={['1']} {...props}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
@@ -248,7 +251,7 @@ describe('Menu', () => {
   it('not selectable', () => {
     const onSelect = jest.fn();
 
-    const genMenu = props => (
+    const genMenu = (props?) => (
       <Menu onSelect={onSelect} selectedKeys={[]} {...props}>
         <MenuItem key="bamboo">Bamboo</MenuItem>
       </Menu>
@@ -278,11 +281,11 @@ describe('Menu', () => {
     expect(container.querySelector('li').className).toContain('-selected');
   });
 
-  it('issue https://github.com/ant-design/ant-design/issues/29429', () => {
+  it('should support legacy string type selectedKeys', () => {
     // don't use selectedKeys as string
     // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
     const { container } = render(
-      <Menu selectedKeys="item_abc">
+      <Menu selectedKeys={'item_abc' as unknown as string[]}>
         <MenuItem key="item_a">1</MenuItem>
         <MenuItem key="item_abc">2</MenuItem>
       </Menu>,
@@ -295,7 +298,7 @@ describe('Menu', () => {
 
   describe('openKeys', () => {
     it('can be controlled by openKeys', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu openKeys={['g1']} {...props}>
           <Menu.SubMenu key="g1">
             <MenuItem key="1">1</MenuItem>
@@ -326,8 +329,8 @@ describe('Menu', () => {
     it('openKeys should allow to be empty', () => {
       const { container } = render(
         <Menu
-          onClick={() => {}}
-          onOpenChange={() => {}}
+          onClick={() => { }}
+          onOpenChange={() => { }}
           openKeys={undefined}
           selectedKeys={['1']}
           mode="inline"
@@ -457,7 +460,7 @@ describe('Menu', () => {
   });
 
   it('active by key down', () => {
-    const genMenu = props => (
+    const genMenu = (props?) => (
       <Menu activeKey="1" {...props}>
         <MenuItem key="1">1</MenuItem>
         <MenuItem key="2">2</MenuItem>
@@ -498,7 +501,7 @@ describe('Menu', () => {
       },
     };
 
-    const { container } = render(
+    render(
       <Menu builtinPlacements={builtinPlacements}>
         <MenuItem>menuItem</MenuItem>
         <SubMenu title="submenu">
@@ -520,7 +523,7 @@ describe('Menu', () => {
     };
 
     it('defaultMotions should work correctly', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu mode="inline" defaultMotions={defaultMotions} {...props}>
           <SubMenu key="bamboo">
             <MenuItem key="light" />
@@ -528,7 +531,7 @@ describe('Menu', () => {
         </Menu>
       );
 
-      const { container, rerender } = render(genMenu());
+      const { rerender } = render(genMenu());
 
       // Inline
       rerender(genMenu({ mode: 'inline' }));
@@ -548,7 +551,7 @@ describe('Menu', () => {
     });
 
     it('motion is first level', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu
           mode="inline"
           defaultMotions={defaultMotions}
@@ -560,7 +563,7 @@ describe('Menu', () => {
           </SubMenu>
         </Menu>
       );
-      const { container, rerender } = render(genMenu());
+      const { rerender } = render(genMenu());
 
       // Inline
       rerender(genMenu({ mode: 'inline' }));
@@ -576,7 +579,7 @@ describe('Menu', () => {
     });
 
     it('inline does not affect vertical motion', () => {
-      const genMenu = props => (
+      const genMenu = (props?) => (
         <Menu defaultMotions={defaultMotions} {...props}>
           <SubMenu key="bamboo">
             <MenuItem key="light" />
@@ -636,7 +639,7 @@ describe('Menu', () => {
   });
 
   describe('Click should close Menu', () => {
-    function test(name, props) {
+    function test(name, props?) {
       it(name, async () => {
         const onOpenChange = jest.fn();
 
@@ -690,7 +693,7 @@ describe('Menu', () => {
   });
 
   it('should support ref', () => {
-    const menuRef = React.createRef();
+    const menuRef = React.createRef<MenuRef>();
     const { container } = render(
       <Menu ref={menuRef}>
         <MenuItem key="light">Light</MenuItem>
@@ -701,7 +704,7 @@ describe('Menu', () => {
   });
 
   it('should support focus through ref', () => {
-    const menuRef = React.createRef();
+    const menuRef = React.createRef<MenuRef>();
     const { container } = render(
       <Menu ref={menuRef}>
         <SubMenu key="bamboo" title="Disabled" disabled>
@@ -716,7 +719,7 @@ describe('Menu', () => {
   });
 
   it('should focus active item through ref', () => {
-    const menuRef = React.createRef();
+    const menuRef = React.createRef<MenuRef>();
     const { container } = render(
       <Menu ref={menuRef} activeKey="cat">
         <MenuItem key="light">Light</MenuItem>
@@ -726,6 +729,70 @@ describe('Menu', () => {
     menuRef.current?.focus();
 
     expect(document.activeElement).toBe(last(container.querySelectorAll('li')));
+  });
+
+  it('should render a divider with role="separator"', () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = render(
+      <Menu ref={menuRef} activeKey="cat">
+        <MenuItem key="light">Light</MenuItem>
+        <Divider />
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>,
+    );
+    // Get the divider element with the rc-menu-item-divider class
+    const divider = container.querySelector('.rc-menu-item-divider');
+
+    // Assert that the divider element with rc-menu-item-divider class has role="separator"
+    expect(divider).toHaveAttribute('role', 'separator');
+  });
+  it('expandIcon should be hidden when setting null or false', () => {
+    const App = ({expand, subExpand}: {expand?: React.ReactNode, subExpand?: React.ReactNode}) => (
+      <Menu expandIcon={expand}>
+        <SubMenu
+          title="sub menu"
+          key="1"
+          expandIcon={subExpand}
+        >
+          <MenuItem key="1-1">0-1</MenuItem>
+          <MenuItem key="1-2">0-2</MenuItem>
+        </SubMenu>,
+        <SubMenu
+          title="sub menu2"
+          key="2"
+        >
+          <MenuItem key="2-1">0-1</MenuItem>
+          <MenuItem key="2-2">0-2</MenuItem>
+        </SubMenu>,
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>
+    );
+    
+    const { container, rerender } = render(
+      <App expand={null} subExpand={undefined} />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(0);
+
+    rerender(
+      <App expand={null} subExpand />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(1);
+
+    rerender(
+      <App />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(2);
+
+    rerender(
+      <App expand={false} subExpand={undefined} />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(0);
+
+    rerender(
+      <App expand={false} subExpand />,
+    );
+    expect(container.querySelectorAll(".rc-menu-submenu-arrow").length).toBe(1);
+
   });
 });
 /* eslint-enable */

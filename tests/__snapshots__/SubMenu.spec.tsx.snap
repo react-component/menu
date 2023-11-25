@@ -81,28 +81,26 @@ HTMLCollection [
           class="rc-menu-submenu-arrow"
         />
       </div>
-      <div>
-        <div
-          class="rc-menu-submenu rc-menu-submenu-popup custom-className"
-          style="opacity: 0;"
+      <div
+        class="rc-menu-submenu rc-menu-submenu-popup custom-className rc-menu-submenu-placement-rightTop"
+        style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; box-sizing: border-box;"
+      >
+        <ul
+          class="rc-menu rc-menu-sub rc-menu-vertical"
+          data-menu-list="true"
+          id="rc-menu-uuid-test-1-popup"
+          role="menu"
         >
-          <ul
-            class="rc-menu rc-menu-sub rc-menu-vertical"
-            data-menu-list="true"
-            id="rc-menu-uuid-test-1-popup"
-            role="menu"
+          <li
+            aria-selected="false"
+            class="rc-menu-item"
+            data-menu-id="rc-menu-uuid-test-1-1"
+            role="option"
+            tabindex="-1"
           >
-            <li
-              aria-selected="false"
-              class="rc-menu-item"
-              data-menu-id="rc-menu-uuid-test-1-1"
-              role="option"
-              tabindex="-1"
-            >
-              submenu7
-            </li>
-          </ul>
-        </div>
+            submenu7
+          </li>
+        </ul>
       </div>
     </li>
     <li

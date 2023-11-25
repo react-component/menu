@@ -7,46 +7,70 @@ export const placements = {
   topLeft: {
     points: ['bl', 'tl'],
     overflow: autoAdjustOverflow,
-    offset: [0, -7],
+  },
+  topRight: {
+    points: ['br', 'tr'],
+    overflow: autoAdjustOverflow,
   },
   bottomLeft: {
     points: ['tl', 'bl'],
     overflow: autoAdjustOverflow,
-    offset: [0, 7],
+  },
+  bottomRight: {
+    points: ['tr', 'br'],
+    overflow: autoAdjustOverflow,
   },
   leftTop: {
     points: ['tr', 'tl'],
     overflow: autoAdjustOverflow,
-    offset: [-4, 0],
+  },
+  leftBottom: {
+    points: ['br', 'bl'],
+    overflow: autoAdjustOverflow,
   },
   rightTop: {
     points: ['tl', 'tr'],
     overflow: autoAdjustOverflow,
-    offset: [4, 0],
   },
+  rightBottom: {
+    points: ['bl', 'br'],
+    overflow: autoAdjustOverflow,
+  }
 };
 
 export const placementsRtl = {
   topLeft: {
     points: ['bl', 'tl'],
     overflow: autoAdjustOverflow,
-    offset: [0, -7],
+  },
+  topRight: {
+    points: ['br', 'tr'],
+    overflow: autoAdjustOverflow,
   },
   bottomLeft: {
     points: ['tl', 'bl'],
     overflow: autoAdjustOverflow,
-    offset: [0, 7],
+  },
+  bottomRight: {
+    points: ['tr', 'br'],
+    overflow: autoAdjustOverflow,
   },
   rightTop: {
     points: ['tr', 'tl'],
     overflow: autoAdjustOverflow,
-    offset: [-4, 0],
+  },
+  rightBottom: {
+    points: ['br', 'bl'],
+    overflow: autoAdjustOverflow,
   },
   leftTop: {
     points: ['tl', 'tr'],
     overflow: autoAdjustOverflow,
-    offset: [4, 0],
   },
+  leftBottom: {
+    points: ['bl', 'br'],
+    overflow: autoAdjustOverflow,
+  }
 };
 
 export default placements;

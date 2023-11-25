@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-import React from 'react';
 import { act, render } from '@testing-library/react';
-import Menu, { MenuItem, SubMenu } from '../src';
+import React from 'react';
 import type { MenuProps } from '../src';
+import Menu, { MenuItem, SubMenu } from '../src';
 
 describe('React18', () => {
   function runAllTimer() {
