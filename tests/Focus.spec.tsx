@@ -2,7 +2,8 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import React from 'react';
-import Menu, { MenuItem, MenuItemGroup, MenuRef, SubMenu } from '../src';
+import type { MenuRef } from '../src';
+import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 
 describe('Focus', () => {
   beforeAll(() => {
@@ -89,24 +90,24 @@ describe('Focus', () => {
     expect(activeKey).toHaveClass('rc-menu-item-active');
   });
 
-  // it('should focus active item through ref without activeKey', async () => {
-  //   const menuRef = React.createRef<MenuRef>();
-  //   const { container } = await act(async () =>
-  //     render(
-  //       <Menu ref={menuRef}>
-  //         <MenuItem key="light">Light</MenuItem>
-  //         <MenuItem key="cat">Cat</MenuItem>
-  //       </Menu>,
-  //     ),
-  //   );
+  it('should focus active item through ref without activeKey', async () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = await act(async () =>
+      render(
+        <Menu ref={menuRef}>
+          <MenuItem key="light">Light</MenuItem>
+          <MenuItem key="Cat">Cat</MenuItem>
+        </Menu>,
+      ),
+    );
 
-  //   act(() => menuRef.current.focus());
+    act(() => menuRef.current.focus());
 
-  //   // first li
-  //   const activeKey = container.querySelector('li')
-  //   expect(document.activeElement).toBe(activeKey);
-  //   expect(activeKey).toHaveClass('rc-menu-item-active');
-  // });
+    // first li
+    const activeLi = container.querySelector('li');
+    expect(document.activeElement).toBe(activeLi);
+    expect(activeLi).toHaveClass('rc-menu-item-active');
+  });
 
   it('focus moves to the next accessible menu item if the first child is empty group', async () => {
     const menuRef = React.createRef<MenuRef>();
