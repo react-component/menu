@@ -61,6 +61,8 @@
     "cross-env": "^7.0.0",
     "dumi": "^2.1.17",
     "eslint": "^8.55.0",
+    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-unicorn": "^49.0.0",
     "father": "^4.0.0",
     "gh-pages": "^5.0.0",
     "less": "^4.1.3",
