@@ -403,7 +403,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
         if (shouldFocusKey && elementToFocus) {
           elementToFocus?.focus?.(options);
+          return;
         }
+        focusableElements.find(el => el !== containerRef.current)?.focus?.(options);
       },
     };
   });

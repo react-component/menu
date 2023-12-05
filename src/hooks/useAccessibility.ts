@@ -136,10 +136,13 @@ function getFocusElement(
  */
 export function getFocusableElements(
   container: HTMLElement,
-  elements: Set<HTMLElement>,
+  elements?: Set<HTMLElement>,
 ) {
   const list = getFocusNodeList(container, true);
-  return list.filter(ele => elements.has(ele));
+  if (elements?.size > 0) {
+    return list.filter(ele => elements.has(ele));
+  }
+  return list;
 }
 
 function getNextFocusElement(

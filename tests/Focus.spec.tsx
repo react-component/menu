@@ -89,6 +89,25 @@ describe('Focus', () => {
     expect(activeKey).toHaveClass('rc-menu-item-active');
   });
 
+  // it('should focus active item through ref without activeKey', async () => {
+  //   const menuRef = React.createRef<MenuRef>();
+  //   const { container } = await act(async () =>
+  //     render(
+  //       <Menu ref={menuRef}>
+  //         <MenuItem key="light">Light</MenuItem>
+  //         <MenuItem key="cat">Cat</MenuItem>
+  //       </Menu>,
+  //     ),
+  //   );
+
+  //   act(() => menuRef.current.focus());
+
+  //   // first li
+  //   const activeKey = container.querySelector('li')
+  //   expect(document.activeElement).toBe(activeKey);
+  //   expect(activeKey).toHaveClass('rc-menu-item-active');
+  // });
+
   it('focus moves to the next accessible menu item if the first child is empty group', async () => {
     const menuRef = React.createRef<MenuRef>();
     const { getByTestId } = await act(async () =>
