@@ -401,7 +401,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
         const elementToFocus = key2element.get(shouldFocusKey);
 
-        if (shouldFocusKey && elementToFocus) {
+        if (shouldFocusKey) {
           elementToFocus?.focus?.(options);
           return;
         }
