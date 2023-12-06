@@ -701,6 +701,8 @@ describe('Menu', () => {
     );
 
     expect(menuRef.current?.list).toBe(container.querySelector('ul'));
+    act(() => menuRef.current.focus());
+    expect(document.activeElement).toBe(container.querySelector('li'));
   });
 
   it('should render a divider with role="separator"', () => {
