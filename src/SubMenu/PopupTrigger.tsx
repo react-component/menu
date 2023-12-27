@@ -118,6 +118,7 @@ export default function PopupTrigger({
       onPopupVisibleChange={onVisibleChange}
       forceRender={forceSubMenuRender}
       popupMotion={mergedMotion}
+      fresh
     >
       {children}
     </Trigger>

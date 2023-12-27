@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Menu, { SubMenu, Item } from 'rc-menu';
+import Menu from 'rc-menu';
 import './inlineCollapsed.less';
 
 const App = () => {
@@ -15,13 +15,25 @@ const App = () => {
         inlineCollapsed={collapsed}
         style={{ width: 600 }}
         className={collapsed ? 'collapsed' : ''}
-      >
-        <Item key="1">item 1</Item>
-        <SubMenu key="2" title={`inlineCollapsed: ${collapsed.toString()}`}>
-          <Item key="3">item 2</Item>
-          <Item key="4">item 3</Item>
-        </SubMenu>
-      </Menu>
+        items={[
+          { key: '1', label: 'item 1' },
+          {
+            key: '2',
+            label: `inlineCollapsed: ${collapsed.toString()}`,
+            children: [
+              { key: '3', label: 'item 2' },
+              { key: '4', label: 'item 3' },
+              {
+                key: '5', label: 'SubMenu', children: [
+                  { key: '6', label: 'item 4' },
+                  { key: '7', label: 'item 5' },
+                  { key: '8', label: 'item 6' },
+                ]
+              }
+            ],
+          },
+        ]}
+      />
     </>
   );
 }

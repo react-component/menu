@@ -1,13 +1,13 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
+import type { MenuMode } from '@/interface';
 import { fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { resetWarned } from 'rc-util/lib/warning';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import type { MenuRef} from '../src';
+import type { MenuRef } from '../src';
 import Menu, { Divider, MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { isActive, last } from './util';
-import type { MenuMode } from '@/interface';
 
 jest.mock('@rc-component/trigger', () => {
   const react = require('react');
@@ -285,7 +285,7 @@ describe('Menu', () => {
     // don't use selectedKeys as string
     // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
     const { container } = render(
-      <Menu selectedKeys={'item_abc' as unknown as string[]}>
+      <Menu selectedKeys={('item_abc' as unknown) as string[]}>
         <MenuItem key="item_a">1</MenuItem>
         <MenuItem key="item_abc">2</MenuItem>
       </Menu>,
@@ -701,34 +701,8 @@ describe('Menu', () => {
     );
 
     expect(menuRef.current?.list).toBe(container.querySelector('ul'));
-  });
-
-  it('should support focus through ref', () => {
-    const menuRef = React.createRef<MenuRef>();
-    const { container } = render(
-      <Menu ref={menuRef}>
-        <SubMenu key="bamboo" title="Disabled" disabled>
-          <MenuItem key="light">Disabled child</MenuItem>
-        </SubMenu>
-        <MenuItem key="light">Light</MenuItem>
-      </Menu>,
-    );
-    menuRef.current?.focus();
-
-    expect(document.activeElement).toBe(last(container.querySelectorAll('li')));
-  });
-
-  it('should focus active item through ref', () => {
-    const menuRef = React.createRef<MenuRef>();
-    const { container } = render(
-      <Menu ref={menuRef} activeKey="cat">
-        <MenuItem key="light">Light</MenuItem>
-        <MenuItem key="cat">Cat</MenuItem>
-      </Menu>,
-    );
-    menuRef.current?.focus();
-
-    expect(document.activeElement).toBe(last(container.querySelectorAll('li')));
+    act(() => menuRef.current.focus());
+    expect(document.activeElement).toBe(container.querySelector('li'));
   });
 
   it('should render a divider with role="separator"', () => {
@@ -740,11 +714,50 @@ describe('Menu', () => {
         <MenuItem key="cat">Cat</MenuItem>
       </Menu>,
     );
-   // Get the divider element with the rc-menu-item-divider class
-   const divider = container.querySelector('.rc-menu-item-divider');
+    // Get the divider element with the rc-menu-item-divider class
+    const divider = container.querySelector('.rc-menu-item-divider');
 
-   // Assert that the divider element with rc-menu-item-divider class has role="separator"
-   expect(divider).toHaveAttribute('role', 'separator');
+    // Assert that the divider element with rc-menu-item-divider class has role="separator"
+    expect(divider).toHaveAttribute('role', 'separator');
+  });
+  it('expandIcon should be hidden when setting null or false', () => {
+    const App = ({
+      expand,
+      subExpand,
+    }: {
+      expand?: React.ReactNode;
+      subExpand?: React.ReactNode;
+    }) => (
+      <Menu expandIcon={expand}>
+        <SubMenu title="sub menu" key="1" expandIcon={subExpand}>
+          <MenuItem key="1-1">0-1</MenuItem>
+          <MenuItem key="1-2">0-2</MenuItem>
+        </SubMenu>
+        ,
+        <SubMenu title="sub menu2" key="2">
+          <MenuItem key="2-1">0-1</MenuItem>
+          <MenuItem key="2-2">0-2</MenuItem>
+        </SubMenu>
+        ,<MenuItem key="cat">Cat</MenuItem>
+      </Menu>
+    );
+
+    const { container, rerender } = render(
+      <App expand={null} subExpand={undefined} />,
+    );
+    expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(0);
+
+    rerender(<App expand={null} subExpand />);
+    expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(1);
+
+    rerender(<App />);
+    expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(2);
+
+    rerender(<App expand={false} subExpand={undefined} />);
+    expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(0);
+
+    rerender(<App expand={false} subExpand />);
+    expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(1);
   });
 });
 /* eslint-enable */

@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
-import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
-import type { MenuMode } from '../interface';
+import * as React from 'react';
 import { getMenuId } from '../context/IdContext';
+import type { MenuMode } from '../interface';
 
 // destruct to reduce minify size
 const { LEFT, RIGHT, UP, DOWN, ENTER, ESC, HOME, END } = KeyCode;
@@ -134,7 +134,7 @@ function getFocusElement(
 /**
  * Get focusable elements from the element set under provided container
  */
-function getFocusableElements(
+export function getFocusableElements(
   container: HTMLElement,
   elements: Set<HTMLElement>,
 ) {
@@ -181,7 +181,27 @@ function getNextFocusElement(
   return sameLevelFocusableMenuElementList[focusIndex];
 }
 
-export default function useAccessibility<T extends HTMLElement>(
+export const refreshElements = (keys: string[], id: string) => {
+  const elements = new Set<HTMLElement>();
+  const key2element = new Map<string, HTMLElement>();
+  const element2key = new Map<HTMLElement, string>();
+
+  keys.forEach(key => {
+    const element = document.querySelector(
+      `[data-menu-id='${getMenuId(id, key)}']`,
+    ) as HTMLElement;
+
+    if (element) {
+      elements.add(element);
+      element2key.set(element, key);
+      key2element.set(key, element);
+    }
+  });
+
+  return { elements, key2element, element2key };
+};
+
+export function useAccessibility<T extends HTMLElement>(
   mode: MenuMode,
   activeKey: string,
   isRtl: boolean,
@@ -216,35 +236,10 @@ export default function useAccessibility<T extends HTMLElement>(
     const { which } = e;
 
     if ([...ArrowKeys, ENTER, ESC, HOME, END].includes(which)) {
-      // Convert key to elements
-      let elements: Set<HTMLElement>;
-      let key2element: Map<string, HTMLElement>;
-      let element2key: Map<HTMLElement, string>;
+      const keys = getKeys();
 
-      // >>> Wrap as function since we use raf for some case
-      const refreshElements = () => {
-        elements = new Set<HTMLElement>();
-        key2element = new Map();
-        element2key = new Map();
-
-        const keys = getKeys();
-
-        keys.forEach(key => {
-          const element = document.querySelector(
-            `[data-menu-id='${getMenuId(id, key)}']`,
-          ) as HTMLElement;
-
-          if (element) {
-            elements.add(element);
-            element2key.set(element, key);
-            key2element.set(key, element);
-          }
-        });
-
-        return elements;
-      };
-
-      refreshElements();
+      let refreshedElements = refreshElements(keys, id);
+      const { elements, key2element, element2key } = refreshedElements;
 
       // First we should find current focused MenuItem/SubMenu element
       const activeElement = key2element.get(activeKey);
@@ -341,7 +336,7 @@ export default function useAccessibility<T extends HTMLElement>(
         cleanRaf();
         rafRef.current = raf(() => {
           // Async should resync elements
-          refreshElements();
+          refreshedElements = refreshElements(keys, id);
 
           const controlId = focusMenuElement.getAttribute('aria-controls');
           const subQueryContainer = document.getElementById(controlId);
@@ -349,7 +344,7 @@ export default function useAccessibility<T extends HTMLElement>(
           // Get sub focusable menu item
           const targetElement = getNextFocusElement(
             subQueryContainer,
-            elements,
+            refreshedElements.elements,
           );
 
           // Focus menu item

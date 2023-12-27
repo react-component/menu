@@ -1,8 +1,8 @@
 /* eslint no-console:0 */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import type { CSSMotionProps } from 'rc-motion';
-import Menu, { ItemGroup as MenuItemGroup } from '../../src';
+import Menu, { ItemGroup as MenuItemGroup, MenuItem } from '../../src';
 import type { MenuProps } from '../../src';
 import '../../assets/index.less';
 import '../../assets/menu.less';
@@ -52,6 +52,7 @@ export default () => {
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(false);
   const [openKeys, setOpenKeys] = React.useState<string[]>([]);
+  const menuRef = useRef();
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);
@@ -68,6 +69,10 @@ export default () => {
   return (
     <>
       <div>
+        <Menu ref={menuRef}>
+          <MenuItem key="light">Light</MenuItem>
+        </Menu>
+        <button onClick={() => menuRef.current.focus()}>focus</button>
         <select value={mode} onChange={e => setMode(e.target.value as any)}>
           <option value="inline">Inline</option>
           <option value="vertical">Vertical</option>
