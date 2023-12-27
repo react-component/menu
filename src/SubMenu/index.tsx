@@ -1,26 +1,26 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
-import * as React from 'react';
-import { useMenuId } from '../context/IdContext';
+import SubMenuList from './SubMenuList';
+import { parseChildren } from '../utils/commonUtil';
+import type { MenuInfo, SubMenuType } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
+import useMemoCallback from '../hooks/useMemoCallback';
+import PopupTrigger from './PopupTrigger';
+import Icon from '../Icon';
+import useActive from '../hooks/useActive';
+import { warnItemProp } from '../utils/warnUtil';
+import useDirectionStyle from '../hooks/useDirectionStyle';
+import InlineSubMenuList from './InlineSubMenuList';
 import {
   PathTrackerContext,
   PathUserContext,
   useFullPath,
   useMeasure,
 } from '../context/PathContext';
+import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
-import useActive from '../hooks/useActive';
-import useDirectionStyle from '../hooks/useDirectionStyle';
-import useMemoCallback from '../hooks/useMemoCallback';
-import Icon from '../Icon';
-import type { MenuInfo, SubMenuType } from '../interface';
-import { parseChildren } from '../utils/commonUtil';
-import { warnItemProp } from '../utils/warnUtil';
-import InlineSubMenuList from './InlineSubMenuList';
-import PopupTrigger from './PopupTrigger';
-import SubMenuList from './SubMenuList';
 
 export interface SubMenuProps
   extends Omit<SubMenuType, 'key' | 'children' | 'label'> {
