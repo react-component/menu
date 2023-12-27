@@ -7,6 +7,8 @@ import warning from 'rc-util/lib/warning';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
+import MenuItem from './MenuItem';
+import SubMenu from './SubMenu';
 import { IdContext } from './context/IdContext';
 import MenuContextProvider from './context/MenuContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
@@ -31,8 +33,6 @@ import type {
   SelectInfo,
   TriggerSubMenuAction,
 } from './interface';
-import MenuItem from './MenuItem';
-import SubMenu from './SubMenu';
 import { parseItems } from './utils/nodeUtil';
 import { warnItemProp } from './utils/warnUtil';
 
