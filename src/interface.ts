@@ -2,6 +2,7 @@ import type * as React from 'react';
 
 // ========================= Options =========================
 interface ItemSharedProps {
+  ref?: React.Ref<HTMLLIElement | null>;
   style?: React.CSSProperties;
   className?: string;
 }
@@ -62,7 +63,7 @@ export interface MenuItemGroupType extends ItemSharedProps {
   children?: ItemType[];
 }
 
-export interface MenuDividerType extends ItemSharedProps {
+export interface MenuDividerType extends Omit<ItemSharedProps, 'ref'> {
   type: 'divider';
 }
 

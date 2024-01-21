@@ -19,19 +19,18 @@ export interface MenuItemGroupProps
   warnKey?: boolean;
 }
 
-const InternalMenuItemGroup = ({
-  className,
-  title,
-  eventKey,
-  children,
-  ...restProps
-}: MenuItemGroupProps) => {
+const InternalMenuItemGroup = React.forwardRef<
+  HTMLLIElement,
+  MenuItemGroupProps
+>((props, ref) => {
+  const { className, title, eventKey, children, ...restProps } = props;
   const { prefixCls } = React.useContext(MenuContext);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 
   return (
     <li
+      ref={ref}
       role="presentation"
       {...restProps}
       onClick={e => e.stopPropagation()}
@@ -49,26 +48,32 @@ const InternalMenuItemGroup = ({
       </ul>
     </li>
   );
-};
+});
 
-export default function MenuItemGroup({
-  children,
-  ...props
-}: MenuItemGroupProps): React.ReactElement {
-  const connectedKeyPath = useFullPath(props.eventKey);
-  const childList: React.ReactElement[] = parseChildren(
-    children,
-    connectedKeyPath,
-  );
+const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>(
+  (props, ref) => {
+    const { eventKey, children } = props;
+    const connectedKeyPath = useFullPath(eventKey);
+    const childList: React.ReactElement[] = parseChildren(
+      children,
+      connectedKeyPath,
+    );
 
-  const measure = useMeasure();
-  if (measure) {
-    return (childList as any) as React.ReactElement;
-  }
+    const measure = useMeasure();
+    if (measure) {
+      return childList as any as React.ReactElement;
+    }
 
-  return (
-    <InternalMenuItemGroup {...omit(props, ['warnKey'])}>
-      {childList}
-    </InternalMenuItemGroup>
-  );
+    return (
+      <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey'])}>
+        {childList}
+      </InternalMenuItemGroup>
+    );
+  },
+);
+
+if (process.env.NODE_ENV !== 'production') {
+  MenuItemGroup.displayName = 'MenuItemGroup';
 }
+
+export default MenuItemGroup;
