@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
+import Menu from 'rc-menu';
 import '../../assets/index.less';
 
 const menu1List = [
@@ -50,7 +50,7 @@ export default () => (
   <Menu
   selectable={false}
   mode="inline"
-  defaultOpenKeys={"Resources"}
+  defaultOpenKeys={['Resources']}
   style={{ width: "100%" }}
   items={menu1Items(menu1List)}
 />

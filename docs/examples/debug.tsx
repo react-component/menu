@@ -117,7 +117,7 @@ export default () => {
           onClick={onRootClick}
           defaultMotions={motionMap}
           inlineCollapsed={inlineCollapsed}
-          // openKeys={openKeys}
+          openKeys={openKeys}
           onOpenChange={newOpenKeys => setOpenKeys(newOpenKeys)}
         >
           <Menu.Item key="mail">
