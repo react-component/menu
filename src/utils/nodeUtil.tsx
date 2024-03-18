@@ -12,6 +12,7 @@ function convertItemsToNodes(list: ItemType[]) {
     .map((opt, index) => {
       if (opt && typeof opt === 'object') {
         const { label, children, key, type, ...restProps } = opt as any;
+        const mergeProps = { ...restProps, eventKey: key };
         const mergedKey = key ?? `tmp-${index}`;
 
         // MenuItemGroup & SubMenuItem
@@ -19,7 +20,7 @@ function convertItemsToNodes(list: ItemType[]) {
           if (type === 'group') {
             // Group
             return (
-              <MenuItemGroup key={mergedKey} {...restProps} title={label}>
+              <MenuItemGroup key={mergedKey} {...mergeProps} title={label}>
                 {convertItemsToNodes(children)}
               </MenuItemGroup>
             );
@@ -27,7 +28,7 @@ function convertItemsToNodes(list: ItemType[]) {
 
           // Sub Menu
           return (
-            <SubMenu key={mergedKey} {...restProps} title={label}>
+            <SubMenu key={mergedKey} {...mergeProps} title={label}>
               {convertItemsToNodes(children)}
             </SubMenu>
           );
@@ -35,11 +36,11 @@ function convertItemsToNodes(list: ItemType[]) {
 
         // MenuItem & Divider
         if (type === 'divider') {
-          return <Divider key={mergedKey} {...restProps} />;
+          return <Divider key={mergedKey} {...mergeProps} />;
         }
 
         return (
-          <MenuItem key={mergedKey} {...restProps}>
+          <MenuItem key={mergedKey} {...mergeProps}>
             {label}
           </MenuItem>
         );
