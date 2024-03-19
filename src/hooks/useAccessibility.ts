@@ -3,7 +3,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
 import * as React from 'react';
 import { getMenuId } from '../context/IdContext';
-import type { MenuMode } from '../interface';
+import type { MenuKey, MenuMode } from '../interface';
 
 // destruct to reduce minify size
 const { LEFT, RIGHT, UP, DOWN, ENTER, ESC, HOME, END } = KeyCode;
@@ -181,10 +181,10 @@ function getNextFocusElement(
   return sameLevelFocusableMenuElementList[focusIndex];
 }
 
-export const refreshElements = (keys: string[], id: string) => {
+export const refreshElements = (keys: MenuKey[], id: string) => {
   const elements = new Set<HTMLElement>();
-  const key2element = new Map<string, HTMLElement>();
-  const element2key = new Map<HTMLElement, string>();
+  const key2element = new Map<MenuKey, HTMLElement>();
+  const element2key = new Map<HTMLElement, MenuKey>();
 
   keys.forEach(key => {
     const element = document.querySelector(
@@ -203,22 +203,22 @@ export const refreshElements = (keys: string[], id: string) => {
 
 export function useAccessibility<T extends HTMLElement>(
   mode: MenuMode,
-  activeKey: string,
+  activeKey: MenuKey,
   isRtl: boolean,
   id: string,
 
   containerRef: React.RefObject<HTMLUListElement>,
-  getKeys: () => string[],
-  getKeyPath: (key: string, includeOverflow?: boolean) => string[],
+  getKeys: () => MenuKey[],
+  getKeyPath: (key: MenuKey, includeOverflow?: boolean) => string[],
 
-  triggerActiveKey: (key: string) => void,
-  triggerAccessibilityOpen: (key: string, open?: boolean) => void,
+  triggerActiveKey: (key: MenuKey) => void,
+  triggerAccessibilityOpen: (key: MenuKey, open?: boolean) => void,
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
   const rafRef = React.useRef<number>();
 
-  const activeRef = React.useRef<string>();
+  const activeRef = React.useRef<MenuKey>();
   activeRef.current = activeKey;
 
   const cleanRaf = () => {

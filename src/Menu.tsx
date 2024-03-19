@@ -24,6 +24,7 @@ import type {
   ItemType,
   MenuClickEventHandler,
   MenuInfo,
+  MenuKey,
   MenuMode,
   MenuRef,
   RenderIconType,
@@ -76,18 +77,18 @@ export interface MenuProps
 
   // Open control
   defaultOpenKeys?: string[];
-  openKeys?: string[];
+  openKeys?: MenuKey[];
 
   // Active control
-  activeKey?: string;
+  activeKey?: MenuKey;
   defaultActiveFirst?: boolean;
 
   // Selection
   selectable?: boolean;
   multiple?: boolean;
 
-  defaultSelectedKeys?: string[];
-  selectedKeys?: string[];
+  defaultSelectedKeys?: MenuKey[];
+  selectedKeys?: MenuKey[];
 
   onSelect?: SelectEventHandler;
   onDeselect?: SelectEventHandler;
@@ -120,7 +121,7 @@ export interface MenuProps
 
   // >>>>> Events
   onClick?: MenuClickEventHandler;
-  onOpenChange?: (openKeys: string[]) => void;
+  onOpenChange?: (openKeys: MenuKey[]) => void;
 
   // >>>>> Internal
   /***
@@ -260,7 +261,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   // React 18 will merge mouse event which means we open key will not sync
   // ref: https://github.com/ant-design/ant-design/issues/38818
-  const triggerOpenKeys = (keys: string[], forceFlush = false) => {
+  const triggerOpenKeys = (keys: MenuKey[], forceFlush = false) => {
     function doUpdate() {
       setMergedOpenKeys(keys);
       onOpenChange?.(keys);
@@ -439,7 +440,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       // Insert or Remove
       const { key: targetKey } = info;
       const exist = mergedSelectKeys.includes(targetKey);
-      let newSelectKeys: string[];
+      let newSelectKeys: MenuKey[];
 
       if (multiple) {
         if (exist) {
@@ -481,7 +482,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     triggerSelection(info);
   });
 
-  const onInternalOpenChange = useMemoCallback((key: string, open: boolean) => {
+  const onInternalOpenChange = useMemoCallback((key: MenuKey, open: boolean) => {
     let newOpenKeys = mergedOpenKeys.filter(k => k !== key);
 
     if (open) {
@@ -498,7 +499,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   });
 
   // ==================== Accessibility =====================
-  const triggerAccessibilityOpen = (key: string, open?: boolean) => {
+  const triggerAccessibilityOpen = (key: MenuKey, open?: boolean) => {
     const nextOpen = open ?? !mergedOpenKeys.includes(key);
 
     onInternalOpenChange(key, nextOpen);

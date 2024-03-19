@@ -3,7 +3,7 @@ import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
-import type { MenuItemGroupType } from './interface';
+import type { MenuItemGroupType, MenuKey } from './interface';
 import { parseChildren } from './utils/commonUtil';
 
 export interface MenuItemGroupProps
@@ -13,7 +13,7 @@ export interface MenuItemGroupProps
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */
-  eventKey?: string;
+  eventKey?: MenuKey;
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;

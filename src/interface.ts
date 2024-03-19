@@ -6,6 +6,8 @@ interface ItemSharedProps {
   className?: string;
 }
 
+export type MenuKey = React.Key;
+
 export interface SubMenuType extends ItemSharedProps {
   label?: React.ReactNode;
 
@@ -13,7 +15,7 @@ export interface SubMenuType extends ItemSharedProps {
 
   disabled?: boolean;
 
-  key: string;
+  key: MenuKey;
 
   rootClassName?: string;
 
@@ -92,27 +94,27 @@ export type RenderIconType =
   | ((props: RenderIconInfo) => React.ReactNode);
 
 export interface MenuInfo {
-  key: string;
-  keyPath: string[];
+  key: MenuKey;
+  keyPath: MenuKey[];
   /** @deprecated This will not support in future. You should avoid to use this */
   item: React.ReactInstance;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
 }
 
 export interface MenuTitleInfo {
-  key: string;
+  key: MenuKey;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
 }
 
 // ========================== Hover ==========================
 export type MenuHoverEventHandler = (info: {
-  key: string;
+  key: MenuKey;
   domEvent: React.MouseEvent<HTMLElement>;
 }) => void;
 
 // ======================== Selection ========================
 export interface SelectInfo extends MenuInfo {
-  selectedKeys: string[];
+  selectedKeys: MenuKey[];
 }
 
 export type SelectEventHandler = (info: SelectInfo) => void;
