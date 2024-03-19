@@ -7,6 +7,8 @@ interface ItemSharedProps {
 }
 
 export interface SubMenuType extends ItemSharedProps {
+  type?: "sub";
+
   label?: React.ReactNode;
 
   children: ItemType[];
@@ -38,6 +40,8 @@ export interface SubMenuType extends ItemSharedProps {
 }
 
 export interface MenuItemType extends ItemSharedProps {
+  type?: 'item';
+
   label?: React.ReactNode;
 
   disabled?: boolean;
