@@ -7,7 +7,7 @@ interface ItemSharedProps {
 }
 
 export interface SubMenuType extends ItemSharedProps {
-  type?: "sub";
+  type?: "submenu";
 
   label?: React.ReactNode;
 
