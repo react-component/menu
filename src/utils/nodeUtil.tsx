@@ -14,7 +14,7 @@ function convertItemsToNodes(list: ItemType[]) {
         const { label, children, key, type, ...restProps } = opt as any;
         const mergedKey = key ?? `tmp-${index}`;
         // The type of `key` changes, `eventKey` is the original value
-        const mergeProps = { ...restProps, key: mergedKey, eventKey: mergedKey };
+        const mergeProps = { key: mergedKey, eventKey: mergedKey, ...restProps, };
 
         // MenuItemGroup & SubMenuItem
         if (children || type === 'group') {
