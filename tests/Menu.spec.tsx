@@ -225,6 +225,54 @@ describe('Menu', () => {
     );
   });
 
+  it('items support ref', () => {
+    const ref1 = React.createRef<HTMLLIElement>();
+    const ref2 = React.createRef<HTMLLIElement>();
+    const ref3 = React.createRef<HTMLLIElement>();
+    const ref4 = React.createRef<HTMLLIElement>();
+
+    render(
+      <Menu
+        items={[
+          {
+            label: 'Top Menu Item',
+            key: 'top',
+            ref: ref1,
+          },
+          {
+            type: 'group',
+            label: 'Top Menu Group without children',
+            ref: ref2,
+          },
+          {
+            type: 'group',
+            label: 'Top Menu Group with children',
+            ref: ref3,
+            children: [
+              {
+                label: 'Menu Item 1',
+                key: 'inner1',
+              },
+              {
+                type: 'divider',
+              },
+              {
+                label: 'Menu Item 2',
+                key: 'inner2',
+                ref: ref4,
+              },
+            ],
+          },
+        ]}
+      />,
+    );
+
+    expect(ref1.current.innerHTML).toBeTruthy();
+    expect(ref2.current.innerHTML).toBeTruthy();
+    expect(ref3.current.innerHTML).toBeTruthy();
+    expect(ref4.current.innerHTML).toBeTruthy();
+  });
+
   it('can be controlled by selectedKeys', () => {
     const genMenu = (props?) => (
       <Menu selectedKeys={['1']} {...props}>
