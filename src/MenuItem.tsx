@@ -16,7 +16,7 @@ import type { MenuInfo, MenuItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
-  extends Omit<MenuItemType, 'label' | 'key'>,
+  extends Omit<MenuItemType, 'label' | 'key'| 'ref'>,
     Omit<
       React.HTMLAttributes<HTMLLIElement>,
       'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'

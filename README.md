@@ -73,6 +73,12 @@ ReactDOM.render(
     </thead>
     <tbody>
         <tr>
+          <td>ref</td>
+          <td>React.HTMLLIElement</td>
+          <td></td>
+          <td>get dom node</td>
+        </tr>
+        <tr>
           <td>className</td>
           <td>String</td>
           <td></td>
@@ -295,6 +301,12 @@ ReactDOM.render(
     </thead>
     <tbody>
         <tr>
+          <td>ref</td>
+          <td>React.HTMLLIElement</td>
+          <td></td>
+          <td>get dom node</td>
+        </tr>
+        <tr>
           <td>popupClassName</td>
           <td>String</td>
           <td></td>
@@ -397,6 +409,12 @@ none
     </tr>
     </thead>
     <tbody>
+        <tr>
+          <td>ref</td>
+          <td>React.HTMLLIElement</td>
+          <td></td>
+          <td>get dom node</td>
+        </tr>
         <tr>
             <td>title</td>
             <td>String|React.Element</td>
