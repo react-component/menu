@@ -5,6 +5,7 @@ import isEqual from 'rc-util/lib/isEqual';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
+  MenuKey,
   MenuMode,
   RenderIconType,
   TriggerSubMenuAction,
@@ -13,7 +14,7 @@ import type {
 export interface MenuContextProps {
   prefixCls: string;
   rootClassName?: string;
-  openKeys: string[];
+  openKeys: MenuKey[];
   rtl?: boolean;
 
   // Mode
@@ -25,12 +26,12 @@ export interface MenuContextProps {
   overflowDisabled?: boolean;
 
   // Active
-  activeKey: string;
-  onActive: (key: string) => void;
-  onInactive: (key: string) => void;
+  activeKey: MenuKey;
+  onActive: (key: MenuKey) => void;
+  onInactive: (key: MenuKey) => void;
 
   // Selection
-  selectedKeys: string[];
+  selectedKeys: MenuKey[];
 
   // Level
   inlineIndent: number;
@@ -52,7 +53,7 @@ export interface MenuContextProps {
 
   // Function
   onItemClick: MenuClickEventHandler;
-  onOpenChange: (key: string, open: boolean) => void;
+  onOpenChange: (key: MenuKey, open: boolean) => void;
   getPopupContainer: (node: HTMLElement) => HTMLElement;
 }
 

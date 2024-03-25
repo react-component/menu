@@ -3,12 +3,12 @@ import CSSMotion from 'rc-motion';
 import { getMotion } from '../utils/motionUtil';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import SubMenuList from './SubMenuList';
-import type { MenuMode } from '../interface';
+import type { MenuKey, MenuMode } from '../interface';
 
 export interface InlineSubMenuListProps {
   id?: string;
   open: boolean;
-  keyPath: string[];
+  keyPath: MenuKey[];
   children: React.ReactNode;
 }
 

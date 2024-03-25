@@ -12,7 +12,7 @@ import PrivateContext from './context/PrivateContext';
 import useActive from './hooks/useActive';
 import useDirectionStyle from './hooks/useDirectionStyle';
 import Icon from './Icon';
-import type { MenuInfo, MenuItemType } from './interface';
+import type { MenuInfo, MenuItemType, MenuKey } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
@@ -24,7 +24,7 @@ export interface MenuItemProps
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */
-  eventKey?: string;
+  eventKey?: MenuKey;
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
