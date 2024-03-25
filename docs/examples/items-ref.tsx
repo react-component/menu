@@ -11,6 +11,7 @@ export default () => {
   const ref4 = useRef();
   const ref5 = useRef();
   const ref6 = useRef();
+  const ref7 = useRef();
 
   return (
     <>
@@ -22,6 +23,7 @@ export default () => {
           console.log(ref4.current);
           console.log(ref5.current);
           console.log(ref6.current);
+          console.log(ref7.current);
         }}
       >
         获取 Ref
@@ -59,7 +61,7 @@ export default () => {
                 // MenuItem
                 label: 'Menu Item 2',
                 key: 'inner2',
-                ref: ref3,
+                ref: ref4,
               },
             ],
           },
@@ -67,20 +69,20 @@ export default () => {
             // SubMenu
             label: 'SubMenu',
             key: 'sub1',
-            ref: ref4,
+            ref: ref5,
             children: [
               {
                 // MenuItem
                 label: 'Menu Item 1-1',
                 key: 'inner11',
-                ref: ref5,
+                ref: ref6,
               },
 
               {
                 // SubMenu
                 label: 'SubMenu inner',
                 key: 'sub1-1',
-                ref: ref6,
+                ref: ref7,
                 children: [
                   {
                     // MenuItem
