@@ -7,7 +7,6 @@ import warning from 'rc-util/lib/warning';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
-import ComponentContext from './context/ComponentContext';
 import { IdContext } from './context/IdContext';
 import MenuContextProvider from './context/MenuContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
@@ -244,9 +243,15 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     ...restProps
   } = props as LegacyMenuProps;
 
-  const childList: React.ReactElement[] = React.useMemo(
-    () => parseItems(children, items, EMPTY_LIST),
-    [children, items],
+  const [childList, measureChildList]: [
+    visibleChildList: React.ReactElement[],
+    measureChildList: React.ReactElement[],
+  ] = React.useMemo(
+    () => [
+      parseItems(children, items, EMPTY_LIST, _internalComponents),
+      parseItems(children, items, EMPTY_LIST, {}),
+    ],
+    [children, items, _internalComponents],
   );
 
   const [mounted, setMounted] = React.useState(false);
@@ -659,16 +664,14 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           onItemClick={onInternalClick}
           onOpenChange={onInternalOpenChange}
         >
-          <ComponentContext.Provider value={_internalComponents}>
-            <PathUserContext.Provider value={pathUserContext}>
-              {container}
-            </PathUserContext.Provider>
-          </ComponentContext.Provider>
+          <PathUserContext.Provider value={pathUserContext}>
+            {container}
+          </PathUserContext.Provider>
 
           {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
           <div style={{ display: 'none' }} aria-hidden>
             <PathRegisterContext.Provider value={registerPathContext}>
-              {childList}
+              {measureChildList}
             </PathRegisterContext.Provider>
           </div>
         </MenuContextProvider>
