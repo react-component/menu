@@ -1,13 +1,12 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import ResizeObserver from 'rc-resize-observer';
 import KeyCode from 'rc-util/lib/KeyCode';
+import { spyElementPrototype } from 'rc-util/lib/test/domHook';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
 import { last } from './util';
-import { spyElementPrototype } from 'rc-util/lib/test/domHook';
 
 jest.mock('rc-resize-observer', () => {
   const R = require('react');
@@ -28,7 +27,6 @@ jest.mock('rc-resize-observer', () => {
     return R.createElement(RO, { ref, ...props });
   });
 });
-
 
 describe('Menu.Responsive', () => {
   beforeEach(() => {
@@ -61,9 +59,18 @@ describe('Menu.Responsive', () => {
 
     render(
       <React.StrictMode>
-        <Menu mode="horizontal">
-          <MyItem key="1">Good</MyItem>
-        </Menu>
+        <Menu
+          mode="horizontal"
+          _internalComponents={{
+            item: MyItem,
+          }}
+          items={[
+            {
+              label: 'Good',
+              key: '1',
+            },
+          ]}
+        />
       </React.StrictMode>,
     );
 
@@ -115,8 +122,8 @@ describe('Menu.Responsive', () => {
       get() {
         return () => ({
           width: 41,
-        })
-      }
+        });
+      },
     }));
     // Set container width
     act(() => {
@@ -129,8 +136,8 @@ describe('Menu.Responsive', () => {
       get() {
         return () => ({
           width: 20,
-        })
-      }
+        });
+      },
     }));
     // Resize every item
     getResizeProps()

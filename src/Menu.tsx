@@ -21,6 +21,7 @@ import useMemoCallback from './hooks/useMemoCallback';
 import useUUID from './hooks/useUUID';
 import type {
   BuiltinPlacements,
+  Components,
   ItemType,
   MenuClickEventHandler,
   MenuInfo,
@@ -60,6 +61,7 @@ export interface MenuProps
   prefixCls?: string;
   rootClassName?: string;
   items?: ItemType[];
+
   /** @deprecated Please use `items` instead */
   children?: React.ReactNode;
 
@@ -148,6 +150,14 @@ export interface MenuProps
       disabled: boolean;
     },
   ) => React.ReactElement;
+
+  /**
+   * @private NEVER! EVER! USE IN PRODUCTION!!!
+   * This is a hack API for `antd` to fix `findDOMNode` issue.
+   * Not use it! Not accept any PR try to make it as normal API.
+   * By zombieJ
+   */
+  _internalComponents?: Components;
 }
 
 interface LegacyMenuProps extends MenuProps {
@@ -228,12 +238,20 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     _internalRenderMenuItem,
     _internalRenderSubMenuItem,
 
+    _internalComponents,
+
     ...restProps
   } = props as LegacyMenuProps;
 
-  const childList: React.ReactElement[] = React.useMemo(
-    () => parseItems(children, items, EMPTY_LIST),
-    [children, items],
+  const [childList, measureChildList]: [
+    visibleChildList: React.ReactElement[],
+    measureChildList: React.ReactElement[],
+  ] = React.useMemo(
+    () => [
+      parseItems(children, items, EMPTY_LIST, _internalComponents),
+      parseItems(children, items, EMPTY_LIST, {}),
+    ],
+    [children, items, _internalComponents],
   );
 
   const [mounted, setMounted] = React.useState(false);
@@ -274,9 +292,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   };
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
-  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(
-    mergedOpenKeys,
-  );
+  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
+    React.useState(mergedOpenKeys);
 
   const mountRef = React.useRef(false);
 
@@ -352,9 +369,10 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(() => ({ isSubPathKey }), [
-    isSubPathKey,
-  ]);
+  const pathUserContext = React.useMemo(
+    () => ({ isSubPathKey }),
+    [isSubPathKey],
+  );
 
   React.useEffect(() => {
     refreshOverflowKeys(
@@ -653,7 +671,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
           <div style={{ display: 'none' }} aria-hidden>
             <PathRegisterContext.Provider value={registerPathContext}>
-              {childList}
+              {measureChildList}
             </PathRegisterContext.Provider>
           </div>
         </MenuContextProvider>

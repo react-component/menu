@@ -8,7 +8,7 @@ interface ItemSharedProps {
 }
 
 export interface SubMenuType extends ItemSharedProps {
-  type?: "submenu";
+  type?: 'submenu';
 
   label?: React.ReactNode;
 
@@ -133,3 +133,8 @@ export type MenuRef = {
   focus: (options?: FocusOptions) => void;
   list: HTMLUListElement;
 };
+
+// ======================== Component ========================
+export type ComponentType = 'submenu' | 'item' | 'group' | 'divider';
+
+export type Components = Partial<Record<ComponentType, React.ComponentType<any>>>;
