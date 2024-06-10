@@ -73,16 +73,13 @@ export default function useKeyRecords() {
   );
 
   const isSubPathKey = useCallback(
-    (pathKeys: string[], eventKey: string) => {
-      if (pathKeys.every(key => key === undefined)) {
-        return false;
-      }
-      return pathKeys.some(pathKey => {
-        const pathKeyList = getKeyPath(pathKey, true);
-
-        return pathKeyList.includes(eventKey);
-      });
-    },
+    (pathKeys: string[], eventKey: string) =>
+      pathKeys
+        .filter(item => item !== undefined)
+        .some(pathKey => {
+          const pathKeyList = getKeyPath(pathKey, true);
+          return pathKeyList.includes(eventKey);
+        }),
     [getKeyPath],
   );
   const getKeys = () => {
