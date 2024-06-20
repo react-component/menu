@@ -149,7 +149,7 @@ describe('SubMenu', () => {
     ).textContent;
     expect(childText).toEqual('submenu');
   });
-  it("The submenu item with key '' must not persistently remain active.", () => {
+  it(`The submenu item with key '' must not persistently remain active`, () => {
     const { container } = render(
       <Menu
         mode="horizontal"
@@ -171,7 +171,7 @@ describe('SubMenu', () => {
         ]}
       />,
     );
-    expect(container.querySelector('.rc-menu-submenu-active')).toBeFalsy()
+    expect(container.querySelector('.rc-menu-submenu-active')).toBeFalsy();
   });
 
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are true', () => {
