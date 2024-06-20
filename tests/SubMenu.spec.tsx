@@ -149,6 +149,7 @@ describe('SubMenu', () => {
     ).textContent;
     expect(childText).toEqual('submenu');
   });
+
   it(`The submenu item with key '' must not persistently remain active`, () => {
     const { container } = render(
       <Menu
