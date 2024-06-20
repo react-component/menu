@@ -150,6 +150,31 @@ describe('SubMenu', () => {
     expect(childText).toEqual('submenu');
   });
 
+  it(`The submenu item with key '' must not persistently remain active`, () => {
+    const { container } = render(
+      <Menu
+        mode="horizontal"
+        items={[
+          {
+            label: '菜单一',
+            key: '1',
+          },
+          {
+            label: '菜单二',
+            key: '',
+            children: [
+              {
+                label: 'Navigation One1',
+                key: 'mail1',
+              },
+            ],
+          },
+        ]}
+      />,
+    );
+    expect(container.querySelector('.rc-menu-submenu-active')).toBeFalsy();
+  });
+
   describe('openSubMenuOnMouseEnter and closeSubMenuOnMouseLeave are true', () => {
     it('toggles when mouse enter and leave', () => {
       const { container } = render(
@@ -496,8 +521,14 @@ describe('SubMenu', () => {
 
     fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
     runAllTimer();
-    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.zIndex).toEqual('100');
-    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.width).toEqual('150px');
+    expect(
+      (container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style
+        .zIndex,
+    ).toEqual('100');
+    expect(
+      (container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style
+        .width,
+    ).toEqual('150px');
   });
 });
 /* eslint-enable */
