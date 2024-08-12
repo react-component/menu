@@ -20,7 +20,7 @@ function convertItemsToNodes(
   return (list || [])
     .map((opt, index) => {
       if (opt && typeof opt === 'object') {
-        const { label, children, key, type, ...restProps } = opt as any;
+        const { label, children, key, type, extra, ...restProps } = opt as any;
         const mergedKey = key ?? `tmp-${index}`;
 
         // MenuItemGroup & SubMenuItem
@@ -50,6 +50,7 @@ function convertItemsToNodes(
         return (
           <MergedMenuItem key={mergedKey} {...restProps}>
             {label}
+            {extra && <span>{extra}</span>}
           </MergedMenuItem>
         );
       }

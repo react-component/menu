@@ -49,6 +49,8 @@ export interface MenuItemType extends ItemSharedProps {
 
   itemIcon?: RenderIconType;
 
+  extra?: string;
+
   key: React.Key;
 
   // >>>>> Active

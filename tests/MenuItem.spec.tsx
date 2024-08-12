@@ -190,5 +190,15 @@ describe('MenuItem', () => {
 
       expect(container.querySelector('li')).toMatchSnapshot();
     });
+
+    it('should set extra to option', () => {
+      const { container } = render(
+        <Menu>
+          <MenuItem extra="⌘B">test</MenuItem>
+        </Menu>,
+      );
+
+      expect(container.querySelector('li')).toMatchSnapshot();
+    });
   });
 });
