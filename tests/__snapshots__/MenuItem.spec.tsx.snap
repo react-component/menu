@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MenuItem overwrite default role should set extra to option 1`] = `
+<li
+  class="rc-menu-item"
+  data-menu-id="rc-menu-uuid-test-tmp_key-0"
+  extra="⌘B"
+  role="menuitem"
+  tabindex="-1"
+>
+  test
+</li>
+`;
+
 exports[`MenuItem overwrite default role should set role to listitem 1`] = `
 <li
   class="rc-menu-item"
