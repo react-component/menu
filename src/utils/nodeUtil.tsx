@@ -50,7 +50,7 @@ function convertItemsToNodes(
         return (
           <MergedMenuItem key={mergedKey} {...restProps}>
             {label}
-            {extra && <span>{extra}</span>}
+            {!!extra && <span>{extra}</span>}
           </MergedMenuItem>
         );
       }
