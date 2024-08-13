@@ -193,9 +193,15 @@ describe('MenuItem', () => {
 
     it('should set extra to option', () => {
       const { container } = render(
-        <Menu>
-          <MenuItem extra="⌘B">test</MenuItem>
-        </Menu>,
+        <Menu
+          items={[
+            {
+              label: 'Top Menu Item',
+              key: 'top',
+              extra: '⌘B',
+            },
+          ]}
+        />,
       );
 
       expect(container.querySelector('li')).toMatchSnapshot();
