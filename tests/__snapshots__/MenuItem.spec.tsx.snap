@@ -8,7 +8,9 @@ exports[`MenuItem overwrite default role should set extra to option 1`] = `
   tabindex="-1"
 >
   Top Menu Item
-  <span>
+  <span
+    class="rc-menu-extra"
+  >
     ⌘B
   </span>
 </li>

@@ -9,6 +9,7 @@ import { parseChildren } from './commonUtil';
 function convertItemsToNodes(
   list: ItemType[],
   components: Required<Components>,
+  prefixCls?: string,
 ) {
   const {
     item: MergedMenuItem,
@@ -50,7 +51,9 @@ function convertItemsToNodes(
         return (
           <MergedMenuItem key={mergedKey} {...restProps}>
             {label}
-            {!!extra && <span>{extra}</span>}
+            {(!!extra || extra === 0) && (
+              <span className={`${prefixCls}-extra`}>{extra}</span>
+            )}
           </MergedMenuItem>
         );
       }
@@ -65,6 +68,7 @@ export function parseItems(
   items: ItemType[] | undefined,
   keyPath: string[],
   components: Components,
+  prefixCls?: string,
 ) {
   let childNodes = children;
 
@@ -77,7 +81,7 @@ export function parseItems(
   };
 
   if (items) {
-    childNodes = convertItemsToNodes(items, mergedComponents);
+    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls);
   }
 
   return parseChildren(childNodes, keyPath);
