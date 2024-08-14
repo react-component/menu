@@ -11,6 +11,7 @@ export default () => (
         // MenuItem
         label: 'Top Menu Item',
         key: 'top',
+        extra: '⌘B',
       },
       {
         // MenuGroup

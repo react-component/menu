@@ -248,8 +248,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     measureChildList: React.ReactElement[],
   ] = React.useMemo(
     () => [
-      parseItems(children, items, EMPTY_LIST, _internalComponents),
-      parseItems(children, items, EMPTY_LIST, {}),
+      parseItems(children, items, EMPTY_LIST, _internalComponents, prefixCls),
+      parseItems(children, items, EMPTY_LIST, {}, prefixCls),
     ],
     [children, items, _internalComponents],
   );

@@ -9,6 +9,7 @@ import { parseChildren } from './commonUtil';
 function convertItemsToNodes(
   list: ItemType[],
   components: Required<Components>,
+  prefixCls?: string,
 ) {
   const {
     item: MergedMenuItem,
@@ -20,7 +21,7 @@ function convertItemsToNodes(
   return (list || [])
     .map((opt, index) => {
       if (opt && typeof opt === 'object') {
-        const { label, children, key, type, ...restProps } = opt as any;
+        const { label, children, key, type, extra, ...restProps } = opt as any;
         const mergedKey = key ?? `tmp-${index}`;
 
         // MenuItemGroup & SubMenuItem
@@ -50,6 +51,9 @@ function convertItemsToNodes(
         return (
           <MergedMenuItem key={mergedKey} {...restProps}>
             {label}
+            {(!!extra || extra === 0) && (
+              <span className={`${prefixCls}-extra`}>{extra}</span>
+            )}
           </MergedMenuItem>
         );
       }
@@ -64,6 +68,7 @@ export function parseItems(
   items: ItemType[] | undefined,
   keyPath: string[],
   components: Components,
+  prefixCls?: string,
 ) {
   let childNodes = children;
 
@@ -76,7 +81,7 @@ export function parseItems(
   };
 
   if (items) {
-    childNodes = convertItemsToNodes(items, mergedComponents);
+    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls);
   }
 
   return parseChildren(childNodes, keyPath);
