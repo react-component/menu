@@ -262,6 +262,12 @@ ReactDOM.render(
             <td>no effect for click or keydown for this item</td>
         </tr>
         <tr>
+            <td>extra</td>
+            <td>React.ReactNode</td>
+            <th></th>
+            <td>Specify menu item extra node.</td>
+        </tr>
+        <tr>
             <td>key</td>
             <td>Object</td>
             <th></th>
