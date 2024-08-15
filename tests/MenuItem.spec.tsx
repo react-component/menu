@@ -206,5 +206,27 @@ describe('MenuItem', () => {
 
       expect(container.querySelector('li')).toMatchSnapshot();
     });
+
+    it('should set extra to group option', () => {
+      const { container } = render(
+        <Menu
+          items={[
+            {
+              type: 'group',
+              label: 'Top Menu Group with children',
+              children: [
+                {
+                  label: 'Menu Item 1',
+                  key: 'top',
+                  extra: '⌘B',
+                },
+              ],
+            },
+          ]}
+        />,
+      );
+
+      expect(container.querySelector('li')).toMatchSnapshot();
+    });
   });
 });
