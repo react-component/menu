@@ -8,9 +8,9 @@ exports[`MenuItem overwrite default role should set extra to group option 1`] = 
   <div
     class="rc-menu-item-group-title"
     role="presentation"
-    title="Top Menu Item"
+    title="Top Menu Group with children"
   >
-    Top Menu Item
+    Top Menu Group with children
   </div>
   <ul
     class="rc-menu-item-group-list"
@@ -22,7 +22,7 @@ exports[`MenuItem overwrite default role should set extra to group option 1`] = 
       role="menuitem"
       tabindex="-1"
     >
-      Top Menu Item
+      Menu Item 1
       <span
         class="rc-menu-extra"
       >
