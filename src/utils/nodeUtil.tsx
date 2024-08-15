@@ -30,7 +30,7 @@ function convertItemsToNodes(
             // Group
             return (
               <MergedMenuItemGroup key={mergedKey} {...restProps} title={label}>
-                {convertItemsToNodes(children, components)}
+                {convertItemsToNodes(children, components, prefixCls)}
               </MergedMenuItemGroup>
             );
           }
@@ -38,7 +38,7 @@ function convertItemsToNodes(
           // Sub Menu
           return (
             <MergedSubMenu key={mergedKey} {...restProps} title={label}>
-              {convertItemsToNodes(children, components)}
+              {convertItemsToNodes(children, components, prefixCls)}
             </MergedSubMenu>
           );
         }
