@@ -52,7 +52,7 @@ function convertItemsToNodes(
           <MergedMenuItem key={mergedKey} {...restProps}>
             {label}
             {(!!extra || extra === 0) && (
-              <span className={`${prefixCls}-extra`}>{extra}</span>
+              <span className={`${prefixCls}-item-extra`}>{extra}</span>
             )}
           </MergedMenuItem>
         );
