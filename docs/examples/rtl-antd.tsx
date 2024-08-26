@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
-import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
+import Menu, { SubMenu, Item as MenuItem, Divider, MenuProps } from 'rc-menu';
 import '../../assets/index.less';
 
 function handleClick(info) {
@@ -121,11 +121,16 @@ const children2 = [
 
 const customizeIndicator = <span>Add More Items</span>;
 
-class CommonMenu extends React.Component {
+interface CommonMenuState {
+    children: React.ReactNode;
+    overflowedIndicator?: React.ReactNode;
+}
+
+class CommonMenu extends React.Component<any, CommonMenuState> {
   state = {
     children: children1,
     overflowedIndicator: undefined,
-  };
+  } as CommonMenuState;
 
   toggleChildren = () => {
     this.setState(({ children }) => ({
