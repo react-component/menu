@@ -6,7 +6,7 @@ import Menu, { ItemGroup as MenuItemGroup, MenuItem } from '../../src';
 import type { MenuProps } from '../../src';
 import '../../assets/index.less';
 import '../../assets/menu.less';
-import type { MenuInfo } from '@/interface';
+import type { MenuInfo, MenuRef } from '@/interface';
 
 const collapseNode = () => {
   return { height: 0 };
@@ -52,7 +52,7 @@ export default () => {
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(false);
   const [openKeys, setOpenKeys] = React.useState<string[]>([]);
-  const menuRef = useRef();
+  const menuRef = useRef<MenuRef>();
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);

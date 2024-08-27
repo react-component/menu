@@ -5,12 +5,18 @@ import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 
 import '../../assets/index.less';
 
-class Test extends React.Component {
+interface TestState {
+    destroyed: boolean;
+    selectedKeys: string[];
+    openKeys: string[];
+  }
+
+class Test extends React.Component<any, TestState> {
   state = {
     destroyed: false,
     selectedKeys: [],
     openKeys: [],
-  };
+  } as TestState;
 
   onSelect = info => {
     console.log('selected ', info);

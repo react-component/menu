@@ -36,3 +36,5 @@ package-lock.json
 .dumi/tmp-test
 .dumi/tmp-production
 .env.local
+
+bun.lockb
