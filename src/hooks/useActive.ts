@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MenuContext } from '../context/MenuContext';
-import type { MenuHoverEventHandler } from '../interface';
+import type { MenuHoverEventHandler, MenuKey } from '../interface';
 
 interface ActiveObj {
   active: boolean;
@@ -9,7 +9,7 @@ interface ActiveObj {
 }
 
 export default function useActive(
-  eventKey: string,
+  eventKey: MenuKey,
   disabled: boolean,
   onMouseEnter?: MenuHoverEventHandler,
   onMouseLeave?: MenuHoverEventHandler,

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useRef, useCallback } from 'react';
 import warning from 'rc-util/lib/warning';
 import { nextSlice } from '../utils/timeUtil';
+import { MenuKey } from '@/interface';
 
 const PATH_SPLIT = '__RC_UTIL_PATH_SPLIT__';
 
@@ -12,8 +13,8 @@ export const OVERFLOW_KEY = 'rc-menu-more';
 
 export default function useKeyRecords() {
   const [, internalForceUpdate] = React.useState({});
-  const key2pathRef = useRef(new Map<string, string>());
-  const path2keyRef = useRef(new Map<string, string>());
+  const key2pathRef = useRef(new Map<MenuKey, string>());
+  const path2keyRef = useRef(new Map<MenuKey, string>());
   const [overflowKeys, setOverflowKeys] = React.useState([]);
   const updateRef = useRef(0);
   const destroyRef = useRef(false);
@@ -95,12 +96,12 @@ export default function useKeyRecords() {
   /**
    * Find current key related child path keys
    */
-  const getSubPathKeys = useCallback((key: string): Set<string> => {
+  const getSubPathKeys = useCallback((key: MenuKey): Set<MenuKey> => {
     const connectedPath = `${key2pathRef.current.get(key)}${PATH_SPLIT}`;
     const pathKeys = new Set<string>();
 
     [...path2keyRef.current.keys()].forEach(pathKey => {
-      if (pathKey.startsWith(connectedPath)) {
+      if (`${pathKey}`.startsWith(connectedPath)) {
         pathKeys.add(path2keyRef.current.get(pathKey));
       }
     });

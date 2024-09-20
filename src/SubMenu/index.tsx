@@ -4,7 +4,7 @@ import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/commonUtil';
-import type { MenuInfo, SubMenuType } from '../interface';
+import type { MenuInfo, MenuKey, SubMenuType } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
@@ -32,7 +32,7 @@ export interface SubMenuProps
   internalPopupClose?: boolean;
 
   /** @private Internal filled key. Do not set it directly */
-  eventKey?: string;
+  eventKey?: MenuKey;
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
