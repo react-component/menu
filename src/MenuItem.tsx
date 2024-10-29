@@ -16,7 +16,7 @@ import type { MenuInfo, MenuItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
-  extends Omit<MenuItemType, 'label' | 'key'| 'ref'>,
+  extends Omit<MenuItemType, 'label' | 'key' | 'ref'>,
     Omit<
       React.HTMLAttributes<HTMLLIElement>,
       'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
@@ -209,7 +209,7 @@ const InternalMenuItem = React.forwardRef(
         role={role === null ? 'none' : role || 'menuitem'}
         tabIndex={disabled ? null : -1}
         data-menu-id={overflowDisabled && domDataId ? null : domDataId}
-        {...restProps}
+        {...omit(restProps, ['extra'])}
         {...activeProps}
         {...optionRoleProps}
         component="li"
