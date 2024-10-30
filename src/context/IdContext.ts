@@ -1,8 +1,9 @@
+import { MenuKey } from '@/interface';
 import * as React from 'react';
 
 export const IdContext = React.createContext<string>(null);
 
-export function getMenuId(uuid: string, eventKey: string) {
+export function getMenuId(uuid: string, eventKey: MenuKey) {
   if (uuid === undefined) {
     return null;
   }
@@ -12,7 +13,7 @@ export function getMenuId(uuid: string, eventKey: string) {
 /**
  * Get `data-menu-id`
  */
-export function useMenuId(eventKey: string) {
+export function useMenuId(eventKey: MenuKey) {
   const id = React.useContext(IdContext);
   return getMenuId(id, eventKey);
 }
