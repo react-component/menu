@@ -2,7 +2,7 @@
 import { act, render } from '@testing-library/react';
 import React from 'react';
 import type { MenuProps } from '../src';
-import Menu, { MenuItem, SubMenu } from '../src';
+import Menu from '../src';
 
 describe('React18', () => {
   function runAllTimer() {
@@ -24,17 +24,44 @@ describe('React18', () => {
   function createMenu(props?: MenuProps) {
     return (
       <React.StrictMode>
-        <Menu {...props}>
-          <SubMenu key="s1" title="submenu1">
-            <MenuItem key="s1-1">1</MenuItem>
-            <SubMenu key="s1-2" title="submenu1-1">
-              <MenuItem key="s1-2-1">2</MenuItem>
-            </SubMenu>
-          </SubMenu>
-          <SubMenu key="s2" title="submenu2">
-            <MenuItem key="s2-2">2</MenuItem>
-          </SubMenu>
-        </Menu>
+        <Menu
+          {...props}
+          items={[
+            {
+              key: 's1',
+              label: 'submenu1',
+              type: 'submenu',
+              children: [
+                {
+                  key: 's1-1',
+                  label: '1',
+                },
+                {
+                  key: 's1-2',
+                  label: 'submenu1-1',
+                  type: 'submenu',
+                  children: [
+                    {
+                      key: 's1-2-1',
+                      label: '2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              key: 's2',
+              label: 'submenu2',
+              type: 'submenu',
+              children: [
+                {
+                  key: 's2-2',
+                  label: '2',
+                },
+              ],
+            },
+          ]}
+        />
       </React.StrictMode>
     );
   }

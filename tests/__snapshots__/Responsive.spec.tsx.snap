@@ -29,7 +29,9 @@ HTMLCollection [
         class="rc-menu-submenu-title"
         role="menuitem"
         tabindex="-1"
+        title="Bamboo"
       >
+        Bamboo
         <i
           class="rc-menu-submenu-arrow"
         />
@@ -69,8 +71,6 @@ HTMLCollection [
   <div
     aria-hidden="true"
     style="display: none;"
-  >
-    Bamboo
-  </div>,
+  />,
 ]
 `;

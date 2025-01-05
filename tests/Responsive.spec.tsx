@@ -4,7 +4,7 @@ import ResizeObserver from 'rc-resize-observer';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototype } from 'rc-util/lib/test/domHook';
 import React from 'react';
-import Menu, { MenuItem, SubMenu } from '../src';
+import Menu from '../src';
 import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
 import { last } from './util';
 
@@ -84,11 +84,25 @@ describe('Menu.Responsive', () => {
 
   it('ssr render full', () => {
     const { container } = render(
-      <Menu mode="horizontal">
-        <MenuItem key="light">Light</MenuItem>
-        <SubMenu key="bamboo">Bamboo</SubMenu>
-        <MenuItem key="little">Little</MenuItem>
-      </Menu>,
+      <Menu
+        mode="horizontal"
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+          },
+          {
+            key: 'bamboo',
+            label: 'Bamboo',
+            type: 'submenu',
+            children: [],
+          },
+          {
+            key: 'little',
+            label: 'Little',
+          },
+        ]}
+      />,
     );
 
     expect(container.children).toMatchSnapshot();
@@ -103,13 +117,28 @@ describe('Menu.Responsive', () => {
         activeKey="little"
         onOpenChange={onOpenChange}
         {...props}
-      >
-        <MenuItem key="light">Light</MenuItem>
-        <MenuItem key="bamboo">Bamboo</MenuItem>
-        <SubMenu key="home" title="Home">
-          <MenuItem key="little">Little</MenuItem>
-        </SubMenu>
-      </Menu>
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+          },
+          {
+            key: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            key: 'home',
+            label: 'Home',
+            type: 'submenu',
+            children: [
+              {
+                key: 'little',
+                label: 'Little',
+              },
+            ],
+          },
+        ]}
+      />
     );
 
     const { container, rerender } = render(genMenu());
@@ -149,13 +178,6 @@ describe('Menu.Responsive', () => {
         });
       });
     spy.mockRestore();
-
-    // Should show the rest icon
-    // expect(
-    //   last(container.querySelectorAll('.rc-menu-overflow-item-rest')),
-    // ).not.toHaveStyle({
-    //   opacity: '0',
-    // });
 
     // Should set active on rest
     expect(
