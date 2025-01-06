@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
-import Menu, { SubMenu, Item as MenuItem, Divider, MenuProps } from 'rc-menu';
+import Menu, { type MenuProps } from 'rc-menu';
 import '../../assets/index.less';
 
 function handleClick(info) {
@@ -48,82 +48,149 @@ const motionMap: Record<MenuProps['mode'], CSSMotionProps> = {
   vertical: verticalMotion,
 };
 
-const nestSubMenu = (
-  <SubMenu
-    title={<span className="submenu-title-wrapper">offset sub menu 2</span>}
-    key="4"
-    popupOffset={[-10, 15]}
-  >
-    <MenuItem key="4-1">inner inner</MenuItem>
-    <Divider />
-    <SubMenu
-      key="4-2"
-      title={<span className="submenu-title-wrapper">sub menu 1</span>}
-    >
-      <SubMenu
-        title={<span className="submenu-title-wrapper">sub 4-2-0</span>}
-        key="4-2-0"
-      >
-        <MenuItem key="4-2-0-1">inner inner</MenuItem>
-        <MenuItem key="4-2-0-2">inner inner2</MenuItem>
-      </SubMenu>
-      <MenuItem key="4-2-1">inn</MenuItem>
-      <SubMenu
-        title={<span className="submenu-title-wrapper">sub menu 4</span>}
-        key="4-2-2"
-      >
-        <MenuItem key="4-2-2-1">inner inner</MenuItem>
-        <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-      </SubMenu>
-      <SubMenu
-        title={<span className="submenu-title-wrapper">sub menu 3</span>}
-        key="4-2-3"
-      >
-        <MenuItem key="4-2-3-1">inner inner</MenuItem>
-        <MenuItem key="4-2-3-2">inner inner2</MenuItem>
-      </SubMenu>
-    </SubMenu>
-  </SubMenu>
-);
+const nestSubMenu = {
+  key: '4',
+  label: <span className="submenu-title-wrapper">offset sub menu 2</span>,
+  type: 'submenu',
+  popupOffset: [-10, 15],
+  children: [
+    {
+      key: '4-1',
+      label: 'inner inner',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: '4-2',
+      label: <span className="submenu-title-wrapper">sub menu 1</span>,
+      type: 'submenu',
+      children: [
+        {
+          key: '4-2-0',
+          label: <span className="submenu-title-wrapper">sub 4-2-0</span>,
+          type: 'submenu',
+          children: [
+            {
+              key: '4-2-0-1',
+              label: 'inner inner',
+            },
+            {
+              key: '4-2-0-2',
+              label: 'inner inner2',
+            },
+          ],
+        },
+        {
+          key: '4-2-1',
+          label: 'inn',
+        },
+        {
+          key: '4-2-2',
+          label: <span className="submenu-title-wrapper">sub menu 4</span>,
+          type: 'submenu',
+          children: [
+            {
+              key: '4-2-2-1',
+              label: 'inner inner',
+            },
+            {
+              key: '4-2-2-2',
+              label: 'inner inner2',
+            },
+          ],
+        },
+        {
+          key: '4-2-3',
+          label: <span className="submenu-title-wrapper">sub menu 3</span>,
+          type: 'submenu',
+          children: [
+            {
+              key: '4-2-3-1',
+              label: 'inner inner',
+            },
+            {
+              key: '4-2-3-2',
+              label: 'inner inner2',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
 
 function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
 
 const children1 = [
-  <SubMenu
-    title={<span className="submenu-title-wrapper">sub menu</span>}
-    key="1"
-  >
-    <MenuItem key="1-1">0-1</MenuItem>
-    <MenuItem key="1-2">0-2</MenuItem>
-  </SubMenu>,
+  {
+    key: '1',
+    label: <span className="submenu-title-wrapper">sub menu</span>,
+    type: 'submenu',
+    children: [
+      {
+        key: '1-1',
+        label: '0-1',
+      },
+      {
+        key: '1-2',
+        label: '0-2',
+      },
+    ],
+  },
   nestSubMenu,
-  <MenuItem key="2">1</MenuItem>,
-  <MenuItem key="3">outer</MenuItem>,
-  <MenuItem key="5" disabled>
-    disabled
-  </MenuItem>,
-  <MenuItem key="6">outer3</MenuItem>,
+  {
+    key: '2',
+    label: '1',
+  },
+  {
+    key: '3',
+    label: 'outer',
+  },
+  {
+    key: '5',
+    label: 'disabled',
+    disabled: true,
+  },
+  {
+    key: '6',
+    label: 'outer3',
+  },
 ];
 
 const children2 = [
-  <SubMenu
-    title={<span className="submenu-title-wrapper">sub menu</span>}
-    key="1"
-  >
-    <MenuItem key="1-1">0-1</MenuItem>
-    <MenuItem key="1-2">0-2</MenuItem>
-  </SubMenu>,
-  <MenuItem key="2">1</MenuItem>,
-  <MenuItem key="3">outer</MenuItem>,
+  {
+    key: '1',
+    label: <span className="submenu-title-wrapper">sub menu</span>,
+    type: 'submenu',
+    children: [
+      {
+        key: '1-1',
+        label: '0-1',
+      },
+      {
+        key: '1-2',
+        label: '0-2',
+      },
+    ],
+  },
+  {
+    key: '2',
+    label: '1',
+  },
+  {
+    key: '3',
+    label: 'outer',
+  },
 ];
 
 const customizeIndicator = <span>Add More Items</span>;
 
 interface CommonMenuState {
-    children: React.ReactNode;
-    overflowedIndicator?: React.ReactNode;
+  children: React.ReactNode;
+  overflowedIndicator?: React.ReactNode;
 }
 
 class CommonMenu extends React.Component<any, CommonMenuState> {
@@ -133,6 +200,7 @@ class CommonMenu extends React.Component<any, CommonMenuState> {
   } as CommonMenuState;
 
   toggleChildren = () => {
+    // @ts-ignore
     this.setState(({ children }) => ({
       children: children === children1 ? children2 : children1,
     }));
