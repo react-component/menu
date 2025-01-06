@@ -126,7 +126,7 @@ function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
 
-const children1: ItemType[] = [
+const items1: ItemType[] = [
   {
     type: 'submenu',
     key: '1',
@@ -162,7 +162,7 @@ const children1: ItemType[] = [
   },
 ];
 
-const children2 = [
+const items2 = [
   {
     type: 'submenu',
     key: '1',
@@ -196,7 +196,7 @@ interface CommonMenuProps extends MenuProps {
 }
 
 interface CommonMenuState {
-  children: ItemType[];
+  items: ItemType[];
   overflowedIndicator: React.ReactNode;
 }
 
@@ -205,14 +205,14 @@ export class CommonMenu extends React.Component<
   CommonMenuState
 > {
   state: CommonMenuState = {
-    children: children1 as ItemType[],
+    items: items1 as ItemType[],
     overflowedIndicator: undefined,
   };
 
   toggleChildren = () => {
     // @ts-ignore
-    this.setState(({ children }) => ({
-      children: children === children1 ? children2 : children1,
+    this.setState(({ items }) => ({
+      items: items === items1 ? items2 : items1,
     }));
   };
 
@@ -225,13 +225,13 @@ export class CommonMenu extends React.Component<
 
   render() {
     const { triggerSubMenuAction } = this.props;
-    const { children, overflowedIndicator } = this.state;
+    const { items, overflowedIndicator } = this.state;
     return (
       <div>
         {this.props.updateChildrenAndOverflowedIndicator && (
           <div>
             <button type="button" onClick={this.toggleChildren}>
-              toggle children
+              toggle items
             </button>
             <button type="button" onClick={this.toggleOverflowedIndicator}>
               toggle overflowedIndicator
@@ -245,7 +245,7 @@ export class CommonMenu extends React.Component<
           selectedKeys={['3']}
           overflowedIndicator={overflowedIndicator}
           {...this.props}
-          items={children}
+          items={items}
         />
       </div>
     );

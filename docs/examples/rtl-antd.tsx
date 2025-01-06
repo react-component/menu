@@ -4,6 +4,7 @@ import React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
 import Menu, { type MenuProps } from 'rc-menu';
 import '../../assets/index.less';
+import type { ItemType } from '@/interface';
 
 function handleClick(info) {
   console.log(`clicked ${info.key}`);
@@ -124,7 +125,7 @@ function onOpenChange(value) {
   console.log('onOpenChange', value);
 }
 
-const children1 = [
+const items1 = [
   {
     key: '1',
     label: <span className="submenu-title-wrapper">sub menu</span>,
@@ -160,7 +161,7 @@ const children1 = [
   },
 ];
 
-const children2 = [
+const items2 = [
   {
     key: '1',
     label: <span className="submenu-title-wrapper">sub menu</span>,
@@ -189,20 +190,20 @@ const children2 = [
 const customizeIndicator = <span>Add More Items</span>;
 
 interface CommonMenuState {
-  children: React.ReactNode;
+  items: ItemType[];
   overflowedIndicator?: React.ReactNode;
 }
 
 class CommonMenu extends React.Component<any, CommonMenuState> {
   state = {
-    children: children1,
+    items: items1,
     overflowedIndicator: undefined,
   } as CommonMenuState;
 
-  toggleChildren = () => {
+  toggleItems = () => {
     // @ts-ignore
-    this.setState(({ children }) => ({
-      children: children === children1 ? children2 : children1,
+    this.setState(({ items }) => ({
+      items: items === items1 ? items2 : items1,
     }));
   };
 
@@ -215,13 +216,13 @@ class CommonMenu extends React.Component<any, CommonMenuState> {
 
   render() {
     const { updateChildrenAndOverflowedIndicator, ...restProps } = this.props;
-    const { children, overflowedIndicator } = this.state;
+    const { items, overflowedIndicator } = this.state;
     return (
       <div>
         {updateChildrenAndOverflowedIndicator && (
           <div>
-            <button type="button" onClick={this.toggleChildren}>
-              toggle children
+            <button type="button" onClick={this.toggleItems}>
+              toggle items
             </button>
             <button type="button" onClick={this.toggleOverflowedIndicator}>
               toggle overflowedIndicator
@@ -235,9 +236,8 @@ class CommonMenu extends React.Component<any, CommonMenuState> {
           overflowedIndicator={overflowedIndicator}
           direction="rtl"
           {...restProps}
-        >
-          {children}
-        </Menu>
+          items={items}
+        />
       </div>
     );
   }
