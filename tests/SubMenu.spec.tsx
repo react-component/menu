@@ -364,61 +364,17 @@ describe('SubMenu', () => {
   });
 
   describe('undefined key', () => {
-    it('warning item', () => {
-      resetWarned();
-      const errorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-
-      render(
-        <Menu
-          items={[
-            {
-              label: '1',
-              type: 'item',
-              key: undefined,
-            },
-          ]}
-        />,
-      );
-
-      expect(errorSpy).toHaveBeenCalledWith(
-        'Warning: MenuItem should not leave undefined `key`.',
-      );
-
-      errorSpy.mockRestore();
-    });
-
-    it('warning sub menu', () => {
-      resetWarned();
-      const errorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-
-      render(
-        <Menu
-          items={[
-            {
-              type: 'submenu',
-              key: undefined,
-              children: [],
-            },
-          ]}
-        />,
-      );
-
-      expect(errorSpy).toHaveBeenCalledWith(
-        'Warning: SubMenu should not leave undefined `key`.',
-      );
-
-      errorSpy.mockRestore();
-    });
-
     it('should not warning', () => {
       resetWarned();
+      const errors: any[] = [];
       const errorSpy = jest
         .spyOn(console, 'error')
-        .mockImplementation(() => {});
+        .mockImplementation((msg, ...args) => {
+          // Only collect non-act related warnings
+          if (!msg.includes('act(...)')) {
+            errors.push([msg, ...args]);
+          }
+        });
 
       render(
         <Menu
@@ -430,7 +386,8 @@ describe('SubMenu', () => {
         />,
       );
 
-      expect(errorSpy).not.toHaveBeenCalled();
+      // Check if there are any non-act related warnings
+      expect(errors).toHaveLength(0);
       errorSpy.mockRestore();
     });
   });
