@@ -1,10 +1,9 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import Menu, { MenuItem, SubMenu } from '../src';
+import Menu from '../src';
 import { isActive, last } from './util';
 
 describe('Menu.Keyboard', () => {
@@ -47,11 +46,22 @@ describe('Menu.Keyboard', () => {
 
   it('no data-menu-id by init', () => {
     const { container } = render(
-      <Menu mode="inline" openKeys={['light']}>
-        <Menu.SubMenu key="light" title="Light">
-          <Menu.Item key="bamboo">Bamboo</Menu.Item>
-        </Menu.SubMenu>
-      </Menu>,
+      <Menu
+        mode="inline"
+        openKeys={['light']}
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+            children: [
+              {
+                key: 'bamboo',
+                label: 'Bamboo',
+              },
+            ],
+          },
+        ]}
+      />,
     );
 
     expect(container.children).toMatchSnapshot();
@@ -65,11 +75,12 @@ describe('Menu.Keyboard', () => {
 
       render() {
         return (
-          <Menu>
-            {this.state.items.map(i => (
-              <MenuItem key={i}>{i}</MenuItem>
-            ))}
-          </Menu>
+          <Menu
+            items={this.state.items.map(i => ({
+              key: i,
+              label: i,
+            }))}
+          />
         );
       }
     }
@@ -95,13 +106,34 @@ describe('Menu.Keyboard', () => {
 
   it('Skip disabled item', () => {
     const { container } = render(
-      <Menu defaultActiveFirst>
-        <MenuItem disabled />
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem disabled />
-        <MenuItem key="2">2</MenuItem>
-        <MenuItem disabled />
-      </Menu>,
+      <Menu
+        defaultActiveFirst
+        items={[
+          {
+            key: 'disabled-1',
+            label: '',
+            disabled: true,
+          },
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: 'disabled-2',
+            label: '',
+            disabled: true,
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+          {
+            key: 'disabled-3',
+            label: '',
+            disabled: true,
+          },
+        ]}
+      />,
     );
 
     // Next item
@@ -124,11 +156,21 @@ describe('Menu.Keyboard', () => {
 
   it('Enter to open menu and active first item', () => {
     const { container } = render(
-      <Menu>
-        <SubMenu key="s1" title="submenu1">
-          <MenuItem key="s1-1">1</MenuItem>
-        </SubMenu>
-      </Menu>,
+      <Menu
+        items={[
+          {
+            key: 's1',
+            type: 'submenu',
+            label: 'submenu1',
+            children: [
+              {
+                key: 's1-1',
+                label: '1',
+              },
+            ],
+          },
+        ]}
+      />,
     );
 
     // Active first sub menu
@@ -150,13 +192,30 @@ describe('Menu.Keyboard', () => {
     ) {
       it(`direction ${direction}`, () => {
         const { container, unmount } = render(
-          <Menu mode="vertical" direction={direction}>
-            <SubMenu key="bamboo" title="Bamboo">
-              <SubMenu key="light" title="Light">
-                <MenuItem key="little">Little</MenuItem>
-              </SubMenu>
-            </SubMenu>
-          </Menu>,
+          <Menu
+            mode="vertical"
+            direction={direction}
+            items={[
+              {
+                key: 'bamboo',
+                type: 'submenu',
+                label: 'Bamboo',
+                children: [
+                  {
+                    key: 'light',
+                    type: 'submenu',
+                    label: 'Light',
+                    children: [
+                      {
+                        key: 'little',
+                        label: 'Little',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ]}
+          />,
         );
 
         // Active first
@@ -206,12 +265,26 @@ describe('Menu.Keyboard', () => {
 
   it('inline keyboard', () => {
     const { container } = render(
-      <Menu mode="inline">
-        <MenuItem key="light">Light</MenuItem>
-        <SubMenu key="bamboo" title="Bamboo">
-          <MenuItem key="little">Little</MenuItem>
-        </SubMenu>
-      </Menu>,
+      <Menu
+        mode="inline"
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+          },
+          {
+            key: 'bamboo',
+            type: 'submenu',
+            label: 'Bamboo',
+            children: [
+              {
+                key: 'little',
+                label: 'Little',
+              },
+            ],
+          },
+        ]}
+      />,
     );
 
     // Nothing happen when no control key
@@ -244,10 +317,19 @@ describe('Menu.Keyboard', () => {
 
   it('Focus last one', () => {
     const { container } = render(
-      <Menu mode="inline">
-        <MenuItem key="light">Light</MenuItem>
-        <MenuItem key="bamboo">Bamboo</MenuItem>
-      </Menu>,
+      <Menu
+        mode="inline"
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+          },
+          {
+            key: 'bamboo',
+            label: 'Bamboo',
+          },
+        ]}
+      />,
     );
 
     keyDown(container, KeyCode.UP);
@@ -256,11 +338,15 @@ describe('Menu.Keyboard', () => {
 
   it('Focus to link direct', () => {
     const { container } = render(
-      <Menu mode="inline">
-        <MenuItem key="light">
-          <a href="https://ant.design">Light</a>
-        </MenuItem>
-      </Menu>,
+      <Menu
+        mode="inline"
+        items={[
+          {
+            key: 'light',
+            label: <a href="https://ant.design">Light</a>,
+          },
+        ]}
+      />,
     );
 
     const focusSpy = jest.spyOn(container.querySelector('a'), 'focus');
@@ -271,9 +357,16 @@ describe('Menu.Keyboard', () => {
 
   it('no dead loop', async () => {
     const { container } = render(
-      <Menu mode="vertical" openKeys={['bamboo']}>
-        <MenuItem key="little">Little</MenuItem>
-      </Menu>,
+      <Menu
+        mode="vertical"
+        openKeys={['bamboo']}
+        items={[
+          {
+            key: 'little',
+            label: 'Little',
+          },
+        ]}
+      />,
     );
 
     keyDown(container, KeyCode.DOWN);

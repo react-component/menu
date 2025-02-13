@@ -2,7 +2,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import React from 'react';
-import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
+import Menu from '../src';
 
 describe('MenuItem', () => {
   const subMenuIconText = 'SubMenuIcon';
@@ -27,9 +27,17 @@ describe('MenuItem', () => {
   describe('custom icon', () => {
     it('should render custom arrow icon correctly.', () => {
       const { container } = render(
-        <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
-          <MenuItem key="1">1</MenuItem>
-        </Menu>,
+        <Menu
+          mode="vertical"
+          itemIcon={itemIcon}
+          expandIcon={expandIcon}
+          items={[
+            {
+              key: '1',
+              label: '1',
+            },
+          ]}
+        />,
       );
       const menuItemText = container.querySelector('.rc-menu-item').textContent;
       expect(menuItemText).toEqual(`1${menuItemIconText}`);
@@ -38,12 +46,22 @@ describe('MenuItem', () => {
     it('should render custom arrow icon correctly (with children props).', () => {
       const targetText = 'target';
       const { container } = render(
-        <Menu mode="vertical" itemIcon={itemIcon} expandIcon={expandIcon}>
-          <MenuItem key="1" itemIcon={() => <span>{targetText}</span>}>
-            1
-          </MenuItem>
-          <MenuItem key="2">2</MenuItem>
-        </Menu>,
+        <Menu
+          mode="vertical"
+          itemIcon={itemIcon}
+          expandIcon={expandIcon}
+          items={[
+            {
+              key: '1',
+              label: '1',
+              itemIcon: () => <span>{targetText}</span>,
+            },
+            {
+              key: '2',
+              label: '2',
+            },
+          ]}
+        />,
       );
       const menuItemText = container.querySelector('.rc-menu-item').textContent;
       expect(menuItemText).toEqual(`1${targetText}`);
@@ -53,11 +71,16 @@ describe('MenuItem', () => {
   it('not fires select event when disabled', () => {
     const handleSelect = jest.fn();
     const { container } = render(
-      <Menu onSelect={handleSelect}>
-        <MenuItem disabled>
-          <span className="xx">Item content</span>
-        </MenuItem>
-      </Menu>,
+      <Menu
+        onSelect={handleSelect}
+        items={[
+          {
+            key: '1',
+            disabled: true,
+            label: <span className="xx">Item content</span>,
+          },
+        ]}
+      />,
     );
 
     fireEvent.click(container.querySelector('.xx'));
@@ -67,9 +90,16 @@ describe('MenuItem', () => {
   describe('menuItem events', () => {
     function renderMenu(props, itemProps) {
       return render(
-        <Menu {...props}>
-          <MenuItem key="light" {...itemProps} />
-        </Menu>,
+        <Menu
+          {...props}
+          items={[
+            {
+              key: 'light',
+              label: 'light',
+              ...itemProps,
+            },
+          ]}
+        />,
       );
     }
 
@@ -120,21 +150,42 @@ describe('MenuItem', () => {
       };
 
       const { container } = render(
-        <Menu mode="inline" activeKey="1" openKeys={['bamboo']}>
-          <MenuItem key="1" {...restProps}>
-            1
-          </MenuItem>
-          <SubMenu key="bamboo" {...restProps}>
-            <MenuItem key="2" {...restProps}>
-              3
-            </MenuItem>
-          </SubMenu>
-          <MenuItemGroup {...restProps}>
-            <MenuItem key="3" {...restProps}>
-              4
-            </MenuItem>
-          </MenuItemGroup>
-        </Menu>,
+        <Menu
+          mode="inline"
+          activeKey="1"
+          openKeys={['bamboo']}
+          items={[
+            {
+              key: '1',
+              label: '1',
+              ...restProps,
+            },
+            {
+              key: 'bamboo',
+              label: 'bamboo',
+              type: 'submenu',
+              ...restProps,
+              children: [
+                {
+                  key: '2',
+                  label: '3',
+                  ...restProps,
+                },
+              ],
+            },
+            {
+              type: 'group',
+              ...restProps,
+              children: [
+                {
+                  key: '3',
+                  label: '4',
+                  ...restProps,
+                },
+              ],
+            },
+          ]}
+        />,
       );
 
       expect(container.children).toMatchSnapshot();
@@ -153,9 +204,15 @@ describe('MenuItem', () => {
   describe('overwrite default role', () => {
     it('should set role to none if null', () => {
       const { container } = render(
-        <Menu>
-          <MenuItem role={null}>test</MenuItem>
-        </Menu>,
+        <Menu
+          items={[
+            {
+              key: '1',
+              label: 'test',
+              role: null,
+            },
+          ]}
+        />,
       );
 
       expect(container.querySelector('li')).toMatchSnapshot();
@@ -163,9 +220,15 @@ describe('MenuItem', () => {
 
     it('should set role to none if none', () => {
       const { container } = render(
-        <Menu>
-          <MenuItem role="none">test</MenuItem>
-        </Menu>,
+        <Menu
+          items={[
+            {
+              key: '1',
+              label: 'test',
+              role: 'none',
+            },
+          ]}
+        />,
       );
 
       expect(container.querySelector('li')).toMatchSnapshot();
@@ -173,9 +236,15 @@ describe('MenuItem', () => {
 
     it('should set role to listitem', () => {
       const { container } = render(
-        <Menu>
-          <MenuItem role="listitem">test</MenuItem>
-        </Menu>,
+        <Menu
+          items={[
+            {
+              key: '1',
+              label: 'test',
+              role: 'listitem',
+            },
+          ]}
+        />,
       );
 
       expect(container.querySelector('li')).toMatchSnapshot();
@@ -183,9 +252,15 @@ describe('MenuItem', () => {
 
     it('should set role to option', () => {
       const { container } = render(
-        <Menu>
-          <MenuItem role="option">test</MenuItem>
-        </Menu>,
+        <Menu
+          items={[
+            {
+              key: '1',
+              label: 'test',
+              role: 'option',
+            },
+          ]}
+        />,
       );
 
       expect(container.querySelector('li')).toMatchSnapshot();

@@ -53,6 +53,10 @@ export interface MenuItemType extends ItemSharedProps {
 
   key: React.Key;
 
+  title?: string;
+
+  role?: React.AriaRole;
+
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;
   onMouseLeave?: MenuHoverEventHandler;
@@ -62,6 +66,8 @@ export interface MenuItemType extends ItemSharedProps {
 }
 
 export interface MenuItemGroupType extends ItemSharedProps {
+  key?: React.Key;
+
   type: 'group';
 
   label?: React.ReactNode;
@@ -139,4 +145,6 @@ export type MenuRef = {
 // ======================== Component ========================
 export type ComponentType = 'submenu' | 'item' | 'group' | 'divider';
 
-export type Components = Partial<Record<ComponentType, React.ComponentType<any>>>;
+export type Components = Partial<
+  Record<ComponentType, React.ComponentType<any>>
+>;

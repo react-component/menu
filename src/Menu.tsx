@@ -62,9 +62,6 @@ export interface MenuProps
   rootClassName?: string;
   items?: ItemType[];
 
-  /** @deprecated Please use `items` instead */
-  children?: React.ReactNode;
-
   disabled?: boolean;
   /** @private Disable auto overflow. Pls note the prop name may refactor since we do not final decided. */
   disabledOverflow?: boolean;
@@ -173,7 +170,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     className,
     tabIndex = 0,
     items,
-    children,
     direction,
 
     id,
@@ -248,10 +244,10 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     measureChildList: React.ReactElement[],
   ] = React.useMemo(
     () => [
-      parseItems(children, items, EMPTY_LIST, _internalComponents, prefixCls),
-      parseItems(children, items, EMPTY_LIST, {}, prefixCls),
+      parseItems(items, EMPTY_LIST, _internalComponents, prefixCls),
+      parseItems(items, EMPTY_LIST, {}, prefixCls),
     ],
-    [children, items, _internalComponents],
+    [items, _internalComponents],
   );
 
   const [mounted, setMounted] = React.useState(false);

@@ -64,13 +64,12 @@ function convertItemsToNodes(
 }
 
 export function parseItems(
-  children: React.ReactNode | undefined,
   items: ItemType[] | undefined,
   keyPath: string[],
   components: Components,
   prefixCls?: string,
 ) {
-  let childNodes = children;
+  let childNodes;
 
   const mergedComponents: Required<Components> = {
     divider: Divider,

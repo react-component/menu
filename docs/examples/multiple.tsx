@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
+import Menu from 'rc-menu';
 
 import '../../assets/index.less';
 
@@ -27,31 +27,82 @@ function Demo() {
       onSelect={handleSelect}
       onDeselect={handleDeselect}
       defaultSelectedKeys={['2', '1-1']}
-    >
-      <SubMenu title={titleRight} key="1">
-        <MenuItem key="1-1">0-1</MenuItem>
-        <MenuItem key="1-2">0-2</MenuItem>
-      </SubMenu>
-      <MenuItem key="2" disabled>
-        can not deselect me, i am disabled
-      </MenuItem>
-      <MenuItem key="3">outer</MenuItem>
-      <SubMenu title={titleRight1} key="4">
-        <MenuItem key="4-1">inner inner</MenuItem>
-        <Divider />
-        <SubMenu key="4-2" title={titleRight2}>
-          <MenuItem key="4-2-1">inn</MenuItem>
-          <SubMenu title={titleRight3} key="4-2-2">
-            <MenuItem key="4-2-2-1">inner inner</MenuItem>
-            <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-          </SubMenu>
-        </SubMenu>
-      </SubMenu>
-      <MenuItem disabled key="disabled">
-        disabled
-      </MenuItem>
-      <MenuItem key="4-3">outer3</MenuItem>
-    </Menu>
+      items={[
+        {
+          label: titleRight,
+          type: 'submenu',
+          key: '1',
+          children: [
+            {
+              label: '0-1',
+              key: '1-1',
+            },
+            {
+              label: '0-2',
+              key: '1-2',
+            },
+          ],
+        },
+        {
+          label: 'can not deselect me, i am disabled',
+          key: '2',
+          disabled: true,
+        },
+        {
+          label: 'outer',
+          key: '3',
+        },
+        {
+          label: titleRight1,
+          type: 'submenu',
+          key: '4',
+          children: [
+            {
+              label: 'inner inner',
+              key: '4-1',
+            },
+            {
+              type: 'divider',
+            },
+            {
+              label: titleRight2,
+              type: 'submenu',
+              key: '4-2',
+              children: [
+                {
+                  label: 'inn',
+                  key: '4-2-1',
+                },
+                {
+                  label: titleRight3,
+                  type: 'submenu',
+                  key: '4-2-2',
+                  children: [
+                    {
+                      label: 'inner inner',
+                      key: '4-2-2-1',
+                    },
+                    {
+                      label: 'inner inner2',
+                      key: '4-2-2-2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'disabled',
+          key: 'disabled',
+          disabled: true,
+        },
+        {
+          label: 'outer3',
+          key: '4-3',
+        },
+      ]}
+    />
   );
   return (
     <div>

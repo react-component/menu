@@ -1,12 +1,11 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import type { MenuMode } from '@/interface';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { resetWarned } from 'rc-util/lib/warning';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 import type { MenuRef } from '../src';
-import Menu, { Divider, MenuItem, MenuItemGroup, SubMenu } from '../src';
+import Menu from '../src';
 import { isActive, last } from './util';
 
 jest.mock('@rc-component/trigger', () => {
@@ -49,23 +48,57 @@ describe('Menu', () => {
           className="myMenu"
           openAnimation="fade"
           {...props}
-        >
-          <MenuItemGroup title="g1">
-            <MenuItem key="1">1</MenuItem>
-            <Divider />
-            <MenuItem key="2">2</MenuItem>
-          </MenuItemGroup>
-          <MenuItem key="3">3</MenuItem>
-          <MenuItemGroup title="g2">
-            <MenuItem key="4">4</MenuItem>
-            <MenuItem key="5" disabled>
-              5
-            </MenuItem>
-          </MenuItemGroup>
-          <SubMenu key={subKey} title="submenu">
-            <MenuItem key="6">6</MenuItem>
-          </SubMenu>
-        </Menu>
+          items={[
+            {
+              key: 'g1',
+              type: 'group',
+              label: 'g1',
+              children: [
+                {
+                  key: '1',
+                  label: '1',
+                },
+                {
+                  type: 'divider',
+                },
+                {
+                  key: '2',
+                  label: '2',
+                },
+              ],
+            },
+            {
+              key: '3',
+              label: '3',
+            },
+            {
+              key: 'g2',
+              type: 'group',
+              label: 'g2',
+              children: [
+                {
+                  key: '4',
+                  label: '4',
+                },
+                {
+                  key: '5',
+                  label: '5',
+                  disabled: true,
+                },
+              ],
+            },
+            {
+              key: subKey,
+              label: 'submenu',
+              children: [
+                {
+                  key: '6',
+                  label: '6',
+                },
+              ],
+            },
+          ]}
+        />
       );
     }
 
@@ -105,9 +138,16 @@ describe('Menu', () => {
       it(`${mode} menu that has a submenu with undefined children without error`, () => {
         expect(() =>
           render(
-            <Menu mode={mode}>
-              <SubMenu />
-            </Menu>,
+            <Menu
+              mode={mode}
+              items={[
+                {
+                  key: 'submenu',
+                  label: '',
+                  children: undefined,
+                },
+              ]}
+            />,
           ),
         ).not.toThrow();
       });
@@ -122,18 +162,40 @@ describe('Menu', () => {
 
     it('should support Fragment', () => {
       const { container } = render(
-        <Menu>
-          <SubMenu title="submenu">
-            <MenuItem key="6">6</MenuItem>
-          </SubMenu>
-          <MenuItem key="7">6</MenuItem>
-          <>
-            <SubMenu title="submenu">
-              <MenuItem key="8">6</MenuItem>
-            </SubMenu>
-            <MenuItem key="9">6</MenuItem>
-          </>
-        </Menu>,
+        <Menu
+          items={[
+            {
+              key: 'submenu1',
+              type: 'submenu',
+              label: 'submenu',
+              children: [
+                {
+                  key: '6',
+                  label: '6',
+                },
+              ],
+            },
+            {
+              key: '7',
+              label: '6',
+            },
+            {
+              key: 'submenu2',
+              type: 'submenu',
+              label: 'submenu',
+              children: [
+                {
+                  key: '8',
+                  label: '6',
+                },
+              ],
+            },
+            {
+              key: '9',
+              label: '6',
+            },
+          ]}
+        />,
       );
       expect(container.children).toMatchSnapshot();
     });
@@ -142,17 +204,27 @@ describe('Menu', () => {
   describe('render role listbox', () => {
     function createMenu() {
       return (
-        <Menu className="myMenu" role="listbox">
-          <MenuItem key="1" role="option">
-            1
-          </MenuItem>
-          <MenuItem key="2" role="option">
-            2
-          </MenuItem>
-          <MenuItem key="3" role="option">
-            3
-          </MenuItem>
-        </Menu>
+        <Menu
+          className="myMenu"
+          role="listbox"
+          items={[
+            {
+              key: '1',
+              label: '1',
+              role: 'option',
+            },
+            {
+              key: '2',
+              label: '2',
+              role: 'option',
+            },
+            {
+              key: '3',
+              label: '3',
+              role: 'option',
+            },
+          ]}
+        />
       );
     }
 
@@ -164,10 +236,20 @@ describe('Menu', () => {
 
   it('set activeKey', () => {
     const genMenu = (props?) => (
-      <Menu activeKey="1" {...props}>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>
+      <Menu
+        activeKey="1"
+        {...props}
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />
     );
 
     const { container, rerender } = render(genMenu());
@@ -181,40 +263,40 @@ describe('Menu', () => {
 
   it('active first item', () => {
     const { container } = render(
-      <Menu defaultActiveFirst>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
+      <Menu
+        defaultActiveFirst
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />,
     );
     expect(container.querySelector('.rc-menu-item')).toHaveClass(
       'rc-menu-item-active',
     );
   });
 
-  it('should render none menu item children', () => {
-    expect(() => {
-      render(
-        <Menu activeKey="1">
-          <MenuItem key="1">1</MenuItem>
-          <MenuItem key="2">2</MenuItem>
-          string
-          {'string'}
-          {null}
-          {undefined}
-          {12345}
-          <div />
-          <input />
-        </Menu>,
-      );
-    }).not.toThrow();
-  });
-
   it('select multiple items', () => {
     const { container } = render(
-      <Menu multiple>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
+      <Menu
+        multiple
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />,
     );
 
     fireEvent.click(container.querySelector('.rc-menu-item'));
@@ -275,10 +357,20 @@ describe('Menu', () => {
 
   it('can be controlled by selectedKeys', () => {
     const genMenu = (props?) => (
-      <Menu selectedKeys={['1']} {...props}>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>
+      <Menu
+        selectedKeys={['1']}
+        {...props}
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />
     );
     const { container, rerender } = render(genMenu());
     expect(container.querySelector('li').className).toContain('-selected');
@@ -290,9 +382,15 @@ describe('Menu', () => {
 
   it('empty selectedKeys not to throw', () => {
     render(
-      <Menu selectedKeys={null}>
-        <MenuItem key="foo">foo</MenuItem>
-      </Menu>,
+      <Menu
+        selectedKeys={null}
+        items={[
+          {
+            key: 'foo',
+            label: 'foo',
+          },
+        ]}
+      />,
     );
   });
 
@@ -300,9 +398,17 @@ describe('Menu', () => {
     const onSelect = jest.fn();
 
     const genMenu = (props?) => (
-      <Menu onSelect={onSelect} selectedKeys={[]} {...props}>
-        <MenuItem key="bamboo">Bamboo</MenuItem>
-      </Menu>
+      <Menu
+        onSelect={onSelect}
+        selectedKeys={[]}
+        {...props}
+        items={[
+          {
+            key: 'bamboo',
+            label: 'Bamboo',
+          },
+        ]}
+      />
     );
 
     const { container, rerender } = render(genMenu());
@@ -321,10 +427,19 @@ describe('Menu', () => {
 
   it('select default item', () => {
     const { container } = render(
-      <Menu defaultSelectedKeys={['1']}>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
+      <Menu
+        defaultSelectedKeys={['1']}
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />,
     );
     expect(container.querySelector('li').className).toContain('-selected');
   });
@@ -333,10 +448,19 @@ describe('Menu', () => {
     // don't use selectedKeys as string
     // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
     const { container } = render(
-      <Menu selectedKeys={('item_abc' as unknown) as string[]}>
-        <MenuItem key="item_a">1</MenuItem>
-        <MenuItem key="item_abc">2</MenuItem>
-      </Menu>,
+      <Menu
+        selectedKeys={'item_abc' as unknown as string[]}
+        items={[
+          {
+            key: 'item_a',
+            label: '1',
+          },
+          {
+            key: 'item_abc',
+            label: '2',
+          },
+        ]}
+      />,
     );
     expect(container.querySelector('li').className).not.toContain('-selected');
     expect(container.querySelectorAll('li')[1].className).toContain(
@@ -347,14 +471,34 @@ describe('Menu', () => {
   describe('openKeys', () => {
     it('can be controlled by openKeys', () => {
       const genMenu = (props?) => (
-        <Menu openKeys={['g1']} {...props}>
-          <Menu.SubMenu key="g1">
-            <MenuItem key="1">1</MenuItem>
-          </Menu.SubMenu>
-          <Menu.SubMenu key="g2">
-            <MenuItem key="2">2</MenuItem>
-          </Menu.SubMenu>
-        </Menu>
+        <Menu
+          openKeys={['g1']}
+          {...props}
+          items={[
+            {
+              key: 'g1',
+              type: 'submenu',
+              label: 'g1',
+              children: [
+                {
+                  key: '1',
+                  label: '1',
+                },
+              ],
+            },
+            {
+              key: 'g2',
+              type: 'submenu',
+              label: 'g2',
+              children: [
+                {
+                  key: '2',
+                  label: '2',
+                },
+              ],
+            },
+          ]}
+        />
       );
       const { container, rerender } = render(genMenu());
 
@@ -382,26 +526,47 @@ describe('Menu', () => {
           openKeys={undefined}
           selectedKeys={['1']}
           mode="inline"
-        >
-          <SubMenu title="1231">
-            <MenuItem>
-              <a>
-                <span>123123</span>
-              </a>
-            </MenuItem>
-          </SubMenu>
-        </Menu>,
+          items={[
+            {
+              key: 'submenu',
+              type: 'submenu',
+              label: '1231',
+              children: [
+                {
+                  key: 'item1',
+                  label: (
+                    <a>
+                      <span>123123</span>
+                    </a>
+                  ),
+                },
+              ],
+            },
+          ]}
+        />,
       );
       expect(container.innerHTML).toBeTruthy();
     });
 
     it('null of openKeys', () => {
       const { container } = render(
-        <Menu openKeys={null} mode="inline">
-          <SubMenu key="bamboo" title="Bamboo">
-            <MenuItem key="light">Light</MenuItem>
-          </SubMenu>
-        </Menu>,
+        <Menu
+          openKeys={null}
+          mode="inline"
+          items={[
+            {
+              key: 'bamboo',
+              type: 'submenu',
+              label: 'Bamboo',
+              children: [
+                {
+                  key: 'light',
+                  label: 'Light',
+                },
+              ],
+            },
+          ]}
+        />,
       );
       expect(container.innerHTML).toBeTruthy();
     });
@@ -409,14 +574,33 @@ describe('Menu', () => {
 
   it('open default submenu', () => {
     const { container } = render(
-      <Menu defaultOpenKeys={['g1']}>
-        <SubMenu key="g1">
-          <MenuItem key="1">1</MenuItem>
-        </SubMenu>
-        <SubMenu key="g2">
-          <MenuItem key="2">2</MenuItem>
-        </SubMenu>
-      </Menu>,
+      <Menu
+        defaultOpenKeys={['g1']}
+        items={[
+          {
+            key: 'g1',
+            type: 'submenu',
+            label: 'g1',
+            children: [
+              {
+                key: '1',
+                label: '1',
+              },
+            ],
+          },
+          {
+            key: 'g2',
+            type: 'submenu',
+            label: 'g2',
+            children: [
+              {
+                key: '2',
+                label: '2',
+              },
+            ],
+          },
+        ]}
+      />,
     );
 
     act(() => {
@@ -434,10 +618,19 @@ describe('Menu', () => {
   it('fires select event', () => {
     const handleSelect = jest.fn();
     const { container } = render(
-      <Menu onSelect={handleSelect}>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
+      <Menu
+        onSelect={handleSelect}
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />,
     );
     fireEvent.click(container.querySelector('.rc-menu-item'));
     expect(handleSelect.mock.calls[0][0].key).toBe('1');
@@ -450,13 +643,31 @@ describe('Menu', () => {
 
     const handleClick = jest.fn();
     const { container } = render(
-      <Menu onClick={handleClick} openKeys={['parent']}>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-        <Menu.SubMenu key="parent">
-          <MenuItem key="3">3</MenuItem>
-        </Menu.SubMenu>
-      </Menu>,
+      <Menu
+        onClick={handleClick}
+        openKeys={['parent']}
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+          {
+            key: 'parent',
+            type: 'submenu',
+            label: 'parent',
+            children: [
+              {
+                key: '3',
+                label: '3',
+              },
+            ],
+          },
+        ]}
+      />,
     );
 
     act(() => {
@@ -482,10 +693,20 @@ describe('Menu', () => {
   it('fires deselect event', () => {
     const handleDeselect = jest.fn();
     const { container } = render(
-      <Menu multiple onDeselect={handleDeselect}>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>,
+      <Menu
+        multiple
+        onDeselect={handleDeselect}
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />,
     );
     const item = container.querySelector('.rc-menu-item');
     fireEvent.click(item);
@@ -495,24 +716,44 @@ describe('Menu', () => {
 
   it('active by mouse enter', () => {
     const { container } = render(
-      <Menu>
-        <MenuItem key="item1">item</MenuItem>
-        <MenuItem disabled>disabled</MenuItem>
-        <MenuItem key="item2">item2</MenuItem>
-      </Menu>,
+      <Menu
+        items={[
+          {
+            key: 'item1',
+            label: 'item',
+          },
+          {
+            key: 'disabled',
+            label: 'disabled',
+            disabled: true,
+          },
+          {
+            key: 'item2',
+            label: 'item2',
+          },
+        ]}
+      />,
     );
-    // wrapper.find('li').last().simulate('mouseEnter');
     fireEvent.mouseEnter(last(container.querySelectorAll('.rc-menu-item')));
-    // expect(wrapper.isActive(2)).toBeTruthy();
     isActive(container, 2);
   });
 
   it('active by key down', () => {
     const genMenu = (props?) => (
-      <Menu activeKey="1" {...props}>
-        <MenuItem key="1">1</MenuItem>
-        <MenuItem key="2">2</MenuItem>
-      </Menu>
+      <Menu
+        activeKey="1"
+        {...props}
+        items={[
+          {
+            key: '1',
+            label: '1',
+          },
+          {
+            key: '2',
+            label: '2',
+          },
+        ]}
+      />
     );
     const { container, rerender } = render(genMenu());
 
@@ -530,9 +771,16 @@ describe('Menu', () => {
 
   it('defaultActiveFirst', () => {
     const { container } = render(
-      <Menu selectedKeys={['foo']} defaultActiveFirst>
-        <MenuItem key="foo">foo</MenuItem>
-      </Menu>,
+      <Menu
+        selectedKeys={['foo']}
+        defaultActiveFirst
+        items={[
+          {
+            key: 'foo',
+            label: 'foo',
+          },
+        ]}
+      />,
     );
     isActive(container, 0);
   });
@@ -550,12 +798,26 @@ describe('Menu', () => {
     };
 
     render(
-      <Menu builtinPlacements={builtinPlacements}>
-        <MenuItem>menuItem</MenuItem>
-        <SubMenu title="submenu">
-          <MenuItem>menuItem</MenuItem>
-        </SubMenu>
-      </Menu>,
+      <Menu
+        builtinPlacements={builtinPlacements}
+        items={[
+          {
+            key: '1',
+            label: 'menuItem',
+          },
+          {
+            key: '2',
+            type: 'submenu',
+            label: 'submenu',
+            children: [
+              {
+                key: '3',
+                label: 'menuItem',
+              },
+            ],
+          },
+        ]}
+      />,
     );
 
     expect(global.triggerProps.builtinPlacements.leftTop).toEqual(
@@ -572,11 +834,23 @@ describe('Menu', () => {
 
     it('defaultMotions should work correctly', () => {
       const genMenu = (props?) => (
-        <Menu mode="inline" defaultMotions={defaultMotions} {...props}>
-          <SubMenu key="bamboo">
-            <MenuItem key="light" />
-          </SubMenu>
-        </Menu>
+        <Menu
+          mode="inline"
+          defaultMotions={defaultMotions}
+          {...props}
+          items={[
+            {
+              key: 'bamboo',
+              type: 'submenu',
+              children: [
+                {
+                  key: 'light',
+                  label: '',
+                },
+              ],
+            },
+          ]}
+        />
       );
 
       const { rerender } = render(genMenu());
@@ -605,11 +879,19 @@ describe('Menu', () => {
           defaultMotions={defaultMotions}
           motion={{ motionName: 'bambooLight' }}
           {...props}
-        >
-          <SubMenu key="bamboo">
-            <MenuItem key="light" />
-          </SubMenu>
-        </Menu>
+          items={[
+            {
+              key: 'bamboo',
+              type: 'submenu',
+              children: [
+                {
+                  key: 'light',
+                  label: '',
+                },
+              ],
+            },
+          ]}
+        />
       );
       const { rerender } = render(genMenu());
 
@@ -628,11 +910,22 @@ describe('Menu', () => {
 
     it('inline does not affect vertical motion', () => {
       const genMenu = (props?) => (
-        <Menu defaultMotions={defaultMotions} {...props}>
-          <SubMenu key="bamboo">
-            <MenuItem key="light" />
-          </SubMenu>
-        </Menu>
+        <Menu
+          defaultMotions={defaultMotions}
+          {...props}
+          items={[
+            {
+              key: 'bamboo',
+              type: 'submenu',
+              children: [
+                {
+                  key: 'light',
+                  label: '',
+                },
+              ],
+            },
+          ]}
+        />
       );
 
       const { rerender } = render(genMenu({ mode: 'vertical' }));
@@ -646,10 +939,20 @@ describe('Menu', () => {
   it('onMouseEnter should work', () => {
     const onMouseEnter = jest.fn();
     const { container } = render(
-      <Menu onMouseEnter={onMouseEnter} defaultSelectedKeys={['test1']}>
-        <MenuItem key="test1">Navigation One</MenuItem>
-        <MenuItem key="test2">Navigation Two</MenuItem>
-      </Menu>,
+      <Menu
+        onMouseEnter={onMouseEnter}
+        defaultSelectedKeys={['test1']}
+        items={[
+          {
+            key: 'test1',
+            label: 'Navigation One',
+          },
+          {
+            key: 'test2',
+            label: 'Navigation Two',
+          },
+        ]}
+      />,
     );
 
     fireEvent.mouseEnter(container.querySelector('.rc-menu-root'));
@@ -658,11 +961,23 @@ describe('Menu', () => {
 
   it('Nest children active should bump to top', async () => {
     const { container } = render(
-      <Menu activeKey="light" mode="vertical">
-        <SubMenu key="bamboo" title="Bamboo">
-          <MenuItem key="light">Light</MenuItem>
-        </SubMenu>
-      </Menu>,
+      <Menu
+        activeKey="light"
+        mode="vertical"
+        items={[
+          {
+            key: 'bamboo',
+            type: 'submenu',
+            label: 'Bamboo',
+            children: [
+              {
+                key: 'light',
+                label: 'Light',
+              },
+            ],
+          },
+        ]}
+      />,
     );
 
     expect(container.querySelector('.rc-menu-submenu-active')).toBeTruthy();
@@ -672,9 +987,14 @@ describe('Menu', () => {
     const errorSpy = jest.spyOn(console, 'error');
 
     const { unmount } = render(
-      <Menu>
-        <MenuItem key="bamboo">Bamboo</MenuItem>
-      </Menu>,
+      <Menu
+        items={[
+          {
+            key: 'bamboo',
+            label: 'Bamboo',
+          },
+        ]}
+      />,
     );
 
     unmount();
@@ -697,11 +1017,20 @@ describe('Menu', () => {
             mode="vertical"
             onOpenChange={onOpenChange}
             {...props}
-          >
-            <SubMenu key="bamboo" title="Bamboo">
-              <MenuItem key="light">Light</MenuItem>
-            </SubMenu>
-          </Menu>,
+            items={[
+              {
+                key: 'bamboo',
+                type: 'submenu',
+                label: 'Bamboo',
+                children: [
+                  {
+                    key: 'light',
+                    label: 'Light',
+                  },
+                ],
+              },
+            ]}
+          />,
         );
 
         // Open menu
@@ -723,11 +1052,24 @@ describe('Menu', () => {
       const onOpenChange = jest.fn();
 
       const { container } = render(
-        <Menu openKeys={['bamboo']} mode="inline" onOpenChange={onOpenChange}>
-          <SubMenu key="bamboo" title="Bamboo">
-            <MenuItem key="light">Light</MenuItem>
-          </SubMenu>
-        </Menu>,
+        <Menu
+          openKeys={['bamboo']}
+          mode="inline"
+          onOpenChange={onOpenChange}
+          items={[
+            {
+              key: 'bamboo',
+              type: 'submenu',
+              label: 'Bamboo',
+              children: [
+                {
+                  key: 'light',
+                  label: 'Light',
+                },
+              ],
+            },
+          ]}
+        />,
       );
 
       // Open menu
@@ -743,9 +1085,15 @@ describe('Menu', () => {
   it('should support ref', () => {
     const menuRef = React.createRef<MenuRef>();
     const { container } = render(
-      <Menu ref={menuRef}>
-        <MenuItem key="light">Light</MenuItem>
-      </Menu>,
+      <Menu
+        ref={menuRef}
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+          },
+        ]}
+      />,
     );
 
     expect(menuRef.current?.list).toBe(container.querySelector('ul'));
@@ -756,11 +1104,23 @@ describe('Menu', () => {
   it('should render a divider with role="separator"', () => {
     const menuRef = React.createRef<MenuRef>();
     const { container } = render(
-      <Menu ref={menuRef} activeKey="cat">
-        <MenuItem key="light">Light</MenuItem>
-        <Divider />
-        <MenuItem key="cat">Cat</MenuItem>
-      </Menu>,
+      <Menu
+        ref={menuRef}
+        activeKey="cat"
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            key: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />,
     );
     // Get the divider element with the rc-menu-item-divider class
     const divider = container.querySelector('.rc-menu-item-divider');
@@ -768,6 +1128,7 @@ describe('Menu', () => {
     // Assert that the divider element with rc-menu-item-divider class has role="separator"
     expect(divider).toHaveAttribute('role', 'separator');
   });
+
   it('expandIcon should be hidden when setting null or false', () => {
     const App = ({
       expand,
@@ -776,18 +1137,46 @@ describe('Menu', () => {
       expand?: React.ReactNode;
       subExpand?: React.ReactNode;
     }) => (
-      <Menu expandIcon={expand}>
-        <SubMenu title="sub menu" key="1" expandIcon={subExpand}>
-          <MenuItem key="1-1">0-1</MenuItem>
-          <MenuItem key="1-2">0-2</MenuItem>
-        </SubMenu>
-        ,
-        <SubMenu title="sub menu2" key="2">
-          <MenuItem key="2-1">0-1</MenuItem>
-          <MenuItem key="2-2">0-2</MenuItem>
-        </SubMenu>
-        ,<MenuItem key="cat">Cat</MenuItem>
-      </Menu>
+      <Menu
+        expandIcon={expand}
+        items={[
+          {
+            key: '1',
+            type: 'submenu',
+            label: 'sub menu',
+            expandIcon: subExpand,
+            children: [
+              {
+                key: '1-1',
+                label: '0-1',
+              },
+              {
+                key: '1-2',
+                label: '0-2',
+              },
+            ],
+          },
+          {
+            key: '2',
+            type: 'submenu',
+            label: 'sub menu2',
+            children: [
+              {
+                key: '2-1',
+                label: '0-1',
+              },
+              {
+                key: '2-2',
+                label: '0-2',
+              },
+            ],
+          },
+          {
+            key: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />
     );
 
     const { container, rerender } = render(

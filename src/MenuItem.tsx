@@ -28,9 +28,6 @@ export interface MenuItemProps
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
-
-  /** @deprecated No place to use this. Should remove */
-  attribute?: Record<string, string>;
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.

@@ -134,11 +134,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-test-tmp-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-test-tmp-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -249,11 +249,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-test-tmp-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-test-tmp-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -368,11 +368,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-test-tmp-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-test-tmp-3"
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
@@ -489,11 +489,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-test-tmp-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-test-tmp-3"
         role="menuitem"
         style="padding-right: 24px;"
         tabindex="-1"
@@ -526,11 +526,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-0-popup"
+        aria-controls="rc-menu-uuid-test-submenu1-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-0"
+        data-menu-id="rc-menu-uuid-test-submenu1"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -554,11 +554,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-2-popup"
+        aria-controls="rc-menu-uuid-test-submenu2-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-2"
+        data-menu-id="rc-menu-uuid-test-submenu2"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -676,11 +676,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-test-tmp-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-test-tmp-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -791,11 +791,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-test-tmp-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-test-tmp-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"

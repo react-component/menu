@@ -2,8 +2,9 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import React from 'react';
-import Menu, { MenuItem, MenuItemGroup, MenuRef, SubMenu } from '../src';
+import Menu, { MenuRef } from '../src';
 
+// TODO: use userEvent instead of fireEvent for better focus testing
 describe('Focus', () => {
   beforeAll(() => {
     // Mock to force make menu item visible
@@ -29,11 +30,23 @@ describe('Focus', () => {
   it('Get focus', async () => {
     const { container } = await act(async () =>
       render(
-        <Menu mode="inline" openKeys={['s']}>
-          <SubMenu key="s" title="submenu">
-            <MenuItem key="1">1</MenuItem>
-          </SubMenu>
-        </Menu>,
+        <Menu
+          mode="inline"
+          openKeys={['s']}
+          items={[
+            {
+              key: 's',
+              type: 'submenu',
+              label: 'submenu',
+              children: [
+                {
+                  key: '1',
+                  label: '1',
+                },
+              ],
+            },
+          ]}
+        />,
       ),
     );
 
@@ -52,14 +65,29 @@ describe('Focus', () => {
     const menuRef = React.createRef<MenuRef>();
     const { getByTestId } = await act(async () =>
       render(
-        <Menu ref={menuRef}>
-          <SubMenu key="bamboo" title="Disabled" disabled>
-            <MenuItem key="bamboo-child">Disabled child</MenuItem>
-          </SubMenu>
-          <MenuItem key="light" data-testid="first-focusable">
-            Light
-          </MenuItem>
-        </Menu>,
+        <Menu
+          ref={menuRef}
+          items={[
+            {
+              key: 'bamboo',
+              type: 'submenu',
+              label: 'Disabled',
+              disabled: true,
+              children: [
+                {
+                  key: 'bamboo-child',
+                  label: 'Disabled child',
+                },
+              ],
+            },
+            {
+              key: 'light',
+              label: 'Light',
+              // @ts-ignore
+              'data-testid': 'first-focusable',
+            },
+          ]}
+        />,
       ),
     );
 
@@ -74,12 +102,22 @@ describe('Focus', () => {
     const menuRef = React.createRef<MenuRef>();
     const { getByTestId } = await act(async () =>
       render(
-        <Menu ref={menuRef} activeKey="cat">
-          <MenuItem key="light">Light</MenuItem>
-          <MenuItem key="cat" data-testid="active-key">
-            Cat
-          </MenuItem>
-        </Menu>,
+        <Menu
+          ref={menuRef}
+          activeKey="cat"
+          items={[
+            {
+              key: 'light',
+              label: 'Light',
+            },
+            {
+              key: 'cat',
+              label: 'Cat',
+              // @ts-ignore
+              'data-testid': 'active-key',
+            },
+          ]}
+        />,
       ),
     );
     act(() => menuRef.current.focus());
@@ -93,15 +131,34 @@ describe('Focus', () => {
     const menuRef = React.createRef<MenuRef>();
     const { getByTestId } = await act(async () =>
       render(
-        <Menu ref={menuRef}>
-          <MenuItemGroup title="group" key="group" />
-          <SubMenu key="bamboo" title="Disabled" disabled>
-            <MenuItem key="bamboo-child">Disabled child</MenuItem>
-          </SubMenu>
-          <MenuItem key="light" data-testid="first-focusable">
-            Light
-          </MenuItem>
-        </Menu>,
+        <Menu
+          ref={menuRef}
+          items={[
+            {
+              key: 'group',
+              type: 'group',
+              label: 'group',
+            },
+            {
+              key: 'bamboo',
+              type: 'submenu',
+              label: 'Disabled',
+              disabled: true,
+              children: [
+                {
+                  key: 'bamboo-child',
+                  label: 'Disabled child',
+                },
+              ],
+            },
+            {
+              key: 'light',
+              label: 'Light',
+              // @ts-ignore
+              'data-testid': 'first-focusable',
+            },
+          ]}
+        />,
       ),
     );
 
@@ -116,17 +173,33 @@ describe('Focus', () => {
     const menuRef = React.createRef<MenuRef>();
     const { getByTestId } = await act(async () =>
       render(
-        <Menu ref={menuRef}>
-          <MenuItemGroup title="group" key="group">
-            <MenuItem key="group-child-1" disabled>
-              group-child-1
-            </MenuItem>
-            <MenuItem key="group-child-2" data-testid="first-focusable">
-              group-child-2
-            </MenuItem>
-          </MenuItemGroup>
-          <MenuItem key="light">Light</MenuItem>
-        </Menu>,
+        <Menu
+          ref={menuRef}
+          items={[
+            {
+              key: 'group',
+              type: 'group',
+              label: 'group',
+              children: [
+                {
+                  key: 'group-child-1',
+                  label: 'group-child-1',
+                  disabled: true,
+                },
+                {
+                  key: 'group-child-2',
+                  label: 'group-child-2',
+                  // @ts-ignore
+                  'data-testid': 'first-focusable',
+                },
+              ],
+            },
+            {
+              key: 'light',
+              label: 'Light',
+            },
+          ]}
+        />,
       ),
     );
 
@@ -141,25 +214,45 @@ describe('Focus', () => {
     const menuRef = React.createRef<MenuRef>();
     const { getByTestId } = await act(async () =>
       render(
-        <Menu ref={menuRef}>
-          <MenuItemGroup title="group" key="group">
-            <MenuItem key="group-child-1" disabled>
-              group-child-1
-            </MenuItem>
-            <MenuItemGroup title="nested group" key="nested-group">
-              <MenuItem key="nested-group-child-1" disabled>
-                nested-group-child-1
-              </MenuItem>
-              <MenuItem
-                key="nested-group-child-2"
-                data-testid="first-focusable"
-              >
-                nested-group-child-2
-              </MenuItem>
-            </MenuItemGroup>
-            <MenuItem key="group-child-3">group-child-3</MenuItem>
-          </MenuItemGroup>
-        </Menu>,
+        <Menu
+          ref={menuRef}
+          items={[
+            {
+              key: 'group',
+              type: 'group',
+              label: 'group',
+              children: [
+                {
+                  key: 'group-child-1',
+                  label: 'group-child-1',
+                  disabled: true,
+                },
+                {
+                  key: 'nested-group',
+                  type: 'group',
+                  label: 'nested group',
+                  children: [
+                    {
+                      key: 'nested-group-child-1',
+                      label: 'nested-group-child-1',
+                      disabled: true,
+                    },
+                    {
+                      key: 'nested-group-child-2',
+                      label: 'nested-group-child-2',
+                      // @ts-ignore
+                      'data-testid': 'first-focusable',
+                    },
+                  ],
+                },
+                {
+                  key: 'group-child-3',
+                  label: 'group-child-3',
+                },
+              ],
+            },
+          ]}
+        />,
       ),
     );
 
@@ -174,15 +267,40 @@ describe('Focus', () => {
     const menuRef = React.createRef<MenuRef>();
     const { getByTestId, getByTitle } = await act(async () =>
       render(
-        <Menu ref={menuRef}>
-          <SubMenu key="sub-menu-disabled" title="Disabled" disabled>
-            <MenuItem key="sub-menu-disabled-child">Disabled child</MenuItem>
-          </SubMenu>
-          <SubMenu key="sub-menu" data-testid="sub-menu" title="Submenu">
-            <MenuItem key="sub-menu-child-1">Submenu child</MenuItem>
-          </SubMenu>
-          <MenuItem key="light">Light</MenuItem>
-        </Menu>,
+        <Menu
+          ref={menuRef}
+          items={[
+            {
+              key: 'sub-menu-disabled',
+              type: 'submenu',
+              label: 'Disabled',
+              disabled: true,
+              children: [
+                {
+                  key: 'sub-menu-disabled-child',
+                  label: 'Disabled child',
+                },
+              ],
+            },
+            {
+              key: 'sub-menu',
+              type: 'submenu',
+              label: 'Submenu',
+              // @ts-ignore
+              'data-testid': 'sub-menu',
+              children: [
+                {
+                  key: 'sub-menu-child-1',
+                  label: 'Submenu child',
+                },
+              ],
+            },
+            {
+              key: 'light',
+              label: 'Light',
+            },
+          ]}
+        />,
       ),
     );
 

@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu from '../../src';
+import Menu from 'rc-menu';
 import '../../assets/index.less';
 
 export default () => (
