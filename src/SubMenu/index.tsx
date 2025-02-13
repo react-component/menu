@@ -265,7 +265,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
         {title}
 
         {/* Only non-horizontal mode shows the icon */}
-        {ExpandIconNode}
+        {expandIconNode}
       </div>
     );
 
