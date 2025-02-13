@@ -227,6 +227,23 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
     // =============================== Render ===============================
     const popupId = domDataId && `${domDataId}-popup`;
 
+    const expandIconNode = React.useMemo(
+      () => (
+        <Icon
+          icon={mode !== 'horizontal' ? mergedExpandIcon : undefined}
+          props={{
+            ...props,
+            isOpen: open,
+            // [Legacy] Not sure why need this mark
+            isSubMenu: true,
+          }}
+        >
+          <i className={`${subMenuPrefixCls}-arrow`} />
+        </Icon>
+      ),
+      [mode, mergedExpandIcon, props, open, subMenuPrefixCls],
+    );
+
     // >>>>> Title
     let titleNode: React.ReactElement = (
       <div
@@ -248,17 +265,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
         {title}
 
         {/* Only non-horizontal mode shows the icon */}
-        <Icon
-          icon={mode !== 'horizontal' ? mergedExpandIcon : undefined}
-          props={{
-            ...props,
-            isOpen: open,
-            // [Legacy] Not sure why need this mark
-            isSubMenu: true,
-          }}
-        >
-          <i className={`${subMenuPrefixCls}-arrow`} />
-        </Icon>
+        {expandIconNode}
       </div>
     );
 
