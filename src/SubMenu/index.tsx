@@ -227,7 +227,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
     // =============================== Render ===============================
     const popupId = domDataId && `${domDataId}-popup`;
 
-    const ExpandIconNode = React.useMemo(
+    const expandIconNode = React.useMemo(
       () => (
         <Icon
           icon={mode !== 'horizontal' ? mergedExpandIcon : undefined}
