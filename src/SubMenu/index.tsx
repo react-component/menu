@@ -241,7 +241,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
           <i className={`${subMenuPrefixCls}-arrow`} />
         </Icon>
       ),
-      [mode, mergedExpandIcon, open, subMenuPrefixCls],
+      [mode, mergedExpandIcon, props, open, subMenuPrefixCls],
     );
 
     // >>>>> Title
