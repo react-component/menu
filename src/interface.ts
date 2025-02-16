@@ -139,4 +139,11 @@ export type MenuRef = {
 // ======================== Component ========================
 export type ComponentType = 'submenu' | 'item' | 'group' | 'divider';
 
-export type Components = Partial<Record<ComponentType, React.ComponentType<any>>>;
+export type Components = Partial<
+  Record<ComponentType, React.ComponentType<any>>
+>;
+
+export type PopupRender = (
+  node: React.ReactElement,
+  info: { item: any; keys: string[] },
+) => React.ReactNode;

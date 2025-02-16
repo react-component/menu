@@ -8,6 +8,7 @@ import type {
   MenuMode,
   RenderIconType,
   TriggerSubMenuAction,
+  PopupRender,
 } from '../interface';
 
 export interface MenuContextProps {
@@ -45,6 +46,8 @@ export interface MenuContextProps {
   forceSubMenuRender?: boolean;
   builtinPlacements?: BuiltinPlacements;
   triggerSubMenuAction?: TriggerSubMenuAction;
+
+  popupRender?: PopupRender;
 
   // Icon
   itemIcon?: RenderIconType;
