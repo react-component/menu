@@ -1,14 +1,14 @@
 import React from 'react';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import type { ReactElement } from 'react';
-import './navigation.less';
+import './customPopupRender.less';
 
 const NavigationDemo = () => {
   const menuItems = [
-    // {
-    //   key: 'home',
-    //   label: 'Home'
-    // },
+    {
+      key: 'home',
+      label: 'Home',
+    },
     {
       key: 'features',
       label: 'Features',
@@ -42,30 +42,30 @@ const NavigationDemo = () => {
         },
       ],
     },
-    // {
-    //   key: 'resources',
-    //   label: 'Resources',
-    //   children: [
-    //     {
-    //       key: 'blog',
-    //       label: (
-    //         <a href="/blog">
-    //           <h3>Blog</h3>
-    //           <p>Latest updates and articles.</p>
-    //         </a>
-    //       )
-    //     },
-    //     {
-    //       key: 'community',
-    //       label: (
-    //         <a href="/community">
-    //           <h3>Community</h3>
-    //           <p>Join our developer community.</p>
-    //         </a>
-    //       )
-    //     }
-    //   ]
-    // }
+    {
+      key: 'resources',
+      label: 'Resources',
+      children: [
+        {
+          key: 'blog',
+          label: (
+            <a href="/blog">
+              <h3>Blog</h3>
+              <p>Latest updates and articles.</p>
+            </a>
+          ),
+        },
+        {
+          key: 'community',
+          label: (
+            <a href="/community">
+              <h3>Community</h3>
+              <p>Join our developer community.</p>
+            </a>
+          ),
+        },
+      ],
+    },
   ];
   const popupRender = (node: ReactElement) => (
     <div className="navigation-popup">
