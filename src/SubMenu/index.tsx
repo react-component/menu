@@ -4,7 +4,7 @@ import Overflow from 'rc-overflow';
 import warning from 'rc-util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/commonUtil';
-import type { MenuInfo, SubMenuType } from '../interface';
+import type { MenuInfo, SubMenuType, PopupRender } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
@@ -36,7 +36,7 @@ export interface SubMenuProps
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
-
+  popupRender?: PopupRender;
   // >>>>>>>>>>>>>>>>>>>>> Next  Round <<<<<<<<<<<<<<<<<<<<<<<
   // onDestroy?: DestroyEventHandler;
 }
@@ -72,7 +72,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
       onTitleClick,
       onTitleMouseEnter,
       onTitleMouseLeave,
-
+      popupRender: propsPopupRender,
       ...restProps
     } = props;
 
@@ -102,6 +102,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
       onOpenChange,
 
       onActive,
+      popupRender: contextPopupRender,
     } = React.useContext(MenuContext);
 
     const { _internalRenderSubMenuItem } = React.useContext(PrivateContext);
@@ -277,6 +278,30 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
       triggerModeRef.current = mode;
     }
 
+    const mergedPopupRender = propsPopupRender || contextPopupRender;
+
+    // renderPopupContent
+    const renderPopupContent = () => {
+      const triggerMode = triggerModeRef.current;
+      const originNode = (
+        <MenuContextProvider
+          mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
+        >
+          <SubMenuList id={popupId} ref={popupRef}>
+            {children}
+          </SubMenuList>
+        </MenuContextProvider>
+      );
+
+      if (mergedPopupRender) {
+        return mergedPopupRender(originNode, {
+          item: props,
+          keys: connectedPath,
+        });
+      }
+      return originNode;
+    };
+
     if (!overflowDisabled) {
       const triggerMode = triggerModeRef.current;
 
@@ -290,16 +315,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
           popupClassName={popupClassName}
           popupOffset={popupOffset}
           popupStyle={popupStyle}
-          popup={
-            <MenuContextProvider
-              // Special handle of horizontal mode
-              mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
-            >
-              <SubMenuList id={popupId} ref={popupRef}>
-                {children}
-              </SubMenuList>
-            </MenuContextProvider>
-          }
+          popup={renderPopupContent()}
           disabled={mergedDisabled}
           onVisibleChange={onPopupVisibleChange}
         >
