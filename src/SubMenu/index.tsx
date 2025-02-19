@@ -278,10 +278,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
       triggerModeRef.current = mode;
     }
 
-    const mergedPopupRender = propsPopupRender || contextPopupRender;
-
-    // renderPopupContent
-    const renderPopupContent = () => {
+    const renderPopupContent = React.useMemo(() => {
       const triggerMode = triggerModeRef.current;
       const originNode = (
         <MenuContextProvider
@@ -292,7 +289,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
           </SubMenuList>
         </MenuContextProvider>
       );
-
+      const mergedPopupRender = propsPopupRender || contextPopupRender;
       if (mergedPopupRender) {
         return mergedPopupRender(originNode, {
           item: props,
@@ -300,7 +297,15 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
         });
       }
       return originNode;
-    };
+    }, [
+      propsPopupRender,
+      contextPopupRender,
+      triggerModeRef,
+      connectedPath,
+      popupId,
+      children,
+      props,
+    ]);
 
     if (!overflowDisabled) {
       const triggerMode = triggerModeRef.current;
@@ -315,7 +320,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
           popupClassName={popupClassName}
           popupOffset={popupOffset}
           popupStyle={popupStyle}
-          popup={renderPopupContent()}
+          popup={renderPopupContent}
           disabled={mergedDisabled}
           onVisibleChange={onPopupVisibleChange}
         >
