@@ -1,7 +1,8 @@
 /* eslint-disable no-console, no-param-reassign */
 import * as React from 'react';
-import Menu, { SubMenu, Item as MenuItem, Divider } from '../../src';
+import Menu from 'rc-menu';
 import '../../assets/index.less';
+import type { ItemType } from '@/interface';
 
 const getSvgIcon = (style = {}, text?: React.ReactNode) => {
   if (text) {
@@ -67,50 +68,126 @@ class Demo extends React.Component {
     console.log(info);
   };
 
-  renderNestSubMenu = (props = {}) => (
-    <SubMenu
-      title={<span>offset sub menu 2</span>}
-      key="4"
-      popupOffset={[10, 15]}
-      {...props}
-    >
-      <MenuItem key="4-1">inner inner</MenuItem>
-      <Divider />
-      <SubMenu key="4-2" title={<span>sub menu 3</span>}>
-        <SubMenu title="sub 4-2-0" key="4-2-0">
-          <MenuItem key="4-2-0-1">inner inner</MenuItem>
-          <MenuItem key="4-2-0-2">inner inner2</MenuItem>
-        </SubMenu>
-        <MenuItem key="4-2-1">inn</MenuItem>
-        <SubMenu title={<span>sub menu 4</span>} key="4-2-2">
-          <MenuItem key="4-2-2-1">inner inner</MenuItem>
-          <MenuItem key="4-2-2-2">inner inner2</MenuItem>
-        </SubMenu>
-        <SubMenu title="sub 4-2-3" key="4-2-3">
-          <MenuItem key="4-2-3-1">inner inner</MenuItem>
-          <MenuItem key="4-2-3-2">inner inner2</MenuItem>
-        </SubMenu>
-      </SubMenu>
-    </SubMenu>
-  );
+  renderNestSubMenu = (props = {}) => ({
+    key: '4',
+    type: 'submenu',
+    label: <span>offset sub menu 2</span>,
+    popupOffset: [10, 15],
+    children: [
+      {
+        key: '4-1',
+        label: 'inner inner',
+      },
+      {
+        type: 'divider',
+      },
+      {
+        key: '4-2',
+        type: 'submenu',
+        label: <span>sub menu 3</span>,
+        children: [
+          {
+            key: '4-2-0',
+            type: 'submenu',
+            label: 'sub 4-2-0',
+            children: [
+              {
+                key: '4-2-0-1',
+                label: 'inner inner',
+              },
+              {
+                key: '4-2-0-2',
+                label: 'inner inner2',
+              },
+            ],
+          },
+          {
+            key: '4-2-1',
+            label: 'inn',
+          },
+          {
+            key: '4-2-2',
+            type: 'submenu',
+            label: <span>sub menu 4</span>,
+            children: [
+              {
+                key: '4-2-2-1',
+                label: 'inner inner',
+              },
+              {
+                key: '4-2-2-2',
+                label: 'inner inner2',
+              },
+            ],
+          },
+          {
+            key: '4-2-3',
+            type: 'submenu',
+            label: 'sub 4-2-3',
+            children: [
+              {
+                key: '4-2-3-1',
+                label: 'inner inner',
+              },
+              {
+                key: '4-2-3-2',
+                label: 'inner inner2',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    ...props,
+  });
 
-  renderCommonMenu = (props = {}) => (
-    <Menu
-      onClick={this.handleClick}
-      onOpenChange={this.onOpenChange}
-      {...props}
-    >
-      <SubMenu title={<span>sub menu</span>} key="1">
-        <MenuItem key="1-1">0-1</MenuItem>
-        <MenuItem key="1-2">0-2</MenuItem>
-      </SubMenu>
-      {this.renderNestSubMenu()}
-      <MenuItem key="2">1</MenuItem>
-      <MenuItem key="3">outer</MenuItem>
-      <MenuItem disabled>disabled</MenuItem>
-      <MenuItem key="5">outer3</MenuItem>
-    </Menu>
-  );
+  renderCommonMenu = (props = {}) => {
+    const items: ItemType[] = [
+      {
+        key: '1',
+        type: 'submenu',
+        label: <span>sub menu</span>,
+        children: [
+          {
+            key: '1-1',
+            label: '0-1',
+          },
+          {
+            key: '1-2',
+            label: '0-2',
+          },
+        ],
+      },
+      // @ts-ignore
+      this.renderNestSubMenu(),
+      {
+        key: '2',
+        label: '1',
+      },
+      {
+        key: '3',
+        label: 'outer',
+      },
+      {
+        key: '44',
+        label: 'disabled',
+        disabled: true,
+      },
+      {
+        key: '5',
+        label: 'outer3',
+      },
+    ];
+
+    return (
+      <Menu
+        onClick={this.handleClick}
+        onOpenChange={this.onOpenChange}
+        items={items}
+        {...props}
+      />
+    );
+  };
 
   render() {
     const verticalMenu = this.renderCommonMenu({

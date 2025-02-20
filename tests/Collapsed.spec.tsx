@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence */
 import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import Menu, { MenuItem, SubMenu } from '../src';
+import Menu from '../src';
 
 describe('Menu.Collapsed', () => {
   describe('inlineCollapse and siderCollapsed', () => {
@@ -15,13 +15,31 @@ describe('Menu.Collapsed', () => {
 
     it('should always follow openKeys when mode is switched', () => {
       const genMenu = (props?) => (
-        <Menu openKeys={['1']} mode="inline" {...props}>
-          <SubMenu key="1" title="submenu1">
-            <MenuItem key="submenu1">Option 1</MenuItem>
-            <MenuItem key="submenu2">Option 2</MenuItem>
-          </SubMenu>
-          <MenuItem key="2">menu2</MenuItem>
-        </Menu>
+        <Menu
+          openKeys={['1']}
+          mode="inline"
+          {...props}
+          items={[
+            {
+              key: '1',
+              label: 'submenu1',
+              children: [
+                {
+                  key: 'submenu1',
+                  label: 'Option 1',
+                },
+                {
+                  key: 'submenu2',
+                  label: 'Option 2',
+                },
+              ],
+            },
+            {
+              key: '2',
+              label: 'menu2',
+            },
+          ]}
+        />
       );
 
       const { container, rerender } = render(genMenu());
@@ -49,13 +67,28 @@ describe('Menu.Collapsed', () => {
 
     it('should always follow submenu popup hidden when mode is switched', () => {
       const genMenu = (props?) => (
-        <Menu mode="vertical" {...props}>
-          <SubMenu key="1" title="submenu1">
-            <SubMenu key="1-1" title="submenu1-1">
-              <MenuItem key="Option-1">Option 1</MenuItem>
-            </SubMenu>
-          </SubMenu>
-        </Menu>
+        <Menu
+          mode="vertical"
+          {...props}
+          items={[
+            {
+              key: '1',
+              label: 'submenu1',
+              children: [
+                {
+                  key: '1-1',
+                  label: 'submenu1-1',
+                  children: [
+                    {
+                      key: 'Option-1',
+                      label: 'Option 1',
+                    },
+                  ],
+                },
+              ],
+            },
+          ]}
+        />
       );
 
       const { container, rerender } = render(genMenu());
@@ -102,15 +135,31 @@ describe('Menu.Collapsed', () => {
 
     it('should always follow openKeys when inlineCollapsed is switched', () => {
       const genMenu = (props?) => (
-        <Menu defaultOpenKeys={['1']} mode="inline" {...props}>
-          <MenuItem key="menu1">
-            <span>Option</span>
-          </MenuItem>
-          <SubMenu key="1" title="submenu1">
-            <MenuItem key="submenu1">Option</MenuItem>
-            <MenuItem key="submenu2">Option</MenuItem>
-          </SubMenu>
-        </Menu>
+        <Menu
+          defaultOpenKeys={['1']}
+          mode="inline"
+          {...props}
+          items={[
+            {
+              key: 'menu1',
+              label: <span>Option</span>,
+            },
+            {
+              key: '1',
+              label: 'submenu1',
+              children: [
+                {
+                  key: 'submenu1',
+                  label: 'Option',
+                },
+                {
+                  key: 'submenu2',
+                  label: 'Option',
+                },
+              ],
+            },
+          ]}
+        />
       );
 
       const { container, rerender } = render(genMenu());
@@ -155,15 +204,31 @@ describe('Menu.Collapsed', () => {
 
     it('inlineCollapsed should works well when specify a not existed default openKeys', () => {
       const genMenu = (props?) => (
-        <Menu defaultOpenKeys={['not-existed']} mode="inline" {...props}>
-          <MenuItem key="menu1">
-            <span>Option</span>
-          </MenuItem>
-          <SubMenu key="1" title="submenu1">
-            <MenuItem key="submenu1">Option</MenuItem>
-            <MenuItem key="submenu2">Option</MenuItem>
-          </SubMenu>
-        </Menu>
+        <Menu
+          defaultOpenKeys={['not-existed']}
+          mode="inline"
+          {...props}
+          items={[
+            {
+              key: 'menu1',
+              label: <span>Option</span>,
+            },
+            {
+              key: '1',
+              label: 'submenu1',
+              children: [
+                {
+                  key: 'submenu1',
+                  label: 'Option',
+                },
+                {
+                  key: 'submenu2',
+                  label: 'Option',
+                },
+              ],
+            },
+          ]}
+        />
       );
 
       const { container, rerender } = render(genMenu());
@@ -176,9 +241,6 @@ describe('Menu.Collapsed', () => {
         jest.runAllTimers();
       });
 
-      //   wrapper
-      //     .find('Overflow')
-      //     .simulate('transitionEnd', { propertyName: 'width' });
       fireEvent.transitionEnd(container.querySelector('.rc-menu-root'), {
         propertyName: 'width',
       });
@@ -189,7 +251,6 @@ describe('Menu.Collapsed', () => {
       });
 
       // Hover to show
-      //   wrapper.find('.rc-menu-submenu-title').at(0).simulate('mouseEnter');
       fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
 
       act(() => {
@@ -222,24 +283,38 @@ describe('Menu.Collapsed', () => {
           mode="inline"
           inlineCollapsed
           getPopupContainer={node => node.parentNode as HTMLElement}
-        >
-          <MenuItem key="menu1">item</MenuItem>
-          <MenuItem key="menu2" title="title">
-            item
-          </MenuItem>
-          <MenuItem key="menu3" title={undefined}>
-            item
-          </MenuItem>
-          <MenuItem key="menu4" title={null}>
-            item
-          </MenuItem>
-          <MenuItem key="menu5" title="">
-            item
-          </MenuItem>
-          <MenuItem key="menu6" title={false as unknown as string}>
-            item
-          </MenuItem>
-        </Menu>,
+          items={[
+            {
+              key: 'menu1',
+              label: 'item',
+            },
+            {
+              key: 'menu2',
+              label: 'item',
+              title: 'title',
+            },
+            {
+              key: 'menu3',
+              label: 'item',
+              title: undefined,
+            },
+            {
+              key: 'menu4',
+              label: 'item',
+              title: null,
+            },
+            {
+              key: 'menu5',
+              label: 'item',
+              title: '',
+            },
+            {
+              key: 'menu6',
+              label: 'item',
+              title: false as unknown as string,
+            },
+          ]}
+        />,
       );
 
       expect(
@@ -259,13 +334,27 @@ describe('Menu.Collapsed', () => {
           defaultSelectedKeys={['1']}
           openKeys={['3']}
           {...props}
-        >
-          <MenuItem key="1">Option 1</MenuItem>
-          <MenuItem key="2">Option 2</MenuItem>
-          <SubMenu key="3" title="Option 3">
-            <MenuItem key="4">Option 4</MenuItem>
-          </SubMenu>
-        </Menu>
+          items={[
+            {
+              key: '1',
+              label: 'Option 1',
+            },
+            {
+              key: '2',
+              label: 'Option 2',
+            },
+            {
+              key: '3',
+              label: 'Option 3',
+              children: [
+                {
+                  key: '4',
+                  label: 'Option 4',
+                },
+              ],
+            },
+          ]}
+        />
       );
 
       const { container, rerender } = render(genMenu());
@@ -305,13 +394,27 @@ describe('Menu.Collapsed', () => {
           defaultSelectedKeys={['1']}
           openKeys={['3']}
           {...props}
-        >
-          <MenuItem key="1">Option 1</MenuItem>
-          <MenuItem key="2">Option 2</MenuItem>
-          <SubMenu key="3" title="Option 3">
-            <MenuItem key="4">Option 4</MenuItem>
-          </SubMenu>
-        </Menu>
+          items={[
+            {
+              key: '1',
+              label: 'Option 1',
+            },
+            {
+              key: '2',
+              label: 'Option 2',
+            },
+            {
+              key: '3',
+              label: 'Option 3',
+              children: [
+                {
+                  key: '4',
+                  label: 'Option 4',
+                },
+              ],
+            },
+          ]}
+        />
       );
 
       const { container, rerender } = render(genMenu());

@@ -52,7 +52,7 @@ exports[`MenuItem overwrite default role should set extra to option 1`] = `
 exports[`MenuItem overwrite default role should set role to listitem 1`] = `
 <li
   class="rc-menu-item"
-  data-menu-id="rc-menu-uuid-test-tmp_key-0"
+  data-menu-id="rc-menu-uuid-test-1"
   role="listitem"
   tabindex="-1"
 >
@@ -63,7 +63,7 @@ exports[`MenuItem overwrite default role should set role to listitem 1`] = `
 exports[`MenuItem overwrite default role should set role to none if none 1`] = `
 <li
   class="rc-menu-item"
-  data-menu-id="rc-menu-uuid-test-tmp_key-0"
+  data-menu-id="rc-menu-uuid-test-1"
   role="none"
   tabindex="-1"
 >
@@ -74,7 +74,7 @@ exports[`MenuItem overwrite default role should set role to none if none 1`] = `
 exports[`MenuItem overwrite default role should set role to none if null 1`] = `
 <li
   class="rc-menu-item"
-  data-menu-id="rc-menu-uuid-test-tmp_key-0"
+  data-menu-id="rc-menu-uuid-test-1"
   role="none"
   tabindex="-1"
 >
@@ -86,7 +86,7 @@ exports[`MenuItem overwrite default role should set role to option 1`] = `
 <li
   aria-selected="false"
   class="rc-menu-item"
-  data-menu-id="rc-menu-uuid-test-tmp_key-0"
+  data-menu-id="rc-menu-uuid-test-1"
   role="option"
   tabindex="-1"
 >
@@ -128,9 +128,9 @@ HTMLCollection [
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
-        title="title"
+        title="bamboo"
       >
-        title
+        bamboo
         <i
           class="rc-menu-submenu-arrow"
         />
@@ -163,10 +163,7 @@ HTMLCollection [
       <div
         class="rc-menu-item-group-title"
         role="presentation"
-        title="title"
-      >
-        title
-      </div>
+      />
       <ul
         class="rc-menu-item-group-list"
         role="group"

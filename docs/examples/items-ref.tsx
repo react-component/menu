@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import '../../assets/index.less';
-import Menu from '../../src';
+import Menu from 'rc-menu';
 
 export default () => {
   const ref1 = useRef();

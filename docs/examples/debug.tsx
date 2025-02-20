@@ -2,8 +2,8 @@
 
 import React, { useRef } from 'react';
 import type { CSSMotionProps } from 'rc-motion';
-import Menu, { ItemGroup as MenuItemGroup, MenuItem } from '../../src';
-import type { MenuProps } from '../../src';
+import Menu from 'rc-menu';
+import type { MenuProps } from 'rc-menu';
 import '../../assets/index.less';
 import '../../assets/menu.less';
 import type { MenuInfo, MenuRef } from '@/interface';
@@ -69,9 +69,7 @@ export default () => {
   return (
     <>
       <div>
-        <Menu ref={menuRef}>
-          <MenuItem key="light">Light</MenuItem>
-        </Menu>
+        <Menu ref={menuRef} items={[{ key: 'light', label: 'Light' }]} />
         <button onClick={() => menuRef.current.focus()}>focus</button>
         <select value={mode} onChange={e => setMode(e.target.value as any)}>
           <option value="inline">Inline</option>
@@ -109,7 +107,6 @@ export default () => {
 
       <div style={{ width: narrow ? 350 : undefined }}>
         <Menu
-          // direction="rtl"
           defaultOpenKeys={['sub', 'nest']}
           forceSubMenuRender={forceRender}
           mode={mode}
@@ -119,45 +116,91 @@ export default () => {
           inlineCollapsed={inlineCollapsed}
           openKeys={openKeys}
           onOpenChange={newOpenKeys => setOpenKeys(newOpenKeys)}
-        >
-          <Menu.Item key="mail">
-            <a href="http://www.taobao.com">Navigation One</a>
-          </Menu.Item>
-          <Menu.Item key="next" onClick={onClick}>
-            Next Item
-          </Menu.Item>
-          <Menu.SubMenu title="Sub Menu" key="sub" onClick={onSubMenuClick}>
-            <Menu.Item key="sub1" onClick={onClick}>
-              Sub Item 1
-            </Menu.Item>
-            <Menu.Item key="sub2">Sub Item 2</Menu.Item>
-
-            <Menu.SubMenu title="Nest Menu" key="nest">
-              <MenuItemGroup title="group 1" key="grp1">
-                <Menu.Item key="21">2</Menu.Item>
-                <Menu.Item key="22">3</Menu.Item>
-              </MenuItemGroup>
-              <MenuItemGroup title="group 2" key="grp2">
-                <Menu.Item key="31">4</Menu.Item>
-                <Menu.Item key="32">5</Menu.Item>
-              </MenuItemGroup>
-            </Menu.SubMenu>
-          </Menu.SubMenu>
-          <Menu.Item key="disabled" disabled>
-            Disabled Item
-          </Menu.Item>
-
-          <Menu.SubMenu
-            title="Disabled Sub Menu"
-            key="disabled-sub"
-            onClick={onSubMenuClick}
-            disabled
-          >
-            <Menu.Item key="dis-sub1" onClick={onClick}>
-              Disabled Sub Item 1
-            </Menu.Item>
-          </Menu.SubMenu>
-        </Menu>
+          items={[
+            {
+              key: 'mail',
+              label: <a href="http://www.taobao.com">Navigation One</a>,
+            },
+            {
+              key: 'next',
+              label: 'Next Item',
+              onClick: onClick,
+            },
+            {
+              key: 'sub',
+              label: 'Sub Menu',
+              type: 'submenu',
+              onClick: onSubMenuClick,
+              children: [
+                {
+                  key: 'sub1',
+                  label: 'Sub Item 1',
+                  onClick: onClick,
+                },
+                {
+                  key: 'sub2',
+                  label: 'Sub Item 2',
+                },
+                {
+                  key: 'nest',
+                  label: 'Nest Menu',
+                  type: 'submenu',
+                  children: [
+                    {
+                      key: 'grp1',
+                      type: 'group',
+                      label: 'group 1',
+                      children: [
+                        {
+                          key: '21',
+                          label: '2',
+                        },
+                        {
+                          key: '22',
+                          label: '3',
+                        },
+                      ],
+                    },
+                    {
+                      key: 'grp2',
+                      type: 'group',
+                      label: 'group 2',
+                      children: [
+                        {
+                          key: '31',
+                          label: '4',
+                        },
+                        {
+                          key: '32',
+                          label: '5',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              key: 'disabled',
+              label: 'Disabled Item',
+              disabled: true,
+            },
+            {
+              key: 'disabled-sub',
+              label: 'Disabled Sub Menu',
+              type: 'submenu',
+              onClick: onSubMenuClick,
+              disabled: true,
+              children: [
+                {
+                  key: 'dis-sub1',
+                  label: 'Disabled Sub Item 1',
+                  onClick: onClick,
+                },
+              ],
+            },
+          ]}
+        />
       </div>
     </>
   );

@@ -1,13 +1,16 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { Item as MenuItem } from 'rc-menu';
+import Menu from 'rc-menu';
 
 import '../../assets/index.less';
 
-const children = [];
+const items = [];
 for (let i = 0; i < 20; i += 1) {
-  children.push(<MenuItem key={String(i)}>{i}</MenuItem>);
+  items.push({
+    label: i,
+    key: String(i),
+  });
 }
 
 const menuStyle = {
@@ -19,6 +22,6 @@ const menuStyle = {
 export default () => (
   <div>
     <h2>keyboard scrollable menu</h2>
-    <Menu style={menuStyle}>{children}</Menu>
+    <Menu style={menuStyle} items={items} />
   </div>
 );
