@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import type { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from '@rc-component/motion';
 import Overflow from 'rc-overflow';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import isEqual from 'rc-util/lib/isEqual';
-import warning from 'rc-util/lib/warning';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import isEqual from '@rc-component/util/lib/isEqual';
+import warning from '@rc-component/util/lib/warning';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';

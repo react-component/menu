@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Trigger from '@rc-component/trigger';
 import classNames from 'classnames';
-import raf from 'rc-util/lib/raf';
-import type { CSSMotionProps } from 'rc-motion';
+import raf from '@rc-component/util/lib/raf';
+import type { CSSMotionProps } from '@rc-component/motion';
 import { MenuContext } from '../context/MenuContext';
 import { placements, placementsRtl } from '../placements';
 import type { MenuMode } from '../interface';

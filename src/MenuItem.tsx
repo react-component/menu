@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
-import KeyCode from 'rc-util/lib/KeyCode';
-import omit from 'rc-util/lib/omit';
-import { useComposeRef } from 'rc-util/lib/ref';
-import warning from 'rc-util/lib/warning';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import omit from '@rc-component/util/lib/omit';
+import { useComposeRef } from '@rc-component/util/lib/ref';
+import warning from '@rc-component/util/lib/warning';
 import * as React from 'react';
 import { useMenuId } from './context/IdContext';
 import { MenuContext } from './context/MenuContext';

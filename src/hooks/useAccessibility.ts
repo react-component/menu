@@ -1,6 +1,6 @@
-import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
-import KeyCode from 'rc-util/lib/KeyCode';
-import raf from 'rc-util/lib/raf';
+import { getFocusNodeList } from '@rc-component/util/lib/Dom/focus';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import raf from '@rc-component/util/lib/raf';
 import * as React from 'react';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
@@ -15,11 +15,7 @@ function getOffset(
   isRootLevel: boolean,
   isRtl: boolean,
   which: number,
-): {
-  offset?: number;
-  sibling?: boolean;
-  inlineTrigger?: boolean;
-} {
+): { offset?: number; sibling?: boolean; inlineTrigger?: boolean } {
   const prev = 'prev' as const;
   const next = 'next' as const;
   const children = 'children' as const;
@@ -27,16 +23,11 @@ function getOffset(
 
   // Inline enter is special that we use unique operation
   if (mode === 'inline' && which === ENTER) {
-    return {
-      inlineTrigger: true,
-    };
+    return { inlineTrigger: true };
   }
 
   type OffsetMap = Record<number, 'prev' | 'next' | 'children' | 'parent'>;
-  const inline: OffsetMap = {
-    [UP]: prev,
-    [DOWN]: next,
-  };
+  const inline: OffsetMap = { [UP]: prev, [DOWN]: next };
   const horizontal: OffsetMap = {
     [LEFT]: isRtl ? next : prev,
     [RIGHT]: isRtl ? prev : next,
@@ -68,28 +59,16 @@ function getOffset(
 
   switch (type) {
     case prev:
-      return {
-        offset: -1,
-        sibling: true,
-      };
+      return { offset: -1, sibling: true };
 
     case next:
-      return {
-        offset: 1,
-        sibling: true,
-      };
+      return { offset: 1, sibling: true };
 
     case parent:
-      return {
-        offset: -1,
-        sibling: false,
-      };
+      return { offset: -1, sibling: false };
 
     case children:
-      return {
-        offset: 1,
-        sibling: false,
-      };
+      return { offset: 1, sibling: false };
 
     default:
       return null;
