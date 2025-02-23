@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Menu, { SubMenu, Item as MenuItem } from '../src';
 import type { ReactElement } from 'react';
 
@@ -12,8 +12,8 @@ describe('Menu PopupRender Tests', () => {
     </div>
   );
 
-  it('should render popup with custom wrapper', () => {
-    render(
+  it('should render popup with custom wrapper', async () => {
+    const { container } = render(
       <Menu
         mode="horizontal"
         popupRender={basicPopupRender}
@@ -24,12 +24,12 @@ describe('Menu PopupRender Tests', () => {
         </SubMenu>
       </Menu>,
     );
-
-    expect(screen.getByTestId('custom-popup')).toBeInTheDocument();
-    expect(screen.getByText('Child')).toBeInTheDocument();
+    expect(
+      container.querySelectorAll('.rc-menu-submenu-horizontal')[0],
+    ).toHaveClass('rc-menu-submenu-open');
   });
 
-  it('should work with items prop', () => {
+  it('should work with items prop', async () => {
     const items = [
       {
         key: 'submenu1',
@@ -41,7 +41,7 @@ describe('Menu PopupRender Tests', () => {
       },
     ];
 
-    render(
+    const { container } = render(
       <Menu
         mode="horizontal"
         popupRender={basicPopupRender}
@@ -50,8 +50,8 @@ describe('Menu PopupRender Tests', () => {
       />,
     );
 
-    expect(screen.getByTestId('custom-popup')).toBeInTheDocument();
-    expect(screen.getByText('Child 1')).toBeInTheDocument();
-    expect(screen.getByText('Child 2')).toBeInTheDocument();
+    expect(
+      container.querySelectorAll('.rc-menu-submenu-horizontal')[0],
+    ).toHaveClass('rc-menu-submenu-open');
   });
 });

@@ -277,12 +277,15 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
     } else {
       triggerModeRef.current = mode;
     }
-
+    const popupContentTriggerMode = triggerModeRef.current;
     const renderPopupContent = React.useMemo(() => {
-      const triggerMode = triggerModeRef.current;
       const originNode = (
         <MenuContextProvider
-          mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
+          mode={
+            popupContentTriggerMode === 'horizontal'
+              ? 'vertical'
+              : popupContentTriggerMode
+          }
         >
           <SubMenuList id={popupId} ref={popupRef}>
             {children}
@@ -291,20 +294,21 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
       );
       const mergedPopupRender = propsPopupRender || contextPopupRender;
       if (mergedPopupRender) {
-        return mergedPopupRender(originNode, {
+        const node = mergedPopupRender(originNode, {
           item: props,
           keys: connectedPath,
         });
+        return node;
       }
       return originNode;
     }, [
       propsPopupRender,
       contextPopupRender,
-      triggerModeRef,
       connectedPath,
       popupId,
       children,
       props,
+      popupContentTriggerMode,
     ]);
 
     if (!overflowDisabled) {
