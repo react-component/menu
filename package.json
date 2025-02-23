@@ -1,5 +1,5 @@
 {
-  "name": "rc-menu",
+  "name": "@rc-component/menu",
   "version": "9.16.1",
   "description": "menu ui component for react",
   "keywords": [
