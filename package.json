@@ -38,7 +38,7 @@
     "lint": "eslint src/ --ext .tsx,.ts,.jsx,.js",
     "now-build": "npm run build",
     "prepublishOnly": "npm run compile && rc-np",
-    "postpublish": "tnpm sync rc-menu",
+    "postpublish": "tnpm sync @rc-component/menu",
     "start": "dumi dev",
     "test": "rc-test",
     "prepare": "husky && dumi setup"

@@ -2,7 +2,12 @@
 
 import React from 'react';
 import type { CSSMotionProps } from '@rc-component/motion';
-import Menu, { SubMenu, Item as MenuItem, Divider, MenuProps } from 'rc-menu';
+import Menu, {
+  SubMenu,
+  Item as MenuItem,
+  Divider,
+  MenuProps,
+} from '@rc-component/menu';
 import '../../assets/index.less';
 
 function handleClick(info) {

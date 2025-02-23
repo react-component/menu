@@ -1,15 +1,15 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
+import Menu, { SubMenu, Item as MenuItem } from '@rc-component/menu';
 
 import '../../assets/index.less';
 
 interface TestState {
-    destroyed: boolean;
-    selectedKeys: string[];
-    openKeys: string[];
-  }
+  destroyed: boolean;
+  selectedKeys: string[];
+  openKeys: string[];
+}
 
 class Test extends React.Component<any, TestState> {
   state = {
