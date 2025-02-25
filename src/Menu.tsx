@@ -31,6 +31,7 @@ import type {
   SelectEventHandler,
   SelectInfo,
   TriggerSubMenuAction,
+  PopupRender,
 } from './interface';
 import MenuItem from './MenuItem';
 import SubMenu from './SubMenu';
@@ -158,6 +159,8 @@ export interface MenuProps
    * By zombieJ
    */
   _internalComponents?: Components;
+
+  popupRender?: PopupRender;
 }
 
 interface LegacyMenuProps extends MenuProps {
@@ -240,6 +243,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     _internalComponents,
 
+    popupRender,
     ...restProps
   } = props as LegacyMenuProps;
 
@@ -663,6 +667,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           // Events
           onItemClick={onInternalClick}
           onOpenChange={onInternalOpenChange}
+          popupRender={popupRender}
         >
           <PathUserContext.Provider value={pathUserContext}>
             {container}
