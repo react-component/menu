@@ -136,7 +136,7 @@ export type MenuRef = {
   list: HTMLUListElement;
   activeItem: {
     activeKey: string;
-    uuid1: string;
+    uuid: string;
   };
 };
 
