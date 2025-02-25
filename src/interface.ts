@@ -134,9 +134,15 @@ export type MenuRef = {
    */
   focus: (options?: FocusOptions) => void;
   list: HTMLUListElement;
+  activeItem: {
+    activeKey: string;
+    uuid: string;
+  };
 };
 
 // ======================== Component ========================
 export type ComponentType = 'submenu' | 'item' | 'group' | 'divider';
 
-export type Components = Partial<Record<ComponentType, React.ComponentType<any>>>;
+export type Components = Partial<
+  Record<ComponentType, React.ComponentType<any>>
+>;

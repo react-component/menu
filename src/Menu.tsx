@@ -426,6 +426,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           elementToFocus?.focus?.(options);
         }
       },
+      activeItem: { activeKey, uuid },
     };
   });
 
