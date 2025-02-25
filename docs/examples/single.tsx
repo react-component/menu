@@ -1,37 +1,37 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu from 'rc-menu';
+import Menu from '@rc-component/menu';
 import '../../assets/index.less';
 
 const menu1List = [
   {
-    titleLocalKey: "Properties",
-    key: "Properties"
+    titleLocalKey: 'Properties',
+    key: 'Properties',
   },
   {
-    titleLocalKey: "Resources",
-    key: "Resources",
+    titleLocalKey: 'Resources',
+    key: 'Resources',
     children: [
       {
-        titleLocalKey: "FAQ",
-        key: "Faq",
-        isSub: true
+        titleLocalKey: 'FAQ',
+        key: 'Faq',
+        isSub: true,
       },
       {
-        titleLocalKey: "Learn",
-        key: "Learn",
-        isSub: true
-      }
-    ]
+        titleLocalKey: 'Learn',
+        key: 'Learn',
+        isSub: true,
+      },
+    ],
   },
   {
-    titleLocalKey: "About Us",
-    key: "AboutUs"
-  }
+    titleLocalKey: 'About Us',
+    key: 'AboutUs',
+  },
 ];
 
-const menu1Items = (values) => {
+const menu1Items = values => {
   if (!values) {
     return undefined;
   }
@@ -39,7 +39,7 @@ const menu1Items = (values) => {
     return {
       label: <div>{item.titleLocalKey}</div>,
       key: item.key,
-      children: menu1Items(item.children)
+      children: menu1Items(item.children),
     };
   });
 };
@@ -48,10 +48,10 @@ console.log(menu1Items(menu1List));
 
 export default () => (
   <Menu
-  selectable={false}
-  mode="inline"
-  defaultOpenKeys={['Resources']}
-  style={{ width: "100%" }}
-  items={menu1Items(menu1List)}
-/>
-)
+    selectable={false}
+    mode="inline"
+    defaultOpenKeys={['Resources']}
+    style={{ width: '100%' }}
+    items={menu1Items(menu1List)}
+  />
+);

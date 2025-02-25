@@ -4,12 +4,7 @@
 
 React Menu Component. port from https://github.com/kissyteam/menu
 
-[![NPM version][npm-image]][npm-url]
-[![npm download][download-image]][download-url]
-[![build status][github-actions-image]][github-actions-url]
-[![Codecov][codecov-image]][codecov-url]
-[![bundle size][bundlephobia-image]][bundlephobia-url]
-[![dumi][dumi-image]][dumi-url]
+[![NPM version][npm-image]][npm-url] [![npm download][download-image]][download-url] [![build status][github-actions-image]][github-actions-url] [![Codecov][codecov-image]][codecov-url] [![bundle size][bundlephobia-image]][bundlephobia-url] [![dumi][dumi-image]][dumi-url]
 
 [npm-image]: http://img.shields.io/npm/v/rc-menu.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-menu
@@ -172,7 +167,7 @@ ReactDOM.render(
             <td>openAnimation</td>
             <td>{enter:function,leave:function}|String</td>
             <th></th>
-            <td>animate when sub menu open or close. see rc-motion for object type.</td>
+            <td>animate when sub menu open or close. see @rc-component/motion for object type.</td>
         </tr>
         <tr>
             <td>openTransition</td>

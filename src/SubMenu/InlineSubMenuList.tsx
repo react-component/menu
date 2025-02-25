@@ -1,5 +1,5 @@
 import * as React from 'react';
-import CSSMotion from 'rc-motion';
+import CSSMotion from '@rc-component/motion';
 import { getMotion } from '../utils/motionUtil';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import SubMenuList from './SubMenuList';
@@ -20,13 +20,8 @@ export default function InlineSubMenuList({
 }: InlineSubMenuListProps) {
   const fixedMode: MenuMode = 'inline';
 
-  const {
-    prefixCls,
-    forceSubMenuRender,
-    motion,
-    defaultMotions,
-    mode,
-  } = React.useContext(MenuContext);
+  const { prefixCls, forceSubMenuRender, motion, defaultMotions, mode } =
+    React.useContext(MenuContext);
 
   // Always use latest mode check
   const sameModeRef = React.useRef(false);

@@ -1,8 +1,8 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import type { MenuMode } from '@/interface';
 import { fireEvent, render } from '@testing-library/react';
-import KeyCode from 'rc-util/lib/KeyCode';
-import { resetWarned } from 'rc-util/lib/warning';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import { resetWarned } from '@rc-component/util/lib/warning';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import type { MenuRef } from '../src';
@@ -20,9 +20,9 @@ jest.mock('@rc-component/trigger', () => {
   });
 });
 
-jest.mock('rc-motion', () => {
+jest.mock('@rc-component/motion', () => {
   const react = require('react');
-  let Motion = jest.requireActual('rc-motion');
+  let Motion = jest.requireActual('@rc-component/motion');
   Motion = Motion.default || Motion;
 
   return react.forwardRef((props, ref) => {
@@ -333,7 +333,7 @@ describe('Menu', () => {
     // don't use selectedKeys as string
     // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
     const { container } = render(
-      <Menu selectedKeys={('item_abc' as unknown) as string[]}>
+      <Menu selectedKeys={'item_abc' as unknown as string[]}>
         <MenuItem key="item_a">1</MenuItem>
         <MenuItem key="item_abc">2</MenuItem>
       </Menu>,

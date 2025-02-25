@@ -1,7 +1,7 @@
 import * as React from 'react';
-import type { CSSMotionProps } from 'rc-motion';
-import useMemo from 'rc-util/lib/hooks/useMemo';
-import isEqual from 'rc-util/lib/isEqual';
+import type { CSSMotionProps } from '@rc-component/motion';
+import useMemo from '@rc-component/util/lib/hooks/useMemo';
+import isEqual from '@rc-component/util/lib/isEqual';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,

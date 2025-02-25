@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import omit from 'rc-util/lib/omit';
+import omit from '@rc-component/util/lib/omit';
 import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';

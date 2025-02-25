@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import { fireEvent, render } from '@testing-library/react';
-import KeyCode from 'rc-util/lib/KeyCode';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import Menu, { MenuItem, SubMenu } from '../src';

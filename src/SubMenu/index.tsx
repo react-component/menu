@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
-import warning from 'rc-util/lib/warning';
+import warning from '@rc-component/util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/commonUtil';
 import type { MenuInfo, SubMenuType } from '../interface';

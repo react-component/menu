@@ -1,7 +1,7 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
-import type { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from '@rc-component/motion';
 import Menu, { SubMenu, Item as MenuItem, Divider, MenuProps } from '../../src';
 import '../../assets/index.less';
 

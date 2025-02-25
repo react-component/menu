@@ -1,8 +1,13 @@
 /* eslint-disable no-console, react/require-default-props, no-param-reassign */
 
 import React from 'react';
-import type { CSSMotionProps } from 'rc-motion';
-import Menu, { SubMenu, Item as MenuItem, Divider, MenuProps } from 'rc-menu';
+import type { CSSMotionProps } from '@rc-component/motion';
+import Menu, {
+  SubMenu,
+  Item as MenuItem,
+  Divider,
+  MenuProps,
+} from '@rc-component/menu';
 import '../../assets/index.less';
 
 function handleClick(info) {
@@ -122,8 +127,8 @@ const children2 = [
 const customizeIndicator = <span>Add More Items</span>;
 
 interface CommonMenuState {
-    children: React.ReactNode;
-    overflowedIndicator?: React.ReactNode;
+  children: React.ReactNode;
+  overflowedIndicator?: React.ReactNode;
 }
 
 class CommonMenu extends React.Component<any, CommonMenuState> {
