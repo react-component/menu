@@ -426,7 +426,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           elementToFocus?.focus?.(options);
         }
       },
-      activeItem: { activeKey, uuid },
       findItem: ({ key: itemKey }) => {
         const keys = getKeys();
         const { key2element } = refreshElements(keys, uuid);

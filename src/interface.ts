@@ -134,10 +134,6 @@ export type MenuRef = {
    */
   focus: (options?: FocusOptions) => void;
   list: HTMLUListElement;
-  activeItem: {
-    activeKey: string;
-    uuid: string;
-  };
   findItem: (params: { key: string }) => HTMLElement | null;
 };
 
