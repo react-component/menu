@@ -807,5 +807,23 @@ describe('Menu', () => {
     rerender(<App expand={false} subExpand />);
     expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(1);
   });
+
+  it('should find item by key', () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = render(
+      <Menu ref={menuRef}>
+        <MenuItem key="light">Light</MenuItem>
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>,
+    );
+
+    const lightItem = menuRef.current?.findItem({ key: 'light' });
+    const catItem = menuRef.current?.findItem({ key: 'cat' });
+    const nonExistentItem = menuRef.current?.findItem({ key: 'dog' });
+
+    expect(lightItem).toBe(container.querySelectorAll('li')[0]);
+    expect(catItem).toBe(container.querySelectorAll('li')[1]);
+    expect(nonExistentItem).toBe(null);
+  });
 });
 /* eslint-enable */
