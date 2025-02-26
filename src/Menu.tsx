@@ -427,6 +427,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         }
       },
       activeItem: { activeKey, uuid },
+      findItem: ({ key: itemKey }) => {
+        const keys = getKeys();
+        const { key2element } = refreshElements(keys, uuid);
+        return key2element.get(itemKey) || null;
+      },
     };
   });
 

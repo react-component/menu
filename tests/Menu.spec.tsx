@@ -333,7 +333,7 @@ describe('Menu', () => {
     // don't use selectedKeys as string
     // it is a compatible feature for https://github.com/ant-design/ant-design/issues/29429
     const { container } = render(
-      <Menu selectedKeys={('item_abc' as unknown) as string[]}>
+      <Menu selectedKeys={'item_abc' as unknown as string[]}>
         <MenuItem key="item_a">1</MenuItem>
         <MenuItem key="item_abc">2</MenuItem>
       </Menu>,
@@ -806,6 +806,24 @@ describe('Menu', () => {
 
     rerender(<App expand={false} subExpand />);
     expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(1);
+  });
+
+  it('should find item by key', () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = render(
+      <Menu ref={menuRef}>
+        <MenuItem key="light">Light</MenuItem>
+        <MenuItem key="cat">Cat</MenuItem>
+      </Menu>,
+    );
+
+    const lightItem = menuRef.current?.findItem({ key: 'light' });
+    const catItem = menuRef.current?.findItem({ key: 'cat' });
+    const nonExistentItem = menuRef.current?.findItem({ key: 'dog' });
+
+    expect(lightItem).toBe(container.querySelectorAll('li')[0]);
+    expect(catItem).toBe(container.querySelectorAll('li')[1]);
+    expect(nonExistentItem).toBe(null);
   });
 });
 /* eslint-enable */

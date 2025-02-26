@@ -138,6 +138,7 @@ export type MenuRef = {
     activeKey: string;
     uuid: string;
   };
+  findItem: (params: { key: string }) => HTMLElement | null;
 };
 
 // ======================== Component ========================
