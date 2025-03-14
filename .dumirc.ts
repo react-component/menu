@@ -2,6 +2,7 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
+  mako: {},
   themeConfig: {
     name: 'rc-menu',
     logo: 'https://avatars0.githubusercontent.com/u/9441414?s=200&v=4',
@@ -13,7 +14,7 @@ export default defineConfig({
     ['https://avatars0.githubusercontent.com/u/9441414?s=200&v=4'],
   outputPath: '.doc',
   exportStatic: {},
-  mfsu: {},
+  mfsu: false,
   styles: [
     `
       .markdown table {
