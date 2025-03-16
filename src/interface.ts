@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import type { SubMenuProps } from './SubMenu';
 
 // ========================= Options =========================
 interface ItemSharedProps {
@@ -145,5 +146,5 @@ export type Components = Partial<
 
 export type PopupRender = (
   node: React.ReactElement,
-  info: { item: any; keys: string[] },
+  info: { item: SubMenuProps; keys: string[] },
 ) => React.ReactNode;
