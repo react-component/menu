@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
+import Menu, { SubMenu, Item as MenuItem } from '@rc-component/menu';
 
 import '../../assets/index.less';
 

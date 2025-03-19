@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
-import KeyCode from 'rc-util/lib/KeyCode';
-import omit from 'rc-util/lib/omit';
-import { useComposeRef } from 'rc-util/lib/ref';
-import warning from 'rc-util/lib/warning';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import omit from '@rc-component/util/lib/omit';
+import { useComposeRef } from '@rc-component/util/lib/ref';
+import warning from '@rc-component/util/lib/warning';
 import * as React from 'react';
 import { useMenuId } from './context/IdContext';
 import { MenuContext } from './context/MenuContext';
@@ -50,10 +50,7 @@ class LegacyMenuItem extends React.Component<any> {
       'popupOffset',
       'onTitleClick',
     ]);
-    warning(
-      !attribute,
-      '`attribute` of Menu.Item is deprecated. Please pass attribute directly.',
-    );
+    warning(!attribute, '`attribute` of Menu.Item is deprecated. Please pass attribute directly.');
 
     return (
       <Overflow.Item
@@ -69,191 +66,186 @@ class LegacyMenuItem extends React.Component<any> {
 /**
  * Real Menu Item component
  */
-const InternalMenuItem = React.forwardRef(
-  (props: MenuItemProps, ref: React.Ref<HTMLElement>) => {
-    const {
-      style,
-      className,
+const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<HTMLElement>) => {
+  const {
+    style,
+    className,
 
-      eventKey,
-      warnKey,
-      disabled,
-      itemIcon,
-      children,
+    eventKey,
+    warnKey,
+    disabled,
+    itemIcon,
+    children,
 
-      // Aria
-      role,
+    // Aria
+    role,
 
-      // Active
-      onMouseEnter,
-      onMouseLeave,
+    // Active
+    onMouseEnter,
+    onMouseLeave,
 
-      onClick,
-      onKeyDown,
+    onClick,
+    onKeyDown,
 
-      onFocus,
+    onFocus,
 
-      ...restProps
-    } = props;
+    ...restProps
+  } = props;
 
-    const domDataId = useMenuId(eventKey);
+  const domDataId = useMenuId(eventKey);
 
-    const {
-      prefixCls,
-      onItemClick,
+  const {
+    prefixCls,
+    onItemClick,
 
-      disabled: contextDisabled,
-      overflowDisabled,
+    disabled: contextDisabled,
+    overflowDisabled,
 
-      // Icon
-      itemIcon: contextItemIcon,
+    // Icon
+    itemIcon: contextItemIcon,
 
-      // Select
-      selectedKeys,
+    // Select
+    selectedKeys,
 
-      // Active
-      onActive,
-    } = React.useContext(MenuContext);
+    // Active
+    onActive,
+  } = React.useContext(MenuContext);
 
-    const { _internalRenderMenuItem } = React.useContext(PrivateContext);
+  const { _internalRenderMenuItem } = React.useContext(PrivateContext);
 
-    const itemCls = `${prefixCls}-item`;
+  const itemCls = `${prefixCls}-item`;
 
-    const legacyMenuItemRef = React.useRef<any>();
-    const elementRef = React.useRef<HTMLLIElement>();
-    const mergedDisabled = contextDisabled || disabled;
+  const legacyMenuItemRef = React.useRef<any>();
+  const elementRef = React.useRef<HTMLLIElement>();
+  const mergedDisabled = contextDisabled || disabled;
 
-    const mergedEleRef = useComposeRef(ref, elementRef);
+  const mergedEleRef = useComposeRef(ref, elementRef);
 
-    const connectedKeys = useFullPath(eventKey);
+  const connectedKeys = useFullPath(eventKey);
 
-    // ================================ Warn ================================
-    if (process.env.NODE_ENV !== 'production' && warnKey) {
-      warning(false, 'MenuItem should not leave undefined `key`.');
+  // ================================ Warn ================================
+  if (process.env.NODE_ENV !== 'production' && warnKey) {
+    warning(false, 'MenuItem should not leave undefined `key`.');
+  }
+
+  // ============================= Info =============================
+  const getEventInfo = (
+    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+  ): MenuInfo => {
+    return {
+      key: eventKey,
+      // Note: For legacy code is reversed which not like other antd component
+      keyPath: [...connectedKeys].reverse(),
+      item: legacyMenuItemRef.current,
+      domEvent: e,
+    };
+  };
+
+  // ============================= Icon =============================
+  const mergedItemIcon = itemIcon || contextItemIcon;
+
+  // ============================ Active ============================
+  const { active, ...activeProps } = useActive(
+    eventKey,
+    mergedDisabled,
+    onMouseEnter,
+    onMouseLeave,
+  );
+
+  // ============================ Select ============================
+  const selected = selectedKeys.includes(eventKey);
+
+  // ======================== DirectionStyle ========================
+  const directionStyle = useDirectionStyle(connectedKeys.length);
+
+  // ============================ Events ============================
+  const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
+    if (mergedDisabled) {
+      return;
     }
 
-    // ============================= Info =============================
-    const getEventInfo = (
-      e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
-    ): MenuInfo => {
-      return {
-        key: eventKey,
-        // Note: For legacy code is reversed which not like other antd component
-        keyPath: [...connectedKeys].reverse(),
-        item: legacyMenuItemRef.current,
-        domEvent: e,
-      };
-    };
+    const info = getEventInfo(e);
 
-    // ============================= Icon =============================
-    const mergedItemIcon = itemIcon || contextItemIcon;
+    onClick?.(warnItemProp(info));
+    onItemClick(info);
+  };
 
-    // ============================ Active ============================
-    const { active, ...activeProps } = useActive(
-      eventKey,
-      mergedDisabled,
-      onMouseEnter,
-      onMouseLeave,
-    );
+  const onInternalKeyDown: React.KeyboardEventHandler<HTMLLIElement> = e => {
+    onKeyDown?.(e);
 
-    // ============================ Select ============================
-    const selected = selectedKeys.includes(eventKey);
-
-    // ======================== DirectionStyle ========================
-    const directionStyle = useDirectionStyle(connectedKeys.length);
-
-    // ============================ Events ============================
-    const onInternalClick: React.MouseEventHandler<HTMLLIElement> = e => {
-      if (mergedDisabled) {
-        return;
-      }
-
+    if (e.which === KeyCode.ENTER) {
       const info = getEventInfo(e);
 
+      // Legacy. Key will also trigger click event
       onClick?.(warnItemProp(info));
       onItemClick(info);
-    };
-
-    const onInternalKeyDown: React.KeyboardEventHandler<HTMLLIElement> = e => {
-      onKeyDown?.(e);
-
-      if (e.which === KeyCode.ENTER) {
-        const info = getEventInfo(e);
-
-        // Legacy. Key will also trigger click event
-        onClick?.(warnItemProp(info));
-        onItemClick(info);
-      }
-    };
-
-    /**
-     * Used for accessibility. Helper will focus element without key board.
-     * We should manually trigger an active
-     */
-    const onInternalFocus: React.FocusEventHandler<HTMLLIElement> = e => {
-      onActive(eventKey);
-      onFocus?.(e);
-    };
-
-    // ============================ Render ============================
-    const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
-
-    if (props.role === 'option') {
-      optionRoleProps['aria-selected'] = selected;
     }
+  };
 
-    let renderNode = (
-      <LegacyMenuItem
-        ref={legacyMenuItemRef}
-        elementRef={mergedEleRef}
-        role={role === null ? 'none' : role || 'menuitem'}
-        tabIndex={disabled ? null : -1}
-        data-menu-id={overflowDisabled && domDataId ? null : domDataId}
-        {...omit(restProps, ['extra'])}
-        {...activeProps}
-        {...optionRoleProps}
-        component="li"
-        aria-disabled={disabled}
-        style={{
-          ...directionStyle,
-          ...style,
+  /**
+   * Used for accessibility. Helper will focus element without key board.
+   * We should manually trigger an active
+   */
+  const onInternalFocus: React.FocusEventHandler<HTMLLIElement> = e => {
+    onActive(eventKey);
+    onFocus?.(e);
+  };
+
+  // ============================ Render ============================
+  const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
+
+  if (props.role === 'option') {
+    optionRoleProps['aria-selected'] = selected;
+  }
+
+  let renderNode = (
+    <LegacyMenuItem
+      ref={legacyMenuItemRef}
+      elementRef={mergedEleRef}
+      role={role === null ? 'none' : role || 'menuitem'}
+      tabIndex={disabled ? null : -1}
+      data-menu-id={overflowDisabled && domDataId ? null : domDataId}
+      {...omit(restProps, ['extra'])}
+      {...activeProps}
+      {...optionRoleProps}
+      component="li"
+      aria-disabled={disabled}
+      style={{
+        ...directionStyle,
+        ...style,
+      }}
+      className={classNames(
+        itemCls,
+        {
+          [`${itemCls}-active`]: active,
+          [`${itemCls}-selected`]: selected,
+          [`${itemCls}-disabled`]: mergedDisabled,
+        },
+        className,
+      )}
+      onClick={onInternalClick}
+      onKeyDown={onInternalKeyDown}
+      onFocus={onInternalFocus}
+    >
+      {children}
+      <Icon
+        props={{
+          ...props,
+          isSelected: selected,
         }}
-        className={classNames(
-          itemCls,
-          {
-            [`${itemCls}-active`]: active,
-            [`${itemCls}-selected`]: selected,
-            [`${itemCls}-disabled`]: mergedDisabled,
-          },
-          className,
-        )}
-        onClick={onInternalClick}
-        onKeyDown={onInternalKeyDown}
-        onFocus={onInternalFocus}
-      >
-        {children}
-        <Icon
-          props={{
-            ...props,
-            isSelected: selected,
-          }}
-          icon={mergedItemIcon}
-        />
-      </LegacyMenuItem>
-    );
+        icon={mergedItemIcon}
+      />
+    </LegacyMenuItem>
+  );
 
-    if (_internalRenderMenuItem) {
-      renderNode = _internalRenderMenuItem(renderNode, props, { selected });
-    }
+  if (_internalRenderMenuItem) {
+    renderNode = _internalRenderMenuItem(renderNode, props, { selected });
+  }
 
-    return renderNode;
-  },
-);
+  return renderNode;
+});
 
-function MenuItem(
-  props: MenuItemProps,
-  ref: React.Ref<HTMLElement>,
-): React.ReactElement {
+function MenuItem(props: MenuItemProps, ref: React.Ref<HTMLElement>): React.ReactElement {
   const { eventKey } = props;
 
   // ==================== Record KeyPath ====================

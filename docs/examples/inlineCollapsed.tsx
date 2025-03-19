@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Menu from 'rc-menu';
+import Menu from '@rc-component/menu';
 import './inlineCollapsed.less';
 
 const App = () => {
@@ -24,18 +24,20 @@ const App = () => {
               { key: '3', label: 'item 2' },
               { key: '4', label: 'item 3' },
               {
-                key: '5', label: 'SubMenu', children: [
+                key: '5',
+                label: 'SubMenu',
+                children: [
                   { key: '6', label: 'item 4' },
                   { key: '7', label: 'item 5' },
                   { key: '8', label: 'item 6' },
-                ]
-              }
+                ],
+              },
             ],
           },
         ]}
       />
     </>
   );
-}
+};
 
 export default App;

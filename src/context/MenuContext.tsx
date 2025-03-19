@@ -1,7 +1,7 @@
 import * as React from 'react';
-import type { CSSMotionProps } from 'rc-motion';
-import useMemo from 'rc-util/lib/hooks/useMemo';
-import isEqual from 'rc-util/lib/isEqual';
+import type { CSSMotionProps } from '@rc-component/motion';
+import useMemo from '@rc-component/util/lib/hooks/useMemo';
+import isEqual from '@rc-component/util/lib/isEqual';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
@@ -61,10 +61,7 @@ export interface MenuContextProps {
 
 export const MenuContext = React.createContext<MenuContextProps>(null);
 
-function mergeProps(
-  origin: MenuContextProps,
-  target: Partial<MenuContextProps>,
-): MenuContextProps {
+function mergeProps(origin: MenuContextProps, target: Partial<MenuContextProps>): MenuContextProps {
   const clone = { ...origin };
 
   Object.keys(target).forEach(key => {
@@ -92,13 +89,8 @@ export default function InheritableContextProvider({
   const inheritableContext = useMemo(
     () => mergeProps(context, restProps),
     [context, restProps],
-    (prev, next) =>
-      !locked && (prev[0] !== next[0] || !isEqual(prev[1], next[1], true)),
+    (prev, next) => !locked && (prev[0] !== next[0] || !isEqual(prev[1], next[1], true)),
   );
 
-  return (
-    <MenuContext.Provider value={inheritableContext}>
-      {children}
-    </MenuContext.Provider>
-  );
+  return <MenuContext.Provider value={inheritableContext}>{children}</MenuContext.Provider>;
 }

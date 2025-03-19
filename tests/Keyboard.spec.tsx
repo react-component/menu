@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import { fireEvent, render } from '@testing-library/react';
-import KeyCode from 'rc-util/lib/KeyCode';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import Menu, { MenuItem, SubMenu } from '../src';
@@ -143,11 +143,7 @@ describe('Menu.Keyboard', () => {
   });
 
   describe('go to children & back of parent', () => {
-    function testDirection(
-      direction: 'ltr' | 'rtl',
-      subKey: number,
-      parentKey: number,
-    ) {
+    function testDirection(direction: 'ltr' | 'rtl', subKey: number, parentKey: number) {
       it(`direction ${direction}`, () => {
         const { container, unmount } = render(
           <Menu mode="vertical" direction={direction}>
@@ -166,35 +162,26 @@ describe('Menu.Keyboard', () => {
         keyDown(container, subKey);
         expect(container.querySelector('.rc-menu-submenu-open')).toBeTruthy();
         expect(
-          last(
-            container.querySelectorAll(
-              '.rc-menu-submenu-active > .rc-menu-submenu-title',
-            ),
-          ).textContent,
+          last(container.querySelectorAll('.rc-menu-submenu-active > .rc-menu-submenu-title'))
+            .textContent,
         ).toEqual('Light');
 
         // Open and active sub
         keyDown(container, subKey);
-        expect(
-          container.querySelectorAll('.rc-menu-submenu-open'),
-        ).toHaveLength(2);
-        expect(
-          last(container.querySelectorAll('.rc-menu-item-active')).textContent,
-        ).toEqual('Little');
+        expect(container.querySelectorAll('.rc-menu-submenu-open')).toHaveLength(2);
+        expect(last(container.querySelectorAll('.rc-menu-item-active')).textContent).toEqual(
+          'Little',
+        );
 
         // Back to parent
         keyDown(container, parentKey);
-        expect(
-          container.querySelectorAll('.rc-menu-submenu-open'),
-        ).toHaveLength(1);
+        expect(container.querySelectorAll('.rc-menu-submenu-open')).toHaveLength(1);
         expect(container.querySelector('.rc-menu-item-active')).toBeFalsy();
 
         // Back to parent
         keyDown(container, parentKey);
         expect(container.querySelector('.rc-menu-submenu-open')).toBeFalsy();
-        expect(
-          container.querySelectorAll('.rc-menu-submenu-active'),
-        ).toHaveLength(1);
+        expect(container.querySelectorAll('.rc-menu-submenu-active')).toHaveLength(1);
 
         unmount();
       });

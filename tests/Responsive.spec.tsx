@@ -1,8 +1,8 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import { act, fireEvent, render } from '@testing-library/react';
 import ResizeObserver from 'rc-resize-observer';
-import KeyCode from 'rc-util/lib/KeyCode';
-import { spyElementPrototype } from 'rc-util/lib/test/domHook';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import { spyElementPrototype } from '@rc-component/util/lib/test/domHook';
 import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
@@ -98,12 +98,7 @@ describe('Menu.Responsive', () => {
     const onOpenChange = jest.fn();
 
     const genMenu = (props?: any) => (
-      <Menu
-        mode="horizontal"
-        activeKey="little"
-        onOpenChange={onOpenChange}
-        {...props}
-      >
+      <Menu mode="horizontal" activeKey="little" onOpenChange={onOpenChange} {...props}>
         <MenuItem key="light">Light</MenuItem>
         <MenuItem key="bamboo">Bamboo</MenuItem>
         <SubMenu key="home" title="Home">
@@ -158,9 +153,9 @@ describe('Menu.Responsive', () => {
     // });
 
     // Should set active on rest
-    expect(
-      last(container.querySelectorAll('.rc-menu-overflow-item-rest')),
-    ).toHaveClass('rc-menu-submenu-active');
+    expect(last(container.querySelectorAll('.rc-menu-overflow-item-rest'))).toHaveClass(
+      'rc-menu-submenu-active',
+    );
 
     // Key down can open
     expect(onOpenChange).not.toHaveBeenCalled();

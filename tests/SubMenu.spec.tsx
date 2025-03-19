@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { act, fireEvent, render } from '@testing-library/react';
-import { resetWarned } from 'rc-util/lib/warning';
+import { resetWarned } from '@rc-component/util/lib/warning';
 import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { isActive, last } from './util';
@@ -94,11 +94,7 @@ describe('SubMenu', () => {
 
   it('should render custom arrow icon correctly.', () => {
     const { container } = render(
-      <Menu
-        mode="vertical"
-        itemIcon={itemIcon}
-        expandIcon={<span>SubMenuIconNode</span>}
-      >
+      <Menu mode="vertical" itemIcon={itemIcon} expandIcon={<span>SubMenuIconNode</span>}>
         <SubMenu key="s" title="submenu">
           <MenuItem key="1">1</MenuItem>
           <MenuItem key="2">2</MenuItem>
@@ -107,11 +103,7 @@ describe('SubMenu', () => {
     );
 
     const wrapperWithExpandIconFunction = render(
-      <Menu
-        mode="vertical"
-        itemIcon={itemIcon}
-        expandIcon={() => <span>SubMenuIconNode</span>}
-      >
+      <Menu mode="vertical" itemIcon={itemIcon} expandIcon={() => <span>SubMenuIconNode</span>}>
         <SubMenu key="s" title="submenu">
           <MenuItem key="1">1</MenuItem>
           <MenuItem key="2">2</MenuItem>
@@ -119,13 +111,9 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    const subMenuText = container.querySelector(
-      '.rc-menu-submenu-title',
-    ).textContent;
+    const subMenuText = container.querySelector('.rc-menu-submenu-title').textContent;
     const subMenuTextWithExpandIconFunction =
-      wrapperWithExpandIconFunction.container.querySelector(
-        '.rc-menu-submenu-title',
-      ).textContent;
+      wrapperWithExpandIconFunction.container.querySelector('.rc-menu-submenu-title').textContent;
     expect(subMenuText).toEqual('submenuSubMenuIconNode');
     expect(subMenuTextWithExpandIconFunction).toEqual('submenuSubMenuIconNode');
   });
@@ -144,9 +132,7 @@ describe('SubMenu', () => {
       </Menu>,
     );
 
-    const childText = container.querySelector(
-      '.rc-menu-submenu-title',
-    ).textContent;
+    const childText = container.querySelector('.rc-menu-submenu-title').textContent;
     expect(childText).toEqual('submenu');
   });
 
@@ -239,23 +225,16 @@ describe('SubMenu', () => {
     expect(handleOpenChange).toHaveBeenCalledWith(['tmp_key-1']);
 
     // Second
-    fireEvent.mouseEnter(
-      container.querySelectorAll('.rc-menu-submenu-title')[1],
-    );
+    fireEvent.mouseEnter(container.querySelectorAll('.rc-menu-submenu-title')[1]);
     runAllTimer();
-    expect(handleOpenChange).toHaveBeenCalledWith([
-      'tmp_key-1',
-      'tmp_key-tmp_key-1-1',
-    ]);
+    expect(handleOpenChange).toHaveBeenCalledWith(['tmp_key-1', 'tmp_key-tmp_key-1-1']);
   });
 
   describe('undefined key', () => {
     it('warning item', () => {
       resetWarned();
 
-      const errorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       render(
         <Menu>
@@ -263,9 +242,7 @@ describe('SubMenu', () => {
         </Menu>,
       );
 
-      expect(errorSpy).toHaveBeenCalledWith(
-        'Warning: MenuItem should not leave undefined `key`.',
-      );
+      expect(errorSpy).toHaveBeenCalledWith('Warning: MenuItem should not leave undefined `key`.');
 
       errorSpy.mockRestore();
     });
@@ -273,9 +250,7 @@ describe('SubMenu', () => {
     it('warning sub menu', () => {
       resetWarned();
 
-      const errorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       render(
         <Menu>
@@ -283,9 +258,7 @@ describe('SubMenu', () => {
         </Menu>,
       );
 
-      expect(errorSpy).toHaveBeenCalledWith(
-        'Warning: SubMenu should not leave undefined `key`.',
-      );
+      expect(errorSpy).toHaveBeenCalledWith('Warning: SubMenu should not leave undefined `key`.');
 
       errorSpy.mockRestore();
     });
@@ -293,9 +266,7 @@ describe('SubMenu', () => {
     it('should not warning', () => {
       resetWarned();
 
-      const errorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       render(
         <Menu>
@@ -321,9 +292,7 @@ describe('SubMenu', () => {
     });
 
     it('click to open a submenu should not activate first item', () => {
-      const { container } = render(
-        createMenu({ triggerSubMenuAction: 'click' }),
-      );
+      const { container } = render(createMenu({ triggerSubMenuAction: 'click' }));
       fireEvent.click(container.querySelector('.rc-menu-submenu-title'));
 
       runAllTimer();
@@ -373,9 +342,7 @@ describe('SubMenu', () => {
     runAllTimer();
 
     fireEvent.click(container.querySelector('.rc-menu-item'));
-    expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
-      'rc-menu-submenu-selected',
-    );
+    expect(container.querySelector('.rc-menu-submenu')).toHaveClass('rc-menu-submenu-selected');
   });
 
   it('fires deselect event for multiple menu', () => {
@@ -458,9 +425,7 @@ describe('SubMenu', () => {
 
     runAllTimer();
 
-    expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
-      'rc-menu-submenu-horizontal',
-    );
+    expect(container.querySelector('.rc-menu-submenu')).toHaveClass('rc-menu-submenu-horizontal');
 
     expect(last(container.querySelectorAll('.rc-menu-submenu'))).toHaveClass(
       'rc-menu-submenu-vertical',
@@ -485,12 +450,8 @@ describe('SubMenu', () => {
     );
     expect(container.children).toMatchSnapshot();
 
-    expect(container.querySelector('.rc-menu-root')).toHaveClass(
-      'custom-className',
-    );
-    expect(container.querySelectorAll('.rc-menu-submenu-popup')).toHaveLength(
-      0,
-    );
+    expect(container.querySelector('.rc-menu-root')).toHaveClass('custom-className');
+    expect(container.querySelectorAll('.rc-menu-submenu-popup')).toHaveLength(0);
 
     runAllTimer();
 
@@ -499,9 +460,7 @@ describe('SubMenu', () => {
 
     runAllTimer();
 
-    expect(container.querySelector('.rc-menu-submenu-popup')).toHaveClass(
-      'custom-className',
-    );
+    expect(container.querySelector('.rc-menu-submenu-popup')).toHaveClass('custom-className');
 
     expect(container.children).toMatchSnapshot();
   });
@@ -509,11 +468,7 @@ describe('SubMenu', () => {
   it('submenu should support popupStyle', () => {
     const { container } = render(
       <Menu>
-        <SubMenu
-          key="s1"
-          title="submenu1"
-          popupStyle={{ zIndex: 100, width: 150 }}
-        >
+        <SubMenu key="s1" title="submenu1" popupStyle={{ zIndex: 100, width: 150 }}>
           <MenuItem key="s1-1">1</MenuItem>
         </SubMenu>
       </Menu>,
@@ -521,14 +476,12 @@ describe('SubMenu', () => {
 
     fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
     runAllTimer();
-    expect(
-      (container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style
-        .zIndex,
-    ).toEqual('100');
-    expect(
-      (container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style
-        .width,
-    ).toEqual('150px');
+    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.zIndex).toEqual(
+      '100',
+    );
+    expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.width).toEqual(
+      '150px',
+    );
   });
 });
 /* eslint-enable */

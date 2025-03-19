@@ -1,5 +1,5 @@
 import * as React from 'react';
-import CSSMotion from 'rc-motion';
+import CSSMotion from '@rc-component/motion';
 import { getMotion } from '../utils/motionUtil';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import SubMenuList from './SubMenuList';
@@ -12,21 +12,11 @@ export interface InlineSubMenuListProps {
   children: React.ReactNode;
 }
 
-export default function InlineSubMenuList({
-  id,
-  open,
-  keyPath,
-  children,
-}: InlineSubMenuListProps) {
+export default function InlineSubMenuList({ id, open, keyPath, children }: InlineSubMenuListProps) {
   const fixedMode: MenuMode = 'inline';
 
-  const {
-    prefixCls,
-    forceSubMenuRender,
-    motion,
-    defaultMotions,
-    mode,
-  } = React.useContext(MenuContext);
+  const { prefixCls, forceSubMenuRender, motion, defaultMotions, mode } =
+    React.useContext(MenuContext);
 
   // Always use latest mode check
   const sameModeRef = React.useRef(false);
@@ -79,11 +69,7 @@ export default function InlineSubMenuList({
       >
         {({ className: motionClassName, style: motionStyle }) => {
           return (
-            <SubMenuList
-              id={id}
-              className={motionClassName}
-              style={motionStyle}
-            >
+            <SubMenuList id={id} className={motionClassName} style={motionStyle}>
               {children}
             </SubMenuList>
           );

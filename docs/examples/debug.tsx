@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 
 import React, { useRef } from 'react';
-import type { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from '@rc-component/motion';
 import Menu, { ItemGroup as MenuItemGroup, MenuItem } from '../../src';
 import type { MenuProps } from '../../src';
 import '../../assets/index.less';

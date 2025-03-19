@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef, useCallback } from 'react';
-import warning from 'rc-util/lib/warning';
+import warning from '@rc-component/util/lib/warning';
 import { nextSlice } from '../utils/timeUtil';
 
 const PATH_SPLIT = '__RC_UTIL_PATH_SPLIT__';

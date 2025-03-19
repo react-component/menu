@@ -1,13 +1,12 @@
 import classNames from 'classnames';
-import omit from 'rc-util/lib/omit';
+import omit from '@rc-component/util/lib/omit';
 import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
 import { parseChildren } from './utils/commonUtil';
 
-export interface MenuItemGroupProps
-  extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
+export interface MenuItemGroupProps extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
   title?: React.ReactNode;
 
   children?: React.ReactNode;
@@ -19,10 +18,7 @@ export interface MenuItemGroupProps
   warnKey?: boolean;
 }
 
-const InternalMenuItemGroup = React.forwardRef<
-  HTMLLIElement,
-  MenuItemGroupProps
->((props, ref) => {
+const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props, ref) => {
   const { className, title, eventKey, children, ...restProps } = props;
   const { prefixCls } = React.useContext(MenuContext);
 
@@ -50,27 +46,22 @@ const InternalMenuItemGroup = React.forwardRef<
   );
 });
 
-const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>(
-  (props, ref) => {
-    const { eventKey, children } = props;
-    const connectedKeyPath = useFullPath(eventKey);
-    const childList: React.ReactElement[] = parseChildren(
-      children,
-      connectedKeyPath,
-    );
+const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props, ref) => {
+  const { eventKey, children } = props;
+  const connectedKeyPath = useFullPath(eventKey);
+  const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
 
-    const measure = useMeasure();
-    if (measure) {
-      return childList as any as React.ReactElement;
-    }
+  const measure = useMeasure();
+  if (measure) {
+    return childList as any as React.ReactElement;
+  }
 
-    return (
-      <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey'])}>
-        {childList}
-      </InternalMenuItemGroup>
-    );
-  },
-);
+  return (
+    <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey'])}>
+      {childList}
+    </InternalMenuItemGroup>
+  );
+});
 
 if (process.env.NODE_ENV !== 'production') {
   MenuItemGroup.displayName = 'MenuItemGroup';

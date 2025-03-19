@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
+import Menu, { SubMenu, Item as MenuItem, Divider } from '@rc-component/menu';
 import '../../assets/index.less';
 
 export default () => (

@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import type { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from '@rc-component/motion';
 import Overflow from 'rc-overflow';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import isEqual from 'rc-util/lib/isEqual';
-import warning from 'rc-util/lib/warning';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import isEqual from '@rc-component/util/lib/isEqual';
+import warning from '@rc-component/util/lib/warning';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
@@ -11,11 +11,7 @@ import { IdContext } from './context/IdContext';
 import MenuContextProvider from './context/MenuContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import PrivateContext from './context/PrivateContext';
-import {
-  getFocusableElements,
-  refreshElements,
-  useAccessibility,
-} from './hooks/useAccessibility';
+import { getFocusableElements, refreshElements, useAccessibility } from './hooks/useAccessibility';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import useMemoCallback from './hooks/useMemoCallback';
 import useUUID from './hooks/useUUID';
@@ -55,10 +51,7 @@ import { warnItemProp } from './utils/warnUtil';
 const EMPTY_LIST: string[] = [];
 
 export interface MenuProps
-  extends Omit<
-    React.HTMLAttributes<HTMLUListElement>,
-    'onClick' | 'onSelect' | 'dir'
-  > {
+  extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onClick' | 'onSelect' | 'dir'> {
   prefixCls?: string;
   rootClassName?: string;
   items?: ItemType[];
@@ -296,15 +289,12 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   };
 
   // >>>>> Cache & Reset open keys when inlineCollapsed changed
-  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] =
-    React.useState(mergedOpenKeys);
+  const [inlineCacheOpenKeys, setInlineCacheOpenKeys] = React.useState(mergedOpenKeys);
 
   const mountRef = React.useRef(false);
 
   // ========================= Mode =========================
-  const [mergedMode, mergedInlineCollapsed] = React.useMemo<
-    [MenuMode, boolean]
-  >(() => {
+  const [mergedMode, mergedInlineCollapsed] = React.useMemo<[MenuMode, boolean]>(() => {
     if ((mode === 'inline' || mode === 'vertical') && inlineCollapsed) {
       return ['vertical', inlineCollapsed];
     }
@@ -314,9 +304,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const isInlineMode = mergedMode === 'inline';
 
   const [internalMode, setInternalMode] = React.useState(mergedMode);
-  const [internalInlineCollapsed, setInternalInlineCollapsed] = React.useState(
-    mergedInlineCollapsed,
-  );
+  const [internalInlineCollapsed, setInternalInlineCollapsed] =
+    React.useState(mergedInlineCollapsed);
 
   React.useEffect(() => {
     setInternalMode(mergedMode);
@@ -337,9 +326,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   // ====================== Responsive ======================
   const [lastVisibleIndex, setLastVisibleIndex] = React.useState(0);
   const allVisible =
-    lastVisibleIndex >= childList.length - 1 ||
-    internalMode !== 'horizontal' ||
-    disabledOverflow;
+    lastVisibleIndex >= childList.length - 1 || internalMode !== 'horizontal' || disabledOverflow;
 
   // Cache
   React.useEffect(() => {
@@ -373,18 +360,13 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     [registerPath, unregisterPath],
   );
 
-  const pathUserContext = React.useMemo(
-    () => ({ isSubPathKey }),
-    [isSubPathKey],
-  );
+  const pathUserContext = React.useMemo(() => ({ isSubPathKey }), [isSubPathKey]);
 
   React.useEffect(() => {
     refreshOverflowKeys(
       allVisible
         ? EMPTY_LIST
-        : childList
-            .slice(lastVisibleIndex + 1)
-            .map(child => child.key as string),
+        : childList.slice(lastVisibleIndex + 1).map(child => child.key as string),
     );
   }, [lastVisibleIndex, allVisible]);
 
@@ -409,14 +391,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       list: containerRef.current,
       focus: options => {
         const keys = getKeys();
-        const { elements, key2element, element2key } = refreshElements(
-          keys,
-          uuid,
-        );
-        const focusableElements = getFocusableElements(
-          containerRef.current,
-          elements,
-        );
+        const { elements, key2element, element2key } = refreshElements(keys, uuid);
+        const focusableElements = getFocusableElements(containerRef.current, elements);
 
         const shouldFocusKey =
           mergedActiveKey ??
@@ -430,30 +406,32 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           elementToFocus?.focus?.(options);
         }
       },
+      findItem: ({ key: itemKey }) => {
+        const keys = getKeys();
+        const { key2element } = refreshElements(keys, uuid);
+        return key2element.get(itemKey) || null;
+      },
     };
   });
 
   // ======================== Select ========================
   // >>>>> Select keys
-  const [mergedSelectKeys, setMergedSelectKeys] = useMergedState(
-    defaultSelectedKeys || [],
-    {
-      value: selectedKeys,
+  const [mergedSelectKeys, setMergedSelectKeys] = useMergedState(defaultSelectedKeys || [], {
+    value: selectedKeys,
 
-      // Legacy convert key to array
-      postState: keys => {
-        if (Array.isArray(keys)) {
-          return keys;
-        }
+    // Legacy convert key to array
+    postState: keys => {
+      if (Array.isArray(keys)) {
+        return keys;
+      }
 
-        if (keys === null || keys === undefined) {
-          return EMPTY_LIST;
-        }
+      if (keys === null || keys === undefined) {
+        return EMPTY_LIST;
+      }
 
-        return [keys];
-      },
+      return [keys];
     },
-  );
+  });
 
   // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {
@@ -565,10 +543,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       : // Need wrap for overflow dropdown that do not response for open
         childList.map((child, index) => (
           // Always wrap provider to avoid sub node re-mount
-          <MenuContextProvider
-            key={child.key}
-            overflowDisabled={index > lastVisibleIndex}
-          >
+          <MenuContextProvider key={child.key} overflowDisabled={index > lastVisibleIndex}>
             {child}
           </MenuContextProvider>
         ));
@@ -669,9 +644,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           onOpenChange={onInternalOpenChange}
           popupRender={popupRender}
         >
-          <PathUserContext.Provider value={pathUserContext}>
-            {container}
-          </PathUserContext.Provider>
+          <PathUserContext.Provider value={pathUserContext}>{container}</PathUserContext.Provider>
 
           {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
           <div style={{ display: 'none' }} aria-hidden>
