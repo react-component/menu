@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
+import Menu, { SubMenu, Item as MenuItem } from '../../src';
 import type { ReactElement } from 'react';
 import './customPopupRender.less';
 
@@ -85,10 +85,7 @@ const NavigationDemo = () => {
 };
 
 const MixedPanelDemo = () => {
-  const totalPopupRender = (
-    node: ReactElement,
-    info: { item: any; keys: string[] },
-  ) => {
+  const totalPopupRender = (node: ReactElement, info: { item: any; keys: string[] }) => {
     const isSecondLevel = info.keys.length == 2;
     if (isSecondLevel) {
       return (
@@ -107,10 +104,7 @@ const MixedPanelDemo = () => {
     }
     return node;
   };
-  const singlePopupRender = (
-    node: ReactElement,
-    info: { item: any; keys: string[] },
-  ) => {
+  const singlePopupRender = (node: ReactElement, info: { item: any; keys: string[] }) => {
     const isSecondLevel = info.keys.length == 2;
     if (isSecondLevel) {
       return (
@@ -148,11 +142,7 @@ const MixedPanelDemo = () => {
       <SubMenu key="solutions" title="Solutions">
         <MenuItem key="enterprise">Enterprise</MenuItem>
         <MenuItem key="personal">Personal</MenuItem>
-        <SubMenu
-          key="industry"
-          title="Industry"
-          popupRender={singlePopupRender}
-        >
+        <SubMenu key="industry" title="Industry" popupRender={singlePopupRender}>
           <MenuItem key="healthcare">Healthcare</MenuItem>
           <MenuItem key="education">Education</MenuItem>
         </SubMenu>
