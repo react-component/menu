@@ -38,6 +38,7 @@ export interface MenuContextProps {
 
   // Motion
   motion?: CSSMotionProps;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
 
   // Popup

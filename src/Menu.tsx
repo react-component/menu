@@ -95,6 +95,7 @@ export interface MenuProps
   /** Menu motion define. Use `defaultMotions` if you need config motion of each mode */
   motion?: CSSMotionProps;
   /** Default menu motion of each mode */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
 
   // Popup
