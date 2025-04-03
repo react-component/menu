@@ -44,12 +44,7 @@ describe('Menu', () => {
   describe('should render', () => {
     function createMenu(props?, subKey?) {
       return (
-        <Menu
-          disabledOverflow
-          className="myMenu"
-          openAnimation="fade"
-          {...props}
-        >
+        <Menu disabledOverflow className="myMenu" openAnimation="fade" {...props}>
           <MenuItemGroup title="g1">
             <MenuItem key="1">1</MenuItem>
             <Divider />
@@ -71,19 +66,14 @@ describe('Menu', () => {
 
     it('popup with rtl has correct className', () => {
       const { container, unmount } = render(
-        createMenu(
-          { mode: 'vertical', direction: 'rtl', openKeys: ['sub'] },
-          'sub',
-        ),
+        createMenu({ mode: 'vertical', direction: 'rtl', openKeys: ['sub'] }, 'sub'),
       );
 
       act(() => {
         jest.runAllTimers();
       });
 
-      expect(
-        container.querySelector('.rc-menu-submenu-popup .rc-menu-rtl'),
-      ).toBeTruthy();
+      expect(container.querySelector('.rc-menu-submenu-popup .rc-menu-rtl')).toBeTruthy();
 
       unmount();
     });
@@ -186,9 +176,7 @@ describe('Menu', () => {
         <MenuItem key="2">2</MenuItem>
       </Menu>,
     );
-    expect(container.querySelector('.rc-menu-item')).toHaveClass(
-      'rc-menu-item-active',
-    );
+    expect(container.querySelector('.rc-menu-item')).toHaveClass('rc-menu-item-active');
   });
 
   it('should render none menu item children', () => {
@@ -220,9 +208,7 @@ describe('Menu', () => {
     fireEvent.click(container.querySelector('.rc-menu-item'));
     fireEvent.click(last(container.querySelectorAll('.rc-menu-item')));
 
-    expect(container.querySelectorAll('.rc-menu-item-selected')).toHaveLength(
-      2,
-    );
+    expect(container.querySelectorAll('.rc-menu-item-selected')).toHaveLength(2);
   });
 
   it('items support ref', () => {
@@ -283,9 +269,7 @@ describe('Menu', () => {
     const { container, rerender } = render(genMenu());
     expect(container.querySelector('li').className).toContain('-selected');
     rerender(genMenu({ selectedKeys: ['2'] }));
-    expect(last(container.querySelectorAll('li')).className).toContain(
-      '-selected',
-    );
+    expect(last(container.querySelectorAll('li')).className).toContain('-selected');
   });
 
   it('empty selectedKeys not to throw', () => {
@@ -309,9 +293,7 @@ describe('Menu', () => {
 
     fireEvent.click(container.querySelector('.rc-menu-item'));
 
-    expect(onSelect).toHaveBeenCalledWith(
-      expect.objectContaining({ selectedKeys: ['bamboo'] }),
-    );
+    expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ selectedKeys: ['bamboo'] }));
 
     onSelect.mockReset();
     rerender(genMenu({ selectable: false }));
@@ -339,9 +321,7 @@ describe('Menu', () => {
       </Menu>,
     );
     expect(container.querySelector('li').className).not.toContain('-selected');
-    expect(container.querySelectorAll('li')[1].className).toContain(
-      '-selected',
-    );
+    expect(container.querySelectorAll('li')[1].className).toContain('-selected');
   });
 
   describe('openKeys', () => {
@@ -358,20 +338,20 @@ describe('Menu', () => {
       );
       const { container, rerender } = render(genMenu());
 
-      expect(
-        container.querySelectorAll('.rc-menu-submenu-vertical')[0],
-      ).toHaveClass('rc-menu-submenu-open');
-      expect(
-        container.querySelectorAll('.rc-menu-submenu-vertical')[1],
-      ).not.toHaveClass('rc-menu-submenu-open');
+      expect(container.querySelectorAll('.rc-menu-submenu-vertical')[0]).toHaveClass(
+        'rc-menu-submenu-open',
+      );
+      expect(container.querySelectorAll('.rc-menu-submenu-vertical')[1]).not.toHaveClass(
+        'rc-menu-submenu-open',
+      );
 
       rerender(genMenu({ openKeys: ['g2'] }));
-      expect(
-        container.querySelectorAll('.rc-menu-submenu-vertical')[0],
-      ).not.toHaveClass('rc-menu-submenu-open');
-      expect(
-        container.querySelectorAll('.rc-menu-submenu-vertical')[1],
-      ).toHaveClass('rc-menu-submenu-open');
+      expect(container.querySelectorAll('.rc-menu-submenu-vertical')[0]).not.toHaveClass(
+        'rc-menu-submenu-open',
+      );
+      expect(container.querySelectorAll('.rc-menu-submenu-vertical')[1]).toHaveClass(
+        'rc-menu-submenu-open',
+      );
     });
 
     it('openKeys should allow to be empty', () => {
@@ -423,12 +403,12 @@ describe('Menu', () => {
       jest.runAllTimers();
     });
 
-    expect(
-      container.querySelectorAll('.rc-menu-submenu-vertical')[0],
-    ).toHaveClass('rc-menu-submenu-open');
-    expect(
-      container.querySelectorAll('.rc-menu-submenu-vertical')[1],
-    ).not.toHaveClass('rc-menu-submenu-open');
+    expect(container.querySelectorAll('.rc-menu-submenu-vertical')[0]).toHaveClass(
+      'rc-menu-submenu-open',
+    );
+    expect(container.querySelectorAll('.rc-menu-submenu-vertical')[1]).not.toHaveClass(
+      'rc-menu-submenu-open',
+    );
   });
 
   it('fires select event', () => {
@@ -558,9 +538,7 @@ describe('Menu', () => {
       </Menu>,
     );
 
-    expect(global.triggerProps.builtinPlacements.leftTop).toEqual(
-      builtinPlacements.leftTop,
-    );
+    expect(global.triggerProps.builtinPlacements.leftTop).toEqual(builtinPlacements.leftTop);
   });
 
   describe('motion', () => {
@@ -587,15 +565,11 @@ describe('Menu', () => {
 
       // Horizontal
       rerender(genMenu({ mode: 'horizontal' }));
-      expect(global.triggerProps.popupMotion.motionName).toEqual(
-        'horizontalMotion',
-      );
+      expect(global.triggerProps.popupMotion.motionName).toEqual('horizontalMotion');
 
       // Default
       rerender(genMenu({ mode: 'vertical' }));
-      expect(global.triggerProps.popupMotion.motionName).toEqual(
-        'defaultMotion',
-      );
+      expect(global.triggerProps.popupMotion.motionName).toEqual('defaultMotion');
     });
 
     it('motion is first level', () => {
@@ -637,9 +611,7 @@ describe('Menu', () => {
 
       const { rerender } = render(genMenu({ mode: 'vertical' }));
       rerender(genMenu({ mode: 'inline' }));
-      expect(global.triggerProps.popupMotion.motionName).toEqual(
-        'defaultMotion',
-      );
+      expect(global.triggerProps.popupMotion.motionName).toEqual('defaultMotion');
     });
   });
 
@@ -692,12 +664,7 @@ describe('Menu', () => {
         const onOpenChange = jest.fn();
 
         const { container } = render(
-          <Menu
-            openKeys={['bamboo']}
-            mode="vertical"
-            onOpenChange={onOpenChange}
-            {...props}
-          >
+          <Menu openKeys={['bamboo']} mode="vertical" onOpenChange={onOpenChange} {...props}>
             <SubMenu key="bamboo" title="Bamboo">
               <MenuItem key="light">Light</MenuItem>
             </SubMenu>
@@ -790,9 +757,7 @@ describe('Menu', () => {
       </Menu>
     );
 
-    const { container, rerender } = render(
-      <App expand={null} subExpand={undefined} />,
-    );
+    const { container, rerender } = render(<App expand={null} subExpand={undefined} />);
     expect(container.querySelectorAll('.rc-menu-submenu-arrow').length).toBe(0);
 
     rerender(<App expand={null} subExpand />);

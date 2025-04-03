@@ -10,10 +10,7 @@ export default function useUUID(id?: string) {
 
   React.useEffect(() => {
     internalId += 1;
-    const newId =
-      process.env.NODE_ENV === 'test'
-        ? 'test'
-        : `${uniquePrefix}-${internalId}`;
+    const newId = process.env.NODE_ENV === 'test' ? 'test' : `${uniquePrefix}-${internalId}`;
     setUUID(`rc-menu-uuid-${newId}`);
   }, []);
 

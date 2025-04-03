@@ -39,9 +39,7 @@ describe('Focus', () => {
 
     // Item focus
     fireEvent.focus(container.querySelector('.rc-menu-item'));
-    expect(container.querySelector('.rc-menu-item')).toHaveClass(
-      'rc-menu-item-active',
-    );
+    expect(container.querySelector('.rc-menu-item')).toHaveClass('rc-menu-item-active');
 
     // Submenu focus
     fireEvent.focus(container.querySelector('.rc-menu-submenu-title'));
@@ -150,10 +148,7 @@ describe('Focus', () => {
               <MenuItem key="nested-group-child-1" disabled>
                 nested-group-child-1
               </MenuItem>
-              <MenuItem
-                key="nested-group-child-2"
-                data-testid="first-focusable"
-              >
+              <MenuItem key="nested-group-child-2" data-testid="first-focusable">
                 nested-group-child-2
               </MenuItem>
             </MenuItemGroup>

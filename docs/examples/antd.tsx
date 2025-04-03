@@ -56,29 +56,17 @@ const nestSubMenu = (
   >
     <MenuItem key="4-1">inner inner</MenuItem>
     <Divider />
-    <SubMenu
-      key="4-2"
-      title={<span className="submenu-title-wrapper">sub menu 1</span>}
-    >
-      <SubMenu
-        title={<span className="submenu-title-wrapper">sub 4-2-0</span>}
-        key="4-2-0"
-      >
+    <SubMenu key="4-2" title={<span className="submenu-title-wrapper">sub menu 1</span>}>
+      <SubMenu title={<span className="submenu-title-wrapper">sub 4-2-0</span>} key="4-2-0">
         <MenuItem key="4-2-0-1">inner inner</MenuItem>
         <MenuItem key="4-2-0-2">inner inner2</MenuItem>
       </SubMenu>
       <MenuItem key="4-2-1">inn</MenuItem>
-      <SubMenu
-        title={<span className="submenu-title-wrapper">sub menu 4</span>}
-        key="4-2-2"
-      >
+      <SubMenu title={<span className="submenu-title-wrapper">sub menu 4</span>} key="4-2-2">
         <MenuItem key="4-2-2-1">inner inner</MenuItem>
         <MenuItem key="4-2-2-2">inner inner2</MenuItem>
       </SubMenu>
-      <SubMenu
-        title={<span className="submenu-title-wrapper">sub menu 3</span>}
-        key="4-2-3"
-      >
+      <SubMenu title={<span className="submenu-title-wrapper">sub menu 3</span>} key="4-2-3">
         <MenuItem key="4-2-3-1">inner inner</MenuItem>
         <MenuItem key="4-2-3-2">inner inner2</MenuItem>
       </SubMenu>
@@ -91,10 +79,7 @@ function onOpenChange(value) {
 }
 
 const children1 = [
-  <SubMenu
-    title={<span className="submenu-title-wrapper">sub menu</span>}
-    key="1"
-  >
+  <SubMenu title={<span className="submenu-title-wrapper">sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
   </SubMenu>,
@@ -108,10 +93,7 @@ const children1 = [
 ];
 
 const children2 = [
-  <SubMenu
-    title={<span className="submenu-title-wrapper">sub menu</span>}
-    key="1"
-  >
+  <SubMenu title={<span className="submenu-title-wrapper">sub menu</span>} key="1">
     <MenuItem key="1-1">0-1</MenuItem>
     <MenuItem key="1-2">0-2</MenuItem>
   </SubMenu>,
@@ -131,10 +113,7 @@ interface CommonMenuState {
   overflowedIndicator: React.ReactNode;
 }
 
-export class CommonMenu extends React.Component<
-  CommonMenuProps,
-  CommonMenuState
-> {
+export class CommonMenu extends React.Component<CommonMenuProps, CommonMenuState> {
   state: CommonMenuState = {
     children: children1,
     overflowedIndicator: undefined,
@@ -148,8 +127,7 @@ export class CommonMenu extends React.Component<
 
   toggleOverflowedIndicator = () => {
     this.setState(({ overflowedIndicator }) => ({
-      overflowedIndicator:
-        overflowedIndicator === undefined ? customizeIndicator : undefined,
+      overflowedIndicator: overflowedIndicator === undefined ? customizeIndicator : undefined,
     }));
   };
 
@@ -202,13 +180,9 @@ function Demo() {
     />
   );
 
-  const verticalMenu = (
-    <CommonMenu mode="vertical" defaultMotions={motionMap} />
-  );
+  const verticalMenu = <CommonMenu mode="vertical" defaultMotions={motionMap} />;
 
-  const inlineMenu = (
-    <CommonMenu mode="inline" defaultOpenKeys={['1']} motion={inlineMotion} />
-  );
+  const inlineMenu = <CommonMenu mode="inline" defaultOpenKeys={['1']} motion={inlineMotion} />;
 
   return (
     <div style={{ margin: 20 }}>

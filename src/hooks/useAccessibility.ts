@@ -43,10 +43,7 @@ function getOffset(
     [RIGHT]: isRtl ? parent : children,
   };
 
-  const offsets: Record<
-    string,
-    Record<number, 'prev' | 'next' | 'children' | 'parent'>
-  > = {
+  const offsets: Record<string, Record<number, 'prev' | 'next' | 'children' | 'parent'>> = {
     inline,
     horizontal,
     vertical,
@@ -93,10 +90,7 @@ function findContainerUL(element: HTMLElement): HTMLUListElement {
 /**
  * Find focused element within element set provided
  */
-function getFocusElement(
-  activeElement: HTMLElement,
-  elements: Set<HTMLElement>,
-): HTMLElement {
+function getFocusElement(activeElement: HTMLElement, elements: Set<HTMLElement>): HTMLElement {
   let current = activeElement || document.activeElement;
 
   while (current) {
@@ -113,10 +107,7 @@ function getFocusElement(
 /**
  * Get focusable elements from the element set under provided container
  */
-export function getFocusableElements(
-  container: HTMLElement,
-  elements: Set<HTMLElement>,
-) {
+export function getFocusableElements(container: HTMLElement, elements: Set<HTMLElement>) {
   const list = getFocusNodeList(container, true);
   return list.filter(ele => elements.has(ele));
 }
@@ -133,16 +124,11 @@ function getNextFocusElement(
   }
 
   // List current level menu item elements
-  const sameLevelFocusableMenuElementList = getFocusableElements(
-    parentQueryContainer,
-    elements,
-  );
+  const sameLevelFocusableMenuElementList = getFocusableElements(parentQueryContainer, elements);
 
   // Find next focus index
   const count = sameLevelFocusableMenuElementList.length;
-  let focusIndex = sameLevelFocusableMenuElementList.findIndex(
-    ele => focusMenuElement === ele,
-  );
+  let focusIndex = sameLevelFocusableMenuElementList.findIndex(ele => focusMenuElement === ele);
 
   if (offset < 0) {
     if (focusIndex === -1) {
@@ -166,9 +152,7 @@ export const refreshElements = (keys: string[], id: string) => {
   const element2key = new Map<HTMLElement, string>();
 
   keys.forEach(key => {
-    const element = document.querySelector(
-      `[data-menu-id='${getMenuId(id, key)}']`,
-    ) as HTMLElement;
+    const element = document.querySelector(`[data-menu-id='${getMenuId(id, key)}']`) as HTMLElement;
 
     if (element) {
       elements.add(element);
@@ -225,12 +209,7 @@ export function useAccessibility<T extends HTMLElement>(
       const focusMenuElement = getFocusElement(activeElement, elements);
       const focusMenuKey = element2key.get(focusMenuElement);
 
-      const offsetObj = getOffset(
-        mode,
-        getKeyPath(focusMenuKey, true).length === 1,
-        isRtl,
-        which,
-      );
+      const offsetObj = getOffset(mode, getKeyPath(focusMenuKey, true).length === 1, isRtl, which);
 
       // Some mode do not have fully arrow operation like inline
       if (!offsetObj && which !== HOME && which !== END) {
@@ -269,11 +248,7 @@ export function useAccessibility<T extends HTMLElement>(
         }
       };
 
-      if (
-        [HOME, END].includes(which) ||
-        offsetObj.sibling ||
-        !focusMenuElement
-      ) {
+      if ([HOME, END].includes(which) || offsetObj.sibling || !focusMenuElement) {
         // ========================== Sibling ==========================
         // Find walkable focus menu element container
         let parentQueryContainer: HTMLElement;
@@ -285,10 +260,7 @@ export function useAccessibility<T extends HTMLElement>(
 
         // Get next focus element
         let targetElement;
-        const focusableElements = getFocusableElements(
-          parentQueryContainer,
-          elements,
-        );
+        const focusableElements = getFocusableElements(parentQueryContainer, elements);
         if (which === HOME) {
           targetElement = focusableElements[0];
         } else if (which === END) {
@@ -321,10 +293,7 @@ export function useAccessibility<T extends HTMLElement>(
           const subQueryContainer = document.getElementById(controlId);
 
           // Get sub focusable menu item
-          const targetElement = getNextFocusElement(
-            subQueryContainer,
-            refreshedElements.elements,
-          );
+          const targetElement = getNextFocusElement(subQueryContainer, refreshedElements.elements);
 
           // Focus menu item
           tryFocus(targetElement);

@@ -12,12 +12,7 @@ export interface InlineSubMenuListProps {
   children: React.ReactNode;
 }
 
-export default function InlineSubMenuList({
-  id,
-  open,
-  keyPath,
-  children,
-}: InlineSubMenuListProps) {
+export default function InlineSubMenuList({ id, open, keyPath, children }: InlineSubMenuListProps) {
   const fixedMode: MenuMode = 'inline';
 
   const { prefixCls, forceSubMenuRender, motion, defaultMotions, mode } =
@@ -74,11 +69,7 @@ export default function InlineSubMenuList({
       >
         {({ className: motionClassName, style: motionStyle }) => {
           return (
-            <SubMenuList
-              id={id}
-              className={motionClassName}
-              style={motionStyle}
-            >
+            <SubMenuList id={id} className={motionClassName} style={motionStyle}>
               {children}
             </SubMenuList>
           );

@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import type { SubMenuProps } from './SubMenu';
 
 // ========================= Options =========================
 interface ItemSharedProps {
@@ -73,12 +74,7 @@ export interface MenuDividerType extends Omit<ItemSharedProps, 'ref'> {
   type: 'divider';
 }
 
-export type ItemType =
-  | SubMenuType
-  | MenuItemType
-  | MenuItemGroupType
-  | MenuDividerType
-  | null;
+export type ItemType = SubMenuType | MenuItemType | MenuItemGroupType | MenuDividerType | null;
 
 // ========================== Basic ==========================
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
@@ -94,9 +90,7 @@ export interface RenderIconInfo {
   disabled?: boolean;
 }
 
-export type RenderIconType =
-  | React.ReactNode
-  | ((props: RenderIconInfo) => React.ReactNode);
+export type RenderIconType = React.ReactNode | ((props: RenderIconInfo) => React.ReactNode);
 
 export interface MenuInfo {
   key: string;
@@ -140,6 +134,9 @@ export type MenuRef = {
 // ======================== Component ========================
 export type ComponentType = 'submenu' | 'item' | 'group' | 'divider';
 
-export type Components = Partial<
-  Record<ComponentType, React.ComponentType<any>>
->;
+export type Components = Partial<Record<ComponentType, React.ComponentType<any>>>;
+
+export type PopupRender = (
+  node: React.ReactElement,
+  info: { item: SubMenuProps; keys: string[] },
+) => React.ReactNode;

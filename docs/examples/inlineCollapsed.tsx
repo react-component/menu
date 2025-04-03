@@ -7,11 +7,7 @@ const App = () => {
   return (
     <>
       <label>
-        <input
-          type="checkbox"
-          checked={collapsed}
-          onChange={e => setCollapsed(e.target.checked)}
-        />
+        <input type="checkbox" checked={collapsed} onChange={e => setCollapsed(e.target.checked)} />
         inlineCollapsed: {collapsed.toString()}
       </label>
       <Menu

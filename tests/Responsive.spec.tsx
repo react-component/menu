@@ -98,12 +98,7 @@ describe('Menu.Responsive', () => {
     const onOpenChange = jest.fn();
 
     const genMenu = (props?: any) => (
-      <Menu
-        mode="horizontal"
-        activeKey="little"
-        onOpenChange={onOpenChange}
-        {...props}
-      >
+      <Menu mode="horizontal" activeKey="little" onOpenChange={onOpenChange} {...props}>
         <MenuItem key="light">Light</MenuItem>
         <MenuItem key="bamboo">Bamboo</MenuItem>
         <SubMenu key="home" title="Home">
@@ -158,9 +153,9 @@ describe('Menu.Responsive', () => {
     // });
 
     // Should set active on rest
-    expect(
-      last(container.querySelectorAll('.rc-menu-overflow-item-rest')),
-    ).toHaveClass('rc-menu-submenu-active');
+    expect(last(container.querySelectorAll('.rc-menu-overflow-item-rest'))).toHaveClass(
+      'rc-menu-submenu-active',
+    );
 
     // Key down can open
     expect(onOpenChange).not.toHaveBeenCalled();

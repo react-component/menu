@@ -8,6 +8,7 @@ import type {
   MenuMode,
   RenderIconType,
   TriggerSubMenuAction,
+  PopupRender,
 } from '../interface';
 
 export interface MenuContextProps {
@@ -37,6 +38,7 @@ export interface MenuContextProps {
 
   // Motion
   motion?: CSSMotionProps;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultMotions?: Partial<{ [key in MenuMode | 'other']: CSSMotionProps }>;
 
   // Popup
@@ -45,6 +47,8 @@ export interface MenuContextProps {
   forceSubMenuRender?: boolean;
   builtinPlacements?: BuiltinPlacements;
   triggerSubMenuAction?: TriggerSubMenuAction;
+
+  popupRender?: PopupRender;
 
   // Icon
   itemIcon?: RenderIconType;
@@ -58,10 +62,7 @@ export interface MenuContextProps {
 
 export const MenuContext = React.createContext<MenuContextProps>(null);
 
-function mergeProps(
-  origin: MenuContextProps,
-  target: Partial<MenuContextProps>,
-): MenuContextProps {
+function mergeProps(origin: MenuContextProps, target: Partial<MenuContextProps>): MenuContextProps {
   const clone = { ...origin };
 
   Object.keys(target).forEach(key => {
@@ -89,13 +90,8 @@ export default function InheritableContextProvider({
   const inheritableContext = useMemo(
     () => mergeProps(context, restProps),
     [context, restProps],
-    (prev, next) =>
-      !locked && (prev[0] !== next[0] || !isEqual(prev[1], next[1], true)),
+    (prev, next) => !locked && (prev[0] !== next[0] || !isEqual(prev[1], next[1], true)),
   );
 
-  return (
-    <MenuContext.Provider value={inheritableContext}>
-      {children}
-    </MenuContext.Provider>
-  );
+  return <MenuContext.Provider value={inheritableContext}>{children}</MenuContext.Provider>;
 }
