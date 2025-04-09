@@ -2,7 +2,7 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { resetWarned } from '@rc-component/util/lib/warning';
 import React from 'react';
-import Menu, { MenuItem, SubMenu } from '../src';
+import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { isActive, last } from './util';
 
 jest.mock('@rc-component/trigger', () => {
@@ -482,6 +482,33 @@ describe('SubMenu', () => {
     expect((container.querySelector('.rc-menu-submenu-popup') as HTMLElement).style.width).toEqual(
       '150px',
     );
+  });
+  it('support classNames and styles', () => {
+    const testClassNames = {
+      list: 'test-list',
+      listTitle: 'test-list-title',
+    };
+    const testStyles = {
+      list: { color: 'red' },
+      listTitle: { color: 'blue' },
+    };
+    const { container } = render(
+      <Menu openKeys={['s1']}>
+        <SubMenu key="s1" title="submenu1" classNames={testClassNames} styles={testStyles}>
+          <MenuItemGroup title="group 1" key="2">
+            <MenuItem key="s1-1">1</MenuItem>
+          </MenuItemGroup>
+        </SubMenu>
+      </Menu>,
+    );
+    fireEvent.mouseEnter(container.querySelector('.rc-menu-submenu-title'));
+    runAllTimer();
+    const list = container.querySelector('.rc-menu-item-group-list');
+    const listTitle = container.querySelector('.rc-menu-item-group-title');
+    expect(list).toHaveClass(testClassNames.list);
+    expect(list).toHaveStyle(testStyles.list);
+    expect(listTitle).toHaveClass(testClassNames.listTitle);
+    expect(listTitle).toHaveStyle(testStyles.listTitle);
   });
 });
 /* eslint-enable */
