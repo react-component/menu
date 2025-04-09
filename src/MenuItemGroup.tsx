@@ -20,7 +20,7 @@ export interface MenuItemGroupProps extends Omit<MenuItemGroupType, 'type' | 'ch
 
 const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props, ref) => {
   const { className, title, eventKey, children, ...restProps } = props;
-  const { prefixCls } = React.useContext(MenuContext);
+  const { prefixCls, classNames: menuClassNames, styles } = React.useContext(MenuContext);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 
@@ -34,12 +34,17 @@ const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps
     >
       <div
         role="presentation"
-        className={`${groupPrefixCls}-title`}
+        className={classNames(`${groupPrefixCls}-title`, menuClassNames?.listTitle)}
+        style={styles?.listTitle}
         title={typeof title === 'string' ? title : undefined}
       >
         {title}
       </div>
-      <ul role="group" className={`${groupPrefixCls}-list`}>
+      <ul
+        role="group"
+        className={classNames(`${groupPrefixCls}-list`, menuClassNames?.list)}
+        style={styles?.list}
+      >
         {children}
       </ul>
     </li>

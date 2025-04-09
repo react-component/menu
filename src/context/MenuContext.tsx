@@ -10,9 +10,12 @@ import type {
   TriggerSubMenuAction,
   PopupRender,
 } from '../interface';
+import { SubMenuProps } from '..';
 
 export interface MenuContextProps {
   prefixCls: string;
+  classNames?: SubMenuProps['classNames'];
+  styles?: SubMenuProps['styles'];
   rootClassName?: string;
   openKeys: string[];
   rtl?: boolean;

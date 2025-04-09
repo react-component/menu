@@ -22,7 +22,10 @@ import {
 import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
 
+export type SemanticName = 'list' | 'listTitle';
 export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'label'> {
+  classNames?: Partial<Record<SemanticName, string>>;
+  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
   title?: React.ReactNode;
 
   children?: React.ReactNode;
@@ -44,6 +47,9 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
   const {
     style,
     className,
+
+    styles,
+    classNames: menuClassNames,
 
     title,
     eventKey,
@@ -275,6 +281,8 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
   const renderPopupContent = React.useMemo(() => {
     const originNode = (
       <MenuContextProvider
+        classNames={menuClassNames}
+        styles={styles}
         mode={popupContentTriggerMode === 'horizontal' ? 'vertical' : popupContentTriggerMode}
       >
         <SubMenuList id={popupId} ref={popupRef}>
@@ -363,6 +371,8 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
   // >>>>> Render
   return (
     <MenuContextProvider
+      classNames={menuClassNames}
+      styles={styles}
       onItemClick={onMergedItemClick}
       mode={mode === 'horizontal' ? 'vertical' : mode}
       itemIcon={mergedItemIcon}
