@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { act, fireEvent, render } from '@testing-library/react';
+import React from 'react';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 describe('semantic', () => {
   function runAllTimer() {
