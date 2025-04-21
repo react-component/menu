@@ -30,7 +30,7 @@ import type {
   PopupRender,
 } from './interface';
 import MenuItem from './MenuItem';
-import SubMenu from './SubMenu';
+import SubMenu, { SemanticName } from './SubMenu';
 import { parseItems } from './utils/nodeUtil';
 import { warnItemProp } from './utils/warnUtil';
 
@@ -54,6 +54,8 @@ export interface MenuProps
   extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onClick' | 'onSelect' | 'dir'> {
   prefixCls?: string;
   rootClassName?: string;
+  classNames?: Partial<Record<SemanticName, string>>;
+  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
   items?: ItemType[];
 
   /** @deprecated Please use `items` instead */
@@ -168,6 +170,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     rootClassName,
     style,
     className,
+    styles,
+    classNames: menuClassNames,
     tabIndex = 0,
     items,
     children,
@@ -544,7 +548,12 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       : // Need wrap for overflow dropdown that do not response for open
         childList.map((child, index) => (
           // Always wrap provider to avoid sub node re-mount
-          <MenuContextProvider key={child.key} overflowDisabled={index > lastVisibleIndex}>
+          <MenuContextProvider
+            key={child.key}
+            overflowDisabled={index > lastVisibleIndex}
+            classNames={menuClassNames}
+            styles={styles}
+          >
             {child}
           </MenuContextProvider>
         ));
@@ -614,6 +623,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         <MenuContextProvider
           prefixCls={prefixCls}
           rootClassName={rootClassName}
+          classNames={menuClassNames}
+          styles={styles}
           mode={internalMode}
           openKeys={mergedOpenKeys}
           rtl={isRtl}
