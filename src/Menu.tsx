@@ -80,6 +80,9 @@ export interface MenuProps
   activeKey?: string;
   defaultActiveFirst?: boolean;
 
+  // SSR control
+  ssr?: 'full' | 'off';
+
   // Selection
   selectable?: boolean;
   multiple?: boolean;
@@ -198,6 +201,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     activeKey,
     defaultActiveFirst,
 
+    // SSR
+    ssr,
+
     // Selection
     selectable = true,
     multiple = false,
@@ -263,6 +269,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const uuid = useUUID(id);
 
   const isRtl = direction === 'rtl';
+  const ssrVal = ssr === 'off' ? undefined : 'full';
 
   // ========================= Warn =========================
   if (process.env.NODE_ENV !== 'production') {
@@ -606,7 +613,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           ? Overflow.INVALIDATE
           : Overflow.RESPONSIVE
       }
-      ssr="full"
+      ssr={ssrVal}
       data-menu-list
       onVisibleChange={newLastIndex => {
         setLastVisibleIndex(newLastIndex);
