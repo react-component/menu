@@ -400,10 +400,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         const focusableElements = getFocusableElements(containerRef.current, elements);
 
         const shouldFocusKey =
-          mergedActiveKey ??
-          (focusableElements[0]
-            ? element2key.get(focusableElements[0])
-            : childList.find(node => !node.props.disabled)?.key);
+          mergedActiveKey && keys.includes(mergedActiveKey)
+            ? mergedActiveKey
+            : focusableElements[0]
+              ? element2key.get(focusableElements[0])
+              : childList.find(node => !node.props.disabled)?.key;
 
         const elementToFocus = key2element.get(shouldFocusKey);
 
