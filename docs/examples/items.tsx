@@ -6,12 +6,31 @@ import '../../assets/index.less';
 
 export default () => (
   <Menu
+    itemsRender={(originNode, item) => {
+      if (item.type === 'item') {
+        return (
+          <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+            {originNode}
+          </a>
+        );
+      }
+      return originNode;
+    }}
     items={[
       {
         // MenuItem
         label: 'Top Menu Item',
         key: 'top',
         extra: '⌘B',
+      },
+      {
+        key: 'ToOriginNode',
+        type: 'item',
+        label: 'Navigation Two',
+      },
+      {
+        key: 'ToOriginNode1',
+        label: 'SubMenu',
       },
       {
         // MenuGroup
