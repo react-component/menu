@@ -10,6 +10,7 @@ function convertItemsToNodes(
   list: ItemType[],
   components: Required<Components>,
   prefixCls?: string,
+  itemsRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode,
 ) {
   const {
     item: MergedMenuItem,
@@ -24,38 +25,44 @@ function convertItemsToNodes(
         const { label, children, key, type, extra, ...restProps } = opt as any;
         const mergedKey = key ?? `tmp-${index}`;
 
-        // MenuItemGroup & SubMenuItem
+        let originNode: React.ReactNode = null;
+
+        // MenuItemGroup & SubMenu
         if (children || type === 'group') {
           if (type === 'group') {
-            // Group
-            return (
+            originNode = (
               <MergedMenuItemGroup key={mergedKey} {...restProps} title={label}>
-                {convertItemsToNodes(children, components, prefixCls)}
+                {convertItemsToNodes(children, components, prefixCls, itemsRender)}
               </MergedMenuItemGroup>
             );
+          } else {
+            originNode = (
+              <MergedSubMenu key={mergedKey} {...restProps} title={label}>
+                {convertItemsToNodes(children, components, prefixCls, itemsRender)}
+              </MergedSubMenu>
+            );
           }
-
-          // Sub Menu
-          return (
-            <MergedSubMenu key={mergedKey} {...restProps} title={label}>
-              {convertItemsToNodes(children, components, prefixCls)}
-            </MergedSubMenu>
+        }
+        // Divider
+        else if (type === 'divider') {
+          originNode = <MergedDivider key={mergedKey} {...restProps} />;
+        }
+        // MenuItem
+        else {
+          originNode = (
+            <MergedMenuItem key={mergedKey} {...restProps} extra={extra}>
+              {label}
+              {(!!extra || extra === 0) && (
+                <span className={`${prefixCls}-item-extra`}>{extra}</span>
+              )}
+            </MergedMenuItem>
           );
         }
 
-        // MenuItem & Divider
-        if (type === 'divider') {
-          return <MergedDivider key={mergedKey} {...restProps} />;
+        if (typeof itemsRender === 'function') {
+          return itemsRender(originNode, opt);
         }
-
-        return (
-          <MergedMenuItem key={mergedKey} {...restProps} extra={extra}>
-            {label}
-            {(!!extra || extra === 0) && (
-              <span className={`${prefixCls}-item-extra`}>{extra}</span>
-            )}
-          </MergedMenuItem>
-        );
+        return originNode;
       }
 
       return null;
@@ -69,6 +76,7 @@ export function parseItems(
   keyPath: string[],
   components: Components,
   prefixCls?: string,
+  itemsRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode,
 ) {
   let childNodes = children;
 
@@ -81,7 +89,7 @@ export function parseItems(
   };
 
   if (items) {
-    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls);
+    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls, itemsRender);
   }
 
   return parseChildren(childNodes, keyPath);
