@@ -62,7 +62,7 @@ export interface MenuProps
   /** @deprecated Please use `items` instead */
   children?: React.ReactNode;
 
-  itemRender?: (originalNode: React.ReactNode, item?: NonNullable<ItemType>) => React.ReactNode;
+  itemRender?: (originalNode: React.ReactNode, item?: NonNullable<ItemType>) => React.ReactElement;
 
   disabled?: boolean;
   /** @private Disable auto overflow. Pls note the prop name may refactor since we do not final decided. */
@@ -258,7 +258,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       parseItems(children, items, EMPTY_LIST, _internalComponents, prefixCls, itemRender),
       parseItems(children, items, EMPTY_LIST, {}, prefixCls, itemRender),
     ],
-    [children, items, _internalComponents, prefixCls, itemRender],
+    [children, items, _internalComponents, prefixCls],
   );
 
   const [mounted, setMounted] = React.useState(false);
