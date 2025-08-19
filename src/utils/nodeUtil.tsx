@@ -39,7 +39,7 @@ function convertItemsToNodes(
                 itemRender={renderNodeWrapper}
                 title={label}
               >
-                {convertItemsToNodes(children, components, prefixCls)}
+                {convertItemsToNodes(children, components, prefixCls, itemRender)}
               </MergedMenuItemGroup>
             );
           }
@@ -52,7 +52,7 @@ function convertItemsToNodes(
               itemRender={renderNodeWrapper}
               title={label}
             >
-              {convertItemsToNodes(children, components, prefixCls)}
+              {convertItemsToNodes(children, components, prefixCls, itemRender)}
             </MergedSubMenu>
           );
         }
