@@ -10,7 +10,7 @@ function convertItemsToNodes(
   list: ItemType[],
   components: Required<Components>,
   prefixCls?: string,
-  itemRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode,
+  itemRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactElement,
 ) {
   const {
     item: MergedMenuItem,
@@ -76,7 +76,7 @@ export function parseItems(
   keyPath: string[],
   components: Components,
   prefixCls?: string,
-  itemRender?: (originNode: React.ReactNode, item?: NonNullable<ItemType>) => React.ReactNode,
+  itemRender?: (originNode: React.ReactNode, item?: NonNullable<ItemType>) => React.ReactElement,
 ) {
   let childNodes = children;
 

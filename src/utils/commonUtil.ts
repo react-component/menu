@@ -4,7 +4,7 @@ import * as React from 'react';
 export function parseChildren(
   children: React.ReactNode | undefined,
   keyPath: string[],
-  itemRender?: (originNode: React.ReactNode) => React.ReactNode,
+  itemRender?: (originNode: React.ReactNode) => React.ReactElement,
 ) {
   return toArray(children).map((child, index) => {
     if (React.isValidElement(child)) {
