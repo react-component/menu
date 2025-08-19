@@ -10,7 +10,7 @@ function convertItemsToNodes(
   list: ItemType[],
   components: Required<Components>,
   prefixCls?: string,
-  itemsRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode,
+  itemRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode,
 ) {
   const {
     item: MergedMenuItem,
@@ -32,13 +32,13 @@ function convertItemsToNodes(
           if (type === 'group') {
             originNode = (
               <MergedMenuItemGroup key={mergedKey} {...restProps} title={label}>
-                {convertItemsToNodes(children, components, prefixCls, itemsRender)}
+                {convertItemsToNodes(children, components, prefixCls, itemRender)}
               </MergedMenuItemGroup>
             );
           } else {
             originNode = (
               <MergedSubMenu key={mergedKey} {...restProps} title={label}>
-                {convertItemsToNodes(children, components, prefixCls, itemsRender)}
+                {convertItemsToNodes(children, components, prefixCls, itemRender)}
               </MergedSubMenu>
             );
           }
@@ -59,8 +59,8 @@ function convertItemsToNodes(
           );
         }
 
-        if (typeof itemsRender === 'function') {
-          return itemsRender(originNode, opt);
+        if (typeof itemRender === 'function') {
+          return itemRender(originNode, opt);
         }
         return originNode;
       }
@@ -76,7 +76,7 @@ export function parseItems(
   keyPath: string[],
   components: Components,
   prefixCls?: string,
-  itemsRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode,
+  itemRender?: (originNode: React.ReactNode, item?: NonNullable<ItemType>) => React.ReactNode,
 ) {
   let childNodes = children;
 
@@ -89,8 +89,8 @@ export function parseItems(
   };
 
   if (items) {
-    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls, itemsRender);
+    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls, itemRender);
   }
 
-  return parseChildren(childNodes, keyPath);
+  return parseChildren(childNodes, keyPath, itemRender);
 }
