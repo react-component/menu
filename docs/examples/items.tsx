@@ -6,7 +6,7 @@ import '../../assets/index.less';
 
 export default () => (
   <Menu
-    itemsRender={(originNode, item) => {
+    itemRender={(originNode, item) => {
       if (item.type === 'item') {
         return (
           <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
