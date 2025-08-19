@@ -89,6 +89,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
     onFocus,
 
+    itemRender,
+
     ...restProps
   } = props;
 
@@ -237,6 +239,10 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       />
     </LegacyMenuItem>
   );
+
+  if (typeof itemRender === 'function') {
+    renderNode = itemRender(renderNode);
+  }
 
   if (_internalRenderMenuItem) {
     renderNode = _internalRenderMenuItem(renderNode, props, { selected });

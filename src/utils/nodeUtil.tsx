@@ -21,48 +21,58 @@ function convertItemsToNodes(
 
   return (list || [])
     .map((opt, index) => {
+      const renderNodeWrapper = node => {
+        return typeof itemRender === 'function' ? itemRender(node, opt as any) : node;
+      };
       if (opt && typeof opt === 'object') {
         const { label, children, key, type, extra, ...restProps } = opt as any;
         const mergedKey = key ?? `tmp-${index}`;
 
-        let originNode: React.ReactNode = null;
-
-        // MenuItemGroup & SubMenu
+        // MenuItemGroup & SubMenuItem
         if (children || type === 'group') {
           if (type === 'group') {
-            originNode = (
-              <MergedMenuItemGroup key={mergedKey} {...restProps} title={label}>
-                {convertItemsToNodes(children, components, prefixCls, itemRender)}
+            // Group
+            return (
+              <MergedMenuItemGroup
+                key={mergedKey}
+                {...restProps}
+                itemRender={renderNodeWrapper}
+                title={label}
+              >
+                {convertItemsToNodes(children, components, prefixCls)}
               </MergedMenuItemGroup>
             );
-          } else {
-            originNode = (
-              <MergedSubMenu key={mergedKey} {...restProps} title={label}>
-                {convertItemsToNodes(children, components, prefixCls, itemRender)}
-              </MergedSubMenu>
-            );
           }
-        }
-        // Divider
-        else if (type === 'divider') {
-          originNode = <MergedDivider key={mergedKey} {...restProps} />;
-        }
-        // MenuItem
-        else {
-          originNode = (
-            <MergedMenuItem key={mergedKey} {...restProps} extra={extra}>
-              {label}
-              {(!!extra || extra === 0) && (
-                <span className={`${prefixCls}-item-extra`}>{extra}</span>
-              )}
-            </MergedMenuItem>
+
+          // Sub Menu
+          return (
+            <MergedSubMenu
+              key={mergedKey}
+              {...restProps}
+              itemRender={renderNodeWrapper}
+              title={label}
+            >
+              {convertItemsToNodes(children, components, prefixCls)}
+            </MergedSubMenu>
           );
         }
 
-        if (typeof itemRender === 'function') {
-          return itemRender(originNode, opt);
+        // MenuItem & Divider
+        if (type === 'divider') {
+          return <MergedDivider key={mergedKey} {...restProps} itemRender={renderNodeWrapper} />;
         }
-        return originNode;
+
+        return (
+          <MergedMenuItem
+            key={mergedKey}
+            {...restProps}
+            extra={extra}
+            itemRender={renderNodeWrapper}
+          >
+            {label}
+            {(!!extra || extra === 0) && <span className={`${prefixCls}-item-extra`}>{extra}</span>}
+          </MergedMenuItem>
+        );
       }
 
       return null;
@@ -92,5 +102,5 @@ export function parseItems(
     childNodes = convertItemsToNodes(items, mergedComponents, prefixCls, itemRender);
   }
 
-  return parseChildren(childNodes, keyPath, itemRender);
+  return parseChildren(childNodes, keyPath);
 }

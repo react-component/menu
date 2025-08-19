@@ -6,7 +6,7 @@ import type { MenuDividerType } from './interface';
 
 export type DividerProps = Omit<MenuDividerType, 'type'>;
 
-export default function Divider({ className, style }: DividerProps) {
+export default function Divider({ className, style, itemRender }: DividerProps) {
   const { prefixCls } = React.useContext(MenuContext);
   const measure = useMeasure();
 
@@ -14,7 +14,17 @@ export default function Divider({ className, style }: DividerProps) {
     return null;
   }
 
-  return (
-    <li role="separator" className={clsx(`${prefixCls}-item-divider`, className)} style={style} />
+  const renderNode = (
+    <li
+      role="separator"
+      className={clsx(`${prefixCls}-item-divider`, className)}
+      style={style}
+    />
   );
+
+  if (typeof itemRender === 'function') {
+    return itemRender(renderNode);
+  }
+
+  return renderNode;
 }
