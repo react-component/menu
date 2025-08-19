@@ -384,7 +384,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
 });
 
 const SubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, ref) => {
-  const { eventKey, children } = props;
+  const { eventKey, children, itemRender } = props;
 
   const connectedKeyPath = useFullPath(eventKey);
   const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
@@ -406,12 +406,15 @@ const SubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, ref) => {
   let renderNode: React.ReactNode;
 
   // ======================== Render ========================
+
+  const childListNode = typeof itemRender === 'function' ? itemRender(childList) : childList;
+
   if (measure) {
-    renderNode = childList;
+    renderNode = childListNode;
   } else {
     renderNode = (
       <InternalSubMenu ref={ref} {...props}>
-        {childList}
+        {childListNode}
       </InternalSubMenu>
     );
   }

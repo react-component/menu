@@ -6,6 +6,7 @@ interface ItemSharedProps {
   ref?: React.Ref<HTMLLIElement | null>;
   style?: React.CSSProperties;
   className?: string;
+  itemRender?: (originNode: React.ReactNode) => React.ReactNode;
 }
 
 export interface SubMenuType extends ItemSharedProps {

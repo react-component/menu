@@ -52,7 +52,7 @@ const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps
 });
 
 const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props, ref) => {
-  const { eventKey, children } = props;
+  const { eventKey, children, itemRender } = props;
   const connectedKeyPath = useFullPath(eventKey);
   const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
 
@@ -63,7 +63,7 @@ const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props
 
   return (
     <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey'])}>
-      {childList}
+      {typeof itemRender === 'function' ? itemRender(childList) : childList}
     </InternalMenuItemGroup>
   );
 });

@@ -62,8 +62,6 @@ export interface MenuProps
   /** @deprecated Please use `items` instead */
   children?: React.ReactNode;
 
-  itemRender?: (originalNode: React.ReactNode, item?: NonNullable<ItemType>) => React.ReactElement;
-
   disabled?: boolean;
   /** @private Disable auto overflow. Pls note the prop name may refactor since we do not final decided. */
   disabledOverflow?: boolean;
@@ -160,6 +158,8 @@ export interface MenuProps
   _internalComponents?: Components;
 
   popupRender?: PopupRender;
+
+  itemRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode;
 }
 
 interface LegacyMenuProps extends MenuProps {
