@@ -30,7 +30,7 @@ jest.mock('rc-resize-observer', () => {
 
 describe('Menu.Responsive', () => {
   beforeEach(() => {
-    global.resizeProps = new Map<number, any>();
+    global.resizeProps = null;
     jest.useFakeTimers();
   });
 
@@ -122,7 +122,7 @@ describe('Menu.Responsive', () => {
     }));
     // Set container width
     act(() => {
-      getResizeProps()?.[0]?.onResize?.({}, document.createElement('div'));
+      getResizeProps()[0].onResize({}, document.createElement('div'));
       jest.runAllTimers();
     });
     spy.mockRestore();
