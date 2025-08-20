@@ -28,6 +28,7 @@ import type {
   SelectInfo,
   TriggerSubMenuAction,
   PopupRender,
+  ItemRenderType,
 } from './interface';
 import MenuItem from './MenuItem';
 import type { SemanticName } from './SubMenu';
@@ -159,7 +160,7 @@ export interface MenuProps
 
   popupRender?: PopupRender;
 
-  itemRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactNode;
+  itemRender?: ItemRenderType;
 }
 
 interface LegacyMenuProps extends MenuProps {
@@ -255,8 +256,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     measureChildList: React.ReactElement[],
   ] = React.useMemo(
     () => [
-      parseItems(children, items, EMPTY_LIST, _internalComponents, prefixCls, itemRender),
-      parseItems(children, items, EMPTY_LIST, {}, prefixCls, itemRender),
+      parseItems(children, items, EMPTY_LIST, _internalComponents, prefixCls),
+      parseItems(children, items, EMPTY_LIST, {}, prefixCls),
     ],
     [children, items, _internalComponents, prefixCls],
   );
@@ -657,6 +658,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           onItemClick={onInternalClick}
           onOpenChange={onInternalOpenChange}
           popupRender={popupRender}
+          itemRender={itemRender}
         >
           <PathUserContext.Provider value={pathUserContext}>{container}</PathUserContext.Provider>
 

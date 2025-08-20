@@ -4,7 +4,7 @@ import Overflow from 'rc-overflow';
 import warning from '@rc-component/util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/commonUtil';
-import type { MenuInfo, SubMenuType, PopupRender } from '../interface';
+import type { MenuInfo, SubMenuType, PopupRender, ItemType } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
@@ -407,7 +407,16 @@ const SubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, ref) => {
 
   // ======================== Render ========================
 
-  const childListNode = typeof itemRender === 'function' ? itemRender(childList) : childList;
+  const childListNode =
+    typeof itemRender === 'function'
+      ? itemRender(childList, {
+          item: {
+            type: 'submenu',
+            ...props,
+          } as ItemType,
+          keys: connectedKeyPath,
+        })
+      : childList;
 
   if (measure) {
     renderNode = childListNode;

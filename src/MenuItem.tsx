@@ -12,7 +12,7 @@ import PrivateContext from './context/PrivateContext';
 import useActive from './hooks/useActive';
 import useDirectionStyle from './hooks/useDirectionStyle';
 import Icon from './Icon';
-import type { MenuInfo, MenuItemType } from './interface';
+import type { MenuInfo, MenuItemType, ItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
@@ -89,7 +89,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
     onFocus,
 
-    itemRender,
+    itemRender: propItemRender,
 
     ...restProps
   } = props;
@@ -111,7 +111,11 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
     // Active
     onActive,
+
+    itemRender: contextItemRender,
   } = React.useContext(MenuContext);
+
+  const mergedItemRender = propItemRender || contextItemRender;
 
   const { _internalRenderMenuItem } = React.useContext(PrivateContext);
 
@@ -200,7 +204,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     optionRoleProps['aria-selected'] = selected;
   }
 
-  let renderNode = (
+  let renderNode: React.ReactElement = (
     <LegacyMenuItem
       ref={legacyMenuItemRef}
       elementRef={mergedEleRef}
@@ -240,8 +244,14 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     </LegacyMenuItem>
   );
 
-  if (typeof itemRender === 'function') {
-    renderNode = itemRender(renderNode);
+  if (typeof mergedItemRender === 'function') {
+    renderNode = mergedItemRender(renderNode, {
+      item: {
+        type: 'item',
+        ...props,
+      } as ItemType,
+      keys: connectedKeys,
+    }) as React.ReactElement;
   }
 
   if (_internalRenderMenuItem) {

@@ -3,12 +3,15 @@ import { clsx } from 'clsx';
 import { MenuContext } from './context/MenuContext';
 import { useMeasure } from './context/PathContext';
 import type { MenuDividerType } from './interface';
+import { useFullPath } from './context/PathContext';
 
 export type DividerProps = Omit<MenuDividerType, 'type'>;
 
-export default function Divider({ className, style, itemRender }: DividerProps) {
-  const { prefixCls } = React.useContext(MenuContext);
+export default function Divider(props: DividerProps) {
+  const { className, style, itemRender: propItemRender } = props;
+  const { prefixCls, itemRender: contextItemRender } = React.useContext(MenuContext);
   const measure = useMeasure();
+  const connectedKeyPath = useFullPath();
 
   if (measure) {
     return null;
@@ -22,8 +25,13 @@ export default function Divider({ className, style, itemRender }: DividerProps) 
     />
   );
 
-  if (typeof itemRender === 'function') {
-    return itemRender(renderNode);
+  const mergedItemRender = propItemRender || contextItemRender;
+
+  if (typeof mergedItemRender === 'function') {
+    return mergedItemRender(renderNode, {
+      item: { type: 'divider', ...props },
+      keys: connectedKeyPath,
+    });
   }
 
   return renderNode;
