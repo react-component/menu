@@ -10,7 +10,6 @@ function convertItemsToNodes(
   list: ItemType[],
   components: Required<Components>,
   prefixCls?: string,
-  itemRender?: (originNode: React.ReactNode, item: NonNullable<ItemType>) => React.ReactElement,
 ) {
   const {
     item: MergedMenuItem,
@@ -21,9 +20,6 @@ function convertItemsToNodes(
 
   return (list || [])
     .map((opt, index) => {
-      const renderNodeWrapper = node => {
-        return typeof itemRender === 'function' ? itemRender(node, opt as any) : node;
-      };
       if (opt && typeof opt === 'object') {
         const { label, children, key, type, extra, ...restProps } = opt as any;
         const mergedKey = key ?? `tmp-${index}`;
@@ -33,42 +29,27 @@ function convertItemsToNodes(
           if (type === 'group') {
             // Group
             return (
-              <MergedMenuItemGroup
-                key={mergedKey}
-                {...restProps}
-                itemRender={renderNodeWrapper}
-                title={label}
-              >
-                {convertItemsToNodes(children, components, prefixCls, itemRender)}
+              <MergedMenuItemGroup key={mergedKey} {...restProps} title={label}>
+                {convertItemsToNodes(children, components, prefixCls)}
               </MergedMenuItemGroup>
             );
           }
 
           // Sub Menu
           return (
-            <MergedSubMenu
-              key={mergedKey}
-              {...restProps}
-              itemRender={renderNodeWrapper}
-              title={label}
-            >
-              {convertItemsToNodes(children, components, prefixCls, itemRender)}
+            <MergedSubMenu key={mergedKey} {...restProps} title={label}>
+              {convertItemsToNodes(children, components, prefixCls)}
             </MergedSubMenu>
           );
         }
 
         // MenuItem & Divider
         if (type === 'divider') {
-          return <MergedDivider key={mergedKey} {...restProps} itemRender={renderNodeWrapper} />;
+          return <MergedDivider key={mergedKey} {...restProps} />;
         }
 
         return (
-          <MergedMenuItem
-            key={mergedKey}
-            {...restProps}
-            extra={extra}
-            itemRender={renderNodeWrapper}
-          >
+          <MergedMenuItem key={mergedKey} {...restProps} extra={extra}>
             {label}
             {(!!extra || extra === 0) && <span className={`${prefixCls}-item-extra`}>{extra}</span>}
           </MergedMenuItem>
@@ -86,7 +67,6 @@ export function parseItems(
   keyPath: string[],
   components: Components,
   prefixCls?: string,
-  itemRender?: (originNode: React.ReactNode, item?: NonNullable<ItemType>) => React.ReactElement,
 ) {
   let childNodes = children;
 
@@ -99,7 +79,7 @@ export function parseItems(
   };
 
   if (items) {
-    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls, itemRender);
+    childNodes = convertItemsToNodes(items, mergedComponents, prefixCls);
   }
 
   return parseChildren(childNodes, keyPath);

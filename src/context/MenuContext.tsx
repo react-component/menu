@@ -9,6 +9,7 @@ import type {
   RenderIconType,
   TriggerSubMenuAction,
   PopupRender,
+  ItemRenderType,
 } from '../interface';
 import { SubMenuProps } from '..';
 
@@ -52,6 +53,8 @@ export interface MenuContextProps {
   triggerSubMenuAction?: TriggerSubMenuAction;
 
   popupRender?: PopupRender;
+
+  itemRender?: ItemRenderType;
 
   // Icon
   itemIcon?: RenderIconType;
