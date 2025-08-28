@@ -8,6 +8,7 @@ import { act } from 'react-dom/test-utils';
 import type { MenuRef } from '../src';
 import Menu, { Divider, MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { isActive, last } from './util';
+import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 
 jest.mock('@rc-component/trigger', () => {
   const react = require('react');
@@ -789,6 +790,74 @@ describe('Menu', () => {
     expect(lightItem).toBe(container.querySelectorAll('li')[0]);
     expect(catItem).toBe(container.querySelectorAll('li')[1]);
     expect(nonExistentItem).toBe(null);
+  });
+
+  it('should correctly handle invalid mergedActiveKey and fallback to focusable elements', async () => {
+    // Mock to force make menu item visible
+    spyElementPrototypes(HTMLElement, {
+      offsetParent: {
+        get() {
+          return this.parentElement;
+        },
+      },
+    });
+
+    const menuRef = React.createRef<MenuRef>();
+    const focusSpy = jest.fn();
+
+    const TestApp = () => {
+      const [items, setItems] = React.useState([
+        { key: 'item1', label: 'First Item' },
+        { key: 'item2', label: 'Second Item' },
+        { key: 'item3', label: 'Third Item' },
+      ]);
+
+      const removeSecondItem = () => {
+        setItems(prevItems => prevItems.filter(item => item.key !== 'item2'));
+      };
+
+      return (
+        <div>
+          <Menu data-testid="menu" activeKey="item2" tabIndex={0} ref={menuRef}>
+            {items.map(item => (
+              <MenuItem key={item.key} data-testid={item.key}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Menu>
+          <button data-testid="remove-button" onClick={removeSecondItem} tabIndex={0}>
+            Remove Second Item
+          </button>
+        </div>
+      );
+    };
+
+    const { getByTestId } = await act(async () => render(<TestApp />));
+
+    const removeButton = getByTestId('remove-button');
+
+    // Verify initial state - item2 should be active
+    expect(getByTestId('item2')).toHaveClass('rc-menu-item-active');
+
+    // Remove the active item (item2)
+    await act(async () => {
+      fireEvent.click(removeButton);
+    });
+
+    // Verify the item is removed
+    expect(() => getByTestId('item2')).toThrow();
+
+    // mock focus on item 1 to make sure it gets focused
+    const item1 = getByTestId('item1');
+    item1.focus = focusSpy;
+
+    // when we call focus(), it should properly handle the case where
+    // mergedActiveKey ("item2") no longer exists
+    await act(async () => {
+      menuRef.current.focus();
+    });
+
+    expect(focusSpy).toHaveBeenCalled();
   });
 });
 /* eslint-enable */
