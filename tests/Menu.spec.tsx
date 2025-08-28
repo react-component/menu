@@ -794,7 +794,7 @@ describe('Menu', () => {
 
   it('should correctly handle invalid mergedActiveKey and fallback to focusable elements', async () => {
     // Mock to force make menu item visible
-    spyElementPrototypes(HTMLElement, {
+    const domSpy = spyElementPrototypes(HTMLElement, {
       offsetParent: {
         get() {
           return this.parentElement;
@@ -803,7 +803,6 @@ describe('Menu', () => {
     });
 
     const menuRef = React.createRef<MenuRef>();
-    const focusSpy = jest.fn();
 
     const TestApp = () => {
       const [items, setItems] = React.useState([
@@ -832,7 +831,7 @@ describe('Menu', () => {
       );
     };
 
-    const { getByTestId } = await act(async () => render(<TestApp />));
+    const { getByTestId } = render(<TestApp />);
 
     const removeButton = getByTestId('remove-button');
 
@@ -849,15 +848,16 @@ describe('Menu', () => {
 
     // mock focus on item 1 to make sure it gets focused
     const item1 = getByTestId('item1');
-    item1.focus = focusSpy;
+    const focusSpy = jest.spyOn(item1, 'focus').mockImplementation(() => {});
 
     // when we call focus(), it should properly handle the case where
     // mergedActiveKey ("item2") no longer exists
-    await act(async () => {
-      menuRef.current.focus();
-    });
+    menuRef.current.focus();
 
     expect(focusSpy).toHaveBeenCalled();
+    // cleanup
+    focusSpy.mockRestore();
+    domSpy?.mockRestore?.();
   });
 });
 /* eslint-enable */
