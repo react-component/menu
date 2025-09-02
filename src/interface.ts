@@ -1,8 +1,5 @@
 import type * as React from 'react';
 import type { SubMenuProps } from './SubMenu';
-import type { MenuItemProps } from './MenuItem';
-import type { MenuItemGroupProps } from './MenuItemGroup';
-import type { DividerProps } from './Divider';
 
 // ========================= Options =========================
 interface ItemSharedProps {
