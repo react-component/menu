@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import type { CSSMotionProps } from '@rc-component/motion';
 import Overflow from 'rc-overflow';
-import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import isEqual from '@rc-component/util/lib/isEqual';
 import warning from '@rc-component/util/lib/warning';
 import * as React from 'react';
@@ -273,10 +273,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   }
 
   // ========================= Open =========================
-  const [mergedOpenKeys, setMergedOpenKeys] = useMergedState(defaultOpenKeys, {
-    value: openKeys,
-    postState: keys => keys || EMPTY_LIST,
-  });
+  const [innerOpenKeys, setMergedOpenKeys] = useControlledState(defaultOpenKeys, openKeys);
+  const mergedOpenKeys = innerOpenKeys || EMPTY_LIST;
 
   // React 18 will merge mouse event which means we open key will not sync
   // ref: https://github.com/ant-design/ant-design/issues/38818
@@ -376,11 +374,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   }, [lastVisibleIndex, allVisible]);
 
   // ======================== Active ========================
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState(
+  const [mergedActiveKey, setMergedActiveKey] = useControlledState(
     activeKey || ((defaultActiveFirst && childList[0]?.key) as string),
-    {
-      value: activeKey,
-    },
+    activeKey,
   );
 
   const onActive = useMemoCallback((key: string) => {
@@ -423,22 +419,21 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   // ======================== Select ========================
   // >>>>> Select keys
-  const [mergedSelectKeys, setMergedSelectKeys] = useMergedState(defaultSelectedKeys || [], {
-    value: selectedKeys,
+  const [internalSelectKeys, setMergedSelectKeys] = useControlledState(
+    defaultSelectedKeys || [],
+    selectedKeys,
+  );
+  const mergedSelectKeys = React.useMemo(() => {
+    if (Array.isArray(internalSelectKeys)) {
+      return internalSelectKeys;
+    }
 
-    // Legacy convert key to array
-    postState: keys => {
-      if (Array.isArray(keys)) {
-        return keys;
-      }
+    if (internalSelectKeys === null || internalSelectKeys === undefined) {
+      return EMPTY_LIST;
+    }
 
-      if (keys === null || keys === undefined) {
-        return EMPTY_LIST;
-      }
-
-      return [keys];
-    },
-  });
+    return [internalSelectKeys];
+  }, [internalSelectKeys]);
 
   // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {

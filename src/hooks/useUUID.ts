@@ -1,12 +1,12 @@
 import * as React from 'react';
-import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 
 const uniquePrefix = Math.random().toFixed(5).toString().slice(2);
 
 let internalId = 0;
 
 export default function useUUID(id?: string) {
-  const [uuid, setUUID] = useMergedState(id, { value: id });
+  const [uuid, setUUID] = useControlledState(id, id);
 
   React.useEffect(() => {
     internalId += 1;
