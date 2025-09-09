@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import type { CSSMotionProps } from '@rc-component/motion';
 import Overflow from 'rc-overflow';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
+import useId from '@rc-component/util/lib/hooks/useId';
 import isEqual from '@rc-component/util/lib/isEqual';
 import warning from '@rc-component/util/lib/warning';
 import * as React from 'react';
@@ -14,7 +15,6 @@ import PrivateContext from './context/PrivateContext';
 import { getFocusableElements, refreshElements, useAccessibility } from './hooks/useAccessibility';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
 import useMemoCallback from './hooks/useMemoCallback';
-import useUUID from './hooks/useUUID';
 import type {
   BuiltinPlacements,
   Components,
@@ -260,7 +260,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   const containerRef = React.useRef<HTMLUListElement>();
 
-  const uuid = useUUID(id);
+  const uuid = useId(id ? `rc-menu-uuid-${id}` : 'rc-menu-uuid');
 
   const isRtl = direction === 'rtl';
 

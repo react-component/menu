@@ -13,11 +13,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-light-popup"
+        aria-controls="rc-menu-uuid-light-popup"
         aria-expanded="true"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-light"
+        data-menu-id="rc-menu-uuid-light"
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
@@ -31,12 +31,12 @@ HTMLCollection [
       <ul
         class="rc-menu rc-menu-sub rc-menu-inline"
         data-menu-list="true"
-        id="rc-menu-uuid-test-light-popup"
+        id="rc-menu-uuid-light-popup"
         role="menu"
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-bamboo"
+          data-menu-id="rc-menu-uuid-bamboo"
           role="menuitem"
           style="padding-left: 48px;"
           tabindex="-1"

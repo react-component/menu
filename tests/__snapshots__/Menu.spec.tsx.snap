@@ -11,7 +11,7 @@ HTMLCollection [
     <li
       aria-selected="false"
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-1"
+      data-menu-id="rc-menu-uuid-1"
       role="option"
       tabindex="-1"
     >
@@ -20,7 +20,7 @@ HTMLCollection [
     <li
       aria-selected="false"
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-2"
+      data-menu-id="rc-menu-uuid-2"
       role="option"
       tabindex="-1"
     >
@@ -29,7 +29,7 @@ HTMLCollection [
     <li
       aria-selected="false"
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="option"
       tabindex="-1"
     >
@@ -68,7 +68,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-1"
+          data-menu-id="rc-menu-uuid-1"
           role="menuitem"
           tabindex="-1"
         >
@@ -80,7 +80,7 @@ HTMLCollection [
         />
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-2"
+          data-menu-id="rc-menu-uuid-2"
           role="menuitem"
           tabindex="-1"
         >
@@ -90,7 +90,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="menuitem"
       tabindex="-1"
     >
@@ -113,7 +113,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-4"
+          data-menu-id="rc-menu-uuid-4"
           role="menuitem"
           tabindex="-1"
         >
@@ -122,7 +122,7 @@ HTMLCollection [
         <li
           aria-disabled="true"
           class="rc-menu-item rc-menu-item-disabled"
-          data-menu-id="rc-menu-uuid-test-5"
+          data-menu-id="rc-menu-uuid-5"
           role="menuitem"
         >
           5
@@ -134,11 +134,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-tmp_key-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-tmp_key-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -183,7 +183,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-1"
+          data-menu-id="rc-menu-uuid-1"
           role="menuitem"
           tabindex="-1"
         >
@@ -195,7 +195,7 @@ HTMLCollection [
         />
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-2"
+          data-menu-id="rc-menu-uuid-2"
           role="menuitem"
           tabindex="-1"
         >
@@ -205,7 +205,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="menuitem"
       tabindex="-1"
     >
@@ -228,7 +228,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-4"
+          data-menu-id="rc-menu-uuid-4"
           role="menuitem"
           tabindex="-1"
         >
@@ -237,7 +237,7 @@ HTMLCollection [
         <li
           aria-disabled="true"
           class="rc-menu-item rc-menu-item-disabled"
-          data-menu-id="rc-menu-uuid-test-5"
+          data-menu-id="rc-menu-uuid-5"
           role="menuitem"
         >
           5
@@ -249,11 +249,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-tmp_key-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-tmp_key-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -297,7 +297,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-1"
+          data-menu-id="rc-menu-uuid-1"
           role="menuitem"
           style="padding-left: 24px;"
           tabindex="-1"
@@ -310,7 +310,7 @@ HTMLCollection [
         />
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-2"
+          data-menu-id="rc-menu-uuid-2"
           role="menuitem"
           style="padding-left: 24px;"
           tabindex="-1"
@@ -321,7 +321,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="menuitem"
       style="padding-left: 24px;"
       tabindex="-1"
@@ -345,7 +345,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-4"
+          data-menu-id="rc-menu-uuid-4"
           role="menuitem"
           style="padding-left: 24px;"
           tabindex="-1"
@@ -355,7 +355,7 @@ HTMLCollection [
         <li
           aria-disabled="true"
           class="rc-menu-item rc-menu-item-disabled"
-          data-menu-id="rc-menu-uuid-test-5"
+          data-menu-id="rc-menu-uuid-5"
           role="menuitem"
           style="padding-left: 24px;"
         >
@@ -368,11 +368,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-tmp_key-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-tmp_key-3"
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
@@ -418,7 +418,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-1"
+          data-menu-id="rc-menu-uuid-1"
           role="menuitem"
           style="padding-right: 24px;"
           tabindex="-1"
@@ -431,7 +431,7 @@ HTMLCollection [
         />
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-2"
+          data-menu-id="rc-menu-uuid-2"
           role="menuitem"
           style="padding-right: 24px;"
           tabindex="-1"
@@ -442,7 +442,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="menuitem"
       style="padding-right: 24px;"
       tabindex="-1"
@@ -466,7 +466,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-4"
+          data-menu-id="rc-menu-uuid-4"
           role="menuitem"
           style="padding-right: 24px;"
           tabindex="-1"
@@ -476,7 +476,7 @@ HTMLCollection [
         <li
           aria-disabled="true"
           class="rc-menu-item rc-menu-item-disabled"
-          data-menu-id="rc-menu-uuid-test-5"
+          data-menu-id="rc-menu-uuid-5"
           role="menuitem"
           style="padding-right: 24px;"
         >
@@ -489,11 +489,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-tmp_key-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-tmp_key-3"
         role="menuitem"
         style="padding-right: 24px;"
         tabindex="-1"
@@ -526,11 +526,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-0-popup"
+        aria-controls="rc-menu-uuid-tmp_key-0-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-0"
+        data-menu-id="rc-menu-uuid-tmp_key-0"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -543,7 +543,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-7"
+      data-menu-id="rc-menu-uuid-7"
       role="menuitem"
       tabindex="-1"
     >
@@ -554,11 +554,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-2-popup"
+        aria-controls="rc-menu-uuid-tmp_key-2-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-2"
+        data-menu-id="rc-menu-uuid-tmp_key-2"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -571,7 +571,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-9"
+      data-menu-id="rc-menu-uuid-9"
       role="menuitem"
       tabindex="-1"
     >
@@ -610,7 +610,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-1"
+          data-menu-id="rc-menu-uuid-1"
           role="menuitem"
           tabindex="-1"
         >
@@ -622,7 +622,7 @@ HTMLCollection [
         />
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-2"
+          data-menu-id="rc-menu-uuid-2"
           role="menuitem"
           tabindex="-1"
         >
@@ -632,7 +632,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="menuitem"
       tabindex="-1"
     >
@@ -655,7 +655,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-4"
+          data-menu-id="rc-menu-uuid-4"
           role="menuitem"
           tabindex="-1"
         >
@@ -664,7 +664,7 @@ HTMLCollection [
         <li
           aria-disabled="true"
           class="rc-menu-item rc-menu-item-disabled"
-          data-menu-id="rc-menu-uuid-test-5"
+          data-menu-id="rc-menu-uuid-5"
           role="menuitem"
         >
           5
@@ -676,11 +676,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-tmp_key-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-tmp_key-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"
@@ -725,7 +725,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-1"
+          data-menu-id="rc-menu-uuid-1"
           role="menuitem"
           tabindex="-1"
         >
@@ -737,7 +737,7 @@ HTMLCollection [
         />
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-2"
+          data-menu-id="rc-menu-uuid-2"
           role="menuitem"
           tabindex="-1"
         >
@@ -747,7 +747,7 @@ HTMLCollection [
     </li>
     <li
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="menuitem"
       tabindex="-1"
     >
@@ -770,7 +770,7 @@ HTMLCollection [
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-test-4"
+          data-menu-id="rc-menu-uuid-4"
           role="menuitem"
           tabindex="-1"
         >
@@ -779,7 +779,7 @@ HTMLCollection [
         <li
           aria-disabled="true"
           class="rc-menu-item rc-menu-item-disabled"
-          data-menu-id="rc-menu-uuid-test-5"
+          data-menu-id="rc-menu-uuid-5"
           role="menuitem"
         >
           5
@@ -791,11 +791,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-tmp_key-3-popup"
+        aria-controls="rc-menu-uuid-tmp_key-3-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-tmp_key-3"
+        data-menu-id="rc-menu-uuid-tmp_key-3"
         role="menuitem"
         tabindex="-1"
         title="submenu"
