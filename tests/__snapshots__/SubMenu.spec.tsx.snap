@@ -13,11 +13,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-1-popup"
+        aria-controls="rc-menu-uuid-1-popup"
         aria-expanded="true"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-1"
+        data-menu-id="rc-menu-uuid-1"
         role="menuitem"
         tabindex="-1"
         title="submenu1"
@@ -31,7 +31,7 @@ HTMLCollection [
     <li
       aria-selected="false"
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-2"
+      data-menu-id="rc-menu-uuid-2"
       role="option"
       tabindex="-1"
     >
@@ -40,7 +40,7 @@ HTMLCollection [
     <li
       aria-selected="false"
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="option"
       tabindex="-1"
     >
@@ -67,11 +67,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-test-1-popup"
+        aria-controls="rc-menu-uuid-1-popup"
         aria-expanded="true"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-test-1"
+        data-menu-id="rc-menu-uuid-1"
         role="menuitem"
         tabindex="-1"
         title="submenu1"
@@ -88,13 +88,13 @@ HTMLCollection [
         <ul
           class="rc-menu rc-menu-sub rc-menu-vertical"
           data-menu-list="true"
-          id="rc-menu-uuid-test-1-popup"
+          id="rc-menu-uuid-1-popup"
           role="menu"
         >
           <li
             aria-selected="false"
             class="rc-menu-item"
-            data-menu-id="rc-menu-uuid-test-1-1"
+            data-menu-id="rc-menu-uuid-1-1"
             role="option"
             tabindex="-1"
           >
@@ -106,7 +106,7 @@ HTMLCollection [
     <li
       aria-selected="false"
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-2"
+      data-menu-id="rc-menu-uuid-2"
       role="option"
       tabindex="-1"
     >
@@ -115,7 +115,7 @@ HTMLCollection [
     <li
       aria-selected="false"
       class="rc-menu-item"
-      data-menu-id="rc-menu-uuid-test-3"
+      data-menu-id="rc-menu-uuid-3"
       role="option"
       tabindex="-1"
     >
