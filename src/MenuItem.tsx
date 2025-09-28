@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import Overflow from 'rc-overflow';
 import KeyCode from '@rc-component/util/lib/KeyCode';
 import omit from '@rc-component/util/lib/omit';
@@ -214,7 +214,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         ...directionStyle,
         ...style,
       }}
-      className={classNames(
+      className={clsx(
         itemCls,
         {
           [`${itemCls}-active`]: active,

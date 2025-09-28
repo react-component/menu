@@ -1,9 +1,8 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { MenuContext } from '../context/MenuContext';
 
-export interface SubMenuListProps
-  extends React.HTMLAttributes<HTMLUListElement> {
+export interface SubMenuListProps extends React.HTMLAttributes<HTMLUListElement> {
   children?: React.ReactNode;
 }
 
@@ -15,7 +14,7 @@ const InternalSubMenuList = (
 
   return (
     <ul
-      className={classNames(
+      className={clsx(
         prefixCls,
         rtl && `${prefixCls}-rtl`,
         `${prefixCls}-sub`,
@@ -33,6 +32,9 @@ const InternalSubMenuList = (
 };
 
 const SubMenuList = React.forwardRef(InternalSubMenuList);
-SubMenuList.displayName = 'SubMenuList';
+
+if (process.env.NODE_ENV !== 'production') {
+  SubMenuList.displayName = 'SubMenuList';
+}
 
 export default SubMenuList;

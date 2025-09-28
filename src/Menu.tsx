@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import type { CSSMotionProps } from '@rc-component/motion';
 import Overflow from 'rc-overflow';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
@@ -563,7 +563,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
       itemComponent={MenuItem}
-      className={classNames(
+      className={clsx(
         prefixCls,
         `${prefixCls}-root`,
         `${prefixCls}-${internalMode}`,

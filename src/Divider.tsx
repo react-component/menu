@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { MenuContext } from './context/MenuContext';
 import { useMeasure } from './context/PathContext';
 import type { MenuDividerType } from './interface';
@@ -15,10 +15,6 @@ export default function Divider({ className, style }: DividerProps) {
   }
 
   return (
-    <li
-      role="separator"
-      className={classNames(`${prefixCls}-item-divider`, className)}
-      style={style}
-    />
+    <li role="separator" className={clsx(`${prefixCls}-item-divider`, className)} style={style} />
   );
 }
