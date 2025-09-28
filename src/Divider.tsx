@@ -15,10 +15,6 @@ export default function Divider({ className, style }: DividerProps) {
   }
 
   return (
-    <li
-      role="separator"
-      className={classNames(`${prefixCls}-item-divider`, className)}
-      style={style}
-    />
+    <li role="separator" className={clsx(`${prefixCls}-item-divider`, className)} style={style} />
   );
 }
