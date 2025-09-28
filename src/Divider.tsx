@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { MenuContext } from './context/MenuContext';
 import { useMeasure } from './context/PathContext';
 import type { MenuDividerType } from './interface';

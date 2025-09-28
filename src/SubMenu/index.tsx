@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import Overflow from 'rc-overflow';
 import warning from '@rc-component/util/lib/warning';
 import SubMenuList from './SubMenuList';
@@ -339,7 +339,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
       {...restProps}
       component="li"
       style={style}
-      className={classNames(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, className, {
+      className={clsx(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, className, {
         [`${subMenuPrefixCls}-open`]: open,
         [`${subMenuPrefixCls}-active`]: mergedActive,
         [`${subMenuPrefixCls}-selected`]: childrenSelected,

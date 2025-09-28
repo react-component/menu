@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { render } from '@testing-library/react';
-import classnames from 'classnames';
+import { clsx } from 'clsx';
 import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 
@@ -9,9 +9,7 @@ describe('Private Props', () => {
     const { container } = render(
       <Menu
         _internalRenderMenuItem={node =>
-          React.cloneElement(node, {
-            className: classnames(node.props.className, 'inject-cls'),
-          })
+          React.cloneElement(node, { className: clsx(node.props.className, 'inject-cls') })
         }
       >
         <MenuItem key="1">1</MenuItem>
@@ -27,9 +25,7 @@ describe('Private Props', () => {
         mode="inline"
         openKeys={['1']}
         _internalRenderSubMenuItem={node =>
-          React.cloneElement(node, {
-            className: classnames(node.props.className, 'inject-cls'),
-          })
+          React.cloneElement(node, { className: clsx(node.props.className, 'inject-cls') })
         }
       >
         <SubMenu key="1" title="1">

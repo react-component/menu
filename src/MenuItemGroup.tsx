@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import omit from '@rc-component/util/lib/omit';
 import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
@@ -30,11 +30,11 @@ const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps
       role="presentation"
       {...restProps}
       onClick={e => e.stopPropagation()}
-      className={classNames(groupPrefixCls, className)}
+      className={clsx(groupPrefixCls, className)}
     >
       <div
         role="presentation"
-        className={classNames(`${groupPrefixCls}-title`, menuClassNames?.listTitle)}
+        className={clsx(`${groupPrefixCls}-title`, menuClassNames?.listTitle)}
         style={styles?.listTitle}
         title={typeof title === 'string' ? title : undefined}
       >
@@ -42,7 +42,7 @@ const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps
       </div>
       <ul
         role="group"
-        className={classNames(`${groupPrefixCls}-list`, menuClassNames?.list)}
+        className={clsx(`${groupPrefixCls}-list`, menuClassNames?.list)}
         style={styles?.list}
       >
         {children}

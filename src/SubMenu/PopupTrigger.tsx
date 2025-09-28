@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Trigger from '@rc-component/trigger';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import raf from '@rc-component/util/lib/raf';
 import type { CSSMotionProps } from '@rc-component/motion';
 import { MenuContext } from '../context/MenuContext';
@@ -96,11 +96,9 @@ export default function PopupTrigger({
   return (
     <Trigger
       prefixCls={prefixCls}
-      popupClassName={classNames(
+      popupClassName={clsx(
         `${prefixCls}-popup`,
-        {
-          [`${prefixCls}-rtl`]: rtl,
-        },
+        { [`${prefixCls}-rtl`]: rtl },
         popupClassName,
         rootClassName,
       )}
