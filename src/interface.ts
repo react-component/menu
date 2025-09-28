@@ -6,6 +6,7 @@ interface ItemSharedProps {
   ref?: React.Ref<HTMLLIElement | null>;
   style?: React.CSSProperties;
   className?: string;
+  itemRender?: ItemRenderType;
 }
 
 export interface SubMenuType extends ItemSharedProps {
@@ -140,3 +141,8 @@ export type PopupRender = (
   node: React.ReactElement,
   info: { item: SubMenuProps; keys: string[] },
 ) => React.ReactNode;
+
+export type ItemRenderType = (
+  node: React.ReactElement | React.ReactElement<any, string | React.JSXElementConstructor<any>>[],
+  info: { item: ItemType; keys: string[] },
+) => React.ReactNode | React.ReactElement;
