@@ -398,15 +398,16 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           ? element2key.get(focusableElements[0])
           : childList.find(node => !node.props.disabled)?.key;
         let shouldFocusKey: string;
-        // find the item to focus on based on whether it is selectable.
+        // find the item to focus on based on whether it is selectable
         if (selectable) {
-          // if there is already a selected item, do not apply the focus.
-          if (!getMergedSelectKeys()?.length) {
-            if (mergedActiveKey && keys.includes(mergedActiveKey)) {
-              shouldFocusKey = mergedActiveKey;
-            } else {
-              shouldFocusKey = defaultFocusKey;
-            }
+          const mergedSelectKeys = getMergedSelectKeys();
+          // if there is already selected items, select first item to focus
+          if (mergedSelectKeys.length && keys.includes(mergedSelectKeys[0])) {
+            shouldFocusKey = mergedSelectKeys[0];
+          } else if (mergedActiveKey && keys.includes(mergedActiveKey)) {
+            shouldFocusKey = mergedActiveKey;
+          } else {
+            shouldFocusKey = defaultFocusKey;
           }
         } else {
           shouldFocusKey = defaultFocusKey;
