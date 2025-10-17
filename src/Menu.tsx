@@ -394,14 +394,22 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         const keys = getKeys();
         const { elements, key2element, element2key } = refreshElements(keys, uuid);
         const focusableElements = getFocusableElements(containerRef.current, elements);
-
+        const defaultFocusKey = focusableElements[0]
+          ? element2key.get(focusableElements[0])
+          : childList.find(node => !node.props.disabled)?.key;
         let shouldFocusKey: string;
-        if (mergedActiveKey && keys.includes(mergedActiveKey)) {
-          shouldFocusKey = mergedActiveKey;
+        // find the item to focus on based on whether it is selectable.
+        if (selectable) {
+          // if there is already a selected item, do not apply the focus.
+          if (!getMergedSelectKeys()?.length) {
+            if (mergedActiveKey && keys.includes(mergedActiveKey)) {
+              shouldFocusKey = mergedActiveKey;
+            } else {
+              shouldFocusKey = defaultFocusKey;
+            }
+          }
         } else {
-          shouldFocusKey = focusableElements[0]
-            ? element2key.get(focusableElements[0])
-            : childList.find(node => !node.props.disabled)?.key;
+          shouldFocusKey = defaultFocusKey;
         }
         const elementToFocus = key2element.get(shouldFocusKey);
 
@@ -434,6 +442,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     return [internalSelectKeys];
   }, [internalSelectKeys]);
+  function getMergedSelectKeys() {
+    return mergedSelectKeys;
+  }
 
   // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {
