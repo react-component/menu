@@ -292,12 +292,14 @@ describe('Focus', () => {
     // ================ check click ==============
     // click third item
     const item2 = getByTestId('2');
+    const focusSpy2 = jest.spyOn(item2, 'focus').mockImplementation(() => {});
     fireEvent.click(item2);
     menuRef.current.focus();
     // mock focus on item 2 to make sure it gets focused
-    expect(focusSpy).toHaveBeenCalled();
+    expect(focusSpy2).toHaveBeenCalled();
     // cleanup
     focusSpy.mockRestore();
+    focusSpy2.mockRestore();
   });
 });
 /* eslint-enable */
