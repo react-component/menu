@@ -228,30 +228,34 @@ describe('Focus', () => {
       );
     };
     const { getByTestId, container } = render(<TestApp />);
-    // ================ check keydown ==============
-    // first item
-    keyDown(container, KeyCode.DOWN);
-    isActive(container, 0);
-    // second item
-    keyDown(container, KeyCode.DOWN);
-    isActive(container, 1);
-    // select second item
-    keyDown(container, KeyCode.ENTER);
+    // let focusSpy = jest;
+    let focusSpy: jest.SpyInstance | undefined;
+    try {
+      // ================ check keydown ==============
+      // first item
+      keyDown(container, KeyCode.DOWN);
+      isActive(container, 0);
+      // second item
+      keyDown(container, KeyCode.DOWN);
+      isActive(container, 1);
+      // select second item
+      keyDown(container, KeyCode.ENTER);
 
-    // mock focus on item 0 to make sure it gets focused
-    const item0 = getByTestId('0');
-    const focusSpy = jest.spyOn(item0, 'focus').mockImplementation(() => {});
-    menuRef.current.focus();
-    expect(focusSpy).toHaveBeenCalled();
+      // mock focus on item 0 to make sure it gets focused
+      const item0 = getByTestId('0');
+      focusSpy = jest.spyOn(item0, 'focus').mockImplementation(() => {});
+      menuRef.current.focus();
+      expect(focusSpy).toHaveBeenCalled();
 
-    // ================ check click ==============
-    // click third item
-    const item2 = getByTestId('2');
-    fireEvent.click(item2);
-    menuRef.current.focus();
-    expect(focusSpy).toHaveBeenCalled();
-    // cleanup
-    focusSpy.mockRestore();
+      // ================ check click ==============
+      // click third item
+      const item2 = getByTestId('2');
+      fireEvent.click(item2);
+      menuRef.current.focus();
+      expect(focusSpy).toHaveBeenCalled();
+    } finally {
+      focusSpy.mockRestore();
+    }
   });
   it('When selectable is configured, the focus should move to the selected item if there is a selection, else to the first item, not retain on last focused item', async () => {
     const menuRef = React.createRef<MenuRef>();
@@ -274,32 +278,36 @@ describe('Focus', () => {
       );
     };
     const { getByTestId, container } = render(<TestApp />);
-    // ================ check keydown ==============
-    // first item
-    keyDown(container, KeyCode.DOWN);
-    isActive(container, 0);
-    // second item
-    keyDown(container, KeyCode.DOWN);
-    isActive(container, 1);
-    // select second item
-    keyDown(container, KeyCode.ENTER);
-    // mock focus on item 1 to make sure it gets focused
-    const item1 = getByTestId('1');
-    const focusSpy = jest.spyOn(item1, 'focus').mockImplementation(() => {});
-    menuRef.current.focus();
-    expect(focusSpy).toHaveBeenCalled();
+    let focusSpy: jest.SpyInstance | undefined;
+    let focusSpy2: jest.SpyInstance | undefined;
+    try {
+      // ================ check keydown ==============
+      // first item
+      keyDown(container, KeyCode.DOWN);
+      isActive(container, 0);
+      // second item
+      keyDown(container, KeyCode.DOWN);
+      isActive(container, 1);
+      // select second item
+      keyDown(container, KeyCode.ENTER);
+      // mock focus on item 1 to make sure it gets focused
+      const item1 = getByTestId('1');
+      focusSpy = jest.spyOn(item1, 'focus').mockImplementation(() => {});
+      menuRef.current.focus();
+      expect(focusSpy).toHaveBeenCalled();
 
-    // ================ check click ==============
-    // click third item
-    const item2 = getByTestId('2');
-    const focusSpy2 = jest.spyOn(item2, 'focus').mockImplementation(() => {});
-    fireEvent.click(item2);
-    menuRef.current.focus();
-    // mock focus on item 2 to make sure it gets focused
-    expect(focusSpy2).toHaveBeenCalled();
-    // cleanup
-    focusSpy.mockRestore();
-    focusSpy2.mockRestore();
+      // ================ check click ==============
+      // click third item
+      const item2 = getByTestId('2');
+      focusSpy2 = jest.spyOn(item2, 'focus').mockImplementation(() => {});
+      fireEvent.click(item2);
+      menuRef.current.focus();
+      // mock focus on item 2 to make sure it gets focused
+      expect(focusSpy2).toHaveBeenCalled();
+    } finally {
+      focusSpy?.mockRestore();
+      focusSpy2?.mockRestore();
+    }
   });
 });
 /* eslint-enable */

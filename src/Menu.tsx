@@ -387,6 +387,24 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     setMergedActiveKey(undefined);
   });
 
+  // ======================== Select ========================
+  // >>>>> Select keys
+  const [internalSelectKeys, setMergedSelectKeys] = useControlledState(
+    defaultSelectedKeys || [],
+    selectedKeys,
+  );
+  const mergedSelectKeys = React.useMemo(() => {
+    if (Array.isArray(internalSelectKeys)) {
+      return internalSelectKeys;
+    }
+
+    if (internalSelectKeys === null || internalSelectKeys === undefined) {
+      return EMPTY_LIST;
+    }
+
+    return [internalSelectKeys];
+  }, [internalSelectKeys]);
+  // >>>>> accept ref
   useImperativeHandle(ref, () => {
     return {
       list: containerRef.current,
@@ -400,7 +418,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         let shouldFocusKey: string;
         // find the item to focus on based on whether it is selectable
         if (selectable) {
-          const mergedSelectKeys = getMergedSelectKeys();
           // if there is already selected items, select first item to focus
           if (mergedSelectKeys.length && keys.includes(mergedSelectKeys[0])) {
             shouldFocusKey = mergedSelectKeys[0];
@@ -425,27 +442,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       },
     };
   });
-
-  // ======================== Select ========================
-  // >>>>> Select keys
-  const [internalSelectKeys, setMergedSelectKeys] = useControlledState(
-    defaultSelectedKeys || [],
-    selectedKeys,
-  );
-  const mergedSelectKeys = React.useMemo(() => {
-    if (Array.isArray(internalSelectKeys)) {
-      return internalSelectKeys;
-    }
-
-    if (internalSelectKeys === null || internalSelectKeys === undefined) {
-      return EMPTY_LIST;
-    }
-
-    return [internalSelectKeys];
-  }, [internalSelectKeys]);
-  function getMergedSelectKeys() {
-    return mergedSelectKeys;
-  }
 
   // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {
