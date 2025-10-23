@@ -409,28 +409,26 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     return {
       list: containerRef.current,
       focus: options => {
+        if (!containerRef.current) {
+          return;
+        }
         const keys = getKeys();
         const { elements, key2element, element2key } = refreshElements(keys, uuid);
         const focusableElements = getFocusableElements(containerRef.current, elements);
+        const focusableKeys = new Set(
+          focusableElements.map(el => element2key.get(el)).filter(Boolean),
+        );
         const defaultFocusKey = focusableElements[0]
           ? element2key.get(focusableElements[0])
           : childList.find(node => !node.props.disabled)?.key;
-        let shouldFocusKey: string;
-        // find the item to focus on based on whether it is selectable
-        if (selectable) {
-          // if there is already selected items, select first item to focus
-          if (mergedSelectKeys.length && keys.includes(mergedSelectKeys[0])) {
-            shouldFocusKey = mergedSelectKeys[0];
-          } else if (mergedActiveKey && keys.includes(mergedActiveKey)) {
-            shouldFocusKey = mergedActiveKey;
-          } else {
-            shouldFocusKey = defaultFocusKey;
-          }
-        } else {
-          shouldFocusKey = defaultFocusKey;
-        }
-        const elementToFocus = key2element.get(shouldFocusKey);
+        const selectedFocusKey = mergedSelectKeys.find(k => focusableKeys.has(k));
+        const activeFocusKey =
+          mergedActiveKey && key2element.has(mergedActiveKey) ? mergedActiveKey : undefined;
 
+        const shouldFocusKey = selectable
+          ? (selectedFocusKey ?? activeFocusKey ?? defaultFocusKey)
+          : defaultFocusKey;
+        const elementToFocus = key2element.get(shouldFocusKey);
         if (shouldFocusKey && elementToFocus) {
           elementToFocus?.focus?.(options);
         }

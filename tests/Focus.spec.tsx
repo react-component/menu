@@ -228,7 +228,6 @@ describe('Focus', () => {
       );
     };
     const { getByTestId, container } = render(<TestApp />);
-    // let focusSpy = jest;
     let focusSpy: jest.SpyInstance | undefined;
     try {
       // ================ check keydown ==============
@@ -254,7 +253,7 @@ describe('Focus', () => {
       menuRef.current.focus();
       expect(focusSpy).toHaveBeenCalled();
     } finally {
-      focusSpy.mockRestore();
+      focusSpy?.mockRestore();
     }
   });
   it('When selectable is configured, the focus should move to the selected item if there is a selection, else to the first item, not retain on last focused item', async () => {
@@ -308,6 +307,28 @@ describe('Focus', () => {
       focusSpy?.mockRestore();
       focusSpy2?.mockRestore();
     }
+  });
+  it('should fallback when selected item is disabled', () => {
+    const menuRef = React.createRef<MenuRef>();
+    const items = [
+      { key: '1', label: 'Disabled', disabled: true },
+      { key: '2', label: 'Active' },
+      { key: '3', label: 'Item 3' },
+    ];
+    const { getByTestId } = render(
+      <Menu ref={menuRef} selectable selectedKeys={['disabled']}>
+        {items.map(item => (
+          <MenuItem disabled={item.disabled} key={item.key} data-testid={item.key}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Menu>,
+    );
+    const item2 = getByTestId('2');
+    const focusSpy = jest.spyOn(item2, 'focus').mockImplementation(() => {});
+    menuRef.current.focus();
+    expect(focusSpy).toHaveBeenCalled();
+    focusSpy?.mockRestore();
   });
 });
 /* eslint-enable */
