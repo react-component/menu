@@ -238,7 +238,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       {children}
       <Icon
         props={{
-          ...props,
+          ...omit(props, ['extra', 'eventOpt', 'itemRender']),
           isSelected: selected,
         }}
         icon={mergedItemIcon}
@@ -257,7 +257,11 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   }
 
   if (_internalRenderMenuItem) {
-    renderNode = _internalRenderMenuItem(renderNode, props, { selected });
+    renderNode = _internalRenderMenuItem(
+      renderNode,
+      omit(props, ['extra', 'eventOpt', 'itemRender']),
+      { selected },
+    );
   }
 
   return renderNode;

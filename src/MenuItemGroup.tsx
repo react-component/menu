@@ -65,7 +65,7 @@ const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props
   const mergedItemRender = propItemRender || contextItemRender;
 
   return (
-    <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey'])}>
+    <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey', 'eventOpt', 'itemRender'])}>
       {typeof mergedItemRender === 'function'
         ? mergedItemRender(childList, {
             item: {
