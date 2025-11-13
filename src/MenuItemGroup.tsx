@@ -3,7 +3,7 @@ import omit from '@rc-component/util/lib/omit';
 import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
-import type { MenuItemGroupType, ItemType } from './interface';
+import type { MenuItemGroupType } from './interface';
 import { parseChildren } from './utils/commonUtil';
 
 export interface MenuItemGroupProps extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
@@ -52,7 +52,7 @@ const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps
 });
 
 const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props, ref) => {
-  const { eventKey, children, itemRender: propItemRender } = props;
+  const { eventKey, children, itemRender: propItemRender, eventOpt } = props;
   const connectedKeyPath = useFullPath(eventKey);
   const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
   const { itemRender: contextItemRender } = React.useContext(MenuContext);
@@ -63,14 +63,15 @@ const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props
   }
 
   const mergedItemRender = propItemRender || contextItemRender;
+
   return (
     <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey'])}>
       {typeof mergedItemRender === 'function'
         ? mergedItemRender(childList, {
             item: {
               type: 'group',
-              ...props,
-            } as ItemType,
+              ...eventOpt,
+            },
             keys: connectedKeyPath,
           })
         : childList}

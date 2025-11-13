@@ -91,6 +91,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
     itemRender: propItemRender,
 
+    eventOpt,
+
     ...restProps
   } = props;
 
@@ -248,8 +250,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     renderNode = mergedItemRender(renderNode, {
       item: {
         type: 'item',
-        ...props,
-      } as ItemType,
+        ...eventOpt,
+      },
       keys: connectedKeys,
     }) as React.ReactElement;
   }

@@ -7,6 +7,7 @@ interface ItemSharedProps {
   style?: React.CSSProperties;
   className?: string;
   itemRender?: ItemRenderType;
+  eventOpt?: ItemType;
 }
 
 export interface SubMenuType extends ItemSharedProps {

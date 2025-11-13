@@ -18,24 +18,11 @@ export default () => (
     }}
     items={[
       {
-        // MenuItem
-        label: 'Top Menu Item',
-        key: 'top',
-        extra: '⌘B',
-      },
-      {
         key: 'ToOriginNode',
         type: 'item',
         label: 'Navigation Two',
-      },
-      {
-        key: 'ToOriginNode1',
-        label: 'SubMenu',
-      },
-      {
-        // MenuGroup
-        type: 'group',
-        label: 'Top Menu Group without children',
+        disabled: false,
+        extra: '111',
       },
       {
         // MenuGroup
@@ -82,6 +69,9 @@ export default () => (
             ],
           },
         ],
+      },
+      {
+        type: 'divider', // Must have
       },
     ]}
   />
