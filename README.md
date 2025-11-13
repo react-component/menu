@@ -8,8 +8,8 @@ React Menu Component. port from https://github.com/kissyteam/menu
 
 [npm-image]: http://img.shields.io/npm/v/rc-menu.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-menu
-[github-actions-image]: https://github.com/react-component/menu/workflows/CI/badge.svg
-[github-actions-url]: https://github.com/react-component/menu/actions
+[github-actions-image]: https://github.com/react-component/menu/actions/workflows/main.yml/badge.svg
+[github-actions-url]: https://github.com/react-component/menu/actions/workflows/main.yml
 [circleci-image]: https://img.shields.io/circleci/react-component/menu/master?style=flat-square
 [circleci-url]: https://circleci.com/gh/react-component/menu
 [codecov-image]: https://img.shields.io/codecov/c/github/react-component/footer/master.svg?style=flat-square
