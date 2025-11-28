@@ -52,18 +52,29 @@ const InternalMenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps
 });
 
 const MenuItemGroup = React.forwardRef<HTMLLIElement, MenuItemGroupProps>((props, ref) => {
-  const { eventKey, children } = props;
+  const { eventKey, children, itemRender: propItemRender, eventOpt } = props;
   const connectedKeyPath = useFullPath(eventKey);
   const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
+  const { itemRender: contextItemRender } = React.useContext(MenuContext);
 
   const measure = useMeasure();
   if (measure) {
     return childList as any as React.ReactElement;
   }
 
+  const mergedItemRender = propItemRender || contextItemRender;
+
   return (
-    <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey'])}>
-      {childList}
+    <InternalMenuItemGroup ref={ref} {...omit(props, ['warnKey', 'eventOpt', 'itemRender'])}>
+      {typeof mergedItemRender === 'function'
+        ? mergedItemRender(childList, {
+            item: {
+              type: 'group',
+              ...eventOpt,
+            },
+            keys: connectedKeyPath,
+          })
+        : childList}
     </InternalMenuItemGroup>
   );
 });

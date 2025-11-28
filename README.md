@@ -200,6 +200,12 @@ ReactDOM.render(
             <td>Where to render the DOM node of popup menu when the mode is horizontal or vertical</td>
         </tr>
         <tr>
+            <td>itemRender</td>
+            <td>Function(originNode:React.ReactNode, item:ItemType) => React.ReactNode</td>
+            <th>() => originNode</th>
+            <td>Customize the rendering of menu item</td>
+        </tr>
+        <tr>
             <td>builtinPlacements</td>
             <td>Object of alignConfigs for <a href="https://github.com/yiminghe/dom-align">dom-align</a></td>
             <th>see <a href="./src/placements.ts">placements.ts</a></th>

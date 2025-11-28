@@ -22,6 +22,7 @@ function convertItemsToNodes(
     .map((opt, index) => {
       if (opt && typeof opt === 'object') {
         const { label, children, key, type, extra, ...restProps } = opt as any;
+
         const mergedKey = key ?? `tmp-${index}`;
 
         // MenuItemGroup & SubMenuItem
@@ -29,7 +30,7 @@ function convertItemsToNodes(
           if (type === 'group') {
             // Group
             return (
-              <MergedMenuItemGroup key={mergedKey} {...restProps} title={label}>
+              <MergedMenuItemGroup key={mergedKey} eventOpt={opt} {...restProps} title={label}>
                 {convertItemsToNodes(children, components, prefixCls)}
               </MergedMenuItemGroup>
             );
@@ -37,7 +38,7 @@ function convertItemsToNodes(
 
           // Sub Menu
           return (
-            <MergedSubMenu key={mergedKey} {...restProps} title={label}>
+            <MergedSubMenu key={mergedKey} eventOpt={opt} {...restProps} title={label}>
               {convertItemsToNodes(children, components, prefixCls)}
             </MergedSubMenu>
           );
@@ -45,15 +46,13 @@ function convertItemsToNodes(
 
         // MenuItem & Divider
         if (type === 'divider') {
-          return <MergedDivider key={mergedKey} {...restProps} />;
+          return <MergedDivider key={mergedKey} eventOpt={opt} {...restProps} />;
         }
 
         return (
-          <MergedMenuItem key={mergedKey} {...restProps} extra={extra}>
+          <MergedMenuItem key={mergedKey} eventOpt={opt} {...restProps} extra={extra}>
             {label}
-            {(!!extra || extra === 0) && (
-              <span className={`${prefixCls}-item-extra`}>{extra}</span>
-            )}
+            {(!!extra || extra === 0) && <span className={`${prefixCls}-item-extra`}>{extra}</span>}
           </MergedMenuItem>
         );
       }
