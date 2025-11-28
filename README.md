@@ -1,4 +1,4 @@
-# rc-menu
+# @rc-component/menu
 
 ---
 
@@ -6,8 +6,8 @@ React Menu Component. port from https://github.com/kissyteam/menu
 
 [![NPM version][npm-image]][npm-url] [![npm download][download-image]][download-url] [![build status][github-actions-image]][github-actions-url] [![Codecov][codecov-image]][codecov-url] [![bundle size][bundlephobia-image]][bundlephobia-url] [![dumi][dumi-image]][dumi-url]
 
-[npm-image]: http://img.shields.io/npm/v/rc-menu.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/rc-menu
+[npm-image]: https://img.shields.io/npm/v/@rc-component/menu.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/@rc-component/menu
 [github-actions-image]: https://github.com/react-component/menu/actions/workflows/main.yml/badge.svg
 [github-actions-url]: https://github.com/react-component/menu/actions/workflows/main.yml
 [circleci-image]: https://img.shields.io/circleci/react-component/menu/master?style=flat-square
@@ -20,21 +20,21 @@ React Menu Component. port from https://github.com/kissyteam/menu
 [david-image]: https://david-dm.org/react-component/menu/status.svg?style=flat-square
 [david-dev-url]: https://david-dm.org/react-component/menu?type=dev
 [david-dev-image]: https://david-dm.org/react-component/menu/dev-status.svg?style=flat-square
-[download-image]: https://img.shields.io/npm/dm/rc-menu.svg?style=flat-square
-[download-url]: https://npmjs.org/package/rc-menu
-[bundlephobia-url]: https://bundlephobia.com/result?p=rc-menu
-[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-menu
+[download-image]: https://img.shields.io/npm/dm/@rc-component/menu.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@rc-component/menu
+[bundlephobia-url]: https://bundlephobia.com/result?p=@rc-component/menu
+[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/@rc-component/menu
 [dumi-url]: https://github.com/umijs/dumi
 [dumi-image]: https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square
 
 ## Install
 
-[![rc-menu](https://nodei.co/npm/rc-menu.png)](https://npmjs.org/package/rc-menu)
+[![@rc-component/menu](https://nodei.co/npm/@rc-component/menu.png)](https://npmjs.org/package/@rc-component/menu)
 
 ## Usage
 
 ```js
-import Menu, { SubMenu, MenuItem } from 'rc-menu';
+import Menu, { SubMenu, MenuItem } from '@rc-component/menu';
 
 ReactDOM.render(
   <Menu>
@@ -461,4 +461,4 @@ open coverage/ dir
 
 ## License
 
-rc-menu is released under the MIT license.
+@rc-component/menu is released under the MIT license.
