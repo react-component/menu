@@ -228,5 +228,40 @@ describe('MenuItem', () => {
 
       expect(container.querySelector('li')).toMatchSnapshot();
     });
+
+    it('should wrap originNode with custom render', () => {
+      const { container } = render(
+        <Menu
+          itemRender={(originNode, { item }) => {
+            if (item.type === 'item') {
+              return (
+                <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+                  {originNode}
+                </a>
+              );
+            }
+            return originNode;
+          }}
+          items={[
+            {
+              key: 'mail',
+              type: 'item',
+              label: 'Navigation One',
+            },
+            {
+              key: 'app',
+              label: 'Navigation Two',
+            },
+            {
+              key: 'upload',
+              label: 'Upload File',
+            },
+          ]}
+        />,
+      );
+
+      const link = container.querySelector('a');
+      expect(link).toHaveAttribute('href', 'https://ant.design');
+    });
   });
 });

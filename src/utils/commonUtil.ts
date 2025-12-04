@@ -13,7 +13,10 @@ export function parseChildren(children: React.ReactNode | undefined, keyPath: st
         eventKey = `tmp_key-${[...keyPath, index].join('-')}`;
       }
 
-      const cloneProps = { key: eventKey, eventKey } as any;
+      const cloneProps = {
+        key: eventKey,
+        eventKey,
+      } as any;
 
       if (process.env.NODE_ENV !== 'production' && emptyKey) {
         cloneProps.warnKey = true;

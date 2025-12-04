@@ -4,7 +4,7 @@ import Overflow from '@rc-component/overflow';
 import warning from '@rc-component/util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/commonUtil';
-import type { MenuInfo, SubMenuType, PopupRender } from '../interface';
+import type { MenuInfo, SubMenuType, PopupRender, ItemType } from '../interface';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import useMemoCallback from '../hooks/useMemoCallback';
 import PopupTrigger from './PopupTrigger';
@@ -384,7 +384,13 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
 });
 
 const SubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, ref) => {
-  const { eventKey, children } = props;
+  const { eventKey, children, itemRender, eventOpt, ...restProps } = props;
+
+  const mergedProps = {
+    eventKey,
+    children,
+    ...restProps,
+  };
 
   const connectedKeyPath = useFullPath(eventKey);
   const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
@@ -406,12 +412,24 @@ const SubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, ref) => {
   let renderNode: React.ReactNode;
 
   // ======================== Render ========================
+
+  const childListNode =
+    typeof itemRender === 'function'
+      ? itemRender(childList, {
+          item: {
+            type: 'submenu',
+            ...eventOpt,
+          } as ItemType,
+          keys: connectedKeyPath,
+        })
+      : childList;
+
   if (measure) {
-    renderNode = childList;
+    renderNode = childListNode;
   } else {
     renderNode = (
-      <InternalSubMenu ref={ref} {...props}>
-        {childList}
+      <InternalSubMenu ref={ref} {...mergedProps}>
+        {childListNode}
       </InternalSubMenu>
     );
   }

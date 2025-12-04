@@ -28,9 +28,11 @@ import type {
   SelectInfo,
   TriggerSubMenuAction,
   PopupRender,
+  ItemRenderType,
 } from './interface';
 import MenuItem from './MenuItem';
-import SubMenu, { SemanticName } from './SubMenu';
+import type { SemanticName } from './SubMenu';
+import SubMenu from './SubMenu';
 import { parseItems } from './utils/nodeUtil';
 import { warnItemProp } from './utils/warnUtil';
 
@@ -159,6 +161,8 @@ export interface MenuProps extends Omit<
   _internalComponents?: Components;
 
   popupRender?: PopupRender;
+
+  itemRender?: ItemRenderType;
 }
 
 interface LegacyMenuProps extends MenuProps {
@@ -244,6 +248,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     _internalComponents,
 
     popupRender,
+
+    itemRender,
     ...restProps
   } = props as LegacyMenuProps;
 
@@ -255,7 +261,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       parseItems(children, items, EMPTY_LIST, _internalComponents, prefixCls),
       parseItems(children, items, EMPTY_LIST, {}, prefixCls),
     ],
-    [children, items, _internalComponents],
+    [children, items, _internalComponents, prefixCls],
   );
 
   const [mounted, setMounted] = React.useState(false);
@@ -654,6 +660,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           onItemClick={onInternalClick}
           onOpenChange={onInternalOpenChange}
           popupRender={popupRender}
+          itemRender={itemRender}
         >
           <PathUserContext.Provider value={pathUserContext}>{container}</PathUserContext.Provider>
 
