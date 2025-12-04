@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import { act, fireEvent, render } from '@testing-library/react';
-import ResizeObserver from 'rc-resize-observer';
+import ResizeObserver from '@rc-component/resize-observer';
 import KeyCode from '@rc-component/util/lib/KeyCode';
 import { spyElementPrototype } from '@rc-component/util/lib/test/domHook';
 import React from 'react';
@@ -8,9 +8,9 @@ import Menu, { MenuItem, SubMenu } from '../src';
 import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';
 import { last } from './util';
 
-jest.mock('rc-resize-observer', () => {
+jest.mock('@rc-component/resize-observer', () => {
   const R = require('react');
-  let RO = jest.requireActual('rc-resize-observer');
+  let RO = jest.requireActual('@rc-component/resize-observer');
   RO = RO.default || RO;
 
   let guid = 0;

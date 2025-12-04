@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { clsx } from 'clsx';
-import Overflow from 'rc-overflow';
+import Overflow from '@rc-component/overflow';
 import warning from '@rc-component/util/lib/warning';
 import SubMenuList from './SubMenuList';
 import { parseChildren } from '../utils/commonUtil';

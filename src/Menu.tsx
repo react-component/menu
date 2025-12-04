@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import type { CSSMotionProps } from '@rc-component/motion';
-import Overflow from 'rc-overflow';
+import Overflow from '@rc-component/overflow';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import useId from '@rc-component/util/lib/hooks/useId';
 import isEqual from '@rc-component/util/lib/isEqual';
@@ -50,8 +50,10 @@ import { warnItemProp } from './utils/warnUtil';
 // optimize for render
 const EMPTY_LIST: string[] = [];
 
-export interface MenuProps
-  extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onClick' | 'onSelect' | 'dir'> {
+export interface MenuProps extends Omit<
+  React.HTMLAttributes<HTMLUListElement>,
+  'onClick' | 'onSelect' | 'dir'
+> {
   prefixCls?: string;
   rootClassName?: string;
   classNames?: Partial<Record<SemanticName, string>>;
