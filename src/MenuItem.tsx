@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import Overflow from '@rc-component/overflow';
+import Overflow from 'rc-overflow';
 import KeyCode from '@rc-component/util/lib/KeyCode';
 import omit from '@rc-component/util/lib/omit';
 import { useComposeRef } from '@rc-component/util/lib/ref';
@@ -16,8 +16,7 @@ import type { MenuInfo, MenuItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
-  extends
-    Omit<MenuItemType, 'label' | 'key' | 'ref'>,
+  extends Omit<MenuItemType, 'label' | 'key' | 'ref'>,
     Omit<
       React.HTMLAttributes<HTMLLIElement>,
       'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
