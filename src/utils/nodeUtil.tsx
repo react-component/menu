@@ -47,13 +47,11 @@ function convertItemsToNodes(
         if (type === 'divider') {
           return <MergedDivider key={mergedKey} {...restProps} />;
         }
-
+        const hasExtra = !!extra || extra === 0;
         return (
           <MergedMenuItem key={mergedKey} {...restProps} extra={extra}>
-            {label}
-            {(!!extra || extra === 0) && (
-              <span className={`${prefixCls}-item-extra`}>{extra}</span>
-            )}
+            {hasExtra ? <span className={`${prefixCls}-item-label`}>{label}</span> : label}
+            {hasExtra && <span className={`${prefixCls}-item-extra`}>{extra}</span>}
           </MergedMenuItem>
         );
       }
