@@ -33,6 +33,7 @@ export interface SubMenuType extends ItemSharedProps {
   popupClassName?: string;
   popupOffset?: number[];
   popupStyle?: React.CSSProperties;
+  popupRender?: PopupRender;
 
   // >>>>> Events
   onClick?: MenuClickEventHandler;
