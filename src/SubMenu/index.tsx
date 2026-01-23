@@ -38,7 +38,6 @@ export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'la
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
-  popupRender?: PopupRender;
   // >>>>>>>>>>>>>>>>>>>>> Next  Round <<<<<<<<<<<<<<<<<<<<<<<
   // onDestroy?: DestroyEventHandler;
 }
