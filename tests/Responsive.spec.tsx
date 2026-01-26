@@ -15,7 +15,7 @@ jest.mock('@rc-component/resize-observer', () => {
 
   let guid = 0;
 
-  return R.forwardRef((props, ref) => {
+  const MockResizeObserver = R.forwardRef((props, ref) => {
     const [id] = R.useState(() => {
       guid += 1;
       return guid;
@@ -26,6 +26,9 @@ jest.mock('@rc-component/resize-observer', () => {
 
     return R.createElement(RO, { ref, ...props });
   });
+
+  MockResizeObserver.useResizeObserver = RO.useResizeObserver || (() => {});
+  return MockResizeObserver;
 });
 
 describe('Menu.Responsive', () => {
