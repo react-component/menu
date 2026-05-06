@@ -229,6 +229,12 @@ ReactDOM.render(
             <th>24</th>
             <td>Padding level multiplier. Right or left padding depends on param "direction".</td>
         </tr>
+        <tr>
+            <td>disabledOverflow</td>
+            <td>Boolean</td>
+            <th>false</th>
+            <td>Disable overlow in horizontal mode.</td>
+        </tr>
     </tbody>
 </table>
 
