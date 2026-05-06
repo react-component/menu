@@ -389,36 +389,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     setMergedActiveKey(undefined);
   });
 
-  useImperativeHandle(ref, () => {
-    return {
-      list: containerRef.current,
-      focus: options => {
-        const keys = getKeys();
-        const { elements, key2element, element2key } = refreshElements(keys, uuid);
-        const focusableElements = getFocusableElements(containerRef.current, elements);
-
-        let shouldFocusKey: string;
-        if (mergedActiveKey && keys.includes(mergedActiveKey)) {
-          shouldFocusKey = mergedActiveKey;
-        } else {
-          shouldFocusKey = focusableElements[0]
-            ? element2key.get(focusableElements[0])
-            : childList.find(node => !node.props.disabled)?.key;
-        }
-        const elementToFocus = key2element.get(shouldFocusKey);
-
-        if (shouldFocusKey && elementToFocus) {
-          elementToFocus?.focus?.(options);
-        }
-      },
-      findItem: ({ key: itemKey }) => {
-        const keys = getKeys();
-        const { key2element } = refreshElements(keys, uuid);
-        return key2element.get(itemKey) || null;
-      },
-    };
-  });
-
   // ======================== Select ========================
   // >>>>> Select keys
   const [internalSelectKeys, setMergedSelectKeys] = useControlledState(
@@ -436,6 +406,42 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     return [internalSelectKeys];
   }, [internalSelectKeys]);
+  // >>>>> accept ref
+  useImperativeHandle(ref, () => {
+    return {
+      list: containerRef.current,
+      focus: options => {
+        if (!containerRef.current) {
+          return;
+        }
+        const keys = getKeys();
+        const { elements, key2element, element2key } = refreshElements(keys, uuid);
+        const focusableElements = getFocusableElements(containerRef.current, elements);
+        const focusableKeys = new Set(
+          focusableElements.map(el => element2key.get(el)).filter(Boolean),
+        );
+        const defaultFocusKey = focusableElements[0]
+          ? element2key.get(focusableElements[0])
+          : childList.find(node => !node.props.disabled)?.key;
+        const selectedFocusKey = mergedSelectKeys.find(k => focusableKeys.has(k));
+        const activeFocusKey =
+          mergedActiveKey && key2element.has(mergedActiveKey) ? mergedActiveKey : undefined;
+
+        const shouldFocusKey = selectable
+          ? (selectedFocusKey ?? activeFocusKey ?? defaultFocusKey)
+          : defaultFocusKey;
+        const elementToFocus = key2element.get(shouldFocusKey);
+        if (shouldFocusKey && elementToFocus) {
+          elementToFocus?.focus?.(options);
+        }
+      },
+      findItem: ({ key: itemKey }) => {
+        const keys = getKeys();
+        const { key2element } = refreshElements(keys, uuid);
+        return key2element.get(itemKey) || null;
+      },
+    };
+  });
 
   // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {
