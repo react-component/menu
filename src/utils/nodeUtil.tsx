@@ -55,7 +55,7 @@ function convertItemsToNodes(
             key={mergedKey}
             {...restProps}
             extra={extra}
-            info={{ item: { label, key, itemIcon: restProps?.itemIcon, extra } }}
+            info={{ item: { label, key: mergedKey, itemIcon: restProps?.itemIcon, extra } }}
           >
             {hasExtra ? (
               <>
