@@ -150,6 +150,79 @@ describe('MenuItem', () => {
     });
   });
 
+  describe('info.item in event', () => {
+    it('should pass info.item in onSelect and onClick with children', () => {
+      const onSelect = jest.fn();
+      const onClick = jest.fn();
+      const { container } = render(
+        <Menu onSelect={onSelect} onClick={onClick} selectable>
+          <MenuItem key="1">Menu Item</MenuItem>
+        </Menu>,
+      );
+
+      fireEvent.click(container.querySelector('.rc-menu-item')!);
+      expect(onSelect).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          info: expect.objectContaining({
+            item: expect.objectContaining({
+              key: '1',
+              label: 'Menu Item',
+            }),
+          }),
+        }),
+      );
+      expect(onClick).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          info: expect.objectContaining({
+            item: expect.objectContaining({
+              key: '1',
+              label: 'Menu Item',
+            }),
+          }),
+        }),
+      );
+    });
+
+    it('should pass info.item in onSelect and onClick with items', () => {
+      const onSelect = jest.fn();
+      const onClick = jest.fn();
+      const { container } = render(
+        <Menu
+          onSelect={onSelect}
+          onClick={onClick}
+          selectable
+          items={[{ key: '1', label: 'Menu Item' }]}
+        />,
+      );
+
+      fireEvent.click(container.querySelector('.rc-menu-item')!);
+      expect(onSelect).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          info: expect.objectContaining({
+            item: expect.objectContaining({
+              key: '1',
+              label: 'Menu Item',
+            }),
+          }),
+        }),
+      );
+      expect(onClick).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          info: expect.objectContaining({
+            item: expect.objectContaining({
+              key: '1',
+              label: 'Menu Item',
+            }),
+          }),
+        }),
+      );
+    });
+  });
+
   describe('overwrite default role', () => {
     it('should set role to none if null', () => {
       const { container } = render(

@@ -32,6 +32,9 @@ export interface MenuItemProps
 
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
+
+  /** @private Origin item config from items prop */
+  info?: { item: MenuItemType };
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
@@ -77,6 +80,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     disabled,
     itemIcon,
     children,
+    info: propsInfo,
 
     // Aria
     role,
@@ -133,12 +137,22 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const getEventInfo = (
     e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
   ): MenuInfo => {
+    // If propsInfo exists (items mode), use it; otherwise build from props (children mode)
+    const infoItem: MenuItemType = propsInfo?.item || {
+      key: eventKey || '',
+      label: children,
+      disabled,
+      itemIcon,
+      extra: props.extra,
+    };
+
     return {
       key: eventKey,
       // Note: For legacy code is reversed which not like other antd component
       keyPath: [...connectedKeys].reverse(),
       item: legacyMenuItemRef.current,
       domEvent: e,
+      info: propsInfo || { item: infoItem },
     };
   };
 
