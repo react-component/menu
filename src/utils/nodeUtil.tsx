@@ -5,6 +5,7 @@ import MenuItem from '../MenuItem';
 import MenuItemGroup from '../MenuItemGroup';
 import SubMenu from '../SubMenu';
 import { parseChildren } from './commonUtil';
+import { omit } from '@rc-component/util';
 
 function convertItemsToNodes(
   list: ItemType[],
@@ -51,7 +52,12 @@ function convertItemsToNodes(
         const hasExtra = !!extra || extra === 0;
 
         return (
-          <MergedMenuItem key={mergedKey} {...restProps} extra={extra} info={{ item: opt }}>
+          <MergedMenuItem
+            key={mergedKey}
+            {...restProps}
+            extra={extra}
+            info={{ item: omit(opt, ['className', 'style']) }}
+          >
             {hasExtra ? (
               <>
                 <span className={`${prefixCls}-item-label`}>{label}</span>

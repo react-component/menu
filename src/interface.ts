@@ -63,6 +63,12 @@ export interface MenuItemType extends ItemSharedProps {
   onClick?: MenuClickEventHandler;
 }
 
+/** Info item type passed to onSelect/onClick callbacks, excluding event handlers */
+export type MenuItemInfo = Omit<
+  MenuItemType,
+  'onMouseEnter' | 'onMouseLeave' | 'onClick' | 'className' | 'style' | 'ref'
+>;
+
 export interface MenuItemGroupType extends ItemSharedProps {
   type: 'group';
 
@@ -99,7 +105,7 @@ export interface MenuInfo {
   /** @deprecated This will not support in future. You should avoid to use this */
   item: React.ReactInstance;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
-  info: { item: MenuItemType };
+  info: { item: MenuItemInfo };
 }
 
 export interface MenuTitleInfo {

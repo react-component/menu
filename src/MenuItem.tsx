@@ -12,7 +12,7 @@ import PrivateContext from './context/PrivateContext';
 import useActive from './hooks/useActive';
 import useDirectionStyle from './hooks/useDirectionStyle';
 import Icon from './Icon';
-import type { MenuInfo, MenuItemType } from './interface';
+import type { MenuInfo, MenuItemInfo, MenuItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
@@ -34,7 +34,7 @@ export interface MenuItemProps
   attribute?: Record<string, string>;
 
   /** @private Origin item config from items prop */
-  info?: { item: MenuItemType };
+  info?: { item: MenuItemInfo };
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
@@ -138,7 +138,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
   ): MenuInfo => {
     // If propsInfo exists (items mode), use it; otherwise build from props (children mode)
-    const infoItem: MenuItemType = propsInfo?.item || {
+    const infoItem: MenuItemInfo = propsInfo?.item || {
       key: eventKey || '',
       label: children,
       disabled,

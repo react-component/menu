@@ -135,13 +135,13 @@ ReactDOM.render(
         </tr>
         <tr>
             <td>onSelect</td>
-            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[], info:{item:MenuItemType}})</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[], info:{item:MenuItemInfo}})</td>
             <th></th>
             <td>called when select a menu item</td>
         </tr>
         <tr>
             <td>onClick</td>
-            <td>function({key:String, item:ReactComponent, domEvent:Event, keyPath: String[], info:{item:MenuItemType}})</td>
+            <td>function({key:String, item:ReactComponent, domEvent:Event, keyPath: String[], info:{item:MenuItemInfo}})</td>
             <th></th>
             <td>called when click a menu item</td>
         </tr>
