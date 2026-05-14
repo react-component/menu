@@ -141,7 +141,6 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     const infoItem: MenuItemInfo = propsInfo?.item || {
       key: eventKey || '',
       label: children,
-      disabled,
       itemIcon,
       extra: props.extra,
     };

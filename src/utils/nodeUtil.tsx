@@ -5,7 +5,6 @@ import MenuItem from '../MenuItem';
 import MenuItemGroup from '../MenuItemGroup';
 import SubMenu from '../SubMenu';
 import { parseChildren } from './commonUtil';
-import omit from '@rc-component/util/lib/omit';
 
 function convertItemsToNodes(
   list: ItemType[],
@@ -56,7 +55,7 @@ function convertItemsToNodes(
             key={mergedKey}
             {...restProps}
             extra={extra}
-            info={{ item: omit(opt, ['className', 'style']) }}
+            info={{ item: { label, key, itemIcon: restProps?.itemIcon, extra } }}
           >
             {hasExtra ? (
               <>

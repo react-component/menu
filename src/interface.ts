@@ -64,10 +64,12 @@ export interface MenuItemType extends ItemSharedProps {
 }
 
 /** Info item type passed to onSelect/onClick callbacks, excluding event handlers */
-export type MenuItemInfo = Omit<
-  MenuItemType,
-  'onMouseEnter' | 'onMouseLeave' | 'onClick' | 'className' | 'style' | 'ref'
->;
+export type MenuItemInfo = {
+  label?: React.ReactNode;
+  itemIcon?: RenderIconType;
+  extra?: React.ReactNode;
+  key: React.Key;
+};
 
 export interface MenuItemGroupType extends ItemSharedProps {
   type: 'group';
