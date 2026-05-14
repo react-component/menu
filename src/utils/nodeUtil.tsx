@@ -5,7 +5,7 @@ import MenuItem from '../MenuItem';
 import MenuItemGroup from '../MenuItemGroup';
 import SubMenu from '../SubMenu';
 import { parseChildren } from './commonUtil';
-import { omit } from '@rc-component/util';
+import omit from '@rc-component/util/lib/omit';
 
 function convertItemsToNodes(
   list: ItemType[],
