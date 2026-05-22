@@ -8,7 +8,13 @@ import type { MenuProps } from './Menu';
 import type { MenuItemProps } from './MenuItem';
 import type { SubMenuProps } from './SubMenu';
 import type { MenuItemGroupProps } from './MenuItemGroup';
-import type { MenuRef } from './interface';
+import type {
+  MenuDividerType,
+  MenuItemGroupType,
+  MenuItemType,
+  MenuRef,
+  SubMenuType,
+} from './interface';
 
 export {
   SubMenu,
@@ -26,7 +32,11 @@ export type {
   SubMenuProps,
   MenuItemProps,
   MenuItemGroupProps,
+  MenuDividerType,
+  MenuItemGroupType,
+  MenuItemType,
   MenuRef,
+  SubMenuType,
 };
 
 type MenuType = typeof Menu & {
