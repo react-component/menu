@@ -64,7 +64,7 @@ export interface MenuItemType extends ItemSharedProps {
 }
 
 /** Info item type passed to onSelect/onClick callbacks, excluding event handlers */
-export type MenuItemInfo = {
+export type ItemData = {
   label?: React.ReactNode;
   itemIcon?: RenderIconType;
   extra?: React.ReactNode;
@@ -107,7 +107,7 @@ export interface MenuInfo {
   /** @deprecated This will not support in future. You should avoid to use this */
   item: React.ReactInstance;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
-  info: { item: MenuItemInfo };
+  itemData: ItemData;
 }
 
 export interface MenuTitleInfo {

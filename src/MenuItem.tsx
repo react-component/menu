@@ -12,7 +12,7 @@ import PrivateContext from './context/PrivateContext';
 import useActive from './hooks/useActive';
 import useDirectionStyle from './hooks/useDirectionStyle';
 import Icon from './Icon';
-import type { MenuInfo, MenuItemInfo, MenuItemType } from './interface';
+import type { MenuInfo, ItemData, MenuItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
@@ -34,7 +34,7 @@ export interface MenuItemProps
   attribute?: Record<string, string>;
 
   /** @private Origin item config from items prop */
-  info?: { item: MenuItemInfo };
+  itemData?: ItemData;
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
@@ -80,7 +80,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     disabled,
     itemIcon,
     children,
-    info: propsInfo,
+    itemData: propsItemData,
 
     // Aria
     role,
@@ -138,7 +138,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
   ): MenuInfo => {
     // If propsInfo exists (items mode), use it; otherwise build from props (children mode)
-    const infoItem: MenuItemInfo = propsInfo?.item || {
+    const itemData: ItemData = propsItemData || {
       key: eventKey || '',
       label: children,
       itemIcon,
@@ -151,7 +151,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       keyPath: [...connectedKeys].reverse(),
       item: legacyMenuItemRef.current,
       domEvent: e,
-      info: propsInfo || { item: infoItem },
+      itemData: propsItemData || itemData,
     };
   };
 

@@ -150,8 +150,8 @@ describe('MenuItem', () => {
     });
   });
 
-  describe('info.item in event', () => {
-    it('should pass info.item in onSelect and onClick with children', () => {
+  describe('itemData in event', () => {
+    it('should pass itemData in onSelect and onClick with children', () => {
       const onSelect = jest.fn();
       const onClick = jest.fn();
       const { container } = render(
@@ -164,28 +164,24 @@ describe('MenuItem', () => {
       expect(onSelect).toHaveBeenCalledWith(
         expect.objectContaining({
           key: '1',
-          info: expect.objectContaining({
-            item: expect.objectContaining({
-              key: '1',
-              label: 'Menu Item',
-            }),
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
           }),
         }),
       );
       expect(onClick).toHaveBeenCalledWith(
         expect.objectContaining({
           key: '1',
-          info: expect.objectContaining({
-            item: expect.objectContaining({
-              key: '1',
-              label: 'Menu Item',
-            }),
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
           }),
         }),
       );
     });
 
-    it('should pass info.item in onSelect and onClick with items', () => {
+    it('should pass itemData in onSelect and onClick with items', () => {
       const onSelect = jest.fn();
       const onClick = jest.fn();
       const { container } = render(
@@ -201,22 +197,18 @@ describe('MenuItem', () => {
       expect(onSelect).toHaveBeenCalledWith(
         expect.objectContaining({
           key: '1',
-          info: expect.objectContaining({
-            item: expect.objectContaining({
-              key: '1',
-              label: 'Menu Item',
-            }),
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
           }),
         }),
       );
       expect(onClick).toHaveBeenCalledWith(
         expect.objectContaining({
           key: '1',
-          info: expect.objectContaining({
-            item: expect.objectContaining({
-              key: '1',
-              label: 'Menu Item',
-            }),
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
           }),
         }),
       );
