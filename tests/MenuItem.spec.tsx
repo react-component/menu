@@ -181,7 +181,7 @@ describe('MenuItem', () => {
       );
     });
 
-    it('should pass itemData in onSelect and onClick with items', () => {
+    it('should only pass defined itemData properties in onSelect and onClick', () => {
       const onSelect = jest.fn();
       const onClick = jest.fn();
       const { container } = render(
@@ -189,7 +189,7 @@ describe('MenuItem', () => {
           onSelect={onSelect}
           onClick={onClick}
           selectable
-          items={[{ key: '1', label: 'Menu Item' }]}
+          items={[{ key: '1', label: 'Menu Item', foo: '123' }] as any}
         />,
       );
 
@@ -203,12 +203,28 @@ describe('MenuItem', () => {
           }),
         }),
       );
+      expect(onSelect).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.not.objectContaining({
+            foo: '123',
+          }),
+        }),
+      );
       expect(onClick).toHaveBeenCalledWith(
         expect.objectContaining({
           key: '1',
           itemData: expect.objectContaining({
             key: '1',
             label: 'Menu Item',
+          }),
+        }),
+      );
+      expect(onClick).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.not.objectContaining({
+            foo: '123',
           }),
         }),
       );
