@@ -1,8 +1,7 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import { act, fireEvent, render } from '@testing-library/react';
 import ResizeObserver from '@rc-component/resize-observer';
-import KeyCode from '@rc-component/util/lib/KeyCode';
-import { spyElementPrototype } from '@rc-component/util/lib/test/domHook';
+import { KeyCode, spyElementPrototype } from '@rc-component/util';
 import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { OVERFLOW_KEY } from '../src/hooks/useKeyRecords';

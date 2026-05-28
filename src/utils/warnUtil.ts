@@ -1,4 +1,4 @@
-import warning from '@rc-component/util/lib/warning';
+import { warning } from '@rc-component/util';
 
 /**
  * `onClick` event return `info.item` which point to react node directly.

@@ -1,4 +1,4 @@
-import toArray from '@rc-component/util/lib/Children/toArray';
+import { toArray } from '@rc-component/util';
 import * as React from 'react';
 
 export function parseChildren(children: React.ReactNode | undefined, keyPath: string[]) {

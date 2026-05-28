@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import omit from '@rc-component/util/lib/omit';
+import { omit } from '@rc-component/util';
 import * as React from 'react';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
