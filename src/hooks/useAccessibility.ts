@@ -1,6 +1,8 @@
+/* eslint-disable no-restricted-imports */
 import { getFocusNodeList } from '@rc-component/util/lib/Dom/focus';
 import KeyCode from '@rc-component/util/lib/KeyCode';
 import raf from '@rc-component/util/lib/raf';
+
 import * as React from 'react';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
