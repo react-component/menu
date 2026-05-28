@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import Overflow from '@rc-component/overflow';
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import KeyCode from '@rc-component/util/lib/KeyCode';
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import { useComposeRef } from '@rc-component/util/lib/ref';
 import { omit, warning } from '@rc-component/util';
 import * as React from 'react';

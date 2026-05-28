@@ -2,9 +2,9 @@ import { clsx } from 'clsx';
 import type { CSSMotionProps } from '@rc-component/motion';
 import Overflow from '@rc-component/overflow';
 import { useControlledState, warning } from '@rc-component/util';
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import useId from '@rc-component/util/lib/hooks/useId';
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import isEqual from '@rc-component/util/lib/isEqual';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';

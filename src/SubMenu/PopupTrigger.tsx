@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Trigger from '@rc-component/trigger';
 import { clsx } from 'clsx';
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import raf from '@rc-component/util/lib/raf';
 
 import type { CSSMotionProps } from '@rc-component/motion';

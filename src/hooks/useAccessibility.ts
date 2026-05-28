@@ -1,8 +1,8 @@
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import { getFocusNodeList } from '@rc-component/util/lib/Dom/focus';
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import KeyCode from '@rc-component/util/lib/KeyCode';
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import raf from '@rc-component/util/lib/raf';
 
 import * as React from 'react';
