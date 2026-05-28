@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { CSSMotionProps } from '@rc-component/motion';
 /* eslint-disable no-restricted-imports */
 import useMemo from '@rc-component/util/lib/hooks/useMemo';
+/* eslint-disable no-restricted-imports */
 import isEqual from '@rc-component/util/lib/isEqual';
 
 import type {
