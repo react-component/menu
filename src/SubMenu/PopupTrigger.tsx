@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Trigger from '@rc-component/trigger';
 import { clsx } from 'clsx';
-// eslint-disable-next-line no-restricted-imports
-import raf from '@rc-component/util/lib/raf';
-
+import { raf } from '@rc-component/util';
 import type { CSSMotionProps } from '@rc-component/motion';
 import { MenuContext } from '../context/MenuContext';
 import { placements, placementsRtl } from '../placements';

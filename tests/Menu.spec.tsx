@@ -1,14 +1,12 @@
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
 import type { MenuMode } from '@/interface';
 import { fireEvent, render } from '@testing-library/react';
-import KeyCode from '@rc-component/util/lib/KeyCode';
-import { resetWarned } from '@rc-component/util/lib/warning';
+import { KeyCode, resetWarned, spyElementPrototypes } from '@rc-component/util';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import type { MenuRef } from '../src';
 import Menu, { Divider, MenuItem, MenuItemGroup, SubMenu } from '../src';
 import { isActive, last } from './util';
-import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 
 jest.mock('@rc-component/trigger', () => {
   const react = require('react');

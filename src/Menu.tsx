@@ -1,11 +1,7 @@
 import { clsx } from 'clsx';
 import type { CSSMotionProps } from '@rc-component/motion';
 import Overflow from '@rc-component/overflow';
-import { useControlledState, warning } from '@rc-component/util';
-// eslint-disable-next-line no-restricted-imports
-import useId from '@rc-component/util/lib/hooks/useId';
-// eslint-disable-next-line no-restricted-imports
-import isEqual from '@rc-component/util/lib/isEqual';
+import { useControlledState, warning, useId, isEqual } from '@rc-component/util';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';

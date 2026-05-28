@@ -1,10 +1,6 @@
 import * as React from 'react';
 import type { CSSMotionProps } from '@rc-component/motion';
-// eslint-disable-next-line no-restricted-imports
-import useMemo from '@rc-component/util/lib/hooks/useMemo';
-// eslint-disable-next-line no-restricted-imports
-import isEqual from '@rc-component/util/lib/isEqual';
-
+import { useMemo, isEqual } from '@rc-component/util';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,

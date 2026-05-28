@@ -1,10 +1,4 @@
-// eslint-disable-next-line no-restricted-imports
-import { getFocusNodeList } from '@rc-component/util/lib/Dom/focus';
-// eslint-disable-next-line no-restricted-imports
-import KeyCode from '@rc-component/util/lib/KeyCode';
-// eslint-disable-next-line no-restricted-imports
-import raf from '@rc-component/util/lib/raf';
-
+import { KeyCode, getFocusNodeList, raf } from '@rc-component/util';
 import * as React from 'react';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
