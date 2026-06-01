@@ -9,7 +9,7 @@ import PrivateContext from './context/PrivateContext';
 import useActive from './hooks/useActive';
 import useDirectionStyle from './hooks/useDirectionStyle';
 import Icon from './Icon';
-import type { MenuInfo, MenuItemType } from './interface';
+import type { MenuInfo, ItemData, MenuItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
@@ -29,6 +29,9 @@ export interface MenuItemProps
 
   /** @deprecated No place to use this. Should remove */
   attribute?: Record<string, string>;
+
+  /** @private Origin item config from items prop */
+  itemData?: ItemData;
 }
 
 // Since Menu event provide the `info.item` which point to the MenuItem node instance.
@@ -74,6 +77,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     disabled,
     itemIcon,
     children,
+    itemData: propsItemData,
 
     // Aria
     role,
@@ -130,12 +134,21 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const getEventInfo = (
     e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
   ): MenuInfo => {
+    // If propsInfo exists (items mode), use it; otherwise build from props (children mode)
+    const itemData: ItemData = propsItemData || {
+      key: eventKey || '',
+      label: children,
+      itemIcon,
+      extra: props.extra,
+    };
+
     return {
       key: eventKey,
       // Note: For legacy code is reversed which not like other antd component
       keyPath: [...connectedKeys].reverse(),
       item: legacyMenuItemRef.current,
       domEvent: e,
+      itemData: propsItemData || itemData,
     };
   };
 

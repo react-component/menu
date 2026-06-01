@@ -150,6 +150,87 @@ describe('MenuItem', () => {
     });
   });
 
+  describe('itemData in event', () => {
+    it('should pass itemData in onSelect and onClick with children', () => {
+      const onSelect = jest.fn();
+      const onClick = jest.fn();
+      const { container } = render(
+        <Menu onSelect={onSelect} onClick={onClick} selectable>
+          <MenuItem key="1">Menu Item</MenuItem>
+        </Menu>,
+      );
+
+      fireEvent.click(container.querySelector('.rc-menu-item')!);
+      expect(onSelect).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
+          }),
+        }),
+      );
+      expect(onClick).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
+          }),
+        }),
+      );
+    });
+
+    it('should only pass defined itemData properties in onSelect and onClick', () => {
+      const onSelect = jest.fn();
+      const onClick = jest.fn();
+      const { container } = render(
+        <Menu
+          onSelect={onSelect}
+          onClick={onClick}
+          selectable
+          items={[{ key: '1', label: 'Menu Item', foo: '123' }] as any}
+        />,
+      );
+
+      fireEvent.click(container.querySelector('.rc-menu-item')!);
+      expect(onSelect).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
+          }),
+        }),
+      );
+      expect(onSelect).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.not.objectContaining({
+            foo: '123',
+          }),
+        }),
+      );
+      expect(onClick).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.objectContaining({
+            key: '1',
+            label: 'Menu Item',
+          }),
+        }),
+      );
+      expect(onClick).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: '1',
+          itemData: expect.not.objectContaining({
+            foo: '123',
+          }),
+        }),
+      );
+    });
+  });
+
   describe('overwrite default role', () => {
     it('should set role to none if null', () => {
       const { container } = render(
