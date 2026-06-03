@@ -69,6 +69,7 @@ export type ItemData = {
   itemIcon?: RenderIconType;
   extra?: React.ReactNode;
   key: React.Key;
+  title?: string;
 };
 
 export interface MenuItemGroupType extends ItemSharedProps {
