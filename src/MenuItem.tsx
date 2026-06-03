@@ -140,6 +140,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       label: children,
       itemIcon,
       extra: props.extra,
+      title: props.title,
     };
 
     return {
