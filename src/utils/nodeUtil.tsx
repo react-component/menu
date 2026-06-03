@@ -51,7 +51,7 @@ function convertItemsToNodes(
         const hasExtra = !!extra || extra === 0;
 
         return (
-          <MergedMenuItem key={mergedKey} {...restProps} extra={extra} itemData={opt}>
+          <MergedMenuItem key={mergedKey} {...restProps} extra={extra} itemData={{ ...opt, key: mergedKey }}>
             {hasExtra ? (
               <>
                 <span className={`${prefixCls}-item-label`}>{label}</span>
