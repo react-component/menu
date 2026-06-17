@@ -23,10 +23,11 @@ import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
 
 export type SemanticName = 'list' | 'listTitle';
-export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'label'> {
+export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'label' | 'title'> {
   classNames?: Partial<Record<SemanticName, string>>;
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
   title?: React.ReactNode;
+  itemTitle?: string;
 
   children?: React.ReactNode;
 
@@ -51,6 +52,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
     classNames: menuClassNames,
 
     title,
+    itemTitle,
     eventKey,
     warnKey,
 
@@ -252,7 +254,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
       className={`${subMenuPrefixCls}-title`}
       tabIndex={mergedDisabled ? null : -1}
       ref={elementRef}
-      title={typeof title === 'string' ? title : null}
+      title={itemTitle ?? (typeof title === 'string' ? title : null)}
       data-menu-id={overflowDisabled && domDataId ? null : domDataId}
       aria-expanded={open}
       aria-haspopup
