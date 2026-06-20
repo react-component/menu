@@ -41,5 +41,30 @@ describe('Options', () => {
 
     expect(container.children).toMatchSnapshot();
   });
+
+  it('uses submenu item title as native title without replacing label', () => {
+    const { container } = render(
+      <Menu
+        items={[
+          {
+            label: 'Users',
+            key: 'sub1',
+            title: 'People',
+            children: [
+              {
+                label: 'User 1',
+                key: 'user1',
+              },
+            ],
+          },
+        ]}
+      />,
+    );
+
+    const titleNode = container.querySelector('.rc-menu-submenu-title');
+
+    expect(titleNode).toHaveTextContent('Users');
+    expect(titleNode).toHaveAttribute('title', 'People');
+  });
 });
 /* eslint-enable */

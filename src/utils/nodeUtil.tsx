@@ -36,8 +36,15 @@ function convertItemsToNodes(
           }
 
           // Sub Menu
+          const { title: itemTitle, ...subMenuRestProps } = restProps;
+
           return (
-            <MergedSubMenu key={mergedKey} {...restProps} title={label}>
+            <MergedSubMenu
+              key={mergedKey}
+              {...subMenuRestProps}
+              title={label}
+              itemTitle={typeof itemTitle === 'string' ? itemTitle : undefined}
+            >
               {convertItemsToNodes(children, components, prefixCls)}
             </MergedSubMenu>
           );
@@ -51,7 +58,12 @@ function convertItemsToNodes(
         const hasExtra = !!extra || extra === 0;
 
         return (
-          <MergedMenuItem key={mergedKey} {...restProps} extra={extra} itemData={{ ...opt, key: mergedKey }}>
+          <MergedMenuItem
+            key={mergedKey}
+            {...restProps}
+            extra={extra}
+            itemData={{ ...opt, key: mergedKey }}
+          >
             {hasExtra ? (
               <>
                 <span className={`${prefixCls}-item-label`}>{label}</span>
