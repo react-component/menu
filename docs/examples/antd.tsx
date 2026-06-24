@@ -152,6 +152,7 @@ export class CommonMenu extends React.Component<CommonMenuProps, CommonMenuState
           onOpenChange={onOpenChange}
           selectedKeys={['3']}
           overflowedIndicator={overflowedIndicator}
+          overflowPopupOffset={[10, 15]}
           {...this.props}
         >
           {children}
