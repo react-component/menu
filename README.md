@@ -109,7 +109,7 @@ Then open the dumi dev server in your browser.
 | motion | `CSSMotionProps` | - | Motion config for menu transitions. |
 | multiple | `boolean` | `false` | Allow multiple selected items. |
 | openKeys | `string[]` | - | Controlled open sub menu keys. |
-| overflowedIndicator | `ReactNode` | `...` | Indicator rendered for overflowed items. |
+| overflowedIndicator | `ReactNode` | `"..."` | Indicator rendered for overflowed items. |
 | popupRender | `(node, info) => ReactNode` | - | Customize popup menu rendering. |
 | prefixCls | `string` | `rc-menu` | Class name prefix. |
 | rootClassName | `string` | - | Class name for the root wrapper. |
@@ -130,6 +130,7 @@ Then open the dumi dev server in your browser.
 type ItemType =
   | {
       type?: 'item';
+      // Item keys accept React.Key and are normalized to strings in event info.
       key: React.Key;
       label?: React.ReactNode;
       disabled?: boolean;
@@ -138,6 +139,7 @@ type ItemType =
     }
   | {
       type?: 'submenu';
+      // Sub menu keys are strings to match openKeys/defaultOpenKeys.
       key: string;
       label?: React.ReactNode;
       children: ItemType[];
