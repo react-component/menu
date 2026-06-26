@@ -177,17 +177,15 @@ npm run build
 
 ## Release
 
-The package is published with [`@rc-component/np`](https://github.com/react-component/np):
-
 ```bash
 npm run prepublishOnly
 ```
 
-This runs the package build before the release helper. The `postpublish` script also syncs `@rc-component/menu` to tnpm after publishing.
+The release flow is handled by `@rc-component/np` through the `rc-np` command after the package build.
 
 ## License
 
-`@rc-component/menu` is released under the MIT license.
+@rc-component/menu is released under the [MIT](./LICENSE.md) license.
 
 [npm-image]: https://img.shields.io/npm/v/@rc-component/menu.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/@rc-component/menu
