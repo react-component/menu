@@ -1,464 +1,200 @@
-# @rc-component/menu
+<div align="center">
+  <h1>@rc-component/menu</h1>
+  <p>🧭 Accessible React menu primitives for navigation, command surfaces, and nested item trees.</p>
+</div>
 
----
-
-React Menu Component. port from https://github.com/kissyteam/menu
+<div align="center">
 
 [![NPM version][npm-image]][npm-url] [![npm download][download-image]][download-url] [![build status][github-actions-image]][github-actions-url] [![Codecov][codecov-image]][codecov-url] [![bundle size][bundlephobia-image]][bundlephobia-url] [![dumi][dumi-image]][dumi-url]
 
-[npm-image]: https://img.shields.io/npm/v/@rc-component/menu.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/@rc-component/menu
-[github-actions-image]: https://github.com/react-component/menu/actions/workflows/main.yml/badge.svg
-[github-actions-url]: https://github.com/react-component/menu/actions/workflows/main.yml
-[circleci-image]: https://img.shields.io/circleci/react-component/menu/master?style=flat-square
-[circleci-url]: https://circleci.com/gh/react-component/menu
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/footer/master.svg?style=flat-square
-[codecov-url]: https://codecov.io/gh/react-component/footer/branch/master
-[coveralls-image]: https://img.shields.io/coveralls/react-component/menu.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/react-component/menu?branch=master
-[david-url]: https://david-dm.org/react-component/menu
-[david-image]: https://david-dm.org/react-component/menu/status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/react-component/menu?type=dev
-[david-dev-image]: https://david-dm.org/react-component/menu/dev-status.svg?style=flat-square
-[download-image]: https://img.shields.io/npm/dm/@rc-component/menu.svg?style=flat-square
-[download-url]: https://npmjs.org/package/@rc-component/menu
-[bundlephobia-url]: https://bundlephobia.com/result?p=@rc-component/menu
-[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/@rc-component/menu
-[dumi-url]: https://github.com/umijs/dumi
-[dumi-image]: https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square
+</div>
+
+<div align="center">
+  <sub>
+    Part of the <a href="https://ant.design">Ant Design</a> ecosystem
+    <img
+      alt="Ant Design"
+      height="14"
+      src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    />
+  </sub>
+</div>
+
+## Highlights
+
+- Horizontal, vertical, and inline menu modes.
+- Controlled and uncontrolled selection, open keys, and active key state.
+- `items` configuration API with legacy children support.
+- Sub menus, item groups, dividers, icons, overflow, popup rendering, and keyboard focus helpers.
+- TypeScript definitions and semantic `classNames` / `styles` slots.
+- Used by Ant Design as the shared menu foundation.
 
 ## Install
 
-[![@rc-component/menu](https://nodei.co/npm/@rc-component/menu.png)](https://npmjs.org/package/@rc-component/menu)
+```bash
+npm install @rc-component/menu
+```
 
 ## Usage
 
-```js
-import Menu, { SubMenu, MenuItem } from '@rc-component/menu';
+```tsx | pure
+import Menu, { type MenuProps } from '@rc-component/menu';
 
-ReactDOM.render(
-  <Menu>
-    <MenuItem>1</MenuItem>
-    <SubMenu title="2">
-      <MenuItem>2-1</MenuItem>
-    </SubMenu>
-  </Menu>,
-  container,
+const items: MenuProps['items'] = [
+  { key: 'home', label: 'Home' },
+  {
+    key: 'docs',
+    label: 'Docs',
+    children: [
+      { key: 'quick-start', label: 'Quick start' },
+      { key: 'api', label: 'API' },
+    ],
+  },
+];
+
+export default () => (
+  <Menu mode="inline" items={items} defaultSelectedKeys={['home']} defaultOpenKeys={['docs']} />
 );
 ```
 
-## Compatibility
+```tsx | pure
+import Menu, { MenuItem, SubMenu } from '@rc-component/menu';
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Electron |
-| --- | --- | --- | --- | --- |
-| IE11, Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
-
-## API
-
-### Menu props
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>ref</td>
-          <td>React.HTMLLIElement</td>
-          <td></td>
-          <td>get dom node</td>
-        </tr>
-        <tr>
-          <td>className</td>
-          <td>String</td>
-          <td></td>
-          <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-          <td>mode</td>
-          <td>String</td>
-          <th>vertical</th>
-          <td>one of ["horizontal","inline","vertical-left","vertical-right"]</td>
-        </tr>
-        <tr>
-            <td>activeKey</td>
-            <td>String</td>
-            <th></th>
-            <td>initial and current active menu item's key.</td>
-        </tr>
-        <tr>
-            <td>defaultActiveFirst</td>
-            <td>Boolean</td>
-            <th>false</th>
-            <td>whether active first menu item when show if activeKey is not set or invalid</td>
-        </tr>
-        <tr>
-            <td>multiple</td>
-            <td>Boolean</td>
-            <th>false</th>
-            <td>whether allow multiple select</td>
-        </tr>
-        <tr>
-            <td>selectable</td>
-            <td>Boolean</td>
-            <th>true</th>
-            <td>allow selecting menu items</td>
-        </tr>
-        <tr>
-            <td>selectedKeys</td>
-            <td>String[]</td>
-            <th>[]</th>
-            <td>selected keys of items</td>
-        </tr>
-        <tr>
-            <td>defaultSelectedKeys</td>
-            <td>String[]</td>
-            <th>[]</th>
-            <td>initial selected keys of items</td>
-        </tr>
-        <tr>
-            <td>openKeys</td>
-            <td>String[]</td>
-            <th>[]</th>
-            <td>open keys of SubMenuItem</td>
-        </tr>
-        <tr>
-            <td>defaultOpenKeys</td>
-            <td>String[]</td>
-            <th>[]</th>
-            <td>initial open keys of SubMenuItem</td>
-        </tr>
-        <tr>
-            <td>onSelect</td>
-            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[],ItemData:ItemData})</td>
-            <th></th>
-            <td>called when select a menu item</td>
-        </tr>
-        <tr>
-            <td>onClick</td>
-            <td>function({key:String, item:ReactComponent, domEvent:Event, keyPath: String[], ItemData:ItemData})</td>
-            <th></th>
-            <td>called when click a menu item</td>
-        </tr>
-        <tr>
-            <td>onOpenChange</td>
-            <td>(openKeys:String[]) => void</td>
-            <th></th>
-            <td>called when open/close sub menu</td>
-        </tr>
-        <tr>
-            <td>onDeselect</td>
-            <td>function({key:String, item:ReactComponent, domEvent:Event, selectedKeys:String[]})</td>
-            <th></th>
-            <td>called when deselect a menu item. only called when allow multiple</td>
-        </tr>
-        <tr>
-            <td>triggerSubMenuAction</td>
-            <td>Enum { hover, click }</td>
-            <th>hover</th>
-            <td>which action can trigger submenu open/close</td>
-        </tr>
-        <tr>
-            <td>openAnimation</td>
-            <td>{enter:function,leave:function}|String</td>
-            <th></th>
-            <td>animate when sub menu open or close. see @rc-component/motion for object type.</td>
-        </tr>
-        <tr>
-            <td>openTransition</td>
-            <td>String</td>
-            <th></th>
-            <td>css transitionName when sub menu open or close</td>
-        </tr>
-        <tr>
-            <td>subMenuOpenDelay</td>
-            <td>Number</td>
-            <th>0</th>
-            <td>delay time to show popup sub menu. unit: s</td>
-        </tr>
-        <tr>
-            <td>subMenuCloseDelay</td>
-            <td>Number</td>
-            <th>0.1</th>
-            <td>delay time to hide popup sub menu. unit: s</td>
-        </tr>
-        <tr>
-            <td>forceSubMenuRender</td>
-            <td>Boolean</td>
-            <th>false</th>
-            <td>whether to render submenu even if it is not visible</td>
-        </tr>
-        <tr>
-            <td>getPopupContainer</td>
-            <td>Function(menuDOMNode): HTMLElement</td>
-            <th>() => document.body</th>
-            <td>Where to render the DOM node of popup menu when the mode is horizontal or vertical</td>
-        </tr>
-        <tr>
-            <td>builtinPlacements</td>
-            <td>Object of alignConfigs for <a href="https://github.com/yiminghe/dom-align">dom-align</a></td>
-            <th>see <a href="./src/placements.ts">placements.ts</a></th>
-            <td>Describes how the popup menus should be positioned</td>
-        </tr>
-        <tr>
-            <td>itemIcon</td>
-            <td>ReactNode | (props: MenuItemProps) => ReactNode</td>
-            <th></th>
-            <td>Specify the menu item icon.</td>
-        </tr>
-        <tr>
-            <td>expandIcon</td>
-            <td>ReactNode | (props: SubMenuProps & { isSubMenu: boolean }) => ReactNode</td>
-            <th></th>
-            <td>Specify the menu item icon.</td>
-        </tr>
-        <tr>
-            <td>direction</td>
-            <td>String</td>
-            <th></th>
-            <td>Layout direction of menu component, it supports RTL direction too.</td>
-        </tr>
-        <tr>
-            <td>inlineIndent</td>
-            <td>Number</td>
-            <th>24</th>
-            <td>Padding level multiplier. Right or left padding depends on param "direction".</td>
-        </tr>
-    </tbody>
-</table>
-
-### Menu.Item props
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>className</td>
-          <td>String</td>
-          <td></td>
-          <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-            <td>disabled</td>
-            <td>Boolean</td>
-            <th>false</th>
-            <td>no effect for click or keydown for this item</td>
-        </tr>
-        <tr>
-            <td>extra</td>
-            <td>React.ReactNode</td>
-            <th></th>
-            <td>Specify menu item extra node.</td>
-        </tr>
-        <tr>
-            <td>key</td>
-            <td>Object</td>
-            <th></th>
-            <td>corresponding to activeKey</td>
-        </tr>
-        <tr>
-            <td>onMouseEnter</td>
-            <td>Function({eventKey, domEvent})</td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <td>onMouseLeave</td>
-            <td>Function({eventKey, domEvent})</td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <td>itemIcon</td>
-            <td>ReactNode | (props: MenuItemProps) => ReactNode</td>
-            <th></th>
-            <td>Specify the menu item icon.</td>
-        </tr>
-    </tbody>
-</table>
-
-### Menu.SubMenu props
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>ref</td>
-          <td>React.HTMLLIElement</td>
-          <td></td>
-          <td>get dom node</td>
-        </tr>
-        <tr>
-          <td>popupClassName</td>
-          <td>String</td>
-          <td></td>
-          <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-          <td>popupStyle</td>
-          <td>CSSProperties</td>
-          <td></td>
-          <td>additional css style of root dom node</td>
-        </tr>
-        <tr>
-          <td>title</td>
-          <td>String/ReactElement</td>
-          <td></td>
-          <td>sub menu's content</td>
-        </tr>
-        <tr>
-          <td>overflowedIndicator</td>
-          <td>String/ReactElement</td>
-          <td>···</td>
-          <td>overflow indicator when menu overlows in horizontal mode</td>
-        </tr>
-        <tr>
-            <td>key</td>
-            <td>Object</td>
-            <th></th>
-            <td>corresponding to activeKey</td>
-        </tr>
-        <tr>
-            <td>disabled</td>
-            <td>Boolean</td>
-            <th>false</th>
-            <td>no effect for click or keydown for this item</td>
-        </tr>
-        <tr>
-            <td>onMouseEnter</td>
-            <td>Function({eventKey, domEvent})</td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <td>onMouseLeave</td>
-            <td>Function({eventKey, domEvent})</td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <td>onTitleMouseEnter</td>
-            <td>Function({eventKey, domEvent})</td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <td>onTitleMouseLeave</td>
-            <td>Function({eventKey, domEvent})</td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <td>onTitleClick</td>
-            <td>Function({eventKey, domEvent})</td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <td>popupOffset</td>
-            <td>Array</td>
-            <th></th>
-            <td>The offset of the popup submenu, in an x, y coordinate array. e.g.: `[0,15]`</td>
-        </tr>
-        <tr>
-            <td>expandIcon</td>
-            <td>ReactNode | (props: SubMenuProps) => ReactNode</td>
-            <th></th>
-            <td>Specify the menu item icon.</td>
-        </tr>
-        <tr>
-            <td>itemIcon</td>
-            <td>ReactNode | (props: SubMenuProps & { isSubMenu: boolean }) => ReactNode</td>
-            <th></th>
-            <td>Specify the menu item icon.</td>
-        </tr>
-    </tbody>
-</table>
-
-### Menu.Divider props
-
-none
-
-### Menu.ItemGroup props
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>ref</td>
-          <td>React.HTMLLIElement</td>
-          <td></td>
-          <td>get dom node</td>
-        </tr>
-        <tr>
-            <td>title</td>
-            <td>String|React.Element</td>
-            <th></th>
-            <td>title of item group</td>
-        </tr>
-        <tr>
-            <td>children</td>
-            <td>React.Element[]</td>
-            <th></th>
-            <td>MenuItems belonged to this group</td>
-        </tr>
-    </tbody>
-</table>
-
-## Development
-
+export default () => (
+  <Menu>
+    <MenuItem key="1">Item 1</MenuItem>
+    <SubMenu key="2" title="More">
+      <MenuItem key="2-1">Item 2-1</MenuItem>
+    </SubMenu>
+  </Menu>
+);
 ```
+
+## Examples
+
+Run the examples locally:
+
+```bash
 npm install
 npm start
 ```
 
-## Example
+Then open the dumi dev server in your browser.
 
-http://localhost:8001/examples/index.md
+## API
 
-online example: http://react-component.github.io/menu/examples/
+### Menu
 
-## Test Case
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| activeKey | `string` | - | Controlled active item key. |
+| builtinPlacements | `Record<string, any>` | - | Popup alignment placements for sub menus. |
+| className | `string` | - | Class name for the root menu. |
+| classNames | `Partial<Record<'list' \| 'listTitle', string>>` | - | Semantic class names for menu slots. |
+| defaultActiveFirst | `boolean` | `false` | Focus the first enabled item when active key is absent. |
+| defaultOpenKeys | `string[]` | `[]` | Initial open sub menu keys. |
+| defaultSelectedKeys | `string[]` | `[]` | Initial selected item keys. |
+| defaultMotions | `Partial<Record<MenuMode \| 'other', CSSMotionProps>>` | - | Motion config by menu mode. |
+| direction | `'ltr' \| 'rtl'` | - | Layout direction. |
+| disabled | `boolean` | `false` | Disable all menu interactions. |
+| disabledOverflow | `boolean` | `false` | Disable overflow measurement. |
+| expandIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | Custom sub menu expand icon. |
+| forceSubMenuRender | `boolean` | `false` | Render popup sub menus before they are opened. |
+| getPopupContainer | `(node: HTMLElement) => HTMLElement` | - | Container for popup sub menus. |
+| inlineCollapsed | `boolean` | - | Collapse inline menu layout. |
+| inlineIndent | `number` | `24` | Indent width for inline mode. |
+| itemIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | Custom item icon. |
+| items | `ItemType[]` | - | Menu item configuration. |
+| mode | `'horizontal' \| 'vertical' \| 'inline'` | `vertical` | Menu display mode. |
+| motion | `CSSMotionProps` | - | Motion config for menu transitions. |
+| multiple | `boolean` | `false` | Allow multiple selected items. |
+| openKeys | `string[]` | - | Controlled open sub menu keys. |
+| overflowedIndicator | `ReactNode` | `...` | Indicator rendered for overflowed items. |
+| popupRender | `(node, info) => ReactNode` | - | Customize popup menu rendering. |
+| prefixCls | `string` | `rc-menu` | Class name prefix. |
+| rootClassName | `string` | - | Class name for the root wrapper. |
+| selectable | `boolean` | `true` | Allow item selection. |
+| selectedKeys | `string[]` | - | Controlled selected item keys. |
+| styles | `Partial<Record<'list' \| 'listTitle', CSSProperties>>` | - | Semantic styles for menu slots. |
+| subMenuCloseDelay | `number` | `0.1` | Delay in seconds before closing popup sub menus. |
+| subMenuOpenDelay | `number` | `0.1` | Delay in seconds before opening popup sub menus. |
+| triggerSubMenuAction | `'click' \| 'hover'` | `hover` | Interaction that opens sub menus. |
+| onClick | `(info: MenuInfo) => void` | - | Triggered when an item is clicked. |
+| onDeselect | `(info: SelectInfo) => void` | - | Triggered when an item is deselected. |
+| onOpenChange | `(openKeys: string[]) => void` | - | Triggered when open keys change. |
+| onSelect | `(info: SelectInfo) => void` | - | Triggered when an item is selected. |
 
+### ItemType
+
+```ts
+type ItemType =
+  | {
+      type?: 'item';
+      key: React.Key;
+      label?: React.ReactNode;
+      disabled?: boolean;
+      itemIcon?: RenderIconType;
+      extra?: React.ReactNode;
+    }
+  | {
+      type?: 'submenu';
+      key: string;
+      label?: React.ReactNode;
+      children: ItemType[];
+      disabled?: boolean;
+    }
+  | {
+      type: 'group';
+      label?: React.ReactNode;
+      children?: ItemType[];
+    }
+  | {
+      type: 'divider';
+    };
 ```
+
+### Ref
+
+| Method | Type | Description |
+| --- | --- | --- |
+| `focus` | `(options?: FocusOptions) => void` | Focus the active item or first enabled item. |
+| `findItem` | `({ key: string }) => HTMLElement \| null` | Find the DOM element for an item key. |
+| `list` | `HTMLUListElement` | Root menu list element. |
+
+## Development
+
+```bash
+npm install
+npm start
 npm test
-npm run chrome-test
+npm run tsc
+npm run compile
+npm run build
 ```
 
-## Coverage
+## Release
 
-```
-npm run coverage
+The package is published with [`@rc-component/np`](https://github.com/react-component/np):
+
+```bash
+npm run prepublishOnly
 ```
 
-open coverage/ dir
+This runs the package build before the release helper. The `postpublish` script also syncs `@rc-component/menu` to tnpm after publishing.
 
 ## License
 
-@rc-component/menu is released under the MIT license.
+`@rc-component/menu` is released under the MIT license.
+
+[npm-image]: https://img.shields.io/npm/v/@rc-component/menu.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/@rc-component/menu
+[github-actions-image]: https://github.com/react-component/menu/actions/workflows/react-component-ci.yml/badge.svg
+[github-actions-url]: https://github.com/react-component/menu/actions/workflows/react-component-ci.yml
+[codecov-image]: https://img.shields.io/codecov/c/github/react-component/menu/master.svg?style=flat-square
+[codecov-url]: https://app.codecov.io/gh/react-component/menu
+[download-image]: https://img.shields.io/npm/dm/@rc-component/menu.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@rc-component/menu
+[bundlephobia-url]: https://bundlephobia.com/package/@rc-component/menu
+[bundlephobia-image]: https://img.shields.io/bundlephobia/minzip/@rc-component/menu?style=flat-square
+[dumi-url]: https://github.com/umijs/dumi
+[dumi-image]: https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square
