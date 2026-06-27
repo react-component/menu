@@ -13,6 +13,6 @@
       "@rc-component/menu": ["src/index.ts"]
     }
   },
-  "include": ["src", "docs", ".dumirc.ts", ".fatherrc.js"],
+  "include": ["src", "docs", ".dumirc.ts"],
   "exclude": ["node_modules", "lib", "es", "dist", "docs-dist", ".dumi"]
 }

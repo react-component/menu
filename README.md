@@ -12,16 +12,6 @@
 
 </div>
 
-<div align="center">
-  <sub>
-    Part of the <a href="https://ant.design">Ant Design</a> ecosystem
-    <img
-      alt="Ant Design"
-      height="14"
-      src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-    />
-  </sub>
-</div>
 
 ## Highlights
 
