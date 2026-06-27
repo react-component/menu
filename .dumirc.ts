@@ -2,7 +2,7 @@
 import { defineConfig } from 'dumi';
 
 const basePath = process.env.GH_PAGES ? '/menu/' : '/';
-const publicPath = process.env.GH_PAGES ? '/menu/' : '/';
+const publicPath = basePath;
 
 export default defineConfig({
   themeConfig: {

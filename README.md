@@ -66,14 +66,14 @@ export default () => (
 
 ## Examples
 
-Run the examples locally:
+Run the local dumi site:
 
 ```bash
 npm install
 npm start
 ```
 
-Then open the dumi dev server in your browser.
+Then open `http://localhost:8000`.
 
 ## API
 
