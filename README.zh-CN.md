@@ -1,7 +1,6 @@
 <div align="center">
   <h1>@rc-component/menu</h1>
-  <p><sub>Ant Design 生态的一部分。</sub></p>
-  <img alt="Ant Design" height="32" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
+  <p><sub><img alt="Ant Design" height="14" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" style="vertical-align: -0.125em;" /> Ant Design 生态的一部分。</sub></p>
   <p>🧭 React 菜单组件，支持水平、垂直、内联、分组和子菜单。</p>
 </div>
 
@@ -17,10 +16,10 @@
 
 ## 特性
 
-- Horizontal, vertical, and inline menu modes.
-- Controlled and uncontrolled selection, open keys, and active key state.
-- `items` configuration API with legacy children support.
-- Sub menus, item groups, dividers, icons, overflow, popup rendering, and keyboard focus helpers.
+- 水平、垂直和内联菜单模式。
+- 受控和非受控选择、打开键和活动键状态。
+- `items` 配置 API 具有旧子支持。
+- 子菜单、项目组、分隔线、图标、溢出、弹层渲染和键盘焦点助手。
 - 提供 TypeScript 类型定义和语义化 `classNames` / `styles` 插槽。
 - 被 Ant Design 用作共享的 menu 基础能力。
 
@@ -82,42 +81,42 @@ npm start
 
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| activeKey | `string` | - | Controlled active item key. |
-| builtinPlacements | `Record<string, any>` | - | Popup alignment placements for sub menus. |
-| className | `string` | - | Class name for the root menu. |
-| classNames | `Partial<Record<'list' \| 'listTitle', string>>` | - | Semantic class names for menu slots. |
-| defaultActiveFirst | `boolean` | `false` | Focus the first enabled item when active key is absent. |
-| defaultOpenKeys | `string[]` | `[]` | Initial open sub menu keys. |
-| defaultSelectedKeys | `string[]` | `[]` | Initial selected item keys. |
-| defaultMotions | `Partial<Record<MenuMode \| 'other', CSSMotionProps>>` | - | Motion config by menu mode. |
+| activeKey | `string` | - | 受控活动项目键。 |
+| builtinPlacements | `Record<string, any>` | - | 子菜单的弹层对齐位置。 |
+| className | `string` | - | 根菜单的className。 |
+| classNames | `Partial<Record<'list' \| 'listTitle', string>>` | - | 菜单槽的语义className称。 |
+| defaultActiveFirst | `boolean` | `false` | 当活动键不存在时，聚焦第一个启用的项目。 |
+| defaultOpenKeys | `string[]` | `[]` | 初始打开子菜单键。 |
+| defaultSelectedKeys | `string[]` | `[]` | 初始选定项目键。 |
+| defaultMotions | `Partial<Record<MenuMode \| 'other', CSSMotionProps>>` | - | 通过菜单模式进行运动配置。 |
 | direction | `'ltr' \| 'rtl'` | - | Layout direction. |
-| disabled | `boolean` | `false` | Disable all menu interactions. |
-| disabledOverflow | `boolean` | `false` | Disable overflow measurement. |
-| expandIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | Custom sub menu expand icon. |
-| forceSubMenuRender | `boolean` | `false` | Render popup sub menus before they are opened. |
-| getPopupContainer | `(node: HTMLElement) => HTMLElement` | - | Container for popup sub menus. |
-| inlineCollapsed | `boolean` | - | Collapse inline menu layout. |
-| inlineIndent | `number` | `24` | Indent width for inline mode. |
-| itemIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | Custom item icon. |
-| items | `ItemType[]` | - | Menu item configuration. |
+| disabled | `boolean` | `false` | 禁用所有菜单交互。 |
+| disabledOverflow | `boolean` | `false` | 禁用溢出测量。 |
+| expandIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | 自定义子菜单展开图标。 |
+| forceSubMenuRender | `boolean` | `false` | 在打开弹层子菜单之前渲染它们。 |
+| getPopupContainer | `(node: HTMLElement) => HTMLElement` | - | 弹层子菜单的容器。 |
+| inlineCollapsed | `boolean` | - | 折叠内联菜单布局。 |
+| inlineIndent | `number` | `24` | 内联模式的缩进宽度。 |
+| itemIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | 自定义项目图标。 |
+| 项目 | `ItemType[]` | - | 菜单项配置。 |
 | mode | `'horizontal' \| 'vertical' \| 'inline'` | `vertical` | Menu display mode. |
-| motion | `CSSMotionProps` | - | Motion config for menu transitions. |
-| multiple | `boolean` | `false` | Allow multiple selected items. |
-| openKeys | `string[]` | - | Controlled open sub menu keys. |
-| overflowedIndicator | `ReactNode` | `"..."` | Indicator rendered for overflowed items. |
-| popupRender | `(node, info) => ReactNode` | - | Customize popup menu rendering. |
-| prefixCls | `string` | `rc-menu` | Class name prefix. |
-| rootClassName | `string` | - | Class name for the root wrapper. |
-| selectable | `boolean` | `true` | Allow item selection. |
-| selectedKeys | `string[]` | - | Controlled selected item keys. |
-| styles | `Partial<Record<'list' \| 'listTitle', CSSProperties>>` | - | Semantic styles for menu slots. |
-| subMenuCloseDelay | `number` | `0.1` | Delay in seconds before closing popup sub menus. |
-| subMenuOpenDelay | `number` | `0.1` | Delay in seconds before opening popup sub menus. |
-| triggerSubMenuAction | `'click' \| 'hover'` | `hover` | Interaction that opens sub menus. |
-| onClick | `(info: MenuInfo) => void` | - | Triggered when an item is clicked. |
-| onDeselect | `(info: SelectInfo) => void` | - | Triggered when an item is deselected. |
-| onOpenChange | `(openKeys: string[]) => void` | - | Triggered when open keys change. |
-| onSelect | `(info: SelectInfo) => void` | - | Triggered when an item is selected. |
+| 运动 | `CSSMotionProps` | - | 菜单转换的运动配置。 |
+| multiple | `boolean` | `false` | 允许选择多个项目。 |
+| openKeys | `string[]` | - | 受控打开子菜单键。 |
+| overflowedIndicator | `ReactNode` | `"..."` | 为溢出项目呈现的指示器。 |
+| popupRender | `(node, info) => ReactNode` | - | 自定义弹层菜单渲染。 |
+| prefixCls | `string` | `rc-menu` | className前缀。 |
+| rootClassName | `string` | - | 根包装器的className。 |
+| selectable | `boolean` | `true` | 允许选择项目。 |
+| selectedKeys | `string[]` | - | 控制选定的项目键。 |
+| styles | `Partial<Record<'list' \| 'listTitle', CSSProperties>>` | - | 菜单槽的语义样式。 |
+| subMenuCloseDelay | `number` | `0.1` | 关闭弹层子菜单之前延迟几秒。 |
+| subMenuOpenDelay | `number` | `0.1` | 打开弹层子菜单之前延迟几秒。 |
+| triggerSubMenuAction | `'click' \| 'hover'` | `hover` | 打开子菜单的交互。 |
+| onClick | `(info: MenuInfo) => void` | - | 单击某个项目时触发。 |
+| onDeselect | `(info: SelectInfo) => void` | - | 取消选择某个项目时触发。 |
+| onOpenChange | `(openKeys: string[]) => void` | - | 当打开键更改时触发。 |
+| onSelect | `(info: SelectInfo) => void` | - | 选择项目时触发。 |
 
 ### ItemType
 
@@ -154,9 +153,9 @@ type ItemType =
 
 | Method | 类型 | 说明 |
 | --- | --- | --- |
-| `focus` | `(options?: FocusOptions) => void` | Focus the active item or first enabled item. |
-| `findItem` | `({ key: string }) => HTMLElement \| null` | Find the DOM element for an item key. |
-| `list` | `HTMLUListElement` | Root menu list element. |
+| `focus` | `(options?: FocusOptions) => void` | 聚焦活动项目或第一个启用的项目。 |
+| `findItem` | `({ key: string }) => HTMLElement \| null` | 查找项目键的 DOM 元素。 |
+| `list` | `HTMLUListElement` | 根菜单列表元素。 |
 
 ## 本地开发
 
@@ -175,11 +174,11 @@ npm run build
 npm run prepublishOnly
 ```
 
-The release flow is handled by `@rc-component/np` through the `rc-np` command after the package build.
+包构建完成后，发布流程由 `@rc-component/np` 通过 `rc-np` 命令处理。
 
 ## 许可证
 
-@rc-component/menu is released under the [MIT](./LICENSE.md) license.
+@rc-component/menu 基于 [MIT](./LICENSE.md) 许可证发布。
 
 [npm-image]: https://img.shields.io/npm/v/@rc-component/menu.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/@rc-component/menu
