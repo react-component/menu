@@ -9,7 +9,7 @@ import PrivateContext from './context/PrivateContext';
 import useActive from './hooks/useActive';
 import useDirectionStyle from './hooks/useDirectionStyle';
 import Icon from './Icon';
-import type { MenuInfo, ItemData, MenuItemType } from './interface';
+import type { LegacyMenuItemInfo, MenuInfo, ItemData, MenuItemType } from './interface';
 import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
@@ -44,9 +44,8 @@ type LegacyMenuItemProps = Omit<React.ComponentProps<typeof Overflow.Item>, 'tit
   onTitleClick?: () => void;
 };
 
-type LegacyMenuItemHandle = {
+type LegacyMenuItemHandle = Omit<LegacyMenuItemInfo, 'props'> & {
   props: LegacyMenuItemProps;
-  element: HTMLLIElement | null;
 };
 
 // Keep exposing a legacy-compatible handle for deprecated `info.item`.
@@ -178,7 +177,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       key: eventKey,
       // Note: For legacy code is reversed which not like other antd component
       keyPath: [...connectedKeys].reverse(),
-      item: legacyMenuItemRef.current as unknown as React.ReactInstance,
+      item: legacyMenuItemRef.current,
       domEvent: e,
       itemData: propsItemData || itemData,
     };

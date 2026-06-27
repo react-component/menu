@@ -1,10 +1,11 @@
 import { warning } from '@rc-component/util';
+import type { LegacyMenuItemInfo } from '../interface';
 
 /**
  * `onClick` still exposes deprecated `info.item` for backward compatibility.
  * Keep warning since function components no longer provide a React node instance.
  */
-export function warnItemProp<T extends { item: React.ReactInstance }>({ item, ...restInfo }: T): T {
+export function warnItemProp<T extends { item: LegacyMenuItemInfo }>({ item, ...restInfo }: T): T {
   Object.defineProperty(restInfo, 'item', {
     get: () => {
       warning(
