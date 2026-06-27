@@ -444,8 +444,10 @@ describe('Menu', () => {
 
     fireEvent.click(container.querySelector('.rc-menu-item'));
     const info = handleClick.mock.calls[0][0];
+    const legacyItem = info.item as unknown as { props: { eventKey?: string } };
     expect(info.key).toBe('1');
-    expect(info.item).toBeTruthy();
+    expect(legacyItem).toBeTruthy();
+    expect(legacyItem.props.eventKey).toBe('1');
 
     expect(errorSpy).toHaveBeenCalledWith(
       'Warning: `info.item` is deprecated since we will move to function component that not provides React Node instance in future.',
