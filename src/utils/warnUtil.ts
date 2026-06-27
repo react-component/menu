@@ -1,8 +1,8 @@
 import { warning } from '@rc-component/util';
 
 /**
- * `onClick` event return `info.item` which point to react node directly.
- * We should warning this since it will not work on FC.
+ * `onClick` still exposes deprecated `info.item` for backward compatibility.
+ * Keep warning since function components no longer provide a React node instance.
  */
 export function warnItemProp<T extends { item: React.ReactInstance }>({ item, ...restInfo }: T): T {
   Object.defineProperty(restInfo, 'item', {

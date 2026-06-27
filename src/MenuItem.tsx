@@ -34,40 +34,71 @@ export interface MenuItemProps
   itemData?: ItemData;
 }
 
-// Since Menu event provide the `info.item` which point to the MenuItem node instance.
-// We have to use class component here.
-// This should be removed from doc & api in future.
-class LegacyMenuItem extends React.Component<any> {
-  render() {
-    const { title, attribute, elementRef, ...restProps } = this.props;
+type LegacyMenuItemProps = Omit<React.ComponentProps<typeof Overflow.Item>, 'title' | 'ref'> & {
+  title?: React.ReactNode;
+  attribute?: Record<string, string>;
+  elementRef?: React.Ref<HTMLLIElement>;
+  eventKey?: string;
+  popupClassName?: string;
+  popupOffset?: number[];
+  onTitleClick?: () => void;
+};
 
-    // Here the props are eventually passed to the DOM element.
-    // React does not recognize non-standard attributes.
-    // Therefore, remove the props that is not used here.
-    // ref: https://github.com/ant-design/ant-design/issues/41395
-    const passedProps = omit(restProps, [
-      'eventKey',
-      'popupClassName',
-      'popupOffset',
-      'onTitleClick',
-    ]);
-    warning(!attribute, '`attribute` of Menu.Item is deprecated. Please pass attribute directly.');
+type LegacyMenuItemHandle = {
+  props: LegacyMenuItemProps;
+  element: HTMLLIElement | null;
+};
 
-    return (
-      <Overflow.Item
-        {...attribute}
-        title={typeof title === 'string' ? title : undefined}
-        {...passedProps}
-        ref={elementRef}
-      />
-    );
-  }
-}
+// Keep exposing a legacy-compatible handle for deprecated `info.item`.
+// This should be removed together with the deprecated API in future.
+const LegacyMenuItem = React.forwardRef<LegacyMenuItemHandle, LegacyMenuItemProps>((props, ref) => {
+  const { title, attribute, elementRef, ...restProps } = props;
+  const propsRef = React.useRef(props);
+  const domRef = React.useRef<HTMLLIElement>(null);
+
+  propsRef.current = props;
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      get props() {
+        return propsRef.current;
+      },
+      get element() {
+        return domRef.current;
+      },
+    }),
+    [],
+  );
+
+  // Here the props are eventually passed to the DOM element.
+  // React does not recognize non-standard attributes.
+  // Therefore, remove the props that is not used here.
+  // ref: https://github.com/ant-design/ant-design/issues/41395
+  const passedProps = omit(restProps, [
+    'eventKey',
+    'popupClassName',
+    'popupOffset',
+    'onTitleClick',
+  ]);
+  const mergedRef = useComposeRef(elementRef, domRef);
+
+  warning(!attribute, '`attribute` of Menu.Item is deprecated. Please pass attribute directly.');
+
+  return (
+    <Overflow.Item
+      {...attribute}
+      title={typeof title === 'string' ? title : undefined}
+      {...passedProps}
+      ref={mergedRef}
+    />
+  );
+});
 
 /**
  * Real Menu Item component
  */
-const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<HTMLElement>) => {
+const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<HTMLLIElement>) => {
   const {
     style,
     className,
@@ -117,7 +148,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const itemCls = `${prefixCls}-item`;
 
-  const legacyMenuItemRef = React.useRef<any>();
+  const legacyMenuItemRef = React.useRef<LegacyMenuItemHandle | null>(null);
   const elementRef = React.useRef<HTMLLIElement>();
   const mergedDisabled = contextDisabled || disabled;
 
@@ -147,7 +178,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       key: eventKey,
       // Note: For legacy code is reversed which not like other antd component
       keyPath: [...connectedKeys].reverse(),
-      item: legacyMenuItemRef.current,
+      item: legacyMenuItemRef.current as unknown as React.ReactInstance,
       domEvent: e,
       itemData: propsItemData || itemData,
     };
@@ -214,6 +245,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     <LegacyMenuItem
       ref={legacyMenuItemRef}
       elementRef={mergedEleRef}
+      eventKey={eventKey}
       role={role === null ? 'none' : role || 'menuitem'}
       tabIndex={disabled ? null : -1}
       data-menu-id={overflowDisabled && domDataId ? null : domDataId}
@@ -257,7 +289,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   return renderNode;
 });
 
-function MenuItem(props: MenuItemProps, ref: React.Ref<HTMLElement>): React.ReactElement {
+function MenuItem(props: MenuItemProps, ref: React.Ref<HTMLLIElement>): React.ReactElement {
   const { eventKey } = props;
 
   // ==================== Record KeyPath ====================
