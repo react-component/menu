@@ -6,13 +6,11 @@
 
 <p align="center"><a href="./README.md">English</a> | 简体中文</p>
 
-
 <div align="center">
 
 [![NPM version][npm-image]][npm-url] [![npm download][download-image]][download-url] [![build status][github-actions-image]][github-actions-url] [![Codecov][codecov-image]][codecov-url] [![bundle size][bundlephobia-image]][bundlephobia-url] [![dumi][dumi-image]][dumi-url]
 
 </div>
-
 
 ## 特性
 
@@ -98,9 +96,9 @@ npm start
 | inlineCollapsed | `boolean` | - | 折叠内联菜单布局。 |
 | inlineIndent | `number` | `24` | 内联模式的缩进宽度。 |
 | itemIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | 自定义项目图标。 |
-| 项目 | `ItemType[]` | - | 菜单项配置。 |
+| items | `ItemType[]` | - | 菜单项配置。 |
 | mode | `'horizontal' \| 'vertical' \| 'inline'` | `vertical` | Menu display mode. |
-| 运动 | `CSSMotionProps` | - | 菜单转换的运动配置。 |
+| motion | `CSSMotionProps` | - | 菜单转换的运动配置。 |
 | multiple | `boolean` | `false` | 允许选择多个项目。 |
 | openKeys | `string[]` | - | 受控打开子菜单键。 |
 | overflowedIndicator | `ReactNode` | `"..."` | 为溢出项目呈现的指示器。 |
@@ -151,11 +149,11 @@ type ItemType =
 
 ### Ref
 
-| Method | 类型 | 说明 |
-| --- | --- | --- |
-| `focus` | `(options?: FocusOptions) => void` | 聚焦活动项目或第一个启用的项目。 |
-| `findItem` | `({ key: string }) => HTMLElement \| null` | 查找项目键的 DOM 元素。 |
-| `list` | `HTMLUListElement` | 根菜单列表元素。 |
+| Method     | 类型                                       | 说明                             |
+| ---------- | ------------------------------------------ | -------------------------------- |
+| `focus`    | `(options?: FocusOptions) => void`         | 聚焦活动项目或第一个启用的项目。 |
+| `findItem` | `({ key: string }) => HTMLElement \| null` | 查找项目键的 DOM 元素。          |
+| `list`     | `HTMLUListElement`                         | 根菜单列表元素。                 |
 
 ## 本地开发
 
