@@ -2,15 +2,18 @@
   <h1>@rc-component/menu</h1>
   <p><sub><img alt="Ant Design" height="14" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" style="vertical-align: -0.125em;" /> Ant Design 生态的一部分。</sub></p>
   <p>🧭 React 菜单组件，支持水平、垂直、内联、分组和子菜单。</p>
+
+  <p>
+    <a href="https://npmjs.org/package/@rc-component/menu"><img alt="NPM version" src="https://img.shields.io/npm/v/@rc-component/menu.svg?style=flat-square"></a>
+    <a href="https://npmjs.org/package/@rc-component/menu"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@rc-component/menu.svg?style=flat-square"></a>
+    <a href="https://github.com/react-component/menu/actions/workflows/react-component-ci.yml"><img alt="build status" src="https://github.com/react-component/menu/actions/workflows/react-component-ci.yml/badge.svg"></a>
+    <a href="https://app.codecov.io/gh/react-component/menu"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/react-component/menu/master.svg?style=flat-square"></a>
+    <a href="https://bundlephobia.com/package/@rc-component/menu"><img alt="bundle size" src="https://img.shields.io/bundlephobia/minzip/@rc-component/menu?style=flat-square"></a>
+    <a href="https://github.com/umijs/dumi"><img alt="dumi" src="https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square"></a>
+  </p>
 </div>
 
 <p align="center"><a href="./README.md">English</a> | 简体中文</p>
-
-<div align="center">
-
-[![NPM version][npm-image]][npm-url] [![npm download][download-image]][download-url] [![build status][github-actions-image]][github-actions-url] [![Codecov][codecov-image]][codecov-url] [![bundle size][bundlephobia-image]][bundlephobia-url] [![dumi][dumi-image]][dumi-url]
-
-</div>
 
 ## 特性
 
@@ -179,16 +182,3 @@ npm run prepublishOnly
 ## 许可证
 
 @rc-component/menu 基于 [MIT](./LICENSE) 许可证发布。
-
-[npm-image]: https://img.shields.io/npm/v/@rc-component/menu.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/@rc-component/menu
-[github-actions-image]: https://github.com/react-component/menu/actions/workflows/react-component-ci.yml/badge.svg
-[github-actions-url]: https://github.com/react-component/menu/actions/workflows/react-component-ci.yml
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/menu/master.svg?style=flat-square
-[codecov-url]: https://app.codecov.io/gh/react-component/menu
-[download-image]: https://img.shields.io/npm/dm/@rc-component/menu.svg?style=flat-square
-[download-url]: https://npmjs.org/package/@rc-component/menu
-[bundlephobia-url]: https://bundlephobia.com/package/@rc-component/menu
-[bundlephobia-image]: https://img.shields.io/bundlephobia/minzip/@rc-component/menu?style=flat-square
-[dumi-url]: https://github.com/umijs/dumi
-[dumi-image]: https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square
