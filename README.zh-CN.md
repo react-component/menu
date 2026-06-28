@@ -87,7 +87,7 @@ npm start
 | defaultOpenKeys | `string[]` | `[]` | 初始打开子菜单键。 |
 | defaultSelectedKeys | `string[]` | `[]` | 初始选定项目键。 |
 | defaultMotions | `Partial<Record<MenuMode \| 'other', CSSMotionProps>>` | - | 通过菜单模式进行运动配置。 |
-| direction | `'ltr' \| 'rtl'` | - | Layout direction. |
+| direction | `'ltr' \| 'rtl'` | - | 布局方向。 |
 | disabled | `boolean` | `false` | 禁用所有菜单交互。 |
 | disabledOverflow | `boolean` | `false` | 禁用溢出测量。 |
 | expandIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | 自定义子菜单展开图标。 |

@@ -8,29 +8,12 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@@/*": [
-        ".dumi/tmp/*"
-      ],
-      "@rc-component/menu": [
-        "src/index.ts"
-      ]
+      "@/*": ["src/*"],
+      "@@/*": [".dumi/tmp/*"],
+      "@rc-component/menu": ["src/index.ts"]
     },
     "ignoreDeprecations": "5.0"
   },
-  "include": [
-    "src",
-    "docs",
-    ".dumirc.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "es",
-    "dist",
-    "docs-dist",
-    ".dumi"
-  ]
+  "include": ["src", "docs", ".dumirc.ts", ".fatherrc.ts"],
+  "exclude": ["node_modules", "lib", "es", "dist", "docs-dist", ".dumi"]
 }
