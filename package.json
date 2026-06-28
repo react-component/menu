@@ -9,13 +9,13 @@
     "ui",
     "react-menu"
   ],
-  "homepage": "http://github.com/react-component/menu",
+  "homepage": "https://react-component.github.io/menu",
   "bugs": {
-    "url": "http://github.com/react-component/menu/issues"
+    "url": "https://github.com/react-component/menu/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:react-component/menu.git"
+    "url": "https://github.com/react-component/menu.git"
   },
   "license": "MIT",
   "maintainers": [
@@ -83,5 +83,8 @@
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
