@@ -81,8 +81,8 @@ npm start
 | --- | --- | --- | --- |
 | activeKey | `string` | - | 受控活动项目键。 |
 | builtinPlacements | `Record<string, any>` | - | 子菜单的弹层对齐位置。 |
-| className | `string` | - | 根菜单的className。 |
-| classNames | `Partial<Record<'list' \| 'listTitle', string>>` | - | 菜单槽的语义className称。 |
+| className | `string` | - | 根菜单的 className。 |
+| classNames | `Partial<Record<'list' \| 'listTitle', string>>` | - | 菜单槽的语义 className。 |
 | defaultActiveFirst | `boolean` | `false` | 当活动键不存在时，聚焦第一个启用的项目。 |
 | defaultOpenKeys | `string[]` | `[]` | 初始打开子菜单键。 |
 | defaultSelectedKeys | `string[]` | `[]` | 初始选定项目键。 |
@@ -103,8 +103,8 @@ npm start
 | openKeys | `string[]` | - | 受控打开子菜单键。 |
 | overflowedIndicator | `ReactNode` | `"..."` | 为溢出项目呈现的指示器。 |
 | popupRender | `(node, info) => ReactNode` | - | 自定义弹层菜单渲染。 |
-| prefixCls | `string` | `rc-menu` | className前缀。 |
-| rootClassName | `string` | - | 根包装器的className。 |
+| prefixCls | `string` | `rc-menu` | className 前缀。 |
+| rootClassName | `string` | - | 根包装器的 className。 |
 | selectable | `boolean` | `true` | 允许选择项目。 |
 | selectedKeys | `string[]` | - | 控制选定的项目键。 |
 | styles | `Partial<Record<'list' \| 'listTitle', CSSProperties>>` | - | 菜单槽的语义样式。 |
