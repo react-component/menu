@@ -97,7 +97,7 @@ npm start
 | inlineIndent | `number` | `24` | 内联模式的缩进宽度。 |
 | itemIcon | `ReactNode \| (props: RenderIconInfo) => ReactNode` | - | 自定义项目图标。 |
 | items | `ItemType[]` | - | 菜单项配置。 |
-| mode | `'horizontal' \| 'vertical' \| 'inline'` | `vertical` | Menu display mode. |
+| mode | `'horizontal' \| 'vertical' \| 'inline'` | `vertical` | 菜单展示模式。 |
 | motion | `CSSMotionProps` | - | 菜单转换的运动配置。 |
 | multiple | `boolean` | `false` | 允许选择多个项目。 |
 | openKeys | `string[]` | - | 受控打开子菜单键。 |
