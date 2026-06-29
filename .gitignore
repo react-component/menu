@@ -27,6 +27,8 @@ build
 lib
 es
 coverage
+.doc
+docs-dist/
 yarn.lock
 package-lock.json
 pnpm-lock.yaml
@@ -39,3 +41,4 @@ pnpm-lock.yaml
 .env.local
 
 bun.lockb
+.vercel
