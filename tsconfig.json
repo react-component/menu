@@ -12,8 +12,15 @@
       "@@/*": [".dumi/tmp/*"],
       "@rc-component/menu": ["src/index.ts"]
     },
-    "ignoreDeprecations": "5.0"
+    "ignoreDeprecations": "6.0",
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "strictFunctionTypes": false,
+    "strict": false,
+    "noImplicitThis": false,
+    "strictBindCallApply": false
   },
-  "include": ["src", "docs", ".dumirc.ts", ".fatherrc.ts"],
+  "include": ["react-compat.d.ts", "global.d.ts", "src", "docs", ".dumirc.ts", ".fatherrc.ts"],
   "exclude": ["node_modules", "lib", "es", "dist", "docs-dist", ".dumi"]
 }
