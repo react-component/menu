@@ -1,5 +1,6 @@
+import { fireEvent } from '@testing-library/dom';
 /* eslint-disable no-undef */
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import React from 'react';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';
 describe('semantic', () => {
