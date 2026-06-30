@@ -1,6 +1,5 @@
-import { fireEvent } from '@testing-library/dom';
 /* eslint-disable no-undef */
-import { act, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import { spyElementPrototypes } from '@rc-component/util';
 import React from 'react';
 import Menu, { MenuItem, MenuItemGroup, MenuRef, SubMenu } from '../src';

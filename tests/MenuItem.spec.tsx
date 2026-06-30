@@ -1,6 +1,5 @@
-import { fireEvent } from '@testing-library/dom';
 /* eslint-disable no-undef */
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { KeyCode } from '@rc-component/util';
 import React from 'react';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from '../src';

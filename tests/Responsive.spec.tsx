@@ -1,6 +1,5 @@
-import { fireEvent } from '@testing-library/dom';
 /* eslint-disable no-undef, react/no-multi-comp, react/jsx-curly-brace-presence, max-classes-per-file */
-import { act, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import ResizeObserver from '@rc-component/resize-observer';
 import { KeyCode, spyElementPrototype } from '@rc-component/util';
 import React from 'react';
