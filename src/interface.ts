@@ -12,6 +12,7 @@ export interface SubMenuType extends ItemSharedProps {
   type?: 'submenu';
 
   label?: React.ReactNode;
+  title?: React.ReactNode;
 
   children: ItemType[];
 
