@@ -117,8 +117,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const itemCls = `${prefixCls}-item`;
 
-  const legacyMenuItemRef = React.useRef<any>();
-  const elementRef = React.useRef<HTMLLIElement>();
+  const legacyMenuItemRef = React.useRef<any>(null);
+  const elementRef = React.useRef<HTMLLIElement>(null);
   const mergedDisabled = contextDisabled || disabled;
 
   const mergedEleRef = useComposeRef(ref, elementRef);

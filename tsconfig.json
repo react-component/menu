@@ -20,6 +20,6 @@
     "strictBindCallApply": false,
     "module": "ESNext"
   },
-  "include": ["react-compat.d.ts", "global.d.ts", "src", "docs", ".dumirc.ts", ".fatherrc.ts"],
+  "include": ["global.d.ts", "src", "docs", ".dumirc.ts", ".fatherrc.ts"],
   "exclude": ["node_modules", "lib", "es", "dist", "docs-dist", ".dumi"]
 }

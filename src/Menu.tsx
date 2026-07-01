@@ -257,7 +257,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   const [mounted, setMounted] = React.useState(false);
 
-  const containerRef = React.useRef<HTMLUListElement>();
+  const containerRef = React.useRef<HTMLUListElement>(null);
 
   const uuid = useId(id ? `rc-menu-uuid-${id}` : 'rc-menu-uuid');
 
