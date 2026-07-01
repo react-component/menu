@@ -70,7 +70,7 @@ export default () => (
 Run the local dumi site:
 
 ```bash
-npm install
+ut install
 npm start
 ```
 
@@ -161,7 +161,7 @@ type ItemType =
 ## Development
 
 ```bash
-npm install
+ut install
 npm start
 npm test
 npm run tsc
