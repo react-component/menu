@@ -27,24 +27,18 @@ describe('Menu.Collapsed', () => {
       const { container, rerender } = render(genMenu());
 
       // Inline
-      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
-        'rc-menu-hidden',
-      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass('rc-menu-hidden');
 
       // Vertical
       rerender(genMenu({ mode: 'vertical' }));
       act(() => {
         jest.runAllTimers();
       });
-      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
-        'rc-menu-hidden',
-      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass('rc-menu-hidden');
 
       // Inline
       rerender(genMenu({ mode: 'inline' }));
-      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
-        'rc-menu-hidden',
-      );
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass('rc-menu-hidden');
     });
 
     it('should always follow submenu popup hidden when mode is switched', () => {
@@ -61,9 +55,7 @@ describe('Menu.Collapsed', () => {
       const { container, rerender } = render(genMenu());
 
       // Hover submenu1
-      fireEvent.mouseEnter(
-        container.querySelectorAll('.rc-menu-submenu-title')[0],
-      );
+      fireEvent.mouseEnter(container.querySelectorAll('.rc-menu-submenu-title')[0]);
 
       act(() => {
         jest.runAllTimers();
@@ -73,9 +65,7 @@ describe('Menu.Collapsed', () => {
       });
 
       // Hover submenu1-1
-      fireEvent.mouseEnter(
-        container.querySelectorAll('.rc-menu-submenu-title')[1],
-      );
+      fireEvent.mouseEnter(container.querySelectorAll('.rc-menu-submenu-title')[1]);
 
       act(() => {
         jest.runAllTimers();
@@ -114,12 +104,8 @@ describe('Menu.Collapsed', () => {
       );
 
       const { container, rerender } = render(genMenu());
-      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
-        'rc-menu-inline',
-      );
-      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
-        'rc-menu-hidden',
-      );
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass('rc-menu-inline');
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass('rc-menu-hidden');
 
       rerender(genMenu({ inlineCollapsed: true }));
       // 动画结束后套样式;
@@ -135,9 +121,7 @@ describe('Menu.Collapsed', () => {
         jest.runAllTimers();
       });
 
-      expect(container.querySelector('ul.rc-menu-root')).toHaveClass(
-        'rc-menu-vertical',
-      );
+      expect(container.querySelector('ul.rc-menu-root')).toHaveClass('rc-menu-vertical');
       expect(container.querySelectorAll('ul.rc-menu-sub')).toHaveLength(0);
 
       rerender(genMenu({ inlineCollapsed: false }));
@@ -145,12 +129,8 @@ describe('Menu.Collapsed', () => {
         jest.runAllTimers();
       });
 
-      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
-        'rc-menu-inline',
-      );
-      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
-        'rc-menu-hidden',
-      );
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass('rc-menu-inline');
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass('rc-menu-hidden');
     });
 
     it('inlineCollapsed should works well when specify a not existed default openKeys', () => {
@@ -199,20 +179,12 @@ describe('Menu.Collapsed', () => {
         jest.runAllTimers();
       });
 
-      expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
-        'rc-menu-submenu-vertical',
-      );
+      expect(container.querySelector('.rc-menu-submenu')).toHaveClass('rc-menu-submenu-vertical');
 
-      expect(container.querySelector('.rc-menu-submenu')).toHaveClass(
-        'rc-menu-submenu-open',
-      );
+      expect(container.querySelector('.rc-menu-submenu')).toHaveClass('rc-menu-submenu-open');
 
-      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass(
-        'rc-menu-vertical',
-      );
-      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass(
-        'rc-menu-hidden',
-      );
+      expect(container.querySelector('ul.rc-menu-sub')).toHaveClass('rc-menu-vertical');
+      expect(container.querySelector('ul.rc-menu-sub')).not.toHaveClass('rc-menu-hidden');
     });
 
     it('inlineCollapsed MenuItem Tooltip can be removed', () => {
@@ -271,15 +243,11 @@ describe('Menu.Collapsed', () => {
       const { container, rerender } = render(genMenu());
 
       // Default
-      expect(
-        container.querySelector('.rc-menu-item-selected').textContent,
-      ).toBe('Option 1');
+      expect(container.querySelector('.rc-menu-item-selected').textContent).toBe('Option 1');
 
       // Click to change select
       fireEvent.click(container.querySelectorAll('.rc-menu-item')[1]);
-      expect(
-        container.querySelector('.rc-menu-item-selected').textContent,
-      ).toBe('Option 2');
+      expect(container.querySelector('.rc-menu-item-selected').textContent).toBe('Option 2');
 
       // Collapse it
       rerender(genMenu({ inlineCollapsed: true }));
@@ -292,20 +260,12 @@ describe('Menu.Collapsed', () => {
 
       // Expand it
       rerender(genMenu({ inlineCollapsed: false }));
-      expect(
-        container.querySelector('.rc-menu-item-selected').textContent,
-      ).toBe('Option 2');
+      expect(container.querySelector('.rc-menu-item-selected').textContent).toBe('Option 2');
     });
 
     it('should hideMenu in initial state when collapsed', () => {
       const genMenu = (props?) => (
-        <Menu
-          mode="inline"
-          inlineCollapsed
-          defaultSelectedKeys={['1']}
-          openKeys={['3']}
-          {...props}
-        >
+        <Menu mode="inline" inlineCollapsed defaultSelectedKeys={['1']} openKeys={['3']} {...props}>
           <MenuItem key="1">Option 1</MenuItem>
           <MenuItem key="2">Option 2</MenuItem>
           <SubMenu key="3" title="Option 3">
@@ -327,9 +287,7 @@ describe('Menu.Collapsed', () => {
         jest.runAllTimers();
       });
 
-      expect(
-        container.querySelector('.rc-menu-item-selected').textContent,
-      ).toBe('Option 1');
+      expect(container.querySelector('.rc-menu-item-selected').textContent).toBe('Option 1');
     });
 
     it('vertical also support inlineCollapsed', () => {

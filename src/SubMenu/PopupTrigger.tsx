@@ -82,7 +82,7 @@ export default function PopupTrigger({
   };
 
   // Delay to change visible
-  const visibleRef = React.useRef<number>();
+  const visibleRef = React.useRef<number | undefined>(undefined);
   React.useEffect(() => {
     visibleRef.current = raf(() => {
       setInnerVisible(visible);

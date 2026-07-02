@@ -67,10 +67,10 @@ const NavigationDemo = () => {
       ],
     },
   ];
-  const popupRender = (node: ReactElement) => (
+  const popupRender = (node: ReactElement<any>) => (
     <div className="navigation-popup">
       <div className="navigation-grid">
-        {React.Children.map(node.props.children.props.children, child => (
+        {React.Children.map(node.props.children.props.children, (child: ReactElement<any>) => (
           <div className="navigation-item">
             {React.cloneElement(child, {
               className: `${child.props.className || ''} navigation-menu-item`,
@@ -85,13 +85,13 @@ const NavigationDemo = () => {
 };
 
 const MixedPanelDemo = () => {
-  const totalPopupRender = (node: ReactElement, info: { item: any; keys: string[] }) => {
+  const totalPopupRender = (node: ReactElement<any>, info: { item: any; keys: string[] }) => {
     const isSecondLevel = info.keys.length == 2;
     if (isSecondLevel) {
       return (
         <div className="navigation-popup">
           <div className="navigation-grid">
-            {React.Children.map(node.props.children.props.children, child => (
+            {React.Children.map(node.props.children.props.children, (child: ReactElement<any>) => (
               <div className="navigation-item">
                 {React.cloneElement(child, {
                   className: `${child.props.className || ''} navigation-menu-item`,

@@ -257,7 +257,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   const [mounted, setMounted] = React.useState(false);
 
-  const containerRef = React.useRef<HTMLUListElement>();
+  const containerRef = React.useRef<HTMLUListElement>(null);
 
   const uuid = useId(id ? `rc-menu-uuid-${id}` : 'rc-menu-uuid');
 
@@ -400,7 +400,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         } else {
           shouldFocusKey = focusableElements[0]
             ? element2key.get(focusableElements[0])
-            : childList.find(node => !node.props.disabled)?.key;
+            : childList.find((node: React.ReactElement<any>) => !node.props.disabled)?.key;
         }
         const elementToFocus = key2element.get(shouldFocusKey);
 

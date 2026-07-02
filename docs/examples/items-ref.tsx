@@ -5,13 +5,13 @@ import '../../assets/index.less';
 import Menu from '../../src';
 
 export default () => {
-  const ref1 = useRef();
-  const ref2 = useRef();
-  const ref3 = useRef();
-  const ref4 = useRef();
-  const ref5 = useRef();
-  const ref6 = useRef();
-  const ref7 = useRef();
+  const ref1 = useRef<HTMLLIElement>(null);
+  const ref2 = useRef<HTMLLIElement>(null);
+  const ref3 = useRef<HTMLLIElement>(null);
+  const ref4 = useRef<HTMLLIElement>(null);
+  const ref5 = useRef<HTMLLIElement>(null);
+  const ref6 = useRef<HTMLLIElement>(null);
+  const ref7 = useRef<HTMLLIElement>(null);
 
   return (
     <>
