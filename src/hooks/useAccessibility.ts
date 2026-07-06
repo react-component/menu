@@ -177,9 +177,9 @@ export function useAccessibility<T extends HTMLElement>(
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
-  const rafRef = React.useRef<number>();
+  const rafRef = React.useRef<number | undefined>(undefined);
 
-  const activeRef = React.useRef<string>();
+  const activeRef = React.useRef<string | undefined>(undefined);
   activeRef.current = activeKey;
 
   const cleanRaf = () => {

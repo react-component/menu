@@ -52,7 +52,7 @@ export default () => {
   const [inlineCollapsed, setInlineCollapsed] = React.useState(false);
   const [forceRender, setForceRender] = React.useState(false);
   const [openKeys, setOpenKeys] = React.useState<string[]>([]);
-  const menuRef = useRef<MenuRef>();
+  const menuRef = useRef<MenuRef>(null);
 
   const onRootClick = (info: MenuInfo) => {
     console.log('Root Menu Item Click:', info);

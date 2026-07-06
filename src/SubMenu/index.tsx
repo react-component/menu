@@ -117,8 +117,8 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
-  const elementRef = React.useRef<HTMLDivElement>();
-  const popupRef = React.useRef<HTMLUListElement>();
+  const elementRef = React.useRef<HTMLDivElement>(null);
+  const popupRef = React.useRef<HTMLUListElement>(null);
 
   // ================================ Warn ================================
   if (process.env.NODE_ENV !== 'production' && warnKey) {
