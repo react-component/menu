@@ -77,6 +77,41 @@ describe('Menu', () => {
       unmount();
     });
 
+    it('gives distinct popup ids to separate menu instances', () => {
+      const originEnv = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'development';
+
+      const renderMenu = () => (
+        <Menu mode="vertical" triggerSubMenuAction="click" openKeys={['admin']}>
+          <SubMenu key="admin" title="Admin">
+            <MenuItem key="users">Users</MenuItem>
+          </SubMenu>
+        </Menu>
+      );
+
+      try {
+        const { container } = render(
+          <div>
+            {renderMenu()}
+            {renderMenu()}
+          </div>,
+        );
+
+        act(() => {
+          jest.runAllTimers();
+        });
+
+        const ids = Array.from(container.querySelectorAll('.rc-menu-submenu-popup [id]')).map(
+          el => (el as HTMLElement).id,
+        );
+
+        expect(ids).toHaveLength(2);
+        expect(new Set(ids).size).toBe(ids.length);
+      } finally {
+        process.env.NODE_ENV = originEnv;
+      }
+    });
+
     (['vertical', 'horizontal', 'inline'] as MenuMode[]).forEach(mode => {
       it(`${mode} menu correctly`, () => {
         const { container } = render(createMenu({ mode }));

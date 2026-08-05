@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Menu.Responsive ssr render full 1`] = `
 HTMLCollection [
@@ -10,7 +10,7 @@ HTMLCollection [
   >
     <li
       class="rc-menu-overflow-item rc-menu-item"
-      data-menu-id="rc-menu-uuid-light"
+      data-menu-id="rc-menu-uuid-test-id-light"
       role="menuitem"
       style="opacity: 1; order: 0;"
       tabindex="-1"
@@ -23,7 +23,7 @@ HTMLCollection [
       style="opacity: 1; order: 1;"
     >
       <div
-        aria-controls="rc-menu-uuid-bamboo-popup"
+        aria-controls="rc-menu-uuid-test-id-bamboo-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
@@ -50,11 +50,11 @@ HTMLCollection [
       style="opacity: 0; height: 0px; overflow-y: hidden; order: 9007199254740991; pointer-events: none; position: absolute;"
     >
       <div
-        aria-controls="rc-menu-uuid-rc-menu-more-popup"
+        aria-controls="rc-menu-uuid-test-id-rc-menu-more-popup"
         aria-expanded="false"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-rc-menu-more"
+        data-menu-id="rc-menu-uuid-test-id-rc-menu-more"
         role="menuitem"
         tabindex="-1"
         title="..."
