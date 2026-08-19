@@ -112,6 +112,19 @@ describe('Menu', () => {
       }
     });
 
+    it('uses the provided id as the menu uuid', () => {
+      const { container } = render(
+        <Menu id="custom">
+          <MenuItem key="item">Item</MenuItem>
+        </Menu>,
+      );
+
+      expect(container.querySelector('.rc-menu-item')).toHaveAttribute(
+        'data-menu-id',
+        'custom-item',
+      );
+    });
+
     (['vertical', 'horizontal', 'inline'] as MenuMode[]).forEach(mode => {
       it(`${mode} menu correctly`, () => {
         const { container } = render(createMenu({ mode }));
