@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Menu.Keyboard no data-menu-id by init 1`] = `
 HTMLCollection [
@@ -13,11 +13,11 @@ HTMLCollection [
       role="none"
     >
       <div
-        aria-controls="rc-menu-uuid-light-popup"
+        aria-controls="rc-menu-uuid-test-id-light-popup"
         aria-expanded="true"
         aria-haspopup="true"
         class="rc-menu-submenu-title"
-        data-menu-id="rc-menu-uuid-light"
+        data-menu-id="rc-menu-uuid-test-id-light"
         role="menuitem"
         style="padding-left: 24px;"
         tabindex="-1"
@@ -31,12 +31,12 @@ HTMLCollection [
       <ul
         class="rc-menu rc-menu-sub rc-menu-inline"
         data-menu-list="true"
-        id="rc-menu-uuid-light-popup"
+        id="rc-menu-uuid-test-id-light-popup"
         role="menu"
       >
         <li
           class="rc-menu-item"
-          data-menu-id="rc-menu-uuid-bamboo"
+          data-menu-id="rc-menu-uuid-test-id-bamboo"
           role="menuitem"
           style="padding-left: 48px;"
           tabindex="-1"

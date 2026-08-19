@@ -259,7 +259,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   const containerRef = React.useRef<HTMLUListElement>(null);
 
-  const uuid = useId(id ? `rc-menu-uuid-${id}` : 'rc-menu-uuid');
+  const mergedUuid = useId();
+  const uuid = useId(id ? `rc-menu-uuid-${id}` : `rc-menu-uuid-${mergedUuid}`);
 
   const isRtl = direction === 'rtl';
 
