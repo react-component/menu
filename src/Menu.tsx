@@ -506,6 +506,12 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     onInternalOpenChange(key, nextOpen);
   };
 
+  const triggerAccessibilityClose = () => {
+    if (mergedOpenKeys.length) {
+      triggerOpenKeys(EMPTY_LIST, true);
+    }
+  };
+
   const onInternalKeyDown = useAccessibility(
     internalMode,
     mergedActiveKey,
@@ -518,6 +524,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     setMergedActiveKey,
     triggerAccessibilityOpen,
+    triggerAccessibilityClose,
 
     onKeyDown,
   );

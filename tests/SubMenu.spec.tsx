@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { act, fireEvent, render } from '@testing-library/react';
-import { resetWarned } from '@rc-component/util';
+import { KeyCode, resetWarned } from '@rc-component/util';
 import React from 'react';
 import Menu, { MenuItem, SubMenu } from '../src';
 import { isActive, last } from './util';
@@ -201,6 +201,28 @@ describe('SubMenu', () => {
       act(() => {
         jest.runAllTimers();
       });
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeFalsy();
+    });
+
+    it('closes open submenus when Escape is pressed on the root menu', () => {
+      const onOpenChange = jest.fn();
+      const { container } = render(
+        createMenu({
+          triggerSubMenuAction: 'click',
+          onOpenChange,
+        }),
+      );
+
+      fireEvent.click(container.querySelector('.rc-menu-submenu-title'));
+      runAllTimer();
+      expect(container.querySelector('.rc-menu-submenu-open')).toBeTruthy();
+
+      const rootMenu = container.querySelector<HTMLElement>('.rc-menu-root');
+      rootMenu.focus();
+      fireEvent.keyDown(rootMenu, { keyCode: KeyCode.ESC, which: KeyCode.ESC });
+      runAllTimer();
+
+      expect(onOpenChange).toHaveBeenLastCalledWith([]);
       expect(container.querySelector('.rc-menu-submenu-open')).toBeFalsy();
     });
   });
