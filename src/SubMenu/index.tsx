@@ -22,10 +22,12 @@ import {
 import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
 
-export type SemanticName = 'list' | 'listTitle' | 'subItem' | 'subItemTitle';
+export type SemanticName = 'list' | 'listTitle';
+export type SubSemanticName = SemanticName | 'subItem' | 'subItemTitle';
+
 export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'label' | 'title'> {
-  classNames?: Partial<Record<SemanticName, string>>;
-  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
+  classNames?: Partial<Record<SubSemanticName, string>>;
+  styles?: Partial<Record<SubSemanticName, React.CSSProperties>>;
   title?: React.ReactNode;
   itemTitle?: string;
 
