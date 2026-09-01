@@ -23,9 +23,11 @@ import { useMenuId } from '../context/IdContext';
 import PrivateContext from '../context/PrivateContext';
 
 export type SemanticName = 'list' | 'listTitle';
+export type SubSemanticName = SemanticName | 'subItem' | 'subItemTitle';
+
 export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'label' | 'title'> {
-  classNames?: Partial<Record<SemanticName, string>>;
-  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
+  classNames?: Partial<Record<SubSemanticName, string>>;
+  styles?: Partial<Record<SubSemanticName, React.CSSProperties>>;
   title?: React.ReactNode;
   itemTitle?: string;
 
@@ -250,8 +252,8 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
   let titleNode: React.ReactElement = (
     <div
       role="menuitem"
-      style={directionStyle}
-      className={`${subMenuPrefixCls}-title`}
+      style={{ ...directionStyle, ...styles?.subItemTitle }}
+      className={clsx(`${subMenuPrefixCls}-title`, menuClassNames?.subItemTitle)}
       tabIndex={mergedDisabled ? null : -1}
       ref={elementRef}
       title={itemTitle ?? (typeof title === 'string' ? title : null)}
@@ -339,13 +341,19 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
       role="none"
       {...restProps}
       component="li"
-      style={style}
-      className={clsx(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, className, {
-        [`${subMenuPrefixCls}-open`]: open,
-        [`${subMenuPrefixCls}-active`]: mergedActive,
-        [`${subMenuPrefixCls}-selected`]: childrenSelected,
-        [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
-      })}
+      style={{ ...styles?.subItem, ...style }}
+      className={clsx(
+        subMenuPrefixCls,
+        `${subMenuPrefixCls}-${mode}`,
+        menuClassNames?.subItem,
+        className,
+        {
+          [`${subMenuPrefixCls}-open`]: open,
+          [`${subMenuPrefixCls}-active`]: mergedActive,
+          [`${subMenuPrefixCls}-selected`]: childrenSelected,
+          [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
+        },
+      )}
       onMouseEnter={onInternalMouseEnter}
       onMouseLeave={onInternalMouseLeave}
     >

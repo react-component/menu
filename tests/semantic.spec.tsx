@@ -47,6 +47,39 @@ describe('semantic', () => {
     expect(listTitle).toHaveClass(testClassNames.listTitle);
     expect(listTitle).toHaveStyle(testStyles.listTitle);
   });
+  it('support classNames and styles for SubMenu self node (subItem / subItemTitle)', () => {
+    const testClassNames = {
+      subItem: 'test-sub-item',
+      subItemTitle: 'test-sub-item-title',
+    };
+    const testStyles = {
+      subItem: { width: '200px' },
+      subItemTitle: { whiteSpace: 'normal' },
+    };
+    const { container } = render(
+      <Menu mode="inline" openKeys={['s1', 's1-2']}>
+        <SubMenu key="s1" title="submenu1" classNames={testClassNames} styles={testStyles}>
+          <SubMenu key="s1-2" title="submenu1-1" classNames={testClassNames} styles={testStyles}>
+            <MenuItem key="s1-2-1">2-1</MenuItem>
+          </SubMenu>
+        </SubMenu>
+      </Menu>,
+    );
+
+    const subItem = container.querySelector('.rc-menu-submenu');
+    const subItemTitle = container.querySelector('.rc-menu-submenu-title');
+    expect(subItem).toHaveClass(testClassNames.subItem);
+    expect(subItem).toHaveStyle(testStyles.subItem);
+    expect(subItemTitle).toHaveClass(testClassNames.subItemTitle);
+    expect(subItemTitle).toHaveStyle(testStyles.subItemTitle);
+
+    const nestedSubItem = container.querySelector('.rc-menu-submenu .rc-menu-submenu');
+    const nestedSubItemTitle = nestedSubItem.querySelector('.rc-menu-submenu-title');
+    expect(nestedSubItem).toHaveClass(testClassNames.subItem);
+    expect(nestedSubItem).toHaveStyle(testStyles.subItem);
+    expect(nestedSubItemTitle).toHaveClass(testClassNames.subItemTitle);
+    expect(nestedSubItemTitle).toHaveStyle(testStyles.subItemTitle);
+  });
   it('support classNames and styles for Menu', () => {
     const testClassNames = {
       list: 'test-list',
