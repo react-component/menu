@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import Divider from '../Divider';
 import type { Components, ItemType } from '../interface';
 import MenuItem from '../MenuItem';
@@ -55,7 +56,7 @@ function convertItemsToNodes(
           return <MergedDivider key={mergedKey} {...restProps} />;
         }
 
-        const hasExtra = !!extra || extra === 0;
+        const hasExtra = isReactRenderable(extra);
 
         return (
           <MergedMenuItem
