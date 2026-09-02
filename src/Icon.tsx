@@ -9,7 +9,7 @@ export interface IconProps {
 }
 
 export default function Icon({ icon, props, children }: IconProps) {
-  let iconNode: React.ReactElement;
+  let iconNode: React.ReactNode;
 
   if (icon === null || icon === false) {
     return null;
@@ -19,10 +19,14 @@ export default function Icon({ icon, props, children }: IconProps) {
     iconNode = React.createElement(icon as any, {
       ...props,
     });
-  } else if (typeof icon !== "boolean") {
+  } else if (typeof icon !== 'boolean') {
     // Compatible for origin definition
-    iconNode = icon as React.ReactElement;
+    iconNode = icon;
   }
 
-  return iconNode || children || null;
+  if (iconNode || iconNode === 0) {
+    return iconNode;
+  }
+
+  return children || null;
 }
