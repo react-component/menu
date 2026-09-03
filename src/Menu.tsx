@@ -105,6 +105,7 @@ export interface MenuProps extends Omit<
   forceSubMenuRender?: boolean;
   triggerSubMenuAction?: TriggerSubMenuAction;
   builtinPlacements?: BuiltinPlacements;
+  overflowPopupOffset?: number[]
 
   // Icon
   itemIcon?: RenderIconType;
@@ -215,6 +216,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     // Popup
     triggerSubMenuAction = 'hover',
     builtinPlacements,
+    overflowPopupOffset,
 
     // Icon
     itemIcon,
@@ -593,6 +595,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
             disabled={allVisible}
             internalPopupClose={len === 0}
             popupClassName={overflowedIndicatorPopupClassName}
+            popupOffset={overflowPopupOffset || [10, 15]}
           >
             {originOmitItems}
           </SubMenu>
