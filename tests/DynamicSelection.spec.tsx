@@ -8,11 +8,11 @@ describe.each([false, true])('dynamic selection with StrictMode=%s', strictMode 
 
   describe.each(['defaultSelectedKeys', 'selectedKeys'] as const)('%s', selectionProp => {
     it.each<MenuProps['mode']>(['inline', 'vertical', 'horizontal'])(
-      'highlights the parent when items load in %s mode',
+      'highlights the parent and child when items load in %s mode',
       async mode => {
         const selectionProps = { [selectionProp]: ['child'] };
-        const { container, rerender } = render(
-          <Menu mode={mode} {...selectionProps} items={[]} />,
+        const { container, getAllByText, rerender } = render(
+          <Menu mode={mode} {...selectionProps} items={[]} forceSubMenuRender />,
           { wrapper },
         );
 
@@ -21,6 +21,7 @@ describe.each([false, true])('dynamic selection with StrictMode=%s', strictMode 
             <Menu
               mode={mode}
               {...selectionProps}
+              forceSubMenuRender
               items={[
                 {
                   key: 'parent',
@@ -39,6 +40,9 @@ describe.each([false, true])('dynamic selection with StrictMode=%s', strictMode 
         });
 
         expect(container.querySelector('.rc-menu-submenu')).toHaveClass('rc-menu-submenu-selected');
+        getAllByText('Child').forEach(child => {
+          expect(child.closest('.rc-menu-item')).toHaveClass('rc-menu-item-selected');
+        });
       },
     );
   });
