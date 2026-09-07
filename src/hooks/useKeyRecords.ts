@@ -11,7 +11,7 @@ const getPathKeys = (keyPathStr: string) => keyPathStr.split(PATH_SPLIT);
 export const OVERFLOW_KEY = 'rc-menu-more';
 
 export default function useKeyRecords() {
-  const [, internalForceUpdate] = React.useState({});
+  const [keyPathVersion, internalForceUpdate] = React.useState({});
   const key2pathRef = useRef(new Map<string, string>());
   const path2keyRef = useRef(new Map<string, string>());
   const [overflowKeys, setOverflowKeys] = React.useState([]);
@@ -80,7 +80,9 @@ export default function useKeyRecords() {
           const pathKeyList = getKeyPath(pathKey, true);
           return pathKeyList.includes(eventKey);
         }),
-    [getKeyPath],
+    // Path records live in refs, so updates must also refresh context consumers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getKeyPath, keyPathVersion],
   );
   const getKeys = () => {
     const keys = [...key2pathRef.current.keys()];
@@ -107,12 +109,12 @@ export default function useKeyRecords() {
     return pathKeys;
   }, []);
 
-  React.useEffect(
-    () => () => {
+  React.useEffect(() => {
+    destroyRef.current = false;
+    return () => {
       destroyRef.current = true;
-    },
-    [],
-  );
+    };
+  }, []);
 
   return {
     // Register
