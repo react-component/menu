@@ -103,11 +103,23 @@ export interface RenderIconInfo {
 
 export type RenderIconType = React.ReactNode | ((props: RenderIconInfo) => React.ReactNode);
 
+/**
+ * @deprecated Compatibility handle for deprecated `info.item`.
+ * Avoid relying on this shape since it will be removed in a future major version.
+ */
+export interface LegacyMenuItemInfo {
+  props: {
+    eventKey?: string;
+    [key: string]: unknown;
+  };
+  element: HTMLLIElement | null;
+}
+
 export interface MenuInfo {
   key: string;
   keyPath: string[];
   /** @deprecated This will not support in future. You should avoid to use this */
-  item: React.ReactInstance;
+  item: LegacyMenuItemInfo;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
   itemData: ItemData;
 }
