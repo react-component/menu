@@ -48,6 +48,28 @@ describe('MenuItem', () => {
       const menuItemText = container.querySelector('.rc-menu-item').textContent;
       expect(menuItemText).toEqual(`1${targetText}`);
     });
+
+    it('should render numeric zero as an item icon', () => {
+      const { container } = render(
+        <Menu mode="vertical" itemIcon={0}>
+          <MenuItem key="1">1</MenuItem>
+        </Menu>,
+      );
+
+      expect(container.querySelector('.rc-menu-item')).toHaveTextContent('10');
+    });
+
+    it('should let numeric zero override the context item icon', () => {
+      const { container } = render(
+        <Menu mode="vertical" itemIcon={itemIcon}>
+          <MenuItem key="1" itemIcon={0}>
+            1
+          </MenuItem>
+        </Menu>,
+      );
+
+      expect(container.querySelector('.rc-menu-item')).toHaveTextContent('10');
+    });
   });
 
   it('not fires select event when disabled', () => {
