@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import Overflow from '@rc-component/overflow';
-import { omit, warning, KeyCode, useComposeRef } from '@rc-component/util';
+import { isReactRenderable, omit, warning, KeyCode, useComposeRef } from '@rc-component/util';
 import * as React from 'react';
 import { useMenuId } from './context/IdContext';
 import { MenuContext } from './context/MenuContext';
@@ -154,7 +154,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   };
 
   // ============================= Icon =============================
-  const mergedItemIcon = itemIcon || contextItemIcon;
+  const mergedItemIcon = isReactRenderable(itemIcon) ? itemIcon : contextItemIcon;
 
   // ============================ Active ============================
   const { active, ...activeProps } = useActive(
