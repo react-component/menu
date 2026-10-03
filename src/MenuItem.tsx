@@ -201,6 +201,13 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const onInternalFocus: React.FocusEventHandler<HTMLLIElement> = e => {
     onActive(eventKey);
     onFocus?.(e);
+
+    if (e.target === elementRef.current) {
+      const link = elementRef.current?.querySelector<HTMLAnchorElement>('a[href]');
+      if (link) {
+        link.focus();
+      }
+    }
   };
 
   // ============================ Render ============================

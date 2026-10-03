@@ -30,6 +30,7 @@ import MenuItem from './MenuItem';
 import SubMenu, { SemanticName } from './SubMenu';
 import { parseItems } from './utils/nodeUtil';
 import { warnItemProp } from './utils/warnUtil';
+import { getFocusTarget } from './utils/commonUtil';
 
 /**
  * Menu modify after refactor:
@@ -406,7 +407,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         const elementToFocus = key2element.get(shouldFocusKey);
 
         if (shouldFocusKey && elementToFocus) {
-          elementToFocus?.focus?.(options);
+          const focusTargetElement = getFocusTarget(elementToFocus);
+          focusTargetElement?.focus?.(options);
         }
       },
       findItem: ({ key: itemKey }) => {
