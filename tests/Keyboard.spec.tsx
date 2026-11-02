@@ -44,6 +44,47 @@ describe('Menu.Keyboard', () => {
     });
   }
 
+  it.each([1, 2])('consumes submenu Escape at depth %s but lets root Escape bubble', depth => {
+    const onOpenChange = jest.fn();
+    const onWindowKeyDown = jest.fn();
+    window.addEventListener('keydown', onWindowKeyDown);
+    const { container, getByText, unmount } = render(
+      <Menu defaultOpenKeys={depth === 2 ? ['sub', 'inner'] : ['sub']} onOpenChange={onOpenChange}>
+        <SubMenu key="sub" title="Submenu">
+          {depth === 2 ? (
+            <SubMenu key="inner" title="Inner">
+              <MenuItem key="child">Child</MenuItem>
+            </SubMenu>
+          ) : (
+            <MenuItem key="child">Child</MenuItem>
+          )}
+        </SubMenu>
+      </Menu>,
+    );
+    for (let i = 0; i < 3; i += 1) {
+      act(() => jest.runAllTimers());
+    }
+    try {
+      const child = getByText('Child').closest<HTMLElement>('[role="menuitem"]');
+      act(() => child.focus());
+      fireEvent.keyDown(child, { which: KeyCode.ESC, keyCode: KeyCode.ESC });
+      act(() => jest.runAllTimers());
+      expect(onOpenChange).toHaveBeenLastCalledWith(depth === 2 ? ['sub'] : []);
+      expect(document.activeElement).toBe(
+        getByText(depth === 2 ? 'Inner' : 'Submenu').closest('[role="menuitem"]'),
+      );
+      expect(onWindowKeyDown).not.toHaveBeenCalled();
+
+      const rootItem = getByText('Submenu').closest<HTMLElement>('[role="menuitem"]');
+      act(() => rootItem.focus());
+      fireEvent.keyDown(rootItem, { which: KeyCode.ESC, keyCode: KeyCode.ESC });
+      expect(onWindowKeyDown).toHaveBeenCalledTimes(1);
+    } finally {
+      window.removeEventListener('keydown', onWindowKeyDown);
+      unmount();
+    }
+  });
+
   it('no data-menu-id by init', () => {
     const { container } = render(
       <Menu mode="inline" openKeys={['light']}>

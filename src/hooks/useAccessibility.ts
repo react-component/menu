@@ -302,6 +302,11 @@ export function useAccessibility<T extends HTMLElement>(
 
         const parentMenuElement = key2element.get(parentKey);
 
+        // A submenu consumes Escape; the surrounding popup handles root Escape.
+        if (which === ESC && parentMenuElement) {
+          e.stopPropagation();
+        }
+
         // Focus menu item
         triggerAccessibilityOpen(parentKey, false);
         tryFocus(parentMenuElement);
