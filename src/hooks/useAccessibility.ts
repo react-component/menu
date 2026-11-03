@@ -174,6 +174,7 @@ export function useAccessibility<T extends HTMLElement>(
 
   triggerActiveKey: (key: string) => void,
   triggerAccessibilityOpen: (key: string, open?: boolean) => void,
+  triggerAccessibilityClose: () => void,
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
@@ -195,6 +196,12 @@ export function useAccessibility<T extends HTMLElement>(
 
   return e => {
     const { which } = e;
+
+    if (which === ESC && mode !== 'inline' && e.target === containerRef.current) {
+      triggerAccessibilityClose();
+      originOnKeyDown?.(e);
+      return;
+    }
 
     if ([...ArrowKeys, ENTER, ESC, HOME, END].includes(which)) {
       const keys = getKeys();
