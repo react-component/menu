@@ -154,7 +154,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   };
 
   // ============================= Icon =============================
-  const mergedItemIcon = itemIcon || contextItemIcon;
+  const mergedItemIcon = itemIcon ?? contextItemIcon;
 
   // ============================ Active ============================
   const { active, ...activeProps } = useActive(
