@@ -2,6 +2,7 @@ import { KeyCode, getFocusNodeList, raf } from '@rc-component/util';
 import * as React from 'react';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
+import { getFocusTarget } from '../utils/commonUtil';
 
 // destruct to reduce minify size
 const { LEFT, RIGHT, UP, DOWN, ENTER, ESC, HOME, END } = KeyCode;
@@ -221,13 +222,7 @@ export function useAccessibility<T extends HTMLElement>(
 
       const tryFocus = (menuElement: HTMLElement) => {
         if (menuElement) {
-          let focusTargetElement = menuElement;
-
-          // Focus to link instead of menu item if possible
-          const link = menuElement.querySelector('a');
-          if (link?.getAttribute('href')) {
-            focusTargetElement = link;
-          }
+          const focusTargetElement = getFocusTarget(menuElement);
 
           const targetKey = element2key.get(menuElement);
           triggerActiveKey(targetKey);
@@ -240,7 +235,7 @@ export function useAccessibility<T extends HTMLElement>(
           cleanRaf();
           rafRef.current = raf(() => {
             if (activeRef.current === targetKey) {
-              focusTargetElement.focus();
+              focusTargetElement?.focus();
             }
           });
         }
