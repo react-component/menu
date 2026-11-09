@@ -57,8 +57,9 @@ describe('Disabled submenus', () => {
     'blocks selection in an open %s submenu while it is disabled',
     async mode => {
       const onSelect = jest.fn();
+      const onOpenChange = jest.fn();
       const menu = (disabled: boolean) => (
-        <Menu mode={mode} openKeys={['parent']} onSelect={onSelect}>
+        <Menu mode={mode} openKeys={['parent']} onSelect={onSelect} onOpenChange={onOpenChange}>
           <SubMenu key="parent" title="Parent" disabled={disabled}>
             <MenuItem key="child">Child</MenuItem>
           </SubMenu>
@@ -72,6 +73,7 @@ describe('Disabled submenus', () => {
       fireEvent.click(item);
       fireEvent.keyDown(item, { which: KeyCode.ENTER, keyCode: KeyCode.ENTER });
       expect(onSelect).not.toHaveBeenCalled();
+      expect(onOpenChange).not.toHaveBeenCalled();
 
       rerender(menu(false));
       fireEvent.click(item);
