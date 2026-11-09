@@ -185,7 +185,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLLIElement> = e => {
     onKeyDown?.(e);
 
-    if (e.which === KeyCode.ENTER) {
+    if (!mergedDisabled && e.which === KeyCode.ENTER) {
       const info = getEventInfo(e);
 
       // Legacy. Key will also trigger click event
