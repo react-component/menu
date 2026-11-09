@@ -221,7 +221,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       {...activeProps}
       {...optionRoleProps}
       component="li"
-      aria-disabled={disabled}
+      aria-disabled={mergedDisabled}
       style={{
         ...directionStyle,
         ...style,
