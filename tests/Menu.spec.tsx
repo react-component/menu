@@ -40,6 +40,28 @@ describe('Menu', () => {
     jest.useRealTimers();
   });
 
+  it('exposes inherited disabled state on menu items', () => {
+    const menu = (disabled: boolean) => (
+      <Menu disabled={disabled}>
+        <MenuItem key="inherited">Inherits disabled state</MenuItem>
+        <MenuItem key="explicit" disabled>
+          Explicitly disabled
+        </MenuItem>
+      </Menu>
+    );
+    const { getByRole, rerender } = render(menu(true));
+    const inheritedItem = getByRole('menuitem', { name: 'Inherits disabled state' });
+
+    expect(inheritedItem).toHaveAttribute('aria-disabled', 'true');
+
+    rerender(menu(false));
+    expect(inheritedItem).not.toHaveAttribute('aria-disabled', 'true');
+    expect(getByRole('menuitem', { name: 'Explicitly disabled' })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
+  });
+
   describe('should render', () => {
     function createMenu(props?, subKey?) {
       return (
