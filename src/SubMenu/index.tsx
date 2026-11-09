@@ -382,6 +382,7 @@ const InternalSubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>((props, re
     <MenuContextProvider
       classNames={menuClassNames}
       styles={styles}
+      disabled={mergedDisabled}
       onItemClick={onMergedItemClick}
       mode={mode === 'horizontal' ? 'vertical' : mode}
       itemIcon={mergedItemIcon}
