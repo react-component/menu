@@ -25,3 +25,15 @@ export function parseChildren(children: React.ReactNode | undefined, keyPath: st
     return child;
   });
 }
+
+/**
+ * Find the focus target within a menu element.
+ * If the menu element contains an anchor with href, focus the anchor instead.
+ */
+export function getFocusTarget(element?: HTMLElement | null): HTMLElement | null {
+  if (!element) {
+    return null;
+  }
+  const link = element.querySelector<HTMLElement>('a[href]');
+  return link || element;
+}
