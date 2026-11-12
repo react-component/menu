@@ -25,23 +25,28 @@ export default function useActive(
     active: activeKey === eventKey,
   };
 
-  // Skip when disabled
-  if (!disabled) {
-    ret.onMouseEnter = domEvent => {
-      onMouseEnter?.({
-        key: eventKey,
-        domEvent,
-      });
+  // Disabled item never becomes active, but still notifies the hover callbacks
+  // so that users can attach tooltips or other hover behaviors to it.
+  ret.onMouseEnter = domEvent => {
+    onMouseEnter?.({
+      key: eventKey,
+      domEvent,
+    });
+
+    if (!disabled) {
       onActive(eventKey);
-    };
-    ret.onMouseLeave = domEvent => {
-      onMouseLeave?.({
-        key: eventKey,
-        domEvent,
-      });
+    }
+  };
+  ret.onMouseLeave = domEvent => {
+    onMouseLeave?.({
+      key: eventKey,
+      domEvent,
+    });
+
+    if (!disabled) {
       onInactive(eventKey);
-    };
-  }
+    }
+  };
 
   return ret;
 }
