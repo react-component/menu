@@ -2,10 +2,13 @@ import type * as React from 'react';
 import type { SubMenuProps } from './SubMenu';
 
 // ========================= Options =========================
+// `style`/`className` carry `| undefined` to stay identical to
+// HTMLAttributes<HTMLLIElement>, which MenuItemProps also extends; without
+// it, projects with `exactOptionalPropertyTypes` get TS2320 (#904).
 interface ItemSharedProps {
   ref?: React.Ref<HTMLLIElement | null>;
-  style?: React.CSSProperties;
-  className?: string;
+  style?: React.CSSProperties | undefined;
+  className?: string | undefined;
 }
 
 export interface SubMenuType extends ItemSharedProps {
