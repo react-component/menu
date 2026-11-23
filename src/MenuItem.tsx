@@ -14,7 +14,7 @@ import { warnItemProp } from './utils/warnUtil';
 
 export interface MenuItemProps
   extends
-    Omit<MenuItemType, 'label' | 'key' | 'ref'>,
+    Omit<MenuItemType, 'label' | 'key' | 'ref' | 'className' | 'style'>,
     Omit<
       React.HTMLAttributes<HTMLLIElement>,
       'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
