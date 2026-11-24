@@ -108,6 +108,32 @@ describe('MenuItem', () => {
     });
   });
 
+  describe('disabled hover', () => {
+    it('still triggers onMouseEnter/onMouseLeave without activating', () => {
+      const onMouseEnter = jest.fn();
+      const onMouseLeave = jest.fn();
+      const { container } = render(
+        <Menu>
+          <MenuItem key="1" disabled onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+            1
+          </MenuItem>
+        </Menu>,
+      );
+      const item = container.querySelector('.rc-menu-item');
+
+      fireEvent.mouseEnter(item);
+      expect(onMouseEnter).toHaveBeenCalledWith(
+        expect.objectContaining({ key: '1', domEvent: expect.anything() }),
+      );
+      expect(item).not.toHaveClass('rc-menu-item-active');
+
+      fireEvent.mouseLeave(item);
+      expect(onMouseLeave).toHaveBeenCalledWith(
+        expect.objectContaining({ key: '1', domEvent: expect.anything() }),
+      );
+    });
+  });
+
   describe('rest props', () => {
     it('onClick event should only trigger 1 time along the component hierarchy', () => {
       const onClick = jest.fn();
