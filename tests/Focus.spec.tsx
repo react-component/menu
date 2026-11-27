@@ -186,5 +186,41 @@ describe('Focus', () => {
     expect(document.activeElement).toBe(getByTitle('Submenu'));
     expect(getByTestId('sub-menu')).toHaveClass('rc-menu-submenu-active');
   });
+
+  it('should focus anchor link inside menu item through ref', async () => {
+    const menuRef = React.createRef<MenuRef>();
+    const { container } = await act(async () =>
+      render(
+        <Menu ref={menuRef}>
+          <MenuItem key="light">
+            <a href="https://ant.design">Light</a>
+          </MenuItem>
+        </Menu>,
+      ),
+    );
+
+    act(() => menuRef.current.focus());
+
+    const anchor = container.querySelector('a');
+    expect(document.activeElement).toBe(anchor);
+    expect(container.querySelector('.rc-menu-item')).toHaveClass('rc-menu-item-active');
+  });
+
+  it('should delegate focus to anchor link when menu item li is focused', async () => {
+    const { container } = await act(async () =>
+      render(
+        <Menu>
+          <MenuItem key="light">
+            <a href="https://ant.design">Light</a>
+          </MenuItem>
+        </Menu>,
+      ),
+    );
+
+    fireEvent.focus(container.querySelector('.rc-menu-item'));
+
+    const anchor = container.querySelector('a');
+    expect(document.activeElement).toBe(anchor);
+  });
 });
 /* eslint-enable */
